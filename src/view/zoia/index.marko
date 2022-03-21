@@ -1,0 +1,45 @@
+import routes from "../../../etc/routes.json"
+import languages from "../../../etc/languages.json"
+
+<loading key="loading"/>
+<div
+    class="container hr-wrap"
+    style={
+        position: !process.browser || !state.mounted ? "absolute" : "unset",
+        clip: !process.browser || !state.mounted ? "rect(0 0 0 0)" : "unset"
+    }>
+    <div>
+        <div class="hr-navbar-wrap">
+            <navbar key="navbar"/>
+        </div>
+    </div>
+    <div class="hr-content">
+        <div class="pl-3 pr-3">
+            <if(!process.browser || !state.routed)>
+                <${input.renderBody}/>
+            </if>
+            <if(process.browser)>
+                <router
+                    routes=[...routes]
+                    options={
+                        defaultRoute: out.global.route,
+                        defaultParams: {
+                            language: out.global.language === Object.keys(languages)[0] ? "" : out.global.language,
+                        }
+                    }
+                    on-state-change("onStateChange")>
+                    <if(state.routed && state.currentComponent)>
+                        <${state.currentComponent}
+                            key=state.route.name
+                            ...state.route.params
+                            dynamic=true
+                            parentComponent=component/>
+                    </if>
+                </router>
+            </if>
+        </div>
+    </div>
+    <div class="hr-footer">
+        <div class="pl-3 pr-3 pt-5 pb-5">Copyright String</div>
+    </div>
+</div>

@@ -1,0 +1,16 @@
+[{
+    "name": "home",
+    "path": ":language<([a-z]{2}-[a-z]{2})?>/",
+    "pathServer": "/",
+    "defaultParams": {
+        "language": ""
+    }
+},
+{
+    "name": "test",
+    "path": ":language<([a-z]{2}-[a-z]{2})?>/test",
+    "pathServer": "/test",
+    "defaultParams": {
+        "language": ""
+    }
+}]

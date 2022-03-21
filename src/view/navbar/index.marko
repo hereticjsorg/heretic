@@ -1,0 +1,72 @@
+import navigation from "../../../etc/navigation.json"
+import languages from "../../../etc/languages.json"
+import routes from "../../../etc/routes.json"
+import logo from "../../images/logo.svg"
+import { mdiGithub } from "@mdi/js"
+
+<nav class="navbar hr-navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+        <router-link route=navigation.defaultRoute class="navbar-item">
+            <img src=logo/>
+        </router-link>
+        <a
+            id="zs_navbar_burger"
+            onClick("onBurgerClick")
+            role="button"
+            class=`navbar-burger${state.navOpen ? " is-active" : ""}`
+            aria-label="menu"
+            aria-expanded="false"
+            data-target="navbar">
+            <span aria-hidden="true"/>
+            <span aria-hidden="true"/>
+            <span aria-hidden="true"/>
+        </a>
+    </div>
+    <div id="navbar" class=`navbar-menu${state.navOpen ? " is-active" : ""}`>
+        <div class="navbar-start">
+            <for|id| of=navigation.routes>
+                <router-link
+                    route=id
+                    params=JSON.stringify({
+                        language: out.global.language === Object.keys(languages)[0] ? "" : out.global.language,
+                    }) 
+                    class=`navbar-item${
+                        state.route === id ? " hr-navbar-item-active" : ""
+                    }`>
+                    <t>${id}</t>
+                </router-link>
+            </for>
+        </div>
+        <div class="navbar-end">
+            <a class="navbar-item" href="https://github.com/xtremespb/zspa" target="_blank">
+                <span class="icon">
+                    <svg
+                        viewBox="0 0 24 24"
+                        width="24"
+                        height="24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path d=mdiGithub/>
+                    </svg>
+                </span>
+                &nbsp;
+                <span>GitHub</span>
+            </a>
+            <div class=`navbar-item has-dropdown${state.langOpen ? " is-active" : ""}`>
+                <a class="navbar-link" on-click("onLanguageClick") id="zs_navbar_language">
+                    Language
+                </a>
+                <div class="navbar-dropdown">
+                    <for|lang| of=Object.keys(languages)>
+                        $ {
+                            let currentURL = process.browser ? component.getNonLocalizedURL(window.location.pathname).url : "/";
+                            const langLink = lang === Object.keys(languages)[0] ? currentURL : `/${lang}${currentURL}`;
+                        }
+                        <a class="navbar-item" href=langLink>
+                            ${languages[lang]}
+                        </a>
+                    </for>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
