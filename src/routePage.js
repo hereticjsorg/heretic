@@ -1,5 +1,6 @@
 export default (route, languageData, language) => ({
     async handler(req, rep) {
+        console.log(`./pages/${route.id}/server.marko`);
         const page = (await import(`./pages/${route.id}/server.marko`)).default;
         const renderPage = await page.render({
             $global: {

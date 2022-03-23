@@ -1,7 +1,7 @@
 const cloneDeep = require("lodash.clonedeep");
 const i18nLoader = require("../../build/i18n-loader");
 const pagesLoader = require("../../build/pages-loader");
-const routes = require("../../../etc/routes.json");
+const routes = require("../../build/routes.json");
 
 module.exports = class {
     async loadLanguageData() {

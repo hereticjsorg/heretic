@@ -53,7 +53,25 @@ fs.readdirSync(path.resolve(__dirname, "src", "pages")).map(p => {
         // OK
     }
 });
-console.log(pagesMeta);
+const routes = [];
+const translations = [];
+pagesMeta.map(i => {
+    routes.push({
+        id: i.id,
+        path: i.path,
+    });
+    translations.push({
+        id: i.id,
+        title: i.title,
+        description: i.description,
+    });
+});
+fs.writeJSONSync(path.resolve(__dirname, "src", "build", "routes.json"), routes, {
+    spaces: "\t",
+});
+fs.writeJSONSync(path.resolve(__dirname, "src", "build", "translations.json"), translations, {
+    spaces: "\t",
+});
 
 module.exports = (env, argv) => ([{
         context: path.resolve(`${__dirname}`),
