@@ -8,70 +8,13 @@ const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const MarkoPlugin = require("@marko/webpack/plugin").default;
 const babelConfig = require("./babel.config");
+const WebpackUtils = require("./webpack.utils");
 
-const languages = fs.readJSONSync(path.resolve(__dirname, "etc", "languages.json"));
-
-fs.removeSync(path.resolve(__dirname, "dist"));
 const markoPlugin = new MarkoPlugin();
-
-fs.ensureDirSync(path.resolve(__dirname, "src", "build"));
-fs.writeFileSync(path.resolve(__dirname, "src", "build", "i18n-loader.js"), `module.exports = {
-    loadLanguageFile: async lang => {
-        let translationCore;
-        let translationUser;
-        switch (lang) {
-${Object.keys(languages).map(l => `        case "${l}":
-            translationCore = await import(/* webpackChunkName: "lang-core-${l}" */ "../translations/core/${l}.json");
-            translationUser = await import(/* webpackChunkName: "lang-${l}" */ "../translations/${l}.json");
-            break;
-`).join("")}        default:
-            return null;
-        }
-        return {
-            ...translationCore,
-            ...translationUser
-        };
-    },
-};\n`, "utf8");
-fs.writeFileSync(path.resolve(__dirname, "src", "build", "pages-loader.js"), `module.exports = {
-    loadComponent: async route => {
-        switch (route) {
-${fs.readdirSync(path.resolve(__dirname, "src", "pages")).map(p => `        case "${p}":
-            return import(/* webpackChunkName: "page.${p}" */ "../pages/${p}/index.marko");
-`).join("")}        default:
-            return import(/* webpackChunkName: "page.404" */ "../errors/404/index.marko");
-        }
-    },
-};\n`, "utf8");
-
-const pagesMeta = [];
-fs.readdirSync(path.resolve(__dirname, "src", "pages")).map(p => {
-    try {
-        const meta = fs.readJSONSync(path.resolve(__dirname, "src", "pages", p, "meta.json"));
-        pagesMeta.push(meta);
-    } catch {
-        // OK
-    }
-});
-const routes = [];
-const translations = [];
-pagesMeta.map(i => {
-    routes.push({
-        id: i.id,
-        path: i.path,
-    });
-    translations.push({
-        id: i.id,
-        title: i.title,
-        description: i.description,
-    });
-});
-fs.writeJSONSync(path.resolve(__dirname, "src", "build", "routes.json"), routes, {
-    spaces: "\t",
-});
-fs.writeJSONSync(path.resolve(__dirname, "src", "build", "translations.json"), translations, {
-    spaces: "\t",
-});
+const webpackUtils = new WebpackUtils();
+webpackUtils.generateI18nLoader();
+webpackUtils.generatePagesLoader();
+webpackUtils.generatePagesBuildConfigs();
 
 module.exports = (env, argv) => ([{
         context: path.resolve(`${__dirname}`),
