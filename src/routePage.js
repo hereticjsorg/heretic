@@ -1,6 +1,6 @@
 export default (route, languageData, language) => ({
     async handler(req, rep) {
-        const page = (await import(`./pages/${route.name}/server.marko`)).default;
+        const page = (await import(`./pages/${route.id}/server.marko`)).default;
         const renderPage = await page.render({
             $global: {
                 serializedGlobals: {
@@ -9,8 +9,8 @@ export default (route, languageData, language) => ({
                     title: true,
                 },
                 language,
-                route: route.name,
-                title: [languageData[language].title, languageData[language][route.name]],
+                route: route.id,
+                title: [languageData[language].title, languageData[language][route.id]],
             },
         });
         rep.type("text/html");

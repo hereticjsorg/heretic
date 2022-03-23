@@ -12,8 +12,8 @@ import languages from "../etc/languages.json";
     const languageData = {};
     for (const lang of Object.keys(languages)) {
         languageData[lang] = {
-            ...require(`../etc/translations/${lang}.json`),
-            ...require(`../etc/translations/core/${lang}.json`),
+            ...require(`./translations/${lang}.json`),
+            ...require(`./translations/core/${lang}.json`),
         };
     }
     const config = await fs.readJSON(path.resolve(`${__dirname}/../etc/config.json`));
@@ -29,10 +29,10 @@ import languages from "../etc/languages.json";
         });
     }
     for (const route of routes) {
-        fastify.get(route.pathServer, routePage(route, languageData, defaultLanguage));
+        fastify.get(route.path || "/", routePage(route, languageData, defaultLanguage));
         for (const lang of Object.keys(languages)) {
             if (lang !== defaultLanguage) {
-                fastify.get(`/${lang}${route.pathServer}`, routePage(route, languageData, lang));
+                fastify.get(`/${lang}${route.path}`, routePage(route, languageData, lang));
             }
         }
     }

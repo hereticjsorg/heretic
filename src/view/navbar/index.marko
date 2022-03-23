@@ -6,16 +6,14 @@ import { mdiGithub } from "@mdi/js"
 
 <nav class="navbar hr-navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-        <router-link route=navigation.defaultRoute class="navbar-item">
+        <router-link route=navigation.home class="navbar-item">
             <img src=logo/>
         </router-link>
         <a
-            id="zs_navbar_burger"
+            id="hr_navbar_burger"
             onClick("onBurgerClick")
             role="button"
             class=`navbar-burger${state.navOpen ? " is-active" : ""}`
-            aria-label="menu"
-            aria-expanded="false"
             data-target="navbar">
             <span aria-hidden="true"/>
             <span aria-hidden="true"/>
@@ -27,9 +25,6 @@ import { mdiGithub } from "@mdi/js"
             <for|id| of=navigation.routes>
                 <router-link
                     route=id
-                    params=JSON.stringify({
-                        language: out.global.language === Object.keys(languages)[0] ? "" : out.global.language,
-                    }) 
                     class=`navbar-item${
                         state.route === id ? " hr-navbar-item-active" : ""
                     }`>
@@ -38,7 +33,7 @@ import { mdiGithub } from "@mdi/js"
             </for>
         </div>
         <div class="navbar-end">
-            <a class="navbar-item" href="https://github.com/xtremespb/zspa" target="_blank">
+            <a class="navbar-item" href="https://github.com/xtremespb/heretic" target="_blank">
                 <span class="icon">
                     <svg
                         viewBox="0 0 24 24"
@@ -52,16 +47,13 @@ import { mdiGithub } from "@mdi/js"
                 <span>GitHub</span>
             </a>
             <div class=`navbar-item has-dropdown${state.langOpen ? " is-active" : ""}`>
-                <a class="navbar-link" on-click("onLanguageClick") id="zs_navbar_language">
+                <a class="navbar-link" on-click("onLanguageClick") id="hr_navbar_language">
                     Language
                 </a>
                 <div class="navbar-dropdown">
                     <for|lang| of=Object.keys(languages)>
-                        $ {
-                            let currentURL = process.browser ? component.getNonLocalizedURL(window.location.pathname).url : "/";
-                            const langLink = lang === Object.keys(languages)[0] ? currentURL : `/${lang}${currentURL}`;
-                        }
-                        <a class="navbar-item" href=langLink>
+                        $ const currentURL = process.browser ? component.getNonLocalizedURL(window.location.pathname).url : "/";
+                        <a class="navbar-item" href=(lang === Object.keys(languages)[0] ? currentURL : `/${lang}${currentURL}`)>
                             ${languages[lang]}
                         </a>
                     </for>

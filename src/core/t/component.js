@@ -5,8 +5,8 @@ module.exports = class {
         if (!process.browser) {
             this.languages = require("../../../etc/languages.json");
             this.languageData = {
-                ...require(`../../../etc/translations/${this.language}.json`),
-                ...require(`../../../etc/translations/core/${this.language}.json`)
+                ...require(`../../translations/${this.language}.json`),
+                ...require(`../../translations/core/${this.language}.json`)
             };
         }
     }

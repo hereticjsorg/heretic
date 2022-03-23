@@ -1,4 +1,4 @@
 {
-    "defaultRoute": "home",
+    "home": "home",
     "routes": ["home", "test"]
 }

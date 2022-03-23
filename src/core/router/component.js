@@ -1,34 +1,25 @@
-const createRouter = require("router5").default;
-const browserPlugin = require("router5-plugin-browser").default;
-// const languagesList = require("../../../etc/languages.json");
-// const routes = require("../../../etc/routes.json");
+const HRouter = require("../HRouter");
+const languages = require("../../../etc/languages.json");
+const navigation = require("../../../etc/navigation.json");
 
 module.exports = class {
-    onCreate(input, out) {
-        this.routes = input.routes || [];
-        this.options = input.options || null;
-        this.route = out.global.route;
-        this.language = out.global.language;
+    onCreate() {
+        const state = {
+            route: null,
+            language: Object.keys(languages)[0],
+        };
+        this.state = state;
     }
 
     onMount() {
-        if (!process.browser) {
-            return;
-        }
-        this.router = createRouter(this.routes, this.options);
-        this.router.usePlugin(
-            browserPlugin({
-                useHash: true,
-            }),
-        );
-        this.router.subscribe(obj => {
-            this.emit("state-change", obj);
-            this.forceUpdate();
-        });
-        this.router.start();
+        const router = new HRouter(Object.keys(languages), navigation.home);
+        router.setOnRouteChangeHandler(this.onRouteChangeHandler.bind(this));
+        this.emit("route-change", router);
         window.__heretic = window.__heretic || {};
-        window.__heretic.router = this.router;
-        window.__heretic.routes = this.routes;
-        window.history.replaceState(null, document.title, window.location.pathname.replace(/#\//, ""));
+        window.__heretic.router = router;
+    }
+
+    onRouteChangeHandler(router) {
+        this.emit("route-change", router);
     }
 };

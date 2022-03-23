@@ -1,7 +1,7 @@
 const cloneDeep = require("lodash.clonedeep");
-const languages = require("../../../etc/languages.json");
-const i18nLoader = require("../../../etc/i18n-loader");
-const pagesLoader = require("../../../etc/pages-loader");
+const i18nLoader = require("../../build/i18n-loader");
+const pagesLoader = require("../../build/pages-loader");
+const routes = require("../../../etc/routes.json");
 
 module.exports = class {
     async loadLanguageData() {
@@ -11,36 +11,24 @@ module.exports = class {
                 window.__heretic.languageData = await i18nLoader.loadLanguageFile(this.language);
             }
             window.__heretic.t = id => window.__heretic.languageData[id] || id;
+            this.setState("languageLoaded", true);
         }
-    }
-
-    navigateToDefault() {
-        window.__heretic.router.navigateToDefault();
-        window.history.replaceState(null, document.title, window.location.pathname.replace(/#\/(.*)/, ""));
     }
 
     async onCreate(input, out) {
         this.state = {
             mounted: false,
+            route: null,
+            languageLoaded: false,
             routed: false,
-            route: {
-                name: out.global.route,
-                params: {
-                    language: out.global.language === Object.keys(languages) ? "" : out.global.language,
-                },
-            },
             currentComponent: null,
-            serverError404: false,
         };
         this.componentsLoaded = {};
         this.language = out.global.language;
-        this.serverRouteName = out.global.route;
+        this.serverRoute = out.global.route;
         await import(/* webpackChunkName: "bulma" */ "../../../etc/bulma.scss");
-        await import(/* webpackChunkName: "zoia" */ "../../zoia.scss");
+        await import(/* webpackChunkName: "heretic" */ "../../heretic.scss");
         await this.loadLanguageData();
-        if (process.browser) {
-            this.navigateToDefault();
-        }
     }
 
     onMount() {
@@ -61,31 +49,33 @@ module.exports = class {
         }
     }
 
-    async onStateChange(obj) {
-        this.setState("route", cloneDeep(obj.route));
-        if (this.serverRouteName === "404" && !this.state.serverError404) {
-            await this.loadLanguageData();
-            obj.route.name = "404";
-            obj.previousRoute = true;
-            this.setState("serverError404", true);
-        }
-        if (obj.previousRoute) {
-            this.setState("routed", true);
-            let component = null;
+    async onRouteChange(router) {
+        let component = null;
+        const route = router.getRoute();
+        const routeData = routes.find(r => r.id === route.id);
+        if ((route.id !== this.serverRoute || this.state.routed) && routeData) {
             const timer = this.getAnimationTimer();
             try {
-                component = await pagesLoader.loadComponent(obj.route.name);
+                component = await pagesLoader.loadComponent(route.id);
                 const navbarComponent = this.getComponent("navbar");
                 if (navbarComponent) {
                     navbarComponent.setRoute();
                 }
+                this.componentsLoaded[route.id] = true;
+                this.setState("currentComponent", component);
+                this.setState("route", cloneDeep(route));
+                this.setState("routed", true);
             } catch (e) {
                 this.clearAnimationTimer(timer);
                 return;
             }
             this.clearAnimationTimer(timer);
-            this.componentsLoaded[obj.route.name] = true;
+        }
+        if (this.state.routed && !routeData) {
+            component = await pagesLoader.loadComponent(null);
+            this.componentsLoaded["404"] = true;
             this.setState("currentComponent", component);
+            this.setState("route", cloneDeep(route));
         }
     }
 };

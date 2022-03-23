@@ -9,8 +9,51 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 const MarkoPlugin = require("@marko/webpack/plugin").default;
 const babelConfig = require("./babel.config");
 
+const languages = fs.readJSONSync(path.resolve(__dirname, "etc", "languages.json"));
+
 fs.removeSync(path.resolve(__dirname, "dist"));
 const markoPlugin = new MarkoPlugin();
+
+fs.ensureDirSync(path.resolve(__dirname, "src", "build"));
+fs.writeFileSync(path.resolve(__dirname, "src", "build", "i18n-loader.js"), `module.exports = {
+    loadLanguageFile: async lang => {
+        let translationCore;
+        let translationUser;
+        switch (lang) {
+${Object.keys(languages).map(l => `        case "${l}":
+            translationCore = await import(/* webpackChunkName: "lang-core-${l}" */ "../translations/core/${l}.json");
+            translationUser = await import(/* webpackChunkName: "lang-${l}" */ "../translations/${l}.json");
+            break;
+`).join("")}        default:
+            return null;
+        }
+        return {
+            ...translationCore,
+            ...translationUser
+        };
+    },
+};\n`, "utf8");
+fs.writeFileSync(path.resolve(__dirname, "src", "build", "pages-loader.js"), `module.exports = {
+    loadComponent: async route => {
+        switch (route) {
+${fs.readdirSync(path.resolve(__dirname, "src", "pages")).map(p => `        case "${p}":
+            return import(/* webpackChunkName: "page.${p}" */ "../pages/${p}/index.marko");
+`).join("")}        default:
+            return import(/* webpackChunkName: "page.404" */ "../errors/404/index.marko");
+        }
+    },
+};\n`, "utf8");
+
+const pagesMeta = [];
+fs.readdirSync(path.resolve(__dirname, "src", "pages")).map(p => {
+    try {
+        const meta = fs.readJSONSync(path.resolve(__dirname, "src", "pages", p, "meta.json"));
+        pagesMeta.push(meta);
+    } catch {
+        // OK
+    }
+});
+console.log(pagesMeta);
 
 module.exports = (env, argv) => ([{
         context: path.resolve(`${__dirname}`),
@@ -134,31 +177,9 @@ module.exports = (env, argv) => ([{
             }) : () => {},
             argv.mode === "production" ? new CompressionPlugin() : () => {},
             new CopyWebpackPlugin({
-                patterns: [{
-                        from: "./src/favicon/favicon.ico"
-                    },
-                    {
-                        from: "./src/favicon/site.webmanifest"
-                    },
-                    {
-                        from: "./src/favicon/favicon-16x16.png"
-                    },
-                    {
-                        from: "./src/favicon/favicon-32x32.png"
-                    },
-                    {
-                        from: "./src/favicon/android-chrome-512x512.png"
-                    },
-                    {
-                        from: "./src/favicon/apple-touch-icon.png"
-                    },
-                    {
-                        from: "./src/favicon/android-chrome-192x192.png"
-                    },
-                    {
-                        from: "./src/misc/robots.txt"
-                    },
-                ]
+                patterns: fs.readdirSync(path.resolve(__dirname, "src", "static")).map(f => ({
+                    from: `./src/static/${f}`
+                })),
             }),
             markoPlugin.browser,
         ],

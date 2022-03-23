@@ -15,24 +15,16 @@ import languages from "../../../etc/languages.json"
     </div>
     <div class="hr-content">
         <div class="pl-3 pr-3">
-            <if(!process.browser || !state.routed)>
+            <if(!state.routed)>
                 <${input.renderBody}/>
             </if>
             <if(process.browser)>
                 <router
-                    routes=[...routes]
-                    options={
-                        defaultRoute: out.global.route,
-                        defaultParams: {
-                            language: out.global.language === Object.keys(languages)[0] ? "" : out.global.language,
-                        }
-                    }
-                    on-state-change("onStateChange")>
-                    <if(state.routed && state.currentComponent)>
+                    on-route-change("onRouteChange")>
+                    <if(state.currentComponent && state.languageLoaded)>
                         <${state.currentComponent}
-                            key=state.route.name
-                            ...state.route.params
-                            dynamic=true
+                            key=state.route.id
+                            ...state.route
                             parentComponent=component/>
                     </if>
                 </router>

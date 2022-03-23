@@ -1,0 +1,12 @@
+{
+    "id": "test",
+    "path": "/test",
+    "title": {
+        "ru-ru": "Тест",
+        "en-us": "Test Page"
+    },
+    "description": {
+        "ru-ru": "Тестовая страница сайта, созданного на Heretic",
+        "en-us": "Test page of the site built on Heretic"
+    }
+}
