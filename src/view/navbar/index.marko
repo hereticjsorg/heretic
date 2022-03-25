@@ -26,7 +26,7 @@ $ const i18nNavigation = out.global.i18nNavigation;
             <for|id| of=navigation.routes>
                 <router-link
                     route=id
-                    class=`navbar-item${
+                    class=`navbar-item hr-navbar-item${
                         state.route === id ? " hr-navbar-item-active" : ""
                     }`>
                     ${i18nNavigation[id]}

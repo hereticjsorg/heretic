@@ -2,12 +2,13 @@ const path = require("path");
 const fs = require("fs-extra");
 
 module.exports = class {
-    constructor() {
+    constructor(production) {
         fs.removeSync(path.resolve(__dirname, "dist"));
         fs.removeSync(path.resolve(__dirname, "src", "build"));
         fs.ensureDirSync(path.resolve(__dirname, "src", "build"));
         this.languages = fs.readJSONSync(path.resolve(__dirname, "etc", "languages.json"));
         this.config = fs.readJSONSync(path.resolve(__dirname, "etc", "config.json"));
+        this.production = production;
     }
 
     generateI18nLoader() {
@@ -132,5 +133,17 @@ ${fs.readdirSync(path.resolve(__dirname, "src", "pages")).map(p => `        case
             sitemapXML += `</urlset>`;
             fs.writeFileSync(path.resolve(__dirname, "src", "static", "sitemap.xml"), sitemapXML, "utf8");
         }
+    }
+
+    generateManifest() {
+        const language = Object.keys(this.languages)[0];
+        const meta = fs.readJSONSync(path.resolve(__dirname, "etc", "meta.json"));
+        const manifest = fs.readJSONSync(path.resolve(__dirname, "src", "static", "site.webmanifest"));
+        manifest.name = meta.title[language];
+        manifest.short_name = meta.shortTitle[language];
+        manifest.description = meta.description[language];
+        fs.writeJSONSync(path.resolve(__dirname, "src", "static", "site.webmanifest"), manifest, this.production ? {} : {
+            spaces: "\t",
+        });
     }
 };

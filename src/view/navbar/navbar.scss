@@ -1,7 +1,15 @@
 @import "../../variables.scss";
 
-.hr-navbar-item-active {
-    background: $white-bis;
+.hr-navbar-item-active,
+.hr-navbar-item-active:hover,
+.hr-navbar-item-active:active {
+    background: $red !important;
+    color: $white !important;
+}
+
+.hr-navbar-item:hover:not(.hr-navbar-item-active) {
+    background: $grey-lighter;
+    transition: all 250ms;
 }
 
 .hr-navbar {

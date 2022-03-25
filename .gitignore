@@ -22,3 +22,4 @@ typings/
 .env
 /dist
 /src/build
+src/static/sitemap.xml
