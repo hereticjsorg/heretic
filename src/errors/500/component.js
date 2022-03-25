@@ -1,13 +1,12 @@
 module.exports = class {
     async onCreate() {
         const state = {
-            iconWrapOpacity: 0,
+            panicMode: false,
         };
         this.state = state;
-        await import(/* webpackChunkName: "error500" */ "./error500.scss");
     }
 
-    onMount() {
-        setTimeout(() => this.setState("iconWrapOpacity", 1), 100);
+    activatePanicMode() {
+        this.setState("panicMode", true);
     }
 };

@@ -10,10 +10,16 @@ export default (route, languageData, language) => ({
                     language: true,
                     route: true,
                     title: true,
+                    siteTitle: true,
+                    i18nNavigation: true,
+                    description: true,
                 },
                 language,
                 route: route.id,
-                title: [languageData[language].title, translationData.title[language]],
+                title: translationData.title[language],
+                siteTitle: this.siteMeta.title[language],
+                i18nNavigation: this.i18nNavigation[language],
+                description: translationData.description && translationData.description[language] ? translationData.description[language] : null,
             },
         });
         rep.type("text/html");

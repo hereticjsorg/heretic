@@ -67,6 +67,7 @@ module.exports = class {
                 this.setState("routed", true);
             } catch (e) {
                 this.clearAnimationTimer(timer);
+                this.panicMode();
                 return;
             }
             this.clearAnimationTimer(timer);
@@ -76,6 +77,13 @@ module.exports = class {
             this.componentsLoaded["404"] = true;
             this.setState("currentComponent", component);
             this.setState("route", cloneDeep(route));
+        }
+    }
+
+    panicMode() {
+        const component500 = this.getComponent("hr_500");
+        if (component500) {
+            component500.activatePanicMode();
         }
     }
 };

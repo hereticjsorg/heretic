@@ -5,9 +5,14 @@ module.exports = class {
         if (!process.browser) {
             this.languages = require("../../../etc/languages.json");
             this.languageData = {
-                ...require(`../../translations/${this.language}.json`),
                 ...require(`../../translations/core/${this.language}.json`)
             };
+            if (out.global.i18nUser) {
+                this.languageData = {
+                    ...this.languageData,
+                    ...require(`../../translations/${this.language}.json`)
+                };
+            }
         }
     }
 

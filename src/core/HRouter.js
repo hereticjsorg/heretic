@@ -153,9 +153,6 @@ module.exports = class {
         const url = `/${[lang, ...route.split(/\//)].filter(i => i).join("/")}`;
         this.pushState({}, window.title, url);
         this.route = this.getLocationData();
-        console.log("navigate called");
-        console.log(this.route);
-        console.log(url);
         if (this.routeChangeHandler) {
             this.routeChangeHandler(this);
         }

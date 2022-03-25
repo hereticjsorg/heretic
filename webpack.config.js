@@ -15,6 +15,8 @@ const webpackUtils = new WebpackUtils();
 webpackUtils.generateI18nLoader();
 webpackUtils.generatePagesLoader();
 webpackUtils.generatePagesBuildConfigs();
+webpackUtils.generateI18nNavigation();
+webpackUtils.generateSitemap();
 
 module.exports = (env, argv) => ([{
         context: path.resolve(`${__dirname}`),

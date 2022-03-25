@@ -1,13 +1,16 @@
 import { mdiRobotDead } from '@mdi/js'
 
-<div class="hr-500-overlay">
-    <div
-        class="icon hr-500-icon-wrap"
-        style={
-            opacity: state.iconWrapOpacity
-        }>
-        <svg class="hr-500-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d=mdiRobotDead/>
-        </svg>
+<if(state.panicMode)>
+    <div class="hr-500-overlay">
+        <div class="columns is-gapless">
+            <div class="column is-narrow" class="hr-500-robot-icon-wrap">
+                <svg xmlns="http://www.w3.org/2000/svg" class="hr-500-robot-icon">
+                    <path d=mdiRobotDead/>
+                </svg> 
+            </div>
+            <div class="column is-narrow hr-500-message">
+                Something went wrong :-(
+            </div>
+        </div>
     </div>
-</div>
+</if>

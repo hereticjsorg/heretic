@@ -4,6 +4,7 @@ import routes from "../../build/routes.json"
 import logo from "../../images/logo.svg"
 import { mdiGithub } from "@mdi/js"
 
+$ const i18nNavigation = out.global.i18nNavigation;
 <nav class="navbar hr-navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
         <router-link route=navigation.home class="navbar-item">
@@ -28,7 +29,7 @@ import { mdiGithub } from "@mdi/js"
                     class=`navbar-item${
                         state.route === id ? " hr-navbar-item-active" : ""
                     }`>
-                    <t>${id}</t>
+                    ${i18nNavigation[id]}
                 </router-link>
             </for>
         </div>
