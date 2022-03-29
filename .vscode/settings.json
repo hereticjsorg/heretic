@@ -1,9 +1,18 @@
 {
     "cSpell.words": [
         "bulma",
+        "changefreq",
+        "chunkhash",
         "fastify",
+        "fullhash",
+        "lastmod",
         "Marko",
         "Matveev",
+        "pino",
+        "semibold",
+        "serializers",
+        "urijs",
+        "urlset",
         "zhistory"
     ]
 }

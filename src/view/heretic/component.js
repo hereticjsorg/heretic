@@ -26,8 +26,8 @@ module.exports = class {
         this.componentsLoaded = {};
         this.language = out.global.language;
         this.serverRoute = out.global.route;
-        await import(/* webpackChunkName: "bulma" */ "../../../etc/bulma.scss");
-        await import(/* webpackChunkName: "heretic" */ "../../heretic.scss");
+        await import(/* webpackChunkName: "bulma" */ "../../styles/bulma.scss");
+        await import(/* webpackChunkName: "heretic" */ "../../styles/heretic.scss");
         await this.loadLanguageData();
     }
 
@@ -38,7 +38,7 @@ module.exports = class {
     }
 
     getAnimationTimer() {
-        return setTimeout(() => this.getComponent("loading").setActive(true), 500);
+        return setTimeout(() => this.getComponent("loading").setActive(true), 499);
     }
 
     clearAnimationTimer(timer) {
@@ -81,9 +81,9 @@ module.exports = class {
     }
 
     panicMode() {
-        const component500 = this.getComponent("hr_500");
-        if (component500) {
-            component500.activatePanicMode();
+        const componentBrowserError = this.getComponent("hr_browserError");
+        if (componentBrowserError) {
+            componentBrowserError.activatePanicMode();
         }
     }
 };

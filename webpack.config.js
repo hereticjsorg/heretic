@@ -19,6 +19,8 @@ module.exports = (env, argv) => {
     webpackUtils.generateI18nNavigation();
     webpackUtils.generateSitemap();
     webpackUtils.generateManifest();
+    webpackUtils.generateServerData();
+    webpackUtils.generateLangSwitchComponents();
     return ([{
             context: path.resolve(`${__dirname}`),
             name: "Frontend",
@@ -51,7 +53,7 @@ module.exports = (env, argv) => {
                                 loader: "postcss-loader",
                                 options: {
                                     postcssOptions: {
-                                        config: path.resolve(`${__dirname}/postcss.config.js`),
+                                        config: path.resolve(__dirname, "postcss.config.js"),
                                     },
                                 },
                             },
@@ -173,7 +175,8 @@ module.exports = (env, argv) => {
                 }]
             },
             target: "async-node",
-            externals: [/^[^./!]/],
+            // externals: [/^[^./!]/],
+            externals: [],
             optimization: argv.mode === "production" ? {
                 splitChunks: false,
                 minimizer: [
@@ -191,7 +194,7 @@ module.exports = (env, argv) => {
             output: {
                 hashFunction: "xxhash64",
                 libraryTarget: "commonjs2",
-                path: path.resolve(`${__dirname}/dist`),
+                path: path.resolve(__dirname, "dist"),
                 filename: "server.js",
                 publicPath: "/",
             },

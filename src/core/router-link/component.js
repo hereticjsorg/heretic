@@ -8,7 +8,6 @@ module.exports = class {
         const {
             language
         } = window.__heretic.router.getLocationData();
-        // document.title = `${window.__heretic.t(this.input.route)} | ${window.__heretic.t("title")}`;
         window.__heretic.router.navigate(this.input.route, language);
     }
 };

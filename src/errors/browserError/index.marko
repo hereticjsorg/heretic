@@ -1,0 +1,14 @@
+import { mdiRobotDead } from '@mdi/js'
+
+<if(state.panicMode)>
+    <div class="hr-browserError-overlay">
+        <div class="columns is-gapless">
+            <div class="hr-browserError-robot-icon-wrap">
+                <svg xmlns="http://www.w3.org/2000/svg" class="hr-browserError-robot-icon">
+                    <path d=mdiRobotDead/>
+                </svg>
+            </div>
+            <div class="column is-narrow hr-browserError-message"><t>somethingWentWrong</t></div>
+        </div>
+    </div>
+</if>

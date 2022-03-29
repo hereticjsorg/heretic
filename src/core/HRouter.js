@@ -1,5 +1,5 @@
 module.exports = class {
-    constructor(languages, home) {
+    constructor(routes, languages, home) {
         this.states = [];
         this.stateIndex = null;
         this.actions = [];
@@ -8,6 +8,7 @@ module.exports = class {
             id: null,
             language: null,
         };
+        this.routes = routes;
         this.languages = languages;
         this.init();
     }
@@ -28,9 +29,12 @@ module.exports = class {
                 break;
             }
         }
-        data.id = parts.join("/") || null;
-        if (!data.id) {
-            data.id = this.home;
+        let path = parts.join("/") || "";
+        path = path.charAt(0) === "/" ? path : `/${path}`;
+        path = path === "/" ? "" : path;
+        const route = this.routes.find(r => r.path === path);
+        if (route) {
+            data.id = route.id;
         }
         return data;
     }
@@ -145,12 +149,16 @@ module.exports = class {
         return this.route;
     }
 
-    navigate(route, language = this.languages[0]) {
-        const lang = language === this.languages[0] ? "" : language;
-        if (route === this.home) {
-            route = "";
+    navigate(routeId, language = this.languages[0]) {
+        const routeItem = this.routes.find(r => r.id === routeId);
+        if (!routeItem) {
+            return;
         }
-        const url = `/${[lang, ...route.split(/\//)].filter(i => i).join("/")}`;
+        const lang = language === this.languages[0] ? "" : language;
+        if (routeItem.id === this.home) {
+            routeItem.path = "";
+        }
+        const url = `/${[lang, ...routeItem.path.split(/\//)].filter(i => i).join("/")}`;
         this.pushState({}, window.title, url);
         this.route = this.getLocationData();
         if (this.routeChangeHandler) {

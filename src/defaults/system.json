@@ -1,0 +1,14 @@
+{
+    "server": {
+        "ip": "127.0.0.1",
+        "port": 3001,
+        "static": true
+    },
+    "log": {
+        "level": "info",
+        "pretty": {
+            "translateTime": "yyyy-mm-dd HH:MM:ss",
+            "ignore": "pid,hostname,reqId,responseTime,req,res"
+        }
+    }
+}

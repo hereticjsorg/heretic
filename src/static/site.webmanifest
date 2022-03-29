@@ -1,4 +1,5 @@
 {
+	"id": "heretic",
 	"icons": [
 		{
 			"src": "android-chrome-192x192.png",
@@ -14,11 +15,6 @@
 	"theme_color": "#ffffff",
 	"background_color": "#ffffff",
 	"display": "standalone",
-	"related_applications": [
-		{
-			"platform": "web"
-		}
-	],
 	"name": "Heretic Test Website",
 	"short_name": "Heretic",
 	"description": "Test site built on Heretic"

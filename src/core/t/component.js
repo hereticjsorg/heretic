@@ -3,7 +3,7 @@ module.exports = class {
         this.language = out.global.language;
         this.languageData = {};
         if (!process.browser) {
-            this.languages = require("../../../etc/languages.json");
+            this.languages = require("../../config/languages.json");
             this.languageData = {
                 ...require(`../../translations/core/${this.language}.json`)
             };

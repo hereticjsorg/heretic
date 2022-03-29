@@ -1,4 +1,4 @@
-const languagesList = require("../../../etc/languages.json");
+const languagesList = require("../../config/languages.json");
 
 module.exports = class {
     async onCreate() {

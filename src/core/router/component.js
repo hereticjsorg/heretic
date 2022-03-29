@@ -1,6 +1,7 @@
 const HRouter = require("../HRouter");
-const languages = require("../../../etc/languages.json");
-const navigation = require("../../../etc/navigation.json");
+const languages = require("../../config/languages.json");
+const navigation = require("../../config/navigation.json");
+const routes = require("../../build/routes.json");
 
 module.exports = class {
     onCreate() {
@@ -12,7 +13,7 @@ module.exports = class {
     }
 
     onMount() {
-        const router = new HRouter(Object.keys(languages), navigation.home);
+        const router = new HRouter(routes, Object.keys(languages), navigation.home);
         router.setOnRouteChangeHandler(this.onRouteChangeHandler.bind(this));
         this.emit("route-change", router);
         window.__heretic = window.__heretic || {};

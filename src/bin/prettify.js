@@ -36,5 +36,5 @@ const processMarkoFiles = async dir => {
 };
 
 (async () => {
-    await processMarkoFiles(path.resolve(__dirname));
+    await processMarkoFiles(path.resolve(__dirname, ".."));
 })();

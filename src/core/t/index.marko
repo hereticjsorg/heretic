@@ -3,7 +3,5 @@ $ delete attrs.renderBody;
 $ delete attrs.activeClass;
 $ delete attrs.parentElement;
 <span ...attrs no-update>
-    <if(input.renderBody)>
-        ${component.translate()}
-    </if>
+    <if(input.renderBody)>${component.translate()}</if>
 </span>

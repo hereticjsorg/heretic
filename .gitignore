@@ -23,3 +23,6 @@ typings/
 /dist
 /src/build
 src/static/sitemap.xml
+/etc
+src/pages
+src/config/navigation.json

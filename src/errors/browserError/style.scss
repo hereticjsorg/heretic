@@ -1,6 +1,6 @@
-@import "../../variables.scss";
+@import "../../styles/variables.scss";
 
-.hr-500-overlay {
+.hr-browserError-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -15,20 +15,20 @@
     user-select: none;
 }
 
-.hr-500-robot-icon {
+.hr-browserError-robot-icon {
     width: 32px;
     height: 24px;
 }
 
-.hr-500-robot-icon-wrap {
+.hr-browserError-robot-icon-wrap {
     margin-top: 2px;
 }
 
-.hr-500-robot-icon-wrap path {
+.hr-browserError-robot-icon-wrap path {
     fill: $white;
 }
 
-.hr-500-message {
+.hr-browserError-message {
     color: $white;
     font-weight: 100;
     font-size: 120%;

@@ -6,8 +6,9 @@ module.exports = class {
         fs.removeSync(path.resolve(__dirname, "dist"));
         fs.removeSync(path.resolve(__dirname, "src", "build"));
         fs.ensureDirSync(path.resolve(__dirname, "src", "build"));
-        this.languages = fs.readJSONSync(path.resolve(__dirname, "etc", "languages.json"));
-        this.config = fs.readJSONSync(path.resolve(__dirname, "etc", "config.json"));
+        this.languages = fs.readJSONSync(path.resolve(__dirname, "src", "config", "languages.json"));
+        this.config = fs.readJSONSync(path.resolve(__dirname, "etc", "system.json"));
+        this.meta = fs.readJSONSync(path.resolve(__dirname, "etc", "meta.json"));
         this.production = production;
     }
 
@@ -80,7 +81,7 @@ ${fs.readdirSync(path.resolve(__dirname, "src", "pages")).map(p => `        case
     generateI18nNavigation() {
         const titles = {};
         Object.keys(this.languages).map(l => titles[l] = {});
-        const navigation = fs.readJSONSync(path.resolve(__dirname, "etc", "navigation.json"));
+        const navigation = fs.readJSONSync(path.resolve(__dirname, "src", "config", "navigation.json"));
         navigation.routes.map(r => {
             const meta = fs.readJSONSync(path.resolve(__dirname, "src", "pages", r, "meta.json"));
             Object.keys(titles).map(lang => titles[lang][r] = meta.title[lang]);
@@ -99,7 +100,7 @@ ${fs.readdirSync(path.resolve(__dirname, "src", "pages")).map(p => `        case
                 if (sitemap.include) {
                     const route = routes.find(r => r.id === p);
                     const entry = {
-                        loc: `${this.config.url}${route.path}`,
+                        loc: `${this.meta.url}${route.path}`,
                     };
                     if (sitemap.lastmod) {
                         try {
@@ -137,13 +138,38 @@ ${fs.readdirSync(path.resolve(__dirname, "src", "pages")).map(p => `        case
 
     generateManifest() {
         const language = Object.keys(this.languages)[0];
-        const meta = fs.readJSONSync(path.resolve(__dirname, "etc", "meta.json"));
         const manifest = fs.readJSONSync(path.resolve(__dirname, "src", "static", "site.webmanifest"));
-        manifest.name = meta.title[language];
-        manifest.short_name = meta.shortTitle[language];
-        manifest.description = meta.description[language];
+        manifest.name = this.meta.title[language];
+        manifest.short_name = this.meta.shortTitle[language];
+        manifest.description = this.meta.description[language];
+        manifest.id = this.meta.id;
         fs.writeJSONSync(path.resolve(__dirname, "src", "static", "site.webmanifest"), manifest, this.production ? {} : {
             spaces: "\t",
+        });
+    }
+
+    generateServerData() {
+        const serverData = {
+            production: this.production,
+        };
+        fs.writeJSONSync(path.resolve(__dirname, "src", "build", "server.json"), serverData, {
+            spaces: "\t"
+        });
+    }
+
+    generateLangSwitchComponents() {
+        let langSwitchMarko = "";
+        Object.keys(this.languages).map(lang => langSwitchMarko += `<if(out.global.language === "${lang}")>\n    <lang-${lang}/>\n</if>\n`);
+        fs.readdirSync(path.resolve(__dirname, "src", "pages")).map(p => {
+            if (fs.existsSync(path.resolve(__dirname, "src", "pages", p, "content"))) {
+                const meta = fs.readJSONSync(path.resolve(__dirname, "src", "pages", p, "meta.json"));
+                if (meta.langSwitchComponent) {
+                    fs.removeSync(path.resolve(__dirname, "src", "pages", p, "content", "lang-switch"));
+                    fs.ensureDirSync(path.resolve(__dirname, "src", "pages", p, "content", "lang-switch"));
+                    fs.writeFileSync(path.resolve(__dirname, "src", "pages", p, "content", "lang-switch", "marko.json"), `{"tags-dir": ["../"]}`);
+                    fs.writeFileSync(path.resolve(__dirname, "src", "pages", p, "content", "lang-switch", "index.marko"), langSwitchMarko);
+                }
+            }
         });
     }
 };

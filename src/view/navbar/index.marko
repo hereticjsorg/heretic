@@ -1,5 +1,5 @@
-import navigation from "../../../etc/navigation.json"
-import languages from "../../../etc/languages.json"
+import navigation from "../../config/navigation.json"
+import languages from "../../config/languages.json"
 import routes from "../../build/routes.json"
 import logo from "../../images/logo.svg"
 import { mdiGithub } from "@mdi/js"
@@ -34,7 +34,10 @@ $ const i18nNavigation = out.global.i18nNavigation;
             </for>
         </div>
         <div class="navbar-end">
-            <a class="navbar-item" href="https://github.com/xtremespb/heretic" target="_blank">
+            <a
+                class="navbar-item hr-navbar-item"
+                href="https://github.com/xtremespb/heretic"
+                target="_blank">
                 <span class="icon">
                     <svg
                         viewBox="0 0 24 24"
@@ -48,13 +51,25 @@ $ const i18nNavigation = out.global.i18nNavigation;
                 <span>GitHub</span>
             </a>
             <div class=`navbar-item has-dropdown${state.langOpen ? " is-active" : ""}`>
-                <a class="navbar-link" on-click("onLanguageClick") id="hr_navbar_language">
+                <a class="navbar-link hr-navbar-item" on-click("onLanguageClick") id="hr_navbar_language">
                     Language
                 </a>
                 <div class="navbar-dropdown">
                     <for|lang| of=Object.keys(languages)>
-                        $ const currentURL = process.browser ? component.getNonLocalizedURL(window.location.pathname).url : "/";
-                        <a class="navbar-item" href=(lang === Object.keys(languages)[0] ? currentURL : `/${lang}${currentURL}`)>
+                        $ {
+                            const currentURL = process.browser
+                                                        ? component.getNonLocalizedURL(
+                                                              window.location.pathname
+                                                          ).url
+                                                        : "/";
+                        }
+                        <a
+                            class="navbar-item"
+                            href=(
+                                lang === Object.keys(languages)[0]
+                                    ? currentURL
+                                    : `/${lang}${currentURL}`
+                            )>
                             ${languages[lang]}
                         </a>
                     </for>
