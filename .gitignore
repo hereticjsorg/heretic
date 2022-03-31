@@ -27,3 +27,4 @@ src/static/sitemap.xml
 src/pages
 src/config/navigation.json
 src/view
+src/translations/user

@@ -3,6 +3,8 @@ const fs = require("fs-extra");
 const path = require("path");
 const commandLineArgs = require("command-line-args");
 
+const languages = Object.keys(require(path.resolve(__dirname, "..", "config", "languages")));
+
 const options = commandLineArgs([{
     name: "defaults",
     alias: "d",
@@ -32,6 +34,7 @@ const configNavigation = fs.readJSONSync(path.resolve(__dirname, "..", "defaults
 
 fs.ensureDirSync(path.resolve(__dirname, "..", "pages"));
 fs.ensureDirSync(path.resolve(__dirname, "..", "..", "etc"));
+fs.ensureDirSync(path.resolve(__dirname, "..", "translations", "user"));
 
 // If there is an option to copy defaults...
 
@@ -89,6 +92,18 @@ if (!fs.existsSync(path.resolve(__dirname, "..", "..", "etc", "navigation.json")
     });
 } else {
     console.log(`Warning: skipping etc/navigation.json, use --force parameter to override`);
+}
+
+// Create empty translation files
+
+for (const lang of languages) {
+    if (!fs.existsSync(path.resolve(__dirname, "..", "translations", "user", `${lang}.json`)) || options.force) {
+        fs.writeJSONSync(path.resolve(__dirname, "..", "translations", "user", `${lang}.json`), {}, {
+            spaces: "\t"
+        });
+    } else {
+        console.log(`Warning: skipping src/translation/user/${lang}.json, use --force parameter to override`);
+    }
 }
 
 // Done

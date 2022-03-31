@@ -21,7 +21,7 @@ module.exports = class {
         switch (lang) {
 ${Object.keys(this.languages).map(l => `        case "${l}":
             translationCore = await import(/* webpackChunkName: "lang-core-${l}" */ "../translations/core/${l}.json");${fs.existsSync(path.resolve(__dirname, "src", "translations", `${l}.json`)) ? `
-            translationUser = await import(/* webpackChunkName: "lang-${l}" */ "../translations/${l}.json");` : ""}
+            translationUser = await import(/* webpackChunkName: "lang-${l}" */ "../translations/user/${l}.json");` : ""}
             break;
 `).join("")}        default:
             return null;

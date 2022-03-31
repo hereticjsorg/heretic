@@ -34,10 +34,10 @@ import i18nNavigation from "./build/i18n-navigation.json";
                 ...require(`./translations/core/${lang}.json`),
             };
             try {
-                await fs.access(`./translations/${lang}.json`, fs.F_OK);
+                await fs.access(`./translations/user/${lang}.json`, fs.F_OK);
                 languageData[lang] = {
                     ...languageData[lang],
-                    ...require(`./translations/${lang}.json`),
+                    ...require(`./translations/user/${lang}.json`),
                 };
             } catch {
                 i18nUser = false;
