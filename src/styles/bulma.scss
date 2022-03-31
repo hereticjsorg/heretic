@@ -4,7 +4,8 @@ The following SASS files are required in order Bulma to work:
 
 */
 
-@import "./variables.scss";
+@import "../view/fonts.scss";
+@import "../view/variables.scss";
 @import "../../node_modules/bulma/sass/utilities/_all.sass";
 @import "../../node_modules/bulma/sass/base/_all.sass";
 

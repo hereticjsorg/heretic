@@ -27,7 +27,7 @@ module.exports = class {
         this.language = out.global.language;
         this.serverRoute = out.global.route;
         await import(/* webpackChunkName: "bulma" */ "../../styles/bulma.scss");
-        await import(/* webpackChunkName: "heretic" */ "../../styles/heretic.scss");
+        await import(/* webpackChunkName: "heretic" */ "../heretic.scss");
         await this.loadLanguageData();
     }
 

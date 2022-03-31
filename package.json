@@ -1,6 +1,6 @@
 {
     "name": "heretic",
-    "version": "1.0.26",
+    "version": "1.0.27",
     "description": "Heretic SSR Boilerplate",
     "main": "index.js",
     "scripts": {
@@ -29,7 +29,7 @@
         "@babel/plugin-transform-runtime": "^7.17.0",
         "@babel/preset-env": "^7.16.11",
         "@marko/prettyprint": "^3.0.1",
-        "@marko/webpack": "^9.2.1",
+        "@marko/webpack": "^9.2.2",
         "@mdi/js": "^6.6.96",
         "ajv": "^8.11.0",
         "autoprefixer": "^10.4.4",
@@ -51,7 +51,7 @@
         "postcss-loader": "^6.2.1",
         "postcss-preset-env": "^7.4.3",
         "postcss-url": "^10.1.3",
-        "sass": "^1.49.9",
+        "sass": "^1.49.10",
         "sass-loader": "^12.6.0",
         "style-loader": "^3.3.1",
         "terser-webpack-plugin": "^5.3.1",
@@ -62,7 +62,6 @@
         "fastify": "^3.27.4",
         "fastify-plugin": "^3.0.1",
         "fastify-static": "^4.6.1",
-        "fastify-url-data": "^3.0.3",
         "lodash.clonedeep": "^4.5.0",
         "long": "^5.2.0",
         "pino-pretty": "^7.6.0",
