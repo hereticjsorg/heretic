@@ -4,6 +4,7 @@
     "description": "Heretic SSR Boilerplate",
     "main": "index.js",
     "scripts": {
+        "server": "node dist/server",
         "prettify": "node src/bin/prettify",
         "setup": "node src/bin/setup",
         "build-dev": "webpack --mode development",
