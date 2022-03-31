@@ -1,6 +1,6 @@
 {
     "id": "heretic",
-	"url": "http://127.0.0.1:3001",
+    "url": "http://127.0.0.1:3001",
     "title": {
         "en-us": "Heretic Test Website",
         "ru-ru": "Тестовый сайт на Heretic"
