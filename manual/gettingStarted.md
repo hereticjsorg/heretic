@@ -2,7 +2,7 @@
 
 ## Requirements
 
-In order to run Heretic, you will need a web server which can run Node.js scripts. There are no special requirements, so if can install and use Node, you can host a Heretic website.
+In order to run Heretic, you will need a web server which can run Node.js scripts. There are no special requirements, so if you can install and use Node, you can host a Heretic website.
 
 ## Building From Source
 
