@@ -19,7 +19,7 @@ Each page is being configured using *meta.json* file which located in page's dir
 |---------------------|-------------------------------------------------------------------------------------------------------|
 | id                  | Unique ID of a page, used for routes and navigation                                                   |
 | path                | Route path (use "" for root route, or start with "/" otherwise, e.g. "/example")                      |
-| langSwitchComponent | Create <lang-switch/> component during build (see internationalization docs),<br>either true of false |
+| langSwitchComponent | Create &lt;lang-switch/&gt; component during build (see internationalization docs),<br>either true of false |
 | title               | Object containing page title for each language                                                        |
 | description         | Object containing page description for each language                                                  |
 

@@ -13,24 +13,28 @@ const processMarkoFiles = async dir => {
         if (stat.isDirectory()) {
             await processMarkoFiles(filePath);
         } else if (path.extname(filePath) === ".marko") {
-            prettyPrintFile(filePath, {});
-            const fileData = (await fs.readFile(filePath, "utf8")).replace(/\\\$\{/gm, "${").replace(/\\\$!\{/gm, "$!{").split(/\n|\r\n/);
-            let tagFound = false;
-            let fileDataNew = "";
-            for (const line of fileData) {
-                const lineProcessed = String(line).trimRight();
-                if (!tagFound && lineProcessed.match(/^</)) {
-                    tagFound = true;
+            try {
+                prettyPrintFile(filePath, {});
+                const fileData = (await fs.readFile(filePath, "utf8")).replace(/\\\$\{/gm, "${").replace(/\\\$!\{/gm, "$!{").split(/\n|\r\n/);
+                let tagFound = false;
+                let fileDataNew = "";
+                for (const line of fileData) {
+                    const lineProcessed = String(line).trimEnd();
+                    if (!tagFound && lineProcessed.match(/^</)) {
+                        tagFound = true;
+                    }
+                    if (tagFound && lineProcessed.match(/^\n|\r\n$/)) {
+                        // Do something, we're not adding an empty line
+                    } else {
+                        // Add a new line, it's not empty
+                        fileDataNew += `${lineProcessed}\n`;
+                    }
                 }
-                if (tagFound && lineProcessed.match(/^\n|\r\n$/)) {
-                    // Do something, we're not adding an empty line
-                } else {
-                    // Add a new line, it's not empty
-                    fileDataNew += `${lineProcessed}\n`;
-                }
+                fileDataNew = tagFound ? `${fileDataNew.trim()}\n` : `${fileData.join("\n")}\n`;
+                await fs.writeFile(filePath, fileDataNew, "utf8");
+            } catch (e) {
+                console.log(`Ignoring ${filePath}`);
             }
-            fileDataNew = tagFound ? `${fileDataNew.trim()}\n` : `${fileData.join("\n")}\n`;
-            await fs.writeFile(filePath, fileDataNew, "utf8");
         }
     }
 };
