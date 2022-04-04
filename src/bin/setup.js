@@ -66,10 +66,10 @@ if (!fs.existsSync(path.resolve(__dirname, "..", "view")) || options.force) {
 
 // Copy blank page template
 
-if (!fs.existsSync(path.resolve(__dirname, "..", "core", "defaults", ".blank")) || options.force) {
+if (!fs.existsSync(path.resolve(__dirname, "..", "pages", ".blank")) || options.force) {
     fs.copySync(path.resolve(__dirname, "..", "core", "defaults", ".blank"), path.resolve(__dirname, "..", "pages", ".blank"));
 } else {
-    console.log(`Warning: skipping src/view, use --force parameter to override`);
+    console.log(`Warning: skipping pages/.blank, use --force parameter to override`);
 }
 
 // Copy etc/meta.json configuration file
