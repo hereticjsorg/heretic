@@ -1,0 +1,13 @@
+{
+	"id": "home",
+	"path": "",
+	"title": {
+		"ru-ru": "Главная",
+		"en-us": "Home Page"
+	},
+	"description": {
+		"ru-ru": "Главная страница сайта, созданного на Heretic",
+		"en-us": "Home page of the site built on Heretic"
+	},
+	"langSwitchComponent": true
+}

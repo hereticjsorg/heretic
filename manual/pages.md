@@ -4,7 +4,7 @@ In order to create a page, you will need to create a sub-directory under the *./
 
 ## Using Page Template
 
-You will need to copy the *./src/defaults/blank* directory to the *./src/pages* directory. Then:
+You will need to copy the *./src/core/defaults/blank* directory to the *./src/pages* directory. Then:
 
 * Rename the *./src/pages/blank* directory to match its contents (e.g. "test", *./src/pages/test*)
 * Set page configuration in a *./src/pages/test/meta.json* (it's mandatory to set the unique page ID and route path)

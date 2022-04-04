@@ -12,7 +12,7 @@ Heretic is perfect use when you don't need any of advanced [ZOIA](https://github
 
 * Heretic is based on [Marko.js](https://markojs.com), a language for building dynamic and reactive user interfaces; it's like HTML and JS had a perfect baby that grew up to be awesome
 * Using [Bulma](https://bulma.io/), a free, open source modular framework that provides ready-to-use frontend components that you can easily combine to build responsive web interfaces
-* Using Webpack 5 to build an optimized, GZipped chunks and load every part of the site on demand
+* Using Webpack 5 to build optimized, GZipped chunks and load every part of the site on demand
 * Built-in client-side and server-side routing and internationalization support
 * Combining server-side rendering (SSR) and single-page applications (SPA) = isomorphic
 * Using Fastify for higher performance

@@ -64,7 +64,7 @@ Each page has the following structure:
 * the *index.marko* of *lang-switch* component (auto-generated during build process) chooses which component to display, based on current language
 * the *index.marko* of *lang-xx-xx* component displays actual content for a corresponding language
 
-Take a look on a page template located in *./src/defaults/blank* as a reference.
+Take a look on a page template located in *./src/pages/.blank* as a reference.
 
 **Note**: you should not edit *&lt;lang-switch/&gt;* manually because it gets overwritten each time you start the build process.
 

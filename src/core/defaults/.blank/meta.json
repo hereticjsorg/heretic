@@ -1,0 +1,13 @@
+{
+	"id": "blank",
+	"path": "/blank",
+	"title": {
+		"ru-ru": "Шаблон страницы",
+		"en-us": "Page Template"
+	},
+	"description": {
+		"ru-ru": "",
+		"en-us": ""
+	},
+	"langSwitchComponent": true
+}

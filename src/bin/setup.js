@@ -26,9 +26,9 @@ if (!options.defaults) {
 
 // Reading configuration templates
 
-const configMeta = fs.readJSONSync(path.resolve(__dirname, "..", "defaults", "meta.json"));
-const configSystem = fs.readJSONSync(path.resolve(__dirname, "..", "defaults", "system.json"));
-const configNavigation = fs.readJSONSync(path.resolve(__dirname, "..", "defaults", "navigation.json"));
+const configMeta = fs.readJSONSync(path.resolve(__dirname, "..", "core", "defaults", "meta.json"));
+const configSystem = fs.readJSONSync(path.resolve(__dirname, "..", "core", "defaults", "system.json"));
+const configNavigation = fs.readJSONSync(path.resolve(__dirname, "..", "core", "defaults", "navigation.json"));
 
 // Ensure that required directories exist
 
@@ -41,13 +41,13 @@ fs.ensureDirSync(path.resolve(__dirname, "..", "translations", "user"));
 if (options.defaults) {
     // Copy src/pages/home page
     if (!fs.existsSync(path.resolve(__dirname, "..", "pages", "home")) || options.force) {
-        fs.copySync(path.resolve(__dirname, "..", "defaults", "home"), path.resolve(__dirname, "..", "pages", "home"));
+        fs.copySync(path.resolve(__dirname, "..", "core", "defaults", "home"), path.resolve(__dirname, "..", "pages", "home"));
     } else {
         console.log(`Warning: skipping src/pages/home, use --force parameter to override`);
     }
     // Copy src/pages/license page
     if (!fs.existsSync(path.resolve(__dirname, "..", "pages", "license")) || options.force) {
-        fs.copySync(path.resolve(__dirname, "..", "defaults", "license"), path.resolve(__dirname, "..", "pages", "license"));
+        fs.copySync(path.resolve(__dirname, "..", "core", "defaults", "license"), path.resolve(__dirname, "..", "pages", "license"));
     } else {
         console.log(`Warning: skipping src/pages/license, use --force parameter to override`);
     }
@@ -59,7 +59,15 @@ if (options.defaults) {
 // Copy src/view template
 
 if (!fs.existsSync(path.resolve(__dirname, "..", "view")) || options.force) {
-    fs.copySync(path.resolve(__dirname, "..", "defaults", "view"), path.resolve(__dirname, "..", "view"));
+    fs.copySync(path.resolve(__dirname, "..", "core", "defaults", "view"), path.resolve(__dirname, "..", "view"));
+} else {
+    console.log(`Warning: skipping src/view, use --force parameter to override`);
+}
+
+// Copy blank page template
+
+if (!fs.existsSync(path.resolve(__dirname, "..", "core", "defaults", ".blank")) || options.force) {
+    fs.copySync(path.resolve(__dirname, "..", "core", "defaults", ".blank"), path.resolve(__dirname, "..", "pages", ".blank"));
 } else {
     console.log(`Warning: skipping src/view, use --force parameter to override`);
 }
@@ -108,4 +116,4 @@ for (const lang of languages) {
 
 // Done
 
-console.log("\nAll done.\n");
+console.log("All done.\n");

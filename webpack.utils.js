@@ -39,7 +39,7 @@ ${Object.keys(this.languages).map(l => `        case "${l}":
         fs.writeFileSync(path.resolve(__dirname, "src", "build", "pages-loader.js"), `module.exports = {
     loadComponent: async route => {
         switch (route) {
-${fs.readdirSync(path.resolve(__dirname, "src", "pages")).map(p => `        case "${p}":
+${fs.readdirSync(path.resolve(__dirname, "src", "pages")).filter(p => !p.match(/^\./)).map(p => `        case "${p}":
             return import(/* webpackChunkName: "page.${p}" */ "../pages/${p}/index.marko");
 `).join("")}        default:
             return import(/* webpackChunkName: "page.404" */ "../errors/404/index.marko");
@@ -50,7 +50,7 @@ ${fs.readdirSync(path.resolve(__dirname, "src", "pages")).map(p => `        case
 
     generatePagesBuildConfigs() {
         const pagesMeta = [];
-        fs.readdirSync(path.resolve(__dirname, "src", "pages")).map(p => {
+        fs.readdirSync(path.resolve(__dirname, "src", "pages")).filter(p => !p.match(/^\./)).map(p => {
             try {
                 const meta = fs.readJSONSync(path.resolve(__dirname, "src", "pages", p, "meta.json"));
                 pagesMeta.push(meta);
@@ -95,7 +95,7 @@ ${fs.readdirSync(path.resolve(__dirname, "src", "pages")).map(p => `        case
     generateSitemap() {
         const sitemapData = [];
         const routes = fs.readJSONSync(path.resolve(__dirname, "src", "build", "routes.json"));
-        fs.readdirSync(path.resolve(__dirname, "src", "pages")).map(p => {
+        fs.readdirSync(path.resolve(__dirname, "src", "pages")).filter(p => !p.match(/^\./)).map(p => {
             try {
                 const sitemap = fs.readJSONSync(path.resolve(__dirname, "src", "pages", p, "sitemap.json"));
                 if (sitemap.include) {
@@ -161,7 +161,7 @@ ${fs.readdirSync(path.resolve(__dirname, "src", "pages")).map(p => `        case
     generateLangSwitchComponents() {
         let langSwitchMarko = "";
         Object.keys(this.languages).map(lang => langSwitchMarko += `<if(out.global.language === "${lang}")>\n    <lang-${lang}/>\n</if>\n`);
-        fs.readdirSync(path.resolve(__dirname, "src", "pages")).map(p => {
+        fs.readdirSync(path.resolve(__dirname, "src", "pages")).filter(p => !p.match(/^\./)).map(p => {
             if (fs.existsSync(path.resolve(__dirname, "src", "pages", p, "content"))) {
                 const meta = fs.readJSONSync(path.resolve(__dirname, "src", "pages", p, "meta.json"));
                 if (meta.langSwitchComponent) {
