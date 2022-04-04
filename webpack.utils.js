@@ -4,7 +4,6 @@ const fs = require("fs-extra");
 module.exports = class {
     constructor(production) {
         fs.removeSync(path.resolve(__dirname, "dist"));
-        fs.removeSync(path.resolve(__dirname, "log"));
         fs.removeSync(path.resolve(__dirname, "src", "build"));
         fs.ensureDirSync(path.resolve(__dirname, "src", "build"));
         fs.ensureDirSync(path.resolve(__dirname, "logs"));
