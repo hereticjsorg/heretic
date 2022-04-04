@@ -1,4 +1,4 @@
-# Heretic
+![Heretic](src/images/logo.png)
 
 Heretic is something between a framework and a boilerplate which allows you to build a blazing fast and modern static website which combines both SSR and SPA approaches. 
 
