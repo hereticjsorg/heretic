@@ -13,5 +13,8 @@ Please read the docs before you get started:
 * [Configuration Files](manual/configurationFiles.md)
 * [Creating Pages](manual/pages.md)
 * [Internationalization](manual/internationalization.md)
+* [Console Client](manual/cli.md)
 * [Build Process](manual/build.md)
 * [Deploy on Server](manual/deploy.md)
+
+Check out the [Heretic Demo](https://heretic.zoiajs.org/).
