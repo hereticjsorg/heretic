@@ -4,6 +4,7 @@ const siteMeta = require(path.resolve(__dirname, "etc", "meta.json"));
 
 module.exports = {
     apps: [{
+        id: siteMeta.id,
         script: "./dist/server.js",
         watch: false,
         exec_mode: "cluster",

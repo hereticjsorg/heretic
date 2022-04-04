@@ -28,3 +28,4 @@ src/pages
 src/config/navigation.json
 src/view
 src/translations/user
+/logs
