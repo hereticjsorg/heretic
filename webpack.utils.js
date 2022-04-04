@@ -7,6 +7,7 @@ module.exports = class {
         fs.removeSync(path.resolve(__dirname, "log"));
         fs.removeSync(path.resolve(__dirname, "src", "build"));
         fs.ensureDirSync(path.resolve(__dirname, "src", "build"));
+        fs.ensureDirSync(path.resolve(__dirname, "logs"));
         this.languages = fs.readJSONSync(path.resolve(__dirname, "src", "config", "languages.json"));
         this.config = fs.readJSONSync(path.resolve(__dirname, "etc", "system.json"));
         this.meta = fs.readJSONSync(path.resolve(__dirname, "etc", "meta.json"));
