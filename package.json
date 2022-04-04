@@ -1,7 +1,7 @@
 {
     "name": "heretic",
     "version": "1.0.28",
-    "description": "Heretic SSR Boilerplate",
+    "description": "Heretic",
     "main": "index.js",
     "scripts": {
         "server": "node dist/server",
