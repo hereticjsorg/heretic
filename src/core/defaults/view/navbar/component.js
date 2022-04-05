@@ -6,6 +6,7 @@ module.exports = class {
             route: null,
             langOpen: false,
             navOpen: false,
+            navItemOpen: null,
         };
         this.state = state;
         await import(/* webpackChunkName: "navbar" */ "./navbar.scss");
@@ -18,6 +19,9 @@ module.exports = class {
             }
             if (!document.getElementById("hr_navbar_burger").contains(e.target)) {
                 this.setState("navOpen", false);
+            }
+            if (this.state.navItemOpen && !document.getElementById(`hr_navbar_item_${this.state.navItemOpen}`).contains(e.target)) {
+                this.setState("navItemOpen", "");
             }
         });
         this.setRoute();
@@ -52,5 +56,11 @@ module.exports = class {
             data.url = data.url.length > 1 ? data.url.replace(/\/$/, "") : data.url;
         }
         return data;
+    }
+
+    onNavbarItemClick(e) {
+        e.preventDefault();
+        const id = e.target.id.replace(/^hr_navbar_item_/, "");
+        this.setState("navItemOpen", id);
     }
 };

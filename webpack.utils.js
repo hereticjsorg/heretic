@@ -21,7 +21,7 @@ module.exports = class {
         let translationUser = {};
         switch (lang) {
 ${Object.keys(this.languages).map(l => `        case "${l}":
-            translationCore = await import(/* webpackChunkName: "lang-core-${l}" */ "../translations/core/${l}.json");${fs.existsSync(path.resolve(__dirname, "src", "translations", `${l}.json`)) ? `
+            translationCore = await import(/* webpackChunkName: "lang-core-${l}" */ "../translations/core/${l}.json");${fs.existsSync(path.resolve(__dirname, "src", "translations", "user", `${l}.json`)) ? `
             translationUser = await import(/* webpackChunkName: "lang-${l}" */ "../translations/user/${l}.json");` : ""}
             break;
 `).join("")}        default:
@@ -81,11 +81,28 @@ ${fs.readdirSync(path.resolve(__dirname, "src", "pages")).filter(p => !p.match(/
 
     generateI18nNavigation() {
         const titles = {};
-        Object.keys(this.languages).map(l => titles[l] = {});
+        const userTranslations = {};
+        Object.keys(this.languages).map(l => {
+            titles[l] = {};
+            userTranslations[l] = {};
+            try {
+                userTranslations[l] = fs.readJSONSync(path.resolve(__dirname, "src", "translations", "user", `${l}.json`));
+            } catch {
+                // Ignore
+            }
+        });
         const navigation = fs.readJSONSync(path.resolve(__dirname, "src", "config", "navigation.json"));
         navigation.routes.map(r => {
-            const meta = fs.readJSONSync(path.resolve(__dirname, "src", "pages", r, "meta.json"));
-            Object.keys(titles).map(lang => titles[lang][r] = meta.title[lang]);
+            const id = typeof r === "string" ? r : r.id;
+            let meta = {
+                title: {},
+            };
+            try {
+                meta = fs.readJSONSync(path.resolve(__dirname, "src", "pages", id, "meta.json"));
+            } catch {
+                // Ignore
+            }
+            Object.keys(titles).map(lang => titles[lang][id] = meta.title[lang] || userTranslations[lang][id] || "");
         });
         fs.writeJSONSync(path.resolve(__dirname, "src", "build", "i18n-navigation.json"), titles, {
             spaces: "\t"

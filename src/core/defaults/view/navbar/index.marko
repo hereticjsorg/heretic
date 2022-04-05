@@ -23,14 +23,39 @@ $ const i18nNavigation = out.global.i18nNavigation;
     </div>
     <div id="navbar" class=`navbar-menu${state.navOpen ? " is-active" : ""}`>
         <div class="navbar-start">
-            <for|id| of=navigation.routes>
-                <router-link
-                    route=id
-                    class=`navbar-item hr-navbar-item${
-                        state.route === id ? " hr-navbar-item-active" : ""
-                    }`>
-                    ${i18nNavigation[id]}
-                </router-link>
+            <for|item| of=navigation.routes>
+                <if(typeof item === "string")>
+                    <router-link
+                        route=item
+                        class=`navbar-item hr-navbar-item${
+                            state.route === item ? " hr-navbar-item-active" : ""
+                        }`>
+                        ${i18nNavigation[item]}
+                    </router-link>
+                </if>
+                <else>
+                    <div class=`navbar-item has-dropdown${state.navItemOpen === item.id ? " is-active" : ""}`>
+                        <a
+                            class=`navbar-link hr-navbar-item${
+                                state.navItemOpen === item.id ? " hr-navbar-item-open" : ""
+                            }`
+                            on-click("onNavbarItemClick")
+                            id=`hr_navbar_item_${item.id}`>
+                            ${i18nNavigation[item.id]}
+                        </a>
+                        <div class="navbar-dropdown hr-navbar-dropdown">
+                            <for|subItem| of=item.routes>
+                                <router-link
+                                    route=subItem
+                                    class=`navbar-item hr-navbar-item${
+                                        state.route === subItem ? " hr-navbar-item-active" : ""
+                                    }`>
+                                    ${i18nNavigation[subItem]}
+                                </router-link>
+                            </for>
+                        </div>
+                    </div>
+                </else>
             </for>
         </div>
         <div class="navbar-end">
@@ -69,7 +94,7 @@ $ const i18nNavigation = out.global.i18nNavigation;
                     &nbsp;
                     <span class="is-hidden-desktop">Language</span>
                 </a>
-                <div class="navbar-dropdown hr-navbar-dropdown">
+                <div class="navbar-dropdown is-right hr-navbar-dropdown">
                     <for|lang| of=Object.keys(languages)>
                         $ {
                             const currentURL = process.browser

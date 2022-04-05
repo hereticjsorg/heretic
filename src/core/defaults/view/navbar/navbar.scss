@@ -1,13 +1,14 @@
 @import "../../view/variables.scss";
 
 .hr-navbar-item {
-    margin-left: 1px;
-    margin-right: 1px;
+    margin: 1px;
     border-radius: $radius;
 }
 
 .hr-navbar-dropdown {
     margin-top: 1px;
+    padding: 4px !important;
+    border-top: unset !important;
 }
 
 .hr-navbar-item-active,

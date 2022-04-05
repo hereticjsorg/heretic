@@ -28,20 +28,23 @@ import i18nNavigation from "./build/i18n-navigation.json";
     }
     try {
         const languageData = {};
-        let i18nUser = true;
         for (const lang of Object.keys(languages)) {
-            languageData[lang] = {
-                ...require(`./translations/core/${lang}.json`),
-            };
+            let languageDataCore = {};
             try {
-                await fs.access(`./translations/user/${lang}.json`, fs.F_OK);
-                languageData[lang] = {
-                    ...languageData[lang],
-                    ...require(`./translations/user/${lang}.json`),
-                };
+                languageDataCore = require(`./translations/core/${lang}.json`);
             } catch {
-                i18nUser = false;
+                // Ignore
             }
+            let languageDataUser = {};
+            try {
+                languageDataUser = require(`./translations/user/${lang}.json`);
+            } catch {
+                // Ignore
+            }
+            languageData[lang] = {
+                ...languageDataUser,
+                ...languageDataCore,
+            };
         }
         let config;
         let siteMeta;
@@ -63,7 +66,6 @@ import i18nNavigation from "./build/i18n-navigation.json";
         const utils = new Utils(Object.keys(languages));
         fastify.register(fastifyURLData);
         fastify.decorate("i18nNavigation", i18nNavigation);
-        fastify.decorate("i18nUser", i18nUser);
         fastify.decorate("siteMeta", siteMeta);
         if (config.server.static) {
             fastify.register(fastifyStatic, {
