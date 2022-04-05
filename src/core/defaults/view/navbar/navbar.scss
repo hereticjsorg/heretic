@@ -1,5 +1,15 @@
 @import "../../view/variables.scss";
 
+.hr-navbar-item {
+    margin-left: 1px;
+    margin-right: 1px;
+    border-radius: $radius;
+}
+
+.hr-navbar-dropdown {
+    margin-top: 1px;
+}
+
 .hr-navbar-item-active,
 .hr-navbar-item-active:hover,
 .hr-navbar-item-active:focus,
@@ -11,6 +21,10 @@
 .hr-navbar-item:hover:not(.hr-navbar-item-active) {
     background: $grey-lighter !important;
     transition: all 250ms;
+}
+
+.hr-navbar-item-open {
+    background: $grey-lighter !important;
 }
 
 .hr-navbar {
