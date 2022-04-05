@@ -61,7 +61,7 @@
         "webpack-cli": "^4.9.2"
     },
     "dependencies": {
-        "fastify": "^3.27.4",
+        "fastify": "^3.28.0",
         "fastify-plugin": "^3.0.1",
         "fastify-static": "^4.6.1",
         "lodash.clonedeep": "^4.5.0",
