@@ -48,6 +48,24 @@ This file is being used as a source to display the top navigation menu on your w
 | home   | Home route ID                                            |
 | routes | Array which contains all routes to display in the navbar |
 
+Normally, *routes* options contains an array of strings (each strings indicates a corresponding route ID). If you want to use dropdown menus for routes, you can use the following syntax:
+
+```json
+{
+	"home": "home",
+	"routes": [
+		"home",
+		"license",
+		{
+			"id": "parentRouteName",
+			"routes": ["childRouteId1", "childRouteId2", "childRouteId3"]
+		}
+	]
+}
+```
+
+You will need to add a translation for *parentRouteName* to your user translation dictionaries. Add your route IDs to *routes* array.
+
 ## Auto-Generated Files
 
 Some files are auto-generated during the build process. Most of them are located in the *./src/build* directory. There is no need to edit anything there because each file gets overwritten on every build.
