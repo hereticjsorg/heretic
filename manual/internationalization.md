@@ -29,9 +29,8 @@ After you've defined all the languages you need, it's time to change the main me
 
 ```json
 {
-
-    ...
-
+    "id": "heretic",
+	"url": "http://127.0.0.1:3001",
 	"title": {
 		"en-us": "Heretic Test Website",
 		"ru-ru": "Тестовый сайт на Heretic"
