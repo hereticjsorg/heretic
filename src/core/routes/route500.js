@@ -1,4 +1,4 @@
-import error500 from "./errors/500/server.marko";
+import error500 from "../../errors/500/server.marko";
 
 export default async (err, rep, languageData, language, siteMeta) => {
     const renderPage = await error500.render({
