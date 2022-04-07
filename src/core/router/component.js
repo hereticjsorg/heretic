@@ -1,4 +1,4 @@
-const HRouter = require("../HRouter");
+const HRouter = require("../hrouter");
 const languages = require("../../config/languages.json");
 const navigation = require("../../config/navigation.json");
 const routes = require("../../build/routes.json");
