@@ -10,7 +10,7 @@ module.exports = api => {
             "@babel/plugin-transform-async-to-generator",
             ["@babel/transform-runtime", {
                 regenerator: true,
-                useESModules: false
+                useESModules: true,
             }]
         ],
         presets: [
@@ -18,7 +18,7 @@ module.exports = api => {
                 "@babel/preset-env",
                 {
                     targets: {
-                        chrome: "58"
+                        chrome: "58",
                     }
                 }
             ]
