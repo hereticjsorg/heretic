@@ -7,7 +7,7 @@ import routePage from "./routes/routePage";
 import route404 from "./routes/route404";
 import route500 from "./routes/route500";
 import routes from "../build/routes.json";
-import logger from "./logger";
+import Logger from "./logger";
 import Utils from "./utils";
 import fastifyURLData from "./urlData";
 import i18nNavigation from "../build/i18n-navigation.json";
@@ -15,46 +15,26 @@ import languages from "../config/languages.json";
 
 export default class {
     constructor() {
+        // Read configuration files
         try {
-            this.fastify = Fastify({
-                logger,
-                trustProxy: true,
-                ignoreTrailingSlash: true,
-            });
-        } catch (e) {
+            this.config = fs.existsSync(path.resolve(__dirname, "system.json")) ? fs.readJSONSync(path.resolve(__dirname, "system.json")) : fs.readJSONSync(path.resolve(__dirname, "..", "etc", "system.json"));
+            this.siteMeta = fs.existsSync(path.resolve(__dirname, "meta.json")) ? fs.readJSONSync(path.resolve(__dirname, "meta.json")) : fs.readJSONSync(path.resolve(__dirname, "..", "etc", "meta.json"));
+        } catch {
             // eslint-disable-next-line no-console
-            console.error(e);
+            console.error(`Could not read "system.json" and/or "meta.json" configuration files.\nRun the following command to create: npm run setup\nRead documentation for more info.`);
             process.exit(1);
         }
+        this.fastify = Fastify({
+            logger: new Logger(this.config).getPino(),
+            trustProxy: true,
+            ignoreTrailingSlash: true,
+        });
         this.languageData = {};
         for (const lang of Object.keys(languages)) {
-            let languageDataCore = {};
-            try {
-                languageDataCore = require(`../translations/core/${lang}.json`);
-            } catch {
-                // Ignore
-            }
-            let languageDataUser = {};
-            try {
-                languageDataUser = require(`../translations/user/${lang}.json`);
-            } catch {
-                // Ignore
-            }
             this.languageData[lang] = {
-                ...languageDataUser,
-                ...languageDataCore,
+                ...require(`../translations/core/${lang}.json`),
+                ...require(`../translations/user/${lang}.json`),
             };
-        }
-        let configLocationEtc = "..";
-        if (!fs.existsSync(path.resolve(__dirname, "..", "..", "etc", "system.json"))) {
-            configLocationEtc = "";
-        }
-        try {
-            this.config = fs.readJSONSync(path.resolve(__dirname, configLocationEtc, "..", "etc", "system.json"));
-            this.siteMeta = fs.readJSONSync(path.resolve(__dirname, configLocationEtc, "..", "etc", "meta.json"));
-        } catch {
-            this.fastify.log.error(`Could not read "system.json" and/or "meta.json" configuration files.`);
-            process.exit(1);
         }
         [this.defaultLanguage] = Object.keys(languages);
         this.utils = new Utils(Object.keys(languages));
