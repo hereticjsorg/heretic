@@ -3,7 +3,7 @@ import {
     test,
     expect,
 } from "@jest/globals";
-import Helpers from "./helpers";
+import Helpers from "../core/testHelpers";
 
 const helpers = new Helpers();
 jest.setTimeout(120000);
