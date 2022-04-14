@@ -58,3 +58,9 @@ server {
         image/svg+xml;
 }        
 ```
+
+## Standalone
+
+The *dist* directory may work in standalone mode. This means that it's the only directory which might be copied to the production server (no *node_modules* and other directories are required in order to run). To do this: put *system.json* and *meta.json* directly to the *dist* directory along with *server.js* file.
+
+However, it's recommended to keep the file structure as-is, because that's how you may simplify your updates and website rebuilds.

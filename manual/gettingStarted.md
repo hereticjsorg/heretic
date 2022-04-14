@@ -42,4 +42,14 @@ Finally, start your web server using the following command:
 npm run server
 ```
 
-When successfully, your website will be accessible at *http://127.0.0.1:3001*. 
+When successfully, your website will be accessible at *http://127.0.0.1:3001*.
+
+## Tests
+
+In order to run built-in tests, please run the following command:
+
+```bash
+npm test
+```
+
+[Jest](https://jestjs.io/ru/), a delightful JavaScript Testing Framework with a focus on simplicity is used here.
