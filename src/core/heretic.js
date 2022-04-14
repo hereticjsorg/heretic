@@ -9,6 +9,8 @@ import hereticRateLimit from "./rateLimit";
 import routePage from "./routes/routePage";
 import route404 from "./routes/route404";
 import route500 from "./routes/route500";
+import apiRoute404 from "./routes/route404-api";
+import apiRoute500 from "./routes/route500-api";
 import routes from "../build/routes.json";
 import apiModules from "../build/api.json";
 import Logger from "./logger";
@@ -85,16 +87,14 @@ export default class {
     registerRouteErrors() {
         this.fastify.setNotFoundHandler(async (req, rep) => {
             const language = this.utils.getLanguageFromUrl(req.url);
-            const output = await route404(rep, this.languageData, language, this.siteMeta, i18nNavigation);
-            rep.type("text/html");
+            const output = req.urlData(null, req).path.match(/^\/api\//) ? apiRoute404(rep, this.languageData, language) : await route404(rep, this.languageData, language, this.siteMeta, i18nNavigation);
             rep.code(404);
             rep.send(output);
         });
         this.fastify.setErrorHandler(async (err, req, rep) => {
             this.fastify.log.error(err);
             const language = this.utils.getLanguageFromUrl(req.url);
-            const output = await route500(err, rep, this.languageData, language, this.siteMeta);
-            rep.type("text/html");
+            const output = req.urlData(null, req).path.match(/^\/api\//) ? apiRoute500(err, rep, this.languageData, language) : await route500(err, rep, this.languageData, language, this.siteMeta);
             rep.code(500);
             rep.send(output);
         });

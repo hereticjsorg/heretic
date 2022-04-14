@@ -17,5 +17,6 @@ export default async (rep, languageData, language, siteMeta, i18nNavigation) => 
             i18nNavigation: i18nNavigation[language],
         },
     });
+    rep.type("text/html");
     return renderPage.getOutput();
 };

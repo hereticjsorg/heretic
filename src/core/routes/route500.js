@@ -18,5 +18,6 @@ export default async (err, rep, languageData, language, siteMeta) => {
         message,
         code: err.code,
     });
+    rep.type("text/html");
     return renderPage.getOutput();
 };
