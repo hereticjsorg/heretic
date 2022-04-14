@@ -6,5 +6,7 @@
     "somethingWentWrong": "Something went wrong :-(",
     "poweredByHeretic": "Powered by Heretic",
     "mMatveev": "Mikhail A. Matveev",
-    "mitLicense": "Licensed under MIT License."
+    "mitLicense": "Licensed under MIT License.",
+    "rateLimitErrorTitle": "Rate Limit Exceeded",
+    "rateLimitErrorMessage": "Too many requests, please retry in several minutes."
 }

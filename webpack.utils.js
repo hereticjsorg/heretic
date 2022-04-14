@@ -7,6 +7,7 @@ module.exports = class {
         fs.removeSync(path.resolve(__dirname, "src", "build"));
         fs.ensureDirSync(path.resolve(__dirname, "src", "build"));
         fs.ensureDirSync(path.resolve(__dirname, "logs"));
+        fs.ensureDirSync(path.resolve(__dirname, "dist"));
         this.languages = fs.readJSONSync(path.resolve(__dirname, "src", "config", "languages.json"));
         this.config = fs.readJSONSync(path.resolve(__dirname, "etc", "system.json"));
         this.meta = fs.readJSONSync(path.resolve(__dirname, "etc", "meta.json"));
@@ -189,5 +190,16 @@ ${fs.readdirSync(path.resolve(__dirname, "src", "pages")).filter(p => !p.match(/
                 }
             }
         });
+    }
+
+    generateListAPI() {
+        const apiModules = fs.readdirSync(path.resolve(__dirname, "src", "api"));
+        fs.writeJSONSync(path.resolve(__dirname, "src", "build", "api.json"), apiModules, {
+            spaces: "\t"
+        });
+    }
+
+    copyDataDir() {
+        fs.copySync(path.resolve(__dirname, "src", "data"), path.resolve(__dirname, "dist", "data"));
     }
 };

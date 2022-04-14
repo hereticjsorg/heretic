@@ -2,6 +2,10 @@
 const fs = require("fs-extra");
 const path = require("path");
 const commandLineArgs = require("command-line-args");
+const {
+    v4: uuidv4
+} = require("uuid");
+const crypto = require("crypto");
 
 const languages = Object.keys(require(path.resolve(__dirname, "..", "config", "languages")));
 
@@ -29,6 +33,10 @@ if (!options.defaults) {
 const configMeta = fs.readJSONSync(path.resolve(__dirname, "..", "core", "defaults", "meta.json"));
 const configSystem = fs.readJSONSync(path.resolve(__dirname, "..", "core", "defaults", "system.json"));
 const configNavigation = fs.readJSONSync(path.resolve(__dirname, "..", "core", "defaults", "navigation.json"));
+
+// Generate Secret
+
+configSystem.secret = crypto.createHmac("sha256", uuidv4()).update(uuidv4()).digest("hex");
 
 // Ensure that required directories exist
 

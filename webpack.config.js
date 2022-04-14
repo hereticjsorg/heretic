@@ -21,6 +21,8 @@ module.exports = (env, argv) => {
     webpackUtils.generateManifest();
     webpackUtils.generateServerData();
     webpackUtils.generateLangSwitchComponents();
+    webpackUtils.generateListAPI();
+    webpackUtils.copyDataDir();
     return ([{
             context: path.resolve(`${__dirname}`),
             name: "Frontend",
@@ -155,7 +157,7 @@ module.exports = (env, argv) => {
             context: path.resolve(`${__dirname}`),
             devtool: argv.mode === "production" ? false : "eval",
             resolve: {
-                extensions: [".js", ".json", ".marko"]
+                extensions: [".js", ".json", ".marko", ".fnt"]
             },
             module: {
                 rules: [{
@@ -165,13 +167,16 @@ module.exports = (env, argv) => {
                     test: /\.marko$/,
                     loader: "@marko/webpack/loader"
                 }, {
-                    test: /\.(woff(2)?|ttf|eot|otf|png|jpg|svg)(\?v=\d+\.\d+\.\d+)?$/,
+                    test: /\.(png|jpg|svg)(\?v=\d+\.\d+\.\d+)?$/,
                     type: "asset/resource",
                     generator: {
                         filename: "asset.[contenthash:8][ext]",
                         publicPath: "/",
                         outputPath: "public/",
                     }
+                }, {
+                    test: /\.(ttf)(\?v=\d+\.\d+\.\d+)?$/,
+                    type: "asset/inline",
                 }]
             },
             target: "async-node",
@@ -202,13 +207,16 @@ module.exports = (env, argv) => {
                 new webpack.DefinePlugin({
                     "process.browser": undefined,
                     "process.env.BUNDLE": true,
-                    "typeof window": "'undefined'"
+                    "typeof window": "'undefined'",
                 }),
                 new webpack.optimize.LimitChunkCountPlugin({
                     maxChunks: 1
                 }),
                 markoPlugin.server,
-            ]
+            ],
+            node: {
+                __dirname: false,
+            }
         }
     ]);
 };

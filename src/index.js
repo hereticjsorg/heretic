@@ -9,6 +9,7 @@ import Heretic from "./core/heretic";
         }
         heretic.registerRoutePages();
         heretic.registerRouteErrors();
+        await heretic.registerRouteAPI();
         heretic.listen();
     } catch (e) {
         heretic.getFastifyInstance().log.error(e.message);

@@ -1,12 +1,16 @@
 import Fastify from "fastify";
+import Redis from "ioredis";
 import path from "path";
 import fs from "fs-extra";
 import fastifyStatic from "fastify-static";
+import crypto from "crypto";
 
+import hereticRateLimit from "./rateLimit";
 import routePage from "./routes/routePage";
 import route404 from "./routes/route404";
 import route500 from "./routes/route500";
 import routes from "../build/routes.json";
+import apiModules from "../build/api.json";
 import Logger from "./logger";
 import Utils from "./utils";
 import fastifyURLData from "./urlData";
@@ -24,10 +28,11 @@ export default class {
             console.error(`Could not read "system.json" and/or "meta.json" configuration files.\nRun the following command to create: npm run setup\nRead documentation for more info.`);
             process.exit(1);
         }
+        this.config.secretInt = parseInt(crypto.createHash("md5").update(this.config.secret).digest("hex"), 16);
         this.fastify = Fastify({
             logger: new Logger(this.config).getPino(),
-            trustProxy: true,
-            ignoreTrailingSlash: true,
+            trustProxy: this.config.server.trustProxy,
+            ignoreTrailingSlash: this.config.server.ignoreTrailingSlash,
         });
         this.languageData = {};
         for (const lang of Object.keys(languages)) {
@@ -41,6 +46,19 @@ export default class {
         this.fastify.register(fastifyURLData);
         this.fastify.decorate("i18nNavigation", i18nNavigation);
         this.fastify.decorate("siteMeta", this.siteMeta);
+        this.fastify.decorate("siteConfig", this.config);
+        if (this.config.redis && this.config.redis.enabled) {
+            const redis = new Redis(this.config.redis);
+            redis.on("error", e => {
+                this.fastify.log.error(`Redis ${e}`);
+                process.exit(1);
+            });
+            redis.on("connect", () => this.fastify.log.info(`Connected to Redis Server at ${this.config.redis.host}:${this.config.redis.port}`));
+            this.fastify.decorate("redis", redis);
+            if (this.config.rateLimit && this.config.rateLimit.enabled) {
+                this.fastify.register(hereticRateLimit, this.config.rateLimit);
+            }
+        }
     }
 
     serveStaticContent() {
@@ -77,6 +95,13 @@ export default class {
             rep.code(500);
             rep.send(output);
         });
+    }
+
+    async registerRouteAPI() {
+        for (const module of apiModules) {
+            const api = await import(`../api/${module}/index.js`);
+            api.default(this.fastify);
+        }
     }
 
     listen() {

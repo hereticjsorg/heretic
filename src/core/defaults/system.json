@@ -2,7 +2,14 @@
     "server": {
         "ip": "127.0.0.1",
         "port": 3001,
-        "static": true
+        "static": true,
+        "trustProxy": true,
+        "ignoreTrailingSlash": true
+    },
+    "redis": {
+        "enabled": false,
+        "host": "127.0.0.1",
+        "port": 6379
     },
     "log": {
         "level": "info",
@@ -10,6 +17,23 @@
             "colorize": true,
             "translateTime": "yyyy-mm-dd HH:MM:ss",
             "ignore": "pid,hostname,reqId,responseTime,req,res"
+        }
+    },
+    "rateLimit": {
+        "enabled": false,
+        "ban": false,
+        "global": {
+            "max": 100,
+            "ban": 1000,
+            "timeWindow": 10000
+        },
+        "whiteList": [],
+        "blackList": [],
+        "addHeaders": {
+            "x-ratelimit-limit": true,
+            "x-ratelimit-remaining": true,
+            "x-ratelimit-reset": true,
+            "retry-after": true
         }
     }
 }
