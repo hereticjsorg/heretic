@@ -42,3 +42,4 @@ Several static assets are automatically generated during the build process:
 * Sitemap file is generated automatically based on pages settings. Reade more [on sitemaps](pages.md).
 * Site manifest is generated (based on website settings)
 * Everything from *./src/static* is copied to *./dist/public* automatically (this includes favicons, sitemap, site manifest etc.) - you may wish to copy your statics assets to include into *./dist* directory here
+* Everything from *./src/data* is copied to *./dist/data* automatically (this includes for example captcha font and other data which will be used by server but should not be exposed to public). 

@@ -16,6 +16,7 @@ import Utils from "./utils";
 import fastifyURLData from "./urlData";
 import i18nNavigation from "../build/i18n-navigation.json";
 import languages from "../config/languages.json";
+import navigation from "../config/navigation.json";
 
 export default class {
     constructor() {
@@ -47,6 +48,8 @@ export default class {
         this.fastify.decorate("i18nNavigation", i18nNavigation);
         this.fastify.decorate("siteMeta", this.siteMeta);
         this.fastify.decorate("siteConfig", this.config);
+        this.fastify.decorate("languages", languages);
+        this.fastify.decorate("navigation", navigation);
         if (this.config.redis && this.config.redis.enabled) {
             const redis = new Redis(this.config.redis);
             redis.on("error", e => {

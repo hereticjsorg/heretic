@@ -6,13 +6,25 @@ There are several configuration files available so you may adjust many parameter
 
 This configuration file contains main options related to your web server (IP, ports, logging etc.).
 
-| Option        | Description                                                               | Default Value                      |
-|---------------|---------------------------------------------------------------------------|------------------------------------|
-| server/ip     | IP address where server should listen <br>to the queries                  | "127.0.0.1"                        |
-| server/port   | Server port                                                               | 3001                               |
-| server/static | Serve static assets (when no proxy server)                                | true                               |
-| log/level     | One of 'fatal', 'error', 'warn', 'info', <br>'debug', 'trace' or 'silent' | "info"                             |
-| log/pretty    | Options for pino-pretty                                                   | Object ("translateTime", "ignore") |
+| Option        		     | Description                                                               | Default Value                      |
+|----------------------------|---------------------------------------------------------------------------|------------------------------------|
+| secret        			 | A "secret" string used to encrypt secure data			                 | null                        		  |
+| server/ip     			 | IP address where server should listen <br>to the queries                  | "127.0.0.1"                        |
+| server/port   			 | Server port                                                               | 3001                               |
+| server/static 		 	 | Serve static assets (when no proxy server)                                | true                               |
+| server/trustProxy 		 | Trust proxy option for Fastify		 	                                 | true                               |
+| server/ignoreTrailingSlash | Ignore trailing slashes (Fastify option)                                  | true                               |
+| log/level     			 | One of 'fatal', 'error', 'warn', 'info', <br>'debug', 'trace' or 'silent' | "info"                             |
+| log/pretty    			 | Options for pino-pretty                                                   | Object ("translateTime", "ignore") |
+| redis/enabled 			 | Connect to Redis                                                          | false							  |
+| redis/host    			 | Redis host	                                                             | "127.0.0.1"						  |
+| redis/port    			 | Redis port	                                                             | 6379								  |
+| rateLimit/enabled			 | Enable rate limiting                                                      | false							  |
+| rateLimit/ban			     | Ban users when violating rate limits                                      | true						    	  |
+| rateLimit/global		     | Site-wide options object ("max", "ban" and "timeWindow")                  | 100/1000/100000				  	  |
+| rateLimit/whiteList        | White list (no rate limits), array of strings       		           		 | []           				  	  |
+| rateLimit/blackList        | Black list (banned hosts), array of strings                  			 | []           				  	  |
+| rateLimit/addHeaders       | Add "x-ratelimit-xxx" and "retry-after" headers                  		 | true/true/true/true			  	  |
 
 Read more on how to set log/pretty option: [pino-pretty website](https://github.com/pinojs/pino-pretty).
 
