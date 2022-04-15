@@ -1,4 +1,4 @@
-import Cryptr from "../../core/cryptr";
+import Cryptr from "cryptr";
 import Captcha from "../../core/captcha";
 
 const captcha = new Captcha();

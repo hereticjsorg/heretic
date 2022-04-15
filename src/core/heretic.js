@@ -20,6 +20,10 @@ import i18nNavigation from "../build/i18n-navigation.json";
 import languages from "../config/languages.json";
 import navigation from "../config/navigation.json";
 
+/**
+ * Main Heretic class used to load configs,
+ * initialize Fastify and its plugins
+ */
 export default class {
     constructor() {
         // Read configuration files
@@ -66,6 +70,10 @@ export default class {
         }
     }
 
+    /**
+     * Register fastify-static plugin to serve static
+     * assets (useful in development mode)
+     */
     serveStaticContent() {
         this.fastify.register(fastifyStatic, {
             root: path.resolve(__dirname, "public"),
@@ -73,6 +81,9 @@ export default class {
         });
     }
 
+    /**
+     * Register routes for all pages
+     */
     registerRoutePages() {
         for (const route of routes) {
             this.fastify.get(route.path || "/", routePage(route, this.languageData, this.defaultLanguage));
@@ -84,6 +95,9 @@ export default class {
         }
     }
 
+    /**
+     * Register error routes (both 404 and 500)
+     */
     registerRouteErrors() {
         this.fastify.setNotFoundHandler(async (req, rep) => {
             const language = this.utils.getLanguageFromUrl(req.url);
@@ -95,11 +109,14 @@ export default class {
             this.fastify.log.error(err);
             const language = this.utils.getLanguageFromUrl(req.url);
             const output = req.urlData(null, req).path.match(/^\/api\//) ? apiRoute500(err, rep, this.languageData, language) : await route500(err, rep, this.languageData, language, this.siteMeta);
-            rep.code(500);
+            rep.code(err.code === 429 ? 429 : 500);
             rep.send(output);
         });
     }
 
+    /**
+     * Register API routes
+     */
     async registerRouteAPI() {
         for (const module of apiModules) {
             const api = await import(`../api/${module}/index.js`);
@@ -107,18 +124,33 @@ export default class {
         }
     }
 
+    /**
+     * Listen to the specified host and port
+     */
     listen() {
         this.fastify.listen(this.config.server.port, this.config.server.ip);
     }
 
+    /**
+     * This method returns current Fastify instance
+     * @returns {Object} fastify object
+     */
     getFastifyInstance() {
         return this.fastify;
     }
 
+    /**
+     * This method returns system configuration data (system.json)
+     * @returns {Object} configuration data object (JSON)
+     */
     getConfigSystem() {
         return this.config;
     }
 
+    /**
+     * This method returns site metadata (meta.json)
+     * @returns {Object} configuration data object (JSON)
+     */
     getConfigMeta() {
         return this.meta;
     }

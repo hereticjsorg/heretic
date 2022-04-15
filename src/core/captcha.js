@@ -1,11 +1,3 @@
-/*
-    Based on svg-captcha module
-    https://www.npmjs.com/package/svg-captcha
-    https://github.com/produck/svg-captcha
-    Copyright (c) 2016 - present Weilin Shi
-    The MIT License (MIT)
-*/
-
 import path from "path";
 import opentype from "opentype.js";
 
