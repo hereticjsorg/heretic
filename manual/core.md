@@ -19,7 +19,7 @@ initialize Fastify and its plugins
 
 ### serveStaticContent
 
-Register fastify-static plugin to serve static
+Register @fastify/static plugin to serve static
 assets (useful in development mode)
 
 ### registerRoutePages
