@@ -2,7 +2,6 @@ import Fastify from "fastify";
 import Redis from "ioredis";
 import path from "path";
 import fs from "fs-extra";
-import fastifyStatic from "fastify-static";
 import crypto from "crypto";
 
 import hereticRateLimit from "./rateLimit";
@@ -75,7 +74,7 @@ export default class {
      * assets (useful in development mode)
      */
     serveStaticContent() {
-        this.fastify.register(fastifyStatic, {
+        this.fastify.register(require("@fastify/static"), {
             root: path.resolve(__dirname, "public"),
             prefix: "/"
         });
