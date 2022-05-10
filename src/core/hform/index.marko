@@ -1,0 +1,20 @@
+<form>
+    <for|i1| of=input.fields>
+        <if(Array.isArray(i1))>
+            <div class="columns is-variable is-2 mb-0">
+                <for|i2| of=i1>
+                    <div class=`column${i2.css ? " is-narrow" : ""}`>
+                        <field ...i2/>
+                    </div>
+                </for>
+            </div>
+        </if>
+        <else>
+            <div class="columns is-variable is-2 mb-0">
+                <div class="column">
+                    <field ...i1/>
+                </div>
+            </div>
+        </else>
+    </for>
+</form>

@@ -1,0 +1,19 @@
+@import "../../../view/variables.scss";
+
+.hr-hf-label {
+    font-weight: normal !important;
+}
+
+.hr-hf-field-xxlarge {
+    width: 450px;
+}
+
+.hr-hf-label-mandatory {
+    color: $red;
+}
+
+@media (max-width: 1023px) {
+    .hr-hf-field-xxlarge {
+        width: unset;
+    }
+}

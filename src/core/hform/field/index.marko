@@ -1,0 +1,16 @@
+<!-- Text Field: Start -->
+<if(input.type === "text")>
+    <div class=(input.css ? (" " + input.css) : "")>
+        <div class="field">
+            <label class="label hr-hf-label">
+                ${input.label || ""}
+                <span>:</span>
+                <if(input.mandatory)>&nbsp;<span class="hr-hf-label-mandatory">✱</span></if>
+            </label>
+            <div class="control">
+                <input class="input" type="text" placeholder=(input.placeholder || "")>
+            </div>
+        </div>
+    </div>
+</if>
+<!-- Text Field: End -->

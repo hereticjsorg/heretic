@@ -34,7 +34,7 @@ module.exports = class {
     onMount() {
         setTimeout(() => {
             this.setState("mounted", true);
-        }, 10);
+        }, 50);
     }
 
     getAnimationTimer() {
