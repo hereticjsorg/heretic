@@ -8,5 +8,12 @@
     "mMatveev": "Mikhail A. Matveev",
     "mitLicense": "Licensed under MIT License.",
     "rateLimitErrorTitle": "Rate Limit Exceeded",
-    "rateLimitErrorMessage": "Too many requests, please retry in several minutes."
+    "rateLimitErrorMessage": "Too many requests, please retry in several minutes.",
+    "hform_error_type": "Incorrect value",
+    "hform_error_max": "Too large",
+    "hform_error_min": "Too small",
+    "hform_error_minLength": "Too short",
+    "hform_error_maxLength": "Too long",
+    "hform_error_format": "Invalid format",
+    "hform_error_generic": "Invalid value"
 }

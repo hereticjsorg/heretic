@@ -1,20 +1,55 @@
-<form>
-    <for|i1| of=input.fields>
-        <if(Array.isArray(i1))>
-            <div class="columns is-variable is-2 mb-0">
-                <for|i2| of=i1>
-                    <div class=`column${i2.css ? " is-narrow" : ""}`>
-                        <field ...i2/>
+<div class="hr-hf-wrap">
+    <form on-submit("onFormSubmit")>
+        <button type="submit" style={ display: "none" }/>
+        <for|a| of=input.data>
+            <div class=(a.css || "")>
+                <if(a.label)>
+                    <div class="hr-hf-f-area-label-wrap">
+                        <div class="hr-hf-f-area-label">
+                            ${a.label}
+                        </div>
                     </div>
+                    <div class="hr-hf-f-area-label-dummy"/>
+                </if>
+                <for|i1| of=a.fields>
+                    <if(Array.isArray(i1))>
+                        <div class="columns pt-0 pb-0 mt-0 mb-0 is-multiline is-variable is-2 mb-0">
+                            <for|i2| of=i1>
+                                <div class=`column pt-0 pb-0 mt-0 mb-3 ${i2.css ? i2.css : ""}`>
+                                    <field 
+                                        key=`hr_hf_f_${i2.id}`
+                                        formId=input.id
+                                        on-button-click("onButtonClick")
+                                        ...i2/>
+                                </div>
+                            </for>
+                        </div>
+                    </if>
+                    <else>
+                        <div class="columns is-variable is-2 pt-0 pb-0 mt-0 mb-3">
+                            <div class="column pt-0 pb-0 mt-0 mb-0">
+                                <field
+                                    key=`hr_hf_f_${i1.id}`
+                                    formId=input.id
+                                    on-button-click("onButtonClick")
+                                    ...i1/>
+                            </div>
+                        </div>
+                    </else>
                 </for>
             </div>
-        </if>
-        <else>
-            <div class="columns is-variable is-2 mb-0">
-                <div class="column">
-                    <field ...i1/>
-                </div>
+        </for>
+    </form>
+    <if(state.loading)>
+        <div class="hr-hf-loader-overlay">
+            <div class="hr-hf-loader">
+                <div class="hr-hf-loader-dot"/>
+                <div class="hr-hf-loader-dot"/>
+                <div class="hr-hf-loader-dot"/>
+                <div class="hr-hf-loader-dot"/>
+                <div class="hr-hf-loader-dot"/>
+                <div class="hr-hf-loader-dot"/>
             </div>
-        </else>
-    </for>
-</form>
+        </div>
+    </if>
+</div>

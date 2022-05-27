@@ -2,6 +2,68 @@
 
 @import "./variables.scss";
 
+// Styled buttons
+
+.button {
+    transition: 0.09s;
+}
+
+.button.is-light {
+    border: 1px solid $grey-lightest !important;
+    background-color: $white !important;
+    border-bottom: 2px solid $grey-lighter !important;
+}
+
+.button.is-light:hover {
+    background: $white-lightest !important;
+    border-bottom: 2px solid $grey-light !important;
+}
+
+.button.is-primary {
+    border-bottom: 2px solid darken($primary, 90%) !important;
+}
+
+.button.is-primary:hover {
+    background: lighten($primary, 5%) !important;
+    border-bottom: 2px solid darken($primary, 5%) !important;
+}
+
+.button.is-link {
+    border-bottom: 2px solid $black !important;
+}
+
+.button.is-info {
+    border-bottom: 2px solid darken($blue, 20%) !important;
+}
+
+.button.is-info:hover {
+    border-bottom: 2px solid darken($blue, 30%) !important;
+}
+
+.button.is-success {
+    border-bottom: 2px solid darken($green, 20%) !important;
+}
+
+.button.is-success:hover {
+    border-bottom: 2px solid darken($green, 30%) !important;
+}
+
+.button.is-warning {
+    border-bottom: 2px solid darken($yellow, 20%) !important;
+}
+
+.button.is-warning:hover {
+    border-bottom: 2px solid darken($yellow, 30%) !important;
+}
+
+.button.is-danger {
+    border-bottom: 2px solid darken($red, 20%) !important;
+}
+
+.button.is-danger:hover {
+    border-bottom: 2px solid darken($red, 30%) !important;
+}
+
 // Template-related styles
 
 .hr-wrap {

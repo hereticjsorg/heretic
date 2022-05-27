@@ -131,7 +131,7 @@ module.exports = class {
         return this.go(-distance);
     }
 
-    cleanForwardHistory(...params) {
+    clearForwardHistory(...params) {
         const delta = params.length > 0 && params[0] !== undefined ? params[0] : 0;
         // HACK because successive calls may overlap
         this.actions.push({

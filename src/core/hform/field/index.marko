@@ -1,6 +1,41 @@
 <!-- Text Field: Start -->
 <if(input.type === "text")>
-    <div class=(input.css ? (" " + input.css) : "")>
+    <div>
+        <div class="field">
+            <label class="label hr-hf-label">
+                ${input.label || ""}
+                <span>:</span>
+                <if(input.mandatory)>&nbsp;<span class="hr-hf-label-mandatory">✱</span></if>
+            </label>
+            <div class="control" no-update>
+                <input id=`hr_hf_el_${input.formId}_${input.id}` class="input hr-hf-text-input" type="text" placeholder=(input.placeholder || "")>
+            </div>
+            <if(state.error)>
+                <div class="hr-hf-error-wrap">
+                    <p class="tag is-danger hr-hf-error-tag">${state.error}</p>
+                </div>
+            </if>
+            <if(input.helpText)>
+                <p class="help">${input.helpText}</p>
+            </if>
+        </div>
+    </div>
+</if>
+<!-- Text Field: End -->
+<!-- Buttons: Start -->
+<if(input.type === "buttons")>
+    <div class=`buttons ${input.css || ""}`>
+        <for|item| of=input.items>
+            <button id=`hr_hf_el_${input.formId}_${input.id}_${item.id}` class=(item.css || "") type=item.type data-type=item.type data-id=item.id on-click("onButtonClick")>
+                ${item.label}
+            </button>
+        </for>
+    </div>
+</if>
+<!-- Buttons: End -->
+<!-- Select: Start -->
+<if(input.type === "select")>
+    <div>
         <div class="field">
             <label class="label hr-hf-label">
                 ${input.label || ""}
@@ -8,9 +43,23 @@
                 <if(input.mandatory)>&nbsp;<span class="hr-hf-label-mandatory">✱</span></if>
             </label>
             <div class="control">
-                <input class="input" type="text" placeholder=(input.placeholder || "")>
+                <div class="select is-fullwidth">
+                    <select id=`hr_hf_el_${input.formId}_${input.id}` on-change("onSelectChange") value=state.value>
+                        <for|o| of=input.options>
+                            <option value=o.value selected=(o.value === state.value)>${o.label}</option>
+                        </for>
+                    </select>
+                </div>
             </div>
+            <if(state.error)>
+                <div class="hr-hf-error-wrap">
+                    <p class="tag is-danger hr-hf-error-tag">${state.error}</p>
+                </div>
+            </if>
+            <if(input.helpText)>
+                <p class="help">${input.helpText}</p>
+            </if>
         </div>
     </div>
 </if>
-<!-- Text Field: End -->
+<!-- Select: End -->

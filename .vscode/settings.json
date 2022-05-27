@@ -13,6 +13,7 @@
         "getconfigmeta",
         "getconfigsystem",
         "getfastifyinstance",
+        "hform",
         "ipaddr",
         "lastmod",
         "Marko",

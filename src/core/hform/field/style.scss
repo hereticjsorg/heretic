@@ -5,15 +5,32 @@
 }
 
 .hr-hf-field-xxlarge {
-    width: 450px;
+    width: 450px !important;
+    min-width: 450px !important;
+    max-width: 450px !important;
 }
 
 .hr-hf-label-mandatory {
     color: $red;
 }
 
-@media (max-width: 1023px) {
+.hr-hf-text-input {
+    min-width: 100px !important;
+}
+
+.hr-hf-error-wrap {
+    margin-top: -3px;
+}
+
+.hr-hf-error-tag {
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+}
+
+@media (max-width: 769px) {
     .hr-hf-field-xxlarge {
-        width: unset;
+        width: unset !important;
+        min-width: unset !important;
+        max-width: unset !important;
     }
 }
