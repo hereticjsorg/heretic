@@ -5,12 +5,38 @@
     padding: 1px;
 }
 
+.hr-hf-tab-control {
+    background: $yellow;
+    color: $grey-darker;
+    font-weight: bold;
+    padding: 6px;
+    border: 1px solid transparent;
+    border-radius: $radius;
+    width: 30px;
+    cursor: pointer;
+}
+
 .hr-hf-area {
     border: 1px solid $grey-lighter;
     border-radius: $radius;
     padding: 15px 15px 5px 15px;
     margin-bottom: 20px;
     box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
+}
+
+.hr-hf-tab {
+    border: 1px solid $grey-lighter;
+    border-radius: $radius;
+    padding: 6px;
+    background: $white;
+    margin-right: 2px;
+    cursor: pointer;
+}
+
+.hr-hf-tab-active {
+    background-color: $grey-lighter;
+    color: $black-ter;
+    border: 1px solid transparent;
 }
 
 .hr-hf-f-area-label-wrap {

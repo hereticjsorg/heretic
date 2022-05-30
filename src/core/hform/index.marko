@@ -1,6 +1,39 @@
+import { mdiPlus } from "@mdi/js"
+
 <div class="hr-hf-wrap">
     <form on-submit("onFormSubmit")>
         <button type="submit" style={ display: "none" }/>
+        <if(input.tabs)>
+            <div class="columns mb-4 is-gapless is-multiline">
+                <for|t| of=state.tabs>
+                    <button data-id=t class=`hr-hf-tab ${state.activeTab === t ? "hr-hf-tab-active" : ""}` on-click("onTabClick")>
+                        ${input.tabs.find(i => i.id == t).label}
+                        <if(state.tabs.length > 1)>
+                            <button data-id=t on-click("onTabDeleteClick") class="delete is-small ml-2"/>
+                        </if>
+                    </button>
+                </for>
+                <if(input.tabs.length !== state.tabs.length)>
+                    <div class=`dropdown${state.addTabDropdownActive ? " is-active" : ""}`>
+                        <div class="dropdown-trigger">
+                            <button class="hr-hf-tab-control" on-click("onAddTabDropdownTriggerClick")>+</button>
+                        </div>
+                        <div class="dropdown-menu" id=`${input.id}_dm_addTab` role="menu">
+                            <div class="dropdown-content">
+                                <for|t| of=input.tabs.filter(i => state.tabs.indexOf(i.id) === -1)>
+                                    <a href="#" class="dropdown-item" data-id=t.id on-click("onAddTabDropdownItemClick")>
+                                        ${t.label}
+                                    </a>
+                                </for>
+                            </div> 
+                        </div>
+                    </div>
+                </if>
+            </div>
+            <div class="mb-4 is-size-4 has-text-weight-light">
+                ${input.tabs.find(i => i.id == state.activeTab).label}
+            </div>
+        </if>
         <for|a| of=input.data>
             <div class=(a.css || "")>
                 <if(a.label)>

@@ -85,19 +85,21 @@ module.exports = class {
         }
         switch (this.input.convert) {
         case "integer":
-            value = parseInt(value, 10);
+            value = parseInt(value, 10) || null;
         }
         return value;
     }
 
     setValue(value) {
-        this.setState("value", value);
         switch (this.input.type) {
         case "text":
             if (this.maskedInput) {
-                this.maskedInput.unmaskedValue = value;
+                this.maskedInput.unmaskedValue = value === null ? "" : String(value);
             }
+            this.setState("value", String(value === null ? "" : value));
             break;
+        default:
+            this.setState("value", value);
         }
     }
 
