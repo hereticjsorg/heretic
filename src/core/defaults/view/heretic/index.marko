@@ -1,7 +1,10 @@
 import routes from "../../build/routes.json"
 import languages from "../../config/languages.json"
 
-<div style={position: state.mounted ? "unset" : "absolute", clip: state.mounted ? "unset" : "rect(0 0 0 0)"}>
+<div style={
+    position: state.mounted ? "unset" : "absolute",
+    clip: state.mounted ? "unset" : "rect(0 0 0 0)"
+}>
     <loading key="loading"/>
     <div
         class="container hr-wrap"
@@ -33,7 +36,9 @@ import languages from "../../config/languages.json"
         </div>
         <div class="hr-footer">
             <div class="pl-3 pr-3 pt-5 pb-5">
-                <t>poweredByHeretic</t>&nbsp;&copy;&nbsp;2021-${new Date().getFullYear()}&nbsp;<t>mMatveev</t>.
+                <t>poweredByHeretic</t>&nbsp;&copy;&nbsp;2021-${new Date().getFullYear()}&nbsp;<t>
+                    mMatveev
+                </t>.
                 <a
                     href="https://opensource.org/licenses/MIT"
                     target="_blank"

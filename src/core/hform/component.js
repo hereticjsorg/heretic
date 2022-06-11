@@ -59,7 +59,7 @@ module.exports = class {
         }
     }
 
-    onMount() {
+    focus() {
         for (const area of this.input.data) {
             for (const field of area.fields) {
                 if (field.autoFocus) {
@@ -70,6 +70,10 @@ module.exports = class {
                 }
             }
         }
+    }
+
+    onMount() {
+        this.focus();
         this.setDefaultValues();
         window.addEventListener("click", e => {
             const dbAddTabElement = document.getElementById(`${this.input.id}_dm_addTab`);
@@ -229,9 +233,6 @@ module.exports = class {
     }
 
     onButtonClick(payload) {
-        if (payload.type === "submit") {
-            this.emit("form-submit", {});
-        }
         this.emit("button-click", payload);
     }
 
@@ -269,13 +270,6 @@ module.exports = class {
         }
     }
 
-    saveSharedFields() {
-        const data = cloneDeep(this.state.data);
-        this.copySharedFields(data, this.state.activeTab);
-        this.setState("data", data);
-        return data;
-    }
-
     saveView() {
         const data = cloneDeep(this.state.data);
         data[this.state.activeTab] = this.serializeView();
@@ -284,19 +278,55 @@ module.exports = class {
         return data;
     }
 
-    serialize() {
-        // const data = cloneDeep(this.state.data);
-        // data[this.state.activeTab] = this.serializeView();
-        // this.copySharedFields(data, this.state.activeTab);
-        // data._shared = {};
-        // for (const tab of this.state.tabs) {
-        //     for (const sharedId of this.sharedFieldIds) {
-        //         data._shared[sharedId] = data[tab][sharedId];
-        //         delete data[tab][sharedId];
-        //     }
-        // }
-        // console.log(data);
-        // return data;
+    serializeData() {
+        const data = cloneDeep({
+            ...this.saveView(),
+            _shared: {},
+            _upload: {},
+        });
+        for (const tab of this.state.tabs) {
+            for (const fieldId of this.fieldIds) {
+                if (this.fieldsFlat[fieldId].type === "files" && data[tab][fieldId] && data[tab][fieldId].length) {
+                    for (let i = 0; i < data[tab][fieldId].length; i += 1) {
+                        if (data[tab][fieldId][i].data) {
+                            data._upload[data[tab][fieldId][i].uid] = data[tab][fieldId][i].data;
+                        }
+                        data[tab][fieldId][i] = cloneDeep(data[tab][fieldId][i]);
+                        delete data[tab][fieldId][i].data;
+                    }
+                }
+            }
+        }
+        for (const sharedFieldId of this.sharedFieldIds) {
+            for (const tab of this.state.tabs) {
+                data._shared[sharedFieldId] = data[tab][sharedFieldId];
+                delete data[tab][sharedFieldId];
+            }
+        }
+        return data;
+    }
+
+    deserializeData(data) {
+        let tabs = Object.keys(data).filter(i => !i.match(/^_/));
+        if (!tabs.length) {
+            tabs = ["_default"];
+        }
+        const activeTab = tabs.length ? tabs[0] : "_default";
+        this.setState("tabs", tabs);
+        this.setState("activeTab", activeTab);
+        console.log(tabs);
+        console.log(activeTab);
+        if (data._shared) {
+            for (const sharedFieldId of this.sharedFieldIds) {
+                for (const tab of tabs) {
+                    data[tab][sharedFieldId] = data._shared[sharedFieldId];
+                }
+            }
+            delete data._shared;
+        }
+        console.log(data);
+        this.deserializeView(data[activeTab]);
+        this.focus();
     }
 
     onTabDeleteClick(e) {
@@ -353,5 +383,17 @@ module.exports = class {
         }
         this.setTab(id);
         this.clearErrors();
+    }
+
+    processForm() {
+        const data = this.saveView();
+        const validationResult = this.validate(data);
+        if (validationResult) {
+            const errorData = this.getErrorData(validationResult);
+            this.setErrors(errorData);
+            return null;
+        }
+        const serializedData = this.serializeData();
+        return serializedData;
     }
 };

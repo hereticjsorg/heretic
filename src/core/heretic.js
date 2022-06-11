@@ -127,7 +127,10 @@ export default class {
      * Listen to the specified host and port
      */
     listen() {
-        this.fastify.listen(this.config.server.port, this.config.server.ip);
+        this.fastify.listen({
+            port: this.config.server.port,
+            host: this.config.server.ip
+        });
     }
 
     /**

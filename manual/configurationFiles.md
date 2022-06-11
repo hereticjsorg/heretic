@@ -15,7 +15,6 @@ This configuration file contains main options related to your web server (IP, po
 | server/trustProxy 		 | Trust proxy option for Fastify		 	                                 | true                               |
 | server/ignoreTrailingSlash | Ignore trailing slashes (Fastify option)                                  | true                               |
 | log/level     			 | One of 'fatal', 'error', 'warn', 'info', <br>'debug', 'trace' or 'silent' | "info"                             |
-| log/pretty    			 | Options for pino-pretty                                                   | Object ("translateTime", "ignore") |
 | redis/enabled 			 | Connect to Redis                                                          | false							  |
 | redis/host    			 | Redis host	                                                             | "127.0.0.1"						  |
 | redis/port    			 | Redis port	                                                             | 6379								  |
@@ -25,8 +24,6 @@ This configuration file contains main options related to your web server (IP, po
 | rateLimit/whiteList        | White list (no rate limits), array of strings       		           		 | []           				  	  |
 | rateLimit/blackList        | Black list (banned hosts), array of strings                  			 | []           				  	  |
 | rateLimit/addHeaders       | Add "x-ratelimit-xxx" and "retry-after" headers                  		 | true/true/true/true			  	  |
-
-Read more on how to set log/pretty option: [pino-pretty website](https://github.com/pinojs/pino-pretty).
 
 ## etc/meta.json
 

@@ -1,4 +1,8 @@
 const IMask = require("imask").default;
+const {
+    v4: uuidv4
+} = require("uuid");
+const cloneDeep = require("lodash.clonedeep");
 
 module.exports = class {
     onCreate(input) {
@@ -82,6 +86,8 @@ module.exports = class {
         case "select":
             value = typeof this.state.value === "string" || typeof this.state.value === "number" ? String(this.state.value) : null;
             break;
+        default:
+            value = this.state.value;
         }
         switch (this.input.convert) {
         case "integer":
@@ -116,5 +122,26 @@ module.exports = class {
     onSelectChange(e) {
         e.preventDefault();
         this.setState("value", String(e.target.value));
+    }
+
+    onFileInputChange(e) {
+        const value = this.input.multiple ? (cloneDeep(this.state.value) || []) : [];
+        const files = Array.from(e.target.files);
+        for (let i = 0; i < files.length; i += 1) {
+            value.push({
+                name: files[i].name,
+                uid: uuidv4(),
+                data: e.target.files[i],
+            });
+        }
+        this.setState("value", value);
+    }
+
+    onFileInputDeleteClick(e) {
+        e.preventDefault();
+        const {
+            uid
+        } = e.target.closest("[data-uid]").dataset;
+        this.setState("value", cloneDeep(this.state.value).filter(f => f.uid !== uid));
     }
 };

@@ -12,12 +12,7 @@
         "port": 6379
     },
     "log": {
-        "level": "info",
-        "pretty": {
-            "colorize": true,
-            "translateTime": "yyyy-mm-dd HH:MM:ss",
-            "ignore": "pid,hostname,reqId,responseTime,req,res"
-        }
+        "level": "info"
     },
     "rateLimit": {
         "enabled": false,

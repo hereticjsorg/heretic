@@ -1,5 +1,4 @@
 import pino from "pino";
-import serverData from "../build/server.json";
 
 export default class {
     constructor(config) {
@@ -20,32 +19,6 @@ export default class {
                     };
                 }
             },
-            prettyPrint: !serverData.production && this.config.log.pretty ? {
-                ...this.config.log.pretty,
-                messageFormat: (log, messageKey) => {
-                    let message = "";
-                    if (log[messageKey]) {
-                        log[messageKey] = log[messageKey].replace(/^request completed$/, "REQ").replace(/^incoming request$/, "REP");
-                        message += `${log[messageKey]} `;
-                    }
-                    if (log.reqId) {
-                        message += `(${log.reqId}) `;
-                    }
-                    if (log.res && log.res.statusCode) {
-                        message += `[${log.res.statusCode}] `;
-                    }
-                    if (log.req && log.req.remoteAddress) {
-                        message += `[${log.req.remoteAddress}] `;
-                    }
-                    if (log.req && log.req.method) {
-                        message += `${log.req.method} `;
-                    }
-                    if (log.req && log.req.url) {
-                        message += `${log.req.url} `;
-                    }
-                    return message.trim();
-                },
-            } : false,
         });
     }
 }

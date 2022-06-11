@@ -10,6 +10,9 @@ const MarkoPlugin = require("@marko/webpack/plugin").default;
 const babelConfig = require("./babel.config");
 const WebpackUtils = require("./webpack.utils");
 
+// A dirty one-liner hack for webpack error during Fastify build
+fs.writeFileSync(path.resolve(__dirname, "node_modules", "fastify", "lib", "error-serializer.js"), fs.readFileSync(path.resolve(__dirname, "node_modules", "fastify", "lib", "error-serializer.js"), "utf8").replace(/return \$main/, ""));
+
 module.exports = (env, argv) => {
     const markoPlugin = new MarkoPlugin();
     const webpackUtils = new WebpackUtils(argv.mode === "production");
@@ -28,7 +31,7 @@ module.exports = (env, argv) => {
             name: "Frontend",
             target: ["web", "es5"],
             output: {
-                path: path.resolve(__dirname, "dist", "public"),
+                path: path.resolve(__dirname, "dist", "public", "heretic"),
                 filename: "[name].[fullhash:8].js"
             },
             devtool: argv.mode === "production" ? false : "inline-source-map",
@@ -171,8 +174,8 @@ module.exports = (env, argv) => {
                     type: "asset/resource",
                     generator: {
                         filename: "asset.[contenthash:8][ext]",
-                        publicPath: "/",
-                        outputPath: "public/",
+                        publicPath: "/heretic/",
+                        outputPath: "public/heretic/",
                     }
                 }, {
                     test: /\.(ttf)(\?v=\d+\.\d+\.\d+)?$/,
@@ -201,7 +204,7 @@ module.exports = (env, argv) => {
                 libraryTarget: "commonjs2",
                 path: path.resolve(__dirname, "dist"),
                 filename: "server.js",
-                publicPath: "/",
+                publicPath: "/heretic/",
             },
             plugins: [
                 new webpack.DefinePlugin({

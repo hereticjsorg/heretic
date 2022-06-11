@@ -34,10 +34,14 @@ $ const i18nNavigation = out.global.i18nNavigation;
                     </router-link>
                 </if>
                 <else>
-                    <div class=`navbar-item has-dropdown${state.navItemOpen === item.id ? " is-active" : ""}`>
+                    <div class=`navbar-item has-dropdown${
+                        state.navItemOpen === item.id ? " is-active" : ""
+                    }`>
                         <a
                             class=`navbar-link hr-navbar-item${
-                                state.navItemOpen === item.id ? " hr-navbar-item-open" : ""
+                                state.navItemOpen === item.id
+                                    ? " hr-navbar-item-open"
+                                    : ""
                             }`
                             on-click("onNavbarItemClick")
                             id=`hr_navbar_item_${item.id}`>
@@ -48,7 +52,9 @@ $ const i18nNavigation = out.global.i18nNavigation;
                                 <router-link
                                     route=subItem
                                     class=`navbar-item hr-navbar-item${
-                                        state.route === subItem ? " hr-navbar-item-active" : ""
+                                        state.route === subItem
+                                            ? " hr-navbar-item-active"
+                                            : ""
                                     }`>
                                     ${i18nNavigation[subItem]}
                                 </router-link>
