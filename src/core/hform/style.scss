@@ -149,6 +149,10 @@
     animation-delay: -0.6s;
 }
 
+.hr-hf-form {
+    user-select: none;
+}
+
 @keyframes hr-hf-loader {
     100% {
         transform: rotate(360deg);

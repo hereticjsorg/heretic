@@ -31,3 +31,15 @@ Additionally, you may wish to tell Heretic build script to include a page into *
 | lastmod    | Include last modified date into sitemap (true or false) |
 | changefreq | Set the change frequency (refer to sitemap format docs) |
 | priority   | Set the page priority (refer to sitemap format docs)    |
+
+## Meta Pages
+
+You can combine multiple pages in a single directory in order to follow the internal logic of your project. To do this, create a directory where you will put all of your page directories and create *meta.json* file with the following contents:
+
+```json
+["directory1", "directory2", "etc"]
+```
+
+Each entry should correspond an internal page directory.
+
+Remember that each page (even when it's located inside of such container) should contain unique IDs.

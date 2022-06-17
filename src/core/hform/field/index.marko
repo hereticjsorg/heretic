@@ -1,3 +1,5 @@
+import { mdiReload } from '@mdi/js';
+
 <!-- Text Field: Start -->
 <if(input.type === "text")>
     <div>
@@ -132,3 +134,45 @@
     </div>
 </if>
 <!-- Files: End -->
+<!-- Captcha Field: Start -->
+<if(input.type === "captcha")>
+    <div>
+        <div class="field">
+            <label class="label hr-hf-label">
+                ${input.label || ""}
+                <span>:</span>
+                <if(input.mandatory)>
+                    &nbsp;<span class="hr-hf-label-mandatory">✱</span>
+                </if>
+            </label>
+            <div class="field has-addons mb-1">
+                <div class="control" no-update>
+                    <input
+                        id=`hr_hf_el_${input.formId}_${input.id}`
+                        class="input hr-hf-text-input hr-hf-captcha-input"
+                        type="text"
+                        placeholder=(input.placeholder || "")/>
+                </div>
+                <div class="hr-hf-captcha-image" on-click("onCaptchaImageClick") id=`hr_hf_ci_${input.formId}_${input.id}` no-update/>
+                <div class="hr-hf-captcha-image-reload" on-click("onCaptchaImageClick")>
+                    <svg
+                        viewBox="0 0 24 24"
+                        width="12"
+                        height="12"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path d=mdiReload/>
+                    </svg>
+                </div>
+            </div>
+            <if(state.error)>
+                <div class="hr-hf-error-wrap-captcha">
+                    <p class="tag is-danger hr-hf-error-tag">${state.error}</p>
+                </div>
+            </if>
+            <if(input.helpText)>
+                <p class="help">${input.helpText}</p>
+            </if>
+        </div>
+    </div>
+</if>
+<!-- Captcha Field: End -->

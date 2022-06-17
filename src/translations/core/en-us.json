@@ -15,5 +15,6 @@
     "hform_error_minLength": "Too short",
     "hform_error_maxLength": "Too long",
     "hform_error_format": "Invalid format",
-    "hform_error_generic": "Invalid value"
+    "hform_error_generic": "Invalid value",
+    "hform_error_captchaLoading": "Could not load captcha data"
 }

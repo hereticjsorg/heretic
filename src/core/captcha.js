@@ -9,7 +9,7 @@ export default class {
             background: "",
             charPreset: "0123456789",
             size: 4,
-            noise: 1,
+            noise: 5,
             ...options,
         };
         this.font = opentype.loadSync(path.join(__dirname, "data", "captcha.ttf"));

@@ -1,7 +1,5 @@
-import { mdiPlus } from "@mdi/js"
-
 <div class="hr-hf-wrap">
-    <form on-submit("onFormSubmit")>
+    <form on-submit("onFormSubmit") class="hr-hf-form">
         <button
             type="submit"
             style={
@@ -78,6 +76,7 @@ import { mdiPlus } from "@mdi/js"
                                         key=`hr_hf_f_${i2.id}`
                                         formId=input.id
                                         on-button-click("onButtonClick")
+                                        on-notify("onNotify")
                                         ...i2/>
                                 </div>
                             </for>
@@ -90,6 +89,7 @@ import { mdiPlus } from "@mdi/js"
                                     key=`hr_hf_f_${i1.id}`
                                     formId=input.id
                                     on-button-click("onButtonClick")
+                                    on-notify("onNotify")
                                     ...i1/>
                             </div>
                         </div>
@@ -111,3 +111,4 @@ import { mdiPlus } from "@mdi/js"
         </div>
     </if>
 </div>
+<hnotify key=`notify_field_${input.formId}`/>

@@ -314,8 +314,6 @@ module.exports = class {
         const activeTab = tabs.length ? tabs[0] : "_default";
         this.setState("tabs", tabs);
         this.setState("activeTab", activeTab);
-        console.log(tabs);
-        console.log(activeTab);
         if (data._shared) {
             for (const sharedFieldId of this.sharedFieldIds) {
                 for (const tab of tabs) {
@@ -324,7 +322,6 @@ module.exports = class {
             }
             delete data._shared;
         }
-        console.log(data);
         this.deserializeView(data[activeTab]);
         this.focus();
     }
@@ -385,7 +382,8 @@ module.exports = class {
         this.clearErrors();
     }
 
-    processForm() {
+    process() {
+        this.clearErrors();
         const data = this.saveView();
         const validationResult = this.validate(data);
         if (validationResult) {
@@ -395,5 +393,13 @@ module.exports = class {
         }
         const serializedData = this.serializeData();
         return serializedData;
+    }
+
+    showNotification(message, css = "") {
+        this.getComponent(`notify_field_${this.input.formId}`).show(window.__heretic.t(message), css);
+    }
+
+    onNotify(data) {
+        this.showNotification(data.message, data.css);
     }
 };

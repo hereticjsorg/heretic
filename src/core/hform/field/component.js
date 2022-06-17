@@ -2,6 +2,7 @@ const IMask = require("imask").default;
 const {
     v4: uuidv4
 } = require("uuid");
+const axios = require("axios");
 const cloneDeep = require("lodash.clonedeep");
 
 module.exports = class {
@@ -9,11 +10,36 @@ module.exports = class {
         this.state = {
             error: null,
             value: input.value || null,
+            captchaLoading: false,
+            imageSecret: null,
         };
         this.maskedInput = null;
     }
 
-    onMount() {
+    async loadCaptchaData() {
+        this.setState("captchaLoading", true);
+        try {
+            const captchaImageWrap = document.getElementById(`hr_hf_ci_${this.input.formId}_${this.input.id}`);
+            captchaImageWrap.innerHTML = "<i/>";
+            const {
+                data
+            } = await axios({
+                method: "post",
+                url: "/api/captcha",
+            });
+            captchaImageWrap.innerHTML = data.imageData;
+            this.setState("imageSecret", data.imageSecret);
+        } catch {
+            this.emit("notify", {
+                message: "hform_error_captchaLoading",
+                css: "is-danger",
+            });
+        } finally {
+            this.setState("captchaLoading", false);
+        }
+    }
+
+    async onMount() {
         const element = document.getElementById(`hr_hf_el_${this.input.formId}_${this.input.id}`);
         if (element) {
             switch (this.input.type) {
@@ -22,6 +48,13 @@ module.exports = class {
                     mask: /^.+$/
                 });
                 element.addEventListener("change", this.onInputChangeListener.bind(this));
+                break;
+            case "captcha":
+                this.maskedInput = new IMask(element, this.input.maskedOptions || {
+                    mask: /^(\d){1,4}$/
+                });
+                element.addEventListener("change", this.onInputChangeListener.bind(this));
+                await this.loadCaptchaData();
                 break;
             }
         }
@@ -86,6 +119,9 @@ module.exports = class {
         case "select":
             value = typeof this.state.value === "string" || typeof this.state.value === "number" ? String(this.state.value) : null;
             break;
+        case "captcha":
+            value = typeof this.state.value === "string" && this.state.value.length > 0 ? `${this.state.value}_${this.state.imageSecret}` : null;
+            break;
         default:
             value = this.state.value;
         }
@@ -103,6 +139,17 @@ module.exports = class {
                 this.maskedInput.unmaskedValue = value === null ? "" : String(value);
             }
             this.setState("value", String(value === null ? "" : value));
+            break;
+        case "captcha":
+            if (value) {
+                const [fieldValue, imageSecret] = value.split(/_/);
+                if (this.maskedInput) {
+                    this.maskedInput.unmaskedValue = String(fieldValue);
+                }
+                this.setState("value", fieldValue);
+                console.log(fieldValue);
+                console.log(imageSecret);
+            }
             break;
         default:
             this.setState("value", value);
@@ -143,5 +190,10 @@ module.exports = class {
             uid
         } = e.target.closest("[data-uid]").dataset;
         this.setState("value", cloneDeep(this.state.value).filter(f => f.uid !== uid));
+    }
+
+    onCaptchaImageClick(e) {
+        e.preventDefault();
+        this.loadCaptchaData();
     }
 };
