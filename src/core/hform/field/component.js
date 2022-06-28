@@ -141,14 +141,13 @@ module.exports = class {
             this.setState("value", String(value === null ? "" : value));
             break;
         case "captcha":
-            if (value) {
+            if (value && typeof value === "string") {
                 const [fieldValue, imageSecret] = value.split(/_/);
                 if (this.maskedInput) {
                     this.maskedInput.unmaskedValue = String(fieldValue);
                 }
-                this.setState("value", fieldValue);
-                console.log(fieldValue);
-                console.log(imageSecret);
+                this.setState("value", fieldValue || null);
+                this.setState("imageSecret", imageSecret || null);
             }
             break;
         default:

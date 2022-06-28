@@ -20,6 +20,7 @@ export default (route, languageData, language) => ({
                 siteTitle: this.siteMeta.title[language],
                 i18nNavigation: this.i18nNavigation[language],
                 description: translationData.description && translationData.description[language] ? translationData.description[language] : null,
+                t: id => languageData[language] && languageData[language][id] ? `${languageData[language][id]}` : id,
             },
         });
         rep.type("text/html");

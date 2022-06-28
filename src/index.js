@@ -2,6 +2,7 @@ import Heretic from "./core/heretic";
 
 (async () => {
     const heretic = new Heretic();
+    await heretic.loadLanguageData();
     const systemConfig = heretic.getConfigSystem();
     try {
         if (systemConfig.server.static) {

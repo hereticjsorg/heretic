@@ -29,3 +29,4 @@ src/config/navigation.json
 src/view
 src/translations/user
 /logs
+.DS_Store

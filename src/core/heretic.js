@@ -15,6 +15,8 @@ import apiModules from "../build/api.json";
 import Logger from "./logger";
 import Utils from "./utils";
 import fastifyURLData from "./urlData";
+import fastifyMultipart from "./multipart";
+import i18n from "../build/i18n-loader.js";
 import i18nNavigation from "../build/i18n-navigation.json";
 import languages from "../config/languages.json";
 import navigation from "../config/navigation.json";
@@ -40,15 +42,16 @@ export default class {
             trustProxy: this.config.server.trustProxy,
             ignoreTrailingSlash: this.config.server.ignoreTrailingSlash,
         });
-        this.languageData = {};
-        for (const lang of Object.keys(languages)) {
-            this.languageData[lang] = {
-                ...require(`../translations/core/${lang}.json`),
-                ...require(`../translations/user/${lang}.json`),
-            };
-        }
+        // for (const lang of Object.keys(languages)) {
+        //     this.languageData[lang] = {
+        //         ...require(`../translations/core/${lang}.json`),
+        //         ...require(`../translations/user/${lang}.json`),
+        //     };
+        // }
         [this.defaultLanguage] = Object.keys(languages);
         this.utils = new Utils(Object.keys(languages));
+        this.fastify.register(require("@fastify/formbody"));
+        this.fastify.register(fastifyMultipart);
         this.fastify.register(fastifyURLData);
         this.fastify.decorate("i18nNavigation", i18nNavigation);
         this.fastify.decorate("siteMeta", this.siteMeta);
@@ -66,6 +69,16 @@ export default class {
             if (this.config.rateLimit && this.config.rateLimit.enabled) {
                 this.fastify.register(hereticRateLimit, this.config.rateLimit);
             }
+        }
+    }
+
+    /**
+     * Load language data using i18n-loader
+     */
+    async loadLanguageData() {
+        this.languageData = {};
+        for (const lang of Object.keys(languages)) {
+            this.languageData[lang] = await i18n.loadLanguageFile(lang);
         }
     }
 

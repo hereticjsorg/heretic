@@ -1,6 +1,6 @@
-const Ajv = require("ajv");
 const cloneDeep = require("lodash.clonedeep");
 const serializableTypes = require("./serializableTypes.json");
+const FormValidator = require("../formValidator").default;
 
 module.exports = class {
     onCreate(input) {
@@ -12,17 +12,11 @@ module.exports = class {
             data: {},
             errors: {},
         };
-        const ajv = new Ajv({
-            allErrors: true
-        });
-        if (input.validationSchema) {
-            this.validateSchema = ajv.compile(input.validationSchema);
-        }
         this.fieldIds = [];
         this.sharedFieldIds = [];
         this.fieldsFlat = {};
         // Collect field IDs
-        for (const area of input.data) {
+        for (const area of input.data.form) {
             for (const item of area.fields) {
                 if (Array.isArray(item)) {
                     for (const subItem of item) {
@@ -40,6 +34,9 @@ module.exports = class {
                     }
                 }
             }
+        }
+        if (input.validationSchema) {
+            this.formValidator = new FormValidator(input.validationSchema, this.fieldsFlat);
         }
     }
 
@@ -60,7 +57,7 @@ module.exports = class {
     }
 
     focus() {
-        for (const area of this.input.data) {
+        for (const area of this.input.data.form) {
             for (const field of area.fields) {
                 if (field.autoFocus) {
                     const component = this.getComponent(`hr_hf_f_${field.id}`);
@@ -112,17 +109,10 @@ module.exports = class {
 
     validate(data) {
         for (const tab of this.state.tabs) {
-            if (this.validateSchema) {
-                const result = this.validateSchema(data[tab]);
-                if (!result) {
-                    const resultArr = [];
-                    for (const item of this.validateSchema.errors) {
-                        resultArr.push({
-                            ...item,
-                            tab
-                        });
-                    }
-                    return resultArr;
+            if (this.formValidator) {
+                const result = this.formValidator.validate(data[tab], tab);
+                if (result) {
+                    return result;
                 }
             }
         }
@@ -156,6 +146,18 @@ module.exports = class {
             case "anyOf":
             case "enum":
                 errorCode = "hform_error_format";
+                break;
+            case "filesMinCount":
+                errorCode = "hform_error_filesMinCount";
+                break;
+            case "filesMaxCount":
+                errorCode = "hform_error_filesMaxCount";
+                break;
+            case "filesMaxSize":
+                errorCode = "hform_error_filesMaxSize";
+                break;
+            case "filesBadExtension":
+                errorCode = "hform_error_filesBadExtension";
                 break;
             default:
                 errorCode = "hform_error_generic";
@@ -280,27 +282,28 @@ module.exports = class {
 
     serializeData() {
         const data = cloneDeep({
-            ...this.saveView(),
-            _shared: {},
-            _upload: {},
+            formTabs: this.saveView(),
+            formShared: {},
+            upload: {},
+            tabs: this.state.tabs,
         });
         for (const tab of this.state.tabs) {
             for (const fieldId of this.fieldIds) {
-                if (this.fieldsFlat[fieldId].type === "files" && data[tab][fieldId] && data[tab][fieldId].length) {
-                    for (let i = 0; i < data[tab][fieldId].length; i += 1) {
-                        if (data[tab][fieldId][i].data) {
-                            data._upload[data[tab][fieldId][i].uid] = data[tab][fieldId][i].data;
+                if (this.fieldsFlat[fieldId].type === "files" && data.formTabs[tab][fieldId] && data.formTabs[tab][fieldId].length) {
+                    for (let i = 0; i < data.formTabs[tab][fieldId].length; i += 1) {
+                        if (data.formTabs[tab][fieldId][i].data) {
+                            data.upload[data.formTabs[tab][fieldId][i].uid] = data.formTabs[tab][fieldId][i].data;
                         }
-                        data[tab][fieldId][i] = cloneDeep(data[tab][fieldId][i]);
-                        delete data[tab][fieldId][i].data;
+                        data.formTabs[tab][fieldId][i] = cloneDeep(data.formTabs[tab][fieldId][i]);
+                        delete data.formTabs[tab][fieldId][i].data;
                     }
                 }
             }
         }
         for (const sharedFieldId of this.sharedFieldIds) {
             for (const tab of this.state.tabs) {
-                data._shared[sharedFieldId] = data[tab][sharedFieldId];
-                delete data[tab][sharedFieldId];
+                data.formShared[sharedFieldId] = data.formTabs[tab][sharedFieldId];
+                delete data.formTabs[tab][sharedFieldId];
             }
         }
         return data;

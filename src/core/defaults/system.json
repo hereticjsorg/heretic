@@ -30,5 +30,6 @@
             "x-ratelimit-reset": true,
             "retry-after": true
         }
-    }
+    },
+    "systemTempDir": true
 }
