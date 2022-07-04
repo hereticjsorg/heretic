@@ -6,11 +6,11 @@ const commandLineArgs = require("command-line-args");
 let options;
 try {
     options = commandLineArgs([{
-        name: "addPage",
+        name: "addModule",
         alias: "a",
         type: String
     }, {
-        name: "removePage",
+        name: "removeModule",
         alias: "r",
         type: String
     }, {
@@ -31,21 +31,21 @@ try {
     process.exit(1);
 }
 
-const addPageFunc = (id, navigation) => {
+const addModuleFunc = (id, navigation) => {
     if (!id || !id.match(/^[a-z0-9_-]+$/i)) {
-        console.error("Invalid page ID, use latin characters, numbers and '-', '_' chars only");
+        console.error("Invalid module ID, use latin characters, numbers and '-', '_' chars only");
         process.exit(1);
     }
-    if (fs.existsSync(path.resolve(__dirname, "..", "pages", id))) {
-        console.error(`Page '${id}' already exists`);
+    if (fs.existsSync(path.resolve(__dirname, "..", "modules", id))) {
+        console.error(`Module '${id}' already exists`);
         process.exit(1);
     }
-    console.log(`Creating page '${id}...`);
-    fs.copySync(path.resolve(__dirname, "..", "pages", ".blank"), path.resolve(__dirname, "..", "pages", id));
-    const pageMeta = fs.readJSONSync(path.resolve(__dirname, "..", "pages", id, "meta.json"));
-    pageMeta.id = id;
-    pageMeta.path = `/${id}`;
-    fs.writeJSONSync(path.resolve(__dirname, "..", "pages", id, "meta.json"), pageMeta, {
+    console.log(`Creating module '${id}...`);
+    fs.copySync(path.resolve(__dirname, "..", "modules", ".blank"), path.resolve(__dirname, "..", "modules", id));
+    const moduleMeta = fs.readJSONSync(path.resolve(__dirname, "..", "modules", id, "module.json"));
+    moduleMeta.id = id;
+    moduleMeta.path = `/${id}`;
+    fs.writeJSONSync(path.resolve(__dirname, "..", "modules", id, "module.json"), moduleMeta, {
         spaces: "\t",
     });
     if (navigation) {
@@ -64,20 +64,20 @@ const addPageFunc = (id, navigation) => {
     console.log("All done.\n");
 };
 
-const removePageFunc = id => {
+const removeModuleFunc = id => {
     if (!id || !id.match(/^[a-z0-9_-]+$/i)) {
-        console.error("Invalid page ID, use latin characters, numbers and '-', '_' chars only");
+        console.error("Invalid module ID, use latin characters, numbers and '-', '_' chars only");
         process.exit(1);
     }
-    if (!fs.existsSync(path.resolve(__dirname, "..", "pages", id))) {
-        console.error(`Page '${id}' doesn't exists`);
+    if (!fs.existsSync(path.resolve(__dirname, "..", "modules", id))) {
+        console.error(`Module '${id}' doesn't exists`);
         process.exit(1);
     }
-    console.log(`Removing page '${id}...`);
-    fs.removeSync(path.resolve(__dirname, "..", "pages", id));
+    console.log(`Removing module '${id}...`);
+    fs.removeSync(path.resolve(__dirname, "..", "modules", id));
     const navJson = fs.readJSONSync(path.resolve(__dirname, "..", "config", "navigation.json"));
     if (navJson.routes.indexOf(id) >= 0) {
-        console.log("Removing page from navbar...");
+        console.log("Removing module from navbar...");
         navJson.routes = navJson.routes.filter(r => r !== id);
         navJson.home = navJson.home === id ? "" : navJson.home;
         fs.writeJSONSync(path.resolve(__dirname, "..", "config", "navigation.json"), navJson, {
@@ -107,22 +107,22 @@ const addLanguageFunc = data => {
     fs.writeJSONSync(path.resolve(__dirname, "..", "config", "languages.json"), languageJson, {
         spaces: "\t"
     });
-    console.log("Modifying existing pages...");
-    fs.readdirSync(path.resolve(__dirname, "..", "pages")).map(p => {
-        const metaJson = fs.readJSONSync(path.resolve(__dirname, "..", "pages", p, "meta.json"));
+    console.log("Modifying existing modules...");
+    fs.readdirSync(path.resolve(__dirname, "..", "pamodulesges")).map(p => {
+        const metaJson = fs.readJSONSync(path.resolve(__dirname, "..", "modules", p, "module.json"));
         metaJson.title[id] = metaJson.title[id] || "";
         metaJson.description[id] = metaJson.description[id] || "";
-        fs.writeJSONSync(path.resolve(__dirname, "..", "pages", p, "meta.json"), metaJson, {
+        fs.writeJSONSync(path.resolve(__dirname, "..", "modules", p, "module.json"), metaJson, {
             spaces: "\t"
         });
-        fs.ensureDirSync(path.resolve(__dirname, "..", "pages", p, "content", `lang-${id}`));
-        fs.writeFileSync(path.resolve(__dirname, "..", "pages", p, "content", `lang-${id}`, "index.marko"), `<div>${name}</div>`, "utf8");
+        fs.ensureDirSync(path.resolve(__dirname, "..", "modules", p, "content", `lang-${id}`));
+        fs.writeFileSync(path.resolve(__dirname, "..", "modules", p, "content", `lang-${id}`, "index.marko"), `<div>${name}</div>`, "utf8");
     });
-    const metaJson = fs.readJSONSync(path.resolve(__dirname, "..", "..", "etc", "meta.json"));
+    const metaJson = fs.readJSONSync(path.resolve(__dirname, "..", "..", "etc", "module.json"));
     metaJson.title[id] = metaJson.title[id] || "";
     metaJson.shortTitle[id] = metaJson.shortTitle[id] || "";
     metaJson.description[id] = metaJson.description[id] || "";
-    fs.writeJSONSync(path.resolve(__dirname, "..", "..", "etc", "meta.json"), metaJson, {
+    fs.writeJSONSync(path.resolve(__dirname, "..", "..", "etc", "module.json"), metaJson, {
         spaces: "\t"
     });
     const transCoreJson = fs.readJSONSync(path.resolve(__dirname, "..", "translations", "core", `${Object.keys(languageJson)[0]}.json`));
@@ -153,23 +153,23 @@ const removeLanguageFunc = id => {
     fs.writeJSONSync(path.resolve(__dirname, "..", "config", "languages.json"), languageJson, {
         spaces: "\t"
     });
-    console.log("Removing language from existing pages...");
-    fs.readdirSync(path.resolve(__dirname, "..", "pages")).map(p => {
-        const metaJson = fs.readJSONSync(path.resolve(__dirname, "..", "pages", p, "meta.json"));
+    console.log("Removing language from existing modules...");
+    fs.readdirSync(path.resolve(__dirname, "..", "modules")).map(p => {
+        const metaJson = fs.readJSONSync(path.resolve(__dirname, "..", "modules", p, "module.json"));
         delete metaJson.title[id];
         delete metaJson.description[id];
-        fs.writeJSONSync(path.resolve(__dirname, "..", "pages", p, "meta.json"), metaJson, {
+        fs.writeJSONSync(path.resolve(__dirname, "..", "modules", p, "module.json"), metaJson, {
             spaces: "\t"
         });
-        if (fs.existsSync(path.resolve(__dirname, "..", "pages", p, "content", `lang-${id}`))) {
-            fs.removeSync(path.resolve(__dirname, "..", "pages", p, "content", `lang-${id}`));
+        if (fs.existsSync(path.resolve(__dirname, "..", "modules", p, "content", `lang-${id}`))) {
+            fs.removeSync(path.resolve(__dirname, "..", "modules", p, "content", `lang-${id}`));
         }
     });
-    const metaJson = fs.readJSONSync(path.resolve(__dirname, "..", "..", "etc", "meta.json"));
+    const metaJson = fs.readJSONSync(path.resolve(__dirname, "..", "..", "etc", "module.json"));
     delete metaJson.title[id];
     delete metaJson.shortTitle[id];
     delete metaJson.description[id];
-    fs.writeJSONSync(path.resolve(__dirname, "..", "..", "etc", "meta.json"), metaJson, {
+    fs.writeJSONSync(path.resolve(__dirname, "..", "..", "etc", "module.json"), metaJson, {
         spaces: "\t"
     });
     if (fs.existsSync(path.resolve(__dirname, "..", "translations", "core", `${id}.json`))) {
@@ -182,19 +182,19 @@ const removeLanguageFunc = id => {
 };
 
 if (!Object.keys(options).length) {
-    console.log(`Usage:\n\nnpm run cli -- --addPage <id> [--navigation] - create a new page (optionally add to navbar)
-               --removePage <id> - delete existing page
+    console.log(`Usage:\n\nnpm run cli -- --addModule <id> [--navigation] - create a new module (optionally add to navbar)
+               --removeModule <id> - delete existing module
                --addLanguage <id:name> - add new language (example: de-de:Deutsch)
                --removeLanguage <id> - delete existing language\n`);
     process.exit(0);
 }
 
-if (options.addPage !== undefined) {
-    addPageFunc(options.addPage, !!options.navigation);
+if (options.addModule !== undefined) {
+    addModuleFunc(options.addModule, !!options.navigation);
 }
 
-if (options.removePage !== undefined) {
-    removePageFunc(options.removePage);
+if (options.removeModule !== undefined) {
+    removeModuleFunc(options.removeModule);
 }
 
 if (options.addLanguage !== undefined) {

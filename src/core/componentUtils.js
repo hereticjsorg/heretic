@@ -1,6 +1,7 @@
 export default class {
-    constructor(component) {
+    constructor(component, language) {
         this.component = component;
+        this.language = language;
     }
 
     waitForLanguageData() {
@@ -37,5 +38,17 @@ export default class {
             }
         };
         return new Promise(wait);
+    }
+
+    async loadLanguageData(module) {
+        if (process.browser && window.__heretic && window.__heretic.languageData && !window.__heretic.translationsLoaded[module]) {
+            const i18nLoader = require(`../build/i18n-loader-${module}`);
+            window.__heretic.translationsLoaded[module] = true;
+            const languageData = {
+                ...window.__heretic.languageData,
+                ...await i18nLoader.loadLanguageFile(this.language)
+            };
+            window.__heretic.languageData = languageData;
+        }
     }
 }

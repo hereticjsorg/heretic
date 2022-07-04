@@ -6,6 +6,7 @@ module.exports = class {
     onCreate(input) {
         this.state = {
             loading: false,
+            progress: false,
             tabs: input.tabsStart ? input.tabsStart : input.tabs ? input.tabs.map(t => t.id) : ["_default"],
             activeTab: input.tabs ? input.tabs[0].id : "_default",
             addTabDropdownActive: false,
@@ -219,14 +220,23 @@ module.exports = class {
         }
     }
 
-    setLoading(flag) {
-        this.setState("loading", flag);
+    setComponentsState(flag) {
         for (const id of this.fieldIds) {
             const fieldComponent = this.getComponent(`hr_hf_f_${id}`);
             if (fieldComponent) {
                 fieldComponent.setLoading(flag);
             }
         }
+    }
+
+    setLoading(flag) {
+        this.setState("loading", flag);
+        this.setComponentsState(flag);
+    }
+
+    setProgress(flag) {
+        this.setState("progress", flag);
+        this.setComponentsState(flag);
     }
 
     onFormSubmit(e) {

@@ -26,7 +26,7 @@ You will also need to create several files, directories and configuration files 
 npm run setup -- --defaults
 ```
 
-The *--defaults* parameter is required on order to create default pages and navigation. If not required, just ignore this parameter.
+The *--defaults* parameter is required on order to create default modules and navigation. If not required, just ignore this parameter.
 
 Finally, you may wish to run the build process:
 

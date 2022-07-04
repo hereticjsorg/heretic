@@ -10,7 +10,7 @@ When rate limits are reached, internal server error occurs. This triggers a 429 
 
 First, you will need to enable rate limiting by setting the *enabled* option to *true*.
 
-There are global options which are affecting every page (and even static resource) of your site:
+There are global options which are affecting every module (and even static resource) of your site:
 
 * *timeWindow*: time period (in milliseconds); in case a client reaches the maximum number of allowed requests in this time period, a *429* error is generated
 * *max*: request limit until client gets temporary restricted

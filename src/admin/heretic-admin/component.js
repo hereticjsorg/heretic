@@ -1,7 +1,7 @@
 const cloneDeep = require("lodash.clonedeep");
 const i18nLoader = require("../../build/i18n-loader-core");
-const pagesLoader = require("../../build/module-loader");
-const routes = require("../../build/routes.json");
+const pagesLoader = require("../../build/module-admin-loader");
+const routes = require("../../build/routes-admin.json");
 
 module.exports = class {
     async loadLanguageData() {
@@ -28,7 +28,7 @@ module.exports = class {
         this.language = out.global.language;
         this.serverRoute = out.global.route;
         await import(/* webpackChunkName: "bulma" */ "../../styles/bulma.scss");
-        await import(/* webpackChunkName: "heretic" */ "../heretic.scss");
+        await import(/* webpackChunkName: "heretic-admin" */ "../heretic-admin.scss");
         await this.loadLanguageData();
     }
 

@@ -1,7 +1,7 @@
 import error404 from "../../errors/404/server.marko";
 
 export default async (rep, languageData, language, siteMeta, i18nNavigation) => {
-    const renderPage = await error404.render({
+    const renderModule = await error404.render({
         $global: {
             serializedGlobals: {
                 language: true,
@@ -18,5 +18,5 @@ export default async (rep, languageData, language, siteMeta, i18nNavigation) => 
         },
     });
     rep.type("text/html");
-    return renderPage.getOutput();
+    return renderModule.getOutput();
 };

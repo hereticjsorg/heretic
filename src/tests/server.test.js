@@ -86,25 +86,25 @@ test("Server availability (404)", async () => {
 
 test("Test Module", async () => {
     const id = crypto.randomBytes(20).toString("hex");
-    if (await helpers.fileExists(`src/pages/${routeId}`)) {
-        await helpers.removeFile(`src/pages/${routeId}`);
+    if (await helpers.fileExists(`src/modules/${routeId}`)) {
+        await helpers.removeFile(`src/modules/${routeId}`);
     }
-    await helpers.copy("src/core/defaults/.test", `src/pages/${routeId}`);
-    const testMeta = await helpers.readJSON(`src/pages/${routeId}/meta.json`);
+    await helpers.copy("src/core/defaults/.test", `src/modules/${routeId}`);
+    const testMeta = await helpers.readJSON(`src/modules/${routeId}/module.json`);
     testMeta.id = routeId;
     testMeta.path = `/${id}`;
     for (const language of helpers.getLanguagesList()) {
         testMeta.title[language] = `site-title-${language}`;
         testMeta.description[language] = `site-description-${language}`;
-        await helpers.ensureDir(`src/pages/${routeId}/content/lang-${language}`);
-        await helpers.writeFile(`src/pages/${routeId}/content/lang-${language}/index.marko`, `<div>site-content-${language}</div>\n`);
+        await helpers.ensureDir(`src/modules/${routeId}/content/lang-${language}`);
+        await helpers.writeFile(`src/modules/${routeId}/content/lang-${language}/index.marko`, `<div>site-content-${language}</div>\n`);
     }
-    await helpers.writeJSON(`src/pages/${routeId}/meta.json`, testMeta);
+    await helpers.writeJSON(`src/modules/${routeId}/module.json`, testMeta);
     const {
         buildSuccess
     } = await helpers.build("dev");
     expect(buildSuccess).toBe(true);
-    await helpers.removeFile(`src/pages/${routeId}`);
+    await helpers.removeFile(`src/modules/${routeId}`);
     const childProcess = execa("npm run server");
     expect(childProcess.pid).toBeGreaterThan(0);
     serverPid.push(childProcess.pid);
@@ -141,7 +141,7 @@ afterAll(async () => {
             // Ignore
         }
     }
-    if (await helpers.fileExists(`src/pages/${routeId}`)) {
-        await helpers.removeFile(`src/pages/${routeId}`);
+    if (await helpers.fileExists(`src/modules/${routeId}`)) {
+        await helpers.removeFile(`src/modules/${routeId}`);
     }
 });

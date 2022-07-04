@@ -2,13 +2,14 @@ import Heretic from "./core/heretic";
 
 (async () => {
     const heretic = new Heretic();
-    await heretic.loadLanguageData();
-    const systemConfig = heretic.getConfigSystem();
     try {
+        await heretic.loadLanguageData();
+        const systemConfig = heretic.getConfigSystem();
         if (systemConfig.server.static) {
             heretic.serveStaticContent();
         }
-        heretic.registerRoutePages();
+        heretic.registerRouteModulesFrontend();
+        heretic.registerRouteModulesAdmin();
         heretic.registerRouteErrors();
         await heretic.registerRouteAPI();
         heretic.listen();

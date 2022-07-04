@@ -1,0 +1,18 @@
+import languagesData from "../../config/languages.json"
+import navigation from "../../config/navigation-admin.json"
+
+$ {
+    const attrs = Object.assign({}, input);
+    delete attrs.renderBody;
+    delete attrs.activeClass;
+    delete attrs.parentElement;
+    const languages = Object.keys(languagesData);
+    const lang = out.global.language === languages[0] ? "" : out.global.language;
+    const route = input.route === navigation.home ? "" : input.route;
+    attrs.href = `/${[lang, ...route.split(/\//)].filter(i => i).join("/")}`;
+}
+<a ...attrs on-click("navigate") key="a">
+    <if(input.renderBody)>
+        <${input.renderBody}/>
+    </if>
+</a>

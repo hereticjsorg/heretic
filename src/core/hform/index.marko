@@ -110,5 +110,10 @@
             </div>
         </div>
     </if>
+    <if(state.progress)>
+        <div class="hr-hf-loader-overlay">
+            <progress class="progress is-normal" value=state.progress max="100">${state.progress}%</progress>
+        </div>
+    </if>
 </div>
 <hnotify key=`notify_field_${input.formId}`/>

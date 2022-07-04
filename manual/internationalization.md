@@ -48,22 +48,22 @@ After you've defined all the languages you need, it's time to change the main me
 
 You will need to set *title*, *shortTitle* and *description* to set website title, a shorter version of title and general description, correspondingly. These values are used to display in the browser window title and to generate sitemap for you.
 
-Each page has its own *meta.json* file where you must define *title* and *description* of each page according to your language list.
+Each module has *module.json* file where you must define *title* and *description* of each module according to your language list.
 
-## Localized Page Versions
+## Localized Module Versions
 
-Each page may have its localized version (that's optional, but you can use this feature in case when content for different languages is absolutely different).
+Each module may have its localized version (that's optional, but you can use this feature in case when content for different languages is absolutely different).
 
-To use this feature, you will need to set the *langSwitchComponent* parameter to *true* in page's *meta.json* file. If true, Heretic will generate &lt;lang-switch/&gt; component for each page to display a different content version for each page.
+To use this feature, you will need to set the *langSwitchComponent* parameter to *true* in module's *meta.json* file. If true, Heretic will generate &lt;lang-switch/&gt; component for each module to display a different content version for each module.
 
-Each page has the following structure:
+Each module has the following structure:
 
 * the main *index.marko* file only has &lt;content/&gt; tag inside
-* the *index.marko* of *contents* component refers to the the *&lt;lang-switch/&gt;* component of the current page
+* the *index.marko* of *contents* component refers to the the *&lt;lang-switch/&gt;* component of the current module
 * the *index.marko* of *lang-switch* component (auto-generated during build process) chooses which component to display, based on current language
 * the *index.marko* of *lang-xx-xx* component displays actual content for a corresponding language
 
-Take a look on a page template located in *./src/pages/.blank* as a reference.
+Take a look on a module template located in *./src/modules/.blank* as a reference.
 
 **Note**: you should not edit *&lt;lang-switch/&gt;* manually because it gets overwritten each time you start the build process.
 

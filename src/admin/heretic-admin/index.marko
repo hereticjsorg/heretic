@@ -1,5 +1,6 @@
-import routes from "../../build/routes.json"
+import routes from "../../build/routes-admin.json"
 import languages from "../../config/languages.json"
+import logo from "../../images/logo_dark.svg"
 
 <div style={
     position: state.mounted ? "unset" : "absolute",
@@ -7,14 +8,14 @@ import languages from "../../config/languages.json"
 }>
     <loading key="loading"/>
     <div
-        class="container hr-wrap"
+        class="hr-wrap"
         style={
             position: !process.browser || !state.mounted ? "absolute" : "unset",
             clip: !process.browser || !state.mounted ? "rect(0 0 0 0)" : "unset"
         }>
         <div>
             <div class="hr-navbar-wrap">
-                <navbar key="navbar"/>
+                <navbar-admin key="navbar"/>
             </div>
         </div>
         <div class="hr-content">
@@ -23,14 +24,14 @@ import languages from "../../config/languages.json"
                     <${input.renderBody}/>
                 </if>
                 <if(process.browser)>
-                    <router on-route-change("onRouteChange")>
+                    <router-admin on-route-change("onRouteChange")>
                         <if(state.currentComponent)>
                             <${state.currentComponent}
                                 key=state.route.id
                                 ...state.route
                                 parentComponent=component/>
                         </if>
-                    </router>
+                    </router-admin>
                 </if>
             </div>
         </div>

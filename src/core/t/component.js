@@ -1,3 +1,5 @@
+const translatedModules = require("../../build/translated-modules.json");
+
 module.exports = class {
     async onCreate(input, out) {
         this.language = out.global.language;
@@ -8,6 +10,12 @@ module.exports = class {
                 ...require(`../../translations/core/${this.language}.json`),
                 ...require(`../../translations/user/${this.language}.json`)
             };
+            for (const module of translatedModules) {
+                this.languageData = {
+                    ...this.languageData,
+                    ...require(`../../modules/${module}/translations/${this.language}.json`),
+                };
+            }
         }
     }
 

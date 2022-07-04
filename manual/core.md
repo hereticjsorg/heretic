@@ -4,7 +4,7 @@
 
 *   [heretic][1]
     *   [serveStaticContent][2]
-    *   [registerRoutePages][3]
+    *   [registerRouteModules][3]
     *   [registerRouteErrors][4]
     *   [registerRouteAPI][5]
     *   [listen][6]
@@ -22,9 +22,9 @@ initialize Fastify and its plugins
 Register @fastify/static plugin to serve static
 assets (useful in development mode)
 
-### registerRoutePages
+### registerRouteModules
 
-Register routes for all pages
+Register routes for all modules
 
 ### registerRouteErrors
 
@@ -60,7 +60,7 @@ Returns **[Object][10]** configuration data object (JSON)
 
 [2]: #servestaticcontent
 
-[3]: #registerroutepages
+[3]: #registerroutemodules
 
 [4]: #registerrouteerrors
 

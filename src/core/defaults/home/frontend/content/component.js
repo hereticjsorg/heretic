@@ -1,4 +1,4 @@
-const meta = require("../meta.json");
+const meta = require("../../meta.json");
 
 module.exports = class {
     onCreate(input, out) {

@@ -5,18 +5,21 @@ import fs from "fs-extra";
 import crypto from "crypto";
 
 import hereticRateLimit from "./rateLimit";
-import routePage from "./routes/routePage";
+import routeModuleFrontend from "./routes/routeModuleFrontend";
+import routeModuleAdmin from "./routes/routeModuleAdmin";
 import route404 from "./routes/route404";
 import route500 from "./routes/route500";
 import apiRoute404 from "./routes/route404-api";
 import apiRoute500 from "./routes/route500-api";
 import routes from "../build/routes.json";
-import apiModules from "../build/api.json";
+import apiModules from "../build/api-modules.json";
+import apiCore from "../build/api-core.json";
 import Logger from "./logger";
 import Utils from "./utils";
 import fastifyURLData from "./urlData";
 import fastifyMultipart from "./multipart";
-import i18n from "../build/i18n-loader.js";
+import i18nCore from "../build/i18n-loader-core.js";
+import i18nTranslations from "../build/translated-modules.json";
 import i18nNavigation from "../build/i18n-navigation.json";
 import languages from "../config/languages.json";
 import navigation from "../config/navigation.json";
@@ -42,12 +45,6 @@ export default class {
             trustProxy: this.config.server.trustProxy,
             ignoreTrailingSlash: this.config.server.ignoreTrailingSlash,
         });
-        // for (const lang of Object.keys(languages)) {
-        //     this.languageData[lang] = {
-        //         ...require(`../translations/core/${lang}.json`),
-        //         ...require(`../translations/user/${lang}.json`),
-        //     };
-        // }
         [this.defaultLanguage] = Object.keys(languages);
         this.utils = new Utils(Object.keys(languages));
         this.fastify.register(require("@fastify/formbody"));
@@ -78,7 +75,14 @@ export default class {
     async loadLanguageData() {
         this.languageData = {};
         for (const lang of Object.keys(languages)) {
-            this.languageData[lang] = await i18n.loadLanguageFile(lang);
+            this.languageData[lang] = await i18nCore.loadLanguageFile(lang);
+            for (const module of i18nTranslations) {
+                const i18nLoader = await import(`../build/i18n-loader-${module}.js`);
+                this.languageData[lang] = {
+                    ...this.languageData[lang],
+                    ...await i18nLoader.loadLanguageFile(lang),
+                };
+            }
         }
     }
 
@@ -94,14 +98,28 @@ export default class {
     }
 
     /**
-     * Register routes for all pages
+     * Register routes for all modules
      */
-    registerRoutePages() {
+    registerRouteModulesFrontend() {
         for (const route of routes) {
-            this.fastify.get(route.path || "/", routePage(route, this.languageData, this.defaultLanguage));
+            this.fastify.get(route.path || "/", routeModuleFrontend(route, this.languageData, this.defaultLanguage));
             for (const lang of Object.keys(languages)) {
                 if (lang !== this.defaultLanguage) {
-                    this.fastify.get(`/${lang}${route.path}`, routePage(route, this.languageData, lang));
+                    this.fastify.get(`/${lang}${route.path}`, routeModuleFrontend(route, this.languageData, lang));
+                }
+            }
+        }
+    }
+
+    /**
+     * Register admin routes for all modules
+     */
+     registerRouteModulesAdmin() {
+        for (const route of routes) {
+            this.fastify.get(route.path ? `/admin${route.path}` : "/admin", routeModuleAdmin(route, this.languageData, this.defaultLanguage));
+            for (const lang of Object.keys(languages)) {
+                if (lang !== this.defaultLanguage) {
+                    this.fastify.get(`/${lang}/admin${route.path}`, routeModuleAdmin(route, this.languageData, lang));
                 }
             }
         }
@@ -130,8 +148,12 @@ export default class {
      * Register API routes
      */
     async registerRouteAPI() {
-        for (const module of apiModules) {
+        for (const module of apiCore) {
             const api = await import(`../api/${module}/index.js`);
+            api.default(this.fastify);
+        }
+        for (const module of apiModules) {
+            const api = await import(`../modules/${module}/api/index.js`);
             api.default(this.fastify);
         }
     }

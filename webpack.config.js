@@ -16,9 +16,9 @@ fs.writeFileSync(path.resolve(__dirname, "node_modules", "fastify", "lib", "erro
 module.exports = (env, argv) => {
     const markoPlugin = new MarkoPlugin();
     const webpackUtils = new WebpackUtils(argv.mode === "production");
-    webpackUtils.generatePagesBuildConfigs();
+    webpackUtils.generateModulesBuildConfigs();
     webpackUtils.generateI18nLoader();
-    webpackUtils.generatePagesLoader();
+    webpackUtils.generateModulesLoader();
     webpackUtils.generateI18nNavigation();
     webpackUtils.generateSitemap();
     webpackUtils.generateManifest();

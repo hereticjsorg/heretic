@@ -1,3 +1,3 @@
 {
-    "tags-dir": ["./", "./pages", "./errors", "./core"]
+    "tags-dir": ["./", "./modules", "./errors", "./core"]
 }

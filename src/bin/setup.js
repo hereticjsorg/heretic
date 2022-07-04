@@ -25,7 +25,7 @@ console.log(` _   _               _   _\n| | | |             | | (_)\n| |_| | __
 
 console.log("Initializing configuration files and data...");
 if (!options.defaults) {
-    console.log(`Note: use --defaults parameter to create default pages and navigation`);
+    console.log(`Note: use --defaults parameter to create default modules and navigation`);
 }
 
 // Reading configuration templates
@@ -40,24 +40,24 @@ configSystem.secret = crypto.createHmac("sha256", uuidv4()).update(uuidv4()).dig
 
 // Ensure that required directories exist
 
-fs.ensureDirSync(path.resolve(__dirname, "..", "pages"));
+fs.ensureDirSync(path.resolve(__dirname, "..", "modules"));
 fs.ensureDirSync(path.resolve(__dirname, "..", "..", "etc"));
 fs.ensureDirSync(path.resolve(__dirname, "..", "translations", "user"));
 
 // If there is an option to copy defaults...
 
 if (options.defaults) {
-    // Copy src/pages/home page
-    if (!fs.existsSync(path.resolve(__dirname, "..", "pages", "home")) || options.force) {
-        fs.copySync(path.resolve(__dirname, "..", "core", "defaults", "home"), path.resolve(__dirname, "..", "pages", "home"));
+    // Copy src/modules/home module
+    if (!fs.existsSync(path.resolve(__dirname, "..", "modules", "home")) || options.force) {
+        fs.copySync(path.resolve(__dirname, "..", "core", "defaults", "home"), path.resolve(__dirname, "..", "modules", "home"));
     } else {
-        console.log(`Warning: skipping src/pages/home, use --force parameter to override`);
+        console.log(`Warning: skipping src/modules/home, use --force parameter to override`);
     }
-    // Copy src/pages/license page
-    if (!fs.existsSync(path.resolve(__dirname, "..", "pages", "license")) || options.force) {
-        fs.copySync(path.resolve(__dirname, "..", "core", "defaults", "license"), path.resolve(__dirname, "..", "pages", "license"));
+    // Copy src/modules/license module
+    if (!fs.existsSync(path.resolve(__dirname, "..", "modules", "license")) || options.force) {
+        fs.copySync(path.resolve(__dirname, "..", "core", "defaults", "license"), path.resolve(__dirname, "..", "modules", "license"));
     } else {
-        console.log(`Warning: skipping src/pages/license, use --force parameter to override`);
+        console.log(`Warning: skipping src/modules/license, use --force parameter to override`);
     }
 } else {
     // There are no default routes otherwise
@@ -72,12 +72,12 @@ if (!fs.existsSync(path.resolve(__dirname, "..", "view")) || options.force) {
     console.log(`Warning: skipping src/view, use --force parameter to override`);
 }
 
-// Copy blank page template
+// Copy blank module template
 
-if (!fs.existsSync(path.resolve(__dirname, "..", "pages", ".blank")) || options.force) {
-    fs.copySync(path.resolve(__dirname, "..", "core", "defaults", ".blank"), path.resolve(__dirname, "..", "pages", ".blank"));
+if (!fs.existsSync(path.resolve(__dirname, "..", "modules", ".blank")) || options.force) {
+    fs.copySync(path.resolve(__dirname, "..", "core", "defaults", ".blank"), path.resolve(__dirname, "..", "modules", ".blank"));
 } else {
-    console.log(`Warning: skipping pages/.blank, use --force parameter to override`);
+    console.log(`Warning: skipping modules/.blank, use --force parameter to override`);
 }
 
 // Copy etc/meta.json configuration file
