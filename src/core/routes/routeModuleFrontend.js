@@ -18,7 +18,7 @@ export default (route, languageData, language) => ({
                 route: route.id,
                 title: translationData.title[language],
                 siteTitle: this.siteMeta.title[language],
-                i18nNavigation: this.i18nNavigation[language],
+                i18nNavigation: this.i18nNavigation.frontend[language],
                 description: translationData.description && translationData.description[language] ? translationData.description[language] : null,
                 t: id => languageData[language] && languageData[language][id] ? `${languageData[language][id]}` : id,
             },

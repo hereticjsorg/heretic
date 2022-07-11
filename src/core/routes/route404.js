@@ -1,4 +1,4 @@
-import error404 from "../../errors/404/server.marko";
+import error404 from "../errors/404/server.marko";
 
 export default async (rep, languageData, language, siteMeta, i18nNavigation) => {
     const renderModule = await error404.render({

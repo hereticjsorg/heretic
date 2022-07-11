@@ -6,6 +6,16 @@
         "trustProxy": true,
         "ignoreTrailingSlash": true
     },
+    "mongo": {
+        "url": "mongodb://127.0.0.1:27017",
+        "dbName": "heretic",
+        "options": {
+            "useUnifiedTopology": true,
+            "connectTimeoutMS": 5000,
+            "keepAlive": true,
+            "useNewUrlParser": true
+        }
+    },
     "redis": {
         "enabled": false,
         "host": "127.0.0.1",

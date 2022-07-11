@@ -3,6 +3,9 @@ import Redis from "ioredis";
 import path from "path";
 import fs from "fs-extra";
 import crypto from "crypto";
+import {
+    MongoClient
+} from "mongodb";
 
 import hereticRateLimit from "./rateLimit";
 import routeModuleFrontend from "./routes/routeModuleFrontend";
@@ -11,7 +14,8 @@ import route404 from "./routes/route404";
 import route500 from "./routes/route500";
 import apiRoute404 from "./routes/route404-api";
 import apiRoute500 from "./routes/route500-api";
-import routes from "../build/routes.json";
+import routesFrontend from "../build/routes.json";
+import routesAdmin from "../build/routes-admin.json";
 import apiModules from "../build/api-modules.json";
 import apiCore from "../build/api-core.json";
 import Logger from "./logger";
@@ -21,10 +25,11 @@ import fastifyMultipart from "./multipart";
 import i18nCore from "../build/i18n-loader-core.js";
 import i18nTranslations from "../build/translated-modules.json";
 import i18nNavigation from "../build/i18n-navigation.json";
+import i18nNavigationAdmin from "../build/i18n-navigation-admin.json";
 import languages from "../config/languages.json";
 import navigation from "../config/navigation.json";
 
-/**
+/*
  * Main Heretic class used to load configs,
  * initialize Fastify and its plugins
  */
@@ -50,7 +55,10 @@ export default class {
         this.fastify.register(require("@fastify/formbody"));
         this.fastify.register(fastifyMultipart);
         this.fastify.register(fastifyURLData);
-        this.fastify.decorate("i18nNavigation", i18nNavigation);
+        this.fastify.decorate("i18nNavigation", {
+            frontend: i18nNavigation,
+            admin: i18nNavigationAdmin
+        });
         this.fastify.decorate("siteMeta", this.siteMeta);
         this.fastify.decorate("siteConfig", this.config);
         this.fastify.decorate("languages", languages);
@@ -86,7 +94,7 @@ export default class {
         }
     }
 
-    /**
+    /*
      * Register fastify-static plugin to serve static
      * assets (useful in development mode)
      */
@@ -97,11 +105,11 @@ export default class {
         });
     }
 
-    /**
+    /*
      * Register routes for all modules
      */
     registerRouteModulesFrontend() {
-        for (const route of routes) {
+        for (const route of routesFrontend) {
             this.fastify.get(route.path || "/", routeModuleFrontend(route, this.languageData, this.defaultLanguage));
             for (const lang of Object.keys(languages)) {
                 if (lang !== this.defaultLanguage) {
@@ -111,21 +119,21 @@ export default class {
         }
     }
 
-    /**
+    /*
      * Register admin routes for all modules
      */
-     registerRouteModulesAdmin() {
-        for (const route of routes) {
-            this.fastify.get(route.path ? `/admin${route.path}` : "/admin", routeModuleAdmin(route, this.languageData, this.defaultLanguage));
+    registerRouteModulesAdmin() {
+        for (const route of routesAdmin) {
+            this.fastify.get(route.path, routeModuleAdmin(route, this.languageData, this.defaultLanguage));
             for (const lang of Object.keys(languages)) {
                 if (lang !== this.defaultLanguage) {
-                    this.fastify.get(`/${lang}/admin${route.path}`, routeModuleAdmin(route, this.languageData, lang));
+                    this.fastify.get(`/${lang}${route.path}`, routeModuleAdmin(route, this.languageData, lang));
                 }
             }
         }
     }
 
-    /**
+    /*
      * Register error routes (both 404 and 500)
      */
     registerRouteErrors() {
@@ -158,7 +166,7 @@ export default class {
         }
     }
 
-    /**
+    /*
      * Listen to the specified host and port
      */
     listen() {
@@ -168,7 +176,36 @@ export default class {
         });
     }
 
-    /**
+    /*
+     * Connect to the MongoDB
+     */
+
+    async connectDatabase() {
+        // Create MongoDB client and connect
+        const mongoClient = new MongoClient(this.config.mongo.url, this.config.mongo.options || {
+            useUnifiedTopology: true,
+            connectTimeoutMS: 5000,
+            keepAlive: true,
+            useNewUrlParser: true
+        });
+        mongoClient.on("serverDescriptionChanged", e => {
+            if (e && e.newDescription && e.newDescription.error) {
+                this.fastify.log.error("Fatal: connection to MongoDB is broken");
+                process.exit(1);
+            }
+        });
+        await mongoClient.connect();
+        // Register MongoDB for Fastify
+        this.fastify.register(require("@fastify/mongodb"), {
+            client: mongoClient,
+            database: this.config.mongo.dbName
+        }).register(async (ff, opts, next) => {
+            this.fastify.log.info(`Connected to Mongo Server: (${this.config.mongo.url}/${this.config.mongo.dbName})`);
+            next();
+        });
+    }
+
+    /*
      * This method returns current Fastify instance
      * @returns {Object} fastify object
      */
@@ -176,7 +213,7 @@ export default class {
         return this.fastify;
     }
 
-    /**
+    /*
      * This method returns system configuration data (system.json)
      * @returns {Object} configuration data object (JSON)
      */
@@ -184,7 +221,7 @@ export default class {
         return this.config;
     }
 
-    /**
+    /*
      * This method returns site metadata (meta.json)
      * @returns {Object} configuration data object (JSON)
      */

@@ -75,7 +75,7 @@ ${Object.keys(this.languages).map(l => `        case "${l}":
 ${routes.map(r => `        case "${r.id}":
             return import(/* webpackChunkName: "module.${r.id}" */ "../modules/${r.dir}/frontend/index.marko");
 `).join("")}        default:
-            return import(/* webpackChunkName: "module.404" */ "../errors/404/index.marko");
+            return import(/* webpackChunkName: "module.404" */ "../core/errors/404/index.marko");
         }
     },
 };\n`, "utf8");
@@ -84,9 +84,9 @@ ${routes.map(r => `        case "${r.id}":
     loadComponent: async route => {
         switch (route) {
 ${routesAdmin.map(r => `        case "${r.id}":
-            return import(/* webpackChunkName: "module.${r.id}" */ "../modules/${r.dir}/admin/index.marko");
+            return import(/* webpackChunkName: "module.${r.id}" */ "../${r.core ? "core/" : ""}modules/${r.dir}/admin/index.marko");
 `).join("")}        default:
-            return import(/* webpackChunkName: "module.404" */ "../errors/404/index.marko");
+            return import(/* webpackChunkName: "module.404" */ "../core/errors/404/index.marko");
         }
     },
 };\n`, "utf8");
@@ -95,6 +95,18 @@ ${routesAdmin.map(r => `        case "${r.id}":
     generateModulesBuildConfigs() {
         const modulesMeta = [];
         const modulesAdminMeta = [];
+        fs.readdirSync(path.resolve(__dirname, "src", "core", "modules")).filter(p => !p.match(/^\./)).map(p => {
+            try {
+                const metaAdmin = fs.readJSONSync(path.resolve(__dirname, "src", "core", "modules", p, "admin.json"));
+                modulesAdminMeta.push({
+                    ...metaAdmin,
+                    dir: p,
+                    core: true,
+                });
+            } catch {
+                // Ignore
+            }
+        });
         fs.readdirSync(path.resolve(__dirname, "src", "modules")).filter(p => !p.match(/^\./)).map(p => {
             try {
                 const metaRoot = fs.readJSONSync(path.resolve(__dirname, "src", "modules", p, "module.json"));
@@ -169,11 +181,11 @@ ${routesAdmin.map(r => `        case "${r.id}":
                 id: i.id,
                 path: `/admin${i.path}`,
                 dir: i.dir,
+                core: i.core,
             });
             translationsAdmin.push({
                 id: i.id,
                 title: i.title,
-                description: i.description,
             });
         });
         fs.writeJSONSync(path.resolve(__dirname, "src", "build", "routes-admin.json"), routesAdmin, {
@@ -213,21 +225,78 @@ ${routesAdmin.map(r => `        case "${r.id}":
             spaces: "\t"
         });
         const navigationAdmin = fs.readJSONSync(path.resolve(__dirname, "src", "config", "navigation-admin.json"));
-        navigationAdmin.routes.map(r => {
-            const id = typeof r === "string" ? r : r.id;
-            let meta = {
-                title: {},
-            };
+        navigationAdmin.map(id => {
+            let meta;
             try {
                 meta = fs.readJSONSync(path.resolve(__dirname, "src", "modules", id, "admin.json"));
             } catch {
                 // Ignore
+            }
+            if (!meta) {
+                try {
+                    meta = fs.readJSONSync(path.resolve(__dirname, "src", "core", "modules", id, "admin.json"));
+                } catch {
+                    // Ignore
+                }
+            }
+            if (!meta) {
+                meta = {
+                    title: ""
+                };
             }
             Object.keys(titles).map(lang => titles[lang][id] = meta.title[lang] || userTranslations[lang][id] || "");
         });
         fs.writeJSONSync(path.resolve(__dirname, "src", "build", "i18n-navigation-admin.json"), titles, {
             spaces: "\t"
         });
+    }
+
+    generateAdminIconsLoader() {
+        const navigationAdmin = fs.readJSONSync(path.resolve(__dirname, "src", "config", "navigation-admin.json"));
+        const icons = [];
+        const modules = {};
+        for (const id of navigationAdmin) {
+            try {
+                const meta = fs.readJSONSync(path.resolve(__dirname, "src", "modules", id, "admin.json"));
+                if (meta.icon) {
+                    icons.push(meta.icon);
+                    modules[meta.icon] = id;
+                }
+            } catch {
+                // Ignore
+            }
+            try {
+                const meta = fs.readJSONSync(path.resolve(__dirname, "src", "core", "modules", id, "admin.json"));
+                if (meta.icon) {
+                    icons.push(meta.icon);
+                    modules[meta.icon] = id;
+                }
+            } catch {
+                // Ignore
+            }
+        }
+        const code = `${icons.length ? `${icons.map(icon => `import { ${icon} as ${modules[icon]} } from "@mdi/js"`).join("\n")}` : ""}${icons.length ? "\n" : ""}
+<div
+    class=("hr-icon-admin-wrap " + (input.css || ""))
+    style={
+        "margin-right": input.marginRight || "0"
+    }>
+    <svg
+        style={
+            top: input.marginTop || "0",
+            width: input.width || "24",
+            height: input.height || "24"
+        }
+        class="hr-icon-admin"
+        viewBox="0 0 24 24"
+        width=(input.width || "24")
+        height=(input.width || "24")
+        xmlns="http://www.w3.org/2000/svg">\n${icons.map(icon => `        <if(input.id === "${modules[icon]}")>
+            <path d=${modules[icon]}/>
+        </if>`).join("\n")}\n    </svg>
+</div>
+`;
+        fs.writeFileSync(path.resolve(__dirname, "src", "core", "icon-admin", "index.marko"), code);
     }
 
     generateSitemap() {

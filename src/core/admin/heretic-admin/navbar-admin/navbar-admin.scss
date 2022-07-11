@@ -1,7 +1,16 @@
 @import "../variables-admin.scss";
 
+.hr-navbar-dummy {
+    height: 58px;
+    width: 100%;
+}
+
 .hr-navbar {
     background: $grey-darker !important;
+    user-select: none;
+    position: fixed !important;
+    width: 100%;
+    top: 0px;
 }
 
 .hr-navbar-item {
@@ -48,6 +57,10 @@
 
 .hr-admin-icon>svg>path {
     fill: $white-ter !important;
+}
+
+.hr-navbar-burger {
+    height: 59px !important;
 }
 
 .hr-navbar-burger>span,

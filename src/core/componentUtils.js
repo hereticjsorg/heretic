@@ -40,6 +40,24 @@ export default class {
         return new Promise(wait);
     }
 
+    waitForElement(id) {
+        const timeout = 5000;
+        const start = Date.now();
+        const wait = (resolve, reject) => {
+            if (!process.browser) {
+                resolve();
+            }
+            if (document.getElementById(id)) {
+                resolve();
+            } else if (timeout && (Date.now() - start) >= timeout) {
+                reject(new Error("Component not found"));
+            } else {
+                setTimeout(wait.bind(this, resolve, reject), 30);
+            }
+        };
+        return new Promise(wait);
+    }
+
     async loadLanguageData(module) {
         if (process.browser && window.__heretic && window.__heretic.languageData && !window.__heretic.translationsLoaded[module]) {
             const i18nLoader = require(`../build/i18n-loader-${module}`);

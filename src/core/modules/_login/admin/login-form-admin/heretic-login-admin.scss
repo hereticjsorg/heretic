@@ -1,6 +1,6 @@
 // Import variables and fonts
 
-@import "./variables-admin.scss";
+@import "./variables-login-admin.scss";
 
 // Styled buttons
 
@@ -64,12 +64,14 @@
     border-bottom: 2px solid darken($red, 30%) !important;
 }
 
-.hr-header-wrap {
-    height: 40px;
-    background: $grey-darker;
-}
-
 // Template-related styles
+
+.hr-html,
+.hr-body,
+.hr-admin {
+    width: 100%;
+    height: 100%;
+}
 
 .hr-wrap {
     display: flex;
@@ -77,15 +79,4 @@
     flex-direction: column;
 }
 
-.hr-content {
-    flex: 1
-}
-
-.hr-footer {
-    color: $grey-darker;
-    font-size: 80%;
-}
-
-@media (max-width: 1023px) {
-
-}
+@media (max-width: 1023px) {}

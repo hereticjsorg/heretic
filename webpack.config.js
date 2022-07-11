@@ -20,6 +20,7 @@ module.exports = (env, argv) => {
     webpackUtils.generateI18nLoader();
     webpackUtils.generateModulesLoader();
     webpackUtils.generateI18nNavigation();
+    webpackUtils.generateAdminIconsLoader();
     webpackUtils.generateSitemap();
     webpackUtils.generateManifest();
     webpackUtils.generateServerData();
@@ -184,7 +185,7 @@ module.exports = (env, argv) => {
             },
             target: "async-node",
             // externals: [/^[^./!]/],
-            externals: [],
+            externals: ["mongodb"],
             optimization: argv.mode === "production" ? {
                 splitChunks: false,
                 minimizer: [

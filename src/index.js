@@ -8,6 +8,7 @@ import Heretic from "./core/heretic";
         if (systemConfig.server.static) {
             heretic.serveStaticContent();
         }
+        await heretic.connectDatabase();
         heretic.registerRouteModulesFrontend();
         heretic.registerRouteModulesAdmin();
         heretic.registerRouteErrors();

@@ -1,0 +1,18 @@
+import routes from "../../../../../build/routes-admin.json"
+import languages from "../../../../../config/languages.json"
+
+<div
+    style={
+        position: state.mounted ? "unset" : "absolute",
+        clip: state.mounted ? "unset" : "rect(0 0 0 0)"
+    }
+    class="hr-admin">
+    <div
+        class="hr-wrap is-flex is-justify-content-center is-align-content-center is-flex-direction-row"
+        style={
+            position: !process.browser || !state.mounted ? "absolute" : "unset",
+            clip: !process.browser || !state.mounted ? "rect(0 0 0 0)" : "unset"
+        }>
+        <div>OK</div>
+    </div>
+</div>

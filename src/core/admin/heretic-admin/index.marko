@@ -1,0 +1,58 @@
+import routes from "../../../build/routes-admin.json"
+import languages from "../../../config/languages.json"
+
+<div style={
+    position: state.mounted ? "unset" : "absolute",
+    clip: state.mounted ? "unset" : "rect(0 0 0 0)"
+} class="hr-admin">
+    <loading key="loading"/>
+    <div
+        class="hr-wrap"
+        style={
+            position: !process.browser || !state.mounted ? "absolute" : "unset",
+            clip: !process.browser || !state.mounted ? "rect(0 0 0 0)" : "unset"
+        }>
+        <div>
+            <div class="hr-navbar-wrap">
+                <navbar-admin key="navbar"/>
+            </div>
+        </div>
+        <div class="hr-content">
+            <div class="columns m-0 p-0 is-gapless hr-content-area-wrap">
+                <div class="column is-narrow hr-menu-wrap is-hidden-touch">
+                    <menu-admin key="menu"/>
+                </div>
+                <div class="column is-auto">
+                    <div class="hr-module-content">
+                        <if(!state.routed)>
+                            <${input.renderBody}/>
+                        </if>
+                        <if(process.browser)>
+                            <router-admin on-route-change("onRouteChange")>
+                                <if(state.currentComponent)>
+                                    <${state.currentComponent}
+                                        key=state.route.id
+                                        ...state.route
+                                        parentComponent=component/>
+                                </if>
+                            </router-admin>
+                        </if>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hr-footer">
+            <div class="p-2">
+                <t>poweredByHeretic</t>&nbsp;&copy;&nbsp;2021-${new Date().getFullYear()}&nbsp;<t>
+                    mMatveev
+                </t>.
+                <a
+                    href="https://opensource.org/licenses/MIT"
+                    target="_blank">
+                    <t>mitLicense</t>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<browserError key="hr_browserError"/>
