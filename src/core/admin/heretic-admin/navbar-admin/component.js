@@ -1,4 +1,4 @@
-const languagesList = require("../../../../config/languages.json");
+const Utils = require("../../../componentUtils").default;
 
 module.exports = class {
     async onCreate() {
@@ -10,6 +10,7 @@ module.exports = class {
         };
         this.state = state;
         await import(/* webpackChunkName: "navbar-admin" */ "./navbar-admin.scss");
+        this.utils = new Utils();
     }
 
     onMount() {
@@ -42,20 +43,7 @@ module.exports = class {
     }
 
     getNonLocalizedURL(url) {
-        const languages = Object.keys(languagesList);
-        const data = {};
-        const urlParts = url.split(/\//);
-        if (urlParts.length > 1) {
-            const firstPartOfURL = urlParts[1];
-            if (languages.indexOf(firstPartOfURL) > -1) {
-                [data.language] = urlParts.splice(1, 1);
-            } else {
-                [data.language] = languages;
-            }
-            data.url = urlParts.join("/") || "/";
-            data.url = data.url.length > 1 ? data.url.replace(/\/$/, "") : data.url;
-        }
-        return data;
+        return this.utils.getNonLocalizedURL(url);
     }
 
     onNavbarItemClick(e) {

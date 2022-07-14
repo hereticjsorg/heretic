@@ -65,6 +65,33 @@ ${Object.keys(this.languages).map(l => `        case "${l}":
         fs.writeJSONSync(path.resolve(__dirname, "src", "build", "translated-modules.json"), translatedModules, {
             spaces: "\t"
         });
+        const modulesCore = fs.readdirSync(path.resolve(__dirname, "src", "core", "modules")).filter(p => !p.match(/^\./));
+        const translatedModulesCore = [];
+        for (const module of modulesCore) {
+            if (fs.existsSync(path.resolve(__dirname, "src", "core", "modules", module, "translations"))) {
+                translatedModulesCore.push(module);
+                fs.writeFileSync(path.resolve(__dirname, "src", "build", `i18n-loader-${module}.js`), `module.exports = {
+    loadLanguageFile: async lang => {
+        let translationModule = {};
+        switch (lang) {
+${Object.keys(this.languages).map(l => `        case "${l}":
+            translationModule = await import(/* webpackChunkName: "lang-${module}-${l}" */ "../core/modules/${module}/translations/${l}.json");
+            break;
+`).join("")}        default:
+            return null;
+        }
+        const languageData = {
+            ...translationModule,
+        };
+        delete languageData.default;
+        return languageData;
+    },
+};\n`, "utf8");
+            }
+        }
+        fs.writeJSONSync(path.resolve(__dirname, "src", "build", "translated-modules-core.json"), translatedModulesCore, {
+            spaces: "\t"
+        });
     }
 
     generateModulesLoader() {

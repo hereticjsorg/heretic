@@ -20,10 +20,12 @@ import apiModules from "../build/api-modules.json";
 import apiCore from "../build/api-core.json";
 import Logger from "./logger";
 import Utils from "./utils";
+import replyDecorators from "./replyDecorators";
 import fastifyURLData from "./urlData";
 import fastifyMultipart from "./multipart";
 import i18nCore from "../build/i18n-loader-core.js";
 import i18nTranslations from "../build/translated-modules.json";
+import i18nTranslationsCore from "../build/translated-modules-core.json";
 import i18nNavigation from "../build/i18n-navigation.json";
 import i18nNavigationAdmin from "../build/i18n-navigation-admin.json";
 import languages from "../config/languages.json";
@@ -63,6 +65,8 @@ export default class {
         this.fastify.decorate("siteConfig", this.config);
         this.fastify.decorate("languages", languages);
         this.fastify.decorate("navigation", navigation);
+        this.fastify.decorateReply("success", replyDecorators.success);
+        this.fastify.decorateReply("error", replyDecorators.error);
         if (this.config.redis && this.config.redis.enabled) {
             const redis = new Redis(this.config.redis);
             redis.on("error", e => {
@@ -84,7 +88,7 @@ export default class {
         this.languageData = {};
         for (const lang of Object.keys(languages)) {
             this.languageData[lang] = await i18nCore.loadLanguageFile(lang);
-            for (const module of i18nTranslations) {
+            for (const module of [...i18nTranslations, ...i18nTranslationsCore]) {
                 const i18nLoader = await import(`../build/i18n-loader-${module}.js`);
                 this.languageData[lang] = {
                     ...this.languageData[lang],

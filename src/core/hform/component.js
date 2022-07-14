@@ -1,6 +1,7 @@
 const cloneDeep = require("lodash.clonedeep");
 const serializableTypes = require("./serializableTypes.json");
-const FormValidator = require("../formValidator").default;
+const FormValidator = require("../formValidatorBrowser").default;
+const formValidatorUtils = require("../formValidatorUtils");
 
 module.exports = class {
     onCreate(input) {
@@ -12,6 +13,7 @@ module.exports = class {
             addTabDropdownActive: false,
             data: {},
             errors: {},
+            errorMessage: null,
         };
         this.fieldIds = [];
         this.sharedFieldIds = [];
@@ -39,6 +41,10 @@ module.exports = class {
         if (input.validationSchema) {
             this.formValidator = new FormValidator(input.validationSchema, this.fieldsFlat);
         }
+    }
+
+    onErrorMessageClose() {
+        this.setState("errorMessage", null);
     }
 
     setDefaultValues() {
@@ -124,53 +130,7 @@ module.exports = class {
         if (!validationResult || !(Symbol.iterator in Object(validationResult))) {
             return {};
         }
-        const errorData = [];
-        for (const item of validationResult) {
-            const instanceArr = item.instancePath.split(/\//);
-            const id = instanceArr[instanceArr.length - 1];
-            let errorCode = null;
-            switch (item.keyword) {
-            case "type":
-                errorCode = "hform_error_type";
-                break;
-            case "maximum":
-                errorCode = "hform_error_max";
-                break;
-            case "minLength":
-                errorCode = "hform_error_minLength";
-                break;
-            case "maxLength":
-                errorCode = "hform_error_maxLength";
-                break;
-            case "pattern":
-            case "format":
-            case "anyOf":
-            case "enum":
-                errorCode = "hform_error_format";
-                break;
-            case "filesMinCount":
-                errorCode = "hform_error_filesMinCount";
-                break;
-            case "filesMaxCount":
-                errorCode = "hform_error_filesMaxCount";
-                break;
-            case "filesMaxSize":
-                errorCode = "hform_error_filesMaxSize";
-                break;
-            case "filesBadExtension":
-                errorCode = "hform_error_filesBadExtension";
-                break;
-            default:
-                errorCode = "hform_error_generic";
-            }
-            errorData.push({
-                id,
-                tab: item.tab,
-                errorCode,
-                errorMessage: window.__heretic.t(errorCode),
-            });
-        }
-        return errorData;
+        return formValidatorUtils.getErrorData(validationResult, window.__heretic.t);
     }
 
     setValue(id, value) {
@@ -339,6 +299,19 @@ module.exports = class {
         this.focus();
     }
 
+    getFormDataObject(serializedData) {
+        const formData = new FormData();
+        formData.append("formTabs", JSON.stringify(serializedData.formTabs));
+        formData.append("formShared", JSON.stringify(serializedData.formShared));
+        formData.append("tabs", JSON.stringify(serializedData.tabs));
+        if (serializedData.upload) {
+            for (const uk of Object.keys(serializedData.upload)) {
+                serializedData.append(uk, serializedData.upload[uk]);
+            }
+        }
+        return formData;
+    }
+
     onTabDeleteClick(e) {
         e.preventDefault();
         e.stopPropagation();
@@ -410,6 +383,10 @@ module.exports = class {
 
     showNotification(message, css = "") {
         this.getComponent(`notify_field_${this.input.formId}`).show(window.__heretic.t(message), css);
+    }
+
+    setErrorMessage(message) {
+        this.setState("errorMessage", message);
     }
 
     onNotify(data) {

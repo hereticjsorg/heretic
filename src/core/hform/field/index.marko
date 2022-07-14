@@ -15,7 +15,7 @@ import { mdiReload } from '@mdi/js';
                 <input
                     id=`hr_hf_el_${input.formId}_${input.id}`
                     class="input hr-hf-text-input"
-                    type="text"
+                    type=(input.fieldType || "text")
                     placeholder=(input.placeholder || "")/>
             </div>
             <if(state.error)>

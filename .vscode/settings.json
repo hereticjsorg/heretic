@@ -12,6 +12,7 @@
         "fkill",
         "formbody",
         "fullhash",
+        "fullwidth",
         "getconfigmeta",
         "getconfigsystem",
         "getfastifyinstance",

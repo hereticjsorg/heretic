@@ -20,5 +20,6 @@
     "hform_error_filesMinCount": "Need more files",
     "hform_error_filesMaxCount": "Too many files",
     "hform_error_filesMaxSize": "Max size exceeded",
-    "hform_error_filesBadExtension": "Unaccepted type"
+    "hform_error_filesBadExtension": "Unaccepted type",
+    "hform_error_general": "Error while processing form"
 }

@@ -73,10 +73,44 @@
     height: 100%;
 }
 
-.hr-wrap {
-    display: flex;
-    min-height: 100vh;
-    flex-direction: column;
+.hr-body {
+    background: $white-ter;
 }
 
-@media (max-width: 1023px) {}
+.hr-wrap {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.hr-login-card-wrap {
+    width: 400px;
+    margin: 15px;
+    user-select: none;
+}
+
+.hr-login-card {
+    padding: 15px 25px;
+}
+
+.hr-lang-dropdown-button {
+    border: unset !important;
+    background: transparent !important;
+}
+
+.hr-lang-dropdown-button:focus {
+    outline: 0 !important;
+    box-shadow: unset !important;
+}
+
+.hr-lang-dropdown-icon>svg>path {
+    fill: $grey;
+}
+
+@media (max-width: 400px) {
+    .hr-login-card-wrap {
+        width: 100%;
+    }
+}

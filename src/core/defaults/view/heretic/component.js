@@ -1,6 +1,7 @@
 const cloneDeep = require("lodash.clonedeep");
 const i18nLoader = require("../../build/i18n-loader-core");
 const pagesLoader = require("../../build/module-loader");
+const Utils = require("../../core/componentUtils").default;
 const routes = require("../../build/routes.json");
 
 module.exports = class {
@@ -27,15 +28,15 @@ module.exports = class {
         this.componentsLoaded = {};
         this.language = out.global.language;
         this.serverRoute = out.global.route;
+        this.utils = new Utils(this, this.language);
         await import(/* webpackChunkName: "bulma" */ "../../styles/bulma.scss");
         await import(/* webpackChunkName: "heretic" */ "../heretic.scss");
         await this.loadLanguageData();
     }
 
-    onMount() {
-        setTimeout(() => {
-            this.setState("mounted", true);
-        }, 50);
+    async onMount() {
+        await this.utils.waitForLanguageData();
+        this.setState("mounted", true);
     }
 
     getAnimationTimer() {
