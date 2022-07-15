@@ -110,8 +110,13 @@ module.exports = (env, argv) => {
                             minChunks: 2,
                             priority: -20,
                             reuseExistingChunk: true,
+                            filename: data => {
+                                const nameArr = data.chunk.id.split(/_/);
+                                return nameArr.length > 4 ? `heretic.${nameArr[nameArr.length - 3]}.${nameArr[nameArr.length - 2]}.[fullhash:8].js` : `heretic.generic.[fullhash:8].js`;
+                            }
                         },
-                    }
+                    },
+                    hidePathInfo: true,
                 },
                 usedExports: true,
                 minimizer: argv.mode === "production" ? [
@@ -136,7 +141,7 @@ module.exports = (env, argv) => {
                             ],
                         },
                     }),
-                ] : []
+                ] : [],
             },
             plugins: [
                 new webpack.DefinePlugin({

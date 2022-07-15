@@ -16,7 +16,9 @@ $ const loginForm = new LoginForm(process.browser && window.__heretic ? window._
             <div class="mb-2">
                 <div class="columns m-0 p-0 is-gapless">
                     <div class="column is-narrow is-flex is-align-items-center">
-                        <img src=logo/>
+                        <a href=component.getLocalizedURL("/")>
+                            <img src=logo/>
+                        </a>
                     </div>
                     <div class="column is-auto is-flex is-justify-content-flex-end is-align-items-center">
                         <div class=`dropdown is-right${state.langOpen ? " is-active" : ""}`>
