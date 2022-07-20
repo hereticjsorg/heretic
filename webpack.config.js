@@ -154,8 +154,8 @@ module.exports = (env, argv) => {
                 }) : () => {},
                 argv.mode === "production" ? new CompressionPlugin() : () => {},
                 new CopyWebpackPlugin({
-                    patterns: fs.readdirSync(path.resolve(__dirname, "src", "static")).map(f => ({
-                        from: `./src/static/${f}`
+                    patterns: fs.readdirSync(path.resolve(__dirname, "src", "static", "public")).map(f => ({
+                        from: `./src/static/public/${f}`
                     })),
                 }),
                 markoPlugin.browser,

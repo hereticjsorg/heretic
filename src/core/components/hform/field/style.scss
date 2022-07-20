@@ -1,0 +1,61 @@
+@import "../../../../view/variables.scss";
+
+.hr-hf-label {
+    font-weight: normal !important;
+}
+
+.hr-hf-field-xxlarge {
+    width: 450px !important;
+    min-width: 450px !important;
+    max-width: 450px !important;
+}
+
+.hr-hf-label-mandatory {
+    color: $red;
+}
+
+.hr-hf-text-input {
+    min-width: 100px !important;
+}
+
+.hr-hf-error-wrap {
+    margin-top: -3px;
+}
+
+.hr-hf-error-wrap-captcha {
+    margin-top: -9px;
+}
+
+.hr-hf-error-tag {
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+}
+
+.hr-hf-captcha-input {
+    width: 90px !important;
+    text-align: center;
+}
+
+.hr-hf-captcha-image {
+    border: 1px solid $grey-lighter;
+    width: 100px;
+    height: 40px;
+    border-top-right-radius: $radius;
+    border-bottom-right-radius: $radius;
+    cursor: pointer;
+}
+
+.hr-hf-captcha-image-reload {
+    margin-top: 18px;
+    margin-left: -14px;
+    opacity: 0.6;
+    cursor: pointer;
+}
+
+@media (max-width: 769px) {
+    .hr-hf-field-xxlarge {
+        width: unset !important;
+        min-width: unset !important;
+        max-width: unset !important;
+    }
+}

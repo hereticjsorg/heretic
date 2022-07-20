@@ -206,7 +206,7 @@ ${routesAdmin.map(r => `        case "${r.id}":
         modulesAdminMeta.map(i => {
             routesAdmin.push({
                 id: i.id,
-                path: `/admin${i.path}`,
+                path: `${this.config.routes.admin}${i.path}`,
                 dir: i.dir,
                 core: i.core,
             });
@@ -323,7 +323,7 @@ ${routesAdmin.map(r => `        case "${r.id}":
         </if>`).join("\n")}\n    </svg>
 </div>
 `;
-        fs.writeFileSync(path.resolve(__dirname, "src", "core", "icon-admin", "index.marko"), code);
+        fs.writeFileSync(path.resolve(__dirname, "src", "core", "components", "icon-admin", "index.marko"), code);
     }
 
     generateSitemap() {
@@ -366,18 +366,18 @@ ${routesAdmin.map(r => `        case "${r.id}":
                 sitemapXML += `</url>`;
             });
             sitemapXML += `</urlset>`;
-            fs.writeFileSync(path.resolve(__dirname, "src", "static", "sitemap.xml"), sitemapXML, "utf8");
+            fs.writeFileSync(path.resolve(__dirname, "src", "static", "public", "sitemap.xml"), sitemapXML, "utf8");
         }
     }
 
     generateManifest() {
         const language = Object.keys(this.languages)[0];
-        const manifest = fs.readJSONSync(path.resolve(__dirname, "src", "static", "site.webmanifest"));
+        const manifest = fs.readJSONSync(path.resolve(__dirname, "src", "static", "public", "site.webmanifest"));
         manifest.name = this.meta.title[language];
         manifest.short_name = this.meta.shortTitle[language];
         manifest.description = this.meta.description[language];
         manifest.id = this.meta.id;
-        fs.writeJSONSync(path.resolve(__dirname, "src", "static", "site.webmanifest"), manifest, this.production ? {} : {
+        fs.writeJSONSync(path.resolve(__dirname, "src", "static", "public", "site.webmanifest"), manifest, this.production ? {} : {
             spaces: "\t",
         });
     }
@@ -409,7 +409,7 @@ ${routesAdmin.map(r => `        case "${r.id}":
     }
 
     generateListAPI() {
-        const apiCoreModules = fs.readdirSync(path.resolve(__dirname, "src", "api"));
+        const apiCoreModules = fs.readdirSync(path.resolve(__dirname, "src", "core", "api"));
         fs.writeJSONSync(path.resolve(__dirname, "src", "build", "api-core.json"), apiCoreModules, {
             spaces: "\t"
         });
@@ -426,6 +426,6 @@ ${routesAdmin.map(r => `        case "${r.id}":
     }
 
     copyDataDir() {
-        fs.copySync(path.resolve(__dirname, "src", "data"), path.resolve(__dirname, "dist", "data"));
+        fs.copySync(path.resolve(__dirname, "src", "static", "data"), path.resolve(__dirname, "dist", "data"));
     }
 };

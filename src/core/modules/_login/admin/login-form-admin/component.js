@@ -1,8 +1,8 @@
 const axios = require("axios");
 const i18nLoader = require("../../../../../build/i18n-loader-core");
-const Utils = require("../../../../componentUtils").default;
-const Cookies = require("../../../../cookiesBrowser").default;
-const Query = require("../../../../queryBrowser").default;
+const Utils = require("../../../../lib/componentUtils").default;
+const Cookies = require("../../../../lib/cookiesBrowser").default;
+const Query = require("../../../../lib/queryBrowser").default;
 const languages = require("../../../../../config/languages.json");
 
 module.exports = class {
@@ -78,15 +78,15 @@ module.exports = class {
         loginForm.setErrors(null);
         loginForm.setLoading(true);
         try {
-            await axios({
+            const res = await axios({
                 method: "post",
                 url: "/api/login",
                 data,
                 headers: {},
             });
-            const token = "123";
+            const { token } = res.data;
             this.cookies.set(`${this.siteId}.authToken`, token);
-            window.location.href = `${this.query.get("r") || this.getLocalizedURL("/").url || "/"}?n=${new Date().getTime()}`;
+            window.location.href = `${this.query.get("r") || this.getLocalizedURL("/").url || "/"}?_=${new Date().getTime()}`;
         } catch (e) {
             if (e && e.response && e.response.data) {
                 if (e.response.data.form) {

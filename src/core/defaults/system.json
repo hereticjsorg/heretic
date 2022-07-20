@@ -23,6 +23,10 @@
         "host": "127.0.0.1",
         "port": 6379
     },
+    "token": {
+        "expiresIn": "7 days",
+        "ip": false
+    },
     "cookieOptions": {
         "expires": 604800,
         "path": "/",
@@ -50,5 +54,12 @@
             "retry-after": true
         }
     },
-    "systemTempDir": true
+    "systemTempDir": true,
+    "collections": {
+        "users": "users"
+    },
+    "routes": {
+        "admin": "/admin",
+        "login": "/admin/login"
+    }
 }
