@@ -5,6 +5,7 @@ module.exports = class {
         const state = {
             route: null,
             langOpen: false,
+            authOpen: false,
             navOpen: false,
             navItemOpen: null,
         };
@@ -17,6 +18,9 @@ module.exports = class {
         window.addEventListener("click", e => {
             if (!document.getElementById("hr_navbar_language").contains(e.target)) {
                 this.setState("langOpen", false);
+            }
+            if (!document.getElementById("hr_navbar_auth").contains(e.target)) {
+                this.setState("authOpen", false);
             }
             if (!document.getElementById("hr_navbar_burger").contains(e.target)) {
                 this.setState("navOpen", false);
@@ -35,6 +39,11 @@ module.exports = class {
     onLanguageClick(e) {
         e.preventDefault();
         this.setState("langOpen", !this.state.langOpen);
+    }
+
+    onAuthClick(e) {
+        e.preventDefault();
+        this.setState("authOpen", !this.state.langOpen);
     }
 
     onBurgerClick(e) {

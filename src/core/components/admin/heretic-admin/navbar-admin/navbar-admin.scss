@@ -21,10 +21,12 @@
 .hr-navbar-item-top {
     background: transparent !important;
     margin: 2px !important;
+    color: $white-ter !important;
 }
 
 .hr-navbar-item-top:hover {
     background: $black-ter !important;
+    color: $white-bis !important;
 }
 
 .hr-navbar-dropdown {
@@ -76,12 +78,14 @@
     .hr-navbar-item-top {
         background: unset !important;
         margin: 2px !important;
+        color: unset !important;
     }
 
     .hr-navbar-item-top:hover {
         background: $grey-lighter !important;
         margin: 2px !important;
         border-radius: $radius;
+        color: unset !important;
     }
 
     .hr-admin-icon>svg>path {

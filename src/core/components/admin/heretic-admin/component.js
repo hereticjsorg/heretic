@@ -1,4 +1,5 @@
 const cloneDeep = require("lodash.clonedeep");
+const Utils = require("../../../lib/componentUtils").default;
 const i18nLoader = require("../../../../build/i18n-loader-core");
 const pagesLoader = require("../../../../build/module-admin-loader");
 const routes = require("../../../../build/routes-admin.json");
@@ -27,7 +28,7 @@ module.exports = class {
         this.componentsLoaded = {};
         this.language = out.global.language;
         this.serverRoute = out.global.route;
-        await import(/* webpackChunkName: "bulma" */ "../../../../styles/bulma.scss");
+        await import(/* webpackChunkName: "bulma-admin" */ "./bulma-admin.scss");
         await import(/* webpackChunkName: "heretic-admin" */ "./heretic-admin.scss");
         await this.loadLanguageData();
     }
@@ -45,12 +46,13 @@ module.exports = class {
         }
     }
 
-    onMount() {
+    async onMount() {
+        this.utils = new Utils(this);
+        await this.utils.waitForComponent("menu");
+        await this.utils.waitForComponent("navbar");
         window.addEventListener("scroll", this.sideMenuToggle.bind());
-        setTimeout(() => {
-            this.setState("mounted", true);
-            window.dispatchEvent(new CustomEvent("scroll"));
-        }, 50);
+        this.setState("mounted", true);
+        window.dispatchEvent(new CustomEvent("scroll"));
     }
 
     getAnimationTimer() {

@@ -24,6 +24,8 @@ export default (route, languageData, language) => ({
                     i18nNavigation: true,
                     siteId: true,
                     cookieOptions: true,
+                    userData: true,
+                    systemRoutes: true,
                 },
                 language,
                 route: route.id,
@@ -33,6 +35,11 @@ export default (route, languageData, language) => ({
                 siteId: this.siteConfig.id,
                 cookieOptions: this.siteConfig.cookieOptions,
                 t: id => languageData[language] && languageData[language][id] ? `${languageData[language][id]}` : id,
+                userData: authData ? {
+                    id: String(authData._id),
+                    username: authData.username,
+                } : {},
+                systemRoutes: this.siteConfig.routes,
             },
         });
         rep.type("text/html");

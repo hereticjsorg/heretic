@@ -60,6 +60,7 @@
     },
     "routes": {
         "admin": "/admin",
-        "login": "/admin/login"
+        "login": "/admin/login",
+        "logout": "/admin/logout"
     }
 }
