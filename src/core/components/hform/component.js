@@ -19,7 +19,7 @@ module.exports = class {
         this.sharedFieldIds = [];
         this.fieldsFlat = {};
         // Collect field IDs
-        for (const area of input.data.form) {
+        for (const area of input.data.getData().form) {
             for (const item of area.fields) {
                 if (Array.isArray(item)) {
                     for (const subItem of item) {
@@ -38,8 +38,9 @@ module.exports = class {
                 }
             }
         }
-        if (input.validationSchema) {
-            this.formValidator = new FormValidator(input.validationSchema, this.fieldsFlat);
+        // TODO
+        if (input.data.getValidationSchema) {
+            this.formValidator = new FormValidator(input.data.getValidationSchema(), this.fieldsFlat);
         }
     }
 
@@ -64,7 +65,7 @@ module.exports = class {
     }
 
     focus() {
-        for (const area of this.input.data.form) {
+        for (const area of this.input.data.getData().form) {
             for (const field of area.fields) {
                 if (field.autoFocus) {
                     const component = this.getComponent(`hr_hf_f_${field.id}`);
@@ -107,7 +108,7 @@ module.exports = class {
             if (serializableTypes.indexOf(this.fieldsFlat[id].type) > -1) {
                 const fieldComponent = this.getComponent(`hr_hf_f_${id}`);
                 if (fieldComponent) {
-                    fieldComponent.setValue(serialized[id]);
+                    fieldComponent.setValue(typeof serialized[id] === "undefined" ? null : serialized[id]);
                 }
             }
         }

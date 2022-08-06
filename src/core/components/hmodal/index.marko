@@ -1,0 +1,32 @@
+<if(state.active)>
+    <div class="modal is-active">
+        <div class="modal-background" on-click("onClose")/>
+        <div class="modal-card hr-hm-modal-card">
+            <if(state.loading)>
+                <div class="hr-hm-loader-overlay">
+                    <hloading-dots/>
+                </div>
+            </if>
+            <header class="modal-card-head pt-4 pb-4">
+                <p class="modal-card-title">
+                    <t>${input.title}</t>
+                </p>
+                <if(input.close)>
+                    <button class="delete" aria-label="close" on-click("onClose")/>
+                </if>
+            </header>
+            <section class="modal-card-body">
+                <${input.renderBody}/>
+            </section>
+            <footer class="modal-card-foot hr-hm-modal-card-foot pt-3 pb-3">
+                <if(input.actions)>
+                    <for|action| of=input.actions>
+                        <button disabled=state.loading class=action.class data-id=action.id on-click("onActionButtonClick") data-close=!!action.close>
+                            <t>${action.label}</t>
+                        </button>
+                    </for>
+                </if>
+            </footer>
+        </div>
+    </div>
+</if>

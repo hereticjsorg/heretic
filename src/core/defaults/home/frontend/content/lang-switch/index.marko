@@ -1,6 +1,8 @@
-<if(out.global.language === "en-us")>
+$ const language = process.browser ? window.__heretic.outGlobal.language : out.global.language;
+
+<if(language === "en-us")>
     <lang-en-us/>
 </if>
-<if(out.global.language === "ru-ru")>
+<if(language === "ru-ru")>
     <lang-ru-ru/>
 </if>

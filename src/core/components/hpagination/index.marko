@@ -1,0 +1,28 @@
+<if(input.data && input.data.length > 1)>
+    <nav class="pagination is-small is-rounded" role="navigation" aria-label="pagination">
+        <if(input.currentPage > 1)>
+            <a class="pagination-previous" data-page=(input.currentPage - 1) on-click("pageClick")>
+                <t>pagination_prev</t>
+            </a>
+        </if>
+        <if(input.currentPage < input.data[input.data.length - 1])>
+            <a class="pagination-next" data-page=(input.currentPage + 1) on-click("pageClick")>
+                <t>pagination_next</t>
+            </a>
+        </if>
+        <ul class="pagination-list">
+            <for|i| of=input.data>
+                <if(i === "...")>
+                    <li>
+                        <span class="pagination-ellipsis">&hellip;</span>
+                    </li>
+                </if>
+                <else>
+                    <li>
+                        <a class=`pagination-link${input.currentPage === i ? " is-current" : ""}` data-page=i on-click("pageClick")>${i}</a>
+                    </li>
+                </else>
+            </for>
+        </ul>
+    </nav>
+</if>

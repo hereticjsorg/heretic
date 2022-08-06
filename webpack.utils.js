@@ -393,8 +393,8 @@ ${routesAdmin.map(r => `        case "${r.id}":
 
     generateLangSwitchComponents() {
         const routes = fs.readJSONSync(path.resolve(__dirname, "src", "build", "routes.json"));
-        let langSwitchMarko = "";
-        Object.keys(this.languages).map(lang => langSwitchMarko += `<if(out.global.language === "${lang}")>\n    <lang-${lang}/>\n</if>\n`);
+        let langSwitchMarko = "$ const language = process.browser ? window.__heretic.outGlobal.language : out.global.language;\n\n";
+        Object.keys(this.languages).map(lang => langSwitchMarko += `<if(language === "${lang}")>\n    <lang-${lang}/>\n</if>\n`);
         for (const r of routes) {
             if (fs.existsSync(path.resolve(__dirname, "src", "modules", r.dir, "frontend", "content"))) {
                 const meta = fs.readJSONSync(path.resolve(__dirname, "src", "modules", r.dir, "module.json"));

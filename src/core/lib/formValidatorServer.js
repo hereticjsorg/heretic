@@ -1,3 +1,7 @@
+import {
+    ObjectId
+} from "mongodb";
+
 const Ajv = require("ajv");
 
 export default class {
@@ -20,6 +24,21 @@ export default class {
             this.data[tab] = this.formTabs[tab];
             for (const fsk of Object.keys(this.formShared)) {
                 this.data[tab][fsk] = this.formShared[fsk];
+            }
+        }
+        if (multipartData.fields.id) {
+            const id = String(multipartData.fields.id);
+            if (id) {
+                try {
+                    if (id.match(/^[0-9]{1,9007199254740991}$/)) {
+                        this.data._id = parseInt(id, 10);
+                    }
+                    if (id.match(/^[a-f0-9]{24}$/)) {
+                        this.data._id = new ObjectId(id);
+                    }
+                } catch {
+                    this.data._id = null;
+                }
             }
         }
         return this.data;

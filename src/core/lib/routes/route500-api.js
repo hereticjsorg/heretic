@@ -9,7 +9,7 @@ export default (err, rep, languageData, language) => {
             errorMessage = languageData[language].internalServerErrorMessage;
         }
     return {
-        error: 404,
+        error: 500,
         errorMessage,
     };
 };

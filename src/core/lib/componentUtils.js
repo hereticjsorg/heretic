@@ -34,7 +34,7 @@ export default class {
             if (this.component.getComponent(id)) {
                 resolve();
             } else if (timeout && (Date.now() - start) >= timeout) {
-                reject(new Error("Component not found"));
+                reject(new Error(`Component not found: ${id}`));
             } else {
                 setTimeout(wait.bind(this, resolve, reject), 30);
             }
@@ -52,7 +52,7 @@ export default class {
             if (document.getElementById(id)) {
                 resolve();
             } else if (timeout && (Date.now() - start) >= timeout) {
-                reject(new Error("Component not found"));
+                reject(new Error(`Element not found: ${id}`));
             } else {
                 setTimeout(wait.bind(this, resolve, reject), 30);
             }

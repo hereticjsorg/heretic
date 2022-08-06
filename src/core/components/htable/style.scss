@@ -1,0 +1,139 @@
+@import "../../../view/variables.scss";
+
+.hr-ht-thead-tr {
+    background: $grey-lightest;
+}
+
+.hr-ht-thead-move {
+    width: 6px;
+    height: 100%;
+    background: $grey;
+    margin-left: -3px;
+    opacity: 0;
+}
+
+.hr-ht-thead-move:hover {
+    opacity: 0.9;
+}
+
+.hr-ht-dummy {
+    width: 100%;
+    height: 1px;
+}
+
+.hr-ht-thead-label {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: clip;
+    font-weight: 600 !important;
+    font-size: 98%;
+}
+
+.hr-ht-thead {
+    user-select: none;
+}
+
+.hr-ht-scroll-wrapper {
+    overflow-x: auto;
+    width: 100%;
+    height: 20px;
+}
+
+.hr-ht-action-button {
+    border-radius: 50% !important;
+}
+
+.hr-ht-action-icon {
+    display: inline-flex;
+    align-self: center;
+}
+
+.hr-ht-action-icon svg {
+    height: 13px;
+    width: 13px;
+    top: 1px;
+    position: relative;
+}
+
+.hr-ht-action-icon svg>path {
+    fill: $grey-darker !important;
+}
+
+.hr-ht-action-icon-danger svg>path {
+    fill: $white !important;
+}
+
+.hr-ht-td {
+    vertical-align: top !important;
+}
+
+.hr-ht-table-controls {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.hr-ht-wrap {
+    position: relative;
+    z-index: 5;
+}
+
+.hr-ht-action-cell {
+    position: absolute;
+    display: flex !important;
+    flex-direction: row;
+    justify-content: center;
+    z-index: 5;
+    border-left: 1px solid $grey-lighter;
+    border-right: 1px solid $grey-lighter;
+}
+
+.hr-ht-action-cell-buttons {
+    position: absolute;
+    top: 5px;
+}
+
+.hr-ht-action-cell-even {
+    background: $white;
+    // background: yellow;
+}
+
+.hr-ht-action-cell-odd {
+    background: $white-bis;
+    // background: green;
+}
+
+.hr-ht-action-cell-control {
+    position: absolute;
+    top: 1px;
+    left: 0;
+    background: $grey-lightest;
+    font-weight: bold;
+    display: flex !important;
+    flex-direction: row;
+    justify-content: center;
+    border-left: 1px solid $grey-lighter;
+    border-right: 1px solid $grey-lighter;
+    // border-right: 1px solid $grey-lighter;
+    // border-left: 1px solid $grey-lighter;
+}
+
+.hr-ht-loading-wrap {
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: rgba($white, 0.7);
+    z-index: 50;
+}
+
+.hr-ht-checkbox-top {
+    position: absolute;
+    top: 3px;
+}
+
+.hr-ht-loading {
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+}

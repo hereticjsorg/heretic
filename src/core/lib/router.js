@@ -149,7 +149,7 @@ module.exports = class {
         return this.route;
     }
 
-    navigate(routeId, language = this.languages[0]) {
+    navigate(routeId, language = this.languages[0], params = {}, extra = {}) {
         const routeItem = this.routes.find(r => r.id === routeId);
         if (!routeItem) {
             return;
@@ -159,10 +159,19 @@ module.exports = class {
             routeItem.path = "";
         }
         const url = `/${[lang, ...routeItem.path.split(/\//)].filter(i => i).join("/")}`;
-        this.pushState({}, window.title, url);
+        let queryString = "";
+        if (params && Object.keys(params).length) {
+            const queryArr = [];
+            for (const k of Object.keys(params)) {
+                queryArr.push(`${k}=${params[k]}`);
+            }
+            queryString = `?${queryArr.join("&")}`;
+        }
+        this.pushState({}, window.title, `${url}${queryString}`);
         this.route = this.getLocationData();
+        window.__heretic.routeExtra = extra;
         if (this.routeChangeHandler) {
-            this.routeChangeHandler(this);
+            this.routeChangeHandler(this, extra);
         }
     }
 };

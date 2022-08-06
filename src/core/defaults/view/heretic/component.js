@@ -1,7 +1,7 @@
 const cloneDeep = require("lodash.clonedeep");
 const i18nLoader = require("../../build/i18n-loader-core");
 const pagesLoader = require("../../build/module-loader");
-const Utils = require("../../core/componentUtils").default;
+const Utils = require("../../core/lib/componentUtils").default;
 const routes = require("../../build/routes.json");
 
 module.exports = class {
@@ -14,6 +14,13 @@ module.exports = class {
             window.__heretic.t = id => window.__heretic.languageData[id] || id;
             window.__heretic.translationsLoaded = {};
             this.setState("languageLoaded", true);
+        }
+    }
+
+    setGlobalVariables(out) {
+        if (process.browser) {
+            window.__heretic = window.__heretic || {};
+            window.__heretic.outGlobal = out.global;
         }
     }
 
@@ -32,6 +39,7 @@ module.exports = class {
         await import(/* webpackChunkName: "bulma" */ "../../styles/bulma.scss");
         await import(/* webpackChunkName: "heretic" */ "../heretic.scss");
         await this.loadLanguageData();
+        this.setGlobalVariables(out);
     }
 
     async onMount() {
@@ -59,14 +67,15 @@ module.exports = class {
             const timer = this.getAnimationTimer();
             try {
                 component = await pagesLoader.loadComponent(route.id);
-                const navbarComponent = this.getComponent("navbar");
-                if (navbarComponent) {
-                    navbarComponent.setRoute();
-                }
-                this.componentsLoaded[route.id] = true;
-                this.setState("currentComponent", component);
-                this.setState("route", cloneDeep(route));
+                const renderedComponent = await component.default.render();
                 this.setState("routed", true);
+                await this.utils.waitForElement("hr_content_render_wrap");
+                const contentRenderWrap = document.getElementById("hr_content_render_wrap");
+                renderedComponent.replaceChildrenOf(contentRenderWrap);
+                this.componentsLoaded[route.id] = true;
+                this.utils.waitForComponent("navbar");
+                const navbarComponent = this.getComponent("navbar");
+                navbarComponent.setRoute();
             } catch (e) {
                 this.clearAnimationTimer(timer);
                 this.panicMode();

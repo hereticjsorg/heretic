@@ -1,7 +1,7 @@
 module.exports = class {
-    onCreate() {
+    onCreate(input) {
         this.state = {
-            isActive: false,
+            isActive: !!input.active,
         };
     }
 

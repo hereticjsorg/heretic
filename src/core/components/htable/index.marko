@@ -1,0 +1,198 @@
+<div
+    no-update
+    class="hr-ht-scroll-wrapper"
+    id=`hr_ht_table_scroll_wrapper_${input.id}`
+    style={
+        display: "none"
+    }>
+    <div class="hr-ht-scroll" id=`hr_ht_table_scroll_${input.id}`/>
+</div>
+<if(state.topButtons && state.topButtons.length)>
+    <div class="mb-3">
+        <for|item, index| of=state.topButtons>
+            <button
+                data-id=item.id
+                on-click("onTopButtonClick")
+                class=`button ${item.danger ? "is-danger" : "is-light"}`
+                style={
+                    "margin-left": index > 0 ? "4px" : "0"
+                }>
+                <span class=`hr-ht-action-icon icon${item.danger ? " hr-ht-action-icon-danger" : ""}`>
+                    <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                        <path d=item.icon/>
+                    </svg>
+                </span>
+                <span>${item.label}</span>
+            </button>
+        </for>
+    </div>
+</if>
+<div class="hr-ht-wrap" id=`hr_ht_wrap_${input.id}`>
+    <div class="table-container hr-ht-table-container" id=`hr_ht_table_container_${input.id}`>
+        <table id=`hr_ht_table_${input.id}` class="hr-ht-table table is-bordered is-striped is-hoverable is-fullwidth" on-mousemove("onColumnMove")>
+            <thead class="hr-ht-thead">
+                <tr class="hr-ht-thead-tr">
+                    <if(state.checkboxColumn)>
+                        <th class="hr-ht-th p-0 m-0 is-narrow">
+                            <div class="p-2">
+                                <input type="checkbox" checked=state.checkboxesAll class="hr-ht-checkbox-top" on-click("onCheckboxSelectAllClick")/>
+                            </div>
+                        </th>
+                    </if>
+                    <for|k, index| of=Object.keys(state.columnData)>
+                        $ const item = state.columnData[k];
+                        <th
+                            data-id=item.id
+                            on-click("onColumnThClick")
+                            class="hr-ht-th p-0 m-0"
+                            id=`hr_ht_column_${item.id}`
+                            style={
+                                cursor: item.sortable ? "pointer" : "inherit"
+                            }>
+                            <div class="columns is-gapless m-0 p-0">
+                                <if(index > 0 && (!state.actionColumn || index < Object.keys(state.columnData).length))>
+                                    <div class="column is-narrow">
+                                        <div class="hr-ht-thead-move" id=`hr_ht_mover_${item.id}` data-id=item.id on-mousedown("onColumnMouseDown")/>
+                                    </div>
+                                </if>
+                                <div class="column is-auto">
+                                    <div class="p-2 hr-ht-thead-label">
+                                        ${item.label}<if(state.sortField === item.id)>
+                                            <icon-arrow direction=(state.sortDirection === "asc" ? "down" : "up")/>
+                                        </if>
+                                    </div>
+                                </div>
+                            </div>
+                        </th>
+                    </for>
+                    <if(state.actionColumn)>
+                        <th class="hr-ht-th p-0 m-0 is-narrow" id=`hr_ht_th_actions_${input.id}`>
+                            <div class="columns is-gapless m-0 p-0" id=`hr_ht_th_actions_columns_${input.id}`>
+                                <div class="column is-auto" id=`hr_ht_header_actions_${input.id}`>
+                                    <div class="p-2 hr-ht-thead-label hr-ht-thead-actions">
+                                        <t>htable_actions</t>
+                                    </div>
+                                </div>
+                            </div>
+                        </th>
+                    </if>
+                </tr>
+            </thead>
+            <tbody>
+                <if(state.data.length)>
+                    <for|row, ix| of=state.data>
+                        <tr class="hr-ht-tr">
+                            <if(state.checkboxColumn)>
+                                <td class="hr-ht-td p-0 m-0">
+                                    <div class="p-2">
+                                        <input type="checkbox" data-id=row._id on-click("onCheckboxClick") checked=(state.checkboxes.indexOf(row._id) > -1)/>
+                                    </div>
+                                </td>
+                            </if>
+                            <for|k| of=Object.keys(state.columnData)>
+                                $ const item = state.columnData[k];
+                                <td class="hr-ht-td p-0 m-0">
+                                    <div class="p-2">${input.formData.processTableCell(k, row)}</div>
+                                </td>
+                            </for>
+                            <if(state.actionColumn)>
+                                <td class=`hr-ht-td is-narrow p-0 m-0 hr-ht-action-cell-wrap hr-ht-action-cell-wrap-${input.id}` id=`hr_ht_action_cell_wrap_${input.id}_${ix}` data-index=ix/>
+                            </if>
+                        </tr>
+                    </for>
+                </if>
+                <else>
+                    <tr class="hr-ht-tr">
+                        <td class="hr-ht-td p-0 m-0" colspan=Object.keys(state.columnData).length>
+                            <div class="p-2">
+                                <t>htable_noRecords</t>
+                            </div>
+                        </td>
+                        <if(state.actionColumn)>
+                            <td class=`hr-ht-td is-narrow p-0 m-0 hr-ht-action-cell-wrap hr-ht-action-cell-wrap-${input.id}` id=`hr_ht_action_cell_wrap_${input.id}_0` data-index=0/>
+                        </if>
+                    </tr>
+                </else>
+            </tbody>
+        </table>
+    </div>
+    <div class="hr-ht-table-controls" id=`hr_ht_table_controls_${input.id}`>
+        <if(state.data.length)>
+            <for|row, ix| of=state.data>
+                <div
+                    class=`hr-ht-action-cell hr-ht-action-cell-${input.id} p-2 m-0 ${ix % 2 === 0 ? "hr-ht-action-cell-even" : "hr-ht-action-cell-odd"}`
+                    data-index=ix
+                    id=`hr_ht_action_cell_${input.id}_${ix}`
+                    style={
+                        opacity: 0
+                    }>
+                    <div class="field is-grouped hr-ht-action-cell-buttons">
+                        <for|item, index| of=state.actions>
+                            <button
+                                data-id=item.id
+                                data-item=row._id
+                                on-click("onActionButtonClick")
+                                class=`button is-small hr-ht-action-button ${item.danger ? "is-danger" : "is-light"}`
+                                style={
+                                    "margin-left": index > 0 ? "2px" : "0"
+                                }>
+                                <span class=`hr-ht-action-icon icon${item.danger ? " hr-ht-action-icon-danger" : ""}`>
+                                    <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                        <path d=item.icon/>
+                                    </svg>
+                                </span>
+                            </button>
+                        </for>
+                    </div>
+                </div>
+            </for>
+        </if>
+        <else>
+            <div class=`hr-ht-action-cell hr-ht-action-cell-${input.id} p-2 m-0 hr-ht-action-cell-even` data-index=0 id=`hr_ht_action_cell_${input.id}_0`>&ndash;</div>
+        </else>
+        <div class=`hr-ht-td p-2 m-0 hr-ht-action-cell-control` id=`hr_ht_action_cell_control_${input.id}`>
+            <t>htable_actions</t>
+        </div>
+    </div>
+    <if(state.loading)>
+        <div class="hr-ht-loading-wrap" id=`hr_ht_loading_wrap_${input.id}` no-update>
+            <div class="hr-ht-loading" id=`hr_ht_loading_${input.id}`>
+                <hloading-dots/>
+            </div>
+        </div>
+    </if>
+</div>
+<hpagination data=state.pagination currentPage=state.currentPage on-page-click("onPageClick")/>
+<div
+    id=`hr_ht_dummy_${input.id}`
+    style={
+        display: "none"
+    }
+    class="hr-ht-dummy"/>
+<hnotify key=`notify_ht_${input.id}`/>
+<hmodal
+    key=`deleteConfirmation_ht_${input.id}`
+    on-close("onDeleteConfirmationClose")
+    on-button-click("onDeleteConfirmationButtonClick")
+    close=true
+    title="htable_deleteConfirmation"
+    actions=[
+        {
+            id: "delete",
+            label: "htable_delete",
+            class: "button is-danger"
+        },
+        {
+            id: "cancel",
+            label: "htable_cancel",
+            class: "button is-light",
+            close: true,
+        }
+    ]>
+    <t>htable_deleteItems</t>:
+    <ul class="mt-2">
+        <for|item| of=state.deleteItems>
+            <li>&ndash;&nbsp;${item.title}</li>
+        </for>
+    </ul>
+</hmodal>

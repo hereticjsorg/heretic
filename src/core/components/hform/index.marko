@@ -43,7 +43,7 @@
                 <div class="mb-4 is-size-4 has-text-weight-light">${input.tabs.find(i => i.id == state.activeTab).label}</div>
             </if>
         </if>
-        <for|a| of=input.data.form>
+        <for|a| of=input.data.getData().form>
             <div class=(a.css || "")>
                 <if(a.label)>
                     <div class="hr-hf-f-area-label-wrap">
@@ -74,14 +74,7 @@
     </form>
     <if(state.loading)>
         <div class="hr-hf-loader-overlay">
-            <div class="hr-hf-loader">
-                <div class="hr-hf-loader-dot"/>
-                <div class="hr-hf-loader-dot"/>
-                <div class="hr-hf-loader-dot"/>
-                <div class="hr-hf-loader-dot"/>
-                <div class="hr-hf-loader-dot"/>
-                <div class="hr-hf-loader-dot"/>
-            </div>
+            <hloading-dots/>
         </div>
     </if>
     <if(state.progress)>

@@ -1,0 +1,17 @@
+@import "../../../../../view/variables.scss";
+
+.hr-ht-icon {
+    display: inline-flex;
+    align-self: center;
+}
+
+.hr-ht-icon svg {
+    height: 17px;
+    width: 17px;
+    top: 4px;
+    position: relative;
+}
+
+.hr-ht-icon svg>path {
+    fill: $black-ter;
+}

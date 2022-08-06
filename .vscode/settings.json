@@ -17,6 +17,8 @@
         "getconfigsystem",
         "getfastifyinstance",
         "hform",
+        "hmodal",
+        "htable",
         "imask",
         "ipaddr",
         "lastmod",

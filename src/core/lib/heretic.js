@@ -22,6 +22,7 @@ import Logger from "./logger";
 import Utils from "./utils";
 import Auth from "./auth";
 import replyDecorators from "./replyDecorators";
+import requestDecorators from "./requestDecorators";
 import fastifyURLData from "./urlData";
 import fastifyMultipart from "./multipart";
 import i18nCore from "../../build/i18n-loader-core.js";
@@ -70,6 +71,8 @@ export default class {
         this.fastify.decorate("siteConfig", this.config);
         this.fastify.decorate("languages", languages);
         this.fastify.decorate("navigation", navigation);
+        this.fastify.decorateRequest("validateTableList", requestDecorators.validateTableList);
+        this.fastify.decorateRequest("validateDataLoad", requestDecorators.validateDataLoadGeneric);
         this.fastify.decorateReply("success", replyDecorators.success);
         this.fastify.decorateReply("error", replyDecorators.error);
         this.fastify.addHook("preHandler", (request, reply, done) => {

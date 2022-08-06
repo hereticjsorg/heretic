@@ -1,0 +1,23 @@
+@import "../../../view/variables.scss";
+
+.hr-hm-modal-card {
+    position: relative;
+}
+
+.hr-hm-loader-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba($white, 0.6);
+    z-index: 40;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: $radius;
+}
+
+.hr-hm-modal-card-foot {
+    background: $white-bis !important;
+}

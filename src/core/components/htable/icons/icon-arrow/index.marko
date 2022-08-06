@@ -1,0 +1,12 @@
+import { mdiMenuUp, mdiMenuDown } from "@mdi/js"
+
+<span class="hr-ht-icon">
+    <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+        <if(input.direction === "up")>
+            <path d=mdiMenuUp/>
+        </if>
+        <if(input.direction === "down")>
+            <path d=mdiMenuDown/>
+        </if>
+    </svg>
+</span>

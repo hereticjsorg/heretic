@@ -140,6 +140,9 @@ module.exports = class {
             }
             this.setState("value", String(value === null ? "" : value));
             break;
+        case "select":
+            this.setState("value", String(value === null ? this.input.options[0].value : value));
+            break;
         case "captcha":
             if (value && typeof value === "string") {
                 const [fieldValue, imageSecret] = value.split(/_/);
