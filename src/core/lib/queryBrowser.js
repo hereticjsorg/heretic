@@ -16,6 +16,7 @@ export default class {
 
     set(id, value) {
         this.store[id] = value;
+        this.replace(this.store);
     }
 
     replace(obj = {}) {
@@ -28,5 +29,9 @@ export default class {
             }
         });
         window.history.replaceState({}, "", `${window.location.pathname}?${params.toString()}`);
+    }
+
+    getStore() {
+        return this.store;
     }
 }

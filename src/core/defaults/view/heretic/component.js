@@ -78,7 +78,7 @@ module.exports = class {
                 navbarComponent.setRoute();
             } catch (e) {
                 this.clearAnimationTimer(timer);
-                this.panicMode();
+                this.panicMode(e);
                 return;
             }
             this.clearAnimationTimer(timer);
@@ -91,7 +91,13 @@ module.exports = class {
         }
     }
 
-    panicMode() {
+    panicMode(e) {
+        if (e) {
+            // eslint-disable-next-line no-console
+            console.log("Heretic crashed, panic mode activated");
+            // eslint-disable-next-line no-console
+            console.log(e);
+        }
         const componentBrowserError = this.getComponent("hr_browserError");
         if (componentBrowserError) {
             componentBrowserError.activatePanicMode();

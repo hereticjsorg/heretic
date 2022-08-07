@@ -1,6 +1,7 @@
 import Ajv from "ajv";
-import listValidationSchema from "./listValidationSchema.json";
+import listValidationSchema from "./listGenericValidationSchema.json";
 import loadGenericValidationSchema from "./loadGenericValidationSchema.json";
+import deleteGenericValidationSchema from "./deleteGenericValidationSchema.json";
 
 const ajv = new Ajv({
     allErrors: true,
@@ -8,6 +9,7 @@ const ajv = new Ajv({
 });
 
 const validateLoadGenericSchema = ajv.compile(loadGenericValidationSchema);
+const deleteLoadGenericSchema = ajv.compile(deleteGenericValidationSchema);
 
 /* eslint-disable object-shorthand */
 /* eslint-disable func-names */
@@ -35,5 +37,8 @@ export default {
     },
     validateDataLoadGeneric: function () {
         return !!validateLoadGenericSchema(this.body);
+    },
+    validateDataDeleteGeneric: function () {
+        return !!deleteLoadGenericSchema(this.body);
     },
 };

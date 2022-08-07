@@ -2,6 +2,7 @@ const store = require("store2");
 const axios = require("axios");
 const cloneDeep = require("lodash.clonedeep");
 const Utils = require("../../lib/componentUtils").default;
+const Query = require("../../lib/queryBrowser").default;
 
 module.exports = class {
     onCreate(input) {
@@ -22,9 +23,13 @@ module.exports = class {
             pagination: [],
             checkboxes: [],
             checkboxesAll: false,
-            dataDelete: [],
             deleteConfig: input.formData.getTableLoadConfig ? input.formData.getTableDeleteConfig() : null,
             deleteItems: [],
+        };
+        this.queryStringShorthands = {
+            currentPage: "p",
+            sortField: "f",
+            sortDirection: "d",
         };
     }
 
@@ -200,16 +205,20 @@ module.exports = class {
         actionsTh.style.width = `${this.actionColumnWidth}px`;
         for (const actionCellWrap of actionCellWraps) {
             setTimeout(async () => {
-                await this.utils.waitForElement(`hr_ht_action_cell_${this.input.id}_${actionCellWrap.dataset.index}`);
-                const actionElement = document.getElementById(`hr_ht_action_cell_${this.input.id}_${actionCellWrap.dataset.index}`);
-                actionCellWrap.style.height = "unset";
-                actionElement.style.height = "unset";
-                const actionColumnHeight = actionElement.getBoundingClientRect().height >= actionCellWrap.getBoundingClientRect().height ? actionElement.getBoundingClientRect().height : actionCellWrap.getBoundingClientRect().height;
-                actionCellWrap.style.height = `${actionColumnHeight}px`;
-                actionElement.style.width = `${this.actionColumnWidth + 2}px`;
-                actionElement.style.height = `${actionColumnHeight - 2}px`;
-                actionElement.style.top = `${actionCellWrap.getBoundingClientRect().top - mainWrap.getBoundingClientRect().top + 1}px`;
-                actionElement.style.opacity = "1";
+                try {
+                    await this.utils.waitForElement(`hr_ht_action_cell_${this.input.id}_${actionCellWrap.dataset.index}`);
+                    const actionElement = document.getElementById(`hr_ht_action_cell_${this.input.id}_${actionCellWrap.dataset.index}`);
+                    actionCellWrap.style.height = "unset";
+                    actionElement.style.height = "unset";
+                    const actionColumnHeight = actionElement.getBoundingClientRect().height >= actionCellWrap.getBoundingClientRect().height ? actionElement.getBoundingClientRect().height : actionCellWrap.getBoundingClientRect().height;
+                    actionCellWrap.style.height = `${actionColumnHeight}px`;
+                    actionElement.style.width = `${this.actionColumnWidth + 2}px`;
+                    actionElement.style.height = `${actionColumnHeight - 2}px`;
+                    actionElement.style.top = `${actionCellWrap.getBoundingClientRect().top - mainWrap.getBoundingClientRect().top + 1}px`;
+                    actionElement.style.opacity = "1";
+                } catch {
+                    // Ignore
+                }
             }, 0);
         }
         tableControls.style.width = `${this.actionColumnWidth + 2}px`;
@@ -234,7 +243,30 @@ module.exports = class {
             tableContainer.addEventListener("scroll", this.onTableContainerScroll.bind(this));
         }
         tableContainer.dispatchEvent(new CustomEvent("scroll"));
-        await this.loadData();
+        this.query = new Query();
+        const loadInput = {};
+        if (this.input.queryString) {
+            const currentPage = this.query.get(this.queryStringShorthands["currentPage"]);
+            const sortField = this.query.get(this.queryStringShorthands["sortField"]);
+            const sortDirection = this.query.get(this.queryStringShorthands["sortDirection"]);
+            if (currentPage && typeof currentPage === "string" && currentPage.match(/^[0-9]{1,99999}$/)) {
+                loadInput.currentPage = parseInt(currentPage, 10);
+            }
+            if (sortField && typeof sortField === "string") {
+                const columns = Object.keys(this.getColumns());
+                if (columns.indexOf(sortField) > -1) {
+                    loadInput.sortField = sortField;
+                }
+            }
+            if (sortDirection && typeof sortDirection === "string" && sortDirection.match(/^(asc|desc)$/)) {
+                loadInput.sortDirection = sortDirection;
+            }
+        }
+        if (this.input.autoLoad) {
+            await this.loadData(loadInput);
+        } else {
+            this.needToUpdateTableWidth = true;
+        }
     }
 
     onColumnMouseDown(e) {
@@ -369,14 +401,20 @@ module.exports = class {
                             sortField: input.sortField || this.state.sortField,
                             sortDirection: input.sortDirection || this.state.sortDirection,
                             itemsPerPage: this.state.itemsPerPage,
-                            page: input.page || this.state.currentPage,
+                            page: input.currentPage || this.state.currentPage,
                         },
                         headers: {},
                     });
                     this.setState("data", response.data.items);
                     this.setState("totalPages", response.data.total < this.state.itemsPerPage ? 1 : Math.ceil(response.data.total / this.state.itemsPerPage));
-                    if (input.page) {
-                        this.setState("currentPage", parseInt(input.page, 10));
+                    if (input.currentPage) {
+                        input.currentPage = parseInt(input.currentPage, 10);
+                    }
+                    for (const k of Object.keys(input)) {
+                        this.setState(k, input[k]);
+                        if (this.input.queryString) {
+                            this.query.set(this.queryStringShorthands[k], input[k]);
+                        }
                     }
                     this.generatePagination();
                     this.setTableWidth();
@@ -428,8 +466,10 @@ module.exports = class {
     }
 
     onPageClick(page) {
+        this.setState("checkboxes", []);
+        this.setState("checkboxesAll", false);
         this.loadData({
-            page: parseInt(page, 10),
+            currentPage: parseInt(page, 10),
         });
     }
 
@@ -456,7 +496,7 @@ module.exports = class {
         }
     }
 
-    onActionButtonClick(e) {
+    async onActionButtonClick(e) {
         e.preventDefault();
         const buttonId = e.target.closest("[data-id]").dataset.id;
         const itemId = e.target.closest("[data-item]").dataset.item;
@@ -464,6 +504,16 @@ module.exports = class {
             buttonId,
             itemId
         });
+        if (buttonId === "delete" && this.state.deleteConfig) {
+            await this.utils.waitForComponent(`deleteConfirmation_ht_${this.input.id}`);
+            const deleteConfirmation = this.getComponent(`deleteConfirmation_ht_${this.input.id}`);
+            const deleteItems = [{
+                id: itemId,
+                title: String(this.state.data.find(i => i._id === itemId)[this.state.deleteConfig.titleId] || itemId),
+            }];
+            this.setState("deleteItems", deleteItems);
+            deleteConfirmation.setActive(true).setCloseAllowed(true).setLoading(false);
+        }
     }
 
     onCheckboxSelectAllClick(e) {
@@ -496,17 +546,37 @@ module.exports = class {
         this.setState("checkboxesAll", checkboxesUnique.length === this.state.data.length);
     }
 
-    onDeleteConfirmationClose() {
-
-    }
-
     async onDeleteConfirmationButtonClick(id) {
         switch (id) {
         case "delete":
             await this.utils.waitForComponent(`deleteConfirmation_ht_${this.input.id}`);
             const deleteConfirmation = this.getComponent(`deleteConfirmation_ht_${this.input.id}`);
             deleteConfirmation.setCloseAllowed(false).setLoading(true);
+            try {
+                const deleteResult = await axios({
+                    method: "post",
+                    url: this.state.deleteConfig.url,
+                    data: {
+                        ids: this.state.deleteItems.map(i => i.id),
+                    },
+                    headers: {},
+                });
+                this.setState("checkboxes", []);
+                this.setState("checkboxesAll", false);
+                await this.loadData({
+                    currentPage: 1,
+                });
+                deleteConfirmation.setCloseAllowed(true).setLoading(false).setActive(false);
+                this.getComponent(`notify_ht_${this.input.id}`).show(`${window.__heretic.t("htable_deleteSuccess")}: ${deleteResult.data.count}`, "is-success");
+            } catch {
+                this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_deleteError"), "is-danger");
+                deleteConfirmation.setCloseAllowed(true).setLoading(false);
+            }
             break;
         }
+    }
+
+    getColumns() {
+        return this.state.columnData;
     }
 };

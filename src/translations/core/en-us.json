@@ -26,6 +26,8 @@
     "htable_actions": "Actions",
     "htable_noRecords": "No records",
     "htable_loadingError": "Could not load data",
+    "htable_deleteError": "Could not delete one or more items",
+    "htable_deleteSuccess": "Successfully deleted",
     "pagination_prev": "Previous",
     "pagination_next": "Next",
     "htable_deleteConfirmation": "Delete Confirmation",

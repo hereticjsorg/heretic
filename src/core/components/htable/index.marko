@@ -1,12 +1,3 @@
-<div
-    no-update
-    class="hr-ht-scroll-wrapper"
-    id=`hr_ht_table_scroll_wrapper_${input.id}`
-    style={
-        display: "none"
-    }>
-    <div class="hr-ht-scroll" id=`hr_ht_table_scroll_${input.id}`/>
-</div>
 <if(state.topButtons && state.topButtons.length)>
     <div class="mb-3">
         <for|item, index| of=state.topButtons>
@@ -27,6 +18,15 @@
         </for>
     </div>
 </if>
+<div
+    no-update
+    class="hr-ht-scroll-wrapper"
+    id=`hr_ht_table_scroll_wrapper_${input.id}`
+    style={
+        display: "none"
+    }>
+    <div class="hr-ht-scroll" id=`hr_ht_table_scroll_${input.id}`/>
+</div>
 <div class="hr-ht-wrap" id=`hr_ht_wrap_${input.id}`>
     <div class="table-container hr-ht-table-container" id=`hr_ht_table_container_${input.id}`>
         <table id=`hr_ht_table_${input.id}` class="hr-ht-table table is-bordered is-striped is-hoverable is-fullwidth" on-mousemove("onColumnMove")>
@@ -103,7 +103,7 @@
                 </if>
                 <else>
                     <tr class="hr-ht-tr">
-                        <td class="hr-ht-td p-0 m-0" colspan=Object.keys(state.columnData).length>
+                        <td class="hr-ht-td p-0 m-0" colspan=Object.keys(state.columnData).length + (state.checkboxColumn ? 1 : 0)>
                             <div class="p-2">
                                 <t>htable_noRecords</t>
                             </div>
@@ -172,7 +172,6 @@
 <hnotify key=`notify_ht_${input.id}`/>
 <hmodal
     key=`deleteConfirmation_ht_${input.id}`
-    on-close("onDeleteConfirmationClose")
     on-button-click("onDeleteConfirmationButtonClick")
     close=true
     title="htable_deleteConfirmation"

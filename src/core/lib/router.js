@@ -16,7 +16,7 @@ module.exports = class {
     getLocationData() {
         const {
             pathname
-        } = new URL(window.location);
+        } = new URL(window.location.href.replace(window.location.search, ""));
         const data = {
             language: this.languages[0],
             id: null,
@@ -71,12 +71,12 @@ module.exports = class {
     }
 
     handlePopState(e) {
-        const newState = e.state;
-        if (newState === null || !newState.hRouter) {
+        const newState = e.state || {};
+        if (!newState.hRouter && Object.keys(newState).length !== 0) {
             return;
         }
         const action = this.actions.length === 0 ? null : this.actions.splice(0, 1)[0];
-        this.stateIndex = newState.index;
+        this.stateIndex = newState.index || 1;
         if (action && action.type === "CLEAN_FORWARD_HISTORY") {
             this.stateIndex += 1;
             this.states.splice(this.stateIndex + 1, this.states.length - (this.stateIndex + 1));

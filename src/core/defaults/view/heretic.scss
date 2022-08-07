@@ -9,6 +9,17 @@
     font-size: 95%;
 }
 
+.button.is-light:focus,
+.button.is-primary:focus,
+.button.is-link:focus,
+.button.is-info:focus,
+.button.is-warning:focus,
+.button.is-danger:focus {
+    outline: none !important;
+    box-shadow: none !important;
+    // border: 2px solid $grey-light !important;
+}
+
 .button.is-light {
     border-left: 1px solid darken($white, 9%) !important;
     border-right: 1px solid darken($white, 9%) !important;
