@@ -117,16 +117,40 @@ ${routesAdmin.map(r => `        case "${r.id}":
         }
     },
 };\n`, "utf8");
+        const routesCore = fs.readJSONSync(path.resolve(__dirname, "src", "build", "routes-core.json"));
+        fs.writeFileSync(path.resolve(__dirname, "src", "build", "module-core-loader.js"), `module.exports = {
+    loadComponent: async route => {
+        switch (route) {
+${routesCore.map(r => `        case "${r.id}":
+            return import(/* webpackChunkName: "module.${r.id}" */ "../${r.core ? "core/" : ""}modules/${r.dir}/frontend/index.marko");
+`).join("")}        default:
+            return import(/* webpackChunkName: "module.404" */ "../core/errors/404/index.marko");
+        }
+    },
+};\n`, "utf8");
     }
 
     generateModulesBuildConfigs() {
         const modulesMeta = [];
         const modulesAdminMeta = [];
+        const modulesCoreMeta = [];
         fs.readdirSync(path.resolve(__dirname, "src", "core", "modules")).filter(p => !p.match(/^\./)).map(p => {
             try {
                 const metaAdmin = fs.readJSONSync(path.resolve(__dirname, "src", "core", "modules", p, "admin.json"));
                 modulesAdminMeta.push({
                     ...metaAdmin,
+                    dir: p,
+                    core: true,
+                });
+            } catch {
+                // Ignore
+            }
+        });
+        fs.readdirSync(path.resolve(__dirname, "src", "core", "modules")).filter(p => !p.match(/^\./)).map(p => {
+            try {
+                const metaCore = fs.readJSONSync(path.resolve(__dirname, "src", "core", "modules", p, "module.json"));
+                modulesCoreMeta.push({
+                    ...metaCore,
                     dir: p,
                     core: true,
                 });
@@ -221,6 +245,26 @@ ${routesAdmin.map(r => `        case "${r.id}":
         fs.writeJSONSync(path.resolve(__dirname, "src", "build", "translations-admin.json"), translationsAdmin, {
             spaces: "\t",
         });
+        const routesCore = [];
+        const translationsCore = [];
+        modulesCoreMeta.map(i => {
+            routesCore.push({
+                id: i.id,
+                path: i.path,
+                dir: i.dir,
+                core: i.core,
+            });
+            translationsCore.push({
+                id: i.id,
+                title: i.title,
+            });
+        });
+        fs.writeJSONSync(path.resolve(__dirname, "src", "build", "routes-core.json"), routesCore, {
+            spaces: "\t",
+        });
+        fs.writeJSONSync(path.resolve(__dirname, "src", "build", "translations-core.json"), translationsCore, {
+            spaces: "\t",
+        });
     }
 
     generateI18nNavigation() {
@@ -251,52 +295,31 @@ ${routesAdmin.map(r => `        case "${r.id}":
         fs.writeJSONSync(path.resolve(__dirname, "src", "build", "i18n-navigation.json"), titles, {
             spaces: "\t"
         });
-        const navigationAdmin = fs.readJSONSync(path.resolve(__dirname, "src", "config", "navigation-admin.json"));
-        navigationAdmin.map(id => {
-            let meta;
+
+        const routesAdmin = fs.readJSONSync(path.resolve(__dirname, "src", "build", "routes-admin.json"));
+        for (const route of routesAdmin) {
             try {
-                meta = fs.readJSONSync(path.resolve(__dirname, "src", "modules", id, "admin.json"));
+                const meta = fs.readJSONSync(path.resolve(__dirname, route.core ? "src/core" : "src", "modules", route.dir, "admin.json"));
+                Object.keys(titles).map(lang => titles[lang][route.id] = meta.title[lang] || userTranslations[lang][route.id] || "");
             } catch {
                 // Ignore
             }
-            if (!meta) {
-                try {
-                    meta = fs.readJSONSync(path.resolve(__dirname, "src", "core", "modules", id, "admin.json"));
-                } catch {
-                    // Ignore
-                }
-            }
-            if (!meta) {
-                meta = {
-                    title: ""
-                };
-            }
-            Object.keys(titles).map(lang => titles[lang][id] = meta.title[lang] || userTranslations[lang][id] || "");
-        });
+        }
         fs.writeJSONSync(path.resolve(__dirname, "src", "build", "i18n-navigation-admin.json"), titles, {
             spaces: "\t"
         });
     }
 
     generateAdminIconsLoader() {
-        const navigationAdmin = fs.readJSONSync(path.resolve(__dirname, "src", "config", "navigation-admin.json"));
+        const routesAdmin = fs.readJSONSync(path.resolve(__dirname, "src", "build", "routes-admin.json"));
         const icons = [];
         const modules = {};
-        for (const id of navigationAdmin) {
+        for (const route of routesAdmin) {
             try {
-                const meta = fs.readJSONSync(path.resolve(__dirname, "src", "modules", id, "admin.json"));
+                const meta = fs.readJSONSync(path.resolve(__dirname, route.core ? "src/core" : "src", "modules", route.dir, "admin.json"));
                 if (meta.icon) {
                     icons.push(meta.icon);
-                    modules[meta.icon] = id;
-                }
-            } catch {
-                // Ignore
-            }
-            try {
-                const meta = fs.readJSONSync(path.resolve(__dirname, "src", "core", "modules", id, "admin.json"));
-                if (meta.icon) {
-                    icons.push(meta.icon);
-                    modules[meta.icon] = id;
+                    modules[meta.icon] = route.id;
                 }
             } catch {
                 // Ignore
@@ -323,7 +346,7 @@ ${routesAdmin.map(r => `        case "${r.id}":
         </if>`).join("\n")}\n    </svg>
 </div>
 `;
-        fs.writeFileSync(path.resolve(__dirname, "src", "core", "components", "icon-admin", "index.marko"), code);
+        fs.writeFileSync(path.resolve(__dirname, "src", "core", "components", "hicon-admin", "index.marko"), code);
     }
 
     generateSitemap() {

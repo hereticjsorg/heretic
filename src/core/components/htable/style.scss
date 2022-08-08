@@ -63,6 +63,26 @@
     fill: $white !important;
 }
 
+.hr-ht-top-button-icon {
+    display: inline-flex;
+    align-self: center;
+}
+
+.hr-ht-top-button-icon svg {
+    height: 16px;
+    width: 16px;
+    top: 0px;
+    position: relative;
+}
+
+.hr-ht-top-button-icon svg>path {
+    fill: $grey-darker !important;
+}
+
+.hr-ht-top-button-icon-danger svg>path {
+    fill: $white !important;
+}
+
 .hr-ht-td {
     vertical-align: top !important;
 }

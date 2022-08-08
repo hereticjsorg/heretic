@@ -65,13 +65,12 @@ module.exports = class {
     }
 
     focus() {
-        for (const area of this.input.data.getData().form) {
-            for (const field of area.fields) {
-                if (field.autoFocus) {
-                    const component = this.getComponent(`hr_hf_f_${field.id}`);
-                    if (component && component.focus) {
-                        component.focus();
-                    }
+        for (const k of Object.keys(this.fieldsFlat)) {
+            const field = this.fieldsFlat[k];
+            if (field.autoFocus) {
+                const component = this.getComponent(`hr_hf_f_${field.id}`);
+                if (component && component.focus) {
+                    component.focus();
                 }
             }
         }
@@ -152,7 +151,7 @@ module.exports = class {
     setErrors(errorData) {
         this.clearErrors();
         if (!errorData || !(Symbol.iterator in Object(errorData))) {
-            return;
+            return this;
         }
         let focused = false;
         let tab = null;
@@ -170,6 +169,7 @@ module.exports = class {
                 }
             }
         }
+        return this;
     }
 
     clearErrors() {
@@ -193,6 +193,7 @@ module.exports = class {
     setLoading(flag) {
         this.setState("loading", flag);
         this.setComponentsState(flag);
+        return this;
     }
 
     setProgress(flag) {
@@ -388,6 +389,7 @@ module.exports = class {
 
     setErrorMessage(message) {
         this.setState("errorMessage", message);
+        return this;
     }
 
     onNotify(data) {

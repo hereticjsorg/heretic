@@ -83,13 +83,13 @@ export default class {
     }
 
     async getData(method = this.methods.HEADERS) {
-        let token;
+        let token = null;
         switch (method) {
         case this.methods.COOKIE:
             token = this.req.cookies[`${this.fastify.siteConfig.id || "heretic"}.authToken`];
             break;
         default:
-            token = this.req.headers.authorization && typeof this.req.headers.authorization === "string" ? this.headers.authorization.replace(/^Bearer /, "") : null;
+            token = this.req && this.req.headers && this.req.headers.authorization && typeof this.req.headers.authorization === "string" ? this.req.headers.authorization.replace(/^Bearer /, "") : null;
         }
         let tokenData;
         try {

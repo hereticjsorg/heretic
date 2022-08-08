@@ -1,0 +1,13 @@
+{
+	"id": "_signIn",
+	"path": "/signIn",
+	"title": {
+		"ru-ru": "Авторизация",
+		"en-us": "Sign In"
+	},
+	"description": {
+		"ru-ru": "",
+		"en-us": ""
+	},
+	"langSwitchComponent": false
+}

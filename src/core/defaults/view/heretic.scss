@@ -25,11 +25,11 @@
     border-right: 1px solid darken($white, 9%) !important;
     border-top: 1px solid darken($white, 7%) !important;
     background: $white-bis !important;
-    box-shadow: 0px 1px 0px 0px $grey-lighter, 0px 5px 5px -5px lighten($black, 70%);
+    box-shadow: 0px 1px 0px 0px darken($grey-lighter, 10%), 0px 5px 5px -5px lighten($black, 70%);
 }
 
 .button.is-light:hover {
-    box-shadow: 0px 1px 0px 0px darken($grey-lighter, 8%), 0px 6px 6px -6px lighten($black, 70%) !important;
+    box-shadow: 0px 1px 0px 0px darken($grey-lighter, 20%), 0px 6px 6px -6px lighten($black, 70%) !important;
 }
 
 .button.is-primary {

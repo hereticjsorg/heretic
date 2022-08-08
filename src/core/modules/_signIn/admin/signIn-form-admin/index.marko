@@ -1,0 +1,52 @@
+import { mdiWeb } from "@mdi/js"
+import routes from "../../../../../build/routes-admin.json"
+import languages from "../../../../../config/languages.json"
+import logo from "../../../../../images/logo.svg"
+import LoginForm from "../../data/signInForm"
+
+<div
+    style={
+        position: state.ready ? "unset" : "absolute",
+        clip: state.ready ? "unset" : "rect(0 0 0 0)"
+    }
+    class="hr-admin">
+    <div class="hr-wrap">
+        <div class="hr-signIn-card-wrap">
+            <div class="mb-2">
+                <div class="columns m-0 p-0 is-gapless is-mobile">
+                    <div class="column is-narrow is-flex is-align-items-center">
+                        <a href=component.getLocalizedURL("/")>
+                            <img src=logo/>
+                        </a>
+                    </div>
+                    <div class="column is-auto is-flex is-justify-content-flex-end is-align-items-center">
+                        <div class=`dropdown is-right${state.langOpen ? " is-active" : ""}`>
+                            <div class="dropdown-trigger">
+                                <button class="button hr-lang-dropdown-button" aria-haspopup="true" aria-controls="hr_lang_dropdown" on-click("onLangDropdownClick")>
+                                    <span class="hr-lang-dropdown-icon icon">
+                                        <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d=mdiWeb/>
+                                        </svg>
+                                    </span>
+                                </button>
+                            </div>
+                            <div class="dropdown-menu" id="hr_lang_dropdown" role="menu">
+                                <div class="dropdown-content">
+                                    <for|lang| of=Object.keys(languages)>
+                                        $ const currentURL = process.browser ? component.getNonLocalizedURL(window.location.pathname).url : "/";
+                                        <a class="dropdown-item" href=(lang === Object.keys(languages)[0] ? currentURL : `/${lang}${currentURL}`)>${languages[lang]}</a>
+                                    </for>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card hr-signIn-card">
+                <if(!process.browser || state.ready)>
+                    <hform key="signInForm" id="signInForm" data=(new LoginForm(process.browser && window.__heretic ? window.__heretic.t : out.global.t)) on-form-submit("onFormSubmit")/>
+                </if> 
+            </div>
+        </div>
+    </div>
+</div>

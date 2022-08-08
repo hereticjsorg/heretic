@@ -15,6 +15,7 @@ module.exports = class {
             checkboxColumn: input.formData.isCheckboxColumn(),
             actions: input.formData.getActions(),
             topButtons: input.formData.getTopButtons(),
+            loadConfig: input.formData.getTableLoadConfig(),
             data: [],
             loading: false,
             currentPage: 1,
@@ -386,8 +387,7 @@ module.exports = class {
             return;
         }
         return new Promise((resolve) => {
-            const loadConfig = this.input.formData.getTableLoadConfig();
-            if (!loadConfig || !loadConfig.url) {
+            if (!this.state.loadConfig || !this.state.loadConfig) {
                 return;
             }
             setTimeout(async () => {
@@ -395,7 +395,7 @@ module.exports = class {
                 try {
                     const response = await axios({
                         method: "post",
-                        url: loadConfig.url,
+                        url: this.state.loadConfig.url,
                         data: {
                             fields: Object.keys(this.state.columnData),
                             sortField: input.sortField || this.state.sortField,
@@ -403,7 +403,7 @@ module.exports = class {
                             itemsPerPage: this.state.itemsPerPage,
                             page: input.currentPage || this.state.currentPage,
                         },
-                        headers: {},
+                        headers: this.input.headers || {},
                     });
                     this.setState("data", response.data.items);
                     this.setState("totalPages", response.data.total < this.state.itemsPerPage ? 1 : Math.ceil(response.data.total / this.state.itemsPerPage));
@@ -419,7 +419,11 @@ module.exports = class {
                     this.generatePagination();
                     this.setTableWidth();
                     this.needToUpdateTableWidth = true;
-                } catch {
+                } catch (e) {
+                    if (e && e.response && e.response.status === 403) {
+                        this.emit("unauthorized");
+                        resolve();
+                    }
                     this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_loadingError"), "is-danger");
                     this.setState("data", []);
                 } finally {
@@ -559,7 +563,7 @@ module.exports = class {
                     data: {
                         ids: this.state.deleteItems.map(i => i.id),
                     },
-                    headers: {},
+                    headers: this.input.headers || {},
                 });
                 this.setState("checkboxes", []);
                 this.setState("checkboxesAll", false);
@@ -578,5 +582,10 @@ module.exports = class {
 
     getColumns() {
         return this.state.columnData;
+    }
+
+    onReloadClick(e) {
+        e.preventDefault();
+        this.loadData();
     }
 };

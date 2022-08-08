@@ -1,0 +1,13 @@
+{
+	"id": "_signOut",
+	"path": "/signOut",
+	"title": {
+		"ru-ru": "Выход",
+		"en-us": "Sign Out"
+	},
+	"description": {
+		"ru-ru": "",
+		"en-us": ""
+	},
+	"langSwitchComponent": false
+}

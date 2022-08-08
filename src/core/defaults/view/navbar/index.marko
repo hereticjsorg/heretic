@@ -7,9 +7,9 @@ import { mdiGithub, mdiWeb } from "@mdi/js"
 $ const i18nNavigation = out.global.i18nNavigation;
 <nav class="navbar hr-navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-        <router-link route=navigation.home class="navbar-item">
+        <hrouter-link route=navigation.home class="navbar-item">
             <img src=logo/>
-        </router-link>
+        </hrouter-link>
         <a
             id="hr_navbar_burger"
             onClick("onBurgerClick")
@@ -25,13 +25,13 @@ $ const i18nNavigation = out.global.i18nNavigation;
         <div class="navbar-start">
             <for|item| of=navigation.routes>
                 <if(typeof item === "string")>
-                    <router-link
+                    <hrouter-link
                         route=item
                         class=`navbar-item hr-navbar-item${
                             state.route === item ? " hr-navbar-item-active" : ""
                         }`>
                         ${i18nNavigation[item]}
-                    </router-link>
+                    </hrouter-link>
                 </if>
                 <else>
                     <div class=`navbar-item has-dropdown${
@@ -49,7 +49,7 @@ $ const i18nNavigation = out.global.i18nNavigation;
                         </a>
                         <div class="navbar-dropdown hr-navbar-dropdown">
                             <for|subItem| of=item.routes>
-                                <router-link
+                                <hrouter-link
                                     route=subItem
                                     class=`navbar-item hr-navbar-item${
                                         state.route === subItem
@@ -57,7 +57,7 @@ $ const i18nNavigation = out.global.i18nNavigation;
                                             : ""
                                     }`>
                                     ${i18nNavigation[subItem]}
-                                </router-link>
+                                </hrouter-link>
                             </for>
                         </div>
                     </div>

@@ -6,11 +6,11 @@ const pageTranslations = require("../../../build/translations-admin.json");
 export default (route, languageData, language) => ({
     async handler(req, rep) {
         const authData = await req.auth.getData(req.auth.methods.COOKIE);
-        if (route.dir === "_login" && authData) {
+        if (route.dir === "_signIn" && authData) {
             return rep.code(302).redirect(languages[0] === language ? `${this.siteConfig.routes.admin}?_=${crypto.randomUUID()}` : `/${language}${this.siteConfig.routes.admin}?_=${crypto.randomUUID()}`);
         }
-        if (route.dir !== "_login" && !authData) {
-            return rep.code(302).redirect(languages[0] === language ? `${this.siteConfig.routes.login}?_=${crypto.randomUUID()}&r=${route.path}` : `/${language}${this.siteConfig.routes.login}?_=${crypto.randomUUID()}&r=/${language}${route.path}`);
+        if (route.dir !== "_signIn" && !authData) {
+            return rep.code(302).redirect(languages[0] === language ? `${this.siteConfig.routes.signInAdmin}?_=${crypto.randomUUID()}&r=${route.path}` : `/${language}${this.siteConfig.routes.signInAdmin}?_=${crypto.randomUUID()}&r=/${language}${route.path}`);
         }
         const translationData = pageTranslations.find(i => i.id === route.id);
         const page = route.core ? (await import(`../../modules/${route.dir}/admin/server.marko`)).default : (await import(`../../../modules/${route.dir}/admin/server.marko`)).default;

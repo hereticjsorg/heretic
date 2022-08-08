@@ -11,6 +11,7 @@ import Heretic from "./core/lib/heretic";
         await heretic.connectDatabase();
         heretic.registerRouteModulesFrontend();
         heretic.registerRouteModulesAdmin();
+        heretic.registerRouteModulesCore();
         heretic.registerRouteErrors();
         await heretic.registerRouteAPI();
         heretic.listen();

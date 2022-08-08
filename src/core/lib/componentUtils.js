@@ -88,4 +88,10 @@ export default class {
         }
         return data;
     }
+
+    getLocalizedURL(url) {
+        const nonLocalizedURL = this.getNonLocalizedURL(url);
+        const resultURL = this.language === Object.keys(languagesList)[0] ? nonLocalizedURL.url : `/${this.language}${nonLocalizedURL.url}`;
+        return resultURL.endsWith("/") && resultURL.length > 1 ? resultURL.slice(0, -1) : resultURL;
+    }
 }

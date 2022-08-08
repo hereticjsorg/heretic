@@ -10,12 +10,14 @@ import {
 import hereticRateLimit from "./rateLimit";
 import routeModuleFrontend from "./routes/routeModuleFrontend";
 import routeModuleAdmin from "./routes/routeModuleAdmin";
+import routeModuleCore from "./routes/routeModuleCore";
 import route404 from "./routes/route404";
 import route500 from "./routes/route500";
 import apiRoute404 from "./routes/route404-api";
 import apiRoute500 from "./routes/route500-api";
 import routesFrontend from "../../build/routes.json";
 import routesAdmin from "../../build/routes-admin.json";
+import routesCore from "../../build/routes-core.json";
 import apiModules from "../../build/api-modules.json";
 import apiCore from "../../build/api-core.json";
 import Logger from "./logger";
@@ -151,12 +153,26 @@ export default class {
     }
 
     /*
+     * Register core routes for all modules
+     */
+    registerRouteModulesCore() {
+        for (const route of routesCore) {
+            this.fastify.get(route.path, routeModuleCore(route, this.languageData, this.defaultLanguage));
+            for (const lang of Object.keys(languages)) {
+                if (lang !== this.defaultLanguage) {
+                    this.fastify.get(`/${lang}${route.path}`, routeModuleCore(route, this.languageData, lang));
+                }
+            }
+        }
+    }
+
+    /*
      * Register error routes (both 404 and 500)
      */
     registerRouteErrors() {
         this.fastify.setNotFoundHandler(async (req, rep) => {
             const language = this.utils.getLanguageFromUrl(req.url);
-            const output = req.urlData(null, req).path.match(/^\/api\//) ? apiRoute404(rep, this.languageData, language) : await route404(rep, this.languageData, language, this.siteMeta, i18nNavigation);
+            const output = req.urlData(null, req).path.match(/^\/api\//) ? apiRoute404(rep, this.languageData, language) : await route404(req, rep, this.languageData, language, this.siteMeta, this.config, i18nNavigation);
             rep.code(404);
             rep.send(output);
         });

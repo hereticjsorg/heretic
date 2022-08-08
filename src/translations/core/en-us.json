@@ -22,7 +22,8 @@
     "hform_error_filesMaxSize": "Max size exceeded",
     "hform_error_filesBadExtension": "Unaccepted type",
     "hform_error_general": "Error while processing form",
-    "logOut": "Log Out",
+    "signOut": "Sign Out",
+    "signIn": "Sign In",
     "htable_actions": "Actions",
     "htable_noRecords": "No records",
     "htable_loadingError": "Could not load data",
@@ -34,5 +35,7 @@
     "htable_delete": "Delete",
     "htable_cancel": "Cancel",
     "htable_nothingSelected": "No items selected",
-    "htable_deleteItems": "The following item(s) will be deleted"
+    "htable_deleteItems": "The following item(s) will be deleted",
+    "htable_reloadButton": "Reload",
+    "authorization": "Authorization"
 }

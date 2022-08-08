@@ -1,4 +1,6 @@
-<if(state.topButtons && state.topButtons.length)>
+import { mdiReload } from "@mdi/js"
+
+<if(state.topButtons)>
     <div class="mb-3">
         <for|item, index| of=state.topButtons>
             <button
@@ -8,7 +10,7 @@
                 style={
                     "margin-left": index > 0 ? "4px" : "0"
                 }>
-                <span class=`hr-ht-action-icon icon${item.danger ? " hr-ht-action-icon-danger" : ""}`>
+                <span class=`hr-ht-top-button-icon icon${item.danger ? " hr-ht-top-button-icon-danger" : ""}`>
                     <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
                         <path d=item.icon/>
                     </svg>
@@ -16,6 +18,21 @@
                 <span>${item.label}</span>
             </button>
         </for>
+        <if(state.loadConfig && state.loadConfig.url)>
+            <button
+                on-click("onReloadClick")
+                class="button is-light"
+                style={
+                    "margin-left": state.topButtons.length > 0 ? "4px" : "0"
+                }>
+                <span class="hr-ht-top-button-icon icon">
+                    <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                        <path d=mdiReload/>
+                    </svg>
+                </span>
+                <t>htable_reloadButton</t>
+            </button>
+        </if>
     </div>
 </if>
 <div

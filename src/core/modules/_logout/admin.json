@@ -1,9 +1,0 @@
-{
-	"id": "_logout",
-	"path": "/logout",
-	"icon": "mdiLogoutVariant",
-	"title": {
-		"ru-ru": "Выход",
-		"en-us": "Log Out"
-	}
-}

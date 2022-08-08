@@ -1,9 +1,0 @@
-{
-	"id": "_login",
-	"path": "/login",
-	"icon": "mdiLoginVariant",
-	"title": {
-		"ru-ru": "Авторизация",
-		"en-us": "Log In"
-	}
-}

@@ -23,7 +23,7 @@ import languages from "../../config/languages.json"
                     <${input.renderBody}/>
                 </if>
                 <if(process.browser)>
-                    <router on-route-change("onRouteChange")/>
+                    <hrouter on-route-change("onRouteChange")/>
                     <if(state.routed)>
                         <div id="hr_content_render_wrap"/>
                     </if>
