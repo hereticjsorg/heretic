@@ -1,10 +1,10 @@
-import LoginForm from "../../modules/_signIn/data/signInForm";
+import SignInForm from "../../modules/_signIn/data/signInForm";
 import FormValidator from "../../lib/formValidatorServer";
 
 export default () => ({
     async handler(req, rep) {
         try {
-            const signInForm = new LoginForm();
+            const signInForm = new SignInForm();
             const formValidator = new FormValidator(signInForm.getValidationSchema(), signInForm.getFieldsFlat());
             const multipartData = await req.processMultipart();
             const data = formValidator.parseMultipartData(multipartData);

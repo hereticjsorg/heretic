@@ -1,6 +1,7 @@
 const store = require("store2");
 const axios = require("axios");
 const cloneDeep = require("lodash.clonedeep");
+const debounce = require("lodash.debounce");
 const Utils = require("../../lib/componentUtils").default;
 const Query = require("../../lib/queryBrowser").default;
 
@@ -9,6 +10,7 @@ module.exports = class {
         this.defaultSortData = input.formData.getTableDefaultSortColumn ? input.formData.getTableDefaultSortColumn() : {};
         this.state = {
             columnData: input.formData.getTableColumns(),
+            columns: [],
             sortField: this.defaultSortData.id || null,
             sortDirection: this.defaultSortData.direction || null,
             actionColumn: input.formData.isActionColumn(),
@@ -26,11 +28,14 @@ module.exports = class {
             checkboxesAll: false,
             deleteConfig: input.formData.getTableLoadConfig ? input.formData.getTableDeleteConfig() : null,
             deleteItems: [],
+            searchText: "",
+            settingsTab: "columns",
         };
         this.queryStringShorthands = {
             currentPage: "p",
             sortField: "f",
             sortDirection: "d",
+            searchText: "s",
         };
     }
 
@@ -39,7 +44,6 @@ module.exports = class {
         const elementTableControls = document.getElementById(`hr_ht_table_controls_${this.input.id}`);
         const elementDummy = document.getElementById(`hr_ht_dummy_${this.input.id}`);
         const elementTableContainer = document.getElementById(`hr_ht_table_container_${this.input.id}`);
-        const elementTable = document.getElementById(`hr_ht_table_${this.input.id}`);
         const mainWrap = document.getElementById(`hr_ht_wrap_${this.input.id}`);
         const table = document.getElementById(`hr_ht_table_${this.input.id}`);
         const actionsTh = document.getElementById(`hr_ht_th_actions_${this.input.id}`);
@@ -55,7 +59,6 @@ module.exports = class {
             elementTableControls,
             elementDummy,
             elementTableContainer,
-            elementTable,
             mainWrap,
             table,
             actionsTh,
@@ -98,22 +101,22 @@ module.exports = class {
         return dummyRect.width;
     }
 
-    setTableWidth() {
+    setTableDimensions() {
         const {
-            elementTable,
+            table,
             elementTableContainer,
             elementWrap,
         } = this.getElements();
-        if (!elementTable || !elementTableContainer || !elementWrap) {
+        if (!table || !elementTableContainer || !elementWrap) {
             return;
         }
         this.resetColumnWidths();
         this.tableContainerWidth = this.getCurrentTableWidth();
         elementTableContainer.style.width = `${this.tableContainerWidth}px`;
         elementWrap.style.width = `${this.tableContainerWidth}px`;
-        elementTable.style.width = `${this.tableContainerWidth}px`;
-        const elementTableWidth = elementTable.getBoundingClientRect().width;
-        elementTable.style.width = `${elementTableWidth}px`;
+        table.style.width = `${this.tableContainerWidth}px`;
+        const elementTableWidth = table.getBoundingClientRect().width;
+        table.style.width = `${elementTableWidth}px`;
         const elementScrollWrapper = document.getElementById(`hr_ht_table_scroll_wrapper_${this.input.id}`);
         if (this.tableContainerWidth < elementTableWidth) {
             const elementScroll = document.getElementById(`hr_ht_table_scroll_${this.input.id}`);
@@ -205,10 +208,12 @@ module.exports = class {
         actionsColumns.style.width = `${this.actionColumnWidth}px`;
         actionsTh.style.width = `${this.actionColumnWidth}px`;
         for (const actionCellWrap of actionCellWraps) {
+            // eslint-disable-next-line no-loop-func
             setTimeout(async () => {
                 try {
                     await this.utils.waitForElement(`hr_ht_action_cell_${this.input.id}_${actionCellWrap.dataset.index}`);
                     const actionElement = document.getElementById(`hr_ht_action_cell_${this.input.id}_${actionCellWrap.dataset.index}`);
+                    actionElement.style.opacity = "0";
                     actionCellWrap.style.height = "unset";
                     actionElement.style.height = "unset";
                     const actionColumnHeight = actionElement.getBoundingClientRect().height >= actionCellWrap.getBoundingClientRect().height ? actionElement.getBoundingClientRect().height : actionCellWrap.getBoundingClientRect().height;
@@ -216,12 +221,15 @@ module.exports = class {
                     actionElement.style.width = `${this.actionColumnWidth + 2}px`;
                     actionElement.style.height = `${actionColumnHeight - 2}px`;
                     actionElement.style.top = `${actionCellWrap.getBoundingClientRect().top - mainWrap.getBoundingClientRect().top + 1}px`;
-                    actionElement.style.opacity = "1";
+                    if (actionCellWrap.getBoundingClientRect().top - mainWrap.getBoundingClientRect().top + 1 > 0) {
+                        actionElement.style.opacity = "1";
+                    }
                 } catch {
                     // Ignore
                 }
             }, 0);
         }
+        table.style.height = "unset";
         tableControls.style.width = `${this.actionColumnWidth + 2}px`;
         tableControls.style.height = `${table.getBoundingClientRect().height}px`;
         tableControls.style.left = `${mainWrap.getBoundingClientRect().width - this.actionColumnWidth - 2}px`;
@@ -233,7 +241,8 @@ module.exports = class {
     async onMount() {
         this.utils = new Utils(this);
         this.store = store.namespace(`heretic_htable_${this.input.id}`);
-        window.addEventListener("resize", this.setTableWidth.bind(this));
+        this.setState("columns", Object.keys(this.state.columnData).filter(c => this.state.columnData[c].column && !this.state.columnData[c].hidden));
+        window.addEventListener("resize", this.setTableDimensions.bind(this));
         window.addEventListener("mouseup", this.onColumnMouseUp.bind(this));
         this.restoreWidthFromSavedRatios();
         window.dispatchEvent(new CustomEvent("resize"));
@@ -250,19 +259,24 @@ module.exports = class {
             const currentPage = this.query.get(this.queryStringShorthands["currentPage"]);
             const sortField = this.query.get(this.queryStringShorthands["sortField"]);
             const sortDirection = this.query.get(this.queryStringShorthands["sortDirection"]);
+            const searchText = this.query.get(this.queryStringShorthands["searchText"]);
             if (currentPage && typeof currentPage === "string" && currentPage.match(/^[0-9]{1,99999}$/)) {
                 loadInput.currentPage = parseInt(currentPage, 10);
             }
             if (sortField && typeof sortField === "string") {
-                const columns = Object.keys(this.getColumns());
-                if (columns.indexOf(sortField) > -1) {
+                if (this.state.columns.indexOf(sortField) > -1) {
                     loadInput.sortField = sortField;
                 }
             }
             if (sortDirection && typeof sortDirection === "string" && sortDirection.match(/^(asc|desc)$/)) {
                 loadInput.sortDirection = sortDirection;
             }
+            if (searchText && typeof searchText === "string" && searchText.length < 64) {
+                loadInput.searchText = searchText;
+            }
         }
+        this.loadDataDebounced = debounce(this.loadData, 500);
+        this.setTableDimensionsDebounced = debounce(this.setTableDimensions, 10);
         if (this.input.autoLoad) {
             await this.loadData(loadInput);
         } else {
@@ -274,13 +288,13 @@ module.exports = class {
         e.preventDefault();
         e.stopPropagation();
         this.columnResizing = e.target.dataset.id;
-        this.prevColumn = Object.keys(this.state.columnData)[Object.keys(this.state.columnData).findIndex(i => i === this.columnResizing) - 1];
+        this.prevColumn = this.state.columns[this.state.columns.findIndex(i => i === this.columnResizing) - 1];
         this.moveStartX = e.touches ? e.touches[0].pageX : e.pageX;
     }
 
     getColumnWidths() {
         const widths = {};
-        for (const c of Object.keys(this.state.columnData)) {
+        for (const c of this.state.columns) {
             const columnRect = document.getElementById(`hr_ht_column_${c}`).getBoundingClientRect();
             widths[c] = columnRect.width;
         }
@@ -297,7 +311,7 @@ module.exports = class {
     }
 
     resetColumnWidths() {
-        for (const c of Object.keys(this.state.columnData)) {
+        for (const c of this.state.columns) {
             const columnElement = document.getElementById(`hr_ht_column_${c}`);
             if (columnElement) {
                 columnElement.style.width = "unset";
@@ -313,7 +327,7 @@ module.exports = class {
 
     columnWidthsToRatios(widths) {
         const columnRatios = {};
-        Object.keys(this.state.columnData).map(k => columnRatios[k] = parseFloat(widths[k] / this.tableContainerWidth));
+        this.state.columns.map(k => columnRatios[k] = parseFloat(widths[k] / this.tableContainerWidth));
         return columnRatios;
     }
 
@@ -343,7 +357,7 @@ module.exports = class {
             this.moveStartX = currentMover.getBoundingClientRect().x;
         }
         const newColumnWidths = this.getColumnWidths();
-        for (const column of Object.keys(this.state.columnData)) {
+        for (const column of this.state.columns) {
             if (column !== this.prevColumn && column !== this.columnResizing && newColumnWidths[column] !== oldColumnWidths[column]) {
                 this.setColumnWidths(oldColumnWidths);
                 return;
@@ -393,11 +407,18 @@ module.exports = class {
             setTimeout(async () => {
                 await this.setLoading(true);
                 try {
+                    const {
+                        table,
+                    } = this.getElements();
+                    const tableHeightSave = table.getBoundingClientRect().height;
+                    this.setState("data", []);
+                    table.style.height = `${tableHeightSave}px`;
                     const response = await axios({
                         method: "post",
                         url: this.state.loadConfig.url,
                         data: {
-                            fields: Object.keys(this.state.columnData),
+                            searchText: input.searchText || this.state.searchText,
+                            fields: this.state.columns,
                             sortField: input.sortField || this.state.sortField,
                             sortDirection: input.sortDirection || this.state.sortDirection,
                             itemsPerPage: this.state.itemsPerPage,
@@ -417,7 +438,7 @@ module.exports = class {
                         }
                     }
                     this.generatePagination();
-                    this.setTableWidth();
+                    this.setTableDimensions();
                     this.needToUpdateTableWidth = true;
                 } catch (e) {
                     if (e && e.response && e.response.status === 403) {
@@ -437,7 +458,7 @@ module.exports = class {
     onUpdate() {
         if (this.needToUpdateTableWidth) {
             this.needToUpdateTableWidth = false;
-            this.setTableWidth();
+            this.setTableDimensionsDebounced();
         }
     }
 
@@ -580,12 +601,38 @@ module.exports = class {
         }
     }
 
-    getColumns() {
+    getColumnsData() {
         return this.state.columnData;
     }
 
     onReloadClick(e) {
         e.preventDefault();
         this.loadData();
+    }
+
+    onSearchInputChange(e) {
+        const value = e.target.value.trim();
+        this.setState("searchText", value);
+        this.loadDataDebounced({
+            searchText: value,
+        });
+    }
+
+    async onSettingsClick(e) {
+        e.preventDefault();
+        await this.utils.waitForComponent(`settingsModal_ht_${this.input.id}`);
+        const settingsModal = this.getComponent(`settingsModal_ht_${this.input.id}`);
+        settingsModal.setActive(true).setCloseAllowed(true).setLoading(false);
+    }
+
+    onSettingsButtonClick() {
+    }
+
+    onSettingsTabClick(e) {
+        e.preventDefault();
+        const {
+            tab
+        } = e.target.closest("[data-tab]").dataset;
+        this.setState("settingsTab", tab);
     }
 };

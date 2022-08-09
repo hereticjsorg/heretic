@@ -32,3 +32,27 @@
 .hr-navbar {
     user-select: none;
 }
+
+.hr-navbar-icon {
+    display: inline-flex;
+    align-self: center;
+}
+
+.hr-navbar-icon svg {
+    height: 20px;
+    width: 20px;
+    top: 0px;
+    position: relative;
+}
+
+.hr-navbar-icon svg>path {
+    fill: $grey-darker !important;
+}
+
+@media (max-width: 1023px) {
+
+    .hr-navbar-icon svg {
+        top: 5px;
+    }
+
+}

@@ -41,4 +41,33 @@ export default {
     validateDataDeleteGeneric: function () {
         return !!deleteLoadGenericSchema(this.body);
     },
+    generateSearchText: function (formData, query = {
+        $or: [],
+    }) {
+        if (this.body.searchText && this.body.searchText.length > 1) {
+            for (const k of Object.keys(formData.getFieldsFlat())) {
+                const field = formData.getFieldsFlat()[k];
+                if (field.searchable) {
+                    const s = {};
+                    s[k] = {
+                        $regex: this.body.searchText,
+                        $options: "i",
+                    };
+                    query.$or.push(s);
+                    if (formData.getTabs) {
+                        const tabs = formData.getTabs();
+                        for (const tab of tabs) {
+                            const st = {};
+                            st[`${tab.id}.${k}`] = {
+                                $regex: this.body.searchText,
+                                $options: "i",
+                            };
+                            query.$or.push(st);
+                        }
+                    }
+                }
+            }
+        }
+        return query;
+    }
 };

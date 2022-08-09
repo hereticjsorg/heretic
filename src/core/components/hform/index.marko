@@ -56,17 +56,19 @@
                         <div class="columns pt-0 pb-0 mt-0 mb-0 is-multiline is-variable is-2 mb-0">
                             <for|i2| of=i1>
                                 <div class=`column pt-0 pb-0 mt-0 mb-3 ${i2.css ? i2.css : ""}`>
-                                    <field key=`hr_hf_f_${i2.id}` formId=input.id on-button-click("onButtonClick") on-notify("onNotify") ...i2/>
+                                    <fieldEdit key=`hr_hf_f_${i2.id}` formId=input.id on-button-click("onButtonClick") on-notify("onNotify") ...i2/>
                                 </div>
                             </for>
                         </div>
                     </if>
                     <else>
-                        <div class="columns is-variable is-2 pt-0 pb-0 mt-0 mb-1">
-                            <div class="column pt-0 pb-0 mt-0 mb-0">
-                                <field key=`hr_hf_f_${i1.id}` formId=input.id on-button-click("onButtonClick") on-notify("onNotify") ...i1/>
+                        <if(i1.type !== "column")>
+                            <div class="columns is-variable is-2 pt-0 pb-0 mt-0 mb-1">
+                                <div class="column pt-0 pb-0 mt-0 mb-2">
+                                    <fieldEdit key=`hr_hf_f_${i1.id}` formId=input.id on-button-click("onButtonClick") on-notify("onNotify") ...i1/>
+                                </div>
                             </div>
-                        </div>
+                        </if>
                     </else>
                 </for>
             </div>

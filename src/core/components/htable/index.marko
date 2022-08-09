@@ -1,40 +1,69 @@
-import { mdiReload } from "@mdi/js"
+import { mdiReload, mdiMagnify, mdiCogOutline } from "@mdi/js"
 
-<if(state.topButtons)>
-    <div class="mb-3">
-        <for|item, index| of=state.topButtons>
-            <button
-                data-id=item.id
-                on-click("onTopButtonClick")
-                class=`button ${item.danger ? "is-danger" : "is-light"}`
-                style={
-                    "margin-left": index > 0 ? "4px" : "0"
-                }>
-                <span class=`hr-ht-top-button-icon icon${item.danger ? " hr-ht-top-button-icon-danger" : ""}`>
-                    <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                        <path d=item.icon/>
-                    </svg>
-                </span>
-                <span>${item.label}</span>
-            </button>
-        </for>
-        <if(state.loadConfig && state.loadConfig.url)>
-            <button
-                on-click("onReloadClick")
-                class="button is-light"
-                style={
-                    "margin-left": state.topButtons.length > 0 ? "4px" : "0"
-                }>
-                <span class="hr-ht-top-button-icon icon">
-                    <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                        <path d=mdiReload/>
-                    </svg>
-                </span>
-                <t>htable_reloadButton</t>
-            </button>
+<div class="columns is-gapless m-0 p-0">
+    <div class="column is-auto">
+        <if(state.topButtons)>
+            <div class="mb-3">
+                <for|item, index| of=state.topButtons>
+                    <button
+                        data-id=item.id
+                        on-click("onTopButtonClick")
+                        class=`button ${item.danger ? "is-danger" : "is-light"}`
+                        style={
+                            "margin-left": index > 0 ? "4px" : "0"
+                        }>
+                        <span class=`hr-ht-top-button-icon icon${item.danger ? " hr-ht-top-button-icon-danger" : ""}`>
+                            <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                <path d=item.icon/>
+                            </svg>
+                        </span>
+                        <span>${item.label}</span>
+                    </button>
+                </for>
+                <if(state.loadConfig && state.loadConfig.url)>
+                    <button
+                        on-click("onReloadClick")
+                        class="button is-light"
+                        style={
+                            "margin-left": state.topButtons.length > 0 ? "4px" : "0"
+                        }>
+                        <span class="hr-ht-top-button-icon icon">
+                            <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                <path d=mdiReload/>
+                            </svg>
+                        </span>
+                        <t>htable_reloadButton</t>
+                    </button>
+                </if>
+                <button
+                    on-click("onSettingsClick")
+                    class="button is-light"
+                    style={
+                        "margin-left": state.topButtons.length > 0 ? "4px" : "0"
+                    }>
+                    <span class="hr-ht-top-button-icon icon">
+                        <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                            <path d=mdiCogOutline/>
+                        </svg>
+                    </span>
+                    <t>htable_settingsButton</t>
+                </button>
+            </div>
         </if>
     </div>
-</if>
+    <div class="column is-narrow">
+        <div class="control has-icons-right">
+            <input class="input" type="text" value=state.searchText on-input("onSearchInputChange")/>
+            <span class="icon is-small is-right">
+                <span class="hr-ht-form-icon icon">
+                    <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                        <path d=mdiMagnify/>
+                    </svg>
+                </span>
+            </span>
+        </div>
+    </div>
+</div>
 <div
     no-update
     class="hr-ht-scroll-wrapper"
@@ -56,32 +85,43 @@ import { mdiReload } from "@mdi/js"
                             </div>
                         </th>
                     </if>
-                    <for|k, index| of=Object.keys(state.columnData)>
-                        $ const item = state.columnData[k];
-                        <th
-                            data-id=item.id
-                            on-click("onColumnThClick")
-                            class="hr-ht-th p-0 m-0"
-                            id=`hr_ht_column_${item.id}`
-                            style={
-                                cursor: item.sortable ? "pointer" : "inherit"
-                            }>
+                    <if(state.columns.length)>
+                        <for|k, index| of=state.columns>
+                            $ const item = state.columnData[k];
+                            <th
+                                data-id=item.id
+                                on-click("onColumnThClick")
+                                class="hr-ht-th p-0 m-0"
+                                id=`hr_ht_column_${item.id}`
+                                style={
+                                    cursor: item.sortable ? "pointer" : "inherit"
+                                }>
+                                <div class="columns is-gapless m-0 p-0">
+                                    <if(index > 0 && (!state.actionColumn || index < state.columns.length))>
+                                        <div class="column is-narrow">
+                                            <div class="hr-ht-thead-move" id=`hr_ht_mover_${item.id}` data-id=item.id on-mousedown("onColumnMouseDown")/>
+                                        </div>
+                                    </if>
+                                    <div class="column is-auto">
+                                        <div class="p-2 hr-ht-thead-label">
+                                            ${item.label}<if(state.sortField === item.id)>
+                                                <icon-arrow direction=(state.sortDirection === "asc" ? "down" : "up")/>
+                                            </if>
+                                        </div>
+                                    </div>
+                                </div>
+                            </th>
+                        </for>
+                    </if>
+                    <else>
+                        <th class="hr-ht-th p-0 m-0">
                             <div class="columns is-gapless m-0 p-0">
-                                <if(index > 0 && (!state.actionColumn || index < Object.keys(state.columnData).length))>
-                                    <div class="column is-narrow">
-                                        <div class="hr-ht-thead-move" id=`hr_ht_mover_${item.id}` data-id=item.id on-mousedown("onColumnMouseDown")/>
-                                    </div>
-                                </if>
                                 <div class="column is-auto">
-                                    <div class="p-2 hr-ht-thead-label">
-                                        ${item.label}<if(state.sortField === item.id)>
-                                            <icon-arrow direction=(state.sortDirection === "asc" ? "down" : "up")/>
-                                        </if>
-                                    </div>
+                                    <div class="p-2 hr-ht-thead-label">&nbsp;</div>
                                 </div>
                             </div>
                         </th>
-                    </for>
+                    </else>
                     <if(state.actionColumn)>
                         <th class="hr-ht-th p-0 m-0 is-narrow" id=`hr_ht_th_actions_${input.id}`>
                             <div class="columns is-gapless m-0 p-0" id=`hr_ht_th_actions_columns_${input.id}`>
@@ -96,7 +136,7 @@ import { mdiReload } from "@mdi/js"
                 </tr>
             </thead>
             <tbody>
-                <if(state.data.length)>
+                <if(state.data && state.data.length)>
                     <for|row, ix| of=state.data>
                         <tr class="hr-ht-tr">
                             <if(state.checkboxColumn)>
@@ -106,7 +146,7 @@ import { mdiReload } from "@mdi/js"
                                     </div>
                                 </td>
                             </if>
-                            <for|k| of=Object.keys(state.columnData)>
+                            <for|k| of=state.columns>
                                 $ const item = state.columnData[k];
                                 <td class="hr-ht-td p-0 m-0">
                                     <div class="p-2">${input.formData.processTableCell(k, row)}</div>
@@ -120,9 +160,11 @@ import { mdiReload } from "@mdi/js"
                 </if>
                 <else>
                     <tr class="hr-ht-tr">
-                        <td class="hr-ht-td p-0 m-0" colspan=Object.keys(state.columnData).length + (state.checkboxColumn ? 1 : 0)>
+                        <td class="hr-ht-td p-0 m-0" colspan=((state.columns.length || 1) + (state.checkboxColumn ? 1 : 0))>
                             <div class="p-2">
-                                <t>htable_noRecords</t>
+                                <if(!state.loading)>
+                                    <t>htable_noRecords</t>
+                                </if>
                             </div>
                         </td>
                         <if(state.actionColumn)>
@@ -134,7 +176,7 @@ import { mdiReload } from "@mdi/js"
         </table>
     </div>
     <div class="hr-ht-table-controls" id=`hr_ht_table_controls_${input.id}`>
-        <if(state.data.length)>
+        <if(state.data && state.data.length)>
             <for|row, ix| of=state.data>
                 <div
                     class=`hr-ht-action-cell hr-ht-action-cell-${input.id} p-2 m-0 ${ix % 2 === 0 ? "hr-ht-action-cell-even" : "hr-ht-action-cell-odd"}`
@@ -202,7 +244,7 @@ import { mdiReload } from "@mdi/js"
             id: "cancel",
             label: "htable_cancel",
             class: "button is-light",
-            close: true,
+            close: true
         }
     ]>
     <t>htable_deleteItems</t>:
@@ -211,4 +253,74 @@ import { mdiReload } from "@mdi/js"
             <li>&ndash;&nbsp;${item.title}</li>
         </for>
     </ul>
+</hmodal>
+<hmodal
+    key=`settingsModal_ht_${input.id}`
+    on-button-click("onSettingsButtonClick")
+    close=true
+    classBody="hr-ht-settings-body"
+    title="htable_settings"
+    actions=[
+        {
+            id: "save",
+            label: "htable_save",
+            class: "button is-primary"
+        },
+        {
+            id: "cancel",
+            label: "htable_cancel",
+            class: "button is-light",
+            close: true
+        }
+    ]>
+    <div class="tabs p-0 m-0">
+        <ul>
+            <for|i| of=["columns", "pages"]>
+                <li class=(state.settingsTab === i ? "is-active" : "")>
+                    <a on-click("onSettingsTabClick") data-tab=i>
+                        <if(i === "columns")>
+                            <t>htable_settingsColumns</t>
+                        </if>
+                        <if(i === "pages")>
+                            <t>htable_settingsPages</t>
+                        </if>
+                    </a>
+                </li>
+            </for>
+        </ul>
+    </div>
+    <div class="p-3">
+        <if(state.settingsTab === "columns")>
+            <div class="pb-3">
+                <t>htable_settingsColumnsDesc</t>
+            </div>
+            <for|column| of=state.columns>
+                <div class="hr-ht-settings-columns-row columns is-vcentered is-mobile is-gapless p-1 m-0">
+                    <div class="column is-narrow mr-2">
+                        <input type="checkbox" class="hr-hr-settings-switch switch"/>
+                    </div>
+                    <div class="column is-auto mr-2">${state.columnData[column].label}</div>
+                    <div class="column is-narrow mr-2">
+                        <button class="button is-small hr-ht-action-button is-light">
+                            <span class="hr-ht-action-icon icon">
+                                <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M7,15L12,10L17,15H7Z"/>
+                                </svg>
+                            </span>
+                        </button>
+                    </div>
+                    <div class="column is-narrow">
+                        <button class="button is-small hr-ht-action-button is-light">
+                            <span class="hr-ht-action-icon icon">
+                                <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M7,10L12,15L17,10H7Z"/>
+                                </svg>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </for>
+        </if>
+        <if(state.settingsTab === "pages")/>
+    </div>
 </hmodal>

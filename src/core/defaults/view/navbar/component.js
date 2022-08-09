@@ -1,14 +1,16 @@
-const languagesList = require("../../config/languages.json");
+const Utils = require("../../core/lib/componentUtils").default;
 
 module.exports = class {
-    async onCreate() {
-        const state = {
+    async onCreate(input, out) {
+        this.state = {
             route: null,
             langOpen: false,
+            authOpen: false,
             navOpen: false,
             navItemOpen: null,
         };
-        this.state = state;
+        this.language = out.global.language;
+        this.utils = new Utils(this, this.language);
         await import(/* webpackChunkName: "navbar" */ "./navbar.scss");
     }
 
@@ -20,11 +22,22 @@ module.exports = class {
             if (!document.getElementById("hr_navbar_burger").contains(e.target)) {
                 this.setState("navOpen", false);
             }
+            if (!document.getElementById("hr_navbar_auth").contains(e.target)) {
+                this.setState("authOpen", false);
+            }
             if (this.state.navItemOpen && !document.getElementById(`hr_navbar_item_${this.state.navItemOpen}`).contains(e.target)) {
                 this.setState("navItemOpen", "");
             }
         });
         this.setRoute();
+    }
+
+    getNonLocalizedURL(url) {
+        return this.utils.getNonLocalizedURL(url);
+    }
+
+    getLocalizedURL(url) {
+        return this.utils.getLocalizedURL(url);
     }
 
     setRoute(name) {
@@ -36,26 +49,14 @@ module.exports = class {
         this.setState("langOpen", !this.state.langOpen);
     }
 
+    onAuthClick(e) {
+        e.preventDefault();
+        this.setState("authOpen", !this.state.authOpen);
+    }
+
     onBurgerClick(e) {
         e.preventDefault();
         this.setState("navOpen", !this.state.navOpen);
-    }
-
-    getNonLocalizedURL(url) {
-        const languages = Object.keys(languagesList);
-        const data = {};
-        const urlParts = url.split(/\//);
-        if (urlParts.length > 1) {
-            const firstPartOfURL = urlParts[1];
-            if (languages.indexOf(firstPartOfURL) > -1) {
-                [data.language] = urlParts.splice(1, 1);
-            } else {
-                [data.language] = languages;
-            }
-            data.url = urlParts.join("/") || "/";
-            data.url = data.url.length > 1 ? data.url.replace(/\/$/, "") : data.url;
-        }
-        return data;
     }
 
     onNavbarItemClick(e) {

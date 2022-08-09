@@ -83,6 +83,22 @@
     fill: $white !important;
 }
 
+.hr-ht-form-icon {
+    display: inline-flex;
+    align-self: center;
+}
+
+.hr-ht-form-icon svg {
+    height: 17px;
+    width: 17px;
+    top: 0px;
+    position: relative;
+}
+
+.hr-ht-form-icon svg>path {
+    fill: $grey-light !important;
+}
+
 .hr-ht-td {
     vertical-align: top !important;
 }
@@ -156,4 +172,22 @@
     left: 0;
     top: 0;
     opacity: 0;
+}
+
+.hr-ht-settings-body {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.hr-ht-settings-body>.tabs>ul>li.is-active {
+    background: $white-bis;
+}
+
+.hr-hr-settings-switch {
+    margin-top: 3px !important;
+}
+
+.hr-ht-settings-columns-row:hover {
+    background: $white-ter;
+    border-radius: $radius;
 }

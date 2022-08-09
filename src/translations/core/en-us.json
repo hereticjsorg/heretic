@@ -37,5 +37,11 @@
     "htable_nothingSelected": "No items selected",
     "htable_deleteItems": "The following item(s) will be deleted",
     "htable_reloadButton": "Reload",
-    "authorization": "Authorization"
+    "authorization": "Authorization",
+    "htable_settings": "Settings",
+    "htable_settingsButton": "Settings",
+    "htable_save": "Save",
+    "htable_settingsColumns": "Columns",
+    "htable_settingsPages": "Pages",
+    "htable_settingsColumnsDesc": "Select columns you wish to display or change the order below."
 }

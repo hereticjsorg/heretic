@@ -7,17 +7,7 @@
 .button {
     transition: 0.11s;
     font-size: 95%;
-}
-
-.button.is-light:focus,
-.button.is-primary:focus,
-.button.is-link:focus,
-.button.is-info:focus,
-.button.is-warning:focus,
-.button.is-danger:focus {
-    outline: none !important;
-    box-shadow: none !important;
-    // border: 2px solid $grey-light !important;
+    outline: 0 !important;
 }
 
 .button.is-light {
@@ -32,6 +22,10 @@
     box-shadow: 0px 1px 0px 0px darken($grey-lighter, 20%), 0px 6px 6px -6px lighten($black, 70%) !important;
 }
 
+.button.is-light:focus {
+    box-shadow: 0px 1px 0px 0px lighten($black, 55%), 0px 6px 6px -6px lighten($black, 70%) !important;
+}
+
 .button.is-primary {
     background: lighten($primary, 3%) !important;
     box-shadow: 0px 1px 0px 0px darken($primary, 40%), 0px 5px 5px -5px lighten($black, 40%);
@@ -42,6 +36,11 @@
     box-shadow: 0px 1px 0px 0px darken($primary, 30%), 0px 6px 6px -6px lighten($black, 30%) !important;
 }
 
+.button.is-primary:focus {
+    background: lighten($primary, 10%) !important;
+    box-shadow: 0px 1px 0px 0px $black, 0px 6px 6px -6px lighten($black, 50%) !important;
+}
+
 .button.is-link {
     background: lighten($black, 40%) !important;
     box-shadow: 0px 1px 0px 0px lighten($black, 10%), 0px 6px 6px -6px lighten($black, 30%) !important;
@@ -49,6 +48,10 @@
 
 .button.is-link:hover {
     background: lighten($black, 43%) !important;
+    box-shadow: 0px 1px 0px 0px $black, 0px 6px 6px -6px lighten($black, 30%) !important;
+}
+
+.button.is-link:focus {
     box-shadow: 0px 1px 0px 0px $black, 0px 6px 6px -6px lighten($black, 30%) !important;
 }
 
@@ -62,6 +65,10 @@
     box-shadow: 0px 1px 0px 0px darken($blue, 30%), 0px 6px 6px -6px lighten($black, 30%) !important;
 }
 
+.button.is-info:focus {
+    box-shadow: 0px 1px 0px 0px darken($blue, 30%), 0px 6px 6px -6px lighten($black, 40%) !important;
+}
+
 .button.is-success {
     background: $green !important;
     box-shadow: 0px 1px 0px 0px darken($green, 15%), 0px 5px 5px -5px lighten($black, 40%);
@@ -70,6 +77,10 @@
 .button.is-success:hover {
     background: lighten($green, 3%) !important;
     box-shadow: 0px 1px 0px 0px darken($green, 23%), 0px 6px 6px -6px lighten($black, 30%) !important;
+}
+
+.button.is-success:focus {
+    box-shadow: 0px 1px 0px 0px darken($green, 30%), 0px 6px 6px -6px lighten($black, 40%) !important;
 }
 
 .button.is-warning {
@@ -82,6 +93,10 @@
     box-shadow: 0px 1px 0px 0px darken($yellow, 30%), 0px 6px 6px -6px lighten($black, 30%) !important;
 }
 
+.button.is-warning:focus {
+    box-shadow: 0px 1px 0px 0px darken($yellow, 30%), 0px 6px 6px -6px lighten($black, 40%) !important;
+}
+
 .button.is-danger {
     background: $red !important;
     box-shadow: 0px 1px 0px 0px darken($red, 25%), 0px 5px 5px -5px lighten($black, 40%);
@@ -90,6 +105,10 @@
 .button.is-danger:hover {
     background: lighten($red, 3%) !important;
     box-shadow: 0px 1px 0px 0px darken($red, 30%), 0px 6px 6px -6px lighten($black, 30%) !important;
+}
+
+.button.is-danger:focus {
+    box-shadow: 0px 1px 0px 0px darken($red, 30%), 0px 6px 6px -6px lighten($black, 40%) !important;
 }
 
 // Template-related styles

@@ -7,7 +7,7 @@
                     <hloading-dots/>
                 </div>
             </if>
-            <header class="modal-card-head pt-4 pb-4">
+            <header class="modal-card-head p-3">
                 <p class="modal-card-title">
                     <t>${input.title}</t>
                 </p>
@@ -15,10 +15,10 @@
                     <button class="delete" aria-label="close" on-click("onClose")/>
                 </if>
             </header>
-            <section class="modal-card-body">
+            <section class=`modal-card-body ${input.classBody || ""}`>
                 <${input.renderBody}/>
             </section>
-            <footer class="modal-card-foot hr-hm-modal-card-foot pt-3 pb-3">
+            <footer class="modal-card-foot hr-hm-modal-card-foot p-3">
                 <if(input.actions)>
                     <for|action| of=input.actions>
                         <button disabled=state.loading class=action.class data-id=action.id on-click("onActionButtonClick") data-close=!!action.close>

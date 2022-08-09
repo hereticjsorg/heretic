@@ -8,8 +8,8 @@ module.exports = class {
         this.state = {
             loading: false,
             progress: false,
-            tabs: input.tabsStart ? input.tabsStart : input.tabs ? input.tabs.map(t => t.id) : ["_default"],
-            activeTab: input.tabs ? input.tabs[0].id : "_default",
+            tabs: input.data.getTabsStart ? input.data.getTabsStart() : input.data.getTabs ? input.data.getTabs().map(t => t.id) : ["_default"],
+            activeTab: input.data.getTabs ? input.data.getTabs()[0].id : "_default",
             addTabDropdownActive: false,
             data: {},
             errors: {},

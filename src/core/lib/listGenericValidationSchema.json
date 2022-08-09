@@ -14,6 +14,10 @@
             "type": ["string", "null"],
             "enum": []
         },
+        "searchText": {
+            "type": ["string", "null"],
+            "maxLength": 64
+        },
         "sortDirection": {
             "type": ["string", "null"],
             "enum": ["asc", "desc"],

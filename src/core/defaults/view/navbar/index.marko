@@ -2,7 +2,7 @@ import navigation from "../../config/navigation.json"
 import languages from "../../config/languages.json"
 import routes from "../../build/routes.json"
 import logo from "../../images/logo.svg"
-import { mdiGithub, mdiWeb } from "@mdi/js"
+import { mdiGithub, mdiWeb, mdiAccountCircleOutline } from "@mdi/js"
 
 $ const i18nNavigation = out.global.i18nNavigation;
 <nav class="navbar hr-navbar" role="navigation" aria-label="main navigation">
@@ -10,12 +10,7 @@ $ const i18nNavigation = out.global.i18nNavigation;
         <hrouter-link route=navigation.home class="navbar-item">
             <img src=logo/>
         </hrouter-link>
-        <a
-            id="hr_navbar_burger"
-            onClick("onBurgerClick")
-            role="button"
-            class=`navbar-burger${state.navOpen ? " is-active" : ""}`
-            data-target="navbar">
+        <a id="hr_navbar_burger" onClick("onBurgerClick") role="button" class=`navbar-burger${state.navOpen ? " is-active" : ""}` data-target="navbar">
             <span aria-hidden="true"/>
             <span aria-hidden="true"/>
             <span aria-hidden="true"/>
@@ -25,39 +20,14 @@ $ const i18nNavigation = out.global.i18nNavigation;
         <div class="navbar-start">
             <for|item| of=navigation.routes>
                 <if(typeof item === "string")>
-                    <hrouter-link
-                        route=item
-                        class=`navbar-item hr-navbar-item${
-                            state.route === item ? " hr-navbar-item-active" : ""
-                        }`>
-                        ${i18nNavigation[item]}
-                    </hrouter-link>
+                    <hrouter-link route=item class=`navbar-item hr-navbar-item${state.route === item ? " hr-navbar-item-active" : ""}`>${i18nNavigation[item]}</hrouter-link>
                 </if>
                 <else>
-                    <div class=`navbar-item has-dropdown${
-                        state.navItemOpen === item.id ? " is-active" : ""
-                    }`>
-                        <a
-                            class=`navbar-link hr-navbar-item${
-                                state.navItemOpen === item.id
-                                    ? " hr-navbar-item-open"
-                                    : ""
-                            }`
-                            on-click("onNavbarItemClick")
-                            id=`hr_navbar_item_${item.id}`>
-                            ${i18nNavigation[item.id]}
-                        </a>
+                    <div class=`navbar-item has-dropdown${state.navItemOpen === item.id ? " is-active" : ""}`>
+                        <a class=`navbar-link hr-navbar-item${state.navItemOpen === item.id ? " hr-navbar-item-open" : ""}` on-click("onNavbarItemClick") id=`hr_navbar_item_${item.id}`>${i18nNavigation[item.id]}</a>
                         <div class="navbar-dropdown hr-navbar-dropdown">
                             <for|subItem| of=item.routes>
-                                <hrouter-link
-                                    route=subItem
-                                    class=`navbar-item hr-navbar-item${
-                                        state.route === subItem
-                                            ? " hr-navbar-item-active"
-                                            : ""
-                                    }`>
-                                    ${i18nNavigation[subItem]}
-                                </hrouter-link>
+                                <hrouter-link route=subItem class=`navbar-item hr-navbar-item${state.route === subItem ? " hr-navbar-item-active" : ""}`>${i18nNavigation[subItem]}</hrouter-link>
                             </for>
                         </div>
                     </div>
@@ -65,60 +35,57 @@ $ const i18nNavigation = out.global.i18nNavigation;
             </for>
         </div>
         <div class="navbar-end">
-            <a
-                class="navbar-item hr-navbar-item"
-                href="https://github.com/xtremespb/heretic"
-                target="_blank">
-                <span class="icon">
-                    <svg
-                        viewBox="0 0 24 24"
-                        width="24"
-                        height="24"
-                        xmlns="http://www.w3.org/2000/svg">
+            <a class="navbar-item hr-navbar-item" href="https://github.com/xtremespb/heretic" target="_blank">
+                <span class="icon hr-navbar-icon">
+                    <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
                         <path d=mdiGithub/>
                     </svg>
                 </span>
-                &nbsp;
-                <span>GitHub</span>
+                <span>&nbsp;&nbsp;GitHub</span>
             </a>
             <div class=`navbar-item has-dropdown${state.langOpen ? " is-active" : ""}`>
-                <a
-                    class=`navbar-link hr-navbar-item${
-                        state.langOpen ? " hr-navbar-item-open" : ""
-                    }`
-                    on-click("onLanguageClick")
-                    id="hr_navbar_language">
-                    <span class="icon">
-                        <svg
-                            viewBox="0 0 24 24"
-                            width="24"
-                            height="24"
-                            xmlns="http://www.w3.org/2000/svg">
+                <a class=`navbar-link hr-navbar-item is-arrowless${state.langOpen ? " hr-navbar-item-open" : ""}` on-click("onLanguageClick") id="hr_navbar_language">
+                    <span class="icon hr-navbar-icon">
+                        <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
                             <path d=mdiWeb/>
                         </svg>
                     </span>
-                    &nbsp;
-                    <span class="is-hidden-desktop">Language</span>
+                    <span class="is-hidden-touch">&nbsp;&nbsp;▾</span>
+                    <span class="is-hidden-desktop">&nbsp;&nbsp;Language</span>
                 </a>
                 <div class="navbar-dropdown is-right hr-navbar-dropdown">
                     <for|lang| of=Object.keys(languages)>
-                        $ {
-                            const currentURL = process.browser
-                                                        ? component.getNonLocalizedURL(
-                                                              window.location.pathname
-                                                          ).url
-                                                        : "/";
-                        }
-                        <a
-                            class="navbar-item hr-navbar-item"
-                            href=(
-                                lang === Object.keys(languages)[0]
-                                    ? currentURL
-                                    : `/${lang}${currentURL}`
-                            )>
-                            ${languages[lang]}
-                        </a>
+                        $ const currentURL = process.browser ? component.getNonLocalizedURL(window.location.pathname).url : "/";
+                        <a class="navbar-item hr-navbar-item" href=(lang === Object.keys(languages)[0] ? currentURL : `/${lang}${currentURL}`)>${languages[lang]}</a>
                     </for>
+                </div>
+            </div>
+            <div class=`navbar-item has-dropdown${state.authOpen ? " is-active" : ""}`>
+                <a class=`navbar-link hr-navbar-item is-arrowless${state.authOpen ? " hr-navbar-item-open" : ""}` on-click("onAuthClick") id="hr_navbar_auth">
+                    <if(out.global.username)>&nbsp;${out.global.username}</if>
+                    <else>
+                        <span class="icon hr-navbar-icon">
+                            <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                <path d=mdiAccountCircleOutline/>
+                            </svg>
+                        </span>
+                        <span class="is-hidden-desktop">
+                            &nbsp;&nbsp;<t>authorization</t>
+                        </span>
+                    </else>
+                    <span class="is-hidden-touch">&nbsp;&nbsp;▾</span>
+                </a>
+                <div class="navbar-dropdown is-right hr-navbar-dropdown">
+                    <if(out.global.username)>
+                        <a class="navbar-item hr-navbar-item" href=component.getLocalizedURL(out.global.systemRoutes.signOut)>
+                            <t>signOut</t>
+                        </a>
+                    </if>
+                    <else>
+                        <a class="navbar-item hr-navbar-item" href=component.getLocalizedURL(out.global.systemRoutes.signIn)>
+                            <t>signIn</t>
+                        </a>
+                    </else>
                 </div>
             </div>
         </div>

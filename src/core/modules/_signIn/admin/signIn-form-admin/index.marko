@@ -2,7 +2,7 @@ import { mdiWeb } from "@mdi/js"
 import routes from "../../../../../build/routes-admin.json"
 import languages from "../../../../../config/languages.json"
 import logo from "../../../../../images/logo.svg"
-import LoginForm from "../../data/signInForm"
+import SignInForm from "../../data/signInForm"
 
 <div
     style={
@@ -44,7 +44,7 @@ import LoginForm from "../../data/signInForm"
             </div>
             <div class="card hr-signIn-card">
                 <if(!process.browser || state.ready)>
-                    <hform key="signInForm" id="signInForm" data=(new LoginForm(process.browser && window.__heretic ? window.__heretic.t : out.global.t)) on-form-submit("onFormSubmit")/>
+                    <hform key="signInForm" id="signInForm" data=(new SignInForm(process.browser && window.__heretic ? window.__heretic.t : out.global.t)) on-form-submit("onFormSubmit")/>
                 </if> 
             </div>
         </div>
