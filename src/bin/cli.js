@@ -2,6 +2,12 @@
 const fs = require("fs-extra");
 const path = require("path");
 const commandLineArgs = require("command-line-args");
+const {
+    MongoClient
+} = require("mongodb");
+const crypto = require("crypto");
+
+const config = require(path.resolve(`${__dirname}/../../etc/system.json`));
 
 let options;
 try {
@@ -25,13 +31,43 @@ try {
         name: "navigation",
         alias: "n",
         type: Boolean
+    }, {
+        name: "resetPassword",
+        alias: "p",
+        type: String
     }]);
 } catch (e) {
     console.error(e.message);
     process.exit(1);
 }
 
+const connectDatabase = async () => {
+    const mongoClient = new MongoClient(config.mongo.url, config.mongo.options || {
+        useUnifiedTopology: true,
+        connectTimeoutMS: 5000,
+        keepAlive: true,
+        useNewUrlParser: true
+    });
+    await mongoClient.connect();
+    const db = mongoClient.db(config.mongo.dbName);
+    return {
+        mongoClient,
+        db,
+    };
+};
+
+const createHash = data => new Promise((resolve, reject) => {
+    const salt = crypto.randomBytes(8).toString("hex");
+    crypto.scrypt(data, salt, 64, (err, derivedKey) => {
+        if (err) {
+            reject(err);
+        }
+        resolve(`${salt }:${derivedKey.toString("hex")}`);
+    });
+});
+
 const addModuleFunc = (id, navigation) => {
+    console.log(`Adding language: ${id}...`);
     if (!id || !id.match(/^[a-z0-9_-]+$/i)) {
         console.error("Invalid module ID, use latin characters, numbers and '-', '_' chars only");
         process.exit(1);
@@ -65,6 +101,7 @@ const addModuleFunc = (id, navigation) => {
 };
 
 const removeModuleFunc = id => {
+    console.log(`Removing module: ${id}...`);
     if (!id || !id.match(/^[a-z0-9_-]+$/i)) {
         console.error("Invalid module ID, use latin characters, numbers and '-', '_' chars only");
         process.exit(1);
@@ -89,6 +126,7 @@ const removeModuleFunc = id => {
 
 const addLanguageFunc = data => {
     const [id, name] = data.split(/:/);
+    console.log(`Adding language: ${id} (${name})...`);
     if (!id || !id.match(/^[a-z]{2}-[a-z]{2}$/i)) {
         console.error("Invalid language ID, use the following format: xx-xx");
         process.exit(1);
@@ -139,6 +177,7 @@ const addLanguageFunc = data => {
 };
 
 const removeLanguageFunc = id => {
+    console.log(`Removing language: ${id}...`);
     if (!id || !id.match(/^[a-z]{2}-[a-z]{2}$/i)) {
         console.error("Invalid language ID, use the following format: xx-xx");
         process.exit(1);
@@ -181,11 +220,37 @@ const removeLanguageFunc = id => {
     console.log("All done.\n");
 };
 
+const resetPasswordFunc = async username => {
+    console.log(`Creating user/updating password for "${username}"...`);
+    try {
+        const {
+            mongoClient,
+            db
+        } = await connectDatabase();
+        const password = await createHash(`password${config.secret}`);
+        const result = await db.collection(config.collections.users).findOneAndUpdate({
+            username,
+        }, {
+            $set: {
+                password,
+            },
+        }, {
+            upsert: true,
+        });
+        mongoClient.close();
+        console.log(result.ok ? "All done." : "Could not update database record");
+    } catch (e) {
+        console.error(e.message);
+        process.exit(1);
+    }
+};
+
 if (!Object.keys(options).length) {
     console.log(`Usage:\n\nnpm run cli -- --addModule <id> [--navigation] - create a new module (optionally add to navbar)
                --removeModule <id> - delete existing module
                --addLanguage <id:name> - add new language (example: de-de:Deutsch)
-               --removeLanguage <id> - delete existing language\n`);
+               --removeLanguage <id> - delete existing language
+               --resetPassword <username> - create user or reset password to "password"\n`);
     process.exit(0);
 }
 
@@ -203,4 +268,8 @@ if (options.addLanguage !== undefined) {
 
 if (options.removeLanguage !== undefined) {
     removeLanguageFunc(options.removeLanguage);
+}
+
+if (options.resetPassword !== undefined) {
+    resetPasswordFunc(options.resetPassword);
 }

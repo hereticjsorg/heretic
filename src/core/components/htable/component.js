@@ -30,6 +30,7 @@ module.exports = class {
             deleteItems: [],
             searchText: "",
             settingsTab: "columns",
+            settingsColumns: [],
         };
         this.queryStringShorthands = {
             currentPage: "p",
@@ -622,10 +623,21 @@ module.exports = class {
         e.preventDefault();
         await this.utils.waitForComponent(`settingsModal_ht_${this.input.id}`);
         const settingsModal = this.getComponent(`settingsModal_ht_${this.input.id}`);
+        this.setState("settingsColumns", cloneDeep(this.state.columns));
         settingsModal.setActive(true).setCloseAllowed(true).setLoading(false);
     }
 
-    onSettingsButtonClick() {
+    async onSettingsButtonClick(id) {
+        await this.utils.waitForComponent(`settingsModal_ht_${this.input.id}`);
+        const settingsModal = this.getComponent(`settingsModal_ht_${this.input.id}`);
+        switch (id) {
+        case "save":
+            this.setState("columns", cloneDeep(this.state.settingsColumns));
+            settingsModal.setActive(false).setCloseAllowed(true).setLoading(false);
+            this.store.remove("ratios");
+            this.resetColumnWidths();
+            break;
+        }
     }
 
     onSettingsTabClick(e) {
@@ -634,5 +646,24 @@ module.exports = class {
             tab
         } = e.target.closest("[data-tab]").dataset;
         this.setState("settingsTab", tab);
+    }
+
+    onSettingsColumnCheckboxClick(e) {
+        e.preventDefault();
+        const {
+            checked
+        } = e.target;
+        const {
+            id
+        } = e.target.dataset;
+        const settingsColumns = [];
+        for (const k of Object.keys(this.state.columnData)) {
+            const column = this.state.columnData[k];
+            if (column && column.column && ((k !== id && this.state.settingsColumns.indexOf(k) > -1) || (k === id && checked))
+            ) {
+                settingsColumns.push(k);
+            }
+        }
+        this.setState("settingsColumns", settingsColumns);
     }
 };

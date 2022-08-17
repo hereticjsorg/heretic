@@ -20,7 +20,6 @@ const options = commandLineArgs([{
 }]);
 
 // Print logo :-)
-
 console.log(` _   _               _   _\n| | | |             | | (_)\n| |_| | ___ _ __ ___| |_ _  ___\n|  _  |/ _ \\ '__/ _ \\ __| |/ __|\n| | | |  __/ | |  __/ |_| | (__\n\\_| |_/\\___|_|  \\___|\\__|_|\\___|\n`);
 
 console.log("Initializing configuration files and data...");
@@ -29,23 +28,20 @@ if (!options.defaults) {
 }
 
 // Reading configuration templates
-
 const configMeta = fs.readJSONSync(path.resolve(__dirname, "..", "core", "defaults", "meta.json"));
 const configSystem = fs.readJSONSync(path.resolve(__dirname, "..", "core", "defaults", "system.json"));
 const configNavigation = fs.readJSONSync(path.resolve(__dirname, "..", "core", "defaults", "navigation.json"));
+const configNavigationAdmin = fs.readJSONSync(path.resolve(__dirname, "..", "core", "defaults", "navigation-admin.json"));
 
 // Generate Secret
-
 configSystem.secret = crypto.createHmac("sha256", uuidv4()).update(uuidv4()).digest("hex");
 
 // Ensure that required directories exist
-
 fs.ensureDirSync(path.resolve(__dirname, "..", "modules"));
 fs.ensureDirSync(path.resolve(__dirname, "..", "..", "etc"));
 fs.ensureDirSync(path.resolve(__dirname, "..", "translations", "user"));
 
 // If there is an option to copy defaults...
-
 if (options.defaults) {
     // Copy src/modules/home module
     if (!fs.existsSync(path.resolve(__dirname, "..", "modules", "home")) || options.force) {
@@ -65,7 +61,6 @@ if (options.defaults) {
 }
 
 // Copy src/view template
-
 if (!fs.existsSync(path.resolve(__dirname, "..", "view")) || options.force) {
     fs.copySync(path.resolve(__dirname, "..", "core", "defaults", "view"), path.resolve(__dirname, "..", "view"));
 } else {
@@ -73,7 +68,6 @@ if (!fs.existsSync(path.resolve(__dirname, "..", "view")) || options.force) {
 }
 
 // Copy blank module template
-
 if (!fs.existsSync(path.resolve(__dirname, "..", "modules", ".blank")) || options.force) {
     fs.copySync(path.resolve(__dirname, "..", "core", "defaults", ".blank"), path.resolve(__dirname, "..", "modules", ".blank"));
 } else {
@@ -81,7 +75,6 @@ if (!fs.existsSync(path.resolve(__dirname, "..", "modules", ".blank")) || option
 }
 
 // Copy etc/meta.json configuration file
-
 if (!fs.existsSync(path.resolve(__dirname, "..", "..", "etc", "meta.json")) || options.force) {
     fs.writeJSONSync(path.resolve(__dirname, "..", "..", "etc", "meta.json"), configMeta, {
         spaces: "\t"
@@ -91,7 +84,6 @@ if (!fs.existsSync(path.resolve(__dirname, "..", "..", "etc", "meta.json")) || o
 }
 
 // Copy etc/system.json configuration file
-
 if (!fs.existsSync(path.resolve(__dirname, "..", "..", "etc", "system.json")) || options.force) {
     fs.writeJSONSync(path.resolve(__dirname, "..", "..", "etc", "system.json"), configSystem, {
         spaces: "\t"
@@ -101,7 +93,6 @@ if (!fs.existsSync(path.resolve(__dirname, "..", "..", "etc", "system.json")) ||
 }
 
 // Copy etc/navigation.json configuration file
-
 if (!fs.existsSync(path.resolve(__dirname, "..", "..", "etc", "navigation.json")) || options.force) {
     fs.writeJSONSync(path.resolve(__dirname, "..", "config", "navigation.json"), configNavigation, {
         spaces: "\t"
@@ -110,8 +101,16 @@ if (!fs.existsSync(path.resolve(__dirname, "..", "..", "etc", "navigation.json")
     console.log(`Warning: skipping etc/navigation.json, use --force parameter to override`);
 }
 
-// Create empty translation files
+// Copy etc/navigation-admin.json configuration file
+if (!fs.existsSync(path.resolve(__dirname, "..", "..", "etc", "navigation-admin.json")) || options.force) {
+    fs.writeJSONSync(path.resolve(__dirname, "..", "config", "navigation-admin.json"), configNavigationAdmin, {
+        spaces: "\t"
+    });
+} else {
+    console.log(`Warning: skipping etc/navigation-admin.json, use --force parameter to override`);
+}
 
+// Create empty translation files
 for (const lang of languages) {
     if (!fs.existsSync(path.resolve(__dirname, "..", "translations", "user", `${lang}.json`)) || options.force) {
         fs.writeJSONSync(path.resolve(__dirname, "..", "translations", "user", `${lang}.json`), {}, {
@@ -123,5 +122,4 @@ for (const lang of languages) {
 }
 
 // Done
-
 console.log("All done.\n");

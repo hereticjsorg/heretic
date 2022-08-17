@@ -20,7 +20,7 @@ export default class {
                 if (err) {
                     reject(err);
                 }
-                resolve(`${salt }:${ derivedKey.toString("hex")}`);
+                resolve(`${salt }:${derivedKey.toString("hex")}`);
             });
         });
     }

@@ -294,31 +294,34 @@ import { mdiReload, mdiMagnify, mdiCogOutline } from "@mdi/js"
             <div class="pb-3">
                 <t>htable_settingsColumnsDesc</t>
             </div>
-            <for|column| of=state.columns>
-                <div class="hr-ht-settings-columns-row columns is-vcentered is-mobile is-gapless p-1 m-0">
-                    <div class="column is-narrow mr-2">
-                        <input type="checkbox" class="hr-hr-settings-switch switch"/>
+            <for|k| of=Object.keys(state.columnData)>
+                $ const column = state.columnData[k];
+                <if(column.column)>
+                    <div class="hr-ht-settings-columns-row columns is-vcentered is-mobile is-gapless p-1 m-0">
+                        <div class="column is-narrow mr-2">
+                            <input type="checkbox" class="hr-hr-settings-switch switch" checked=(state.settingsColumns.indexOf(k) > -1) on-change("onSettingsColumnCheckboxClick") data-id=k/>
+                        </div>
+                        <div class="column is-auto mr-2">${column.label}</div>
+                        <div class="column is-narrow mr-2">
+                            <button class="button is-small hr-ht-action-button is-light">
+                                <span class="hr-ht-action-icon icon">
+                                    <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7,15L12,10L17,15H7Z"/>
+                                    </svg>
+                                </span>
+                            </button>
+                        </div>
+                        <div class="column is-narrow">
+                            <button class="button is-small hr-ht-action-button is-light">
+                                <span class="hr-ht-action-icon icon">
+                                    <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7,10L12,15L17,10H7Z"/>
+                                    </svg>
+                                </span>
+                            </button>
+                        </div>
                     </div>
-                    <div class="column is-auto mr-2">${state.columnData[column].label}</div>
-                    <div class="column is-narrow mr-2">
-                        <button class="button is-small hr-ht-action-button is-light">
-                            <span class="hr-ht-action-icon icon">
-                                <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M7,15L12,10L17,15H7Z"/>
-                                </svg>
-                            </span>
-                        </button>
-                    </div>
-                    <div class="column is-narrow">
-                        <button class="button is-small hr-ht-action-button is-light">
-                            <span class="hr-ht-action-icon icon">
-                                <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M7,10L12,15L17,10H7Z"/>
-                                </svg>
-                            </span>
-                        </button>
-                    </div>
-                </div>
+                </if>
             </for>
         </if>
         <if(state.settingsTab === "pages")/>

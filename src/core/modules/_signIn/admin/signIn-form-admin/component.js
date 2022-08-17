@@ -93,7 +93,7 @@ module.exports = class {
                     signInForm.setErrorMessage(this.t(e.response.data.message));
                 }
             } else {
-                signInForm.setErrorMessage("hform_error_general");
+                signInForm.setErrorMessage(this.t("hform_error_general"));
             }
         } finally {
             signInForm.setLoading(false);
