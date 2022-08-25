@@ -44,6 +44,11 @@
     height: 29px !important;
 }
 
+.hr-ht-action-button:disabled {
+    opacity: 0 !important;
+    cursor: unset !important;
+}
+
 .hr-ht-action-icon {
     display: inline-flex;
     align-self: center;

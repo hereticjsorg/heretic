@@ -85,32 +85,34 @@ import { mdiReload, mdiMagnify, mdiCogOutline } from "@mdi/js"
                             </div>
                         </th>
                     </if>
-                    <if(state.columns.length)>
-                        <for|k, index| of=state.columns>
-                            $ const item = state.columnData[k];
-                            <th
-                                data-id=item.id
-                                on-click("onColumnThClick")
-                                class="hr-ht-th p-0 m-0"
-                                id=`hr_ht_column_${item.id}`
-                                style={
-                                    cursor: item.sortable ? "pointer" : "inherit"
-                                }>
-                                <div class="columns is-gapless m-0 p-0">
-                                    <if(index > 0 && (!state.actionColumn || index < state.columns.length))>
-                                        <div class="column is-narrow">
-                                            <div class="hr-ht-thead-move" id=`hr_ht_mover_${item.id}` data-id=item.id on-mousedown("onColumnMouseDown")/>
-                                        </div>
-                                    </if>
-                                    <div class="column is-auto">
-                                        <div class="p-2 hr-ht-thead-label">
-                                            ${item.label}<if(state.sortField === item.id)>
-                                                <icon-arrow direction=(state.sortDirection === "asc" ? "down" : "up")/>
-                                            </if>
+                    <if(Object.keys(state.columns).length)>
+                        <for|k, index| of=Object.keys(state.columns)>
+                            <if(state.columns[k])>
+                                $ const item = state.columnData[k];
+                                <th
+                                    data-id=item.id
+                                    on-click("onColumnThClick")
+                                    class="hr-ht-th p-0 m-0"
+                                    id=`hr_ht_column_${item.id}`
+                                    style={
+                                        cursor: item.sortable ? "pointer" : "inherit"
+                                    }>
+                                    <div class="columns is-gapless m-0 p-0">
+                                        <if(index > 0 && (!state.actionColumn || index < component.getLastVisibleColumnIndex()))>
+                                            <div class="column is-narrow">
+                                                <div class="hr-ht-thead-move" id=`hr_ht_mover_${item.id}` data-id=item.id on-mousedown("onColumnMouseDown")/>
+                                            </div>
+                                        </if>
+                                        <div class="column is-auto">
+                                            <div class="p-2 hr-ht-thead-label">
+                                                ${item.label}<if(state.sortField === item.id)>
+                                                    <icon-arrow direction=(state.sortDirection === "asc" ? "down" : "up")/>
+                                                </if>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </th>
+                                </th>
+                            </if>
                         </for>
                     </if>
                     <else>
@@ -146,11 +148,13 @@ import { mdiReload, mdiMagnify, mdiCogOutline } from "@mdi/js"
                                     </div>
                                 </td>
                             </if>
-                            <for|k| of=state.columns>
-                                $ const item = state.columnData[k];
-                                <td class="hr-ht-td p-0 m-0">
-                                    <div class="p-2">${input.formData.processTableCell(k, row)}</div>
-                                </td>
+                            <for|k| of=Object.keys(state.columns)>
+                                <if(state.columns[k])>
+                                    $ const item = state.columnData[k];
+                                    <td class="hr-ht-td p-0 m-0">
+                                        <div class="p-2">${input.formData.processTableCell(k, row)}</div>
+                                    </td>
+                                </if>
                             </for>
                             <if(state.actionColumn)>
                                 <td class=`hr-ht-td is-narrow p-0 m-0 hr-ht-action-cell-wrap hr-ht-action-cell-wrap-${input.id}` id=`hr_ht_action_cell_wrap_${input.id}_${ix}` data-index=ix/>
@@ -160,7 +164,7 @@ import { mdiReload, mdiMagnify, mdiCogOutline } from "@mdi/js"
                 </if>
                 <else>
                     <tr class="hr-ht-tr">
-                        <td class="hr-ht-td p-0 m-0" colspan=((state.columns.length || 1) + (state.checkboxColumn ? 1 : 0))>
+                        <td class="hr-ht-td p-0 m-0" colspan=((Object.keys(state.columns).length || 1) + (state.checkboxColumn ? 1 : 0))>
                             <div class="p-2">
                                 <if(!state.loading)>
                                     <t>htable_noRecords</t>
@@ -298,34 +302,32 @@ import { mdiReload, mdiMagnify, mdiCogOutline } from "@mdi/js"
                 <div class="pb-3">
                     <t>htable_settingsColumnsDesc</t>
                 </div>
-                <for|k| of=state.settingsColumnsAll>
+                <for|k, index| of=Object.keys(state.settingsColumns)>
                     $ const column = state.columnData[k];
-                    <if(column.column)>
-                        <div class="hr-ht-settings-columns-row columns is-vcentered is-mobile is-gapless p-1 m-0">
-                            <div class="column is-narrow mr-2">
-                                <input type="checkbox" class="hr-hr-settings-switch switch" checked=(state.settingsColumns.indexOf(k) > -1) on-change("onSettingsColumnCheckboxClick") data-id=k/>
-                            </div>
-                            <div class="column is-auto mr-2">${column.label}</div>
-                            <div class="column is-narrow mr-2">
-                                <button class="button is-small hr-ht-action-button is-light" data-id=column.id on-click("onSettingsColumnUpClick")>
-                                    <span class="hr-ht-settings-icon icon">
-                                        <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M7,15L12,10L17,15H7Z"/>
-                                        </svg>
-                                    </span>
-                                </button>
-                            </div>
-                            <div class="column is-narrow">
-                                <button class="button is-small hr-ht-action-button is-light" data-id=column.id on-click("onSettingsColumnDownClick")>
-                                    <span class="hr-ht-settings-icon icon">
-                                        <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M7,10L12,15L17,10H7Z"/>
-                                        </svg>
-                                    </span>
-                                </button>
-                            </div>
+                    <div class="hr-ht-settings-columns-row columns is-vcentered is-mobile is-gapless p-1 m-0">
+                        <div class="column is-narrow mr-2">
+                            <input type="checkbox" class="hr-hr-settings-switch switch" checked=(state.settingsColumns[k]) on-change("onSettingsColumnCheckboxClick") data-id=k/>
                         </div>
-                    </if>
+                        <div class="column is-auto mr-2">${column.label}</div>
+                        <div class="column is-narrow mr-2">
+                            <button class="button is-small hr-ht-action-button is-light" data-id=column.id on-click("onSettingsColumnUpClick") disabled=(index === 0)>
+                                <span class="hr-ht-settings-icon icon">
+                                    <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7,15L12,10L17,15H7Z"/>
+                                    </svg>
+                                </span>
+                            </button>
+                        </div>
+                        <div class="column is-narrow">
+                            <button class="button is-small hr-ht-action-button is-light" data-id=column.id on-click("onSettingsColumnDownClick") disabled=(index === Object.keys(state.settingsColumns).length - 1)>
+                                <span class="hr-ht-settings-icon icon">
+                                    <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7,10L12,15L17,10H7Z"/>
+                                    </svg>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
                 </for>
             </if>
             <if(state.settingsTab === "pages")/>

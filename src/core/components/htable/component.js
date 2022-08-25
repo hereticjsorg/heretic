@@ -30,7 +30,6 @@ module.exports = class {
             deleteItems: [],
             searchText: "",
             settingsTab: "columns",
-            settingsColumnsAll: [],
             settingsColumns: [],
         };
         this.queryStringShorthands = {
@@ -243,7 +242,11 @@ module.exports = class {
     async onMount() {
         this.utils = new Utils(this);
         this.store = store.namespace(`heretic_htable_${this.input.id}`);
-        this.setState("columns", Object.keys(this.state.columnData).filter(c => this.state.columnData[c].column && !this.state.columnData[c].hidden));
+        const columns = this.store.get("columns") || {};
+        if (!Object.keys(columns).length) {
+            Object.keys(this.state.columnData).map(c => columns[c] = this.state.columnData[c].column && !this.state.columnData[c].hidden);
+        }
+        this.setState("columns", columns);
         window.addEventListener("resize", this.setTableDimensions.bind(this));
         window.addEventListener("mouseup", this.onColumnMouseUp.bind(this));
         this.restoreWidthFromSavedRatios();
@@ -266,7 +269,7 @@ module.exports = class {
                 loadInput.currentPage = parseInt(currentPage, 10);
             }
             if (sortField && typeof sortField === "string") {
-                if (this.state.columns.indexOf(sortField) > -1) {
+                if (typeof this.state.columns[sortField] !== "undefined") {
                     loadInput.sortField = sortField;
                 }
             }
@@ -286,19 +289,33 @@ module.exports = class {
         }
     }
 
+    getPrevVisibleColumn(index) {
+        for (let i = index; i >= 0; i -= 1) {
+            const column = Object.keys(this.state.columns)[i];
+            if (this.state.columns[column]) {
+                return column;
+            }
+        }
+    }
+
     onColumnMouseDown(e) {
         e.preventDefault();
         e.stopPropagation();
         this.columnResizing = e.target.dataset.id;
-        this.prevColumn = this.state.columns[this.state.columns.findIndex(i => i === this.columnResizing) - 1];
+        this.prevColumn = this.getPrevVisibleColumn(Object.keys(this.state.columns).findIndex(i => i === this.columnResizing) - 1);
         this.moveStartX = e.touches ? e.touches[0].pageX : e.pageX;
     }
 
     getColumnWidths() {
         const widths = {};
-        for (const c of this.state.columns) {
-            const columnRect = document.getElementById(`hr_ht_column_${c}`).getBoundingClientRect();
-            widths[c] = columnRect.width;
+        for (const c of Object.keys(this.state.columns)) {
+            if (this.state.columns[c]) {
+                const columnElement = document.getElementById(`hr_ht_column_${c}`);
+                if (columnElement) {
+                    const columnRect = columnElement.getBoundingClientRect();
+                    widths[c] = columnRect.width;
+                }
+            }
         }
         return widths;
     }
@@ -312,8 +329,20 @@ module.exports = class {
         }
     }
 
+    getLastVisibleColumnIndex() {
+        let index = -1;
+        let counter = 1;
+        for (const c of Object.keys(this.state.columns)) {
+            if (this.state.columns[c]) {
+                index = counter;
+            }
+            counter += 1;
+        }
+        return index;
+    }
+
     resetColumnWidths() {
-        for (const c of this.state.columns) {
+        for (const c of Object.keys(this.state.columns)) {
             const columnElement = document.getElementById(`hr_ht_column_${c}`);
             if (columnElement) {
                 columnElement.style.width = "unset";
@@ -329,7 +358,7 @@ module.exports = class {
 
     columnWidthsToRatios(widths) {
         const columnRatios = {};
-        this.state.columns.map(k => columnRatios[k] = parseFloat(widths[k] / this.tableContainerWidth));
+        Object.keys(this.state.columns).map(k => columnRatios[k] = parseFloat(widths[k] / this.tableContainerWidth));
         return columnRatios;
     }
 
@@ -359,7 +388,7 @@ module.exports = class {
             this.moveStartX = currentMover.getBoundingClientRect().x;
         }
         const newColumnWidths = this.getColumnWidths();
-        for (const column of this.state.columns) {
+        for (const column of Object.keys(this.state.columns)) {
             if (column !== this.prevColumn && column !== this.columnResizing && newColumnWidths[column] !== oldColumnWidths[column]) {
                 this.setColumnWidths(oldColumnWidths);
                 return;
@@ -420,7 +449,7 @@ module.exports = class {
                         url: this.state.loadConfig.url,
                         data: {
                             searchText: input.searchText || this.state.searchText,
-                            fields: this.state.columns,
+                            fields: Object.keys(this.state.columns),
                             sortField: input.sortField || this.state.sortField,
                             sortDirection: input.sortDirection || this.state.sortDirection,
                             itemsPerPage: this.state.itemsPerPage,
@@ -625,7 +654,6 @@ module.exports = class {
         await this.utils.waitForComponent(`settingsModal_ht_${this.input.id}`);
         const settingsModal = this.getComponent(`settingsModal_ht_${this.input.id}`);
         this.setState("settingsColumns", cloneDeep(this.state.columns));
-        this.setState("settingsColumnsAll", Object.keys(this.input.formData.getTableColumns()).sort((a, b) => this.state.columns.indexOf(a) > this.state.columns.indexOf(b) ? 1 : this.state.columns.indexOf(a) < this.state.columns.indexOf(b) ? -1 : 0));
         settingsModal.setActive(true).setCloseAllowed(true).setLoading(false);
     }
 
@@ -634,10 +662,13 @@ module.exports = class {
         const settingsModal = this.getComponent(`settingsModal_ht_${this.input.id}`);
         switch (id) {
         case "save":
-            const columns = this.state.settingsColumnsAll.filter(c => this.state.settingsColumns.indexOf(c) > -1);
-            this.setState("columns", columns);
+            if (!(Object.keys(this.state.settingsColumns).length)) {
+                return;
+            }
+            this.setState("columns", cloneDeep(this.state.settingsColumns));
             settingsModal.setActive(false).setCloseAllowed(true).setLoading(false);
             this.store.remove("ratios");
+            this.store.set("columns", this.state.columns);
             this.resetColumnWidths();
             break;
         }
@@ -659,14 +690,8 @@ module.exports = class {
         const {
             id
         } = e.target.dataset;
-        const settingsColumns = [];
-        for (const k of Object.keys(this.state.columnData)) {
-            const column = this.state.columnData[k];
-            if (column && column.column && ((k !== id && this.state.settingsColumns.indexOf(k) > -1) || (k === id && checked))
-            ) {
-                settingsColumns.push(k);
-            }
-        }
+        const settingsColumns = cloneDeep(this.state.settingsColumns);
+        settingsColumns[id] = checked;
         this.setState("settingsColumns", settingsColumns);
     }
 
@@ -675,12 +700,15 @@ module.exports = class {
         const {
             id
         } = e.target.closest("[data-id]").dataset;
-        console.log(id);
-        const settingsColumnsAll = cloneDeep(this.state.settingsColumnsAll);
-        const currentIndexAll = settingsColumnsAll.findIndex(i => i === id);
-        if (currentIndexAll > -1) {
-            [settingsColumnsAll[currentIndexAll], settingsColumnsAll[currentIndexAll - 1]] = [settingsColumnsAll[currentIndexAll - 1], settingsColumnsAll[currentIndexAll]];
-            this.setState("settingsColumnsAll", settingsColumnsAll);
+        const settingsColumns = {};
+        const settingsColumnsArr = Object.keys(this.state.settingsColumns);
+        const currentIndex = settingsColumnsArr.findIndex(i => i === id);
+        if (currentIndex > 0) {
+            [settingsColumnsArr[currentIndex], settingsColumnsArr[currentIndex - 1]] = [settingsColumnsArr[currentIndex - 1], settingsColumnsArr[currentIndex]];
+            for (const c of settingsColumnsArr) {
+                settingsColumns[c] = this.state.settingsColumns[c];
+            }
+            this.setState("settingsColumns", settingsColumns);
         }
     }
 };
