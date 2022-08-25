@@ -15,9 +15,7 @@
                     <button class="delete" aria-label="close" on-click("onClose")/>
                 </if>
             </header>
-            <section class=`modal-card-body ${input.classBody || ""}`>
-                <${input.renderBody}/>
-            </section>
+            <${input.renderBody}/>
             <footer class="modal-card-foot hr-hm-modal-card-foot p-3">
                 <if(input.actions)>
                     <for|action| of=input.actions>

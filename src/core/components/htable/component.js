@@ -30,6 +30,7 @@ module.exports = class {
             deleteItems: [],
             searchText: "",
             settingsTab: "columns",
+            settingsColumnsAll: [],
             settingsColumns: [],
         };
         this.queryStringShorthands = {
@@ -624,6 +625,7 @@ module.exports = class {
         await this.utils.waitForComponent(`settingsModal_ht_${this.input.id}`);
         const settingsModal = this.getComponent(`settingsModal_ht_${this.input.id}`);
         this.setState("settingsColumns", cloneDeep(this.state.columns));
+        this.setState("settingsColumnsAll", Object.keys(this.input.formData.getTableColumns()).sort((a, b) => this.state.columns.indexOf(a) > this.state.columns.indexOf(b) ? 1 : this.state.columns.indexOf(a) < this.state.columns.indexOf(b) ? -1 : 0));
         settingsModal.setActive(true).setCloseAllowed(true).setLoading(false);
     }
 
@@ -632,7 +634,8 @@ module.exports = class {
         const settingsModal = this.getComponent(`settingsModal_ht_${this.input.id}`);
         switch (id) {
         case "save":
-            this.setState("columns", cloneDeep(this.state.settingsColumns));
+            const columns = this.state.settingsColumnsAll.filter(c => this.state.settingsColumns.indexOf(c) > -1);
+            this.setState("columns", columns);
             settingsModal.setActive(false).setCloseAllowed(true).setLoading(false);
             this.store.remove("ratios");
             this.resetColumnWidths();
@@ -665,5 +668,19 @@ module.exports = class {
             }
         }
         this.setState("settingsColumns", settingsColumns);
+    }
+
+    onSettingsColumnUpClick(e) {
+        e.preventDefault();
+        const {
+            id
+        } = e.target.closest("[data-id]").dataset;
+        console.log(id);
+        const settingsColumnsAll = cloneDeep(this.state.settingsColumnsAll);
+        const currentIndexAll = settingsColumnsAll.findIndex(i => i === id);
+        if (currentIndexAll > -1) {
+            [settingsColumnsAll[currentIndexAll], settingsColumnsAll[currentIndexAll - 1]] = [settingsColumnsAll[currentIndexAll - 1], settingsColumnsAll[currentIndexAll]];
+            this.setState("settingsColumnsAll", settingsColumnsAll);
+        }
     }
 };

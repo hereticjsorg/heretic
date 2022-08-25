@@ -41,6 +41,7 @@
 
 .hr-ht-action-button {
     border-radius: 50% !important;
+    height: 29px !important;
 }
 
 .hr-ht-action-icon {
@@ -51,6 +52,18 @@
 .hr-ht-action-icon svg {
     height: 13px;
     width: 13px;
+    top: 1px;
+    position: relative;
+}
+
+.hr-ht-settings-icon {
+    display: inline-flex;
+    align-self: center;
+}
+
+.hr-ht-settings-icon svg {
+    height: 24px;
+    width: 24px;
     top: 1px;
     position: relative;
 }
@@ -190,4 +203,9 @@
 .hr-ht-settings-columns-row:hover {
     background: $white-ter;
     border-radius: $radius;
+}
+
+.hr-ht-settings-tabs-wrap {
+    border-radius: 0 !important;
+    background: $white-bis !important;
 }
