@@ -31,6 +31,7 @@ module.exports = class {
             searchText: "",
             settingsTab: "columns",
             settingsColumns: [],
+            settingColumnDrag: null,
         };
         this.queryStringShorthands = {
             currentPage: "p",
@@ -709,6 +710,54 @@ module.exports = class {
                 settingsColumns[c] = this.state.settingsColumns[c];
             }
             this.setState("settingsColumns", settingsColumns);
+        }
+    }
+
+    onSettingsColumnDragStart(e) {
+        const {
+            id
+        } = e.target.closest("[data-id]").dataset;
+        this.setState("settingColumnDrag", id);
+        e.dataTransfer.setData("text", this.input.id);
+        return true;
+    }
+
+    onSettingsColumnDragEnd() {
+        this.setState("settingColumnDrag", null);
+        return true;
+    }
+
+    onSettingsColumnDragEnter(e) {
+        e.preventDefault();
+        e.target.classList.add("hr-ht-settings-columns-drop-area-over");
+    }
+
+    onSettingsColumnDragLeave(e) {
+        e.preventDefault();
+        e.target.classList.remove("hr-ht-settings-columns-drop-area-over");
+    }
+
+    onSettingsColumnDragOver(e) {
+        e.preventDefault();
+        e.target.classList.add("hr-ht-settings-columns-drop-area-over");
+    }
+
+    onSettingsColumnDrop(e) {
+        const dataTransfer = e.dataTransfer.getData("text");
+        e.target.classList.remove("hr-ht-settings-columns-drop-area-over");
+        if (dataTransfer === this.input.id) {
+            const {
+                id
+            } = e.target.closest("[data-id]").dataset;
+            const settingsColumns = {};
+            const settingsColumnsArr = Object.keys(this.state.settingsColumns).filter(i => i !== this.state.settingColumnDrag);
+            const newIndex = settingsColumnsArr.findIndex(i => i === id);
+            settingsColumnsArr.splice(newIndex, 0, this.state.settingColumnDrag);
+            for (const c of settingsColumnsArr) {
+                settingsColumns[c] = this.state.settingsColumns[c];
+            }
+            this.setState("settingsColumns", settingsColumns);
+            return true;
         }
     }
 };

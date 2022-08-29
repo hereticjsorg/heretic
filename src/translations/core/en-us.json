@@ -42,6 +42,5 @@
     "htable_settingsButton": "Settings",
     "htable_save": "Save",
     "htable_settingsColumns": "Columns",
-    "htable_settingsPages": "Pages",
-    "htable_settingsColumnsDesc": "Select columns you wish to display or change the order below."
+    "htable_settingsPages": "Pages"
 }

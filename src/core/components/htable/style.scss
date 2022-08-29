@@ -117,6 +117,22 @@
     fill: $grey-light !important;
 }
 
+.hr-ht-drag-icon {
+    display: inline-flex;
+    align-self: center;
+}
+
+.hr-ht-drag-icon svg {
+    height: 18px;
+    width: 18px;
+    top: 2px;
+    position: relative;
+}
+
+.hr-ht-drag-icon svg>path {
+    fill: $grey !important;
+}
+
 .hr-ht-td {
     vertical-align: top !important;
 }
@@ -213,4 +229,27 @@
 .hr-ht-settings-tabs-wrap {
     border-radius: 0 !important;
     background: $white-bis !important;
+}
+
+.hr-ht-checkbox-wrap {
+    padding: 11px 8px 0 8px;
+}
+
+.hr-ht-settings-columns-drop-area {
+    height: 5px;
+    border: 1px dashed $grey-lighter;
+    background: $grey-lightest;
+}
+
+.hr-ht-settings-columns-drop-area-over {
+    background: $yellow;
+} 
+
+.hr-hr-settings-tabs {
+    margin: 5px 5px 0 5px !important;
+}
+
+.hr-hr-settings-tabs a,
+.hr-hr-settings-tabs ul {
+    border-bottom-style: none !important;
 }
