@@ -4,6 +4,12 @@ const {
 } = require("uuid");
 const axios = require("axios");
 const cloneDeep = require("lodash.clonedeep");
+const {
+    format,
+    parse,
+    isValid,
+} = require("date-fns");
+const Utils = require("../../../lib/componentUtils").default;
 
 module.exports = class {
     onCreate(input) {
@@ -12,6 +18,7 @@ module.exports = class {
             value: input.value || null,
             captchaLoading: false,
             imageSecret: null,
+            calendarVisible: false,
         };
         this.maskedInput = null;
     }
@@ -40,6 +47,7 @@ module.exports = class {
     }
 
     async onMount() {
+        this.utils = new Utils(this);
         const element = document.getElementById(`hr_hf_el_${this.input.formId}_${this.input.id}`);
         if (element) {
             switch (this.input.type) {
@@ -48,6 +56,16 @@ module.exports = class {
                     mask: /^.+$/
                 });
                 element.addEventListener("change", this.onInputChangeListener.bind(this));
+                break;
+            case "date":
+                this.maskedInput = new IMask(element, {
+                    mask: Date,
+                    pattern: window.__heretic.t("global.dateMask.pattern"),
+                    format: date => format(date, window.__heretic.t("global.dateFormatShort")),
+                    parse: str => parse(str, window.__heretic.t("global.dateFormatShort"), new Date()),
+                    lazy: false,
+                });
+                // element.addEventListener("change", this.onInputChangeListener.bind(this));
                 break;
             case "captcha":
                 this.maskedInput = new IMask(element, this.input.maskedOptions || {
@@ -58,6 +76,12 @@ module.exports = class {
                 break;
             }
         }
+        window.addEventListener("click", e => {
+            const activeElementId = document.activeElement ? document.activeElement.id : null;
+            if (this.state.calendarVisible && document.getElementById(`hr_hf_el_${this.input.formId}_${this.input.id}_calendar_wrap`) && !document.getElementById(`hr_hf_el_${this.input.formId}_${this.input.id}_calendar_wrap`).contains(e.target) && document.getElementById(`hr_hf_el_${this.input.formId}_${this.input.id}_input_wrap`) && !document.getElementById(`hr_hf_el_${this.input.formId}_${this.input.id}_input_wrap`).contains(e.target) && activeElementId !== `hr_hf_el_${this.input.formId}_${this.input.id}`) {
+                this.setState("calendarVisible", false);
+            }
+        });
     }
 
     onInputChangeListener() {
@@ -143,6 +167,12 @@ module.exports = class {
         case "select":
             this.setState("value", String(value === null ? this.input.options[0].value : value));
             break;
+        case "date":
+            if (this.maskedInput) {
+                this.maskedInput.value = value ? format(new Date(value * 1000), window.__heretic.t("global.dateFormatShort")) : "";
+            }
+            this.setState("value", value || null);
+            break;
         case "captcha":
             if (value && typeof value === "string") {
                 const [fieldValue, imageSecret] = value.split(/_/);
@@ -197,5 +227,46 @@ module.exports = class {
     onCaptchaImageClick(e) {
         e.preventDefault();
         this.loadCaptchaData();
+    }
+
+    onCalendarDateChange(timestamp) {
+        this.maskedInput.value = timestamp ? format(new Date(timestamp * 1000), window.__heretic.t("global.dateFormatShort")) : "";
+        this.setState("value", timestamp || null);
+        this.setState("calendarVisible", false);
+    }
+
+    onCalendarInputKeypress() {
+        this.setState("calendarVisible", true);
+        setTimeout(async () => {
+            if (!this.maskedInput.value.match(/_/)) {
+                const date = parse(this.maskedInput.value, window.__heretic.t("global.dateFormatShort"), new Date());
+                if (isValid(date)) {
+                    try {
+                        await this.utils.waitForComponent(`hr_hf_el_${this.input.formId}_${this.input.id}_calendar`);
+                        this.getComponent(`hr_hf_el_${this.input.formId}_${this.input.id}_calendar`).setDate(date);
+                        this.setState("value", date.getTime());
+                    } catch {
+                        // Ignore
+                    }
+                }
+            } else {
+                this.setState("value", null);
+            }
+        });
+    }
+
+    onCalendarInputKeydown(e) {
+        if ((e.which || e.keyCode) === 9) {
+            this.setState("calendarVisible", false);
+        }
+    }
+
+    async onDateInputFocus(e) {
+        e.preventDefault();
+        this.setState("calendarVisible", true);
+        if (this.state.value) {
+            await this.utils.waitForComponent(`hr_hf_el_${this.input.formId}_${this.input.id}_calendar`);
+            this.getComponent(`hr_hf_el_${this.input.formId}_${this.input.id}_calendar`).setTimestamp(this.state.value * 1000);
+        }
     }
 };

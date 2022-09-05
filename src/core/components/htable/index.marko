@@ -1,4 +1,5 @@
-import { mdiReload, mdiMagnify, mdiCogOutline, mdiDrag } from "@mdi/js"
+import { mdiReload, mdiMagnify, mdiCogOutline, mdiDrag, mdiPencilOutline, mdiTrashCanOutline, mdiInformation } from "@mdi/js"
+import SettingsPagesForm from "./settingsPagesForm"
 
 <div class="columns is-gapless m-0 p-0">
     <div class="column is-auto">
@@ -47,6 +48,13 @@ import { mdiReload, mdiMagnify, mdiCogOutline, mdiDrag } from "@mdi/js"
                         </svg>
                     </span>
                     <t>htable_settingsButton</t>
+                    <if(state.filters.length)>
+                        <span class="hr-ht-top-info-icon icon">
+                            <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                <path d=mdiInformation/>
+                            </svg>
+                        </span>
+                    </if>
                 </button>
             </div>
         </if>
@@ -152,7 +160,7 @@ import { mdiReload, mdiMagnify, mdiCogOutline, mdiDrag } from "@mdi/js"
                                 <if(state.columns[k])>
                                     $ const item = state.columnData[k];
                                     <td class="hr-ht-td p-0 m-0">
-                                        <div class="p-2">${input.formData.processTableCell(k, row)}</div>
+                                        <div class="p-2 hr-ht-table-cell">${input.formData.processTableCell(k, row)}</div>
                                     </td>
                                 </if>
                             </for>
@@ -281,7 +289,7 @@ import { mdiReload, mdiMagnify, mdiCogOutline, mdiDrag } from "@mdi/js"
     <header class="modal-card-head hr-ht-settings-tabs-wrap p-0">
         <div class="tabs is-boxed hr-hr-settings-tabs p-0">
             <ul>
-                <for|i| of=["columns", "pages"]>
+                <for|i| of=["columns", "pages", "filter"]>
                     <li class=(state.settingsTab === i ? "is-active" : "")>
                         <a on-click("onSettingsTabClick") data-tab=i>
                             <if(i === "columns")>
@@ -289,6 +297,16 @@ import { mdiReload, mdiMagnify, mdiCogOutline, mdiDrag } from "@mdi/js"
                             </if>
                             <if(i === "pages")>
                                 <t>htable_settingsPages</t>
+                            </if>
+                            <if(i === "filter")>
+                                <t>htable_settingsFilter</t>
+                                <if(state.filters.length)>
+                                    <span class="hr-ht-top-info-icon icon">
+                                        <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d=mdiInformation/>
+                                        </svg>
+                                    </span>
+                                </if>
                             </if>
                         </a>
                     </li>
@@ -298,7 +316,11 @@ import { mdiReload, mdiMagnify, mdiCogOutline, mdiDrag } from "@mdi/js"
     </header>
     <section class="modal-card-body hr-ht-settings-body">
         <div class="p-3">
-            <if(state.settingsTab === "columns")>
+            <div style={
+                position: state.settingsTab === "columns" ? "unset" : "absolute",
+                left: state.settingsTab === "columns" ? "unset" : "-999999px",
+                clip: state.settingsTab === "columns" ? "unset" : "rect(0 0 0 0)"
+            }>
                 <for|k, index| of=Object.keys(state.settingsColumns)>
                     $ const column = state.columnData[k];
                     <if(index > 0 && state.settingColumnDrag !== null)>
@@ -336,8 +358,115 @@ import { mdiReload, mdiMagnify, mdiCogOutline, mdiDrag } from "@mdi/js"
                         </div>
                     </div>
                 </for>
-            </if>
-            <if(state.settingsTab === "pages")/>
+            </div>
+            <div style={
+                position: state.settingsTab === "pages" ? "unset" : "absolute",
+                left: state.settingsTab === "pages" ? "unset" : "-999999px",
+                clip: state.settingsTab === "pages" ? "unset" : "rect(0 0 0 0)"
+            }>
+                <hform key=`settingsPagesForm_${input.id}` id=`settingsPagesForm_${input.id}` data=(new SettingsPagesForm(process.browser && window.__heretic ? window.__heretic.t : out.global.t)) on-form-submit("onSettingsPagesFormSubmit")/>
+            </div>
+            <div style={
+                position: state.settingsTab === "filter" ? "unset" : "absolute",
+                left: state.settingsTab === "filter" ? "unset" : "-999999px",
+                clip: state.settingsTab === "filter" ? "unset" : "rect(0 0 0 0)"
+            }>
+                <div class="buttons mb-0">
+                    <button class="button is-light is-small" on-click("settingsNewFilter")>
+                        <t>htable_filterNew</t>
+                    </button>
+                </div>
+                <if(state.settingsFilters.length)>
+                    <for|item| of=state.settingsFilters>
+                        <div class="hr-ht-settings-filters-row columns is-vcentered is-mobile is-gapless p-1 m-0" data-id=item.id>
+                            <div class="column is-auto">
+                                ${state.columnData[item.id].label} &nbsp;
+                                <span class="tag is-dark mr-2">${window.__heretic.t(item.mode)}</span>
+                                <if(Array.isArray(item.value))>
+                                    <for|ai| of=item.value>
+                                        <span class="tag is-info">${state.columnData[item.id].options.find(i => i.value === ai).label}</span> 
+                                    </for>
+                                </if>
+                                <else>${item.value}</else>
+                            </div>
+                            <div class="column is-narrow">
+                                <button class="mr-1 button is-small hr-ht-action-button is-light" on-click("onSettingsFilterEditClick")>
+                                    <span class="hr-ht-settings-icon icon">
+                                        <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d=mdiPencilOutline/>
+                                        </svg>
+                                    </span>
+                                </button>
+                                <button class="button is-small hr-ht-action-button is-danger" on-click("onSettingsFilterDeleteClick")>
+                                    <span class="hr-ht-settings-icon hr-ht-action-icon-danger icon">
+                                        <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d=mdiTrashCanOutline/>
+                                        </svg>
+                                    </span>
+                                </button> 
+                            </div>
+                        </div>
+                    </for>
+                </if>
+            </div>
         </div>
+    </section>
+</hmodal>
+<hmodal
+    key=`filterModal_ht_${input.id}`
+    on-button-click("onFilterButtonClick")
+    close=true
+    cardClass="pl-3 pr-3"
+    backgroundClass="hr-hm-background-60"
+    title="htable_filterEdit"
+    actions=[
+        {
+            id: "save",
+            label: "htable_save",
+            class: "button is-primary"
+        },
+        {
+            id: "cancel",
+            label: "htable_cancel",
+            class: "button is-light",
+            close: true
+        }
+    ]>
+    <section class="modal-card-body hr-ht-settings-body p-3" id=`filterModal_ht_${input.id}_body`>
+        <form on-submit("onFilterEditFormSubmit")>
+            <button
+                type="submit"
+                style={
+                    display: "none"
+                }/>
+            <div class="select is-fullwidth">
+                <select on-change("onSettingsFilterEditSelectedChange") id=`filterModal_ht_${input.id}_select_id`>
+                    <for|item| of=Object.keys(state.columnData)>
+                        <if(["text", "select"].indexOf(state.columnData[item].type) > -1)>
+                            <option value=item selected=(state.settingsFilterEditSelectedId === item)>${state.columnData[item].label}</option>
+                        </if>
+                    </for>
+                </select>
+            </div>
+            <div class="select mt-2 is-fullwidth">
+                <select on-change("onSettingsFilterEditModeChange")>
+                    <for|item| of=state.settingsFilterEditSelectedModes>
+                        <option value=item selected=(state.settingsFilterEditSelectedMode === item)>${window.__heretic.t(item)}</option>
+                    </for>
+                </select>
+            </div>
+            <if(state.columnData[state.settingsFilterEditSelectedId])>
+                <if(state.columnData[state.settingsFilterEditSelectedId].type === "text")>
+                    <div class="mt-2 is-fullwidth">
+                        <input class="input" type="text" value=state.settingsFilterEditSelectedValue on-change("onSettingsFilterEditValueChange")/>
+                    </div>
+                </if>
+                <if(state.columnData[state.settingsFilterEditSelectedId].type === "select")>
+                    <div class="mt-2">
+                        <hselect key=`filterModal_ht_${input.id}_hselect`/>
+                    </div>
+                </if>
+            </if>
+        </form>
     </section>
 </hmodal>

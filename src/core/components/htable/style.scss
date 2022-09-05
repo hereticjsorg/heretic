@@ -97,6 +97,24 @@
     fill: $grey-darker !important;
 }
 
+.hr-ht-top-info-icon {
+    display: inline-flex;
+    align-self: center;
+    margin-left: 1px !important;
+}
+
+.hr-ht-top-info-icon svg {
+    height: 15px;
+    width: 15px;
+    top: 1px;
+    position: relative;
+}
+
+.hr-ht-top-info-icon svg>path {
+    fill: $red !important;
+    margin-left: 10px;
+}
+
 .hr-ht-top-button-icon-danger svg>path {
     fill: $white !important;
 }
@@ -221,7 +239,8 @@
     margin-top: 3px !important;
 }
 
-.hr-ht-settings-columns-row:hover {
+.hr-ht-settings-columns-row:hover,
+.hr-ht-settings-filters-row:hover {
     background: $white-ter;
     border-radius: $radius;
 }
@@ -249,7 +268,25 @@
     margin: 5px 5px 0 5px !important;
 }
 
+.hr-hr-settings-tabs {
+    height: 40px;
+}
+
+.hr-hr-settings-tabs>ul {
+    position: absolute;
+    top: 5px;
+}
+
+.hr-hr-settings-tabs>ul>li:not(.is-active)>a:hover {
+    //border-bottom: 2px solid $grey-lighter !important;
+    background: unset !important;
+}
+
 .hr-hr-settings-tabs a,
 .hr-hr-settings-tabs ul {
     border-bottom-style: none !important;
+}
+
+.hr-ht-table-cell {
+    min-height: 40px;
 }

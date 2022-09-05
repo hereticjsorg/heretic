@@ -18,6 +18,7 @@
         "getfastifyinstance",
         "hform",
         "hmodal",
+        "hselect",
         "htable",
         "imask",
         "ipaddr",

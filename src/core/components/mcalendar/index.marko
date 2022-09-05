@@ -1,0 +1,79 @@
+import { mdiPageFirst, mdiPageLast, mdiChevronLeft, mdiChevronRight } from '@mdi/js'
+
+<if(state.visible)>
+    <div class=`hr-mc ${input.css || ""}`>
+        <div class="columns m-0 is-gapless is-mobile">
+            <div class="column is-narrow m-0 p-0">
+                <div class="hr-mc-head-links">
+                    <a on-click("onCalendarYearLeft")>
+                        <span class="icon hr-mc-action-icon">
+                            <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                <path d=mdiPageFirst/>
+                            </svg>
+                        </span>
+                    </a>
+                    <a on-click("onCalendarMonthLeft")>
+                        <span class="icon hr-mc-action-icon">
+                            <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                <path d=mdiChevronLeft/>
+                            </svg>
+                        </span>
+                    </a>
+                </div>
+            </div>
+            <div class="column is-auto">
+                <div class="hr-mc-head-date">${process.browser ? window.__heretic.t("global.monthsFull")[state.month] : out.global.t("global.monthsFull")[state.month]}&nbsp;${state.year}</div>
+            </div>
+            <div class="column is-narrow m-0 p-0">
+                <div class="hr-mc-head-links">
+                    <a on-click("onCalendarMonthRight")>
+                        <span class="icon hr-mc-action-icon">
+                            <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                <path d=mdiChevronRight/>
+                            </svg>
+                        </span>
+                    </a>
+                    <a on-click("onCalendarYearRight")>
+                        <span class="icon hr-mc-action-icon">
+                            <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                <path d=mdiPageLast/>
+                            </svg>
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="columns m-0 is-gapless is-size-7 hr-mc-dow is-mobile">
+            $ const dow = process.browser ? window.__heretic.t("global.weekDays") : out.global.t("global.weekDays");
+            <for|d| of=dow>
+                <div class="column hr-mc-cell">${d}</div>
+            </for>
+        </div>
+        <for|r| of=state.data>
+            <div class="columns m-0 is-gapless is-mobile" on-click("onCalendarCellClick")>
+                <for|i| of=r>
+                    <div class=`column${state.month !== i.m ? " hr-mc-cell-day-side" : ""}`>
+                        <div class="hr-mc-cell-wrap" data-d=i.d data-m=i.m data-y=i.y>
+                            <if(i.enabled)>
+                                <div class=`hr-mc-cell hr-mc-cell-day${i.m === new Date().getMonth() && i.d === new Date().getDate() && i.y === new Date().getFullYear() ? " hr-mc-cell-day-today" : ""}${i.m === state.selected.m && i.d === state.selected.d && i.y === state.selected.y ? " hr-mc-cell-day-selected" : ""}${state.whitelist.length ? " hr-mc-cell-day-whitelist" : ""}`>${i.d}</div>
+                            </if>
+                            <else>
+                                <div class="hr-mc-cell hr-mc-cell-day-disabled">${i.d}</div>
+                            </else>
+                        </div>
+                    </div>
+                </for>
+            </div>
+        </for>
+        <div class="columns is-gapless is-mobile is-size-7">
+            <div class="column is-6 hr-mc-control has-text-primary" on-click("onCalendarToday")>
+                <if(!input.disabledToday)>
+                    <t>calendar.today</t>
+                </if>
+            </div>
+            <div class="column is-6 hr-mc-control has-text-danger" on-click("onCalendarClear")>
+                <t>calendar.clear</t>
+            </div>
+        </div>
+    </div>
+</if>

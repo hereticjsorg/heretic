@@ -1,4 +1,34 @@
 {
+    "global.dateFormatShort": "yyyy-MM-dd",
+	"global.timeFormatShort": "hh:mm a",
+	"global.langCode": "en-us",
+	"global.weekStart": "0",
+	"global.weekDays": [
+		"Sun",
+		"Mon",
+		"Tue",
+		"Wed",
+		"Thu",
+		"Fri",
+		"Sat"
+	],
+	"global.monthsFull": [
+		"January",
+		"February",
+		"March",
+		"April",
+		"May",
+		"June",
+		"July",
+		"August",
+		"September",
+		"October",
+		"November",
+		"December"
+	],
+	"global.dateMask.pattern": "`Y-m`-d`",
+    "calendar.today": "Today",
+    "calendar.clear": "Clear",
     "404": "Not Found",
     "desc404": "The link is broken or the page has been moved.",
     "internalServerErrorTitle": "Internal Server Error",
@@ -42,5 +72,16 @@
     "htable_settingsButton": "Settings",
     "htable_save": "Save",
     "htable_settingsColumns": "Columns",
-    "htable_settingsPages": "Pages"
+    "htable_settingsPages": "Pages",
+    "htable_settingsFilter": "Filter",
+    "htable_noColumnsSelected": "No columns selected",
+    "htable_itemsPerPage": "Items per page",
+    "htable_filterNew": "New",
+    "htable_filterEdit": "Edit Filter",
+    "equals": "equals",
+    "notEquals": "not equals",
+    "isLike": "is like",
+    "isNotLike": "is not like",
+    "oneOf": "one of",
+    "noneOf": "none of"
 }

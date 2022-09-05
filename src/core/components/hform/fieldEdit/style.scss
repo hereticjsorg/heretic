@@ -29,9 +29,15 @@
 }
 
 .hr-hf-field-small {
-    width: 100px !important;
-    min-width: 100px !important;
-    max-width: 100px !important;
+    width: 130px !important;
+    min-width: 130px !important;
+    max-width: 130px !important;
+}
+
+.hr-hf-field-date {
+    width: 120px !important;
+    min-width: 120px !important;
+    max-width: 120px !important;
 }
 
 .hr-hf-label-mandatory {
@@ -74,6 +80,22 @@
     margin-left: -14px;
     opacity: 0.6;
     cursor: pointer;
+}
+
+.hr-hf-calendar-wrap {
+    border: 1px solid $grey-lightest;
+    width: 230px;
+    min-width: 230px;
+    position: absolute;
+    z-index: 1000;
+    background: $white;
+    box-shadow: -2px 4px 8px -5px rgba(34, 60, 80, 0.2);
+    margin-top: 1px;
+    border-radius: 4px;
+}
+
+.hr-hf-date-input {
+    text-align: center;
 }
 
 @media (max-width: 769px) {

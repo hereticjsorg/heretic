@@ -1,0 +1,12 @@
+<div class="hr-hs-wrap">
+    <if(state.items && Object.keys(state.items).length)>
+        <for|k| of=Object.keys(state.items)>
+            <div>
+                <label class="checkbox">
+                    <input data-id=k type="checkbox" class="mr-2" checked=(state.selected.indexOf(k) > -1) on-change("onCheckboxChange")/>
+                    ${state.items[k]}
+                </label>
+            </div>
+        </for>
+    </if>
+</div>

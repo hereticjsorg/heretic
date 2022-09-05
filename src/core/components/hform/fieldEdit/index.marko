@@ -1,22 +1,17 @@
-import { mdiReload } from '@mdi/js';
+import { mdiReload } from '@mdi/js'
 
 <!-- Text Field: Start -->
 <if(input.type === "text")>
     <div>
         <div class="field">
             <label class="label hr-hf-label">
-                ${input.label || ""}
-                <span>:</span>
+                ${input.label || ""}<span>:</span>
                 <if(input.mandatory)>
                     &nbsp;<span class="hr-hf-label-mandatory">✱</span>
                 </if>
             </label>
             <div class="control" no-update>
-                <input
-                    id=`hr_hf_el_${input.formId}_${input.id}`
-                    class="input hr-hf-text-input"
-                    type=(input.fieldType || "text")
-                    placeholder=(input.placeholder || "")/>
+                <input id=`hr_hf_el_${input.formId}_${input.id}` class="input hr-hf-text-input" type=(input.fieldType || "text") placeholder=(input.placeholder || "")/>
             </div>
             <if(state.error)>
                 <div class="hr-hf-error-wrap">
@@ -34,15 +29,7 @@ import { mdiReload } from '@mdi/js';
 <if(input.type === "buttons")>
     <div class=`buttons ${input.css || ""}`>
         <for|item| of=input.items>
-            <button
-                id=`hr_hf_el_${input.formId}_${input.id}_${item.id}`
-                class=(item.css || "")
-                type=item.type
-                data-type=item.type
-                data-id=item.id
-                on-click("onButtonClick")>
-                ${item.label}
-            </button>
+            <button id=`hr_hf_el_${input.formId}_${input.id}_${item.id}` class=(item.css || "") type=item.type data-type=item.type data-id=item.id on-click("onButtonClick")>${item.label}</button>
         </for>
     </div>
 </if>
@@ -52,18 +39,14 @@ import { mdiReload } from '@mdi/js';
     <div>
         <div class="field">
             <label class="label hr-hf-label">
-                ${input.label || ""}
-                <span>:</span>
+                ${input.label || ""}<span>:</span>
                 <if(input.mandatory)>
                     &nbsp;<span class="hr-hf-label-mandatory">✱</span>
                 </if>
             </label>
             <div class="control">
                 <div class="select is-fullwidth">
-                    <select
-                        id=`hr_hf_el_${input.formId}_${input.id}`
-                        on-change("onSelectChange")
-                        value=state.value>
+                    <select id=`hr_hf_el_${input.formId}_${input.id}` on-change("onSelectChange") value=state.value>
                         <for|o| of=input.options>
                             <option value=o.value selected=(o.value === state.value)>${o.label}</option>
                         </for>
@@ -87,20 +70,14 @@ import { mdiReload } from '@mdi/js';
     <div>
         <div class="field">
             <label class="label hr-hf-label">
-                ${input.label || ""}
-                <span>:</span>
+                ${input.label || ""}<span>:</span>
                 <if(input.mandatory)>
                     &nbsp;<span class="hr-hf-label-mandatory">✱</span>
                 </if>
             </label>
             <div class="control">
                 <label class="file-label">
-                    <input
-                        class="file-input"
-                        type="file"
-                        multiple=(input.multiple || false)
-                        data-id=input.id
-                        on-change("onFileInputChange")/>
+                    <input class="file-input" type="file" multiple=(input.multiple || false) data-id=input.id on-change("onFileInputChange")/>
                     <a class="file-cta button is-light" tabindex="0">
                         <span class="file-label">${input.buttonLabel}</span>
                     </a>
@@ -110,10 +87,7 @@ import { mdiReload } from '@mdi/js';
                 <div class="mt-2">
                     <for|f| of=state.value>
                         <div>
-                            <button
-                                class="delete is-small mt-1 mr-2"
-                                data-uid=f.uid
-                                on-click("onFileInputDeleteClick")/>
+                            <button class="delete is-small mt-1 mr-2" data-uid=f.uid on-click("onFileInputDeleteClick")/>
                             <if(f.url)>
                                 <a href=f.url target="_blank">${f.name}</a>
                             </if>
@@ -139,27 +113,18 @@ import { mdiReload } from '@mdi/js';
     <div>
         <div class="field">
             <label class="label hr-hf-label">
-                ${input.label || ""}
-                <span>:</span>
+                ${input.label || ""}<span>:</span>
                 <if(input.mandatory)>
                     &nbsp;<span class="hr-hf-label-mandatory">✱</span>
                 </if>
             </label>
             <div class="field has-addons mb-1">
                 <div class="control" no-update>
-                    <input
-                        id=`hr_hf_el_${input.formId}_${input.id}`
-                        class="input hr-hf-text-input hr-hf-captcha-input"
-                        type="text"
-                        placeholder=(input.placeholder || "")/>
+                    <input id=`hr_hf_el_${input.formId}_${input.id}` class="input hr-hf-text-input hr-hf-captcha-input" type="text" placeholder=(input.placeholder || "")/>
                 </div>
                 <div class="hr-hf-captcha-image" on-click("onCaptchaImageClick") id=`hr_hf_ci_${input.formId}_${input.id}` no-update/>
                 <div class="hr-hf-captcha-image-reload" on-click("onCaptchaImageClick")>
-                    <svg
-                        viewBox="0 0 24 24"
-                        width="12"
-                        height="12"
-                        xmlns="http://www.w3.org/2000/svg">
+                    <svg viewBox="0 0 24 24" width="12" height="12" xmlns="http://www.w3.org/2000/svg">
                         <path d=mdiReload/>
                     </svg>
                 </div>
@@ -176,3 +141,33 @@ import { mdiReload } from '@mdi/js';
     </div>
 </if>
 <!-- Captcha Field: End -->
+<!-- Date Picker Field: Start -->
+<if(input.type === "date")>
+    <div>
+        <div class="field">
+            <label class="label hr-hf-label">
+                ${input.label || ""}<span>:</span>
+                <if(input.mandatory)>
+                    &nbsp;<span class="hr-hf-label-mandatory">✱</span>
+                </if>
+            </label>
+            <div class="control" id=`hr_hf_el_${input.formId}_${input.id}_input_wrap` no-update>
+                <input on-focus("onDateInputFocus") id=`hr_hf_el_${input.formId}_${input.id}` class="input hr-hf-text-input input hr-hf-date-input" type="text" on-keypress("onCalendarInputKeypress") on-keydown("onCalendarInputKeydown")/>
+            </div>
+            <if(state.calendarVisible)>
+                <div class="hr-hf-calendar-wrap" id=`hr_hf_el_${input.formId}_${input.id}_calendar_wrap`>
+                    <mcalendar key=`hr_hf_el_${input.formId}_${input.id}_calendar` on-date-change("onCalendarDateChange")/>
+                </div>
+            </if>
+            <if(state.error)>
+                <div class="hr-hf-error-wrap">
+                    <p class="tag is-danger hr-hf-error-tag">${state.error}</p>
+                </div>
+            </if>
+            <if(input.helpText)>
+                <p class="help">${input.helpText}</p>
+            </if>
+        </div>
+    </div>
+</if>
+<!-- Date Picker Field: End -->

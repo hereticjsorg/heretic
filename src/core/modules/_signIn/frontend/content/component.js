@@ -64,7 +64,7 @@ module.exports = class {
             });
             const { token } = res.data;
             this.cookies.set(`${this.siteId}.authToken`, token);
-            window.location.href = `${this.query.get("r") || this.getLocalizedURL("/").url || "/"}#${new Date().getTime()}`;
+            window.location.href = `${this.query.get("r") || this.getLocalizedURL("/").url || "/"}`;
         } catch (e) {
             if (e && e.response && e.response.data) {
                 if (e.response.data.form) {

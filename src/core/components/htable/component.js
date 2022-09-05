@@ -23,6 +23,7 @@ module.exports = class {
             currentPage: 1,
             totalPages: 1,
             itemsPerPage: 30,
+            filters: [],
             pagination: [],
             checkboxes: [],
             checkboxesAll: false,
@@ -32,6 +33,13 @@ module.exports = class {
             settingsTab: "columns",
             settingsColumns: [],
             settingColumnDrag: null,
+            settingsItemsPerPage: 30,
+            settingsFilters: [],
+            settingsFilterId: null,
+            settingsFilterEditSelectedModes: [],
+            settingsFilterEditSelectedId: null,
+            settingsFilterEditSelectedMode: null,
+            settingsFilterEditSelectedValue: "",
         };
         this.queryStringShorthands = {
             currentPage: "p",
@@ -244,7 +252,7 @@ module.exports = class {
         this.utils = new Utils(this);
         this.store = store.namespace(`heretic_htable_${this.input.id}`);
         const columns = this.store.get("columns") || {};
-        if (!Object.keys(columns).length) {
+        if (Object.keys(columns).length !== Object.keys(this.state.columnData).length) {
             Object.keys(this.state.columnData).map(c => columns[c] = this.state.columnData[c].column && !this.state.columnData[c].hidden);
         }
         this.setState("columns", columns);
@@ -283,6 +291,10 @@ module.exports = class {
         }
         this.loadDataDebounced = debounce(this.loadData, 500);
         this.setTableDimensionsDebounced = debounce(this.setTableDimensions, 10);
+        this.setState("filters", this.store.get("filters") || []);
+        if (this.store.get("itemsPerPage")) {
+            this.setState("itemsPerPage", parseInt(this.store.get("itemsPerPage"), 10));
+        }
         if (this.input.autoLoad) {
             await this.loadData(loadInput);
         } else {
@@ -479,6 +491,7 @@ module.exports = class {
                     }
                     this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_loadingError"), "is-danger");
                     this.setState("data", []);
+                    setTimeout(() => this.setTableDimensions());
                 } finally {
                     this.setLoading(false);
                     resolve();
@@ -655,22 +668,59 @@ module.exports = class {
         await this.utils.waitForComponent(`settingsModal_ht_${this.input.id}`);
         const settingsModal = this.getComponent(`settingsModal_ht_${this.input.id}`);
         this.setState("settingsColumns", cloneDeep(this.state.columns));
+        this.setState("settingsTab", "columns");
+        this.setState("settingsItemsPerPage", this.state.itemsPerPage);
+        this.setState("settingsFilters", cloneDeep(this.state.filters));
         settingsModal.setActive(true).setCloseAllowed(true).setLoading(false);
+        await this.utils.waitForComponent(`settingsPagesForm_${this.input.id}`);
+        const settingsPagesForm = this.getComponent(`settingsPagesForm_${this.input.id}`);
+        settingsPagesForm.deserializeData({
+            _default: {
+                itemsPerPage: this.state.settingsItemsPerPage,
+            }
+        });
+    }
+
+    async saveSettings() {
+        await this.utils.waitForComponent(`settingsModal_ht_${this.input.id}`);
+        const settingsModal = this.getComponent(`settingsModal_ht_${this.input.id}`);
+        let count = 0;
+        for (const k of Object.keys(this.state.settingsColumns)) {
+            count += this.state.settingsColumns[k] ? 1 : 0;
+        }
+        if (!count) {
+            this.setState("settingsTab", "columns");
+            this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_noColumnsSelected"), "is-warning");
+            return;
+        }
+        this.setState("columns", cloneDeep(this.state.settingsColumns));
+        this.store.remove("ratios");
+        this.store.set("columns", this.state.columns);
+        this.setState("settingsTab", "pages");
+        await this.utils.waitForComponent(`settingsPagesForm_${this.input.id}`);
+        const settingsPagesForm = this.getComponent(`settingsPagesForm_${this.input.id}`);
+        const pagesFormData = settingsPagesForm.process();
+        if (!pagesFormData) {
+            return;
+        }
+        const loadInput = {};
+        if (this.state.itemsPerPage !== pagesFormData.formTabs._default.itemsPerPage) {
+            loadInput.currentPage = 1;
+            this.store.set("itemsPerPage", parseInt(pagesFormData.formTabs._default.itemsPerPage, 10));
+        }
+        this.setState("itemsPerPage", pagesFormData.formTabs._default.itemsPerPage);
+        this.setState("filters", cloneDeep(this.state.settingsFilters));
+        this.store.set("filters", this.state.settingsFilters);
+        // Close modal
+        settingsModal.setActive(false).setCloseAllowed(false).setLoading(false);
+        this.resetColumnWidths();
+        this.loadData(loadInput);
     }
 
     async onSettingsButtonClick(id) {
-        await this.utils.waitForComponent(`settingsModal_ht_${this.input.id}`);
-        const settingsModal = this.getComponent(`settingsModal_ht_${this.input.id}`);
         switch (id) {
         case "save":
-            if (!(Object.keys(this.state.settingsColumns).length)) {
-                return;
-            }
-            this.setState("columns", cloneDeep(this.state.settingsColumns));
-            settingsModal.setActive(false).setCloseAllowed(true).setLoading(false);
-            this.store.remove("ratios");
-            this.store.set("columns", this.state.columns);
-            this.resetColumnWidths();
+            await this.saveSettings();
             break;
         }
     }
@@ -681,6 +731,13 @@ module.exports = class {
             tab
         } = e.target.closest("[data-tab]").dataset;
         this.setState("settingsTab", tab);
+        if (tab === "pages") {
+            setTimeout(async () => {
+                await this.utils.waitForComponent(`settingsPagesForm_${this.input.id}`);
+                const settingsPagesForm = this.getComponent(`settingsPagesForm_${this.input.id}`);
+                settingsPagesForm.focus();
+            });
+        }
     }
 
     onSettingsColumnCheckboxClick(e) {
@@ -759,5 +816,169 @@ module.exports = class {
             this.setState("settingsColumns", settingsColumns);
             return true;
         }
+    }
+
+    onSettingsPagesFormSubmit() {
+        this.saveSettings();
+    }
+
+    getFirstFilterableColumn() {
+        for (const item of Object.keys(this.state.columnData)) {
+            if (["text", "select"].indexOf(this.state.columnData[item].type) > -1) {
+                return item;
+            }
+        }
+        return null;
+    }
+
+    setSettingsFilterModesState(type) {
+        let modes;
+        switch (type) {
+        case "text":
+            modes = ["equals", "notEquals", "isLike", "isNotLike"];
+            break;
+        case "select":
+            modes = ["oneOf", "noneOf"];
+            break;
+        default:
+            modes = [];
+        }
+        this.setState("settingsFilterEditSelectedModes", modes);
+    }
+
+    async settingsSetFilterData(id) {
+        switch (this.state.columnData[id].type) {
+        case "select":
+            await this.utils.waitForComponent(`filterModal_ht_${this.input.id}_hselect`);
+            const hSelect = this.getComponent(`filterModal_ht_${this.input.id}_hselect`);
+            const items = {};
+            this.state.columnData[id].options.map(i => items[i.value] = i.label);
+            hSelect.setItems(items);
+            break;
+        }
+    }
+
+    async settingsSetValue(id, value) {
+        switch (this.state.columnData[id].type) {
+        case "select":
+            await this.utils.waitForComponent(`filterModal_ht_${this.input.id}_hselect`);
+            this.getComponent(`filterModal_ht_${this.input.id}_hselect`).setSelected(value);
+            break;
+        default:
+            this.setState("settingsFilterEditSelectedValue", value);
+        }
+    }
+
+    async settingsNewFilter(e) {
+        e.preventDefault();
+        await this.utils.waitForComponent(`filterModal_ht_${this.input.id}`);
+        const filterModal = this.getComponent(`filterModal_ht_${this.input.id}`);
+        this.setState("settingsFilterId", null);
+        filterModal.setActive(true).setCloseAllowed(false).setLoading(false);
+        const firstColumn = this.getFirstFilterableColumn();
+        this.setState("settingsFilterEditSelectedId", firstColumn);
+        this.setState("settingsFilterEditSelectedValue", null);
+        this.setSettingsFilterModesState(this.state.columnData[firstColumn].type);
+        if (this.state.settingsFilterEditSelectedModes.length) {
+            this.setState("settingsFilterEditSelectedMode", this.state.settingsFilterEditSelectedModes[0]);
+        }
+        await this.utils.waitForElement(`filterModal_ht_${this.input.id}_body`);
+        await this.settingsSetFilterData(firstColumn);
+        document.getElementById(`filterModal_ht_${this.input.id}_select_id`).focus();
+    }
+
+    async onSettingsFilterEditSelectedChange(e) {
+        e.preventDefault();
+        this.setState("settingsFilterEditSelectedId", e.target.value);
+        this.setSettingsFilterModesState(this.state.columnData[e.target.value].type);
+        if (this.state.settingsFilterEditSelectedModes.length) {
+            this.setState("settingsFilterEditSelectedMode", this.state.settingsFilterEditSelectedModes[0]);
+        }
+        this.setState("settingsFilterEditSelectedValue", null);
+        await this.settingsSetFilterData(e.target.value);
+    }
+
+    onSettingsFilterEditModeChange(e) {
+        e.preventDefault();
+        this.setState("settingsFilterEditSelectedMode", e.target.value);
+    }
+
+    onSettingsFilterEditValueChange(e) {
+        e.preventDefault();
+        this.setState("settingsFilterEditSelectedValue", e.target.value);
+    }
+
+    async saveFilter() {
+        const id = this.state.settingsFilterEditSelectedId;
+            const mode = this.state.settingsFilterEditSelectedMode;
+            let value;
+            switch (this.state.columnData[id].type) {
+            case "select":
+                await this.utils.waitForComponent(`filterModal_ht_${this.input.id}_hselect`);
+                value = this.getComponent(`filterModal_ht_${this.input.id}_hselect`).getSelected();
+                break;
+            default:
+                value = this.state.settingsFilterEditSelectedValue;
+            }
+            const settingsFilters = cloneDeep(this.state.settingsFilters);
+            if (this.state.settingsFilterId) {
+                for (const filter of settingsFilters) {
+                    if (filter.id === id) {
+                        filter.mode = mode;
+                        filter.value = value;
+                    }
+                }
+                this.setState("settingsFilters", settingsFilters);
+            } else {
+                settingsFilters.push({
+                    id,
+                    mode,
+                    value,
+                });
+                this.setState("settingsFilters", settingsFilters);
+            }
+            await this.utils.waitForComponent(`filterModal_ht_${this.input.id}`);
+            this.getComponent(`filterModal_ht_${this.input.id}`).setActive(false);
+    }
+
+    onFilterButtonClick(button) {
+        switch (button) {
+        case "save":
+            this.saveFilter();
+            break;
+        }
+    }
+
+    async onSettingsFilterEditClick(e) {
+        e.preventDefault();
+        const {
+            id
+        } = e.target.closest("[data-id]").dataset;
+        const settingsFilter = this.state.settingsFilters.find(i => i.id === id);
+        const filterModal = this.getComponent(`filterModal_ht_${this.input.id}`);
+        filterModal.setActive(true).setCloseAllowed(false).setLoading(false);
+        this.setState("settingsFilterId", id);
+        this.setState("settingsFilterEditSelectedId", id);
+        this.setSettingsFilterModesState(this.state.columnData[id].type);
+        if (this.state.settingsFilterEditSelectedModes.length) {
+            this.setState("settingsFilterEditSelectedMode", settingsFilter.mode);
+        }
+        await this.settingsSetFilterData(settingsFilter.id);
+        this.settingsSetValue(id, settingsFilter.value);
+        document.getElementById(`filterModal_ht_${this.input.id}_select_id`).focus();
+    }
+
+    onSettingsFilterDeleteClick(e) {
+        e.preventDefault();
+        const {
+            id
+        } = e.target.closest("[data-id]").dataset;
+        const settingsFilters = this.state.settingsFilters.filter(i => i.id !== id);
+        this.setState("settingsFilters", settingsFilters);
+    }
+
+    onFilterEditFormSubmit(e) {
+        e.preventDefault();
+        this.saveFilter();
     }
 };

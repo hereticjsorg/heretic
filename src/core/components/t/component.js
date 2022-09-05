@@ -26,6 +26,6 @@ module.exports = class {
             t: i => id = id || i,
         });
         const data = process.browser ? window.__heretic.languageData : this.languageData;
-        return data[id] || id;
+        return this.input.arr && Array.isArray(data[id]) ? data[id][this.input.arr] : data[id] || id;
     }
 };

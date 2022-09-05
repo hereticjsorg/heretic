@@ -53,7 +53,7 @@
                 </if>
                 <for|i1| of=a.fields>
                     <if(Array.isArray(i1))>
-                        <div class="columns pt-0 pb-0 mt-0 mb-0 is-multiline is-variable is-2 mb-0">
+                        <div class="columns pt-0 pb-0 mt-0 mb-0 is-multiline mb-0 is-variable is-2">
                             <for|i2| of=i1>
                                 <div class=`column pt-0 pb-0 mt-0 mb-3 ${i2.css ? i2.css : ""}`>
                                     <fieldEdit key=`hr_hf_f_${i2.id}` formId=input.id on-button-click("onButtonClick") on-notify("onNotify") ...i2/>
@@ -63,7 +63,7 @@
                     </if>
                     <else>
                         <if(i1.type !== "column")>
-                            <div class="columns is-variable is-2 pt-0 pb-0 mt-0 mb-1">
+                            <div class="columns pt-0 pb-0 mt-0 mb-1 is-variable is-2">
                                 <div class="column pt-0 pb-0 mt-0 mb-2">
                                     <fieldEdit key=`hr_hf_f_${i1.id}` formId=input.id on-button-click("onButtonClick") on-notify("onNotify") ...i1/>
                                 </div>

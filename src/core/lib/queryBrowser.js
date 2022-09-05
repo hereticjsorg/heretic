@@ -1,5 +1,5 @@
 export default class {
-    constructor() {
+    buildStore() {
         const regex = /([^&=]+)=?([^&]*)/g;
         const input = window.location.search || window.location.hash || "";
         const query = input.substring(input.indexOf("?") + 1, input.length);
@@ -8,6 +8,10 @@ export default class {
         while (match = regex.exec(query)) {
             this.store[decodeURIComponent(match[1])] = decodeURIComponent(match[2]);
         }
+    }
+
+    constructor() {
+        this.buildStore();
     }
 
     get(id) {

@@ -1,0 +1,117 @@
+@import "../../../view/variables.scss";
+
+.hr-mc-dow {
+    background: $grey-light;
+}
+
+.hr-mc-cell {
+    width: 30px;
+    height: 30px;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 50%;
+    margin: 1px;
+}
+
+.hr-mc-cell-day {
+    cursor: pointer;
+}
+
+.hr-mc-cell-day-disabled {
+    opacity: 0.3;
+}
+
+.hr-mc-cell-day:hover {
+    border: 1px solid $primary;
+}
+
+.hr-mc-cell-day-side {
+    background: $grey-lightest;
+}
+
+.hr-mc-cell-day-today {
+    border: 1px dotted $grey;
+}
+
+.hr-mc-cell-day-selected {
+    background: $primary;
+    color: $white;
+}
+
+.hr-mc-cell-day-whitelist:not(.hr-mc-cell-day-selected) {
+    background: lighten($green, 40%);
+}
+
+.hr-mc-head-date {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 40px;
+    font-size: 90%;
+}
+
+.hr-mc-head-links {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 40px;
+}
+
+.hr-mc-cell-month,
+.hr-mc-cell-year {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 40px;
+    cursor: pointer;
+}
+
+.hr-mc-cell-year-now,
+.hr-mc-cell-month-now {
+    background: $primary;
+    color: $white;
+}
+
+.hr-mc-cell-year:hover:not(.hr-mc-cell-year-now),
+.hr-mc-cell-month:hover:not(.hr-mc-month-year-now) {
+    background: $grey-lightest;
+    color: $black;
+}
+
+.hr-mc-wrap-year {
+    max-height: 300px;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+.hr-mc-control {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 40px;
+    border-top: 1px solid $grey-lightest;
+    cursor: pointer;
+}
+
+.hr-mc-control:hover {
+    background: $white-bis;
+}
+
+.hr-mc-cell-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hr-mc-action-icon {
+    display: inline-flex;
+    align-self: center;
+}
+
+.hr-mc-action-icon svg {
+    height: 18px;
+    width: 18px;
+    top: 2px;
+    position: relative;
+}
