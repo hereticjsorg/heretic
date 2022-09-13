@@ -5,9 +5,11 @@ export default () => ({
     async handler(req, rep) {
         try {
             const signInForm = new SignInForm();
-            const formValidator = new FormValidator(signInForm.getValidationSchema(), signInForm.getFieldsFlat());
+            const formValidator = new FormValidator(signInForm.getValidationSchema(), signInForm.getFieldsFlat(), this);
             const multipartData = await req.processMultipart();
-            const data = formValidator.parseMultipartData(multipartData);
+            const {
+                data
+            } = formValidator.parseMultipartData(multipartData);
             const validationResult = formValidator.validate();
             if (validationResult) {
                 return rep.error({

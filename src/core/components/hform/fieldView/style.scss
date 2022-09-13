@@ -48,50 +48,11 @@
     min-width: 100px !important;
 }
 
-.hr-hf-error-wrap {
-    margin-top: -3px;
-}
-
-.hr-hf-error-wrap-captcha {
-    margin-top: -9px;
-}
-
-.hr-hf-error-tag {
-    border-top-left-radius: 0 !important;
-    border-top-right-radius: 0 !important;
-}
-
-.hr-hf-captcha-input {
-    width: 90px !important;
-    text-align: center;
-}
-
-.hr-hf-captcha-image {
-    border: 1px solid $grey-lighter;
-    width: 100px;
+.hr-hf-view-input {
+    padding: 7px 11px;
     height: 40px;
-    border-top-right-radius: $radius;
-    border-bottom-right-radius: $radius;
-    cursor: pointer;
-}
-
-.hr-hf-captcha-image-reload {
-    margin-top: 18px;
-    margin-left: -14px;
-    opacity: 0.6;
-    cursor: pointer;
-}
-
-.hr-hf-calendar-wrap {
-    border: 1px solid $grey-lightest;
-    width: 230px;
-    min-width: 230px;
-    position: absolute;
-    z-index: 1000;
-    background: $white;
-    box-shadow: -2px 4px 8px -5px rgba(34, 60, 80, 0.2);
-    margin-top: 1px;
-    border-radius: 4px;
+    border-radius: $radius;
+    background: $white-ter;
 }
 
 .hr-hf-date-input {

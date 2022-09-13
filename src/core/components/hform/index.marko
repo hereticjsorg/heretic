@@ -1,3 +1,5 @@
+import { mdiEyeOutline, mdiPencilOutline } from '@mdi/js'
+
 <div class="hr-hf-wrap">
     <if(state.errorMessage)>
         <div class="notification is-danger mt-3 mb-4">
@@ -5,6 +7,45 @@
             ${state.errorMessage}
         </div>
     </if>
+    <div class="columns p-0 m-0 is-variable is-1 mb-4">
+        <div class="column is-auto">
+            <if(state.title)>
+                <span class="title is-3 has-text-weight-light is-size-4 p-0 m-0">
+                    ${state.title}
+                </span>
+            </if>
+        </div>
+        <if(state.modeChangeAllowed)>
+            <div class="is-column is-narrow">
+                <div class="field has-addons">
+                    <p class="control">
+                        <button on-click("onModeChange") data-mode="edit" class=`button is-rounded is-small ${state.mode === "edit" ? "is-success" : "is-light"}`>
+                            <span class=`hr-hf-top-button-icon${state.mode === "edit" ? " hr-hf-top-button-active-icon" : ""}`>
+                                <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d=mdiPencilOutline/>
+                                </svg>
+                            </span>
+                            <span>
+                                <t>htable_mode_edit</t>
+                            </span>
+                        </button>
+                    </p>
+                    <p class="control">
+                        <button on-click("onModeChange") data-mode="view" class=`button is-rounded is-small ${state.mode === "view" ? "is-success" : "is-light"}`>
+                            <span class=`hr-hf-top-button-icon${state.mode === "view" ? " hr-hf-top-button-active-icon" : ""}`>
+                                <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d=mdiEyeOutline/>
+                                </svg>
+                            </span>
+                            <span>
+                                <t>htable_mode_view</t>
+                            </span>
+                        </button>
+                    </p>
+                </div>
+            </div>
+        </if>
+    </div>
     <form on-submit("onFormSubmit") class="hr-hf-form">
         <button
             type="submit"
@@ -56,7 +97,12 @@
                         <div class="columns pt-0 pb-0 mt-0 mb-0 is-multiline mb-0 is-variable is-2">
                             <for|i2| of=i1>
                                 <div class=`column pt-0 pb-0 mt-0 mb-3 ${i2.css ? i2.css : ""}`>
-                                    <fieldEdit key=`hr_hf_f_${i2.id}` formId=input.id on-button-click("onButtonClick") on-notify("onNotify") ...i2/>
+                                    <if(state.mode === "edit")>
+                                        <fieldEdit key=`hr_hf_f_${i2.id}_edit` formId=input.id on-button-click("onButtonClick") on-notify("onNotify") ...i2/>
+                                    </if>
+                                    <else>
+                                        <fieldView key=`hr_hf_f_${i2.id}_view` formId=input.id on-button-click("onButtonClick") ...i2/>
+                                    </else>
                                 </div>
                             </for>
                         </div>
@@ -65,7 +111,12 @@
                         <if(i1.type !== "column")>
                             <div class="columns pt-0 pb-0 mt-0 mb-1 is-variable is-2">
                                 <div class="column pt-0 pb-0 mt-0 mb-2">
-                                    <fieldEdit key=`hr_hf_f_${i1.id}` formId=input.id on-button-click("onButtonClick") on-notify("onNotify") ...i1/>
+                                    <if(state.mode === "edit")>
+                                        <fieldEdit key=`hr_hf_f_${i1.id}_edit` formId=input.id on-button-click("onButtonClick") on-notify("onNotify") ...i1/>
+                                    </if>
+                                    <else>
+                                        <fieldView key=`hr_hf_f_${i1.id}_view` formId=input.id on-button-click("onButtonClick") ...i1/> 
+                                    </else>
                                 </div>
                             </div>
                         </if>

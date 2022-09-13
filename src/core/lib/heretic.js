@@ -76,7 +76,9 @@ export default class {
         this.fastify.decorateRequest("validateTableList", requestDecorators.validateTableList);
         this.fastify.decorateRequest("validateDataLoad", requestDecorators.validateDataLoadGeneric);
         this.fastify.decorateRequest("validateDataDelete", requestDecorators.validateDataDeleteGeneric);
-        this.fastify.decorateRequest("generateSearchText", requestDecorators.generateSearchText);
+        this.fastify.decorateRequest("generateQuery", requestDecorators.generateQuery);
+        this.fastify.decorateRequest("processFormData", requestDecorators.processFormData);
+        this.fastify.decorateRequest("processDataList", requestDecorators.processDataList);
         this.fastify.decorateReply("success", replyDecorators.success);
         this.fastify.decorateReply("error", replyDecorators.error);
         this.fastify.addHook("preHandler", (request, reply, done) => {

@@ -2,18 +2,29 @@ const cloneDeep = require("lodash.clonedeep");
 const serializableTypes = require("./serializableTypes.json");
 const FormValidator = require("../../lib/formValidatorBrowser").default;
 const formValidatorUtils = require("../../lib/formValidatorUtils");
+const Query = require("../../lib/queryBrowser").default;
+const Utils = require("../../lib/componentUtils").default;
 
 module.exports = class {
     onCreate(input) {
+        let mode = "edit";
+        if (process.browser) {
+            const query = new Query();
+            const queryMode = query.get(`mode_${input.id}`);
+            mode = queryMode || mode;
+        }
         this.state = {
             loading: false,
             progress: false,
             tabs: input.data.getTabsStart ? input.data.getTabsStart() : input.data.getTabs ? input.data.getTabs().map(t => t.id) : ["_default"],
             activeTab: input.data.getTabs ? input.data.getTabs()[0].id : "_default",
             addTabDropdownActive: false,
+            modeChangeAllowed: input.data.isModeChangeAllowed && input.data.isModeChangeAllowed(),
             data: {},
             errors: {},
             errorMessage: null,
+            mode,
+            title: null,
         };
         this.fieldIds = [];
         this.sharedFieldIds = [];
@@ -68,7 +79,7 @@ module.exports = class {
         for (const k of Object.keys(this.fieldsFlat)) {
             const field = this.fieldsFlat[k];
             if (field.autoFocus) {
-                const component = this.getComponent(`hr_hf_f_${field.id}`);
+                const component = this.getComponent(`hr_hf_f_${field.id}_${this.state.mode}`);
                 if (component && component.focus) {
                     component.focus();
                 }
@@ -76,7 +87,9 @@ module.exports = class {
         }
     }
 
-    onMount() {
+    async onMount() {
+        this.query = new Query();
+        this.utils = new Utils(this);
         this.focus();
         this.setDefaultValues();
         window.addEventListener("click", e => {
@@ -87,12 +100,16 @@ module.exports = class {
         });
     }
 
+    setTitle(title) {
+        this.setState("title", title);
+    }
+
     serializeView() {
         const data = {};
         // Get data for each field
         for (const id of this.fieldIds) {
             if (serializableTypes.indexOf(this.fieldsFlat[id].type) > -1) {
-                const fieldComponent = this.getComponent(`hr_hf_f_${id}`);
+                const fieldComponent = this.getComponent(`hr_hf_f_${id}_${this.state.mode}`);
                 if (fieldComponent) {
                     data[id] = fieldComponent.getValue();
                 }
@@ -101,11 +118,12 @@ module.exports = class {
         return data;
     }
 
-    deserializeView(serialized) {
+    async deserializeView(serialized) {
         const data = {};
         for (const id of this.fieldIds) {
             if (serializableTypes.indexOf(this.fieldsFlat[id].type) > -1) {
-                const fieldComponent = this.getComponent(`hr_hf_f_${id}`);
+                await this.utils.waitForComponent(`hr_hf_f_${id}_${this.state.mode}`);
+                const fieldComponent = this.getComponent(`hr_hf_f_${id}_${this.state.mode}`);
                 if (fieldComponent) {
                     fieldComponent.setValue(typeof serialized[id] === "undefined" ? null : serialized[id]);
                 }
@@ -134,14 +152,14 @@ module.exports = class {
     }
 
     setValue(id, value) {
-        const fieldComponent = this.getComponent(`hr_hf_f_${id}`);
+        const fieldComponent = this.getComponent(`hr_hf_f_${id}_${this.state.mode}`);
         if (fieldComponent) {
             fieldComponent.setValue(value);
         }
     }
 
     getValue(id) {
-        const fieldComponent = this.getComponent(`hr_hf_f_${id}`);
+        const fieldComponent = this.getComponent(`hr_hf_f_${id}_${this.state.mode}`);
         if (fieldComponent) {
             return fieldComponent.getValue();
         }
@@ -160,7 +178,7 @@ module.exports = class {
                 this.setTab(item.tab);
                 tab = item.tab;
             }
-            const fieldComponent = this.getComponent(`hr_hf_f_${item.id}`);
+            const fieldComponent = this.getComponent(`hr_hf_f_${item.id}_${this.state.mode}`);
             if (fieldComponent) {
                 fieldComponent.setError(item.errorMessage);
                 if (!focused) {
@@ -174,7 +192,7 @@ module.exports = class {
 
     clearErrors() {
         for (const id of this.fieldIds) {
-            const fieldComponent = this.getComponent(`hr_hf_f_${id}`);
+            const fieldComponent = this.getComponent(`hr_hf_f_${id}_${this.state.mode}`);
             if (fieldComponent) {
                 fieldComponent.clearError();
             }
@@ -183,7 +201,7 @@ module.exports = class {
 
     setComponentsState(flag) {
         for (const id of this.fieldIds) {
-            const fieldComponent = this.getComponent(`hr_hf_f_${id}`);
+            const fieldComponent = this.getComponent(`hr_hf_f_${id}_${this.state.mode}`);
             if (fieldComponent) {
                 fieldComponent.setLoading(flag);
             }
@@ -281,7 +299,7 @@ module.exports = class {
         return data;
     }
 
-    deserializeData(data) {
+    async deserializeData(data) {
         let tabs = Object.keys(data).filter(i => !i.match(/^_/));
         if (!tabs.length) {
             tabs = ["_default"];
@@ -297,7 +315,7 @@ module.exports = class {
             }
             delete data._shared;
         }
-        this.deserializeView(data[activeTab]);
+        await this.deserializeView(data[activeTab]);
         this.focus();
     }
 
@@ -314,7 +332,7 @@ module.exports = class {
         return formData;
     }
 
-    onTabDeleteClick(e) {
+    async onTabDeleteClick(e) {
         e.preventDefault();
         e.stopPropagation();
         const {
@@ -331,7 +349,7 @@ module.exports = class {
             const activeTab = tabs[0];
             this.setState("activeTab", activeTab);
             if (data[activeTab]) {
-                this.deserializeView(data[activeTab]);
+                await this.deserializeView(data[activeTab]);
             } else {
                 this.clearValues();
                 this.setDefaultValues();
@@ -342,14 +360,14 @@ module.exports = class {
         this.clearErrors();
     }
 
-    setTab(id) {
+    async setTab(id) {
         const data = cloneDeep(this.state.data);
         data[this.state.activeTab] = this.serializeView();
         const prevTab = this.state.activeTab;
         this.copySharedFields(data, prevTab);
         this.setState("activeTab", id);
         if (data[id]) {
-            this.deserializeView(data[id]);
+            await this.deserializeView(data[id]);
         } else {
             this.clearValues();
             this.setDefaultValues();
@@ -394,5 +412,24 @@ module.exports = class {
 
     onNotify(data) {
         this.showNotification(data.message, data.css);
+    }
+
+    async switchMode(mode) {
+        if (mode === this.state.mode) {
+            return;
+        }
+        const data = this.serializeView();
+        this.setState("mode", mode);
+        await this.deserializeView(data);
+        this.focus();
+        this.query.set(`mode_${this.input.id}`, mode);
+    }
+
+    async onModeChange(e) {
+        e.preventDefault();
+        const {
+            mode
+        } = e.target.closest("[data-mode]").dataset;
+        this.switchMode(mode);
     }
 };

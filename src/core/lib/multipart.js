@@ -57,19 +57,19 @@ const fastifyMultipart = (fastify, options, done) => {
                 }
             };
             // onFile Handler
-            const onFile = async (fieldName, file, filename, encoding, mimeType) => {
+            const onFile = async (fieldName, file, fileData) => {
                 filesCount += 1;
                 const tempName = uuid();
                 try {
-                    const filePath = fastify.siteConfig.systemTempDir ? path.join(os.tmpdir(), tempName) : path.resolve(__dirname, "tmp", tempName);
+                    const filePath = fastify.siteConfig.directories.tmp ? path.resolve(__dirname, fastify.siteConfig.directories.tmp, tempName) : path.join(os.tmpdir(), tempName);
                     await saveFile(file, filePath);
                     const fileStat = await fs.stat(filePath);
                     multipartFiles[fieldName] = {
                         filePath,
-                        filename,
+                        filename: fileData.filename,
                         tempName,
-                        encoding,
-                        mimeType,
+                        encoding: fileData.encoding,
+                        mimeType: fileData.mimeType,
                         size: fileStat.size
                     };
                     filesProcessed += 1;

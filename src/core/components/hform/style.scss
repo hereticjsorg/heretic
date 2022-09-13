@@ -78,3 +78,25 @@
 .hr-hf-form {
     user-select: none;
 }
+
+.hr-hf-top-button-icon {
+    display: inline-flex;
+    align-self: center;
+}
+
+
+.hr-hf-top-button-icon svg {
+    height: 16px;
+    width: 16px;
+    margin-right: 5px;
+    top: 0px;
+    position: relative;
+}
+
+.hr-hf-top-button-icon svg>path {
+    fill: $grey-darker !important;
+}
+
+.hr-hf-top-button-active-icon svg>path {
+    fill: $white !important;
+}

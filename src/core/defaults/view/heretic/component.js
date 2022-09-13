@@ -1,4 +1,6 @@
 const cloneDeep = require("lodash.clonedeep");
+const tippy = require("tippy.js").default;
+const debounce = require("lodash.debounce");
 const i18nLoader = require("../../build/i18n-loader-core");
 const pagesLoader = require("../../build/module-loader");
 const Utils = require("../../core/lib/componentUtils").default;
@@ -42,9 +44,22 @@ module.exports = class {
         this.setGlobalVariables(out);
     }
 
+    setTippy() {
+        if (this.tippy && this.tippy.length) {
+            this.tippy.map(i => i.destroy());
+        }
+        this.tippy = tippy("[data-tippy-content]");
+    }
+
     async onMount() {
+        window.__heretic = window.__heretic || {};
+        window.__heretic.setTippy = debounce(this.setTippy, 100);
         await this.utils.waitForLanguageData();
         this.setState("mounted", true);
+    }
+
+    onUpdate() {
+        this.setTippyDebounced();
     }
 
     getAnimationTimer() {

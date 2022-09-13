@@ -3,15 +3,16 @@ const fs = require("fs-extra");
 
 module.exports = class {
     constructor(production) {
+        this.config = fs.readJSONSync(path.resolve(__dirname, "etc", "system.json"));
         fs.removeSync(path.resolve(__dirname, "dist/public/heretic"));
         fs.removeSync(path.resolve(__dirname, "dist/server.js"));
         fs.removeSync(path.resolve(__dirname, "src", "build"));
         fs.ensureDirSync(path.resolve(__dirname, "src", "build"));
         fs.ensureDirSync(path.resolve(__dirname, "logs"));
         fs.ensureDirSync(path.resolve(__dirname, "dist"));
-        fs.ensureDirSync(path.resolve(__dirname, "dist", "tmp"));
+        fs.ensureDirSync(path.resolve(__dirname, "dist", this.config.directories.tmp));
+        fs.ensureDirSync(path.resolve(__dirname, "dist", this.config.directories.files));
         this.languages = fs.readJSONSync(path.resolve(__dirname, "src", "config", "languages.json"));
-        this.config = fs.readJSONSync(path.resolve(__dirname, "etc", "system.json"));
         this.meta = fs.readJSONSync(path.resolve(__dirname, "etc", "meta.json"));
         this.production = production;
     }

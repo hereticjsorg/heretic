@@ -33,6 +33,52 @@
             "type": "integer",
             "minimum": 1,
             "default": 1
+        },
+        "filters": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "enabled": {
+                        "type": "boolean",
+                        "enum": [true]
+                    },
+                    "id": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 64,
+                        "pattern": "^[a-zA-Z0-9-_]+$"
+                    },
+                    "mode": {
+                        "type": "string",
+                        "enum": ["eq", "neq", "rex", "nrex", "oof", "nof", "deq", "dgt", "dgte", "dlt", "dlte"]
+                    },
+                    "value": {
+                        "oneOf": [{
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 512
+                        }, {
+                            "type": "integer",
+                            "minimum": 1
+                        }, {
+                            "type": "null"
+                        }, {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 64
+                            },
+                            "minItems": 1,
+                            "uniqueItems": true
+                        }]
+                    }
+                },
+                "required": ["enabled", "id", "mode"]
+            },
+            "minItems": 0,
+            "uniqueItems": true
         }
     },
     "required": ["fields"]

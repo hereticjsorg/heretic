@@ -1,4 +1,5 @@
-import { mdiReload, mdiMagnify, mdiCogOutline, mdiDrag, mdiPencilOutline, mdiTrashCanOutline, mdiInformation } from "@mdi/js"
+import { mdiReload, mdiMagnify, mdiCogOutline, mdiDrag, mdiPencilOutline, mdiTrashCanOutline, mdiFilterOutline } from "@mdi/js"
+import { format } from "date-fns"
 import SettingsPagesForm from "./settingsPagesForm"
 
 <div class="columns is-gapless m-0 p-0">
@@ -48,10 +49,10 @@ import SettingsPagesForm from "./settingsPagesForm"
                         </svg>
                     </span>
                     <t>htable_settingsButton</t>
-                    <if(state.filters.length)>
+                    <if(state.filtersEnabledCount)>
                         <span class="hr-ht-top-info-icon icon">
                             <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                                <path d=mdiInformation/>
+                                <path d=mdiFilterOutline/>
                             </svg>
                         </span>
                     </if>
@@ -82,7 +83,7 @@ import SettingsPagesForm from "./settingsPagesForm"
     <div class="hr-ht-scroll" id=`hr_ht_table_scroll_${input.id}`/>
 </div>
 <div class="hr-ht-wrap" id=`hr_ht_wrap_${input.id}`>
-    <div class="table-container hr-ht-table-container" id=`hr_ht_table_container_${input.id}`>
+    <div class="table-container hr-ht-table-container mb-0" id=`hr_ht_table_container_${input.id}`>
         <table id=`hr_ht_table_${input.id}` class="hr-ht-table table is-bordered is-striped is-hoverable is-fullwidth" on-mousemove("onColumnMove")>
             <thead class="hr-ht-thead">
                 <tr class="hr-ht-thead-tr">
@@ -179,9 +180,9 @@ import SettingsPagesForm from "./settingsPagesForm"
                                 </if>
                             </div>
                         </td>
-                        <if(state.actionColumn)>
+                        <!-- <if(state.actionColumn)>
                             <td class=`hr-ht-td is-narrow p-0 m-0 hr-ht-action-cell-wrap hr-ht-action-cell-wrap-${input.id}` id=`hr_ht_action_cell_wrap_${input.id}_0` data-index=0/>
-                        </if>
+                        </if> -->
                     </tr>
                 </else>
             </tbody>
@@ -201,6 +202,7 @@ import SettingsPagesForm from "./settingsPagesForm"
                         <for|item, index| of=state.actions>
                             <button
                                 data-id=item.id
+                                data-tippy-content=(process.browser && window.__heretic ? window.__heretic.t(item.label) : null)
                                 data-item=row._id
                                 on-click("onActionButtonClick")
                                 class=`button is-small hr-ht-action-button ${item.danger ? "is-danger" : "is-light"}`
@@ -300,10 +302,10 @@ import SettingsPagesForm from "./settingsPagesForm"
                             </if>
                             <if(i === "filter")>
                                 <t>htable_settingsFilter</t>
-                                <if(state.filters.length)>
+                                <if(state.filtersEnabledCount)>
                                     <span class="hr-ht-top-info-icon icon">
                                         <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                                            <path d=mdiInformation/>
+                                            <path d=mdiFilterOutline/>
                                         </svg>
                                     </span>
                                 </if>
@@ -372,41 +374,50 @@ import SettingsPagesForm from "./settingsPagesForm"
                 clip: state.settingsTab === "filter" ? "unset" : "rect(0 0 0 0)"
             }>
                 <div class="buttons mb-0">
-                    <button class="button is-light is-small" on-click("settingsNewFilter")>
+                    <button class="button is-light is-small mb-0" on-click("settingsNewFilter")>
                         <t>htable_filterNew</t>
                     </button>
                 </div>
                 <if(state.settingsFilters.length)>
-                    <for|item| of=state.settingsFilters>
-                        <div class="hr-ht-settings-filters-row columns is-vcentered is-mobile is-gapless p-1 m-0" data-id=item.id>
-                            <div class="column is-auto">
-                                ${state.columnData[item.id].label} &nbsp;
-                                <span class="tag is-dark mr-2">${window.__heretic.t(item.mode)}</span>
-                                <if(Array.isArray(item.value))>
-                                    <for|ai| of=item.value>
-                                        <span class="tag is-info">${state.columnData[item.id].options.find(i => i.value === ai).label}</span> 
-                                    </for>
-                                </if>
-                                <else>${item.value}</else>
+                    <div class="mt-3">
+                        <for|item| of=state.settingsFilters>
+                            <div class="hr-ht-settings-filters-row columns is-vcentered is-mobile is-gapless p-1 m-0" data-uid=item.uid>
+                                <div class="column is-narrow mr-2">
+                                    <input type="checkbox" data-uid=item.uid class="hr-hr-settings-switch switch" checked=state.settingsFilters.find(i => i.uid === item.uid).enabled on-change("settingsFilterCheckboxChange")/>
+                                </div>
+                                <div class="column is-auto">
+                                    <span class="tag is-white mr-1">${state.columnData[item.id].label}</span>
+                                    <span class="tag is-dark mr-1">${window.__heretic.t(item.mode)}</span>
+                                    <if(state.columnData[item.id].type === "select" && item.value !== null)>
+                                        <for|ai| of=item.value>
+                                            <span class="tag is-white">${state.columnData[item.id].options.find(i => i.value === ai).label}</span> 
+                                        </for>
+                                    </if>
+                                    <if(state.columnData[item.id].type === "date" && item.value !== null)>
+                                        <span class="tag is-white">${format(new Date(item.value * 1000), window.__heretic.t("global.dateFormatShort"))}</span>
+                                    </if>
+                                    <if(state.columnData[item.id].type === "text" && item.value !== null)><span class="tag is-white">${item.value}</span></if>
+                                    <if(item.value === null)><span class="tag is-primary">null</span></if>
+                                </div>
+                                <div class="column is-narrow">
+                                    <button class="mr-1 button is-small hr-ht-action-button is-light" on-click("onSettingsFilterEditClick") data-tippy-content=(process.browser && window.__heretic ? window.__heretic.t("htable_edit") : null)>
+                                        <span class="hr-ht-settings-icon icon">
+                                            <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d=mdiPencilOutline/>
+                                            </svg>
+                                        </span>
+                                    </button>
+                                    <button class="button is-small hr-ht-action-button is-danger" on-click("onSettingsFilterDeleteClick") data-tippy-content=(process.browser && window.__heretic ? window.__heretic.t("htable_delete") : null)>
+                                        <span class="hr-ht-settings-icon hr-ht-action-icon-danger icon">
+                                            <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d=mdiTrashCanOutline/>
+                                            </svg>
+                                        </span>
+                                    </button> 
+                                </div>
                             </div>
-                            <div class="column is-narrow">
-                                <button class="mr-1 button is-small hr-ht-action-button is-light" on-click("onSettingsFilterEditClick")>
-                                    <span class="hr-ht-settings-icon icon">
-                                        <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                                            <path d=mdiPencilOutline/>
-                                        </svg>
-                                    </span>
-                                </button>
-                                <button class="button is-small hr-ht-action-button is-danger" on-click("onSettingsFilterDeleteClick")>
-                                    <span class="hr-ht-settings-icon hr-ht-action-icon-danger icon">
-                                        <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                                            <path d=mdiTrashCanOutline/>
-                                        </svg>
-                                    </span>
-                                </button> 
-                            </div>
-                        </div>
-                    </for>
+                        </for>
+                    </div>
                 </if>
             </div>
         </div>
@@ -442,7 +453,7 @@ import SettingsPagesForm from "./settingsPagesForm"
             <div class="select is-fullwidth">
                 <select on-change("onSettingsFilterEditSelectedChange") id=`filterModal_ht_${input.id}_select_id`>
                     <for|item| of=Object.keys(state.columnData)>
-                        <if(["text", "select"].indexOf(state.columnData[item].type) > -1)>
+                        <if(state.settingsFilterTypes.indexOf(state.columnData[item].type) > -1)>
                             <option value=item selected=(state.settingsFilterEditSelectedId === item)>${state.columnData[item].label}</option>
                         </if>
                     </for>
@@ -464,6 +475,11 @@ import SettingsPagesForm from "./settingsPagesForm"
                 <if(state.columnData[state.settingsFilterEditSelectedId].type === "select")>
                     <div class="mt-2">
                         <hselect key=`filterModal_ht_${input.id}_hselect`/>
+                    </div>
+                </if>
+                <if(state.columnData[state.settingsFilterEditSelectedId].type === "date")>
+                    <div class="mt-2">
+                        <hcalendar key=`filterModal_ht_${input.id}_hcalendar`/>
                     </div>
                 </if>
             </if>

@@ -1,0 +1,105 @@
+import { mdiReload } from '@mdi/js'
+import { format } from "date-fns"
+
+<!-- Text Field: Start -->
+<if(input.type === "text")>
+    <div>
+        <div class="field">
+            <label class="label hr-hf-label">
+                ${input.label || ""}<span>:</span>
+                <if(input.mandatory)>
+                    &nbsp;<span class="hr-hf-label-mandatory">✱</span>
+                </if>
+            </label>
+            <div class="hr-hf-view-input">${state.value}</div>
+            <if(input.helpText)>
+                <p class="help">${input.helpText}</p>
+            </if>
+        </div>
+    </div>
+</if>
+<!-- Text Field: End -->
+<!-- Buttons: Start -->
+<if(input.type === "buttons")>
+    <div class=`buttons ${input.css || ""}`>
+        <for|item| of=input.items>
+            <if(item.showInViewMode)>
+                <button id=`hr_hf_el_${input.formId}_${input.id}_${item.id}` class=(item.css || "") type=item.type data-type=item.type data-id=item.id on-click("onButtonClick")>${item.label}</button>
+            </if>
+        </for>
+    </div>
+</if>
+<!-- Buttons: End -->
+<!-- Select: Start -->
+<if(input.type === "select")>
+    <div>
+        <div class="field">
+            <label class="label hr-hf-label">
+                ${input.label || ""}<span>:</span>
+                <if(input.mandatory)>
+                    &nbsp;<span class="hr-hf-label-mandatory">✱</span>
+                </if>
+            </label>
+            <div class="control">
+                <div class="hr-hf-view-input">
+                    <for|o| of=input.options>${o.value === state.value ? o.label : ""}</for>
+                </div>
+            </div>
+            <if(input.helpText)>
+                <p class="help">${input.helpText}</p>
+            </if>
+        </div>
+    </div>
+</if>
+<!-- Select: End -->
+<!-- Files: Start -->
+<if(input.type === "files")>
+    <div>
+        <div class="field">
+            <label class="label hr-hf-label">
+                ${input.label || ""}<span>:</span>
+                <if(input.mandatory)>
+                    &nbsp;<span class="hr-hf-label-mandatory">✱</span>
+                </if>
+            </label>
+            <if(state.value && state.value.length)>
+                <div class="mt-2">
+                    <for|f| of=state.value>
+                        <div>
+                            <if(f.url)>
+                                <a href=f.url target="_blank">${f.name}</a>
+                            </if>
+                            <else>${f.name}</else>
+                        </div>
+                    </for>
+                </div>
+            </if>
+            <if(input.helpText)>
+                <p class="help">${input.helpText}</p>
+            </if>
+        </div>
+    </div>
+</if>
+<!-- Files: End -->
+<!-- Captcha Field: Start -->
+<!-- Captcha Field: End -->
+<!-- Date Picker Field: Start -->
+<if(input.type === "date")>
+    <div>
+        <div class="field">
+            <label class="label hr-hf-label">
+                ${input.label || ""}<span>:</span>
+                <if(input.mandatory)>
+                    &nbsp;<span class="hr-hf-label-mandatory">✱</span>
+                </if>
+            </label>
+            <div class="control" id=`hr_hf_el_${input.formId}_${input.id}_input_wrap`>
+                <div class="hr-hf-view-input hr-hf-date-input">${state.value ? format(new Date(state.value * 1000), window.__heretic.t("global.dateFormatShort")) : ""}</div>
+            </div>
+            <if(input.helpText)>
+                <p class="help">${input.helpText}</p>
+            </if>
+        </div>
+    </div>
+</if>
+<!-- Date Picker Field: End -->

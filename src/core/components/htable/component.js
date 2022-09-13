@@ -2,6 +2,9 @@ const store = require("store2");
 const axios = require("axios");
 const cloneDeep = require("lodash.clonedeep");
 const debounce = require("lodash.debounce");
+const {
+    v4: uuidv4
+} = require("uuid");
 const Utils = require("../../lib/componentUtils").default;
 const Query = require("../../lib/queryBrowser").default;
 
@@ -24,6 +27,7 @@ module.exports = class {
             totalPages: 1,
             itemsPerPage: 30,
             filters: [],
+            filtersEnabledCount: 0,
             pagination: [],
             checkboxes: [],
             checkboxesAll: false,
@@ -34,8 +38,9 @@ module.exports = class {
             settingsColumns: [],
             settingColumnDrag: null,
             settingsItemsPerPage: 30,
+            settingsFilterTypes: ["text", "select", "date"],
             settingsFilters: [],
-            settingsFilterId: null,
+            settingsFilterUID: null,
             settingsFilterEditSelectedModes: [],
             settingsFilterEditSelectedId: null,
             settingsFilterEditSelectedMode: null,
@@ -64,6 +69,7 @@ module.exports = class {
         const actionCellControl = document.getElementById(`hr_ht_action_cell_control_${this.input.id}`);
         const elementLoading = document.getElementById(`hr_ht_loading_${this.input.id}`);
         const elementLoadingWrap = document.getElementById(`hr_ht_loading_wrap_${this.input.id}`);
+        const elementHeaderActions = document.getElementById(`hr_ht_header_actions_${this.input.id}`);
         return {
             elementWrap,
             elementTableControls,
@@ -79,6 +85,7 @@ module.exports = class {
             actionCells,
             elementLoading,
             elementLoadingWrap,
+            elementHeaderActions,
         };
     }
 
@@ -292,6 +299,7 @@ module.exports = class {
         this.loadDataDebounced = debounce(this.loadData, 500);
         this.setTableDimensionsDebounced = debounce(this.setTableDimensions, 10);
         this.setState("filters", this.store.get("filters") || []);
+        this.setState("filtersEnabledCount", this.state.filters.reduce((a, c) => a += c.enabled ? 1 : 0, 0));
         if (this.store.get("itemsPerPage")) {
             this.setState("itemsPerPage", parseInt(this.store.get("itemsPerPage"), 10));
         }
@@ -450,6 +458,11 @@ module.exports = class {
             }
             setTimeout(async () => {
                 await this.setLoading(true);
+                await this.utils.waitForElement(`hr_ht_table_controls_${this.input.id}`);
+                const {
+                    elementTableControls,
+                } = this.getElements();
+                elementTableControls.style.display = "block";
                 try {
                     const {
                         table,
@@ -467,6 +480,7 @@ module.exports = class {
                             sortDirection: input.sortDirection || this.state.sortDirection,
                             itemsPerPage: this.state.itemsPerPage,
                             page: input.currentPage || this.state.currentPage,
+                            filters: this.state.filters.filter(i => i.enabled),
                         },
                         headers: this.input.headers || {},
                     });
@@ -484,7 +498,12 @@ module.exports = class {
                     this.generatePagination();
                     this.setTableDimensions();
                     this.needToUpdateTableWidth = true;
+                    if (!response.data.items.length) {
+                        elementTableControls.style.display = "none";
+                    }
                 } catch (e) {
+                    await this.utils.waitForElement(`hr_ht_table_controls_${this.input.id}`);
+                    elementTableControls.style.display = "none";
                     if (e && e.response && e.response.status === 403) {
                         this.emit("unauthorized");
                         resolve();
@@ -505,6 +524,7 @@ module.exports = class {
             this.needToUpdateTableWidth = false;
             this.setTableDimensionsDebounced();
         }
+        window.__heretic.setTippy();
     }
 
     generatePagination() {
@@ -621,7 +641,7 @@ module.exports = class {
         case "delete":
             await this.utils.waitForComponent(`deleteConfirmation_ht_${this.input.id}`);
             const deleteConfirmation = this.getComponent(`deleteConfirmation_ht_${this.input.id}`);
-            deleteConfirmation.setCloseAllowed(false).setLoading(true);
+            deleteConfirmation.setCloseAllowed(true).setLoading(true);
             try {
                 const deleteResult = await axios({
                     method: "post",
@@ -670,8 +690,12 @@ module.exports = class {
         this.setState("settingsColumns", cloneDeep(this.state.columns));
         this.setState("settingsTab", "columns");
         this.setState("settingsItemsPerPage", this.state.itemsPerPage);
-        this.setState("settingsFilters", cloneDeep(this.state.filters));
-        settingsModal.setActive(true).setCloseAllowed(true).setLoading(false);
+        const settingsFilter = cloneDeep(this.state.filters).map(i => ({
+            ...i,
+            uid: uuidv4()
+        }));
+        this.setState("settingsFilters", settingsFilter);
+        settingsModal.setActive(true).setCloseAllowed(true).setBackgroundCloseAllowed(false).setLoading(false);
         await this.utils.waitForComponent(`settingsPagesForm_${this.input.id}`);
         const settingsPagesForm = this.getComponent(`settingsPagesForm_${this.input.id}`);
         settingsPagesForm.deserializeData({
@@ -709,10 +733,17 @@ module.exports = class {
             this.store.set("itemsPerPage", parseInt(pagesFormData.formTabs._default.itemsPerPage, 10));
         }
         this.setState("itemsPerPage", pagesFormData.formTabs._default.itemsPerPage);
-        this.setState("filters", cloneDeep(this.state.settingsFilters));
+        const filters = cloneDeep(this.state.settingsFilters).map(item => ({
+            enabled: item.enabled,
+            id: item.id,
+            mode: item.mode,
+            value: item.value,
+        }));
+        this.setState("filters", filters);
         this.store.set("filters", this.state.settingsFilters);
+        this.setState("filtersEnabledCount", this.state.filters.reduce((a, c) => a += c.enabled ? 1 : 0, 0));
         // Close modal
-        settingsModal.setActive(false).setCloseAllowed(false).setLoading(false);
+        settingsModal.setActive(false).setCloseAllowed(true).setBackgroundCloseAllowed(false).setLoading(false);
         this.resetColumnWidths();
         this.loadData(loadInput);
     }
@@ -824,7 +855,7 @@ module.exports = class {
 
     getFirstFilterableColumn() {
         for (const item of Object.keys(this.state.columnData)) {
-            if (["text", "select"].indexOf(this.state.columnData[item].type) > -1) {
+            if (this.state.settingsFilterTypes.indexOf(this.state.columnData[item].type) > -1) {
                 return item;
             }
         }
@@ -835,10 +866,13 @@ module.exports = class {
         let modes;
         switch (type) {
         case "text":
-            modes = ["equals", "notEquals", "isLike", "isNotLike"];
+            modes = ["eq", "neq", "rex", "nrex"];
             break;
         case "select":
-            modes = ["oneOf", "noneOf"];
+            modes = ["oof", "nof"];
+            break;
+        case "date":
+            modes = ["deq", "dgt", "dgte", "dlt", "dlte"];
             break;
         default:
             modes = [];
@@ -864,6 +898,10 @@ module.exports = class {
             await this.utils.waitForComponent(`filterModal_ht_${this.input.id}_hselect`);
             this.getComponent(`filterModal_ht_${this.input.id}_hselect`).setSelected(value);
             break;
+        case "date":
+            await this.utils.waitForComponent(`filterModal_ht_${this.input.id}_hcalendar`);
+            this.getComponent(`filterModal_ht_${this.input.id}_hcalendar`).setTimestamp(value ? value * 1000 : new Date().getTime());
+            break;
         default:
             this.setState("settingsFilterEditSelectedValue", value);
         }
@@ -873,8 +911,8 @@ module.exports = class {
         e.preventDefault();
         await this.utils.waitForComponent(`filterModal_ht_${this.input.id}`);
         const filterModal = this.getComponent(`filterModal_ht_${this.input.id}`);
-        this.setState("settingsFilterId", null);
-        filterModal.setActive(true).setCloseAllowed(false).setLoading(false);
+        this.setState("settingsFilterUID", null);
+        filterModal.setActive(true).setCloseAllowed(true).setBackgroundCloseAllowed(false).setLoading(false);
         const firstColumn = this.getFirstFilterableColumn();
         this.setState("settingsFilterEditSelectedId", firstColumn);
         this.setState("settingsFilterEditSelectedValue", null);
@@ -884,6 +922,7 @@ module.exports = class {
         }
         await this.utils.waitForElement(`filterModal_ht_${this.input.id}_body`);
         await this.settingsSetFilterData(firstColumn);
+        await this.utils.waitForElement(`filterModal_ht_${this.input.id}_select_id`);
         document.getElementById(`filterModal_ht_${this.input.id}_select_id`).focus();
     }
 
@@ -910,35 +949,42 @@ module.exports = class {
 
     async saveFilter() {
         const id = this.state.settingsFilterEditSelectedId;
-            const mode = this.state.settingsFilterEditSelectedMode;
-            let value;
-            switch (this.state.columnData[id].type) {
-            case "select":
-                await this.utils.waitForComponent(`filterModal_ht_${this.input.id}_hselect`);
-                value = this.getComponent(`filterModal_ht_${this.input.id}_hselect`).getSelected();
-                break;
-            default:
-                value = this.state.settingsFilterEditSelectedValue;
-            }
-            const settingsFilters = cloneDeep(this.state.settingsFilters);
-            if (this.state.settingsFilterId) {
-                for (const filter of settingsFilters) {
-                    if (filter.id === id) {
-                        filter.mode = mode;
-                        filter.value = value;
-                    }
+        const mode = this.state.settingsFilterEditSelectedMode;
+        let value;
+        switch (this.state.columnData[id].type) {
+        case "select":
+            await this.utils.waitForComponent(`filterModal_ht_${this.input.id}_hselect`);
+            value = this.getComponent(`filterModal_ht_${this.input.id}_hselect`).getSelected();
+            break;
+        case "date":
+            await this.utils.waitForComponent(`filterModal_ht_${this.input.id}_hcalendar`);
+            value = this.getComponent(`filterModal_ht_${this.input.id}_hcalendar`).getTimestamp();
+            break;
+        default:
+            value = this.state.settingsFilterEditSelectedValue;
+        }
+        const settingsFilters = cloneDeep(this.state.settingsFilters);
+        if (this.state.settingsFilterUID) {
+            for (const filter of settingsFilters) {
+                if (filter.uid === this.state.settingsFilterUID) {
+                    filter.id = id;
+                    filter.mode = mode;
+                    filter.value = value;
                 }
-                this.setState("settingsFilters", settingsFilters);
-            } else {
-                settingsFilters.push({
-                    id,
-                    mode,
-                    value,
-                });
-                this.setState("settingsFilters", settingsFilters);
             }
-            await this.utils.waitForComponent(`filterModal_ht_${this.input.id}`);
-            this.getComponent(`filterModal_ht_${this.input.id}`).setActive(false);
+            this.setState("settingsFilters", settingsFilters);
+        } else {
+            settingsFilters.push({
+                enabled: true,
+                uid: uuidv4(),
+                id,
+                mode,
+                value,
+            });
+            this.setState("settingsFilters", settingsFilters);
+        }
+        await this.utils.waitForComponent(`filterModal_ht_${this.input.id}`);
+        this.getComponent(`filterModal_ht_${this.input.id}`).setActive(false);
     }
 
     onFilterButtonClick(button) {
@@ -952,33 +998,45 @@ module.exports = class {
     async onSettingsFilterEditClick(e) {
         e.preventDefault();
         const {
-            id
-        } = e.target.closest("[data-id]").dataset;
-        const settingsFilter = this.state.settingsFilters.find(i => i.id === id);
+            uid,
+        } = e.target.closest("[data-uid]").dataset;
+        const settingsFilter = this.state.settingsFilters.find(i => i.uid === uid);
         const filterModal = this.getComponent(`filterModal_ht_${this.input.id}`);
-        filterModal.setActive(true).setCloseAllowed(false).setLoading(false);
-        this.setState("settingsFilterId", id);
-        this.setState("settingsFilterEditSelectedId", id);
-        this.setSettingsFilterModesState(this.state.columnData[id].type);
+        filterModal.setActive(true).setCloseAllowed(true).setBackgroundCloseAllowed(false).setLoading(false);
+        this.setState("settingsFilterUID", uid);
+        this.setState("settingsFilterEditSelectedId", settingsFilter.id);
+        this.setSettingsFilterModesState(this.state.columnData[settingsFilter.id].type);
         if (this.state.settingsFilterEditSelectedModes.length) {
             this.setState("settingsFilterEditSelectedMode", settingsFilter.mode);
         }
         await this.settingsSetFilterData(settingsFilter.id);
-        this.settingsSetValue(id, settingsFilter.value);
+        this.settingsSetValue(settingsFilter.id, settingsFilter.value);
+        await this.utils.waitForElement(`filterModal_ht_${this.input.id}_select_id`);
         document.getElementById(`filterModal_ht_${this.input.id}_select_id`).focus();
     }
 
     onSettingsFilterDeleteClick(e) {
         e.preventDefault();
         const {
-            id
-        } = e.target.closest("[data-id]").dataset;
-        const settingsFilters = this.state.settingsFilters.filter(i => i.id !== id);
+            uid
+        } = e.target.closest("[data-uid]").dataset;
+        const settingsFilters = this.state.settingsFilters.filter(i => i.uid !== uid);
         this.setState("settingsFilters", settingsFilters);
     }
 
     onFilterEditFormSubmit(e) {
         e.preventDefault();
         this.saveFilter();
+    }
+
+    settingsFilterCheckboxChange(e) {
+        const {
+            uid
+        } = e.target.closest("[data-uid]").dataset;
+        const settingsFilters = cloneDeep(this.state.settingsFilters).map(item => ({
+            ...item,
+            enabled: item.uid === uid ? e.target.checked : item.enabled,
+        }));
+        this.setState("settingsFilters", settingsFilters);
     }
 };

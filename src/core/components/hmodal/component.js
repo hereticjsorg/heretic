@@ -3,8 +3,20 @@ module.exports = class {
         this.state = {
             active: input.active,
             closeAllowed: true,
+            closeBackgroundAllowed: true,
             loading: false,
         };
+    }
+
+    onKeyDown(e) {
+        if (e.key === "Escape" && this.state.active && this.state.closeAllowed) {
+            e.preventDefault();
+            this.setState("active", false);
+        }
+    }
+
+    onMount() {
+        window.addEventListener("keydown", this.onKeyDown.bind(this));
     }
 
     setActive(flag) {
@@ -14,6 +26,11 @@ module.exports = class {
 
     setCloseAllowed(flag) {
         this.setState("closeAllowed", flag);
+        return this;
+    }
+
+    setBackgroundCloseAllowed(flag) {
+        this.setState("closeBackgroundAllowed", flag);
         return this;
     }
 
@@ -27,6 +44,13 @@ module.exports = class {
         if (this.state.closeAllowed) {
             this.setActive(false);
             this.emit("close");
+        }
+    }
+
+    onBackgroundClick(e) {
+        e.preventDefault();
+        if (this.state.closeBackgroundAllowed) {
+            this.onClose(e);
         }
     }
 

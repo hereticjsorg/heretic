@@ -54,9 +54,14 @@
             "retry-after": true
         }
     },
-    "systemTempDir": true,
+    "directories": {
+        "tmp": null,
+        "files": "files"
+    },
     "collections": {
-        "users": "users"
+        "users": "users",
+        "files": "files",
+        "counters": "counters"
     },
     "routes": {
         "admin": "/admin",

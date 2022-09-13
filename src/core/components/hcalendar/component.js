@@ -2,11 +2,9 @@ const {
     addDays,
     startOfWeek,
     format,
-    // parse,
     getDay,
     isBefore,
 } = require("date-fns");
-// const cloneDeep = require("lodash.clonedeep");
 
 module.exports = class {
     onCreate(input) {
@@ -76,13 +74,17 @@ module.exports = class {
         this.setCalendarData();
     }
 
-    emitTimestamp() {
+    getTimestamp() {
         const {
             d,
             m,
             y
         } = this.state.selected;
-        d ? this.emit("date-change", new Date(y, m, d).getTime() / 1000) : this.emit("date-change", null);
+        return d ? new Date(y, m, d).getTime() / 1000 : null;
+    }
+
+    emitTimestamp() {
+        this.emit("date-change", this.getTimestamp());
     }
 
     onCalendarCellClick(e) {

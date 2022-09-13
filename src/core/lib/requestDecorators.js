@@ -1,4 +1,8 @@
 import Ajv from "ajv";
+import {
+    startOfDay,
+    endOfDay
+} from "date-fns";
 import listValidationSchema from "./listGenericValidationSchema.json";
 import loadGenericValidationSchema from "./loadGenericValidationSchema.json";
 import deleteGenericValidationSchema from "./deleteGenericValidationSchema.json";
@@ -41,9 +45,11 @@ export default {
     validateDataDeleteGeneric: function () {
         return !!deleteLoadGenericSchema(this.body);
     },
-    generateSearchText: function (formData, query = {
-        $or: [],
-    }) {
+    generateQuery: function (formData) {
+        const query = {
+            $or: [],
+            $and: [],
+        };
         if (this.body.searchText && this.body.searchText.length > 1) {
             for (const k of Object.keys(formData.getFieldsFlat())) {
                 const field = formData.getFieldsFlat()[k];
@@ -68,6 +74,194 @@ export default {
                 }
             }
         }
+        if (this.body.filters && Array.isArray(this.body.filters)) {
+            for (const filter of this.body.filters) {
+                const queryItem = {};
+                switch (filter.mode) {
+                case "eq":
+                    queryItem[filter.id] = {
+                        $eq: filter.value,
+                    };
+                    break;
+                case "neq":
+                    queryItem[filter.id] = {
+                        $ne: filter.value,
+                    };
+                    break;
+                case "rex":
+                    if (filter.value.length > 1) {
+                        queryItem[filter.id] = {
+                            $regex: `(.*)?${filter.value}(.*)?`,
+                            $options: "i",
+                        };
+                    }
+                    break;
+                case "nrex":
+                    if (filter.value.length > 1) {
+                        queryItem[filter.id] = {
+                            $not: {
+                                $regex: `(.*)?${filter.value}(.*)?`,
+                                $options: "i",
+                            }
+                        };
+                    }
+                    break;
+                case "oof":
+                    if (Array.isArray(filter.value)) {
+                        queryItem.$or = queryItem.$or || [];
+                        for (const item of filter.value) {
+                            const qi = {};
+                            qi[filter.id] = item;
+                            queryItem.$or.push(qi);
+                        }
+                    }
+                    break;
+                case "nof":
+                    if (Array.isArray(filter.value)) {
+                        for (const item of filter.value) {
+                            const qi = {};
+                            qi[filter.id] = {
+                                $ne: item,
+                            };
+                            query.$and.push(qi);
+                        }
+                    }
+                    break;
+                case "deq":
+                    if (filter.value) {
+                        const deqDate = new Date(filter.value * 1000);
+                        const deqDateStart = startOfDay(deqDate);
+                        const deqDateEnd = endOfDay(deqDate);
+                        const deqDateStartQuery = {};
+                        deqDateStartQuery[filter.id] = {
+                            $gte: deqDateStart,
+                        };
+                        const deqDateEndQuery = {};
+                        deqDateEndQuery[filter.id] = {
+                            $lte: deqDateEnd,
+                        };
+                        query.$and.push(deqDateStartQuery);
+                        query.$and.push(deqDateEndQuery);
+                    } else {
+                        const deqDateNullQuery = {};
+                        deqDateNullQuery[filter.id] = {
+                            $eq: null,
+                        };
+                        query.$and.push(deqDateNullQuery);
+                    }
+                    break;
+                case "dlt":
+                    if (filter.value) {
+                        const dltDate = new Date(filter.value * 1000);
+                        const dltDateStart = startOfDay(dltDate);
+                        const dltDateStartQuery = {};
+                        dltDateStartQuery[filter.id] = {
+                            $lt: dltDateStart,
+                        };
+                        query.$and.push(dltDateStartQuery);
+                    } else {
+                        const dltDateNullQuery = {};
+                        dltDateNullQuery[filter.id] = {
+                            $eq: null,
+                        };
+                        query.$and.push(dltDateNullQuery);
+                    }
+                    break;
+                case "dlte":
+                    if (filter.value) {
+                        const dlteDate = new Date(filter.value * 1000);
+                        const dlteDateStart = endOfDay(dlteDate);
+                        const dlteDateStartQuery = {};
+                        dlteDateStartQuery[filter.id] = {
+                            $lte: dlteDateStart,
+                        };
+                        query.$and.push(dlteDateStartQuery);
+                    } else {
+                        const dlteDateNullQuery = {};
+                        dlteDateNullQuery[filter.id] = {
+                            $eq: null,
+                        };
+                        query.$and.push(dlteDateNullQuery);
+                    }
+                    break;
+                case "dgt":
+                    if (filter.value) {
+                        const dgtDate = new Date(filter.value * 1000);
+                        const dgtDateStart = endOfDay(dgtDate);
+                        const dgtDateStartQuery = {};
+                        dgtDateStartQuery[filter.id] = {
+                            $gt: dgtDateStart,
+                        };
+                        query.$and.push(dgtDateStartQuery);
+                    } else {
+                        const dgtDateNullQuery = {};
+                        dgtDateNullQuery[filter.id] = {
+                            $eq: null,
+                        };
+                        query.$and.push(dgtDateNullQuery);
+                    }
+                    break;
+                case "dgte":
+                    if (filter.value) {
+                        const dgteDate = new Date(filter.value * 1000);
+                        const dgteDateStart = startOfDay(dgteDate);
+                        const dgteDateStartQuery = {};
+                        dgteDateStartQuery[filter.id] = {
+                            $gte: dgteDateStart,
+                        };
+                        query.$and.push(dgteDateStartQuery);
+                    } else {
+                        const dgteDateNullQuery = {};
+                        dgteDateNullQuery[filter.id] = {
+                            $eq: null,
+                        };
+                        query.$and.push(dgteDateNullQuery);
+                    }
+                    break;
+                }
+                if (Object.keys(queryItem).length) {
+                    query.$and.push(queryItem);
+                }
+            }
+        }
+        if (!query.$or.length) {
+            delete query.$or;
+        }
+        if (!query.$and.length) {
+            delete query.$and;
+        }
         return query;
-    }
+    },
+    processFormData: function (data, fields, tabs = [{
+        id: "_default",
+    }]) {
+        for (const tab of tabs) {
+            if (data[tab.id]) {
+                for (const k of Object.keys(data[tab.id])) {
+                    if (fields[k]) {
+                        switch (fields[k].type) {
+                        case "date":
+                            data[tab.id][k] = data[tab.id][k] && data[tab.id][k].getTime ? data[tab.id][k].getTime() / 1000 : null;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return data;
+    },
+    processDataList: function (data, fields) {
+        for (const item of data) {
+            for (const k of Object.keys(item)) {
+                if (fields[k]) {
+                    switch (fields[k].type) {
+                    case "date":
+                        item[k] = item[k] && item[k].getTime ? item[k].getTime() / 1000 : null;
+                        break;
+                    }
+                }
+            }
+        }
+        return data;
+    },
 };

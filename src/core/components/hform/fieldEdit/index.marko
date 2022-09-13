@@ -78,7 +78,7 @@ import { mdiReload } from '@mdi/js'
             <div class="control">
                 <label class="file-label">
                     <input class="file-input" type="file" multiple=(input.multiple || false) data-id=input.id on-change("onFileInputChange")/>
-                    <a class="file-cta button is-light" tabindex="0">
+                    <a class="hr-hf-file-cta file-cta button is-light" tabindex="0">
                         <span class="file-label">${input.buttonLabel}</span>
                     </a>
                 </label>
@@ -156,7 +156,7 @@ import { mdiReload } from '@mdi/js'
             </div>
             <if(state.calendarVisible)>
                 <div class="hr-hf-calendar-wrap" id=`hr_hf_el_${input.formId}_${input.id}_calendar_wrap`>
-                    <mcalendar key=`hr_hf_el_${input.formId}_${input.id}_calendar` on-date-change("onCalendarDateChange")/>
+                    <hcalendar key=`hr_hf_el_${input.formId}_${input.id}_calendar` on-date-change("onCalendarDateChange")/>
                 </div>
             </if>
             <if(state.error)>
