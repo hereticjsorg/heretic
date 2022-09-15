@@ -131,7 +131,7 @@ export default class {
         return resultArr.length ? resultArr : null;
     }
 
-    async saveFiles() {
+    async saveFiles(module = null) {
         const filesFields = Object.keys(this.fields).find(k => this.fields[k].type === "files");
         for (const ff of (Array.isArray(filesFields) ? filesFields : [filesFields])) {
             for (const tab of this.tabs) {
@@ -145,6 +145,7 @@ export default class {
                                 filename: this.formFiles[file.uid].filename,
                                 size: this.formFiles[file.uid].size,
                                 mimeType: this.formFiles[file.uid].mimeType,
+                                module,
                             });
                         } catch {
                             // Ignore

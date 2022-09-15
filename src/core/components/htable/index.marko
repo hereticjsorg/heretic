@@ -1,4 +1,4 @@
-import { mdiReload, mdiMagnify, mdiCogOutline, mdiDrag, mdiPencilOutline, mdiTrashCanOutline, mdiFilterOutline } from "@mdi/js"
+import { mdiReload, mdiMagnify, mdiCogOutline, mdiDrag, mdiPencilOutline, mdiTrashCanOutline, mdiFilterOutline, mdiDatabaseOutline } from "@mdi/js"
 import { format } from "date-fns"
 import SettingsPagesForm from "./settingsPagesForm"
 
@@ -57,6 +57,30 @@ import SettingsPagesForm from "./settingsPagesForm"
                         </span>
                     </if>
                 </button>
+                <div class="dropdown is-hoverable">
+                    <div class="dropdown-trigger">
+                        <button
+                            on-click("onDataClick")
+                            class="button is-light"
+                            style={
+                                "margin-left": "4px"
+                            }>
+                            <span class="hr-ht-top-button-icon icon">
+                                <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d=mdiDatabaseOutline/>
+                                </svg>
+                            </span>
+                            <t>htable_dataButton</t>
+                        </button>
+                    </div>
+                    <div class="dropdown-menu" role="menu">
+                        <div class="dropdown-content">
+                            <a class="dropdown-item" on-click("onBulkEditClick")>
+                                <t>htable_bulkEdit</t>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </if>
     </div>
@@ -396,8 +420,12 @@ import SettingsPagesForm from "./settingsPagesForm"
                                     <if(state.columnData[item.id].type === "date" && item.value !== null)>
                                         <span class="tag is-white">${format(new Date(item.value * 1000), window.__heretic.t("global.dateFormatShort"))}</span>
                                     </if>
-                                    <if(state.columnData[item.id].type === "text" && item.value !== null)><span class="tag is-white">${item.value}</span></if>
-                                    <if(item.value === null)><span class="tag is-primary">null</span></if>
+                                    <if(state.columnData[item.id].type === "text" && item.value !== null)>
+                                        <span class="tag is-white">${item.value}</span>
+                                    </if>
+                                    <if(item.value === null)>
+                                        <span class="tag is-primary">null</span>
+                                    </if>
                                 </div>
                                 <div class="column is-narrow">
                                     <button class="mr-1 button is-small hr-ht-action-button is-light" on-click("onSettingsFilterEditClick") data-tippy-content=(process.browser && window.__heretic ? window.__heretic.t("htable_edit") : null)>
@@ -443,46 +471,182 @@ import SettingsPagesForm from "./settingsPagesForm"
             close: true
         }
     ]>
-    <section class="modal-card-body hr-ht-settings-body p-3" id=`filterModal_ht_${input.id}_body`>
-        <form on-submit("onFilterEditFormSubmit")>
-            <button
-                type="submit"
-                style={
-                    display: "none"
-                }/>
-            <div class="select is-fullwidth">
-                <select on-change("onSettingsFilterEditSelectedChange") id=`filterModal_ht_${input.id}_select_id`>
-                    <for|item| of=Object.keys(state.columnData)>
-                        <if(state.settingsFilterTypes.indexOf(state.columnData[item].type) > -1)>
-                            <option value=item selected=(state.settingsFilterEditSelectedId === item)>${state.columnData[item].label}</option>
-                        </if>
-                    </for>
-                </select>
+    <section class="modal-card-body hr-ht-settings-body" id=`filterModal_ht_${input.id}_body`>
+        <div class="p-3">
+            <form on-submit("onFilterEditFormSubmit")>
+                <button
+                    type="submit"
+                    style={
+                        display: "none"
+                    }/>
+                <div class="select is-fullwidth">
+                    <select on-change("onSettingsFilterEditSelectedChange") id=`filterModal_ht_${input.id}_select_id`>
+                        <for|item| of=Object.keys(state.columnData)>
+                            <if(state.settingsFilterTypes.indexOf(state.columnData[item].type) > -1)>
+                                <option value=item selected=(state.settingsFilterEditSelectedId === item)>${state.columnData[item].label}</option>
+                            </if>
+                        </for>
+                    </select>
+                </div>
+                <div class="select mt-2 is-fullwidth">
+                    <select on-change("onSettingsFilterEditModeChange")>
+                        <for|item| of=state.settingsFilterEditSelectedModes>
+                            <option value=item selected=(state.settingsFilterEditSelectedMode === item)>${window.__heretic.t(item)}</option>
+                        </for>
+                    </select>
+                </div>
+                <if(state.columnData[state.settingsFilterEditSelectedId])>
+                    <if(state.columnData[state.settingsFilterEditSelectedId].type === "text")>
+                        <div class="mt-2 is-fullwidth">
+                            <input class="input" type="text" value=state.settingsFilterEditSelectedValue on-change("onSettingsFilterEditValueChange")/>
+                        </div>
+                    </if>
+                    <if(state.columnData[state.settingsFilterEditSelectedId].type === "select")>
+                        <div class="mt-2">
+                            <hselect key=`filterModal_ht_${input.id}_hselect`/>
+                        </div>
+                    </if>
+                    <if(state.columnData[state.settingsFilterEditSelectedId].type === "date")>
+                        <div class="mt-2">
+                            <hcalendar key=`filterModal_ht_${input.id}_hcalendar`/>
+                        </div>
+                    </if>
+                </if>
+            </form>
+        </div>
+    </section>
+</hmodal>
+<hmodal
+    key=`bulkEditModal_ht_${input.id}`
+    on-button-click("onBulkEditButtonClick")
+    close=true
+    title="htable_bulkEdit"
+    actions=[
+        {
+            id: "save",
+            label: "htable_save",
+            class: "button is-primary"
+        },
+        {
+            id: "cancel",
+            label: "htable_cancel",
+            class: "button is-light",
+            close: true
+        }
+    ]>
+    <section class="modal-card-body hr-ht-settings-body" id=`bulkEditModal_ht_${input.id}_body`>
+        <div class="p-3">
+            <div class="buttons mb-0">
+                <button class="button is-light is-small mb-0" on-click("bulkItemNew")>
+                    <t>htable_bulkItemNew</t>
+                </button>
             </div>
-            <div class="select mt-2 is-fullwidth">
-                <select on-change("onSettingsFilterEditModeChange")>
-                    <for|item| of=state.settingsFilterEditSelectedModes>
-                        <option value=item selected=(state.settingsFilterEditSelectedMode === item)>${window.__heretic.t(item)}</option>
+            <if(state.bulkItems.length)>
+                <div class="mt-3">
+                    <for|item| of=state.bulkItems>
+                        <div class="hr-ht-settings-bulk-row columns is-vcentered is-mobile is-gapless p-1 m-0" data-uid=item.uid>
+                            <div class="column is-auto">
+                                <span class="tag is-dark mr-1">${state.columnData[item.id].label}</span>
+                                <if(state.columnData[item.id].type === "select" && item.value !== null)>
+                                    <for|ai| of=item.value>
+                                        <span class="tag is-white">${state.columnData[item.id].options.find(i => i.value === ai).label}</span> 
+                                    </for>
+                                </if>
+                                <if(state.columnData[item.id].type === "date" && item.value !== null)>
+                                    <span class="tag is-white">${format(new Date(item.value * 1000), window.__heretic.t("global.dateFormatShort"))}</span>
+                                </if>
+                                <if(state.columnData[item.id].type === "text" && item.value !== null)>
+                                    <span class="tag is-white">${item.value}</span>
+                                </if>
+                                <if(item.value === null)>
+                                    <span class="tag is-primary">null</span>
+                                </if>
+                            </div>
+                            <div class="column is-narrow">
+                                <button class="mr-1 button is-small hr-ht-action-button is-light" on-click("onBulkItemEditClick") data-tippy-content=(process.browser && window.__heretic ? window.__heretic.t("htable_edit") : null)>
+                                    <span class="hr-ht-settings-icon icon">
+                                        <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d=mdiPencilOutline/>
+                                        </svg>
+                                    </span>
+                                </button>
+                                <button class="button is-small hr-ht-action-button is-danger" on-click("onBulkItemDeleteClick") data-tippy-content=(process.browser && window.__heretic ? window.__heretic.t("htable_delete") : null)>
+                                    <span class="hr-ht-settings-icon hr-ht-action-icon-danger icon">
+                                        <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d=mdiTrashCanOutline/>
+                                        </svg>
+                                    </span>
+                                </button> 
+                            </div>
+                        </div>
                     </for>
-                </select>
-            </div>
-            <if(state.columnData[state.settingsFilterEditSelectedId])>
-                <if(state.columnData[state.settingsFilterEditSelectedId].type === "text")>
-                    <div class="mt-2 is-fullwidth">
-                        <input class="input" type="text" value=state.settingsFilterEditSelectedValue on-change("onSettingsFilterEditValueChange")/>
-                    </div>
-                </if>
-                <if(state.columnData[state.settingsFilterEditSelectedId].type === "select")>
-                    <div class="mt-2">
-                        <hselect key=`filterModal_ht_${input.id}_hselect`/>
-                    </div>
-                </if>
-                <if(state.columnData[state.settingsFilterEditSelectedId].type === "date")>
-                    <div class="mt-2">
-                        <hcalendar key=`filterModal_ht_${input.id}_hcalendar`/>
-                    </div>
-                </if>
+                </div>
             </if>
-        </form>
+        </div>
+    </section>
+</hmodal>
+<hmodal
+    key=`bulkItemModal_ht_${input.id}`
+    on-button-click("onBulkItemButtonClick")
+    close=true
+    cardClass="pl-3 pr-3"
+    backgroundClass="hr-hm-background-60"
+    title="htable_bulkItemEdit"
+    actions=[
+        {
+            id: "save",
+            label: "htable_save",
+            class: "button is-primary"
+        },
+        {
+            id: "cancel",
+            label: "htable_cancel",
+            class: "button is-light",
+            close: true
+        }
+    ]>
+    <section class="modal-card-body hr-ht-settings-body" id=`bulkItem_ht_${input.id}_body`>
+        <div class="p-3">
+            <form on-submit("onBulkItemFormSubmit")>
+                <button
+                    type="submit"
+                    style={
+                        display: "none"
+                    }/>
+                <div class="select is-fullwidth">
+                    <select on-change("onBulkItemSelectedChange") id=`bulkItem_ht_${input.id}_select_id`>
+                        <for|item| of=Object.keys(state.columnData)>
+                            <if(state.bulkItemTypes.indexOf(state.columnData[item].type) > -1)>
+                                <option value=item selected=(state.bulkItemSelectedId === item)>${state.columnData[item].label}</option>
+                            </if>
+                        </for>
+                    </select>
+                </div>
+                <if(state.columnData[state.bulkItemSelectedId])>
+                    <if(state.columnData[state.bulkItemSelectedId].type === "text")>
+                        <div class="mt-2 is-fullwidth">
+                            <input class="input" type="text" value=state.bulkItemSelectedValue on-change("onBulkItemValueChange")/>
+                        </div>
+                    </if>
+                    <if(state.columnData[state.bulkItemSelectedId].type === "select")>
+                        <div class="mt-2">
+                            <hselect key=`bulkItem_ht_${input.id}_hselect`/>
+                        </div>
+                    </if>
+                    <if(state.columnData[state.bulkItemSelectedId].type === "date")>
+                        <div class="mt-2">
+                            <hcalendar key=`bulkItem_ht_${input.id}_hcalendar`/>
+                        </div>
+                    </if>
+                    <div style={
+                        display: state.tabs.length > 1 || state.tabs[0].id !== "_default" ? "block" : "none"
+                    }>
+                        <div class="mt-2">
+                            <hselect key=`bulkItem_ht_${input.id}_tabs`/>
+                        </div>
+                    </div>
+                </if>
+            </form>
+        </div>
     </section>
 </hmodal>

@@ -7,45 +7,45 @@ import { mdiEyeOutline, mdiPencilOutline } from '@mdi/js'
             ${state.errorMessage}
         </div>
     </if>
-    <div class="columns p-0 m-0 is-variable is-1 mb-4">
-        <div class="column is-auto">
-            <if(state.title)>
-                <span class="title is-3 has-text-weight-light is-size-4 p-0 m-0">
-                    ${state.title}
-                </span>
+    <if(state.modeChangeAllowed || state.title)>
+        <div class="columns p-0 m-0 is-variable is-1 mb-4">
+            <div class="column is-auto">
+                <if(state.title)>
+                    <span class="title is-3 has-text-weight-light is-size-4 p-0 m-0">${state.title}</span>
+                </if>
+            </div>
+            <if(state.modeChangeAllowed)>
+                <div class="is-column is-narrow pt-3">
+                    <div class="field has-addons">
+                        <p class="control">
+                            <button on-click("onModeChange") data-mode="edit" class=`button is-rounded is-small ${state.mode === "edit" ? "is-success" : "is-light"}`>
+                                <span class=`hr-hf-top-button-icon${state.mode === "edit" ? " hr-hf-top-button-active-icon" : ""}`>
+                                    <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                        <path d=mdiPencilOutline/>
+                                    </svg>
+                                </span>
+                                <span>
+                                    <t>htable_mode_edit</t>
+                                </span>
+                            </button>
+                        </p>
+                        <p class="control">
+                            <button on-click("onModeChange") data-mode="view" class=`button is-rounded is-small ${state.mode === "view" ? "is-success" : "is-light"}`>
+                                <span class=`hr-hf-top-button-icon${state.mode === "view" ? " hr-hf-top-button-active-icon" : ""}`>
+                                    <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                        <path d=mdiEyeOutline/>
+                                    </svg>
+                                </span>
+                                <span>
+                                    <t>htable_mode_view</t>
+                                </span>
+                            </button>
+                        </p>
+                    </div>
+                </div>
             </if>
         </div>
-        <if(state.modeChangeAllowed)>
-            <div class="is-column is-narrow">
-                <div class="field has-addons">
-                    <p class="control">
-                        <button on-click("onModeChange") data-mode="edit" class=`button is-rounded is-small ${state.mode === "edit" ? "is-success" : "is-light"}`>
-                            <span class=`hr-hf-top-button-icon${state.mode === "edit" ? " hr-hf-top-button-active-icon" : ""}`>
-                                <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                                    <path d=mdiPencilOutline/>
-                                </svg>
-                            </span>
-                            <span>
-                                <t>htable_mode_edit</t>
-                            </span>
-                        </button>
-                    </p>
-                    <p class="control">
-                        <button on-click("onModeChange") data-mode="view" class=`button is-rounded is-small ${state.mode === "view" ? "is-success" : "is-light"}`>
-                            <span class=`hr-hf-top-button-icon${state.mode === "view" ? " hr-hf-top-button-active-icon" : ""}`>
-                                <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                                    <path d=mdiEyeOutline/>
-                                </svg>
-                            </span>
-                            <span>
-                                <t>htable_mode_view</t>
-                            </span>
-                        </button>
-                    </p>
-                </div>
-            </div>
-        </if>
-    </div>
+    </if>
     <form on-submit("onFormSubmit") class="hr-hf-form">
         <button
             type="submit"

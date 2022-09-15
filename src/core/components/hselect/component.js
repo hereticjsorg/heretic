@@ -6,9 +6,9 @@ module.exports = class {
         };
     }
 
-    setItems(items) {
+    setItems(items, selected = []) {
         this.setState("items", items);
-        this.setState("selected", []);
+        this.setState("selected", selected);
     }
 
     setSelected(items) {

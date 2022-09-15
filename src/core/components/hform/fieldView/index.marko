@@ -66,14 +66,19 @@ import { format } from "date-fns"
                 <div class="mt-2">
                     <for|f| of=state.value>
                         <div>
-                            <if(f.url)>
-                                <a href=f.url target="_blank">${f.name}</a>
+                            <if(input.download && !f.data)>
+                                <a class="is-underlined" href=`${input.download}?id=${f.uid}&language=${out.global.language || window.__heretic.outGlobal.language}` target="_blank">${f.name}</a>
                             </if>
                             <else>${f.name}</else>
                         </div>
                     </for>
                 </div>
             </if>
+            <else>
+                <div>
+                    <t>hform_noAttachments</t>
+                </div>
+            </else>
             <if(input.helpText)>
                 <p class="help">${input.helpText}</p>
             </if>

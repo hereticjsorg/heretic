@@ -88,8 +88,8 @@ import { mdiReload } from '@mdi/js'
                     <for|f| of=state.value>
                         <div>
                             <button class="delete is-small mt-1 mr-2" data-uid=f.uid on-click("onFileInputDeleteClick")/>
-                            <if(f.url)>
-                                <a href=f.url target="_blank">${f.name}</a>
+                            <if(input.download && !f.data)>
+                                <a class="is-underlined" href=`${input.download}?id=${f.uid}&language=${out.global.language || window.__heretic.outGlobal.language}` target="_blank">${f.name}</a>
                             </if>
                             <else>${f.name}</else>
                         </div>

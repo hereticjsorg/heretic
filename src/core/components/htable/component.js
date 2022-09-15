@@ -14,6 +14,10 @@ module.exports = class {
         this.state = {
             columnData: input.formData.getTableColumns(),
             columns: [],
+            tabs: input.formData.getTabs ? input.formData.getTabs : [{
+                id: "_default",
+                label: null,
+            }],
             sortField: this.defaultSortData.id || null,
             sortDirection: this.defaultSortData.direction || null,
             actionColumn: input.formData.isActionColumn(),
@@ -45,6 +49,11 @@ module.exports = class {
             settingsFilterEditSelectedId: null,
             settingsFilterEditSelectedMode: null,
             settingsFilterEditSelectedValue: "",
+            bulkItemTypes: ["text", "select", "date"],
+            bulkItems: [],
+            bulkItemUID: null,
+            bulkItemSelectedId: null,
+            bulkItemSelectedValue: "",
         };
         this.queryStringShorthands = {
             currentPage: "p",
@@ -862,6 +871,15 @@ module.exports = class {
         return null;
     }
 
+    getFirstBulkEditColumn() {
+        for (const item of Object.keys(this.state.columnData)) {
+            if (this.state.bulkItemTypes.indexOf(this.state.columnData[item].type) > -1) {
+                return item;
+            }
+        }
+        return null;
+    }
+
     setSettingsFilterModesState(type) {
         let modes;
         switch (type) {
@@ -892,6 +910,18 @@ module.exports = class {
         }
     }
 
+    async bulkEditData(id) {
+        switch (this.state.columnData[id].type) {
+        case "select":
+            await this.utils.waitForComponent(`bulkItem_ht_${this.input.id}_hselect`);
+            const hSelect = this.getComponent(`bulkItem_ht_${this.input.id}_hselect`);
+            const items = {};
+            this.state.columnData[id].options.map(i => items[i.value] = i.label);
+            hSelect.setItems(items);
+            break;
+        }
+    }
+
     async settingsSetValue(id, value) {
         switch (this.state.columnData[id].type) {
         case "select":
@@ -904,6 +934,21 @@ module.exports = class {
             break;
         default:
             this.setState("settingsFilterEditSelectedValue", value);
+        }
+    }
+
+    async bulkSetValue(id, value) {
+        switch (this.state.columnData[id].type) {
+        case "select":
+            await this.utils.waitForComponent(`bulkItem_ht_${this.input.id}_hselect`);
+            this.getComponent(`bulkItem_ht_${this.input.id}_hselect`).setSelected(value);
+            break;
+        case "date":
+            await this.utils.waitForComponent(`bulkItem_ht_${this.input.id}_hcalendar`);
+            this.getComponent(`bulkItem_ht_${this.input.id}_hcalendar`).setTimestamp(value ? value * 1000 : new Date().getTime());
+            break;
+        default:
+            this.setState("bulkItemSelectedValue", value);
         }
     }
 
@@ -1038,5 +1083,154 @@ module.exports = class {
             enabled: item.uid === uid ? e.target.checked : item.enabled,
         }));
         this.setState("settingsFilters", settingsFilters);
+    }
+
+    onDataClick(e) {
+        e.preventDefault();
+    }
+
+    async setBulkItemTabs() {
+        await this.utils.waitForComponent(`bulkItem_ht_${this.input.id}_tabs`);
+        const hTabsSelect = this.getComponent(`bulkItem_ht_${this.input.id}_tabs`);
+        const items = {};
+        this.state.tabs.map(i => items[i.id] = i.label || window.__heretic.t("htable_defaultTab"));
+        hTabsSelect.setItems(items, this.state.tabs.map(i => i.id));
+        return hTabsSelect;
+    }
+
+    async onBulkEditClick(e) {
+        e.preventDefault();
+        this.setState("bulkItems", []);
+        this.setState("bulkItemUID", null);
+        await this.utils.waitForComponent(`bulkEditModal_ht_${this.input.id}`);
+        const bulkEditModal = this.getComponent(`bulkEditModal_ht_${this.input.id}`);
+        bulkEditModal.setActive(true).setCloseAllowed(true).setBackgroundCloseAllowed(false).setLoading(false);
+    }
+
+    async onBulkEditButtonClick(button) {
+        switch (button) {
+        case "save":
+            await this.utils.waitForComponent(`bulkEditModal_ht_${this.input.id}`);
+            this.getComponent(`bulkEditModal_ht_${this.input.id}`).setActive(false);
+            break;
+        }
+    }
+
+    async bulkItemNew(e) {
+        e.preventDefault();
+        await this.utils.waitForComponent(`bulkItemModal_ht_${this.input.id}`);
+        const bulkItemModal = this.getComponent(`bulkItemModal_ht_${this.input.id}`);
+        this.setState("bulkItemUID", null);
+        bulkItemModal.setActive(true).setCloseAllowed(true).setBackgroundCloseAllowed(false).setLoading(false);
+        const firstColumn = this.getFirstBulkEditColumn();
+        this.setState("bulkItemSelectedId", firstColumn);
+        this.setState("bulkItemSelectedValue", null);
+        await this.utils.waitForElement(`bulkItem_ht_${this.input.id}_body`);
+        await this.bulkEditData(firstColumn);
+        await this.utils.waitForElement(`bulkItem_ht_${this.input.id}_select_id`);
+        await this.setBulkItemTabs();
+        document.getElementById(`bulkItem_ht_${this.input.id}_select_id`).focus();
+    }
+
+    async saveBulkItem() {
+        await this.utils.waitForComponent(`bulkItem_ht_${this.input.id}_tabs`);
+        const tabs = this.getComponent(`bulkItem_ht_${this.input.id}_tabs`).getSelected();
+        const id = this.state.bulkItemSelectedId;
+        let value;
+        switch (this.state.columnData[id].type) {
+        case "select":
+            await this.utils.waitForComponent(`bulkItem_ht_${this.input.id}_hselect`);
+            value = this.getComponent(`bulkItem_ht_${this.input.id}_hselect`).getSelected();
+            break;
+        case "date":
+            await this.utils.waitForComponent(`bulkItem_ht_${this.input.id}_hcalendar`);
+            value = this.getComponent(`bulkItem_ht_${this.input.id}_hcalendar`).getTimestamp();
+            break;
+        default:
+            value = this.state.bulkItemSelectedValue;
+        }
+        const bulkItems = cloneDeep(this.state.bulkItems);
+        for (const item of bulkItems) {
+            if (this.state.bulkItemUID !== item.uid && item.id === id) {
+                for (const tab of tabs) {
+                    if (item.tabs.indexOf(tab) > -1) {
+                        await this.utils.waitForComponent(`notify_ht_${this.input.id}`);
+                        this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_duplicateBulkItem"), "is-warning");
+                        return;
+                    }
+                }
+            }
+        }
+        if (this.state.bulkItemUID) {
+            for (const item of bulkItems) {
+                if (item.uid === this.state.bulkItemUID) {
+                    item.id = id;
+                    item.value = value;
+                    item.tabs = tabs;
+                }
+            }
+        } else {
+            bulkItems.push({
+                uid: uuidv4(),
+                id,
+                value,
+                tabs,
+            });
+        }
+        this.setState("bulkItems", bulkItems);
+        await this.utils.waitForComponent(`bulkItemModal_ht_${this.input.id}`);
+        this.getComponent(`bulkItemModal_ht_${this.input.id}`).setActive(false);
+    }
+
+    onBulkItemButtonClick(button) {
+        switch (button) {
+        case "save":
+            this.saveBulkItem();
+            break;
+        }
+    }
+
+    onBulkItemFormSubmit(e) {
+        e.preventDefault();
+        this.saveBulkItem();
+    }
+
+    async onBulkItemSelectedChange(e) {
+        e.preventDefault();
+        this.setState("bulkItemSelectedId", e.target.value);
+        this.setState("bulkItemSelectedValue", null);
+        await this.bulkEditData(e.target.value);
+    }
+
+    onBulkItemValueChange(e) {
+        e.preventDefault();
+        this.setState("bulkItemSelectedValue", e.target.value);
+    }
+
+    async onBulkItemEditClick(e) {
+        e.preventDefault();
+        const {
+            uid,
+        } = e.target.closest("[data-uid]").dataset;
+        const bulkItem = this.state.bulkItems.find(i => i.uid === uid);
+        const bulkModal = this.getComponent(`bulkItemModal_ht_${this.input.id}`);
+        bulkModal.setActive(true).setCloseAllowed(true).setBackgroundCloseAllowed(false).setLoading(false);
+        this.setState("bulkItemUID", uid);
+        this.setState("bulkItemSelectedId", bulkItem.id);
+        await this.bulkEditData(bulkItem.id);
+        this.bulkSetValue(bulkItem.id, bulkItem.value);
+        await this.utils.waitForElement(`bulkItem_ht_${this.input.id}_select_id`);
+        const bulkTabs = await this.setBulkItemTabs();
+        bulkTabs.setSelected(bulkItem.tabs);
+        document.getElementById(`bulkItem_ht_${this.input.id}_select_id`).focus();
+    }
+
+    onBulkItemDeleteClick(e) {
+        e.preventDefault();
+        const {
+            uid
+        } = e.target.closest("[data-uid]").dataset;
+        const bulkItems = this.state.bulkItems.filter(i => i.uid !== uid);
+        this.setState("bulkItems", bulkItems);
     }
 };
