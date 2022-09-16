@@ -25,6 +25,7 @@ module.exports = class {
             actions: input.formData.getActions(),
             topButtons: input.formData.getTopButtons(),
             loadConfig: input.formData.getTableLoadConfig(),
+            bulkUpdateConfig: input.formData.getTableBulkUpdateConfig(),
             data: [],
             loading: false,
             currentPage: 1,
@@ -51,9 +52,11 @@ module.exports = class {
             settingsFilterEditSelectedValue: "",
             bulkItemTypes: ["text", "select", "date"],
             bulkItems: [],
+            bulkItemEditSelectValues: [],
             bulkItemUID: null,
             bulkItemSelectedId: null,
             bulkItemSelectedValue: "",
+            dataOpen: false,
         };
         this.queryStringShorthands = {
             currentPage: "p",
@@ -317,6 +320,11 @@ module.exports = class {
         } else {
             this.needToUpdateTableWidth = true;
         }
+        window.addEventListener("click", e => {
+            if (!document.getElementById(`hr_ht_data_dropdown_${this.input.id}`).contains(e.target)) {
+                this.setState("dataOpen", false);
+            }
+        });
     }
 
     getPrevVisibleColumn(index) {
@@ -871,7 +879,7 @@ module.exports = class {
         return null;
     }
 
-    getFirstBulkEditColumn() {
+    getFirstBulkUpdateColumn() {
         for (const item of Object.keys(this.state.columnData)) {
             if (this.state.bulkItemTypes.indexOf(this.state.columnData[item].type) > -1) {
                 return item;
@@ -910,14 +918,14 @@ module.exports = class {
         }
     }
 
-    async bulkEditData(id) {
+    async bulkUpdateData(id) {
         switch (this.state.columnData[id].type) {
         case "select":
-            await this.utils.waitForComponent(`bulkItem_ht_${this.input.id}_hselect`);
-            const hSelect = this.getComponent(`bulkItem_ht_${this.input.id}_hselect`);
-            const items = {};
-            this.state.columnData[id].options.map(i => items[i.value] = i.label);
-            hSelect.setItems(items);
+            const bulkItemEditSelectValues = this.state.columnData[id].options.map(i => ({
+                value: i.value,
+                label: i.label,
+            }));
+            this.setState("bulkItemEditSelectValues", bulkItemEditSelectValues);
             break;
         }
     }
@@ -939,10 +947,6 @@ module.exports = class {
 
     async bulkSetValue(id, value) {
         switch (this.state.columnData[id].type) {
-        case "select":
-            await this.utils.waitForComponent(`bulkItem_ht_${this.input.id}_hselect`);
-            this.getComponent(`bulkItem_ht_${this.input.id}_hselect`).setSelected(value);
-            break;
         case "date":
             await this.utils.waitForComponent(`bulkItem_ht_${this.input.id}_hcalendar`);
             this.getComponent(`bulkItem_ht_${this.input.id}_hcalendar`).setTimestamp(value ? value * 1000 : new Date().getTime());
@@ -1087,6 +1091,7 @@ module.exports = class {
 
     onDataClick(e) {
         e.preventDefault();
+        this.setState("dataOpen", true);
     }
 
     async setBulkItemTabs() {
@@ -1098,20 +1103,54 @@ module.exports = class {
         return hTabsSelect;
     }
 
-    async onBulkEditClick(e) {
+    async onBulkUpdateClick(e) {
         e.preventDefault();
+        this.setState("dataOpen", false);
         this.setState("bulkItems", []);
         this.setState("bulkItemUID", null);
-        await this.utils.waitForComponent(`bulkEditModal_ht_${this.input.id}`);
-        const bulkEditModal = this.getComponent(`bulkEditModal_ht_${this.input.id}`);
-        bulkEditModal.setActive(true).setCloseAllowed(true).setBackgroundCloseAllowed(false).setLoading(false);
+        await this.utils.waitForComponent(`bulkUpdateModal_ht_${this.input.id}`);
+        const bulkUpdateModal = this.getComponent(`bulkUpdateModal_ht_${this.input.id}`);
+        bulkUpdateModal.setActive(true).setCloseAllowed(true).setBackgroundCloseAllowed(false).setLoading(false);
     }
 
-    async onBulkEditButtonClick(button) {
+    async onBulkUpdateButtonClick(button) {
         switch (button) {
         case "save":
-            await this.utils.waitForComponent(`bulkEditModal_ht_${this.input.id}`);
-            this.getComponent(`bulkEditModal_ht_${this.input.id}`).setActive(false);
+            await this.utils.waitForComponent(`bulkUpdateModal_ht_${this.input.id}`);
+            const bulkModal = this.getComponent(`bulkUpdateModal_ht_${this.input.id}`);
+            if (!this.state.bulkItems.length) {
+                bulkModal.setActive(false);
+                this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_nothingToDo"), "is-warning");
+                return;
+            }
+            const bulkItems = cloneDeep(this.state.bulkItems).map(item => ({
+                id: item.id,
+                value: item.value,
+                tabs: item.tabs,
+            }));
+            try {
+                bulkModal.setLoading(true).setCloseAllowed(false);
+                await axios({
+                    method: "post",
+                    url: this.state.bulkUpdateConfig.url,
+                    data: {
+                        selected: this.state.checkboxes,
+                        bulkItems,
+                        filters: this.state.filters.filter(i => i.enabled),
+                        searchText: this.state.searchText,
+                    },
+                    headers: this.input.headers || {},
+                });
+                await this.loadData();
+                bulkModal.setActive(false);
+            } catch (e) {
+                if (e && e.response && e.response.status === 403) {
+                    this.emit("unauthorized");
+                }
+                this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_loadingError"), "is-danger");
+            } finally {
+                bulkModal.setLoading(false).setCloseAllowed(true);
+            }
             break;
         }
     }
@@ -1122,11 +1161,11 @@ module.exports = class {
         const bulkItemModal = this.getComponent(`bulkItemModal_ht_${this.input.id}`);
         this.setState("bulkItemUID", null);
         bulkItemModal.setActive(true).setCloseAllowed(true).setBackgroundCloseAllowed(false).setLoading(false);
-        const firstColumn = this.getFirstBulkEditColumn();
+        const firstColumn = this.getFirstBulkUpdateColumn();
         this.setState("bulkItemSelectedId", firstColumn);
         this.setState("bulkItemSelectedValue", null);
         await this.utils.waitForElement(`bulkItem_ht_${this.input.id}_body`);
-        await this.bulkEditData(firstColumn);
+        await this.bulkUpdateData(firstColumn);
         await this.utils.waitForElement(`bulkItem_ht_${this.input.id}_select_id`);
         await this.setBulkItemTabs();
         document.getElementById(`bulkItem_ht_${this.input.id}_select_id`).focus();
@@ -1138,10 +1177,6 @@ module.exports = class {
         const id = this.state.bulkItemSelectedId;
         let value;
         switch (this.state.columnData[id].type) {
-        case "select":
-            await this.utils.waitForComponent(`bulkItem_ht_${this.input.id}_hselect`);
-            value = this.getComponent(`bulkItem_ht_${this.input.id}_hselect`).getSelected();
-            break;
         case "date":
             await this.utils.waitForComponent(`bulkItem_ht_${this.input.id}_hcalendar`);
             value = this.getComponent(`bulkItem_ht_${this.input.id}_hcalendar`).getTimestamp();
@@ -1199,10 +1234,15 @@ module.exports = class {
         e.preventDefault();
         this.setState("bulkItemSelectedId", e.target.value);
         this.setState("bulkItemSelectedValue", null);
-        await this.bulkEditData(e.target.value);
+        await this.bulkUpdateData(e.target.value);
     }
 
     onBulkItemValueChange(e) {
+        e.preventDefault();
+        this.setState("bulkItemSelectedValue", e.target.value);
+    }
+
+    onBulkItemSelectChange(e) {
         e.preventDefault();
         this.setState("bulkItemSelectedValue", e.target.value);
     }
@@ -1217,7 +1257,7 @@ module.exports = class {
         bulkModal.setActive(true).setCloseAllowed(true).setBackgroundCloseAllowed(false).setLoading(false);
         this.setState("bulkItemUID", uid);
         this.setState("bulkItemSelectedId", bulkItem.id);
-        await this.bulkEditData(bulkItem.id);
+        await this.bulkUpdateData(bulkItem.id);
         this.bulkSetValue(bulkItem.id, bulkItem.value);
         await this.utils.waitForElement(`bulkItem_ht_${this.input.id}_select_id`);
         const bulkTabs = await this.setBulkItemTabs();

@@ -51,6 +51,13 @@ export default class {
         };
     }
 
+    processValue(type, value) {
+        switch (type) {
+        case "date":
+            return value && parseInt(value, 10) ? new Date(value * 1000) : null;
+        }
+    }
+
     validate() {
         const resultArr = [];
         for (const tab of this.tabs) {
@@ -120,10 +127,11 @@ export default class {
             for (const tab of this.tabs) {
                 if (this.data[tab]) {
                     for (const k of Object.keys(this.data[tab])) {
-                        switch (this.fields[k].type) {
-                        case "date":
-                            this.data[tab][k] = this.data[tab][k] && parseInt(this.data[tab][k], 10) ? new Date(this.data[tab][k] * 1000) : null;
-                        }
+                        // switch (this.fields[k].type) {
+                        // case "date":
+                        //     this.data[tab][k] = this.data[tab][k] && parseInt(this.data[tab][k], 10) ? new Date(this.data[tab][k] * 1000) : null;
+                        // }
+                        this.data[tab][k] = this.processValue(this.fields[k].type, this.data[tab][k]);
                     }
                 }
             }

@@ -72,7 +72,7 @@
     "htable_settingsButton": "Settings",
     "htable_dataButton": "Data",
     "htable_save": "Save",
-    "htable_bulkEdit": "Bulk Edit",
+    "htable_bulkUpdate": "Bulk Update",
     "htable_bulkItemEdit": "Edit Item",
     "htable_settingsColumns": "Columns",
     "htable_settingsPages": "Pages",
@@ -98,5 +98,10 @@
     "hform_noAttachments": "No files attached",
     "htable_bulkItemNew": "New",
     "htable_defaultTab": "Default",
-    "htable_duplicateBulkItem": "Duplicate Item"
+    "htable_duplicateBulkItem": "Duplicate Item",
+    "htable_bulkWarning": "Warning: nothing selected, all records will be updated",
+    "htable_bulkUpdateCount": "Updating database records",
+    "htable_performUpdate": "Perform Update",
+    "htable_nothingToDo": "Nothing To Do",
+    "htable_bulkUpdateError": "Could not perform update"
 }
