@@ -55,6 +55,8 @@ export default class {
         switch (type) {
         case "date":
             return value && parseInt(value, 10) ? new Date(value * 1000) : null;
+        default:
+            return value;
         }
     }
 
