@@ -58,10 +58,6 @@ module.exports = class {
         this.setState("mounted", true);
     }
 
-    onUpdate() {
-        this.setTippyDebounced();
-    }
-
     getAnimationTimer() {
         return setTimeout(() => this.getComponent("loading").setActive(true), 499);
     }
