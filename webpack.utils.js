@@ -10,7 +10,9 @@ module.exports = class {
         fs.ensureDirSync(path.resolve(__dirname, "src", "build"));
         fs.ensureDirSync(path.resolve(__dirname, "logs"));
         fs.ensureDirSync(path.resolve(__dirname, "dist"));
-        fs.ensureDirSync(path.resolve(__dirname, "dist", this.config.directories.tmp));
+        if (this.config.directories.tmp) {
+            fs.ensureDirSync(path.resolve(__dirname, "dist", this.config.directories.tmp));
+        }
         fs.ensureDirSync(path.resolve(__dirname, "dist", this.config.directories.files));
         this.languages = fs.readJSONSync(path.resolve(__dirname, "src", "config", "languages.json"));
         this.meta = fs.readJSONSync(path.resolve(__dirname, "etc", "meta.json"));
