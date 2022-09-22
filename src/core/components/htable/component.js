@@ -406,11 +406,7 @@ module.exports = class {
         return widths;
     }
 
-    onColumnMove(e) {
-        if (!this.columnResizing) {
-            return;
-        }
-        e.stopPropagation();
+    moveColumn(e) {
         const oldColumnWidths = this.getColumnWidths();
         const ox = e.touches ? e.touches[0].pageX : e.pageX;
         const currentMover = document.getElementById(`hr_ht_mover_${this.columnResizing}`);
@@ -427,13 +423,22 @@ module.exports = class {
         }
         const newColumnWidths = this.getColumnWidths();
         for (const column of Object.keys(this.state.columns)) {
-            if (column !== this.prevColumn && column !== this.columnResizing && newColumnWidths[column] !== oldColumnWidths[column]) {
+            if (column !== this.prevColumn && column !== this.columnResizing && oldColumnWidths[column] && newColumnWidths[column] && parseInt(newColumnWidths[column], 10) !== parseInt(oldColumnWidths[column], 10)) {
                 this.setColumnWidths(oldColumnWidths);
                 return;
             }
         }
         this.store.set("ratios", this.columnWidthsToRatios(newColumnWidths));
         this.placeStickyElements();
+    }
+
+    onColumnMove(e) {
+        if (!this.columnResizing) {
+            return;
+        }
+        e.stopPropagation();
+        // setTimeout(() => this.moveColumn(e), 10);
+        this.moveColumn(e);
     }
 
     async onColumnThClick(e) {

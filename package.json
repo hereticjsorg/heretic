@@ -85,6 +85,7 @@
     "ioredis": "^5.2.3",
     "ipaddr.js": "^2.0.1",
     "lodash.debounce": "^4.0.8",
+    "lodash.throttle": "^4.1.1",
     "long": "^5.2.0",
     "mongodb": "^4.9.1",
     "nanoid": "^4.0.0",
