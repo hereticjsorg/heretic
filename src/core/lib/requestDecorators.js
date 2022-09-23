@@ -10,15 +10,19 @@ import listValidationSchema from "./listGenericValidationSchema.json";
 import loadGenericValidationSchema from "./loadGenericValidationSchema.json";
 import deleteGenericValidationSchema from "./deleteGenericValidationSchema.json";
 import bulkGenericValidationSchema from "./bulkGenericValidationSchema.json";
+import exportGenericValidationSchema from "./exportGenericValidationSchema.json";
+import languages from "../../config/languages.json";
 
 const ajv = new Ajv({
     allErrors: true,
     strict: true,
 });
+exportGenericValidationSchema.properties.language.enum = Object.keys(languages);
 
 const validateLoadGenericSchema = ajv.compile(loadGenericValidationSchema);
 const deleteLoadGenericSchema = ajv.compile(deleteGenericValidationSchema);
 const bulkLoadGenericSchema = ajv.compile(bulkGenericValidationSchema);
+const exportLoadGenericSchema = ajv.compile(exportGenericValidationSchema);
 
 /* eslint-disable object-shorthand */
 /* eslint-disable func-names */
@@ -52,6 +56,9 @@ export default {
     },
     validateDataBulkGeneric: function () {
         return !!bulkLoadGenericSchema(this.body);
+    },
+    validateDataExportGeneric: function () {
+        return !!exportLoadGenericSchema(this.body);
     },
     generateQuery: function (formData) {
         const query = {

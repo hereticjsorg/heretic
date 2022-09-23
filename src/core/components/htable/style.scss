@@ -237,13 +237,15 @@
     background: $white-bis;
 }
 
-.hr-hr-settings-switch {
+.hr-hr-settings-switch,
+.hr-hr-export-switch {
     margin-top: 3px !important;
 }
 
 .hr-ht-settings-columns-row:hover,
 .hr-ht-settings-filters-row:hover,
-.hr-ht-settings-bulk-row:hover {
+.hr-ht-settings-bulk-row:hover,
+.hr-ht-export-columns-row:hover {
     background: $white-ter;
     border-radius: $radius;
 }
@@ -257,15 +259,17 @@
     padding: 11px 8px 0 8px;
 }
 
-.hr-ht-settings-columns-drop-area {
+.hr-ht-settings-columns-drop-area,
+.hr-ht-export-columns-drop-area {
     height: 5px;
     border: 1px dashed $grey-lighter;
     background: $grey-lightest;
 }
 
-.hr-ht-settings-columns-drop-area-over {
+.hr-ht-settings-columns-drop-area-over,
+.hr-ht-export-columns-drop-area-over {
     background: $yellow;
-} 
+}
 
 .hr-hr-settings-tabs {
     margin: 5px 5px 0 5px !important;
@@ -297,4 +301,20 @@
 .hr-ht-modal-notification {
     border-radius: 0 !important;
     padding: 10px;
+}
+
+.hr-ht-export-form-wrap {
+    background: $white-ter !important;
+    box-shadow: 20px 20px 60px #bebebe,
+        -20px -20px 60px #ffffff;
+}
+
+@media (max-width: 1023px) {
+    .hr-ht-hidden-touch {
+        display: none;
+        position: absolute;
+        left: -9999px;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
 }

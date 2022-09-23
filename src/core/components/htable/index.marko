@@ -8,6 +8,7 @@ import SettingsPagesForm from "./settingsPagesForm"
             <div class="mb-3">
                 <for|item, index| of=state.topButtons>
                     <button
+                        data-tippy-content=(state.clientWidth < 1023 ? item.label : null)
                         data-id=item.id
                         on-click("onTopButtonClick")
                         class=`button ${item.danger ? "is-danger" : "is-light"}`
@@ -19,11 +20,14 @@ import SettingsPagesForm from "./settingsPagesForm"
                                 <path d=item.icon/>
                             </svg>
                         </span>
-                        <span>${item.label}</span>
+                        <if(state.clientWidth > 1023)>
+                            <span>${item.label}</span>
+                        </if>
                     </button>
                 </for>
                 <if(state.loadConfig && state.loadConfig.url)>
                     <button
+                        data-tippy-content=(process.browser && state.clientWidth < 1023 && window.__heretic ? window.__heretic.t("htable_reloadButton") : null)
                         on-click("onReloadClick")
                         class="button is-light"
                         style={
@@ -34,10 +38,13 @@ import SettingsPagesForm from "./settingsPagesForm"
                                 <path d=mdiReload/>
                             </svg>
                         </span>
-                        <t>htable_reloadButton</t>
+                        <if(state.clientWidth > 1023)>
+                            <t>htable_reloadButton</t>
+                        </if>
                     </button>
                 </if>
                 <button
+                    data-tippy-content=(process.browser && state.clientWidth < 1023 && window.__heretic ? window.__heretic.t("htable_settingsButton") : null)
                     on-click("onSettingsClick")
                     class="button is-light"
                     style={
@@ -48,7 +55,9 @@ import SettingsPagesForm from "./settingsPagesForm"
                             <path d=mdiCogOutline/>
                         </svg>
                     </span>
-                    <t>htable_settingsButton</t>
+                    <if(state.clientWidth > 1023)>
+                        <t>htable_settingsButton</t>
+                    </if>
                     <if(state.filtersEnabledCount)>
                         <span class="hr-ht-top-info-icon icon">
                             <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
@@ -57,10 +66,11 @@ import SettingsPagesForm from "./settingsPagesForm"
                         </span>
                     </if>
                 </button>
-                <if(state.bulkUpdateConfig)>
+                <if(state.bulkUpdateConfig || state.exportConfig)>
                     <div class=`dropdown${state.dataOpen ? " is-active" : ""}` id=`hr_ht_data_dropdown_${input.id}`>
                         <div class="dropdown-trigger">
                             <button
+                                data-tippy-content=(process.browser && state.clientWidth < 1023 && window.__heretic ? window.__heretic.t("htable_dataButton") : null)
                                 on-click("onDataClick")
                                 class="button is-light"
                                 style={
@@ -71,7 +81,9 @@ import SettingsPagesForm from "./settingsPagesForm"
                                         <path d=mdiDatabaseOutline/>
                                     </svg>
                                 </span>
-                                <t>htable_dataButton</t>
+                                <if(state.clientWidth > 1023)>
+                                    <t>htable_dataButton</t>
+                                </if>
                             </button>
                         </div>
                         <div class="dropdown-menu" role="menu">
@@ -79,6 +91,11 @@ import SettingsPagesForm from "./settingsPagesForm"
                                 <if(state.bulkUpdateConfig)>
                                     <a class="dropdown-item" on-click("onBulkUpdateClick")>
                                         <t>htable_bulkUpdate</t>
+                                    </a>
+                                </if>
+                                <if(state.exportConfig)>
+                                    <a class="dropdown-item" on-click("onExportClick")>
+                                        <t>htable_export</t>
                                     </a>
                                 </if>
                             </div>
@@ -230,7 +247,7 @@ import SettingsPagesForm from "./settingsPagesForm"
                         <for|item, index| of=state.actions>
                             <button
                                 data-id=item.id
-                                data-tippy-content=(process.browser && window.__heretic ? window.__heretic.t(item.label) : null)
+                                data-tippy-content=(process.browser && state.clientWidth < 1023 && window.__heretic ? window.__heretic.t(item.label) : null)
                                 data-item=row._id
                                 on-click("onActionButtonClick")
                                 class=`button is-small hr-ht-action-button ${item.danger ? "is-danger" : "is-light"}`
@@ -432,14 +449,14 @@ import SettingsPagesForm from "./settingsPagesForm"
                                     </if>
                                 </div>
                                 <div class="column is-narrow">
-                                    <button class="mr-1 button is-small hr-ht-action-button is-light" on-click("onSettingsFilterEditClick") data-tippy-content=(process.browser && window.__heretic ? window.__heretic.t("htable_edit") : null)>
+                                    <button class="mr-1 button is-small hr-ht-action-button is-light" on-click("onSettingsFilterEditClick") data-tippy-content=(process.browser && state.clientWidth < 1023 && window.__heretic ? window.__heretic.t("htable_edit") : null)>
                                         <span class="hr-ht-settings-icon icon">
                                             <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
                                                 <path d=mdiPencilOutline/>
                                             </svg>
                                         </span>
                                     </button>
-                                    <button class="button is-small hr-ht-action-button is-danger" on-click("onSettingsFilterDeleteClick") data-tippy-content=(process.browser && window.__heretic ? window.__heretic.t("htable_delete") : null)>
+                                    <button class="button is-small hr-ht-action-button is-danger" on-click("onSettingsFilterDeleteClick") data-tippy-content=(process.browser && state.clientWidth < 1023 && window.__heretic ? window.__heretic.t("htable_delete") : null)>
                                         <span class="hr-ht-settings-icon hr-ht-action-icon-danger icon">
                                             <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
                                                 <path d=mdiTrashCanOutline/>
@@ -575,14 +592,14 @@ import SettingsPagesForm from "./settingsPagesForm"
                                 </if>
                             </div>
                             <div class="column is-narrow">
-                                <button class="mr-1 button is-small hr-ht-action-button is-light" on-click("onBulkItemEditClick") data-tippy-content=(process.browser && window.__heretic ? window.__heretic.t("htable_edit") : null)>
+                                <button class="mr-1 button is-small hr-ht-action-button is-light" on-click("onBulkItemEditClick") data-tippy-content=(process.browser && state.clientWidth < 1023 && window.__heretic ? window.__heretic.t("htable_edit") : null)>
                                     <span class="hr-ht-settings-icon icon">
                                         <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
                                             <path d=mdiPencilOutline/>
                                         </svg>
                                     </span>
                                 </button>
-                                <button class="button is-small hr-ht-action-button is-danger" on-click("onBulkItemDeleteClick") data-tippy-content=(process.browser && window.__heretic ? window.__heretic.t("htable_delete") : null)>
+                                <button class="button is-small hr-ht-action-button is-danger" on-click("onBulkItemDeleteClick") data-tippy-content=(process.browser && state.clientWidth < 1023 && window.__heretic ? window.__heretic.t("htable_delete") : null)>
                                     <span class="hr-ht-settings-icon hr-ht-action-icon-danger icon">
                                         <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
                                             <path d=mdiTrashCanOutline/>
@@ -663,6 +680,111 @@ import SettingsPagesForm from "./settingsPagesForm"
                     </div>
                 </if>
             </form>
+        </div>
+    </section>
+</hmodal>
+<hmodal
+    key=`exportModal_ht_${input.id}`
+    on-button-click("onExportButtonClick")
+    close=true
+    title="htable_export"
+    actions=[
+        {
+            id: "save",
+            label: "htable_exportExecute",
+            class: "button is-primary"
+        },
+        {
+            id: "cancel",
+            label: "htable_close",
+            class: "button is-light",
+            close: true
+        }
+    ]>
+    <div class="notification is-info p-4 mb-0 hr-ht-modal-notification">
+        <t>htable_exportCount</t>: ${state.checkboxes.length}
+    </div>
+    <div class="p-3 hr-ht-export-form-wrap">
+        <div class="select is-fullwidth">
+            <select id=`export_ht_${input.id}_format`>
+                <option value="excel">
+                    <t>htable_exportExcel</t>
+                </option>
+                <option value="tsv">
+                    <t>htable_exportTSV</t>
+                </option>
+            </select>
+        </div>
+    </div>
+    <section class="modal-card-body hr-ht-settings-body" id=`exportModal_ht_${input.id}_body`>
+        <div class="p-3">
+            <div>
+                <for|k, index| of=Object.keys(state.dataExportColumns)>
+                    $ const column = state.columnData[k];
+                    <if(column)>
+                        <if(index > 0 && state.exportColumnDrag !== null)>
+                            <div data-id=k class="hr-ht-export-columns-drop-area" on-dragover("onExportColumnDragOver") on-dragenter("onExportColumnDragEnter") on-dragleave("onExportColumnDragLeave") on-drop("onExportColumnDrop")/>
+                        </if>
+                        <div class="hr-ht-export-columns-row columns is-vcentered is-mobile is-gapless p-1 m-0" draggable="true" on-dragstart("onExportColumnDragStart") on-dragend("onExportColumnDragEnd") data-id=k>
+                            <div class="column is-narrow mr-2">
+                                <span class="hr-ht-drag-icon icon">
+                                    <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                        <path d=mdiDrag/>
+                                    </svg>
+                                </span>
+                            </div>
+                            <div class="column is-narrow mr-2">
+                                <input type="checkbox" class="hr-hr-export-switch switch" checked=state.dataExportColumns[k] on-change("onExportColumnCheckboxClick") data-id=k/>
+                            </div>
+                            <div class="column is-auto mr-2">${column.label}</div>
+                            <div class="column is-narrow mr-2">
+                                <button class="button is-small hr-ht-action-button is-light" data-id=column.id on-click("onExportColumnUpClick") disabled=(index === 0)>
+                                    <span class="hr-ht-settings-icon icon">
+                                        <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M7,15L12,10L17,15H7Z"/>
+                                        </svg>
+                                    </span>
+                                </button>
+                            </div>
+                            <div class="column is-narrow">
+                                <button class="button is-small hr-ht-action-button is-light" data-id=column.id on-click("onExportColumnDownClick") disabled=(index === Object.keys(state.dataExportColumns).length - 1)>
+                                    <span class="hr-ht-settings-icon icon">
+                                        <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M7,10L12,15L17,10H7Z"/>
+                                        </svg>
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </if>
+                </for>
+            </div>
+        </div>
+    </section>
+</hmodal>
+<hmodal
+    key=`exportDownloadModal_ht_${input.id}`
+    on-button-click("onExportDownloadButtonClick")
+    close=true
+    title="htable_exportDownload"
+    actions=[
+        {
+            id: "cancel",
+            label: "htable_close",
+            class: "button is-light",
+            close: true
+        }
+    ]>
+    <section class="modal-card-body hr-ht-settings-body" id=`exportDownloadModal_ht_${input.id}_body`>
+        <div class="p-3">
+            <div>
+                <t>htable_exportDownloadMessage</t>
+            </div>
+            <div class="mt-2">
+                <a class="is-underlined" href=`${state.exportConfig.download}?id=${state.dataExportUID}`>
+                    <t>htable_exportDownload</t>
+                </a>
+            </div>
         </div>
     </section>
 </hmodal>

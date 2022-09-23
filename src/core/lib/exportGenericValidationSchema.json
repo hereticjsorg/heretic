@@ -1,0 +1,36 @@
+{
+    "type": "object",
+    "properties": {
+        "selected": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "minLength": 24,
+                "maxLength": 24,
+                "pattern": "^[a-f0-9]+$"
+            },
+            "minItems": 1,
+            "uniqueItems": true
+        },
+        "format": {
+            "type": "string",
+            "enum": ["excel", "tsv"]
+        },
+        "language": {
+            "type": "string",
+            "enum": []
+        },
+        "columns": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 32,
+                "pattern": "^[a-zA-Z0-9_]+$"
+            },
+            "minItems": 1,
+            "uniqueItems": true
+        }
+    },
+    "required": ["selected", "format", "language", "columns"]
+}

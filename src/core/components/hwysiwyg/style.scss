@@ -1,0 +1,42 @@
+@import "../../../view/variables.scss";
+
+.hr-wy-wrap {
+    width: 100%;
+    border: 1px solid $grey-lighter;
+    border-radius: $radius;
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+}
+
+.hr-wy-controls {
+    width: 100%;
+    height:32px;
+    background: $grey-lightest;
+    border-bottom: 1px solid $grey-lighter;
+}
+
+.hr-wy-editor {
+    width: 100%;
+    flex: auto;
+    background: $white;
+    border-radius: $radius;
+    outline: 0 !important;
+    padding: 10px;
+    overflow: auto;
+}
+
+.hr-wy-control-button {
+    width: 31px !important;
+    height: 31px !important;
+    padding: 0 !important;
+    border: 1px solid transparent;
+}
+
+.hr-wy-control-button-selected {
+    background: $blue !important;
+}
+
+.hr-wy-control-button-selected>svg>path {
+    fill: $white;
+}

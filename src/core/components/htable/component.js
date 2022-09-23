@@ -9,7 +9,7 @@ const Utils = require("../../lib/componentUtils").default;
 const Query = require("../../lib/queryBrowser").default;
 
 module.exports = class {
-    onCreate(input) {
+    onCreate(input, out) {
         this.defaultSortData = input.formData.getTableDefaultSortColumn ? input.formData.getTableDefaultSortColumn() : {};
         this.state = {
             columnData: input.formData.getTableColumns(),
@@ -26,6 +26,7 @@ module.exports = class {
             topButtons: input.formData.getTopButtons(),
             loadConfig: input.formData.getTableLoadConfig(),
             bulkUpdateConfig: input.formData.getTableBulkUpdateConfig(),
+            exportConfig: input.formData.getTableExportConfig(),
             data: [],
             loading: false,
             currentPage: 1,
@@ -57,6 +58,10 @@ module.exports = class {
             bulkItemSelectedId: null,
             bulkItemSelectedValue: "",
             dataOpen: false,
+            dataExportUID: null,
+            clientWidth: 0,
+            dataExportColumns: [],
+            exportColumnDrag: null,
         };
         this.queryStringShorthands = {
             currentPage: "p",
@@ -64,6 +69,7 @@ module.exports = class {
             sortDirection: "d",
             searchText: "s",
         };
+        this.language = process.browser ? window.__heretic.outGlobal.language : out.global.language;
     }
 
     getElements() {
@@ -131,6 +137,7 @@ module.exports = class {
     }
 
     setTableDimensions() {
+        this.setState("clientWidth", Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0));
         const {
             table,
             elementTableContainer,
@@ -321,7 +328,7 @@ module.exports = class {
             this.needToUpdateTableWidth = true;
         }
         window.addEventListener("click", e => {
-            if (!document.getElementById(`hr_ht_data_dropdown_${this.input.id}`).contains(e.target)) {
+            if (document.getElementById(`hr_ht_data_dropdown_${this.input.id}`) && !document.getElementById(`hr_ht_data_dropdown_${this.input.id}`).contains(e.target)) {
                 this.setState("dataOpen", false);
             }
         });
@@ -823,6 +830,23 @@ module.exports = class {
         }
     }
 
+    onSettingsColumnDownClick(e) {
+        e.preventDefault();
+        const {
+            id
+        } = e.target.closest("[data-id]").dataset;
+        const settingsColumns = {};
+        const settingsColumnsArr = Object.keys(this.state.settingsColumns);
+        const currentIndex = settingsColumnsArr.findIndex(i => i === id);
+        if (currentIndex < settingsColumnsArr.length) {
+            [settingsColumnsArr[currentIndex], settingsColumnsArr[currentIndex + 1]] = [settingsColumnsArr[currentIndex + 1], settingsColumnsArr[currentIndex]];
+            for (const c of settingsColumnsArr) {
+                settingsColumns[c] = this.state.settingsColumns[c];
+            }
+            this.setState("settingsColumns", settingsColumns);
+        }
+    }
+
     onSettingsColumnDragStart(e) {
         const {
             id
@@ -1277,5 +1301,152 @@ module.exports = class {
         } = e.target.closest("[data-uid]").dataset;
         const bulkItems = this.state.bulkItems.filter(i => i.uid !== uid);
         this.setState("bulkItems", bulkItems);
+    }
+
+    async onExportClick(e) {
+        e.preventDefault();
+        if (!this.state.checkboxes.length) {
+            this.setState("dataOpen", false);
+            this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_exportNoneSelectedError"), "is-warning");
+            return;
+        }
+        await this.utils.waitForComponent(`exportModal_ht_${this.input.id}`);
+        const exportModal = this.getComponent(`exportModal_ht_${this.input.id}`);
+        this.setState("dataExportUID", null);
+        this.setState("dataExportColumns", cloneDeep(this.state.columns));
+        exportModal.setActive(true).setCloseAllowed(true).setBackgroundCloseAllowed(true).setLoading(false);
+    }
+
+    async onExportButtonClick(button) {
+        switch (button) {
+        case "save":
+            const {
+                value
+            } = document.getElementById(`export_ht_${this.input.id}_format`);
+            const exportModal = this.getComponent(`exportModal_ht_${this.input.id}`);
+            exportModal.setCloseAllowed(false).setLoading(true);
+            try {
+                const response = await axios({
+                    method: "post",
+                    url: this.state.exportConfig.url,
+                    data: {
+                        format: value,
+                        selected: this.state.checkboxes,
+                        columns: Object.keys(this.state.dataExportColumns).filter(i => this.state.dataExportColumns[i]),
+                        language: this.language,
+                    },
+                    headers: this.input.headers || {},
+                });
+                this.setState("dataExportUID", response.data.uid);
+                exportModal.setActive(false);
+                await this.utils.waitForComponent(`exportDownloadModal_ht_${this.input.id}`);
+                const exportDownloadModal = this.getComponent(`exportDownloadModal_ht_${this.input.id}`);
+                exportDownloadModal.setActive(true).setCloseAllowed(true).setBackgroundCloseAllowed(true).setLoading(false);
+            } catch (e) {
+                exportModal.setCloseAllowed(true).setLoading(false);
+                if (e && e.response && e.response.status === 403) {
+                    this.emit("unauthorized");
+                }
+                this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_exportError"), "is-danger");
+            }
+            break;
+        }
+    }
+
+    onExportDownloadButtonClick() {}
+
+    onExportColumnDragOver(e) {
+        e.preventDefault();
+        e.target.classList.add("hr-ht-export-columns-drop-area-over");
+    }
+
+    onExportColumnDragEnter(e) {
+        e.preventDefault();
+        e.target.classList.add("hr-ht-export-columns-drop-area-over");
+    }
+
+    onExportColumnDragLeave(e) {
+        e.preventDefault();
+        e.target.classList.remove("hr-ht-export-columns-drop-area-over");
+    }
+
+    onExportColumnDrop(e) {
+        const dataTransfer = e.dataTransfer.getData("text");
+        e.target.classList.remove("hr-ht-export-columns-drop-area-over");
+        if (dataTransfer === this.input.id) {
+            const {
+                id
+            } = e.target.closest("[data-id]").dataset;
+            const dataExportColumns = {};
+            const dataExportColumnsArr = Object.keys(this.state.dataExportColumns).filter(i => i !== this.state.exportColumnDrag);
+            const newIndex = dataExportColumnsArr.findIndex(i => i === id);
+            dataExportColumnsArr.splice(newIndex, 0, this.state.exportColumnDrag);
+            for (const c of dataExportColumnsArr) {
+                dataExportColumns[c] = this.state.dataExportColumns[c];
+            }
+            this.setState("dataExportColumns", dataExportColumns);
+            return true;
+        }
+    }
+
+    onExportColumnDragStart(e) {
+        const {
+            id
+        } = e.target.closest("[data-id]").dataset;
+        this.setState("exportColumnDrag", id);
+        e.dataTransfer.setData("text", this.input.id);
+        return true;
+    }
+
+    onExportColumnDragEnd() {
+        this.setState("settingColumnDrag", null);
+        return true;
+    }
+
+    onExportColumnCheckboxClick(e) {
+        e.preventDefault();
+        const {
+            checked
+        } = e.target;
+        const {
+            id
+        } = e.target.dataset;
+        const dataExportColumns = cloneDeep(this.state.dataExportColumns);
+        dataExportColumns[id] = checked;
+        this.setState("dataExportColumns", dataExportColumns);
+    }
+
+    onExportColumnUpClick(e) {
+        e.preventDefault();
+        const {
+            id
+        } = e.target.closest("[data-id]").dataset;
+        const dataExportColumns = {};
+        const dataExportColumnsArr = Object.keys(this.state.dataExportColumns);
+        const currentIndex = dataExportColumnsArr.findIndex(i => i === id);
+        if (currentIndex > 0) {
+            [dataExportColumnsArr[currentIndex], dataExportColumnsArr[currentIndex - 1]] = [dataExportColumnsArr[currentIndex - 1], dataExportColumnsArr[currentIndex]];
+            for (const c of dataExportColumnsArr) {
+                dataExportColumns[c] = this.state.dataExportColumns[c];
+            }
+            this.setState("dataExportColumns", dataExportColumns);
+        }
+    }
+
+    onExportColumnDownClick(e) {
+        e.preventDefault();
+        const {
+            id,
+        } = e.target.closest("[data-id]").dataset;
+        const dataExportColumns = {};
+        const dataExportColumnsArr = Object.keys(this.state.dataExportColumns);
+        const currentIndex = dataExportColumnsArr.findIndex(i => i === id);
+        if (currentIndex < dataExportColumnsArr.length) {
+            [dataExportColumnsArr[currentIndex], dataExportColumnsArr[currentIndex + 1]] = [dataExportColumnsArr[currentIndex + 1], dataExportColumnsArr[currentIndex]];
+            for (const c of dataExportColumnsArr) {
+                dataExportColumns[c] = this.state.dataExportColumns[c];
+            }
+            this.setState("dataExportColumns", dataExportColumns);
+        }
     }
 };

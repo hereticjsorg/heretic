@@ -38,7 +38,7 @@ module.exports = class {
         await this.utils.waitForLanguageData();
         await this.utils.loadLanguageData("_signIn");
         window.addEventListener("click", e => {
-            if (!document.getElementById("hr_lang_dropdown").contains(e.target)) {
+            if (document.getElementById("hr_lang_dropdown") && !document.getElementById("hr_lang_dropdown").contains(e.target)) {
                 this.setState("langOpen", false);
             }
         });

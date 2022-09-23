@@ -16,16 +16,16 @@ module.exports = class {
 
     onMount() {
         window.addEventListener("click", e => {
-            if (!document.getElementById("hr_navbar_language").contains(e.target)) {
+            if (document.getElementById("hr_navbar_language") && !document.getElementById("hr_navbar_language").contains(e.target)) {
                 this.setState("langOpen", false);
             }
-            if (!document.getElementById("hr_navbar_auth").contains(e.target)) {
+            if (document.getElementById("hr_navbar_auth") && !document.getElementById("hr_navbar_auth").contains(e.target)) {
                 this.setState("authOpen", false);
             }
-            if (!document.getElementById("hr_navbar_burger").contains(e.target)) {
+            if (document.getElementById("hr_navbar_burger") && !document.getElementById("hr_navbar_burger").contains(e.target)) {
                 this.setState("navOpen", false);
             }
-            if (this.state.navItemOpen && !document.getElementById(`hr_navbar_item_${this.state.navItemOpen}`).contains(e.target)) {
+            if (this.state.navItemOpen && document.getElementById(`hr_navbar_item_${this.state.navItemOpen}`) && !document.getElementById(`hr_navbar_item_${this.state.navItemOpen}`).contains(e.target)) {
                 this.setState("navItemOpen", "");
             }
         });

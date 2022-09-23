@@ -77,6 +77,7 @@ export default class {
         this.fastify.decorateRequest("validateDataLoad", requestDecorators.validateDataLoadGeneric);
         this.fastify.decorateRequest("validateDataDelete", requestDecorators.validateDataDeleteGeneric);
         this.fastify.decorateRequest("validateDataBulk", requestDecorators.validateDataBulkGeneric);
+        this.fastify.decorateRequest("validateDataExport", requestDecorators.validateDataExportGeneric);
         this.fastify.decorateRequest("generateQuery", requestDecorators.generateQuery);
         this.fastify.decorateRequest("bulkUpdateQuery", requestDecorators.bulkUpdateQuery);
         this.fastify.decorateRequest("processFormData", requestDecorators.processFormData);

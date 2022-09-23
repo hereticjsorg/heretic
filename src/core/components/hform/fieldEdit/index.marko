@@ -124,7 +124,7 @@ import { mdiReload } from '@mdi/js'
                 </div>
                 <div class="hr-hf-captcha-image" on-click("onCaptchaImageClick") id=`hr_hf_ci_${input.formId}_${input.id}` no-update/>
                 <div class="hr-hf-captcha-image-reload" on-click("onCaptchaImageClick")>
-                    <svg viewBox="0 0 24 24" width="12" height="12" xmlns="http://www.w3.org/2000/svg">
+                    <svg viewBox="0 0 24 24" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
                         <path d=mdiReload/>
                     </svg>
                 </div>
@@ -171,3 +171,28 @@ import { mdiReload } from '@mdi/js'
     </div>
 </if>
 <!-- Date Picker Field: End -->
+<!-- WYSIWYG Field: Start -->
+<if(input.type === "wysiwyg")>
+    <div>
+        <div class="field">
+            <label class="label hr-hf-label">
+                ${input.label || ""}<span>:</span>
+                <if(input.mandatory)>
+                    &nbsp;<span class="hr-hf-label-mandatory">✱</span>
+                </if>
+            </label>
+            <div class="control">
+                <hwysiwyg/>
+            </div>
+            <if(state.error)>
+                <div class="hr-hf-error-wrap">
+                    <p class="tag is-danger hr-hf-error-tag">${state.error}</p>
+                </div>
+            </if>
+            <if(input.helpText)>
+                <p class="help">${input.helpText}</p>
+            </if>
+        </div>
+    </div>
+</if>
+<!-- WYSIWYG Field: End -->

@@ -74,6 +74,8 @@ module.exports = class {
                 element.addEventListener("change", this.onInputChangeListener.bind(this));
                 await this.loadCaptchaData();
                 break;
+            case "wysiwyg":
+                break;
             }
         }
         window.addEventListener("click", e => {
