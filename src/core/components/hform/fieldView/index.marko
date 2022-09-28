@@ -108,3 +108,28 @@ import { format } from "date-fns"
     </div>
 </if>
 <!-- Date Picker Field: End -->
+<!-- WYSIWYG Field: Start -->
+<if(input.type === "wysiwyg")>
+    <div>
+        <div class="field">
+            <label class="label hr-hf-label">
+                ${input.label || ""}<span>:</span>
+                <if(input.mandatory)>
+                    &nbsp;<span class="hr-hf-label-mandatory">✱</span>
+                </if>
+            </label>
+            <if(state.value)>
+                <div class="hr-hf-view-wysiwyg">$!{state.value}</div>
+            </if>
+            <else>
+                <div>
+                    <t>hform_noContent</t>
+                </div>
+            </else>
+            <if(input.helpText)>
+                <p class="help">${input.helpText}</p>
+            </if>
+        </div>
+    </div>
+</if>
+<!-- WYSIWYG Field: End -->

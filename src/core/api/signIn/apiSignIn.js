@@ -1,4 +1,4 @@
-import SignInForm from "../../modules/_signIn/data/signInForm";
+import SignInForm from "../../pages/_signIn/data/signInForm";
 import FormValidator from "../../lib/formValidatorServer";
 
 export default () => ({

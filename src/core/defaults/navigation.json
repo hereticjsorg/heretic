@@ -1,4 +1,10 @@
 {
-    "home": "home",
-    "routes": ["home", "license"]
+    "userspace": {
+        "home": "home",
+        "routes": [
+            "home",
+            "license"
+        ]
+    },
+    "admin": ["_home"]
 }

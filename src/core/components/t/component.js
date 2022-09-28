@@ -1,4 +1,4 @@
-const translatedModules = require("../../../build/translated-modules.json");
+const routesData = require("../../../build/routes.json");
 
 module.exports = class {
     async onCreate(input, out) {
@@ -10,10 +10,10 @@ module.exports = class {
                 ...require(`../../../translations/core/${this.language}.json`),
                 ...require(`../../../translations/user/${this.language}.json`)
             };
-            for (const module of translatedModules) {
+            for (const page of routesData.translatedPages.user) {
                 this.languageData = {
                     ...this.languageData,
-                    ...require(`../../../modules/${module}/translations/${this.language}.json`),
+                    ...require(`../../../pages/${page}/translations/${this.language}.json`),
                 };
             }
         }

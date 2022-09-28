@@ -1,6 +1,6 @@
 const path = require("path");
 
-const siteMeta = require(path.resolve(__dirname, "etc", "meta.json"));
+const siteMeta = require(path.resolve(__dirname, "etc", "website.json"));
 
 module.exports = {
     apps: [{

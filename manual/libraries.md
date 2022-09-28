@@ -4,7 +4,7 @@ Heretic provides several built-in libraries and helpers for you.
 
 ## Fastify Globals
 
-* Access both main configuration files (*system.json* and *meta.json*) using the Fastify decorations: *fastify.siteConfig*, *fastify.siteMeta*:
+* Access both main configuration files (*system.json* and *website.json*) using the Fastify decorations: *fastify.siteConfig*, *fastify.siteMeta*:
 
 ```javascript
     console.log(fastify.siteConfig.server.ip);

@@ -4,14 +4,13 @@
     width: 100%;
     border: 1px solid $grey-lighter;
     border-radius: $radius;
-    height: 250px;
+    height: 180px;
     display: flex;
     flex-direction: column;
 }
 
 .hr-wy-controls {
     width: 100%;
-    height:32px;
     background: $grey-lightest;
     border-bottom: 1px solid $grey-lighter;
 }
@@ -27,10 +26,22 @@
 }
 
 .hr-wy-control-button {
-    width: 31px !important;
-    height: 31px !important;
-    padding: 0 !important;
-    border: 1px solid transparent;
+    width: 29px;
+    height: 29px;
+    padding: 0;
+    background: $white;
+    border: 0;
+    border-radius: $radius;
+    margin-left: 1px;
+    margin-right: 1px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.hr-wy-control-button:hover {
+    background: $white-bis;
 }
 
 .hr-wy-control-button-selected {

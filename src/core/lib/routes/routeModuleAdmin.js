@@ -1,7 +1,7 @@
 import crypto from "crypto";
 
 const languages = Object.keys(require("../../../config/languages.json"));
-const pageTranslations = require("../../../build/translations-admin.json");
+const routesData = require("../../../build/routes.json");
 
 export default (route, languageData, language) => ({
     async handler(req, rep) {
@@ -12,9 +12,9 @@ export default (route, languageData, language) => ({
         if (route.dir !== "_signIn" && !authData) {
             return rep.code(302).redirect(languages[0] === language ? `${this.siteConfig.routes.signInAdmin}?_=${crypto.randomUUID()}&r=${route.path}` : `/${language}${this.siteConfig.routes.signInAdmin}?_=${crypto.randomUUID()}&r=/${language}${route.path}`);
         }
-        const translationData = pageTranslations.find(i => i.id === route.id);
-        const page = route.core ? (await import(`../../modules/${route.dir}/admin/server.marko`)).default : (await import(`../../../modules/${route.dir}/admin/server.marko`)).default;
-        const renderPage = await page.render({
+        const translationData = routesData.translations.admin.find(i => i.id === route.id);
+        const module = (await import(`../../../modules/${route.prefix}/${route.dir}/admin/server.marko`)).default;
+        const renderModule = await module.render({
             $global: {
                 serializedGlobals: {
                     language: true,
@@ -43,6 +43,6 @@ export default (route, languageData, language) => ({
             },
         });
         rep.type("text/html");
-        rep.send(renderPage.getOutput());
+        rep.send(renderModule.getOutput());
     }
 });

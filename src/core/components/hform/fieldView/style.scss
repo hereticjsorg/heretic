@@ -63,6 +63,12 @@
     margin-bottom: 3px;
 }
 
+.hr-hf-view-wysiwyg {
+    border: 1px solid $grey-lighter;
+    padding: 10px;
+    border-radius: $radius;
+}
+
 @media (max-width: 769px) {
     .hr-hf-field-xxlarge {
         width: unset !important;

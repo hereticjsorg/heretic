@@ -1,17 +1,5 @@
-const {
-    mdiFormatBold,
-    mdiFormatItalic,
-    mdiFormatUnderline,
-    mdiFormatStrikethrough,
-    mdiFormatHeader1,
-    mdiFormatHeader2,
-    mdiFormatParagraph,
-    mdiFormatQuoteClose,
-    mdiFormatListBulleted,
-    mdiFormatListNumbered,
-    mdiMinus,
-} = require("@mdi/js");
 const Utils = require("../../lib/componentUtils").default;
+const icons = require("./icons.json");
 
 module.exports = class {
     onCreate() {
@@ -53,6 +41,21 @@ module.exports = class {
         case "paragraph":
             document.execCommand("formatBlock", false, "<p>");
             break;
+        case "blockquote":
+            document.execCommand("formatBlock", false, "<blockquote>");
+            break;
+        case "orderedList":
+            document.execCommand("insertOrderedList", false, null);
+            break;
+        case "unorderedList":
+            document.execCommand("insertUnorderedList", false, null);
+            break;
+        case "line":
+            document.execCommand("insertHorizontalRule", false, null);
+            break;
+        case "code":
+            document.execCommand("formatBlock", false, "<pre>");
+            break;
         default:
             document.execCommand(action, false, null);
         }
@@ -69,7 +72,7 @@ module.exports = class {
         } else if (this.editor.innerHTML === "<br>") {
             this.editor.innerHTML = "";
         }
-        console.log(this.editor.innerHTML);
+        setTimeout(() => this.emit("value-change", this.editor.innerHTML), 0);
     }
 
     onEditorKeydown(e) {
@@ -83,22 +86,22 @@ module.exports = class {
         this.paragraphSeparator = "div";
         this.actions = {
             bold: {
-                icon: mdiFormatBold,
+                icon: icons.formatBold,
                 title: window.__heretic.t("hwysiwyg_bold"),
                 state: true,
             },
             italic: {
-                icon: mdiFormatItalic,
+                icon: icons.formatItalic,
                 title: window.__heretic.t("hwysiwyg_italic"),
                 state: true,
             },
             underline: {
-                icon: mdiFormatUnderline,
+                icon: icons.formatUnderline,
                 title: window.__heretic.t("hwysiwyg_underline"),
                 state: true,
             },
             strikethrough: {
-                icon: mdiFormatStrikethrough,
+                icon: icons.formatStrikethrough,
                 title: window.__heretic.t("hwysiwyg_strikethrough"),
                 state: true,
             },
@@ -106,19 +109,39 @@ module.exports = class {
                 separator: true,
             },
             heading1: {
-                icon: mdiFormatHeader1,
+                icon: icons.formatHeading1,
                 title: window.__heretic.t("hwysiwyg_heading1")
             },
             heading2: {
-                icon: mdiFormatHeader2,
+                icon: icons.formatHeading2,
                 title: window.__heretic.t("hwysiwyg_heading2")
             },
             _s2: {
                 separator: true,
             },
             paragraph: {
-                icon: mdiFormatParagraph,
+                icon: icons.formatParagraph,
                 title: window.__heretic.t("hwysiwyg_paragraph")
+            },
+            blockquote: {
+                icon: icons.formatBlockquote,
+                title: window.__heretic.t("hwysiwyg_blockquote")
+            },
+            orderedList: {
+                icon: icons.formatOrderedList,
+                title: window.__heretic.t("hwysiwyg_orderedList")
+            },
+            unorderedList: {
+                icon: icons.formatUnorderedList,
+                title: window.__heretic.t("hwysiwyg_unorderedList")
+            },
+            line: {
+                icon: icons.formatLine,
+                title: window.__heretic.t("hwysiwyg_line")
+            },
+            code: {
+                icon: icons.formatCode,
+                title: window.__heretic.t("hwysiwyg_code")
             },
         };
         await this.utils.waitForElement(`hr_wy_el_${this.input.formId}_${this.input.id}`);
@@ -135,9 +158,9 @@ module.exports = class {
             } else {
                 const button = document.createElement("button");
                 button.id = `hr_wy_el_${this.input.formId}_${this.input.id}_control_${a}`;
-                button.classList.add("button");
+                // button.classList.add("button");
                 button.classList.add("hr-wy-control-button");
-                button.innerHTML = `<svg viewBox="0 0 24 24" width="20" height="20" xmlns="http://www.w3.org/2000/svg"><path d="${action.icon}"/></svg>`;
+                button.innerHTML = `<svg viewBox="0 0 24 24" width="18" height="18" xmlns="http://www.w3.org/2000/svg"><path d="${action.icon}"/></svg>`;
                 button.type = "button";
                 button.dataset.action = a;
                 controls.appendChild(button);
@@ -148,5 +171,13 @@ module.exports = class {
         this.editor.addEventListener("mouseup", this.actionStateHandler.bind(this));
         this.editor.addEventListener("input", this.onEditorInput.bind(this));
         this.editor.addEventListener("keydown", this.onEditorKeydown.bind(this));
+    }
+
+    setValue(value) {
+        this.editor.innerHTML = value;
+    }
+
+    getValue() {
+        return this.editor.innerHTML;
     }
 };

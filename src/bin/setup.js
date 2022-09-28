@@ -24,36 +24,35 @@ console.log(` _   _               _   _\n| | | |             | | (_)\n| |_| | __
 
 console.log("Initializing configuration files and data...");
 if (!options.defaults) {
-    console.log(`Note: use --defaults parameter to create default modules and navigation`);
+    console.log(`Note: use --defaults parameter to create default pages and navigation`);
 }
 
 // Reading configuration templates
-const configMeta = fs.readJSONSync(path.resolve(__dirname, "..", "core", "defaults", "meta.json"));
+const configMeta = fs.readJSONSync(path.resolve(__dirname, "..", "core", "defaults", "website.json"));
 const configSystem = fs.readJSONSync(path.resolve(__dirname, "..", "core", "defaults", "system.json"));
 const configNavigation = fs.readJSONSync(path.resolve(__dirname, "..", "core", "defaults", "navigation.json"));
-const configNavigationAdmin = fs.readJSONSync(path.resolve(__dirname, "..", "core", "defaults", "navigation-admin.json"));
 
 // Generate Secret
 configSystem.secret = crypto.createHmac("sha256", uuidv4()).update(uuidv4()).digest("hex");
 
 // Ensure that required directories exist
-fs.ensureDirSync(path.resolve(__dirname, "..", "modules"));
+fs.ensureDirSync(path.resolve(__dirname, "..", "pages"));
 fs.ensureDirSync(path.resolve(__dirname, "..", "..", "etc"));
 fs.ensureDirSync(path.resolve(__dirname, "..", "translations", "user"));
 
 // If there is an option to copy defaults...
 if (options.defaults) {
-    // Copy src/modules/home module
-    if (!fs.existsSync(path.resolve(__dirname, "..", "modules", "home")) || options.force) {
-        fs.copySync(path.resolve(__dirname, "..", "core", "defaults", "home"), path.resolve(__dirname, "..", "modules", "home"));
+    // Copy src/pages/home page
+    if (!fs.existsSync(path.resolve(__dirname, "..", "pages", "home")) || options.force) {
+        fs.copySync(path.resolve(__dirname, "..", "core", "defaults", "home"), path.resolve(__dirname, "..", "pages", "home"));
     } else {
-        console.log(`Warning: skipping src/modules/home, use --force parameter to override`);
+        console.log(`Warning: skipping src/pages/home, use --force parameter to override`);
     }
-    // Copy src/modules/license module
-    if (!fs.existsSync(path.resolve(__dirname, "..", "modules", "license")) || options.force) {
-        fs.copySync(path.resolve(__dirname, "..", "core", "defaults", "license"), path.resolve(__dirname, "..", "modules", "license"));
+    // Copy src/pages/license page
+    if (!fs.existsSync(path.resolve(__dirname, "..", "pages", "license")) || options.force) {
+        fs.copySync(path.resolve(__dirname, "..", "core", "defaults", "license"), path.resolve(__dirname, "..", "pages", "license"));
     } else {
-        console.log(`Warning: skipping src/modules/license, use --force parameter to override`);
+        console.log(`Warning: skipping src/pages/license, use --force parameter to override`);
     }
 } else {
     // There are no default routes otherwise
@@ -67,20 +66,20 @@ if (!fs.existsSync(path.resolve(__dirname, "..", "view")) || options.force) {
     console.log(`Warning: skipping src/view, use --force parameter to override`);
 }
 
-// Copy blank module template
-if (!fs.existsSync(path.resolve(__dirname, "..", "modules", ".blank")) || options.force) {
-    fs.copySync(path.resolve(__dirname, "..", "core", "defaults", ".blank"), path.resolve(__dirname, "..", "modules", ".blank"));
+// Copy blank page template
+if (!fs.existsSync(path.resolve(__dirname, "..", "pages", ".blank")) || options.force) {
+    fs.copySync(path.resolve(__dirname, "..", "core", "defaults", ".blank"), path.resolve(__dirname, "..", "pages", ".blank"));
 } else {
-    console.log(`Warning: skipping modules/.blank, use --force parameter to override`);
+    console.log(`Warning: skipping pages/.blank, use --force parameter to override`);
 }
 
-// Copy etc/meta.json configuration file
-if (!fs.existsSync(path.resolve(__dirname, "..", "..", "etc", "meta.json")) || options.force) {
-    fs.writeJSONSync(path.resolve(__dirname, "..", "..", "etc", "meta.json"), configMeta, {
+// Copy etc/website.json configuration file
+if (!fs.existsSync(path.resolve(__dirname, "..", "..", "etc", "website.json")) || options.force) {
+    fs.writeJSONSync(path.resolve(__dirname, "..", "..", "etc", "website.json"), configMeta, {
         spaces: "\t"
     });
 } else {
-    console.log(`Warning: skipping etc/meta.json, use --force parameter to override`);
+    console.log(`Warning: skipping etc/website.json, use --force parameter to override`);
 }
 
 // Copy etc/system.json configuration file
@@ -99,15 +98,6 @@ if (!fs.existsSync(path.resolve(__dirname, "..", "..", "etc", "navigation.json")
     });
 } else {
     console.log(`Warning: skipping etc/navigation.json, use --force parameter to override`);
-}
-
-// Copy etc/navigation-admin.json configuration file
-if (!fs.existsSync(path.resolve(__dirname, "..", "..", "etc", "navigation-admin.json")) || options.force) {
-    fs.writeJSONSync(path.resolve(__dirname, "..", "config", "navigation-admin.json"), configNavigationAdmin, {
-        spaces: "\t"
-    });
-} else {
-    console.log(`Warning: skipping etc/navigation-admin.json, use --force parameter to override`);
 }
 
 // Create empty translation files

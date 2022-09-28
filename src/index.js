@@ -9,9 +9,9 @@ import Heretic from "./core/lib/heretic";
             heretic.serveStaticContent();
         }
         await heretic.connectDatabase();
-        heretic.registerRouteModulesFrontend();
-        heretic.registerRouteModulesAdmin();
-        heretic.registerRouteModulesCore();
+        heretic.registerRoutePagesUserspace();
+        heretic.registerRoutePagesAdmin();
+        heretic.registerRoutePagesCore();
         heretic.registerRouteErrors();
         await heretic.registerRouteAPI();
         heretic.listen();

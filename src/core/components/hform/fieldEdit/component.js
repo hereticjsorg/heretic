@@ -74,8 +74,6 @@ module.exports = class {
                 element.addEventListener("change", this.onInputChangeListener.bind(this));
                 await this.loadCaptchaData();
                 break;
-            case "wysiwyg":
-                break;
             }
         }
         window.addEventListener("click", e => {
@@ -158,7 +156,7 @@ module.exports = class {
         return value;
     }
 
-    setValue(value) {
+    async setValue(value) {
         switch (this.input.type) {
         case "text":
             if (this.maskedInput) {
@@ -184,6 +182,11 @@ module.exports = class {
                 this.setState("value", fieldValue || null);
                 this.setState("imageSecret", imageSecret || null);
             }
+            break;
+        case "wysiwyg":
+            await this.utils.waitForComponent(`hr_hf_el_${this.input.formId}_${this.input.id}_wysiwyg`);
+            this.getComponent(`hr_hf_el_${this.input.formId}_${this.input.id}_wysiwyg`).setValue(value);
+            this.setState("value", value || null);
             break;
         default:
             this.setState("value", value);
@@ -270,5 +273,9 @@ module.exports = class {
             await this.utils.waitForComponent(`hr_hf_el_${this.input.formId}_${this.input.id}_calendar`);
             this.getComponent(`hr_hf_el_${this.input.formId}_${this.input.id}_calendar`).setTimestamp(this.state.value * 1000);
         }
+    }
+
+    async onWYSIWYGValueChange(value) {
+        this.setState("value", value);
     }
 };

@@ -12,12 +12,12 @@ export default async (err, rep, languageData, language, siteMeta) => {
         title = languageData[language].internalServerErrorTitle;
         message = languageData[language].internalServerErrorMessage;
     }
-    const renderModule = await error500.render({
+    const renderPage = await error500.render({
         siteTitle: siteMeta.title[language],
         title,
         message,
         code: err.code || 500,
     });
     rep.type("text/html");
-    return renderModule.getOutput();
+    return renderPage.getOutput();
 };

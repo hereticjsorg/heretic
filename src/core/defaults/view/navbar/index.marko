@@ -1,13 +1,12 @@
 import navigation from "../../config/navigation.json"
 import languages from "../../config/languages.json"
-import routes from "../../build/routes.json"
 import logo from "../../images/logo.svg"
 import { mdiGithub, mdiWeb, mdiAccountCircleOutline } from "@mdi/js"
 
 $ const i18nNavigation = out.global.i18nNavigation;
 <nav class="navbar hr-navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-        <hrouter-link route=navigation.home class="navbar-item">
+        <hrouter-link route=navigation.userspace.home class="navbar-item">
             <img src=logo/>
         </hrouter-link>
         <a id="hr_navbar_burger" onClick("onBurgerClick") role="button" class=`navbar-burger${state.navOpen ? " is-active" : ""}` data-target="navbar">
@@ -18,7 +17,7 @@ $ const i18nNavigation = out.global.i18nNavigation;
     </div>
     <div id="navbar" class=`navbar-menu${state.navOpen ? " is-active" : ""}`>
         <div class="navbar-start">
-            <for|item| of=navigation.routes>
+            <for|item| of=navigation.userspace.routes>
                 <if(typeof item === "string")>
                     <hrouter-link route=item class=`navbar-item hr-navbar-item${state.route === item ? " hr-navbar-item-active" : ""}`>${i18nNavigation[item]}</hrouter-link>
                 </if>

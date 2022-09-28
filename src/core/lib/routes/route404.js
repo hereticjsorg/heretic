@@ -2,7 +2,7 @@ import error404 from "../../errors/404/server.marko";
 
 export default async (req, rep, languageData, language, siteMeta, siteConfig, i18nNavigation) => {
     const authData = await req.auth.getData(req.auth.methods.COOKIE);
-    const renderModule = await error404.render({
+    const renderPage = await error404.render({
         $global: {
             serializedGlobals: {
                 language: true,
@@ -23,5 +23,5 @@ export default async (req, rep, languageData, language, siteMeta, siteConfig, i1
         },
     });
     rep.type("text/html");
-    return renderModule.getOutput();
+    return renderPage.getOutput();
 };

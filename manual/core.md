@@ -52,7 +52,7 @@ Returns **[Object][10]** configuration data object (JSON)
 
 ### getConfigMeta
 
-This method returns site metadata (meta.json)
+This method returns site metadata (website.json)
 
 Returns **[Object][10]** configuration data object (JSON)
 

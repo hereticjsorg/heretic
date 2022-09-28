@@ -1,7 +1,7 @@
 const Router = require("../../lib/router");
 const languages = require("../../../config/languages.json");
 const navigation = require("../../../config/navigation.json");
-const routes = require("../../../build/routes.json");
+const routesData = require("../../../build/routes.json");
 
 module.exports = class {
     onCreate() {
@@ -13,7 +13,7 @@ module.exports = class {
     }
 
     onMount() {
-        const router = new Router(routes, Object.keys(languages), navigation.home);
+        const router = new Router(routesData.routes.userspace, Object.keys(languages), navigation.home);
         router.setOnRouteChangeHandler(this.onRouteChangeHandler.bind(this));
         this.emit("route-change", router);
         window.__heretic = window.__heretic || {};

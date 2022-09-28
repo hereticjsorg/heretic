@@ -1,4 +1,4 @@
-import navigation from "../../../../../config/navigation-admin.json"
+import navigation from "../../../../../config/navigation.json"
 
 $ const i18nNavigation = out.global.i18nNavigation;
 <div class="hr-menu-wrap">
@@ -6,10 +6,10 @@ $ const i18nNavigation = out.global.i18nNavigation;
         <div class="card hr-menu-card" id="hr_side_menu">
             <aside class="menu">
                 <ul class="menu-list">
-                    <for|item| of=navigation>
+                    <for|item| of=navigation.admin>
                         <li>
                             <hrouter-link-admin route=item class=`hr-menu-item ${state.route === item ? " is-active" : ""}`>
-                                <hicon-admin id=item width=20 height=20 marginTop=5 marginRight=5 css="hr-menu-icon"/>
+                                <hicon-admin id=item.replace(/\./gm, "_") width=20 height=20 marginTop=5 marginRight=5 css="hr-menu-icon"/>
                                 ${i18nNavigation[item]}
                             </hrouter-link-admin>
                         </li>

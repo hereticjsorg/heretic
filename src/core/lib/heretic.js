@@ -8,18 +8,16 @@ import {
 } from "mongodb";
 
 import hereticRateLimit from "./rateLimit";
-import routeModuleFrontend from "./routes/routeModuleFrontend";
+import routePageUserspace from "./routes/routePageUserspace";
+import routeModuleUserspace from "./routes/routeModuleUserspace";
+import routePageAdmin from "./routes/routePageAdmin";
 import routeModuleAdmin from "./routes/routeModuleAdmin";
-import routeModuleCore from "./routes/routeModuleCore";
+import routePageCore from "./routes/routePageCore";
 import route404 from "./routes/route404";
 import route500 from "./routes/route500";
 import apiRoute404 from "./routes/route404-api";
 import apiRoute500 from "./routes/route500-api";
-import routesFrontend from "../../build/routes.json";
-import routesAdmin from "../../build/routes-admin.json";
-import routesCore from "../../build/routes-core.json";
-import apiModules from "../../build/api-modules.json";
-import apiCore from "../../build/api-core.json";
+import routesData from "../../build/routes.json";
 import Logger from "./logger";
 import Utils from "./utils";
 import Auth from "./auth";
@@ -27,11 +25,7 @@ import replyDecorators from "./replyDecorators";
 import requestDecorators from "./requestDecorators";
 import fastifyURLData from "./urlData";
 import fastifyMultipart from "./multipart";
-import i18nCore from "../../build/i18n-loader-core.js";
-import i18nTranslations from "../../build/translated-modules.json";
-import i18nTranslationsCore from "../../build/translated-modules-core.json";
-import i18nNavigation from "../../build/i18n-navigation.json";
-import i18nNavigationAdmin from "../../build/i18n-navigation-admin.json";
+import i18nCore from "../../build/loaders/i18n-loader-core.js";
 import languages from "../../config/languages.json";
 import navigation from "../../config/navigation.json";
 
@@ -44,10 +38,10 @@ export default class {
         // Read configuration files
         try {
             this.config = fs.existsSync(path.resolve(__dirname, "system.json")) ? fs.readJSONSync(path.resolve(__dirname, "system.json")) : fs.readJSONSync(path.resolve(__dirname, "..", "etc", "system.json"));
-            this.siteMeta = fs.existsSync(path.resolve(__dirname, "meta.json")) ? fs.readJSONSync(path.resolve(__dirname, "meta.json")) : fs.readJSONSync(path.resolve(__dirname, "..", "etc", "meta.json"));
+            this.siteMeta = fs.existsSync(path.resolve(__dirname, "website.json")) ? fs.readJSONSync(path.resolve(__dirname, "website.json")) : fs.readJSONSync(path.resolve(__dirname, "..", "etc", "website.json"));
         } catch {
             // eslint-disable-next-line no-console
-            console.error(`Could not read "system.json" and/or "meta.json" configuration files.\nRun the following command to create: npm run setup\nRead documentation for more info.`);
+            console.error(`Could not read "system.json" and/or "website.json" configuration files.\nRun the following command to create: npm run setup\nRead documentation for more info.`);
             process.exit(1);
         }
         this.config.secretInt = parseInt(crypto.createHash("md5").update(this.config.secret).digest("hex"), 16);
@@ -66,8 +60,8 @@ export default class {
         this.fastify.register(fastifyMultipart);
         this.fastify.register(fastifyURLData);
         this.fastify.decorate("i18nNavigation", {
-            frontend: i18nNavigation,
-            admin: i18nNavigationAdmin
+            userspace: routesData.i18nNavigation.userspace,
+            admin: routesData.i18nNavigation.admin,
         });
         this.fastify.decorate("siteMeta", this.siteMeta);
         this.fastify.decorate("siteConfig", this.config);
@@ -109,8 +103,8 @@ export default class {
         this.languageData = {};
         for (const lang of Object.keys(languages)) {
             this.languageData[lang] = await i18nCore.loadLanguageFile(lang);
-            for (const module of [...i18nTranslations, ...i18nTranslationsCore]) {
-                const i18nLoader = await import(`../../build/i18n-loader-${module}.js`);
+            for (const page of [...routesData.translatedPages.core, ...routesData.translatedPages.user]) {
+                const i18nLoader = await import(`../../build/loaders/i18n-loader-${page}.js`);
                 this.languageData[lang] = {
                     ...this.languageData[lang],
                     ...await i18nLoader.loadLanguageFile(lang),
@@ -131,42 +125,60 @@ export default class {
     }
 
     /*
-     * Register routes for all modules
+     * Register routes for all pages
      */
-    registerRouteModulesFrontend() {
-        for (const route of routesFrontend) {
-            this.fastify.get(route.path || "/", routeModuleFrontend(route, this.languageData, this.defaultLanguage));
-            for (const lang of Object.keys(languages)) {
-                if (lang !== this.defaultLanguage) {
-                    this.fastify.get(`/${lang}${route.path}`, routeModuleFrontend(route, this.languageData, lang));
+    registerRoutePagesUserspace() {
+        for (const route of routesData.routes.userspace) {
+            if (route.module) {
+                this.fastify.get(route.path || "/", routeModuleUserspace(route, this.languageData, this.defaultLanguage));
+                for (const lang of Object.keys(languages)) {
+                    if (lang !== this.defaultLanguage) {
+                        this.fastify.get(`/${lang}${route.path}`, routeModuleUserspace(route, this.languageData, lang));
+                    }
+                }
+            } else {
+                this.fastify.get(route.path || "/", routePageUserspace(route, this.languageData, this.defaultLanguage));
+                for (const lang of Object.keys(languages)) {
+                    if (lang !== this.defaultLanguage) {
+                        this.fastify.get(`/${lang}${route.path}`, routePageUserspace(route, this.languageData, lang));
+                    }
                 }
             }
         }
     }
 
     /*
-     * Register admin routes for all modules
+     * Register admin routes for all pages
      */
-    registerRouteModulesAdmin() {
-        for (const route of routesAdmin) {
-            this.fastify.get(route.path, routeModuleAdmin(route, this.languageData, this.defaultLanguage));
-            for (const lang of Object.keys(languages)) {
-                if (lang !== this.defaultLanguage) {
-                    this.fastify.get(`/${lang}${route.path}`, routeModuleAdmin(route, this.languageData, lang));
+    registerRoutePagesAdmin() {
+        for (const route of routesData.routes.admin) {
+            if (route.module) {
+                this.fastify.get(route.path, routeModuleAdmin(route, this.languageData, this.defaultLanguage));
+                for (const lang of Object.keys(languages)) {
+                    if (lang !== this.defaultLanguage) {
+                        this.fastify.get(`/${lang}${route.path}`, routeModuleAdmin(route, this.languageData, lang));
+                    }
+                }
+            } else {
+                this.fastify.get(route.path, routePageAdmin(route, this.languageData, this.defaultLanguage));
+                for (const lang of Object.keys(languages)) {
+                    if (lang !== this.defaultLanguage) {
+                        this.fastify.get(`/${lang}${route.path}`, routePageAdmin(route, this.languageData, lang));
+                    }
                 }
             }
         }
     }
 
     /*
-     * Register core routes for all modules
+     * Register core routes for all pages
      */
-    registerRouteModulesCore() {
-        for (const route of routesCore) {
-            this.fastify.get(route.path, routeModuleCore(route, this.languageData, this.defaultLanguage));
+    registerRoutePagesCore() {
+        for (const route of routesData.routes.core) {
+            this.fastify.get(route.path, routePageCore(route, this.languageData, this.defaultLanguage));
             for (const lang of Object.keys(languages)) {
                 if (lang !== this.defaultLanguage) {
-                    this.fastify.get(`/${lang}${route.path}`, routeModuleCore(route, this.languageData, lang));
+                    this.fastify.get(`/${lang}${route.path}`, routePageCore(route, this.languageData, lang));
                 }
             }
         }
@@ -178,7 +190,7 @@ export default class {
     registerRouteErrors() {
         this.fastify.setNotFoundHandler(async (req, rep) => {
             const language = this.utils.getLanguageFromUrl(req.url);
-            const output = req.urlData(null, req).path.match(/^\/api\//) ? apiRoute404(rep, this.languageData, language) : await route404(req, rep, this.languageData, language, this.siteMeta, this.config, i18nNavigation);
+            const output = req.urlData(null, req).path.match(/^\/api\//) ? apiRoute404(rep, this.languageData, language) : await route404(req, rep, this.languageData, language, this.siteMeta, this.config, routesData.i18nNavigation.userspace);
             rep.code(404);
             rep.send(output);
         });
@@ -195,11 +207,15 @@ export default class {
      * Register API routes
      */
     async registerRouteAPI() {
-        for (const module of apiCore) {
-            const api = await import(`../api/${module}/index.js`);
+        for (const page of routesData.api.core) {
+            const api = await import(`../api/${page}/index.js`);
             api.default(this.fastify);
         }
-        for (const module of apiModules) {
+        for (const page of routesData.api.userspace) {
+            const api = await import(`../../pages/${page}/api/index.js`);
+            api.default(this.fastify);
+        }
+        for (const module of routesData.api.modules) {
             const api = await import(`../../modules/${module}/api/index.js`);
             api.default(this.fastify);
         }
@@ -261,7 +277,7 @@ export default class {
     }
 
     /*
-     * This method returns site metadata (meta.json)
+     * This method returns site metadata (website.json)
      * @returns {Object} configuration data object (JSON)
      */
     getConfigMeta() {

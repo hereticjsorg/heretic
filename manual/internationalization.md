@@ -25,7 +25,7 @@ To include a new language into your website, simply add a new key and value, exa
 
 The first language in this list is a default one (used when no language is selected).
 
-After you've defined all the languages you need, it's time to change the main meta.json (*./etc/meta.json*) and update it according to your language list:
+After you've defined all the languages you need, it's time to change the main website.json (*./etc/website.json*) and update it according to your language list:
 
 ```json
 {
@@ -54,7 +54,7 @@ Each module has *module.json* file where you must define *title* and *descriptio
 
 Each module may have its localized version (that's optional, but you can use this feature in case when content for different languages is absolutely different).
 
-To use this feature, you will need to set the *langSwitchComponent* parameter to *true* in module's *meta.json* file. If true, Heretic will generate &lt;lang-switch/&gt; component for each module to display a different content version for each module.
+To use this feature, you will need to set the *langSwitchComponent* parameter to *true* in module's *website.json* file. If true, Heretic will generate &lt;lang-switch/&gt; component for each module to display a different content version for each module.
 
 Each module has the following structure:
 

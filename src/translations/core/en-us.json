@@ -109,6 +109,7 @@
     "dlte": "less than or equals",
     "htable_edit": "Edit",
     "hform_noAttachments": "No files attached",
+    "hform_noContent": "No content",
     "htable_bulkItemNew": "New",
     "htable_defaultTab": "Default",
     "htable_duplicateBulkItem": "Duplicate Item",

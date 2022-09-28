@@ -34,7 +34,7 @@ Additionally, you may wish to tell Heretic build script to include a module into
 
 ## Meta Modules
 
-You can combine multiple modules in a single directory in order to follow the internal logic of your project. To do this, create a directory where you will put all of your module directories and create *meta.json* file with the following contents:
+You can combine multiple modules in a single directory in order to follow the internal logic of your project. To do this, create a directory where you will put all of your module directories and create *website.json* file with the following contents:
 
 ```json
 ["directory1", "directory2", "etc"]

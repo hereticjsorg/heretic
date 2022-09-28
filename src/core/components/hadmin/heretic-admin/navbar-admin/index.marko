@@ -1,6 +1,5 @@
-import navigation from "../../../../../config/navigation-admin.json"
+import navigation from "../../../../../config/navigation.json"
 import languages from "../../../../../config/languages.json"
-import routes from "../../../../../build/routes-admin.json"
 import logo from "../../../../../images/logo_dark.svg"
 import { mdiGithub, mdiWeb } from "@mdi/js"
 
@@ -21,7 +20,7 @@ $ const i18nNavigation = out.global.i18nNavigation;
     </div>
     <div id="navbar" class=`hr-navbar-menu navbar-menu${state.navOpen ? " is-active" : ""}`>
         <div class="navbar-start is-hidden-desktop">
-            <for|item| of=navigation>
+            <for|item| of=navigation.admin>
                 <hrouter-link-admin route=item class=`navbar-item hr-navbar-item${state.route === item ? " hr-navbar-item-active" : ""}`>${i18nNavigation[item]}</hrouter-link-admin>
             </for>
         </div>

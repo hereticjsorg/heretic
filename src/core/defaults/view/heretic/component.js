@@ -1,10 +1,10 @@
 const cloneDeep = require("lodash.clonedeep");
 const tippy = require("tippy.js").default;
 const debounce = require("lodash.debounce");
-const i18nLoader = require("../../build/i18n-loader-core");
-const pagesLoader = require("../../build/module-loader");
+const i18nLoader = require("../../build/loaders/i18n-loader-core");
+const pagesLoader = require("../../build/loaders/page-loader-userspace");
 const Utils = require("../../core/lib/componentUtils").default;
-const routes = require("../../build/routes.json");
+const routesData = require("../../build/routes.json");
 
 module.exports = class {
     async loadLanguageData() {
@@ -73,7 +73,7 @@ module.exports = class {
     async onRouteChange(router) {
         let component = null;
         const route = router.getRoute();
-        const routeData = routes.find(r => r.id === route.id);
+        const routeData = routesData.routes.userspace.find(r => r.id === route.id);
         if ((route.id !== this.serverRoute || this.state.routed) && routeData) {
             const timer = this.getAnimationTimer();
             try {

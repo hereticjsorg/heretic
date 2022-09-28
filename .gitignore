@@ -22,12 +22,12 @@ typings/
 .env
 /dist
 /src/build
-src/static/sitemap.xml
 /etc
+src/pages
 src/modules
 src/config/navigation.json
-src/config/navigation-admin.json
 src/view
 src/translations/user
 /logs
+src/static/public
 .DS_Store

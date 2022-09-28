@@ -151,18 +151,18 @@
 .hr-body,
 .hr-wrap,
 .hr-admin,
-.hr-module-content {
+.hr-page-content {
     height: 100%;
     margin: 0px;
 }
 
-.hr-module-content {
+.hr-page-content {
     padding: 10px;
     border-left: 1px solid $grey-lightest;
 }
 
 @media (max-width: 1023px) {
-    .hr-module-content {
+    .hr-page-content {
         border-left: unset;
     }
 }

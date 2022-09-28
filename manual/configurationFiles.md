@@ -25,7 +25,7 @@ This configuration file contains main options related to your web server (IP, po
 | rateLimit/blackList        | Black list (banned hosts), array of strings                  			 | []           				  	  |
 | rateLimit/addHeaders       | Add "x-ratelimit-xxx" and "retry-after" headers                  		 | true/true/true/true			  	  |
 
-## etc/meta.json
+## etc/website.json
 
 This configuration file describes the meta data of your website which is used system-wide.
 

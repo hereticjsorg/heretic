@@ -16,20 +16,16 @@ fs.writeFileSync(path.resolve(__dirname, "node_modules", "fastify", "lib", "erro
 module.exports = (env, argv) => {
     const markoPlugin = new MarkoPlugin();
     const webpackUtils = new WebpackUtils(argv.mode === "production");
-    webpackUtils.generateModulesBuildConfigs();
-    webpackUtils.generateI18nLoader();
-    webpackUtils.generateModulesLoader();
-    webpackUtils.generateI18nNavigation();
+    webpackUtils.generateBuildConfigs();
+    webpackUtils.generateLoaders();
     webpackUtils.generateAdminIconsLoader();
+    webpackUtils.generateLangSwitchComponents();
+    webpackUtils.copyDataDir();
     webpackUtils.generateSitemap();
     webpackUtils.generateManifest();
-    webpackUtils.generateServerData();
-    webpackUtils.generateLangSwitchComponents();
-    webpackUtils.generateListAPI();
-    webpackUtils.copyDataDir();
     return ([{
             context: path.resolve(`${__dirname}`),
-            name: "Frontend",
+            name: "Userspace",
             target: ["web", "es5"],
             output: {
                 path: path.resolve(__dirname, "dist", "public", "heretic"),
