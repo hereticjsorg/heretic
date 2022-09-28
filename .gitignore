@@ -30,4 +30,5 @@ src/view
 src/translations/user
 /logs
 src/static/public
+src/styles
 .DS_Store

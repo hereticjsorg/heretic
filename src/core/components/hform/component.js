@@ -405,8 +405,15 @@ module.exports = class {
         this.getComponent(`notify_field_${this.input.formId}`).show(window.__heretic.t(message), css);
     }
 
-    setErrorMessage(message) {
+    async setErrorMessage(message) {
         this.setState("errorMessage", message);
+        if (message) {
+            await this.utils.waitForElement(`${this.input.id}_errorNotification`);
+            document.getElementById(`${this.input.id}_errorNotification`).scrollIntoView({
+                block: "start",
+                inline: "nearest"
+            });
+        }
         return this;
     }
 
