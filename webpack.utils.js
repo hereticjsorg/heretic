@@ -88,7 +88,8 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
         const modulesList = fs.readdirSync(path.resolve(__dirname, "src", "modules")).filter(p => !p.match(/^\./));
         for (const module of modulesList) {
             try {
-                const moduleConfig = fs.readJSONSync(path.resolve(__dirname, "src", "modules", module, "module.json"));
+                // const moduleConfig = fs.readJSONSync(path.resolve(__dirname, "src", "modules", module, "module.json"));
+                const moduleConfig = require(path.resolve(__dirname, "src", "modules", module, "module.js"));
                 if (fs.existsSync(path.resolve(__dirname, "src", "modules", module, "api"))) {
                     routesData.api.modules.push(module);
                 }
@@ -504,8 +505,7 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
     generateManifest() {
         const manifest = {
             id: "heretic",
-            icons: [
-                {
+            icons: [{
                     src: "/heretic/android-chrome-192x192.png",
                     sizes: "192x192",
                     type: "image/png"
