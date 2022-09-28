@@ -10,6 +10,7 @@ module.exports = class {
         fs.ensureDirSync(path.resolve(__dirname, "src", "build"));
         fs.ensureDirSync(path.resolve(__dirname, "src", "build", "loaders"));
         fs.ensureDirSync(path.resolve(__dirname, "src", "build", "components"));
+        fs.ensureDirSync(path.resolve(__dirname, "src", "styles"));
         fs.ensureDirSync(path.resolve(__dirname, "logs"));
         fs.ensureDirSync(path.resolve(__dirname, "dist"));
         if (this.config.directories.tmp) {
@@ -18,6 +19,9 @@ module.exports = class {
         fs.ensureDirSync(path.resolve(__dirname, "dist", this.config.directories.files));
         if (!fs.existsSync(path.resolve(__dirname, "src", "static", "public"))) {
             fs.copySync(path.resolve(__dirname, "src", "core", "defaults", "public"), path.resolve(__dirname, "src", "static", "public"));
+        }
+        if (!fs.existsSync(path.resolve(__dirname, "src", "styles", "bulma.scss"))) {
+            fs.copySync(path.resolve(__dirname, "src", "core", "defaults", "bulma.scss"), path.resolve(__dirname, "src", "styles", "bulma.scss"));
         }
         this.languages = fs.readJSONSync(path.resolve(__dirname, "src", "config", "languages.json"));
         this.meta = fs.readJSONSync(path.resolve(__dirname, "etc", "website.json"));
