@@ -81,5 +81,5 @@
             "uniqueItems": true
         }
     },
-    "required": ["fields"]
+    "required": ["fields", "itemsPerPage", "page"]
 }

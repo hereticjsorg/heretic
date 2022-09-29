@@ -309,6 +309,18 @@
         -20px -20px 60px #ffffff;
 }
 
+.hr-ht-recycleBin-pagination-wrap {
+    border-top: 1px solid $grey-lighter;
+}
+
+.hr-ht-recycleBin-pagination-wrap>nav {
+    margin-top: 0 !important;
+}
+
+.hr-ht-recycleBin-cell {
+    padding-top: 3px;
+}
+
 @media (max-width: 1023px) {
     .hr-ht-hidden-touch {
         display: none;

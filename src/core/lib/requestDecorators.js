@@ -7,6 +7,7 @@ import {
     ObjectID
 } from "bson";
 import listValidationSchema from "./listGenericValidationSchema.json";
+import recycleBinListValidationSchema from "./recycleBinListGenericValidationSchema.json";
 import loadGenericValidationSchema from "./loadGenericValidationSchema.json";
 import deleteGenericValidationSchema from "./deleteGenericValidationSchema.json";
 import bulkGenericValidationSchema from "./bulkGenericValidationSchema.json";
@@ -23,6 +24,7 @@ const validateLoadGenericSchema = ajv.compile(loadGenericValidationSchema);
 const deleteLoadGenericSchema = ajv.compile(deleteGenericValidationSchema);
 const bulkLoadGenericSchema = ajv.compile(bulkGenericValidationSchema);
 const exportLoadGenericSchema = ajv.compile(exportGenericValidationSchema);
+const recycleBinListGenericSchema = ajv.compile(recycleBinListValidationSchema);
 
 /* eslint-disable object-shorthand */
 /* eslint-disable func-names */
@@ -48,6 +50,15 @@ export default {
         options.limit = this.body.itemsPerPage;
         return options;
     },
+    validateTableRecycleBinList: function () {
+        if (!recycleBinListGenericSchema(this.body)) {
+            return null;
+        }
+        return {
+            skip: (this.body.page - 1) * this.body.itemsPerPage,
+            limit: this.body.itemsPerPage,
+        };
+    },
     validateDataLoadGeneric: function () {
         return !!validateLoadGenericSchema(this.body);
     },
@@ -63,7 +74,11 @@ export default {
     generateQuery: function (formData) {
         const query = {
             $or: [],
-            $and: [],
+            $and: [{
+                deleted: {
+                    $exists: false,
+                },
+            }],
         };
         if (this.body.searchText && this.body.searchText.length > 1) {
             for (const k of Object.keys(formData.getFieldsFlat())) {
@@ -241,9 +256,6 @@ export default {
         }
         if (!query.$or.length) {
             delete query.$or;
-        }
-        if (!query.$and.length) {
-            delete query.$and;
         }
         return query;
     },

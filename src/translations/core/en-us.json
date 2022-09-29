@@ -69,6 +69,7 @@
     "htable_cancel": "Cancel",
     "htable_nothingSelected": "No items selected",
     "htable_deleteItems": "The following item(s) will be deleted",
+    "htable_deleteRecycleItems": "The following item(s) will be PERMANENTLY deleted from the database and you won't be able to restore them anymore",
     "htable_reloadButton": "Reload",
     "authorization": "Authorization",
     "htable_settings": "Settings",
@@ -117,5 +118,10 @@
     "htable_bulkUpdateCount": "Updating database records",
     "htable_performUpdate": "Perform Update",
     "htable_nothingToDo": "Nothing To Do",
-    "htable_bulkUpdateError": "Could not perform update"
+    "htable_bulkUpdateError": "Could not perform update",
+    "htable_recycleBin": "Recycle Bin",
+    "htable_recycleBinId": "ID",
+    "htable_recycleBinDelete": "Delete Forever",
+    "htable_recycleBinRestore": "Restore",
+    "htable_noRecycleBinRecords": "No recycle bin records to display"
 }

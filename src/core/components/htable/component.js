@@ -27,6 +27,7 @@ module.exports = class {
             loadConfig: input.formData.getTableLoadConfig(),
             bulkUpdateConfig: input.formData.getTableBulkUpdateConfig(),
             exportConfig: input.formData.getTableExportConfig(),
+            recycleBin: input.formData.getRecycleBinConfig(),
             data: [],
             loading: false,
             currentPage: 1,
@@ -62,6 +63,11 @@ module.exports = class {
             clientWidth: 0,
             dataExportColumns: [],
             exportColumnDrag: null,
+            recycleBinList: [],
+            recycleBinPagination: [],
+            recycleBinTotalPages: 1,
+            currentRecycleBinListPage: 1,
+            recycleDeleteItems: [],
         };
         this.queryStringShorthands = {
             currentPage: "p",
@@ -582,6 +588,34 @@ module.exports = class {
         }
         // Set pagination
         this.setState("pagination", pagination);
+    }
+
+    generateRecycleBinPagination() {
+        const center = [this.state.currentRecycleBinListPage - 2, this.state.currentRecycleBinListPage - 1, this.state.currentRecycleBinListPage, this.state.currentRecycleBinListPage + 1, this.state.currentRecycleBinListPage + 2];
+        const filteredCenter = center.filter((p) => p > 1 && p < this.state.recycleBinTotalPages);
+        // includeThreeLeft
+        if (this.state.currentRecycleBinListPage === 5) {
+            filteredCenter.unshift(2);
+        }
+        // includeThreeRight
+        if (this.state.currentRecycleBinListPage === this.state.recycleBinTotalPages - 4) {
+            filteredCenter.push(this.state.recycleBinTotalPages - 1);
+        }
+        // includeLeftDots
+        if (this.state.currentRecycleBinListPage > 5) {
+            filteredCenter.unshift("...");
+        }
+        // includeRightDots
+        if (this.state.currentRecycleBinListPage < this.state.recycleBinTotalPages - 4) {
+            filteredCenter.push("...");
+        }
+        // Finalize
+        const pagination = [1, ...filteredCenter, this.state.recycleBinTotalPages];
+        if (pagination.join(",") === "1,1") {
+            pagination.pop();
+        }
+        // Set pagination
+        this.setState("recycleBinPagination", pagination);
     }
 
     onPageClick(page) {
@@ -1447,6 +1481,115 @@ module.exports = class {
                 dataExportColumns[c] = this.state.dataExportColumns[c];
             }
             this.setState("dataExportColumns", dataExportColumns);
+        }
+    }
+
+    onRecycleBinButtonClick() {}
+
+    async loadRecycleBinData(input = {
+        page: this.state.currentRecycleBinListPage,
+    }) {
+        await this.utils.waitForComponent(`recycleBinModal_ht_${this.input.id}`);
+        const recycleBinModal = this.getComponent(`recycleBinModal_ht_${this.input.id}`);
+        recycleBinModal.setActive(true).setCloseAllowed(false).setBackgroundCloseAllowed(true).setLoading(true);
+        try {
+            const response = await axios({
+                method: "post",
+                url: this.state.recycleBin.url.list,
+                data: {
+                    itemsPerPage: this.state.itemsPerPage,
+                    page: input.page,
+                },
+                headers: this.input.headers || {},
+            });
+            this.setState("recycleBinList", response.data.items);
+            this.setState("recycleBinTotalPages", response.data.total < this.state.itemsPerPage ? 1 : Math.ceil(response.data.total / this.state.itemsPerPage));
+            if (input.page !== this.state.currentRecycleBinListPage) {
+                this.setState("currentRecycleBinListPage", input.page);
+            }
+            this.generateRecycleBinPagination();
+        } catch (e) {
+            if (e && e.response && e.response.status === 403) {
+                this.emit("unauthorized");
+                return;
+            }
+            this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_loadingError"), "is-danger");
+            this.setState("recycleBinList", []);
+        } finally {
+            recycleBinModal.setLoading(false).setCloseAllowed(true);
+        }
+    }
+
+    async onRecycleBinClick(event) {
+        event.preventDefault();
+        this.setState("currentRecycleBinListPage", 1);
+        this.setState("recycleBinList", []);
+        await this.loadRecycleBinData();
+    }
+
+    onRecycleBinPageClick(pageStr) {
+        const page = parseInt(pageStr, 10);
+        if (page === this.state.currentRecycleBinListPage) {
+            return;
+        }
+        this.loadRecycleBinData({
+            page,
+        });
+    }
+
+    async onRecycleBinRestoreClick(event) {
+        event.preventDefault();
+        const {
+            id,
+        } = event.target.closest("[data-id]").dataset;
+        await this.utils.waitForComponent(`recycleBinModal_ht_${this.input.id}`);
+        const recycleBinModal = this.getComponent(`recycleBinModal_ht_${this.input.id}`);
+        recycleBinModal.setActive(true).setCloseAllowed(false).setLoading(true);
+        try {
+            await axios({
+                method: "post",
+                url: this.state.recycleBin.url.restore,
+                data: {
+                    ids: [id],
+                },
+                headers: this.input.headers || {},
+            });
+            await this.loadRecycleBinData({
+                page: 1
+            });
+            await this.loadData();
+        } catch (e) {
+            if (e && e.response && e.response.status === 403) {
+                this.emit("unauthorized");
+                return;
+            }
+            this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_loadingError"), "is-danger");
+        } finally {
+            recycleBinModal.setLoading(false).setCloseAllowed(true);
+        }
+    }
+
+    async onRecycleBinDeleteClick(e) {
+        e.preventDefault();
+        const {
+            id,
+        } = e.target.closest("[data-id]").dataset;
+        const recycleDeleteItems = [];
+        const title = this.state.recycleBinList.find(i => i._id === id)[this.state.recycleBin.title];
+        recycleDeleteItems.push({
+            id,
+            title,
+        });
+        this.setState("recycleDeleteItems", recycleDeleteItems);
+        await this.utils.waitForComponent(`deleteRecycleConfirmation_ht_${this.input.id}`);
+        const deleteConfirmation = this.getComponent(`deleteRecycleConfirmation_ht_${this.input.id}`);
+        deleteConfirmation.setActive(true).setCloseAllowed(true).setLoading(false);
+    }
+
+    onDeleteRecycleConfirmationButtonClick(button) {
+        switch (button) {
+        case "delete":
+            break;
         }
     }
 };
