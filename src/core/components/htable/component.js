@@ -1546,7 +1546,7 @@ module.exports = class {
         const recycleBinModal = this.getComponent(`recycleBinModal_ht_${this.input.id}`);
         recycleBinModal.setActive(true).setCloseAllowed(false).setLoading(true);
         try {
-            await axios({
+            const restoreResult = await axios({
                 method: "post",
                 url: this.state.recycleBin.url.restore,
                 data: {
@@ -1558,6 +1558,7 @@ module.exports = class {
                 page: 1
             });
             await this.loadData();
+            this.getComponent(`notify_ht_${this.input.id}`).show(`${window.__heretic.t("htable_restoreSuccess")}: ${restoreResult.data.count}`, "is-success");
         } catch (e) {
             if (e && e.response && e.response.status === 403) {
                 this.emit("unauthorized");
@@ -1586,9 +1587,36 @@ module.exports = class {
         deleteConfirmation.setActive(true).setCloseAllowed(true).setLoading(false);
     }
 
-    onDeleteRecycleConfirmationButtonClick(button) {
+    async onDeleteRecycleConfirmationButtonClick(button) {
         switch (button) {
         case "delete":
+            await this.utils.waitForComponent(`deleteRecycleConfirmation_ht_${this.input.id}`);
+            const deleteConfirmation = this.getComponent(`deleteRecycleConfirmation_ht_${this.input.id}`);
+            deleteConfirmation.setCloseAllowed(false).setLoading(true);
+            try {
+                const deleteResult = await axios({
+                    method: "post",
+                    url: this.state.recycleBin.url.delete,
+                    data: {
+                        ids: this.state.recycleDeleteItems.map(i => i.id),
+                    },
+                    headers: this.input.headers || {},
+                });
+                await this.loadRecycleBinData({
+                    page: 1
+                });
+                await this.loadData();
+                deleteConfirmation.setActive(false);
+                this.getComponent(`notify_ht_${this.input.id}`).show(`${window.__heretic.t("htable_deleteSuccess")}: ${deleteResult.data.count}`, "is-success");
+            } catch (e) {
+                if (e && e.response && e.response.status === 403) {
+                    this.emit("unauthorized");
+                    return;
+                }
+                this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_loadingError"), "is-danger");
+            } finally {
+                deleteConfirmation.setLoading(false).setCloseAllowed(true);
+            }
             break;
         }
     }

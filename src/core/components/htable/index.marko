@@ -1,4 +1,4 @@
-import { mdiReload, mdiMagnify, mdiCogOutline, mdiDrag, mdiPencilOutline, mdiTrashCanOutline, mdiFilterOutline, mdiDatabaseOutline, mdiContentSaveMoveOutline } from "@mdi/js"
+import { mdiReload, mdiMagnify, mdiCogOutline, mdiDrag, mdiPencilOutline, mdiTrashCanOutline, mdiFilterOutline, mdiDatabaseOutline, mdiContentSaveMoveOutline, mdiFormatListGroup, mdiDatabaseExportOutline } from "@mdi/js"
 import { format } from "date-fns"
 import SettingsPagesForm from "./settingsPagesForm"
 
@@ -90,16 +90,31 @@ import SettingsPagesForm from "./settingsPagesForm"
                             <div class="dropdown-content">
                                 <if(state.bulkUpdateConfig)>
                                     <a class="dropdown-item" on-click("onBulkUpdateClick")>
+                                        <span class="hr-ht-top-button-submenu-icon">
+                                            <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d=mdiFormatListGroup/>
+                                            </svg>
+                                        </span>
                                         <t>htable_bulkUpdate</t>
                                     </a>
                                 </if>
                                 <if(state.exportConfig)>
                                     <a class="dropdown-item" on-click("onExportClick")>
+                                        <span class="hr-ht-top-button-submenu-icon">
+                                            <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d=mdiDatabaseExportOutline/>
+                                            </svg>
+                                        </span>
                                         <t>htable_export</t>
                                     </a>
                                 </if>
                                 <if(state.recycleBin)>
                                     <a class="dropdown-item" on-click("onRecycleBinClick")>
+                                        <span class="hr-ht-top-button-submenu-icon">
+                                            <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d=mdiTrashCanOutline/>
+                                            </svg>
+                                        </span>
                                         <t>htable_recycleBin</t>
                                     </a>
                                 </if>
@@ -863,7 +878,7 @@ import SettingsPagesForm from "./settingsPagesForm"
             </if>
         </div>
     </section>
-    <if(state.recycleBinList.length && state.recycleBinPagination.length  > 1)>
+    <if(state.recycleBinList.length && state.recycleBinPagination.length > 1)>
         <div class="modal-card-body p-2 hr-ht-recycleBin-pagination-wrap">
             <hpagination data=state.recycleBinPagination currentPage=state.currentRecycleBinListPage on-page-click("onRecycleBinPageClick")/>
         </div>

@@ -61,7 +61,8 @@
     "collections": {
         "users": "users",
         "files": "files",
-        "counters": "counters"
+        "counters": "counters",
+        "history": "history"
     },
     "routes": {
         "admin": "/admin",

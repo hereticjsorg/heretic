@@ -25,6 +25,7 @@ module.exports = class {
             errorMessage: null,
             mode,
             title: null,
+            historyConfig: input.data.getHistoryConfig(),
         };
         this.fieldIds = [];
         this.sharedFieldIds = [];
@@ -202,7 +203,7 @@ module.exports = class {
     setComponentsState(flag) {
         for (const id of this.fieldIds) {
             const fieldComponent = this.getComponent(`hr_hf_f_${id}_${this.state.mode}`);
-            if (fieldComponent) {
+            if (fieldComponent && fieldComponent.setLoading) {
                 fieldComponent.setLoading(flag);
             }
         }
@@ -439,5 +440,20 @@ module.exports = class {
             mode
         } = e.target.closest("[data-mode]").dataset;
         this.switchMode(mode);
+    }
+
+    async setHistoryData(historyData) {
+        await this.utils.waitForComponent(`historyModal_hf_${this.input.id}`);
+        const historyModal = this.getComponent(`historyModal_hf_${this.input.id}`);
+        historyModal.setActive(true).setCloseAllowed(false).setLoading(true);
+        console.log(historyData);
+    }
+
+    async onHistoryClick(e) {
+        e.preventDefault();
+        this.emit("request-history");
+    }
+
+    onHistoryModalButtonClick() {
     }
 };

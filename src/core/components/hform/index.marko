@@ -1,4 +1,4 @@
-import { mdiEyeOutline, mdiPencilOutline } from '@mdi/js'
+import { mdiEyeOutline, mdiPencilOutline, mdiHistory } from '@mdi/js'
 
 <div class="hr-hf-wrap">
     <if(state.errorMessage)>
@@ -43,6 +43,24 @@ import { mdiEyeOutline, mdiPencilOutline } from '@mdi/js'
                         </p>
                     </div>
                 </div>
+                <if(state.historyConfig.enabled)>
+                    <div class="is-column is-narrow pt-3">
+                        <div class="field has-addons">
+                            <p class="control">
+                                <button on-click("onHistoryClick") class="button is-rounded is-small is-light ml-1">
+                                    <span class="hr-hf-top-button-icon">
+                                        <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d=mdiHistory/>
+                                        </svg>
+                                    </span>
+                                    <span>
+                                        <t>hform_history</t>
+                                    </span>
+                                </button>
+                            </p>
+                        </div>
+                    </div>
+                </if>
             </if>
         </div>
     </if>
@@ -136,4 +154,21 @@ import { mdiEyeOutline, mdiPencilOutline } from '@mdi/js'
         </div>
     </if>
 </div>
+<hmodal
+    key=`historyModal_hf_${input.id}`
+    on-button-click("onHistoryModalButtonClick")
+    close=true
+    title="hform_history"
+    actions=[
+        {
+            id: "cancel",
+            label: "htable_close",
+            class: "button is-light",
+            close: true
+        }
+    ]>
+    <section class="modal-card-body p-0" id=`historyModal_hf_${input.id}_body`>
+        <div class="p-3">OK</div>
+    </section>
+</hmodal>
 <hnotify key=`notify_field_${input.formId}`/>

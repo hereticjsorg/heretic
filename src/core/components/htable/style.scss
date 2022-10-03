@@ -83,7 +83,8 @@
     fill: $white !important;
 }
 
-.hr-ht-top-button-icon {
+.hr-ht-top-button-icon,
+.hr-ht-top-button-submenu-icon {
     display: inline-flex;
     align-self: center;
 }
@@ -97,6 +98,21 @@
 
 .hr-ht-top-button-icon svg>path {
     fill: $grey-darker !important;
+}
+
+.hr-ht-top-button-submenu-icon {
+    margin-right: 10px;
+}
+
+.hr-ht-top-button-submenu-icon svg {
+    height: 16px;
+    width: 16px;
+    top: 3px;
+    position: relative;
+}
+
+.hr-ht-top-button-submenu-icon svg>path {
+    fill: $grey !important;
 }
 
 .hr-ht-top-info-icon {

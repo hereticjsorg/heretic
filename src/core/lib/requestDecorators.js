@@ -12,6 +12,7 @@ import loadGenericValidationSchema from "./loadGenericValidationSchema.json";
 import deleteGenericValidationSchema from "./deleteGenericValidationSchema.json";
 import bulkGenericValidationSchema from "./bulkGenericValidationSchema.json";
 import exportGenericValidationSchema from "./exportGenericValidationSchema.json";
+import historyListGenericValidationSchema from "./historyListGenericValidationSchema.json";
 import languages from "../../config/languages.json";
 
 const ajv = new Ajv({
@@ -21,10 +22,11 @@ const ajv = new Ajv({
 exportGenericValidationSchema.properties.language.enum = Object.keys(languages);
 
 const validateLoadGenericSchema = ajv.compile(loadGenericValidationSchema);
-const deleteLoadGenericSchema = ajv.compile(deleteGenericValidationSchema);
-const bulkLoadGenericSchema = ajv.compile(bulkGenericValidationSchema);
-const exportLoadGenericSchema = ajv.compile(exportGenericValidationSchema);
+const deleteGenericSchema = ajv.compile(deleteGenericValidationSchema);
+const bulkGenericSchema = ajv.compile(bulkGenericValidationSchema);
+const exportGenericSchema = ajv.compile(exportGenericValidationSchema);
 const recycleBinListGenericSchema = ajv.compile(recycleBinListValidationSchema);
+const historyListGenericSchema = ajv.compile(historyListGenericValidationSchema);
 
 /* eslint-disable object-shorthand */
 /* eslint-disable func-names */
@@ -63,13 +65,16 @@ export default {
         return !!validateLoadGenericSchema(this.body);
     },
     validateDataDeleteGeneric: function () {
-        return !!deleteLoadGenericSchema(this.body);
+        return !!deleteGenericSchema(this.body);
     },
     validateDataBulkGeneric: function () {
-        return !!bulkLoadGenericSchema(this.body);
+        return !!bulkGenericSchema(this.body);
     },
     validateDataExportGeneric: function () {
-        return !!exportLoadGenericSchema(this.body);
+        return !!exportGenericSchema(this.body);
+    },
+    validateHistoryListGeneric: function () {
+        return !!historyListGenericSchema(this.body);
     },
     generateQuery: function (formData) {
         const query = {
@@ -486,4 +491,28 @@ export default {
         }
         return query;
     },
+    findUpdates: async function (formData, oldRecord, newRecord, options = {}) {
+        const tabs = formData.getTabs ? formData.getTabs() : [{
+            id: "_default",
+        }];
+        const modifiedItems = [];
+        for (const tab of tabs) {
+            const dataOld = tab.id === "_default" ? oldRecord : oldRecord[tab];
+            const dataNew = tab.id === "_default" ? newRecord : newRecord[tab];
+            for (const item of Object.keys(dataOld)) {
+                if (options && options.ignore && options.ignore.indexOf(item) > -1) {
+                    continue;
+                }
+                if (JSON.stringify(dataOld[item]) !== JSON.stringify(dataNew[item])) {
+                    modifiedItems.push({
+                        tab: tab.id,
+                        id: item,
+                        valueOld: dataOld[item],
+                        valueNew: dataNew[item],
+                    });
+                }
+            }
+        }
+        return modifiedItems;
+    }
 };

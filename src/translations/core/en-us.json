@@ -62,6 +62,7 @@
     "htable_loadingError": "Could not load data",
     "htable_deleteError": "Could not delete one or more items",
     "htable_deleteSuccess": "Successfully deleted",
+    "htable_restoreSuccess": "Successfully restored",
     "pagination_prev": "Previous",
     "pagination_next": "Next",
     "htable_deleteConfirmation": "Delete Confirmation",
@@ -123,5 +124,7 @@
     "htable_recycleBinId": "ID",
     "htable_recycleBinDelete": "Delete Forever",
     "htable_recycleBinRestore": "Restore",
-    "htable_noRecycleBinRecords": "No recycle bin records to display"
+    "htable_noRecycleBinRecords": "No recycle bin records to display",
+    "hform_history": "History",
+    "hform_error_history": "Could not load history"
 }
