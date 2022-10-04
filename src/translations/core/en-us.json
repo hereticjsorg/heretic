@@ -126,5 +126,10 @@
     "htable_recycleBinRestore": "Restore",
     "htable_noRecycleBinRecords": "No recycle bin records to display",
     "hform_history": "History",
-    "hform_error_history": "Could not load history"
+    "hform_error_history": "Could not load history",
+    "hform_historyNoChanges": "Initial version",
+    "hform_null": "null",
+    "hform_actions": "Actions",
+    "hform_historyActionRestore": "Restore data",
+    "hform_historyActionDelete": "Delete history record"
 }

@@ -25,7 +25,15 @@ module.exports = class {
             errorMessage: null,
             mode,
             title: null,
-            historyConfig: input.data.getHistoryConfig(),
+            historyConfig: input.data.getHistoryConfig ? input.data.getHistoryConfig() : {
+                enabled: false,
+            },
+            historyData: [],
+            historyPage: 1,
+            historyTotal: 0,
+            historyTotalPages: 1,
+            historyPagination: [],
+            historyActionsDropdownOpen: null,
         };
         this.fieldIds = [];
         this.sharedFieldIds = [];
@@ -97,6 +105,12 @@ module.exports = class {
             const dbAddTabElement = document.getElementById(`${this.input.id}_dm_addTab`);
             if (dbAddTabElement && !dbAddTabElement.contains(e.target)) {
                 this.setState("addTabDropdownActive", false);
+            }
+            if (this.state.historyActionsDropdownOpen) {
+                const historyActionButton = document.querySelector(`[data-id="${this.state.historyActionsDropdownOpen}"]`);
+                if (historyActionButton && !historyActionButton.contains(e.target)) {
+                    this.setState("historyActionsDropdownOpen", null);
+                }
             }
         });
     }
@@ -442,18 +456,93 @@ module.exports = class {
         this.switchMode(mode);
     }
 
-    async setHistoryData(historyData) {
+    generateHistoryPagination() {
+        const center = [this.state.historyPage - 2, this.state.historyPage - 1, this.state.historyPage, this.state.historyPage + 1, this.state.historyPage + 2];
+        const filteredCenter = center.filter((p) => p > 1 && p < this.state.historyTotalPages);
+        // includeThreeLeft
+        if (this.state.historyPage === 5) {
+            filteredCenter.unshift(2);
+        }
+        // includeThreeRight
+        if (this.state.historyPage === this.state.historyTotalPages - 4) {
+            filteredCenter.push(this.state.historyTotalPages - 1);
+        }
+        // includeLeftDots
+        if (this.state.historyPage > 5) {
+            filteredCenter.unshift("...");
+        }
+        // includeRightDots
+        if (this.state.historyPage < this.state.historyTotalPages - 4) {
+            filteredCenter.push("...");
+        }
+        // Finalize
+        const pagination = [1, ...filteredCenter, this.state.historyTotalPages];
+        if (pagination.join(",") === "1,1") {
+            pagination.pop();
+        }
+        // Set pagination
+        this.setState("historyPagination", pagination);
+    }
+
+    async setHistoryData(historyData = {
+        items: [],
+        total: 0,
+        itemsPerPage: 30,
+        page: 1,
+    }) {
+        this.setState("historyData", historyData.items);
+        this.setState("historyTotal", historyData.total);
+        this.setState("historyPage", historyData.page || 1);
+        this.setState("historyTotalPages", historyData.total < historyData.itemsPerPage ? 1 : Math.ceil(historyData.total / historyData.itemsPerPage));
+        this.generateHistoryPagination();
         await this.utils.waitForComponent(`historyModal_hf_${this.input.id}`);
         const historyModal = this.getComponent(`historyModal_hf_${this.input.id}`);
-        historyModal.setActive(true).setCloseAllowed(false).setLoading(true);
-        console.log(historyData);
+        historyModal.setActive(true).setCloseAllowed(true).setLoading(false);
     }
 
     async onHistoryClick(e) {
         e.preventDefault();
-        this.emit("request-history");
+        this.emit("request-history", {
+            page: 1,
+        });
     }
 
-    onHistoryModalButtonClick() {
+    onHistoryModalButtonClick() {}
+
+    async setHistoryModalLoading(flag) {
+        await this.utils.waitForComponent(`historyModal_hf_${this.input.id}`);
+        this.getComponent(`historyModal_hf_${this.input.id}`).setLoading(flag);
+    }
+
+    async onHistoryPageClick(page) {
+        this.setHistoryModalLoading(true);
+        this.emit("request-history", {
+            page,
+        });
+    }
+
+    async onHistoryActionsClick(e) {
+        e.preventDefault();
+        const {
+            id,
+        } = e.target.closest("[data-id]").dataset;
+        this.setState("historyActionsDropdownOpen", id);
+    }
+
+    onHistoryActionRestore(e) {
+        e.preventDefault();
+        const {
+            id,
+        } = e.target.closest("[data-id]").dataset;
+        this.emit("restore-history", id);
+    }
+
+    onHistoryActionDelete(e) {
+        e.preventDefault();
+        const {
+            id,
+        } = e.target.closest("[data-id]").dataset;
+        console.log("Delete");
+        console.log(id);
     }
 };

@@ -43,12 +43,13 @@ import SettingsPagesForm from "./settingsPagesForm"
                         </if>
                     </button>
                 </if>
+                $ console.log(state.topButtons.length);
                 <button
                     data-tippy-content=(process.browser && state.clientWidth < 1023 && window.__heretic ? window.__heretic.t("htable_settingsButton") : null)
                     on-click("onSettingsClick")
                     class="button is-light"
                     style={
-                        "margin-left": state.topButtons.length > 0 ? "4px" : "0"
+                        "margin-left": "4px"
                     }>
                     <span class="hr-ht-top-button-icon icon">
                         <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
@@ -66,7 +67,7 @@ import SettingsPagesForm from "./settingsPagesForm"
                         </span>
                     </if>
                 </button>
-                <if(state.bulkUpdateConfig || state.exportConfig || state.recycleBin)>
+                <if(state.bulkUpdateConfig || state.exportConfig || state.recycleBin.enabled)>
                     <div class=`dropdown${state.dataOpen ? " is-active" : ""}` id=`hr_ht_data_dropdown_${input.id}`>
                         <div class="dropdown-trigger">
                             <button

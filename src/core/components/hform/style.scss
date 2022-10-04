@@ -84,6 +84,9 @@
     align-self: center;
 }
 
+.hr-hf-history-button {
+    height: 24px !important;
+}
 
 .hr-hf-top-button-icon svg {
     height: 16px;
@@ -97,6 +100,79 @@
     fill: $grey-darker !important;
 }
 
+.hr-hf-history-button-icon svg {
+    height: 20px;
+    width: 20px;
+    top: 3px;
+    position: relative;
+}
+
+.hr-hf-history-button-icon svg>path {
+    fill: $grey-darker !important;
+}
+
 .hr-hf-top-button-active-icon svg>path {
     fill: $white !important;
+}
+
+.hr-ht-history-pagination-wrap {
+    border-top: 1px solid $grey-lighter;
+    background: $white;
+}
+
+.hr-ht-history-pagination-wrap>nav {
+    margin-top: 0 !important;
+}
+
+.hr-ht-history-tag {
+    background-color: $white;
+    border: 1px solid $grey-lighter;
+    padding: 2px 5px;
+    border-radius: $radius;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    font-size: .75rem;
+    user-select: auto;
+    box-decoration-break: slice;
+}
+
+
+.hr-ht-history-tag-null {
+    background: $primary;
+    border: 1px solid $primary;
+    color: $white;
+}
+
+.hr-ht-history-wysiwyg {
+    background-color: $white;
+    border: 1px solid $grey-lighter;
+    padding: 5px;
+    border-radius: $radius;
+    display: block;
+    user-select: auto;
+}
+
+.hr-ht-history-to-right {
+    display: inline-block;
+    margin: 3px;
+    width: 24px;
+    text-align: center;
+    user-select: none;
+}
+
+.hr-ht-history-to-down {
+    display: block;
+    text-align: center;
+    margin: 3px;
+    height: 24px;
+    text-align: center;
+    user-select: none;
+}
+
+.hr-hf-history-changes-wrap {
+    padding: 10px;
+    border: 1px solid $grey-lighter;
+    border-radius: $radius;
+    background: $white-bis;
+    box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
 }

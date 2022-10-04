@@ -1,0 +1,52 @@
+<!-- Text Inputs: Start -->
+<if(input.fieldData.type === "text")>
+    <div class="field">
+        <label class="label">${input.fieldData.label}:</label>
+        <div class="control">
+            <if(input.valueOld === null)>
+                <span class="hr-ht-history-tag hr-ht-history-tag-null">
+                    <t>hform_null</t>
+                </span>
+            </if>
+            <else>
+                <span class="hr-ht-history-tag">${input.valueOld}</span>
+            </else>
+            <div class="hr-ht-history-to-right">&rarr;</div>
+            <if(input.valueNew === null)>
+                <span class="hr-ht-history-tag hr-ht-history-tag-null">
+                    <t>hform_null</t>
+                </span>
+            </if>
+            <else>
+                <span class="hr-ht-history-tag">${input.valueNew}</span>
+            </else>
+        </div>
+    </div>
+</if>
+<!-- Text Inputs: End -->
+<!-- WYSIWYG: Start -->
+<if(input.fieldData.type === "wysiwyg")>
+    <div class="field">
+        <label class="label">${input.fieldData.label}:</label>
+        <div class="control">
+            <if(input.valueOld === null)>
+                <div class="hr-ht-history-tag hr-ht-history-tag-null">
+                    <t>hform_null</t>
+                </div>
+            </if>
+            <else>
+                <div class="hr-ht-history-wysiwyg">$!{input.valueOld}</div>
+            </else>
+            <div class="hr-ht-history-to-down">&darr;</div>
+            <if(input.valueNew === null)>
+                <div class="hr-ht-history-tag hr-ht-history-tag-null">
+                    <t>hform_null</t>
+                </div>
+            </if>
+            <else>
+                <div class="hr-ht-history-wysiwyg">$!{input.valueNew}</div>
+            </else>
+        </div>
+    </div>
+</if>
+<!-- WYSIWYG: End -->
