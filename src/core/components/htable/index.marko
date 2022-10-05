@@ -43,7 +43,6 @@ import SettingsPagesForm from "./settingsPagesForm"
                         </if>
                     </button>
                 </if>
-                $ console.log(state.topButtons.length);
                 <button
                     data-tippy-content=(process.browser && state.clientWidth < 1023 && window.__heretic ? window.__heretic.t("htable_settingsButton") : null)
                     on-click("onSettingsClick")
@@ -239,7 +238,7 @@ import SettingsPagesForm from "./settingsPagesForm"
                 </if>
                 <else>
                     <tr class="hr-ht-tr">
-                        <td class="hr-ht-td p-0 m-0" colspan=((Object.keys(state.columns).length || 1) + (state.checkboxColumn ? 1 : 0))>
+                        <td class="hr-ht-td p-0 m-0" colspan=((Object.keys(state.columns).length || 1) + (state.checkboxColumn ? 1 : 0) + 1)>
                             <div class="p-2">
                                 <if(!state.loading)>
                                     <t>htable_noRecords</t>
@@ -284,7 +283,9 @@ import SettingsPagesForm from "./settingsPagesForm"
             </for>
         </if>
         <else>
-            <div class=`hr-ht-action-cell hr-ht-action-cell-${input.id} p-2 m-0 hr-ht-action-cell-even` data-index=0 id=`hr_ht_action_cell_${input.id}_0`>&ndash;</div>
+            <if(!state.loading)>
+                <div class=`hr-ht-action-cell hr-ht-action-cell-${input.id} p-2 m-0 hr-ht-action-cell-even` data-index=0 id=`hr_ht_action_cell_${input.id}_0`>&ndash;</div>
+            </if>
         </else>
         <div class=`hr-ht-td p-2 m-0 hr-ht-action-cell-control` id=`hr_ht_action_cell_control_${input.id}`>
             <t>htable_actions</t>

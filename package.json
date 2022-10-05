@@ -69,7 +69,6 @@
     "webpack-cli": "^4.10.0"
   },
   "dependencies": {
-    "@faker-js/faker": "^7.5.0",
     "@fastify/cookie": "^8.3.0",
     "@fastify/formbody": "^7.3.0",
     "@fastify/jwt": "^6.3.2",
