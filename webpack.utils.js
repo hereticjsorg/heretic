@@ -7,6 +7,7 @@ module.exports = class {
         fs.removeSync(path.resolve(__dirname, "dist/public/heretic"));
         fs.removeSync(path.resolve(__dirname, "dist/server.js"));
         fs.removeSync(path.resolve(__dirname, "src", "build"));
+        fs.ensureDirSync(path.resolve(__dirname, "src", "modules"));
         fs.ensureDirSync(path.resolve(__dirname, "src", "build"));
         fs.ensureDirSync(path.resolve(__dirname, "src", "build", "loaders"));
         fs.ensureDirSync(path.resolve(__dirname, "src", "build", "components"));
