@@ -1,5 +1,5 @@
 const store = require("store2");
-const axios = require("axios");
+const axios = require("axios").default;
 const cloneDeep = require("lodash.clonedeep");
 const debounce = require("lodash.debounce");
 const {

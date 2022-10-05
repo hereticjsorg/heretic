@@ -1,4 +1,4 @@
-const axios = require("axios");
+const axios = require("axios").default;
 const meta = require("../../page.json");
 const Utils = require("../../../../lib/componentUtils").default;
 const Cookies = require("../../../../lib/cookiesBrowser").default;

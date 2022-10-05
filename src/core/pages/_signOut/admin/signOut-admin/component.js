@@ -1,4 +1,3 @@
-// const axios = require("axios");
 const Utils = require("../../../../lib/componentUtils").default;
 const Cookies = require("../../../../lib/cookiesBrowser").default;
 const languages = Object.keys(require("../../../../../config/languages.json"));

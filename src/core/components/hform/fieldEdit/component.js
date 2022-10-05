@@ -2,7 +2,7 @@ const IMask = require("imask").default;
 const {
     v4: uuidv4
 } = require("uuid");
-const axios = require("axios");
+const axios = require("axios").default;
 const cloneDeep = require("lodash.clonedeep");
 const {
     format,
