@@ -9,6 +9,7 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 const MarkoPlugin = require("@marko/webpack/plugin").default;
 const babelConfig = require("./babel.config");
 const WebpackUtils = require("./webpack.utils");
+const systemConfig = require("./etc/system.json");
 
 // A dirty one-liner hack for webpack error during Fastify build
 fs.writeFileSync(path.resolve(__dirname, "node_modules", "fastify", "lib", "error-serializer.js"), fs.readFileSync(path.resolve(__dirname, "node_modules", "fastify", "lib", "error-serializer.js"), "utf8").replace(/return \$main/, ""));
@@ -107,6 +108,10 @@ module.exports = (env, argv) => {
                             priority: -20,
                             reuseExistingChunk: true,
                             filename: data => {
+                                // console.log(data.chunk);
+                                if (argv.mode === "production") {
+                                    return `heretic.${data.chunk.id}.[fullhash:8].js`;
+                                }
                                 const nameArr = data.chunk.id.split(/_/);
                                 return nameArr.length > 4 ? `heretic.${nameArr[nameArr.length - 3]}.${nameArr[nameArr.length - 2]}.[fullhash:8].js` : `heretic.generic.[fullhash:8].js`;
                             }
@@ -148,7 +153,7 @@ module.exports = (env, argv) => {
                     filename: "[name].[fullhash:8].css",
                     experimentalUseImportModule: true,
                 }) : () => {},
-                argv.mode === "production" ? new CompressionPlugin() : () => {},
+                argv.mode === "production" && systemConfig.buildOptions && systemConfig.buildOptions.productionCompress ? new CompressionPlugin() : () => {},
                 new CopyWebpackPlugin({
                     patterns: fs.readdirSync(path.resolve(__dirname, "src", "static", "public")).map(f => ({
                         from: `./src/static/public/${f}`

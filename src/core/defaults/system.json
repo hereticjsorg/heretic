@@ -70,5 +70,8 @@
         "signIn": "/signIn",
         "signOutAdmin": "/admin/signOut",
         "signOut": "/signOut"
-    }
+    },
+	"buildOptions": {
+		"productionCompress": false
+	}
 }
