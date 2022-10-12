@@ -227,6 +227,52 @@ module.exports = (env, argv) => {
             node: {
                 __dirname: false,
             }
+        }, {
+            name: "Src",
+            context: path.resolve(`${__dirname}/src/setup`),
+            devtool: argv.mode === "production" ? false : "eval",
+            resolve: {
+                extensions: [".js", ".json"]
+            },
+            module: {
+                rules: []
+            },
+            target: "async-node",
+            // externals: [/^[^./!]/],
+            externals: ["mongodb"],
+            optimization: argv.mode === "production" ? {
+                splitChunks: false,
+                minimizer: [
+                    new TerserPlugin({
+                        parallel: true,
+                        extractComments: false,
+                        terserOptions: {
+                            format: {
+                                comments: false,
+                            },
+                        },
+                    })
+                ]
+            } : {},
+            output: {
+                hashFunction: "xxhash64",
+                libraryTarget: "commonjs2",
+                path: path.resolve(__dirname, "dist"),
+                filename: "setup.js",
+            },
+            plugins: [
+                new webpack.DefinePlugin({
+                    "process.browser": undefined,
+                    "process.env.BUNDLE": true,
+                    "typeof window": "'undefined'",
+                }),
+                new webpack.optimize.LimitChunkCountPlugin({
+                    maxChunks: 1
+                }),
+            ],
+            node: {
+                __dirname: false,
+            }
         }
     ]);
 };

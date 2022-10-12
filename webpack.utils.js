@@ -395,6 +395,11 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
         routesData.server = {
             production: this.production,
         };
+        routesData.directories = {
+            pages,
+            pagesCore,
+            modules: modulesList,
+        };
         // Write configuration file
         fs.writeJSONSync(path.resolve(__dirname, "src", "build", "routes.json"), routesData, {
             spaces: "\t",

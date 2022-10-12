@@ -12,15 +12,15 @@ const languages = Object.keys(require(path.resolve(__dirname, "..", "config", "l
 const options = commandLineArgs([{
     name: "defaults",
     alias: "d",
-    type: Boolean
+    type: Boolean,
 }, {
     name: "force",
     alias: "f",
-    type: Boolean
+    type: Boolean,
 }]);
 
 // Print logo :-)
-console.log(` _   _               _   _\n| | | |             | | (_)\n| |_| | ___ _ __ ___| |_ _  ___\n|  _  |/ _ \\ '__/ _ \\ __| |/ __|\n| | | |  __/ | |  __/ |_| | (__\n\\_| |_/\\___|_|  \\___|\\__|_|\\___|\n`);
+// console.log(` _   _               _   _\n| | | |             | | (_)\n| |_| | ___ _ __ ___| |_ _  ___\n|  _  |/ _ \\ '__/ _ \\ __| |/ __|\n| | | |  __/ | |  __/ |_| | (__\n\\_| |_/\\___|_|  \\___|\\__|_|\\___|\n`);
 
 console.log("Initializing configuration files and data...");
 if (!options.defaults) {

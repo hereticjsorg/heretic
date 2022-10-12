@@ -263,6 +263,12 @@ export default class {
         });
     }
 
+    disconnectDatabase() {
+        if (this.fastify.mongo && this.fastify.mongo.db) {
+            this.fastify.mongo.db.close();
+        }
+    }
+
     /*
      * This method returns current Fastify instance
      * @returns {Object} fastify object

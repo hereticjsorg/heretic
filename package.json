@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "server": "node dist/server",
-    "setup": "node src/bin/setup",
+    "configure": "node src/bin/configure",
     "build-dev": "webpack --mode development",
     "build-production": "webpack --mode production",
     "cli": "node src/bin/cli",
