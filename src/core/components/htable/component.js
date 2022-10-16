@@ -76,6 +76,7 @@ module.exports = class {
             searchText: "s",
         };
         this.language = process.browser ? window.__heretic.outGlobal.language : out.global.language;
+        this.stickyElementsUpdate = 0;
     }
 
     getElements() {
@@ -223,7 +224,10 @@ module.exports = class {
         }
     }
 
-    placeStickyElements() {
+    async placeStickyElements() {
+        if (this.stickyElementsUpdate > 0) {
+            return;
+        }
         // Get elements
         const {
             mainWrap,
@@ -249,17 +253,19 @@ module.exports = class {
         }
         actionsColumns.style.width = `${this.actionColumnWidth}px`;
         actionsTh.style.width = `${this.actionColumnWidth}px`;
+        // setTimeout(async () => {
+        this.stickyElementsUpdate = actionCellWraps.length;
         for (const actionCellWrap of actionCellWraps) {
             // eslint-disable-next-line no-loop-func
-            setTimeout(async () => {
+            window.requestAnimationFrame(async () => {
                 try {
-                    await this.utils.waitForElement(`hr_ht_action_cell_${this.input.id}_${actionCellWrap.dataset.index}`);
+                    // await this.utils.waitForElement(`hr_ht_action_cell_${this.input.id}_${actionCellWrap.dataset.index}`);
                     const actionElement = document.getElementById(`hr_ht_action_cell_${this.input.id}_${actionCellWrap.dataset.index}`);
                     actionElement.style.opacity = "0";
-                    actionCellWrap.style.height = "unset";
+                    // actionCellWrap.style.height = "unset";
                     actionElement.style.height = "unset";
                     const actionColumnHeight = actionElement.getBoundingClientRect().height >= actionCellWrap.getBoundingClientRect().height ? actionElement.getBoundingClientRect().height : actionCellWrap.getBoundingClientRect().height;
-                    actionCellWrap.style.height = `${actionColumnHeight}px`;
+                    // actionCellWrap.style.height = `${actionColumnHeight}px`;
                     actionElement.style.width = `${this.actionColumnWidth + 2}px`;
                     actionElement.style.height = `${actionColumnHeight - 2}px`;
                     actionElement.style.top = `${actionCellWrap.getBoundingClientRect().top - mainWrap.getBoundingClientRect().top + 1}px`;
@@ -268,9 +274,12 @@ module.exports = class {
                     }
                 } catch {
                     // Ignore
+                } finally {
+                    this.stickyElementsUpdate -= 1;
                 }
-            }, 0);
+            });
         }
+        // }, 0);
         table.style.height = "unset";
         tableControls.style.width = `${this.actionColumnWidth + 2}px`;
         tableControls.style.height = `${table.getBoundingClientRect().height}px`;
@@ -322,7 +331,9 @@ module.exports = class {
             }
         }
         this.loadDataDebounced = debounce(this.loadData, 500);
+        this.placeStickyElementsDebounced = debounce(this.placeStickyElements, 100);
         this.setTableDimensionsDebounced = debounce(this.setTableDimensions, 10);
+        this.moveColumnDebounced = debounce(this.moveColumn, 10);
         this.setState("filters", this.store.get("filters") || []);
         this.setState("filtersEnabledCount", this.state.filters.reduce((a, c) => a += c.enabled ? 1 : 0, 0));
         if (this.store.get("itemsPerPage")) {
@@ -350,6 +361,9 @@ module.exports = class {
     }
 
     onColumnMouseDown(e) {
+        if (this.stickyElementsUpdate > 0) {
+            return;
+        }
         e.preventDefault();
         e.stopPropagation();
         this.columnResizing = e.target.dataset.id;
@@ -420,29 +434,37 @@ module.exports = class {
     }
 
     moveColumn(e) {
-        const oldColumnWidths = this.getColumnWidths();
-        const ox = e.touches ? e.touches[0].pageX : e.pageX;
-        const currentMover = document.getElementById(`hr_ht_mover_${this.columnResizing}`);
-        const currentMoverRectX = currentMover.getBoundingClientRect().x;
-        const diffX = ox - this.moveStartX;
-        const currentColumn = document.getElementById(`hr_ht_column_${this.columnResizing}`);
-        const prevColumn = document.getElementById(`hr_ht_column_${this.prevColumn}`);
-        const currentColumnRect = currentColumn.getBoundingClientRect();
-        const prevColumnRect = prevColumn.getBoundingClientRect();
-        prevColumn.style.width = `${prevColumnRect.width + diffX}px`;
-        currentColumn.style.width = `${currentColumnRect.width - diffX}px`;
-        if (currentMoverRectX !== currentMover.getBoundingClientRect().x) {
-            this.moveStartX = currentMover.getBoundingClientRect().x;
+        if (this.stickyElementsUpdate > 0) {
+            return;
         }
-        const newColumnWidths = this.getColumnWidths();
-        for (const column of Object.keys(this.state.columns)) {
-            if (column !== this.prevColumn && column !== this.columnResizing && oldColumnWidths[column] && newColumnWidths[column] && parseInt(newColumnWidths[column], 10) !== parseInt(oldColumnWidths[column], 10)) {
-                this.setColumnWidths(oldColumnWidths);
+        window.requestAnimationFrame(() => {
+            const oldColumnWidths = this.getColumnWidths();
+            const ox = e.touches ? e.touches[0].pageX : e.pageX;
+            const currentMover = document.getElementById(`hr_ht_mover_${this.columnResizing}`);
+            if (!currentMover) {
                 return;
             }
-        }
-        this.store.set("ratios", this.columnWidthsToRatios(newColumnWidths));
-        this.placeStickyElements();
+            const currentMoverRectX = currentMover.getBoundingClientRect().x;
+            const diffX = ox - this.moveStartX;
+            const currentColumn = document.getElementById(`hr_ht_column_${this.columnResizing}`);
+            const prevColumn = document.getElementById(`hr_ht_column_${this.prevColumn}`);
+            const currentColumnRect = currentColumn.getBoundingClientRect();
+            const prevColumnRect = prevColumn.getBoundingClientRect();
+            prevColumn.style.width = `${prevColumnRect.width + diffX}px`;
+            currentColumn.style.width = `${currentColumnRect.width - diffX}px`;
+            if (currentMoverRectX !== currentMover.getBoundingClientRect().x) {
+                this.moveStartX = currentMover.getBoundingClientRect().x;
+            }
+            const newColumnWidths = this.getColumnWidths();
+            for (const column of Object.keys(this.state.columns)) {
+                if (column !== this.prevColumn && column !== this.columnResizing && oldColumnWidths[column] && newColumnWidths[column] && parseInt(newColumnWidths[column], 10) !== parseInt(oldColumnWidths[column], 10)) {
+                    this.setColumnWidths(oldColumnWidths);
+                    return;
+                }
+            }
+            this.store.set("ratios", this.columnWidthsToRatios(newColumnWidths));
+            // this.placeStickyElementsDebounced();
+        });
     }
 
     onColumnMove(e) {
@@ -450,7 +472,6 @@ module.exports = class {
             return;
         }
         e.stopPropagation();
-        // setTimeout(() => this.moveColumn(e), 10);
         this.moveColumn(e);
     }
 
@@ -743,6 +764,7 @@ module.exports = class {
         this.setState("searchText", value);
         this.loadDataDebounced({
             searchText: value,
+            currentPage: 1,
         });
     }
 

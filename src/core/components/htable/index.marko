@@ -163,29 +163,31 @@ import SettingsPagesForm from "./settingsPagesForm"
                         <for|k, index| of=Object.keys(state.columns)>
                             <if(state.columns[k])>
                                 $ const item = state.columnData[k];
-                                <th
-                                    data-id=item.id
-                                    on-click("onColumnThClick")
-                                    class="hr-ht-th p-0 m-0"
-                                    id=`hr_ht_column_${item.id}`
-                                    style={
-                                        cursor: item.sortable ? "pointer" : "inherit"
-                                    }>
-                                    <div class="columns is-gapless m-0 p-0">
-                                        <if(index > 0 && (!state.actionColumn || index < component.getLastVisibleColumnIndex()))>
-                                            <div class="column is-narrow">
-                                                <div class="hr-ht-thead-move" id=`hr_ht_mover_${item.id}` data-id=item.id on-mousedown("onColumnMouseDown")/>
-                                            </div>
-                                        </if>
-                                        <div class="column is-auto">
-                                            <div class="p-2 hr-ht-thead-label">
-                                                ${item.label}<if(state.sortField === item.id)>
-                                                    <icon-arrow direction=(state.sortDirection === "asc" ? "down" : "up")/>
-                                                </if>
+                                <if(item && item.id)>
+                                    <th
+                                        data-id=item.id
+                                        on-click("onColumnThClick")
+                                        class="hr-ht-th p-0 m-0"
+                                        id=`hr_ht_column_${item.id}`
+                                        style={
+                                            cursor: item.sortable ? "pointer" : "inherit"
+                                        }>
+                                        <div class="columns is-gapless m-0 p-0">
+                                            <if(index > 0 && (!state.actionColumn || index < component.getLastVisibleColumnIndex()))>
+                                                <div class="column is-narrow">
+                                                    <div class="hr-ht-thead-move" id=`hr_ht_mover_${item.id}` data-id=item.id on-mousedown("onColumnMouseDown")/>
+                                                </div>
+                                            </if>
+                                            <div class="column is-auto">
+                                                <div class="p-2 hr-ht-thead-label">
+                                                    ${item.label}<if(state.sortField === item.id)>
+                                                        <icon-arrow direction=(state.sortDirection === "asc" ? "down" : "up")/>
+                                                    </if>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </th>
+                                    </th>
+                                </if>
                             </if>
                         </for>
                     </if>
@@ -211,7 +213,7 @@ import SettingsPagesForm from "./settingsPagesForm"
                     </if>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="hr-ht-tbody">
                 <if(state.data && state.data.length)>
                     <for|row, ix| of=state.data>
                         <tr class="hr-ht-tr">
@@ -225,9 +227,18 @@ import SettingsPagesForm from "./settingsPagesForm"
                             <for|k| of=Object.keys(state.columns)>
                                 <if(state.columns[k])>
                                     $ const item = state.columnData[k];
-                                    <td class="hr-ht-td p-0 m-0">
-                                        <div class="p-2 hr-ht-table-cell">${input.formData.processTableCell(k, row)}</div>
-                                    </td>
+                                    <if(item && item.id)>
+                                        <td class="hr-ht-td p-0 m-0">
+                                            <div class="hr-ht-table-cell-wrap">
+                                                <div class=`p-2 hr-ht-table-cell hr-ht-cell-inner-${input.id}-${k}`>
+                                                    <span class="hr-ht-table-cell-value-wrap">
+                                                        <span class="hr-ht-table-cell-value">${input.formData.processTableCell(k, row)}</span>
+                                                    </span>
+                                                </div>
+                                                <div class="hr-ht-table-cell-fade"/>
+                                            </div>
+                                        </td>
+                                    </if>
                                 </if>
                             </for>
                             <if(state.actionColumn)>
@@ -264,7 +275,7 @@ import SettingsPagesForm from "./settingsPagesForm"
                         <for|item, index| of=state.actions>
                             <button
                                 data-id=item.id
-                                data-tippy-content=(process.browser && state.clientWidth < 1023 && window.__heretic ? window.__heretic.t(item.label) : null)
+                                data-tippy-content=(process.browser && window.__heretic ? window.__heretic.t(item.label) : null)
                                 data-item=row._id
                                 on-click("onActionButtonClick")
                                 class=`button is-small hr-ht-action-button ${item.danger ? "is-danger" : "is-light"}`

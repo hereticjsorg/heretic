@@ -33,7 +33,7 @@
     "desc404": "The link is broken or the page has been moved.",
     "internalServerErrorTitle": "Internal Server Error",
     "internalServerErrorMessage": "There is an error on the server side. Please try to refresh this page.",
-    "somethingWentWrong": "Something went wrong :-(",
+    "somethingWentWrong": "Something went wrong",
     "poweredByHeretic": "Powered by Heretic",
     "mMatveev": "Mikhail A. Matveev",
     "mitLicense": "Licensed under MIT License.",
@@ -131,5 +131,12 @@
     "hform_null": "null",
     "hform_actions": "Actions",
     "hform_historyActionRestore": "Restore data",
-    "hform_historyActionDelete": "Delete history record"
+    "hform_historyActionDelete": "Delete history record",
+    "hform_noHistoryRecords": "No history records found",
+    "hform_historyRestoreError": "Could not restore history record",
+    "hform_historyRestoreSuccess": "History record restored",
+    "hform_historyDeleteSuccess": "History record deleted",
+    "hform_historyDeleteError": "Could not delete history record",
+    "hform_historyDeleteConfirmation": "Delete History Record",
+    "hform_historyDeleteConfirmationText": "The selected history record will be deleted from the database and you won't be able to restore it."
 }

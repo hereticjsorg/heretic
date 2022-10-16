@@ -58,7 +58,6 @@ module.exports = class {
                 }
             }
         }
-        // TODO
         if (input.data.getValidationSchema) {
             this.formValidator = new FormValidator(input.data.getValidationSchema(), this.fieldsFlat);
         }
@@ -514,6 +513,11 @@ module.exports = class {
         this.getComponent(`historyModal_hf_${this.input.id}`).setLoading(flag);
     }
 
+    async setHistoryModalActive(flag) {
+        await this.utils.waitForComponent(`historyModal_hf_${this.input.id}`);
+        this.getComponent(`historyModal_hf_${this.input.id}`).setActive(flag);
+    }
+
     async onHistoryPageClick(page) {
         this.setHistoryModalLoading(true);
         this.emit("request-history", {
@@ -529,7 +533,7 @@ module.exports = class {
         this.setState("historyActionsDropdownOpen", id);
     }
 
-    onHistoryActionRestore(e) {
+    async onHistoryActionRestore(e) {
         e.preventDefault();
         const {
             id,
@@ -537,12 +541,23 @@ module.exports = class {
         this.emit("restore-history", id);
     }
 
-    onHistoryActionDelete(e) {
+    async onHistoryActionDelete(e) {
         e.preventDefault();
         const {
             id,
         } = e.target.closest("[data-id]").dataset;
-        console.log("Delete");
-        console.log(id);
+        this.historyDeleteId = id;
+        await this.utils.waitForComponent(`historyDeleteConfirmation_hf_${this.input.id}`);
+        this.getComponent(`historyDeleteConfirmation_hf_${this.input.id}`).setActive(true);
+    }
+
+    async onHistoryDeleteConfirmationButtonClick(button) {
+        await this.utils.waitForComponent(`historyDeleteConfirmation_hf_${this.input.id}`);
+        this.getComponent(`historyDeleteConfirmation_hf_${this.input.id}`).setActive(false);
+        switch (button) {
+        case "delete":
+            this.emit("delete-history", this.historyDeleteId);
+            break;
+        }
     }
 };

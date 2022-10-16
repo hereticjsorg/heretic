@@ -312,7 +312,38 @@
 
 .hr-ht-table-cell {
     min-height: 40px;
+    width: 100%;
+    z-index: 50 !important;
 }
+
+.hr-ht-table-cell-value-wrap {
+    position: relative;
+    max-width: 100%;
+    padding: 0 !important;
+    display: flex;
+    vertical-align: text-bottom !important;
+}
+
+.hr-ht-table-cell-value {
+    position: absolute;
+    white-space: nowrap;
+    overflow: hidden;
+    // text-overflow: ellipsis;
+    max-width: 100%;
+    min-width: 0;
+    width: 100%;
+    top: 0;
+    left: 0;
+}
+
+.hr-ht-table-cell-value-wrap:after,
+.hr-ht-table-cell-value:after {
+    content: '-';
+    display: inline;
+    visibility: hidden;
+    width: 0;
+}
+
 
 .hr-ht-modal-notification {
     border-radius: 0 !important;
@@ -335,6 +366,32 @@
 
 .hr-ht-recycleBin-cell {
     padding-top: 3px;
+}
+
+.hr-ht-table-cell-wrap {
+    display: flex;
+    flex-direction: row;
+}
+
+.hr-ht-tbody>.hr-ht-tr:nth-child(even)>.hr-ht-td>.hr-ht-table-cell-wrap>.hr-ht-table-cell-fade {
+    background: linear-gradient(90deg, transparent, $white-bis);
+}
+
+.hr-ht-tbody>.hr-ht-tr:nth-child(even):hover>.hr-ht-td>.hr-ht-table-cell-wrap>.hr-ht-table-cell-fade {
+    background: linear-gradient(90deg, transparent, $white-ter);
+}
+
+.hr-ht-tbody>.hr-ht-tr:nth-child(odd):hover>.hr-ht-td>.hr-ht-table-cell-wrap>.hr-ht-table-cell-fade {
+    background: linear-gradient(90deg, transparent, $white-bis);
+}
+
+.hr-ht-table-cell-fade {
+    margin-left: -28px;
+    // background: rgba(255,0,0,0.5);
+    background: linear-gradient(90deg, transparent, $white);
+    // background: red;
+    z-index: 100 !important;
+    width: 20px;
 }
 
 @media (max-width: 1023px) {

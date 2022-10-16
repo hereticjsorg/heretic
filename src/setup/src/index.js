@@ -12,6 +12,45 @@ import routesData from "../../build/routes.json";
 // eslint-disable-next-line no-console
 const log = (message, error = false) => console[error ? "error" : "log"](`[${error ? "!" : " "}] ${format(new Date(), "yyyy-MM-dd HH:mm:ss")} ${message}`);
 
+const createIndex = async (db, id, collection, fields, direction = "asc") => {
+    const indexCreate = {};
+    fields.map(i => indexCreate[i] = direction === "asc" ? 1 : -1);
+    log(`Dropping "${id}_${collection}_${direction}" index...`);
+    try {
+        await db.collection(collection).dropIndex(`${id}_${collection}_${direction}`);
+    } catch {
+        // Ignore
+    }
+    log(`Creating "${id}_${collection}_${direction}" index...`);
+    try {
+        await db.collection(collection).createIndex(indexCreate, {
+            name: `${id}_${collection}_${direction}`
+        });
+    } catch {
+        // Ignore
+    }
+};
+
+const createExpireIndex = async (db, id, collection, field, seconds) => {
+    const indexExpire = {};
+    indexExpire[field] = 1;
+    log(`Dropping "${id}_${collection}_expire" index...`);
+    try {
+        await db.collection(collection).dropIndex(`${id}_${collection}_expire}`);
+    } catch {
+        // Ignore
+    }
+    log(`Creating "${id}_${collection}_expire" index...`);
+    try {
+        await db.collection(collection).createIndex(indexExpire, {
+            expireAfterSeconds: parseInt(seconds, 10),
+            name: `${id}_${collection}_expire`
+        });
+    } catch {
+        // Ignore
+    }
+};
+
 (async () => {
     try {
         log("Reading configuration files...");
@@ -43,17 +82,53 @@ const log = (message, error = false) => console[error ? "error" : "log"](`[${err
             }
             if (Setup) {
                 log(`Executing installation script for page: ${page}...`);
-                const setup = new Setup(config, db);
+                const setup = new Setup(page, config, db, {
+                    log,
+                    createIndex,
+                    createExpireIndex,
+                });
                 await setup.process();
             } else {
                 log(`No installation script for page "${page}" loaded`);
             }
         }
         for (const page of routesData.directories.pagesCore) {
-            // log(page);
+            let Setup;
+            try {
+                Setup = (await import(`../../core/pages/${page}/setup.js`)).default;
+            } catch {
+                // Ignore
+            }
+            if (Setup) {
+                log(`Executing installation script for core page: ${page}...`);
+                const setup = new Setup(page, config, db, {
+                    log,
+                    createIndex,
+                    createExpireIndex,
+                });
+                await setup.process();
+            } else {
+                log(`No installation script for core page "${page}" loaded`);
+            }
         }
         for (const module of routesData.directories.modules) {
-            // log(module);
+            let Setup;
+            try {
+                Setup = (await import(`../../modules/${module}/setup.js`)).default;
+            } catch {
+                // Ignore
+            }
+            if (Setup) {
+                log(`Executing installation script for module: ${module}...`);
+                const setup = new Setup(module, config, db, {
+                    log,
+                    createIndex,
+                    createExpireIndex,
+                });
+                await setup.process();
+            } else {
+                log(`No installation script for module "${module}" loaded`);
+            }
         }
         log("Disconnecting from the database...");
         mongoClient.close();

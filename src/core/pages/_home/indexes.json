@@ -1,0 +1,14 @@
+{
+    "users": {
+        "asc": ["username", "email", "status"],
+        "desc":  ["username", "email", "status"]
+    },
+    "history": {
+        "asc": ["recordId", "userId", "updated", "module"],
+        "desc":  ["recordId", "userId", "updated", "module"],
+        "expire": {
+            "field": "updated",
+            "seconds": 604800
+        }
+    }
+}
