@@ -9,7 +9,9 @@
                 </span>
             </if>
             <else>
-                <span class="hr-ht-history-tag">${input.valueOld}</span>
+                $ const valueOld = {};
+                $ valueOld[input.fieldData.id] = input.valueOld;
+                <span class="hr-ht-history-tag">${input.formData.processTableCell(input.fieldData.id, valueOld)}</span>
             </else>
             <div class="hr-ht-history-to-right">&rarr;</div>
             <if(input.valueNew === null)>
@@ -18,7 +20,9 @@
                 </span>
             </if>
             <else>
-                <span class="hr-ht-history-tag">${input.valueNew}</span>
+                $ const valueNew = {};
+                $ valueNew[input.fieldData.id] = input.valueNew;
+                <span class="hr-ht-history-tag">${input.formData.processTableCell(input.fieldData.id, valueNew)}</span>
             </else>
         </div>
     </div>
@@ -50,3 +54,75 @@
     </div>
 </if>
 <!-- WYSIWYG: End -->
+<!-- Select: Start -->
+<if(input.fieldData.type === "select")>
+    <div class="field">
+        <label class="label">${input.fieldData.label}:</label>
+        <div class="control">
+            <if(input.valueOld === null)>
+                <span class="hr-ht-history-tag hr-ht-history-tag-null">
+                    <t>hform_null</t>
+                </span>
+            </if>
+            <else>
+                $ const valueOld = input.fieldData.options.find(i => i.value === input.valueOld);
+                <span class="hr-ht-history-tag">${valueOld ? valueOld.label : ""}</span>
+            </else>
+            <div class="hr-ht-history-to-right">&rarr;</div>
+            <if(input.valueNew === null)>
+                <span class="hr-ht-history-tag hr-ht-history-tag-null">
+                    <t>hform_null</t>
+                </span>
+            </if>
+            <else>
+                $ const valueNew = input.fieldData.options.find(i => i.value === input.valueNew);
+                <span class="hr-ht-history-tag">${valueNew ? valueNew.label : ""}</span>
+            </else>
+        </div>
+    </div>
+</if>
+<!-- Select: End -->
+<!-- Files: Start -->
+<if(input.fieldData.type === "files")>
+    <div class="field">
+        <label class="label">${input.fieldData.label}:</label>
+        <div class="control">
+            <if(input.valueOld === null || !input.valueOld.length)>
+                <div class="hr-ht-history-tag hr-ht-history-tag-null">
+                    <t>hform_null</t>
+                </div>
+            </if>
+            <else>
+                <div class="hr-ht-history-files">
+                    <for|f| of=input.valueOld>
+                        <div>
+                            <if(input.fieldData.download)>
+                                <a class="is-underlined" href=`${input.fieldData.download}?id=${f.uid}&language=${out.global.language || window.__heretic.outGlobal.language}` target="_blank">${f.name}</a>
+                            </if>
+                            <else>${f.name}</else>
+                        </div>
+                    </for>
+                </div>
+            </else>
+            <div class="hr-ht-history-to-down">&darr;</div>
+            <if(input.valueNew === null || !input.valueNew.length)>
+                <div class="hr-ht-history-tag hr-ht-history-tag-null">
+                    <t>hform_null</t>
+                </div>
+            </if>
+            <else>
+                <div class="hr-ht-history-files">
+                    <for|f| of=input.valueNew>
+                        <div>
+                            <if(input.fieldData.download)>
+                                <a class="is-underlined" href=`${input.fieldData.download}?id=${f.uid}&language=${out.global.language || window.__heretic.outGlobal.language}` target="_blank">${f.name}</a>
+                            </if>
+                            <else>${f.name}</else>
+                        </div>
+                    </for>
+                </div>
+            </else>
+        </div>
+    </div>
+</if>
+<!-- Files: End -->

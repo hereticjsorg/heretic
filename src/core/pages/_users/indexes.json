@@ -1,0 +1,6 @@
+{
+    "users": {
+        "asc": ["username", "email", "status"],
+        "desc":  ["username", "email", "status"]
+    }
+}

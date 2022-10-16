@@ -1,4 +1,6 @@
 const cloneDeep = require("lodash.clonedeep");
+const tippy = require("tippy.js").default;
+const debounce = require("lodash.debounce");
 const Utils = require("../../../lib/componentUtils").default;
 const i18nLoader = require("../../../../build/loaders/i18n-loader-core");
 const pagesLoader = require("../../../../build/loaders/page-loader-admin");
@@ -54,7 +56,16 @@ module.exports = class {
         }
     }
 
+    setTippy() {
+        if (this.tippy && this.tippy.length) {
+            this.tippy.map(i => i.destroy());
+        }
+        this.tippy = tippy("[data-tippy-content]");
+    }
+
     async onMount() {
+        window.__heretic = window.__heretic || {};
+        window.__heretic.setTippy = debounce(this.setTippy, 100);
         this.utils = new Utils(this);
         await this.utils.waitForLanguageData();
         await this.utils.waitForComponent("menu");

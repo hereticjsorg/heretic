@@ -1,0 +1,11 @@
+import FormData from "../../data/form"
+import moduleConfig from "../../admin.js"
+
+<if(state.ready)>
+    <htable key=`${moduleConfig.id}List` id=`${moduleConfig.id}List` formData=(new FormData(process.browser && window.__heretic ? window.__heretic.t : out.global.t)) on-top-button-click("onTopButtonClick") on-action-button-click("onActionButtonClick") on-unauthorized("onUnauthorized") autoLoad=true queryString=true  headers=state.headers/>
+    <hnotify key=`notify_${moduleConfig.id}List`/>
+    <editModal key=`${moduleConfig}EditModalDialog`/>
+</if>
+<else>
+    <hloading active=true/>
+</else>

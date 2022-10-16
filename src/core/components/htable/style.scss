@@ -189,7 +189,7 @@
     display: flex !important;
     flex-direction: row;
     justify-content: center;
-    z-index: 5;
+    z-index: 150 !important;
     border-left: 1px solid $grey-lighter;
     border-right: 1px solid $grey-lighter;
 }

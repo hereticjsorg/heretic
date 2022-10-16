@@ -126,6 +126,9 @@ module.exports = class {
                 const fieldComponent = this.getComponent(`hr_hf_f_${id}_${this.state.mode}`);
                 if (fieldComponent) {
                     data[id] = fieldComponent.getValue();
+                    if (data[id] === "") {
+                        data[id] = null;
+                    }
                 }
             }
         }

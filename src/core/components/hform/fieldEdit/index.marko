@@ -78,7 +78,7 @@ import { mdiReload } from '@mdi/js'
             <div
                 class="control"
                 style={
-                    display: "inline-block",
+                    display: "inline-block"
                 }>
                 <label class="file-label">
                     <input class="file-input" type="file" multiple=(input.multiple || false) data-id=input.id on-change("onFileInputChange")/>
@@ -200,3 +200,35 @@ import { mdiReload } from '@mdi/js'
     </div>
 </if>
 <!-- WYSIWYG Field: End -->
+<!-- Password Field: Start -->
+<if(input.type === "password")>
+    <div>
+        <div class="field">
+            <label class="label hr-hf-label">
+                ${input.label || ""}<span>:</span>
+                <if(input.mandatory)>
+                    &nbsp;<span class="hr-hf-label-mandatory">✱</span>
+                </if>
+            </label>
+            <div class="control" no-update>
+                <div class="columns is-variable is-1 is-mobile">
+                    <div class="column">
+                        <input id=`hr_hf_el_${input.formId}_${input.id}` class="input hr-hf-text-input" type="password"/>
+                    </div>
+                    <div class="column">
+                        <input id=`hr_hf_el_${input.formId}_${input.id}_repeat` class="input hr-hf-text-input" type="password"/>
+                    </div>
+                </div>
+            </div>
+            <if(state.error)>
+                <div class="hr-hf-error-wrap">
+                    <p class="tag is-danger hr-hf-error-tag">${state.error}</p>
+                </div>
+            </if>
+            <if(input.helpText)>
+                <p class="help">${input.helpText}</p>
+            </if>
+        </div>
+    </div>
+</if>
+<!-- Password Field: End -->

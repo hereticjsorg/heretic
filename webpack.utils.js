@@ -118,7 +118,8 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
                         prefix: moduleConfig.id,
                         module: true,
                     });
-                    const moduleAdminConfig = fs.readJSONSync(path.resolve(__dirname, "src", "modules", moduleConfig.id, routeId, "admin.json"));
+                    // const moduleAdminConfig = fs.readJSONSync(path.resolve(__dirname, "src", "modules", moduleConfig.id, routeId, "admin.json"));
+                    const moduleAdminConfig = require(path.resolve(__dirname, "src", "modules", moduleConfig.id, routeId, "admin.js"));
                     translationsAdmin.push({
                         id: `${moduleConfig.id}.${routeId}`,
                         title: moduleAdminConfig.title,
@@ -132,7 +133,8 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
         // End processing modules
         fs.readdirSync(path.resolve(__dirname, "src", "core", "pages")).filter(p => !p.match(/^\./)).map(p => {
             try {
-                const metaAdmin = fs.readJSONSync(path.resolve(__dirname, "src", "core", "pages", p, "admin.json"));
+                // const metaAdmin = fs.readJSONSync(path.resolve(__dirname, "src", "core", "pages", p, "admin.json"));
+                const metaAdmin = require(path.resolve(__dirname, "src", "core", "pages", p, "admin.js"));
                 pagesAdminMeta.push({
                     ...metaAdmin,
                     dir: p,
@@ -168,9 +170,10 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
                         } catch {
                             // Ignore
                         }
-                        if (fs.existsSync(path.resolve(__dirname, "src", "pages", p, mp, "admin.json"))) {
+                        if (fs.existsSync(path.resolve(__dirname, "src", "pages", p, mp, "admin.js"))) {
                             try {
-                                const metaAdmin = fs.readJSONSync(path.resolve(__dirname, "src", "pages", p, mp, "admin.json"));
+                                // const metaAdmin = fs.readJSONSync(path.resolve(__dirname, "src", "pages", p, mp, "admin.json"));
+                                const metaAdmin = require(path.resolve(__dirname, "src", "pages", p, mp, "admin.js"));
                                 pagesAdminMeta.push({
                                     ...metaAdmin,
                                     dir: `${p}/${mp}`
@@ -185,9 +188,10 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
                         ...metaRoot,
                         dir: p
                     });
-                    if (fs.existsSync(path.resolve(__dirname, "src", "pages", p, "admin.json"))) {
+                    if (fs.existsSync(path.resolve(__dirname, "src", "pages", p, "admin.js"))) {
                         try {
-                            const metaAdmin = fs.readJSONSync(path.resolve(__dirname, "src", "pages", p, "admin.json"));
+                            // const metaAdmin = fs.readJSONSync(path.resolve(__dirname, "src", "pages", p, "admin.json"));
+                            const metaAdmin = require(path.resolve(__dirname, "src", "pages", p, "admin.js"));
                             pagesAdminMeta.push({
                                 ...metaAdmin,
                                 dir: p
@@ -368,10 +372,12 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
         for (const route of routesData.routes.admin) {
             try {
                 if (route.module) {
-                    const meta = fs.readJSONSync(path.resolve(__dirname, "src", "modules", route.prefix, route.dir, "admin.json"));
+                    // const meta = fs.readJSONSync(path.resolve(__dirname, "src", "modules", route.prefix, route.dir, "admin.json"));
+                    const meta = require(path.resolve(__dirname, "src", "modules", route.prefix, route.dir, "admin.js"));
                     Object.keys(titles).map(lang => titlesAdmin[lang][route.id] = meta.title[lang] || userTranslations[lang][route.id] || "");
                 } else {
-                    const meta = fs.readJSONSync(path.resolve(__dirname, route.core ? "src/core" : "src", "pages", route.dir, "admin.json"));
+                    // const meta = fs.readJSONSync(path.resolve(__dirname, route.core ? "src/core" : "src", "pages", route.dir, "admin.json"));
+                    const meta = require(path.resolve(__dirname, route.core ? "src/core" : "src", "pages", route.dir, "admin.js"));
                     Object.keys(titles).map(lang => titlesAdmin[lang][route.id] = meta.title[lang] || userTranslations[lang][route.id] || "");
                 }
             } catch {
@@ -380,16 +386,23 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
         }
         navigationData.admin = titlesAdmin;
         routesData.i18nNavigation = navigationData;
-        const apiCorePages = fs.readdirSync(path.resolve(__dirname, "src", "core", "api"));
+        const apiRoot = fs.readdirSync(path.resolve(__dirname, "src", "core", "api"));
         const apiPages = [];
+        const apiCore = [];
         for (const page of pages) {
             if (fs.existsSync(path.resolve(__dirname, "src", "pages", page, "api"))) {
                 apiPages.push(page);
             }
         }
+        for (const page of pagesCore) {
+            if (fs.existsSync(path.resolve(__dirname, "src", "core", "pages", page, "api"))) {
+                apiCore.push(page);
+            }
+        }
         routesData.api = {
             ...routesData.api,
-            core: apiCorePages,
+            root: apiRoot,
+            core: apiCore,
             userspace: apiPages,
         };
         routesData.server = {
@@ -413,13 +426,15 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
         for (const route of routesData.routes.admin) {
             try {
                 if (route.module) {
-                    const meta = fs.readJSONSync(path.resolve(__dirname, "src", "modules", route.prefix, route.dir, "admin.json"));
+                    // const meta = fs.readJSONSync(path.resolve(__dirname, "src", "modules", route.prefix, route.dir, "admin.json"));
+                    const meta = require(path.resolve(__dirname, "src", "modules", route.prefix, route.dir, "admin.js"));
                     if (meta.icon) {
                         icons.push(meta.icon);
                         pages[meta.icon] = route.id.replace(/\./gm, "_");
                     }
                 } else {
-                    const meta = fs.readJSONSync(path.resolve(__dirname, route.core ? "src/core" : "src", "pages", route.dir, "admin.json"));
+                    // const meta = fs.readJSONSync(path.resolve(__dirname, route.core ? "src/core" : "src", "pages", route.dir, "admin.json"));
+                    const meta = require(path.resolve(__dirname, route.core ? "src/core" : "src", "pages", route.dir, "admin.js"));
                     if (meta.icon) {
                         icons.push(meta.icon);
                         pages[meta.icon] = route.id.replace(/\./gm, "_");

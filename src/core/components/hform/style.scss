@@ -132,7 +132,7 @@
     margin-top: 3px;
     margin-bottom: 3px;
     font-size: .75rem;
-    user-select: auto;
+    user-select: text;
     box-decoration-break: slice;
 }
 
@@ -143,7 +143,8 @@
     color: $white;
 }
 
-.hr-ht-history-wysiwyg {
+.hr-ht-history-wysiwyg,
+.hr-ht-history-files {
     background-color: $white;
     border: 1px solid $grey-lighter;
     padding: 5px;

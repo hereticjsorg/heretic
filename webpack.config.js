@@ -108,12 +108,12 @@ module.exports = (env, argv) => {
                             priority: -20,
                             reuseExistingChunk: true,
                             filename: data => {
-                                // console.log(data.chunk);
                                 if (argv.mode === "production") {
                                     return `heretic.${data.chunk.id}.[fullhash:8].js`;
                                 }
                                 const nameArr = data.chunk.id.split(/_/);
-                                return nameArr.length > 4 ? `heretic.${nameArr[nameArr.length - 3]}.${nameArr[nameArr.length - 2]}.[fullhash:8].js` : `heretic.generic.[fullhash:8].js`;
+                                return nameArr.length > 4 ? `heretic.${nameArr[nameArr.length - 3]}.${nameArr[nameArr.length - 2]}.${data.chunk.renderedHash}.[fullhash:8].js` : `heretic.generic.${data.chunk.renderedHash}.[fullhash:8].js`;
+                                // return `heretic.${data.chunk.renderedHash}.[fullhash:8].js`;
                             }
                         },
                     },

@@ -175,7 +175,7 @@ import { format, parseISO } from "date-fns"
                     <div class="p-0 mb-3">
                         <div class="columns mb-1 p-0 is-gapless">
                             <div class="column is-narrow mr-2">
-                                <span class="tag is-dark menu-label">${item.username}</span>
+                                <span class="tag is-light menu-label">${item.username}</span>
                             </div>
                             <div class="column is-auto is-size-7 is-flex is-align-items-center">
                                 $ const date = parseISO(item.updated);
@@ -210,7 +210,7 @@ import { format, parseISO } from "date-fns"
                             <if(item.changes && item.changes.length)>
                                 <for|change| of=item.changes>
                                     $ const fieldData = component.fieldsFlat[change.id];
-                                    <historyView fieldData=fieldData valueOld=change.valueOld valueNew=change.valueNew/>
+                                    <historyView fieldData=fieldData valueOld=change.valueOld valueNew=change.valueNew formData=component.input.data/>
                                 </for>
                             </if>
                             <else>

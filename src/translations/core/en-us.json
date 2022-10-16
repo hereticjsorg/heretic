@@ -128,7 +128,7 @@
     "hform_history": "History",
     "hform_error_history": "Could not load history",
     "hform_historyNoChanges": "Initial version",
-    "hform_null": "null",
+    "hform_null": "Empty",
     "hform_actions": "Actions",
     "hform_historyActionRestore": "Restore data",
     "hform_historyActionDelete": "Delete history record",
@@ -138,5 +138,7 @@
     "hform_historyDeleteSuccess": "History record deleted",
     "hform_historyDeleteError": "Could not delete history record",
     "hform_historyDeleteConfirmation": "Delete History Record",
-    "hform_historyDeleteConfirmationText": "The selected history record will be deleted from the database and you won't be able to restore it."
+    "hform_historyDeleteConfirmationText": "The selected history record will be deleted from the database and you won't be able to restore it.",
+    "salaryCurrent": "Salary",
+    "areaFinanceInfo": "Finance"
 }

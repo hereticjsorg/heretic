@@ -210,12 +210,16 @@ export default class {
      * Register API routes
      */
     async registerRouteAPI() {
-        for (const page of routesData.api.core) {
+        for (const page of routesData.api.root) {
             const api = await import(`../api/${page}/index.js`);
             api.default(this.fastify);
         }
         for (const page of routesData.api.userspace) {
             const api = await import(`../../pages/${page}/api/index.js`);
+            api.default(this.fastify);
+        }
+        for (const page of routesData.api.core) {
+            const api = await import(`../pages/${page}/api/index.js`);
             api.default(this.fastify);
         }
         for (const module of routesData.api.modules) {

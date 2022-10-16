@@ -303,8 +303,9 @@ module.exports = class {
         window.dispatchEvent(new CustomEvent("resize"));
         const scrollWrapper = document.getElementById(`hr_ht_table_scroll_wrapper_${this.input.id}`);
         const tableContainer = document.getElementById(`hr_ht_table_container_${this.input.id}`);
+        this.onScrollWrapScrollDebounced = debounce(this.onScrollWrapScroll, 50);
         if (scrollWrapper && tableContainer) {
-            scrollWrapper.addEventListener("scroll", this.onScrollWrapScroll.bind(this));
+            scrollWrapper.addEventListener("scroll", this.onScrollWrapScrollDebounced.bind(this));
             tableContainer.addEventListener("scroll", this.onTableContainerScroll.bind(this));
         }
         tableContainer.dispatchEvent(new CustomEvent("scroll"));
@@ -665,7 +666,7 @@ module.exports = class {
             }
             this.setState("deleteItems", deleteItems);
             deleteConfirmation.setActive(true).setCloseAllowed(true).setLoading(false);
-        } else if (this.state.deleteConfig && !this.state.checkboxes.length) {
+        } else if (id === "delete" && this.state.deleteConfig && !this.state.checkboxes.length) {
             this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_nothingSelected"), "is-warning");
         }
     }

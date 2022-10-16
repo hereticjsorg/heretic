@@ -53,6 +53,10 @@
     height: 40px;
     border-radius: $radius;
     background: $white-ter;
+    user-select: text;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .hr-hf-date-input {

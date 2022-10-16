@@ -1,5 +1,5 @@
 const Utils = require("../../../../lib/componentUtils").default;
-const meta = require("../../admin.json");
+const meta = require("../../admin.js");
 
 module.exports = class {
     onCreate(input, out) {

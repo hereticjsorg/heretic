@@ -108,7 +108,7 @@ import SettingsPagesForm from "./settingsPagesForm"
                                         <t>htable_export</t>
                                     </a>
                                 </if>
-                                <if(state.recycleBin)>
+                                <if(state.recycleBin && state.recycleBin.enabled)>
                                     <a class="dropdown-item" on-click("onRecycleBinClick")>
                                         <span class="hr-ht-top-button-submenu-icon">
                                             <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
