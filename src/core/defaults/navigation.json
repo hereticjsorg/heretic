@@ -6,5 +6,5 @@
             "license"
         ]
     },
-    "admin": ["_home"]
+    "admin": ["_home", "_users", "_groups"]
 }

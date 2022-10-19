@@ -129,18 +129,19 @@
 }
 
 .hr-footer {
-    color: $white-ter;
+    color: $grey-darker;
     font-size: 80%;
-    background: $grey-darker;
+    background: $white;
     user-select: none;
+    border-top: 1px solid $grey-lightest;
 }
 
 .hr-footer>*>a,
 .hr-footer>*>a:hover,
 .hr-footer>*>a:active {
-    color: $white-ter;
+    color: $grey-darker;
     text-decoration: none;
-    border-bottom: 1px solid $grey;
+    border-bottom: 1px solid $grey-darker;
 }
 
 .hr-content-area-wrap {

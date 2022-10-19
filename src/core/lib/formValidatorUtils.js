@@ -61,6 +61,9 @@ module.exports = {
             case "filesBadExtension":
                 errorCode = "hform_error_filesBadExtension";
                 break;
+            case "passwordsDoNotMatch":
+                errorCode = "hform_error_passwordsDoNotMatch";
+                break;
             default:
                 errorCode = "hform_error_generic";
             }

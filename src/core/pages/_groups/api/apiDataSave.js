@@ -2,7 +2,7 @@ import FormData from "../data/form";
 import FormValidator from "../../../lib/formValidatorServer";
 import moduleConfig from "../admin.js";
 
-const uniqueFields = ["username", "email"];
+const uniqueFields = ["group"];
 
 export default () => ({
     async handler(req, rep) {
@@ -14,10 +14,6 @@ export default () => ({
             }
             const multipartData = await req.processMultipart();
             const formData = new FormData();
-            if (multipartData && multipartData.fields && multipartData.fields.id) {
-                formData.data.form[0].fields.find(i => i.id === "password").mandatory = false;
-                formData.data.form[0].fields.find(i => i.id === "password").validation.type = ["string", "null"];
-            }
             formValidator = new FormValidator(formData.getValidationSchema(), formData.getFieldsFlat(), this);
             const {
                 data,
@@ -32,8 +28,7 @@ export default () => ({
             await formValidator.saveFiles(moduleConfig.id);
             const collection = this.mongo.db.collection(moduleConfig.collections.main);
             const result = {};
-            data._default.email = data._default.email ? data._default.email.toLowerCase() : null;
-            data._default.username = data._default.username ? data._default.username.toLowerCase() : null;
+            data._default.group = data._default.group ? data._default.group.toLowerCase() : null;
             if (data._id) {
                 const existingRecord = await collection.findOne({
                     _id: data._id,
@@ -44,11 +39,6 @@ export default () => ({
                 const duplicateErrors = await this.findDatabaseDuplicates(moduleConfig.collections.main, uniqueFields, data._default, existingRecord);
                 if (duplicateErrors) {
                     return rep.error(duplicateErrors);
-                }
-                if (data._default.password) {
-                    data._default.password = await req.auth.createHash(`${data._default.password}${this.siteConfig.secret}`);
-                } else {
-                    delete data._default.password;
                 }
                 await collection.updateOne({
                     _id: data._id,

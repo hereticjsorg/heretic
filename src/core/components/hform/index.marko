@@ -3,7 +3,7 @@ import { format, parseISO } from "date-fns"
 
 <div class="hr-hf-wrap">
     <if(state.errorMessage)>
-        <div class="notification is-danger mt-3 mb-4" id=`${input.id}_errorNotification`>
+        <div class=`notification is-danger mb-4 ${input.id}-errorNotification` id=`${input.id}_errorNotification`>
             <button class="delete" on-click("onErrorMessageClose")/>
             ${state.errorMessage}
         </div>

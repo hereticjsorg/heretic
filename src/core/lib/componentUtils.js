@@ -61,7 +61,7 @@ export default class {
     }
 
     async loadLanguageData(page) {
-        if (process.browser && window.__heretic && window.__heretic.languageData && !window.__heretic.translationsLoaded[page]) {
+        if (process.browser && window.__heretic && window.__heretic.languageData) { // && !window.__heretic.translationsLoaded[page]
             const i18nLoader = require(`../../build/loaders/i18n-loader-${page}`);
             window.__heretic.translationsLoaded[page] = true;
             const languageData = {

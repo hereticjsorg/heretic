@@ -14,12 +14,12 @@ export default class {
         this.t = t || (id => id);
         this.data = {
             form: [{
-                label: this.t("areaCredentials"),
+                label: this.t("areaData"),
                 css: "hr-hf-area",
                 fields: [{
-                    id: "username",
+                    id: "group",
                     type: "text",
-                    label: this.t("username"),
+                    label: this.t("group"),
                     mandatory: true,
                     validation: {
                         type: ["string"],
@@ -30,40 +30,12 @@ export default class {
                     column: true,
                     createIndex: true,
                     autoFocus: true,
-                }, {
-                    id: "email",
-                    type: "text",
-                    label: this.t("email"),
-                    mandatory: false,
-                    validation: {
-                        type: ["string", "null"],
-                        pattern: "(^(?:[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-])+@(?:[a-zA-Z0-9]|[^\\u0000-\\u007F])(?:(?:[a-zA-Z0-9-]|[^\\u0000-\\u007F]){0,61}(?:[a-zA-Z0-9]|[^\\u0000-\\u007F]))?(?:\\.(?:[a-zA-Z0-9]|[^\\u0000-\\u007F])(?:(?:[a-zA-Z0-9-]|[^\\u0000-\\u007F]){0,61}(?:[a-zA-Z0-9]|[^\\u0000-\\u007F]))?)*$)|^()$",
-                        maxLength: 254
-                    },
-                    sortable: true,
-                    searchable: true,
-                    css: "hr-hf-field-large",
-                    column: true,
-                    createIndex: true,
-                }, {
-                    id: "password",
-                    type: "password",
-                    label: this.t("password"),
-                    helpText: this.t("passwordHelpText"),
-                    mandatory: true,
-                    validation: {
-                        type: ["string"],
-                    },
-                    sortable: false,
-                    searchable: false,
-                    column: false,
-                    createIndex: false,
                 }],
             }],
         };
         this.validationData = utils.getValidationData(this.data.form);
         this.columnTypes = ["text", "select", "column", "date"];
-        this.defaultSortColumn = "username";
+        this.defaultSortColumn = "group";
         this.defaultSortDirection = "asc";
         this.actionColumn = true;
         this.checkboxColumn = true;
@@ -73,7 +45,7 @@ export default class {
         };
         this.tableDeleteConfig = {
             url: `/api/${moduleConfig.id}/delete`,
-            titleId: "username",
+            titleId: "group",
         };
         this.tableBulkUpdateConfig = {
             url: `/api/${moduleConfig.id}/bulkSave`,

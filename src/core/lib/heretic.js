@@ -21,6 +21,7 @@ import routesData from "../../build/routes.json";
 import Logger from "./logger";
 import Utils from "./utils";
 import Auth from "./auth";
+import fastifyDecorators from "./fastifyDecorators";
 import replyDecorators from "./replyDecorators";
 import requestDecorators from "./requestDecorators";
 import fastifyURLData from "./urlData";
@@ -63,6 +64,7 @@ export default class {
             userspace: routesData.i18nNavigation.userspace,
             admin: routesData.i18nNavigation.admin,
         });
+        this.fastify.decorate("findDatabaseDuplicates", fastifyDecorators.findDatabaseDuplicates);
         this.fastify.decorate("siteMeta", this.siteMeta);
         this.fastify.decorate("siteConfig", this.config);
         this.fastify.decorate("languages", languages);

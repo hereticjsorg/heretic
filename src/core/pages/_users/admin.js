@@ -1,4 +1,5 @@
 const id = "_users";
+const siteConfig = require("../../../../etc/system.json");
 
 module.exports = {
     id,
@@ -9,7 +10,7 @@ module.exports = {
         "en-us": "Users"
     },
     collections: {
-        main: id,
+        main: siteConfig.collections.users,
     },
     options: {
         itemsPerPage: 20,

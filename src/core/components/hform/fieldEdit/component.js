@@ -52,6 +52,7 @@ module.exports = class {
         if (element) {
             switch (this.input.type) {
             case "text":
+            case "password":
                 this.maskedInput = new IMask(element, this.input.maskedOptions || {
                     mask: /^.+$/
                 });
@@ -140,6 +141,13 @@ module.exports = class {
         case "text":
             value = typeof this.state.value === "string" && this.state.value.length > 0 ? this.state.value : null;
             break;
+        case "password":
+            const fieldValue = typeof this.state.value === "string" && this.state.value.length > 0 ? this.state.value : null;
+            const passwordRepeatElement = document.getElementById(`hr_hf_el_${this.input.formId}_${this.input.id}_repeat`);
+            return {
+                value: fieldValue, repeat: passwordRepeatElement ? passwordRepeatElement.value || null : null,
+            };
+
         case "select":
             value = typeof this.state.value === "string" || typeof this.state.value === "number" ? String(this.state.value) : null;
             break;

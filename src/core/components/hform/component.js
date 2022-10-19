@@ -6,6 +6,33 @@ const Query = require("../../lib/queryBrowser").default;
 const Utils = require("../../lib/componentUtils").default;
 
 module.exports = class {
+    initValidation(input = this.input) {
+        for (const area of input.data.getData().form) {
+            for (const item of area.fields) {
+                if (Array.isArray(item)) {
+                    for (const subItem of item) {
+                        this.fieldIds.push(subItem.id);
+                        if (subItem.shared) {
+                            this.sharedFieldIds.push(subItem.id);
+                        }
+                        this.fieldsFlat[subItem.id] = subItem;
+                    }
+                } else {
+                    this.fieldIds.push(item.id);
+                    this.fieldsFlat[item.id] = item;
+                    if (item.shared) {
+                        this.sharedFieldIds.push(item.id);
+                    }
+                }
+            }
+        }
+        if (input.data.getValidationSchema) {
+            this.formValidator = new FormValidator(input.data.getValidationSchema(), this.fieldsFlat);
+        }
+        this.forceUpdate();
+        // this.rerender();
+    }
+
     onCreate(input) {
         let mode = "edit";
         if (process.browser) {
@@ -38,29 +65,9 @@ module.exports = class {
         this.fieldIds = [];
         this.sharedFieldIds = [];
         this.fieldsFlat = {};
+        this.passwordRepeat = {};
         // Collect field IDs
-        for (const area of input.data.getData().form) {
-            for (const item of area.fields) {
-                if (Array.isArray(item)) {
-                    for (const subItem of item) {
-                        this.fieldIds.push(subItem.id);
-                        if (subItem.shared) {
-                            this.sharedFieldIds.push(subItem.id);
-                        }
-                        this.fieldsFlat[subItem.id] = subItem;
-                    }
-                } else {
-                    this.fieldIds.push(item.id);
-                    this.fieldsFlat[item.id] = item;
-                    if (item.shared) {
-                        this.sharedFieldIds.push(item.id);
-                    }
-                }
-            }
-        }
-        if (input.data.getValidationSchema) {
-            this.formValidator = new FormValidator(input.data.getValidationSchema(), this.fieldsFlat);
-        }
+        this.initValidation(input);
     }
 
     onErrorMessageClose() {
@@ -112,6 +119,7 @@ module.exports = class {
                 }
             }
         });
+        this.emit("mount-complete");
     }
 
     setTitle(title) {
@@ -126,6 +134,15 @@ module.exports = class {
                 const fieldComponent = this.getComponent(`hr_hf_f_${id}_${this.state.mode}`);
                 if (fieldComponent) {
                     data[id] = fieldComponent.getValue();
+                    if (this.fieldsFlat[id].type === "password") {
+                        const {
+                            repeat,
+                            value,
+                        } = data[id];
+                        data[id] = value;
+                        this.passwordRepeat[this.state.activeTab] = this.passwordRepeat[this.state.activeTab] || {};
+                        this.passwordRepeat[this.state.activeTab][id] = repeat;
+                    }
                     if (data[id] === "") {
                         data[id] = null;
                     }
@@ -156,6 +173,20 @@ module.exports = class {
                 if (result) {
                     return result;
                 }
+                const resultPasswords = [];
+                for (const id of Object.keys(data[tab])) {
+                    if (this.fieldsFlat[id].type === "password" && data[tab][id] !== this.passwordRepeat[tab][id]) {
+                        resultPasswords.push({
+                            instancePath: `/${id}`,
+                            keyword: "passwordsDoNotMatch",
+                            message: "Passwords to not match",
+                            tab,
+                        });
+                    }
+                }
+                if (resultPasswords.length) {
+                    return resultPasswords;
+                }
             }
         }
         return null;
@@ -178,6 +209,9 @@ module.exports = class {
     getValue(id) {
         const fieldComponent = this.getComponent(`hr_hf_f_${id}_${this.state.mode}`);
         if (fieldComponent) {
+            if (this.fieldsFlat[id].type === "password") {
+                return fieldComponent.getValue().value;
+            }
             return fieldComponent.getValue();
         }
         return null;

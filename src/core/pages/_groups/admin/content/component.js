@@ -63,7 +63,6 @@ module.exports = class {
                     message = this.t(e.response.data.message);
                 }
                 if (e.response.data.form) {
-                    form.getErrorData(e.response.data.form);
                     form.setErrors(form.getErrorData(e.response.data.form));
                     if (message) {
                         form.setErrorMessage(message);

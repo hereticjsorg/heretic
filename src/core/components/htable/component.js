@@ -202,7 +202,11 @@ module.exports = class {
     async setLoading(flag) {
         if (flag) {
             this.setState("loading", true);
-            await this.utils.waitForElement(`hr_ht_loading_${this.input.id}`);
+            try {
+                await this.utils.waitForElement(`hr_ht_loading_${this.input.id}`);
+            } catch {
+                return;
+            }
             const {
                 elementWrap,
                 elementLoadingWrap,

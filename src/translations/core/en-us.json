@@ -54,6 +54,7 @@
     "hform_error_filesMaxCount": "Too many files",
     "hform_error_filesMaxSize": "Max size exceeded",
     "hform_error_filesBadExtension": "Unaccepted type",
+    "hform_error_passwordsDoNotMatch": "Passwords do not match",
     "hform_error_general": "Error while processing form",
     "signOut": "Sign Out",
     "signIn": "Sign In",

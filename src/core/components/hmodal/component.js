@@ -5,6 +5,7 @@ module.exports = class {
             closeAllowed: true,
             closeBackgroundAllowed: true,
             loading: false,
+            title: input.title,
         };
     }
 
@@ -67,5 +68,9 @@ module.exports = class {
         if (close !== undefined) {
             this.onClose(e);
         }
+    }
+
+    setTitle(title) {
+        this.setState("title", title);
     }
 };

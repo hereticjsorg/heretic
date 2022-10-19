@@ -1,5 +1,8 @@
 import Ajv from "ajv";
 import {
+    cloneDeep,
+} from "lodash";
+import {
     startOfDay,
     endOfDay
 } from "date-fns";
@@ -34,10 +37,12 @@ export default {
     validateTableList: function (formData) {
         const columns = Object.keys(formData.getTableColumns());
         const columnsSortable = Object.keys(Object.fromEntries(Object.entries(formData.getTableColumns()).filter(([, value]) => !!value.sortable)));
-        listValidationSchema.properties.fields.items.enum = columns;
-        listValidationSchema.properties.sortField.enum = [...columnsSortable, "null"];
-        const validate = ajv.compile(listValidationSchema);
+        const listValidationSchemaClone = cloneDeep(listValidationSchema);
+        listValidationSchemaClone.properties.fields.items.enum = columns;
+        listValidationSchemaClone.properties.sortField.enum = [...columnsSortable, "null"];
+        const validate = ajv.compile(listValidationSchemaClone);
         if (!validate(this.body)) {
+            console.log(JSON.stringify(validate.errors, null, "\t"));
             return null;
         }
         const options = {

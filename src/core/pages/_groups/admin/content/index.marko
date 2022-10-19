@@ -6,7 +6,7 @@ $ {
     component.formData = formData;
 }
 <if(state.ready)>
-    <hadmin-title title=process.browser && window.__heretic ? window.__heretic.t("moduleTitleUsers") : null/>
+    <hadmin-title title=process.browser && window.__heretic ? window.__heretic.t("moduleTitleGroups") : null/>
     <htable key=`${moduleConfig.id}List` id=`${moduleConfig.id}List` formData=(new FormData(process.browser && window.__heretic ? window.__heretic.t : out.global.t)) on-top-button-click("onTopButtonClick") on-action-button-click("onActionButtonClick") on-unauthorized("onUnauthorized") autoLoad=true queryString=true headers=state.headers/>
     <hnotify key=`notify_${moduleConfig.id}List`/>
     <hmodal
