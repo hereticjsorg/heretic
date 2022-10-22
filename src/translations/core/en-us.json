@@ -141,5 +141,10 @@
     "hform_historyDeleteConfirmation": "Delete History Record",
     "hform_historyDeleteConfirmationText": "The selected history record will be deleted from the database and you won't be able to restore it.",
     "salaryCurrent": "Salary",
-    "areaFinanceInfo": "Finance"
+    "areaFinanceInfo": "Finance",
+    "hform_keyValueAdd": "Add",
+    "hform_keyValueModal": "Edit Value",
+    "hform_keyValueFormOption": "Option",
+    "hform_keyValueFormValue": "Value",
+    "hform_keyValueProviderError": "Could not load provider data"
 }

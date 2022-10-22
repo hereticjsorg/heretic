@@ -1,0 +1,50 @@
+import Ajv from "ajv";
+import dataProvidersSchema from "./dataProvidersSchema";
+
+const ajv = new Ajv({
+    allErrors: true,
+    strict: false,
+});
+
+export default () => ({
+    async handler(req, rep) {
+        const dataProvidersValidator = ajv.compile(dataProvidersSchema);
+        try {
+            const validationResult = !!dataProvidersValidator(req.query);
+            if (!validationResult) {
+                return rep.error({
+                    message: "Validation error",
+                    data: dataProvidersValidator.errors,
+                });
+            }
+            const data = [];
+            for (const p of Object.keys(this.dataProviders)) {
+                const dataProvider = this.dataProviders[p];
+                if (dataProvider.getGroupsData) {
+                    dataProvider.setTranslations(id => this.languageData[req.query.language][id] || id);
+                    const groupsData = dataProvider.getGroupsData();
+                    if (groupsData) {
+                        for (const group of groupsData) {
+                            if (group.type === "database") {
+                                const records = await this.mongo.db.collection(group.collection).find({}, {
+                                    limit: 100,
+                                }).toArray();
+                                group.items = records.map(r => ({
+                                    id: String(r._id),
+                                    label: r[group.field] || "—",
+                                }));
+                            }
+                            data.push(group);
+                        }
+                    }
+                }
+            }
+            return rep.success({
+                data
+            });
+        } catch (e) {
+            this.log.error(e);
+            return Promise.reject(e);
+        }
+    }
+});

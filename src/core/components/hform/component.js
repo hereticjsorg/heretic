@@ -1,4 +1,8 @@
 const cloneDeep = require("lodash.clonedeep");
+const axios = require("axios").default;
+const {
+    v4: uuidv4,
+} = require("uuid");
 const serializableTypes = require("./serializableTypes.json");
 const FormValidator = require("../../lib/formValidatorBrowser").default;
 const formValidatorUtils = require("../../lib/formValidatorUtils");
@@ -29,11 +33,13 @@ module.exports = class {
         if (input.data.getValidationSchema) {
             this.formValidator = new FormValidator(input.data.getValidationSchema(), this.fieldsFlat);
         }
-        this.forceUpdate();
+        if (process.browser) {
+            this.forceUpdate();
+        }
         // this.rerender();
     }
 
-    onCreate(input) {
+    onCreate(input, out) {
         let mode = "edit";
         if (process.browser) {
             const query = new Query();
@@ -61,6 +67,11 @@ module.exports = class {
             historyTotalPages: 1,
             historyPagination: [],
             historyActionsDropdownOpen: null,
+            keyValueData: [],
+            keyValueSelectedKey: null,
+            keyValueSelectedType: null,
+            keyValueValue: null,
+            keyValueFieldId: null,
         };
         this.fieldIds = [];
         this.sharedFieldIds = [];
@@ -68,6 +79,10 @@ module.exports = class {
         this.passwordRepeat = {};
         // Collect field IDs
         this.initValidation(input);
+        this.language = out.global.language;
+        if (process.browser && window.__heretic && window.__heretic.t) {
+            this.language = this.language || window.__heretic.outGlobal.language;
+        }
     }
 
     onErrorMessageClose() {
@@ -453,7 +468,7 @@ module.exports = class {
     }
 
     showNotification(message, css = "") {
-        this.getComponent(`notify_field_${this.input.formId}`).show(window.__heretic.t(message), css);
+        this.getComponent(`notify_field_${this.input.id}`).show(window.__heretic.t(message), css);
     }
 
     setErrorMessage(message) {
@@ -596,5 +611,101 @@ module.exports = class {
             this.emit("delete-history", this.historyDeleteId);
             break;
         }
+    }
+
+    async onKeyValueAddRequest(id) {
+        await this.utils.waitForComponent(`keyValueModal_hf_${this.input.id}`);
+        const keyValueModal = this.getComponent(`keyValueModal_hf_${this.input.id}`);
+        keyValueModal.setActive(true).setCloseAllowed(false).setLoading(true);
+        try {
+            const {
+                data,
+            } = await axios({
+                method: "get",
+                url: `/api/dataProviders/groups?language=${this.language}`,
+            });
+            keyValueModal.setLoading(false).setCloseAllowed(true);
+            if (data.data) {
+                this.setState("keyValueData", data.data);
+                this.setState("keyValueSelectedKey", data.data[0].id);
+                this.setState("keyValueSelectedType", data.data[0].type);
+            }
+            this.setState("keyValueFieldId", id);
+            await this.utils.waitForElement(`hform_keyValue_value_${this.input.id}`);
+            switch (data.data[0].type) {
+            case "database":
+            case "list":
+                this.setState("keyValueValue", data.data[0].items[0].id);
+                break;
+            case "boolean":
+                this.setState("keyValueValue", "true");
+                break;
+            default:
+                this.setState("keyValueValue", "");
+            }
+            // throw new Error("OK");
+        } catch {
+            await this.showNotification(window.__heretic.t("hform_keyValueProviderError"), "is-danger");
+            keyValueModal.setActive(false);
+        }
+    }
+
+    async onKeyValueModalButtonClick(button) {
+        switch (button) {
+        case "save":
+            await this.utils.waitForComponent(`keyValueModal_hf_${this.input.id}`);
+            const keyValueModal = this.getComponent(`keyValueModal_hf_${this.input.id}`);
+            keyValueModal.setActive(false);
+            await this.utils.waitForComponent(`hr_hf_f_${this.state.keyValueFieldId}_${this.state.mode}`);
+            const fieldComponent = this.getComponent(`hr_hf_f_${this.state.keyValueFieldId}_${this.state.mode}`);
+            let valueLabel;
+            const currentKeyValueItem = this.state.keyValueData.find(i => i.id === this.state.keyValueSelectedKey);
+            switch (currentKeyValueItem.type) {
+            case "database":
+            case "list":
+                const valueItem = currentKeyValueItem.items.find(i => i.id === this.state.keyValueValue);
+                valueLabel = valueItem ? valueItem.label : valueItem;
+                break;
+            default:
+                valueLabel = this.state.keyValueValue;
+            }
+            await fieldComponent.setValue([...this.state.value || [], {
+                uid: uuidv4(),
+                id: this.state.keyValueSelectedKey,
+                type: this.state.keyValueSelectedType,
+                title: currentKeyValueItem.title,
+                value: this.state.keyValueValue,
+                valueLabel,
+            }]);
+            break;
+        }
+    }
+
+    onKeyValueModalFormSubmit(e) {
+        e.preventDefault();
+    }
+
+    onKeyValueKeyChange(e) {
+        const key = e.target.value;
+        const {
+            type
+        } = this.state.keyValueData.find(i => i.id === key);
+        this.setState("keyValueSelectedKey", key);
+        this.setState("keyValueSelectedType", type);
+        switch (type) {
+        case "boolean":
+            this.setState("keyValueValue", true);
+            break;
+        case "text":
+            this.setState("keyValueValue", true);
+            break;
+        }
+    }
+
+    onKeyValueValueChange(e) {
+        const {
+            value
+        } = e.target;
+        this.setState("keyValueValue", value);
     }
 };

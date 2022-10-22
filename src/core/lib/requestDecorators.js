@@ -24,13 +24,6 @@ const ajv = new Ajv({
 });
 exportGenericValidationSchema.properties.language.enum = Object.keys(languages);
 
-const validateLoadGenericSchema = ajv.compile(loadGenericValidationSchema);
-const deleteGenericSchema = ajv.compile(deleteGenericValidationSchema);
-const bulkGenericSchema = ajv.compile(bulkGenericValidationSchema);
-const exportGenericSchema = ajv.compile(exportGenericValidationSchema);
-const recycleBinListGenericSchema = ajv.compile(recycleBinListValidationSchema);
-const historyListGenericSchema = ajv.compile(historyListGenericValidationSchema);
-
 /* eslint-disable object-shorthand */
 /* eslint-disable func-names */
 export default {
@@ -42,7 +35,6 @@ export default {
         listValidationSchemaClone.properties.sortField.enum = [...columnsSortable, "null"];
         const validate = ajv.compile(listValidationSchemaClone);
         if (!validate(this.body)) {
-            console.log(JSON.stringify(validate.errors, null, "\t"));
             return null;
         }
         const options = {
@@ -58,6 +50,7 @@ export default {
         return options;
     },
     validateTableRecycleBinList: function () {
+        const recycleBinListGenericSchema = ajv.compile(recycleBinListValidationSchema);
         if (!recycleBinListGenericSchema(this.body)) {
             return null;
         }
@@ -67,18 +60,23 @@ export default {
         };
     },
     validateDataLoadGeneric: function () {
+        const validateLoadGenericSchema = ajv.compile(loadGenericValidationSchema);
         return !!validateLoadGenericSchema(this.body);
     },
     validateDataDeleteGeneric: function () {
+        const deleteGenericSchema = ajv.compile(deleteGenericValidationSchema);
         return !!deleteGenericSchema(this.body);
     },
     validateDataBulkGeneric: function () {
+        const bulkGenericSchema = ajv.compile(bulkGenericValidationSchema);
         return !!bulkGenericSchema(this.body);
     },
     validateDataExportGeneric: function () {
+        const exportGenericSchema = ajv.compile(exportGenericValidationSchema);
         return !!exportGenericSchema(this.body);
     },
     validateHistoryListGeneric: function () {
+        const historyListGenericSchema = ajv.compile(historyListGenericValidationSchema);
         return !!historyListGenericSchema(this.body);
     },
     generateQuery: function (formData) {

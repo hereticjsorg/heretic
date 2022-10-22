@@ -30,6 +30,19 @@ export default class {
                     column: true,
                     createIndex: true,
                     autoFocus: true,
+                }, {
+                    id: "data",
+                    type: "keyValue",
+                    label: this.t("data"),
+                    mandatory: false,
+                    validation: {
+                    },
+                    sortable: false,
+                    searchable: false,
+                    css: "hr-hf-field-medium",
+                    column: false,
+                    createIndex: false,
+                    autoFocus: false,
                 }],
             }],
         };

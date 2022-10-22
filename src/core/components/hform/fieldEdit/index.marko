@@ -1,4 +1,4 @@
-import { mdiReload } from '@mdi/js'
+import { mdiReload, mdiPlus } from '@mdi/js'
 
 <!-- Text Field: Start -->
 <if(input.type === "text")>
@@ -232,3 +232,42 @@ import { mdiReload } from '@mdi/js'
     </div>
 </if>
 <!-- Password Field: End -->
+<!-- Key-Value Field: Start -->
+<if(input.type === "keyValue")>
+    <div>
+        <div class="field">
+            <label class="label hr-hf-label">
+                ${input.label || ""}<span>:</span>
+                <if(input.mandatory)>
+                    &nbsp;<span class="hr-hf-label-mandatory">✱</span>
+                </if>
+            </label>
+            <div class="control">
+                <button on-click("onKeyValueAddClick") class="button is-small is-light">
+                    <span class="hr-hf-top-button-icon">
+                        <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                            <path d=mdiPlus/>
+                        </svg>
+                    </span>
+                    <span>
+                        <t>hform_keyValueAdd</t>
+                    </span>
+                </button>
+                <if(state.value)>
+                    <for|item| of=state.value>
+                        <div>${item.title} (${item.id}) - ${item.valueLabel} (${item.value})</div>
+                    </for>
+                </if>
+            </div>
+            <if(state.error)>
+                <div class="hr-hf-error-wrap">
+                    <p class="tag is-danger hr-hf-error-tag">${state.error}</p>
+                </div>
+            </if>
+            <if(input.helpText)>
+                <p class="help">${input.helpText}</p>
+            </if>
+        </div>
+    </div>
+</if>
+<!-- Key-Value Field: End -->

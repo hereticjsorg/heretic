@@ -117,7 +117,7 @@ import { format, parseISO } from "date-fns"
                             <for|i2| of=i1>
                                 <div class=`column pt-0 pb-0 mt-0 mb-3 ${i2.css ? i2.css : ""}`>
                                     <if(state.mode === "edit")>
-                                        <fieldEdit key=`hr_hf_f_${i2.id}_edit` formId=input.id on-button-click("onButtonClick") on-notify("onNotify") ...i2/>
+                                        <fieldEdit key=`hr_hf_f_${i2.id}_edit` formId=input.id on-button-click("onButtonClick") on-notify("onNotify") on-key-value-add-request("onKeyValueAddRequest") ...i2/>
                                     </if>
                                     <else>
                                         <fieldView key=`hr_hf_f_${i2.id}_view` formId=input.id on-button-click("onButtonClick") formData=component.input.data ...i2/>
@@ -131,7 +131,7 @@ import { format, parseISO } from "date-fns"
                             <div class="columns pt-0 pb-0 mt-0 mb-1 is-variable is-2">
                                 <div class="column pt-0 pb-0 mt-0 mb-2">
                                     <if(state.mode === "edit")>
-                                        <fieldEdit key=`hr_hf_f_${i1.id}_edit` formId=input.id on-button-click("onButtonClick") on-notify("onNotify") ...i1/>
+                                        <fieldEdit key=`hr_hf_f_${i1.id}_edit` formId=input.id on-button-click("onButtonClick") on-notify("onNotify") on-key-value-add-request("onKeyValueAddRequest") ...i1/>
                                     </if>
                                     <else>
                                         <fieldView key=`hr_hf_f_${i1.id}_view` formId=input.id on-button-click("onButtonClick") formData=component.input.data ...i1/> 
@@ -259,4 +259,72 @@ import { format, parseISO } from "date-fns"
         <t>hform_historyDeleteConfirmationText</t>
     </section>
 </hmodal>
-<hnotify key=`notify_field_${input.formId}`/>
+<hmodal
+    key=`keyValueModal_hf_${input.id}`
+    on-button-click("onKeyValueModalButtonClick")
+    close=true
+    cardClass="pl-3 pr-3"
+    backgroundClass="hr-hm-background-60"
+    title="hform_keyValueModal"
+    actions=[
+        {
+            id: "save",
+            label: "htable_save",
+            class: "button is-primary"
+        },
+        {
+            id: "cancel",
+            label: "htable_cancel",
+            class: "button is-light",
+            close: true
+        }
+    ]>
+    <section class="modal-card-body hr-ht-settings-body" id=`hform_keyValueModal_${input.id}_body`>
+        <form class="p-3" on-submit("onKeyValueModalFormSubmit")>
+            <div class="field">
+                <label class="label hr-hf-label">
+                    <t>hform_keyValueFormOption</t>:
+                </label>
+                <div class="control">
+                    <div class="select is-fullwidth">
+                        <select on-change("onKeyValueKeyChange")>
+                            <for|item| of=state.keyValueData>
+                                <option value=item.id selected=(item.id === state.keyValueSelectedKey)>${item.title}</option>
+                            </for>
+                        </select>
+                    </div>
+                </div>
+                <div class="control mt-2">
+                    <label class="label hr-hf-label">
+                        <t>hform_keyValueFormValue</t>:
+                    </label>
+                    <if(state.keyValueSelectedType === "boolean")>
+                        <div class="select is-fullwidth" id=`hform_keyValue_value_${input.id}`>
+                            <select on-change("onKeyValueValueChange")>
+                                <for|item| of=["true", "false"]>
+                                    <option value=item selected=(String(item) === String(state.keyValueValue))>${item}</option>
+                                </for>
+                            </select>
+                        </div>
+                    </if>
+                    <if(state.keyValueSelectedType === "text")>
+                        <div id=`hform_keyValue_value_${input.id}`>
+                            <input type="text" class="input" value=state.onKeyValueValue on-change("onKeyValueValueChange")/>
+                        </div>
+                    </if>
+                    <if(["database", "list"].indexOf(state.keyValueSelectedType) > -1)>
+                        <div class="select is-fullwidth" id=`hform_keyValue_value_${input.id}`>
+                            <select on-change("onKeyValueValueChange")>
+                                $ const { items } = state.keyValueData.find(i => i.id === state.keyValueSelectedKey);
+                                <for|item| of=items>
+                                    <option value=item.id selected=(String(item.id) === String(state.onKeyValueValue))>${item.label}</option>
+                                </for>
+                            </select>
+                        </div>
+                    </if>
+                </div>
+            </div>
+        </form>
+    </section>
+</hmodal>
+<hnotify key=`notify_field_${input.id}`/>

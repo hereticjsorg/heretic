@@ -9,6 +9,7 @@ import Heretic from "./core/lib/heretic";
             heretic.serveStaticContent();
         }
         await heretic.connectDatabase();
+        await heretic.initDataProviders();
         heretic.registerRoutePagesUserspace();
         heretic.registerRoutePagesAdmin();
         heretic.registerRoutePagesCore();

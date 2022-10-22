@@ -196,6 +196,10 @@ module.exports = class {
             this.getComponent(`hr_hf_el_${this.input.formId}_${this.input.id}_wysiwyg`).setValue(value);
             this.setState("value", value || null);
             break;
+        case "keyValue":
+            this.setState("value", value);
+            this.forceUpdate();
+            break;
         default:
             this.setState("value", value);
         }
@@ -285,5 +289,10 @@ module.exports = class {
 
     async onWYSIWYGValueChange(value) {
         this.setState("value", value);
+    }
+
+    async onKeyValueAddClick(e) {
+        e.preventDefault();
+        this.emit("key-value-add-request", this.input.id);
     }
 };

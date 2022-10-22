@@ -141,15 +141,7 @@ module.exports = class {
         }
     }
 
-    async onFormMountComplete() {
-        this.formData.data.form[0].fields.find(i => i.id === "password").mandatory = (this.state.currentId === null);
-        this.formData.data.form[0].fields.find(i => i.id === "password").validation.type = (this.state.currentId === null) ? ["string"] : ["string", "null"];
-        await this.utils.waitForComponent(`${moduleConfig.id}Form`);
-        const form = this.getComponent(`${moduleConfig.id}Form`);
-        form.initValidation({
-            data: this.formData,
-        });
-    }
+    onFormMountComplete() {}
 
     onUnauthorized() {}
 

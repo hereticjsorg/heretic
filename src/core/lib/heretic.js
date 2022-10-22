@@ -108,7 +108,7 @@ export default class {
         this.languageData = {};
         for (const lang of Object.keys(languages)) {
             this.languageData[lang] = await i18nCore.loadLanguageFile(lang);
-            for (const page of [...routesData.translatedPages.core, ...routesData.translatedPages.user]) {
+            for (const page of [...routesData.translatedPages.core, ...routesData.translatedPages.user, ...routesData.translatedPages.module]) {
                 const i18nLoader = await import(`../../build/loaders/i18n-loader-${page}.js`);
                 this.languageData[lang] = {
                     ...this.languageData[lang],
@@ -116,6 +116,7 @@ export default class {
                 };
             }
         }
+        this.fastify.decorate("languageData", this.languageData);
     }
 
     /*
@@ -297,5 +298,23 @@ export default class {
      */
     getConfigMeta() {
         return this.meta;
+    }
+
+    /*
+     * This method loads data providers
+     * @returns {Array} data provider objects
+     */
+    async initDataProviders() {
+        const dataProviders = {};
+        for (const page of routesData.directories.pagesCore) {
+            try {
+                const Provider = (await import(`../pages/${page}/data/provider`)).default;
+                const provider = new Provider();
+                dataProviders[page] = provider;
+            } catch {
+                // Ignore
+            }
+        }
+        this.fastify.decorate("dataProviders", dataProviders);
     }
 }

@@ -15,5 +15,8 @@
     "delete": "Delete",
     "areaData": "Data",
     "group": "Group",
-    "duplicateRecord": "Some fields are duplicate"
+    "duplicateRecord": "Some fields are duplicate",
+    "permissionAdmin": "Site Administrator",
+    "permissionComment": "Comment",
+    "data": "Data"
 }
