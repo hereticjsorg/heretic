@@ -17,6 +17,7 @@ export default class {
             id: "admin",
             title: this.t("permissionAdmin"),
             type: "boolean",
+            unique: true,
         }, {
             id: "comment",
             title: this.t("permissionComment"),
@@ -26,7 +27,8 @@ export default class {
             title: this.t("usersList"),
             type: "database",
             collection: "users",
-            field: "username"
+            field: "username",
+            unique: true,
         }, {
             id: "test",
             title: this.t("testList"),
@@ -40,7 +42,7 @@ export default class {
             }, {
                 id: "item3",
                 label: "Item three",
-            }]
+            }],
         }];
     }
 }

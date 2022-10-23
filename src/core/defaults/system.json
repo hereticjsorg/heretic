@@ -62,7 +62,8 @@
         "users": "users",
         "files": "files",
         "counters": "counters",
-        "history": "history"
+        "history": "history",
+		"groups": "groups"
     },
     "routes": {
         "admin": "/admin",

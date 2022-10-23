@@ -146,5 +146,8 @@
     "hform_keyValueModal": "Edit Value",
     "hform_keyValueFormOption": "Option",
     "hform_keyValueFormValue": "Value",
-    "hform_keyValueProviderError": "Could not load provider data"
+    "hform_keyValueProviderError": "Could not load provider data",
+    "hform_keyIsNotUnique": "Option already added",
+    "hform_delete": "Delete",
+    "hform_edit": "Edit"
 }

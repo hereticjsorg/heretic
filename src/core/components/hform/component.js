@@ -135,6 +135,7 @@ module.exports = class {
             }
         });
         this.emit("mount-complete");
+        console.log("Mount complete");
     }
 
     setTitle(title) {
@@ -614,6 +615,7 @@ module.exports = class {
     }
 
     async onKeyValueAddRequest(id) {
+        console.log("Got onKeyValueAddRequest");
         await this.utils.waitForComponent(`keyValueModal_hf_${this.input.id}`);
         const keyValueModal = this.getComponent(`keyValueModal_hf_${this.input.id}`);
         keyValueModal.setActive(true).setCloseAllowed(false).setLoading(true);
@@ -632,19 +634,12 @@ module.exports = class {
             }
             this.setState("keyValueFieldId", id);
             await this.utils.waitForElement(`hform_keyValue_value_${this.input.id}`);
-            switch (data.data[0].type) {
-            case "database":
-            case "list":
-                this.setState("keyValueValue", data.data[0].items[0].id);
-                break;
-            case "boolean":
-                this.setState("keyValueValue", "true");
-                break;
-            default:
-                this.setState("keyValueValue", "");
-            }
+            console.log("Calling onKeyValueKeyChange");
+            // this.onKeyValueKeyChange(null, data.data[0].id);
+            this.setKeyValueDefaults(data.data[0].id);
             // throw new Error("OK");
-        } catch {
+        } catch (e) {
+            console.log(e);
             await this.showNotification(window.__heretic.t("hform_keyValueProviderError"), "is-danger");
             keyValueModal.setActive(false);
         }
@@ -655,7 +650,6 @@ module.exports = class {
         case "save":
             await this.utils.waitForComponent(`keyValueModal_hf_${this.input.id}`);
             const keyValueModal = this.getComponent(`keyValueModal_hf_${this.input.id}`);
-            keyValueModal.setActive(false);
             await this.utils.waitForComponent(`hr_hf_f_${this.state.keyValueFieldId}_${this.state.mode}`);
             const fieldComponent = this.getComponent(`hr_hf_f_${this.state.keyValueFieldId}_${this.state.mode}`);
             let valueLabel;
@@ -669,7 +663,13 @@ module.exports = class {
             default:
                 valueLabel = this.state.keyValueValue;
             }
-            await fieldComponent.setValue([...this.state.value || [], {
+            const currentValue = fieldComponent.getValue() || [];
+            if (currentKeyValueItem.unique && currentValue.find(i => i.id === this.state.keyValueSelectedKey)) {
+                this.showNotification("hform_keyIsNotUnique", "is-danger");
+                return;
+            }
+            keyValueModal.setActive(false);
+            await fieldComponent.setValue([...currentValue, {
                 uid: uuidv4(),
                 id: this.state.keyValueSelectedKey,
                 type: this.state.keyValueSelectedType,
@@ -685,21 +685,34 @@ module.exports = class {
         e.preventDefault();
     }
 
-    onKeyValueKeyChange(e) {
-        const key = e.target.value;
+    setKeyValueDefaults(key) {
+        console.log(this.state.keyValueData.find(i => i.id === key));
         const {
-            type
+            type,
+            items,
         } = this.state.keyValueData.find(i => i.id === key);
         this.setState("keyValueSelectedKey", key);
         this.setState("keyValueSelectedType", type);
         switch (type) {
+        case "list":
+        case "database":
+            console.log(`Setting ${items[0].id}`);
+            this.setState("keyValueValue", items[0].id);
+            break;
         case "boolean":
+            console.log(`Setting true`);
             this.setState("keyValueValue", true);
             break;
-        case "text":
-            this.setState("keyValueValue", true);
+        default:
+            console.log(`Setting ""`);
+            this.setState("keyValueValue", "");
             break;
         }
+    }
+
+    onKeyValueKeyChange(e) {
+        const key = e.target.value;
+        this.setKeyValueDefaults(key);
     }
 
     onKeyValueValueChange(e) {

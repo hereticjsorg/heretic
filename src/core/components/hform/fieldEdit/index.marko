@@ -1,4 +1,4 @@
-import { mdiReload, mdiPlus } from '@mdi/js'
+import { mdiReload, mdiPlus, mdiTrashCanOutline, mdiPencilOutline } from '@mdi/js'
 
 <!-- Text Field: Start -->
 <if(input.type === "text")>
@@ -254,9 +254,30 @@ import { mdiReload, mdiPlus } from '@mdi/js'
                     </span>
                 </button>
                 <if(state.value)>
-                    <for|item| of=state.value>
-                        <div>${item.title} (${item.id}) - ${item.valueLabel} (${item.value})</div>
-                    </for>
+                    <div class="mt-3">
+                        <for|item| of=state.value>
+                            <div class="columns is-variable is-1 is-mobile is-vcentered">
+                                <div class="column is-auto">${item.title}</div>
+                                <div class="column is-narrow">${item.valueLabel}</div>
+                                <div class="column is-narrow">
+                                    <button class="mr-1 button is-small hr-hf-action-button is-light" on-click("") data-tippy-content=(process.browser && window.__heretic ? window.__heretic.t("hform_edit") : null)>
+                                        <span class="hr-hf-settings-icon icon">
+                                            <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d=mdiPencilOutline/>
+                                            </svg>
+                                        </span>
+                                    </button>
+                                    <button class="button is-small hr-hf-action-button is-danger" on-click("") data-tippy-content=(process.browser && window.__heretic ? window.__heretic.t("hform_delete") : null)>
+                                        <span class="hr-hf-settings-icon hr-hf-action-icon-danger icon">
+                                            <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d=mdiTrashCanOutline/>
+                                            </svg>
+                                        </span>
+                                    </button>
+                                </div>
+                            </div>
+                        </for>
+                    </div>
                 </if>
             </div>
             <if(state.error)>
