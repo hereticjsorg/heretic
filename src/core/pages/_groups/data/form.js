@@ -60,9 +60,7 @@ export default class {
             url: `/api/${moduleConfig.id}/delete`,
             titleId: "group",
         };
-        this.tableBulkUpdateConfig = {
-            url: `/api/${moduleConfig.id}/bulkSave`,
-        };
+        this.tableBulkUpdateConfig = null;
         this.tableExportConfig = {
             url: `/api/${moduleConfig.id}/export`,
             download: `/api/${moduleConfig.id}/download`,

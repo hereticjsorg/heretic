@@ -72,6 +72,7 @@ module.exports = class {
             keyValueSelectedType: null,
             keyValueValue: null,
             keyValueFieldId: null,
+            keyValueUID: null,
         };
         this.fieldIds = [];
         this.sharedFieldIds = [];
@@ -135,7 +136,6 @@ module.exports = class {
             }
         });
         this.emit("mount-complete");
-        console.log("Mount complete");
     }
 
     setTitle(title) {
@@ -615,7 +615,6 @@ module.exports = class {
     }
 
     async onKeyValueAddRequest(id) {
-        console.log("Got onKeyValueAddRequest");
         await this.utils.waitForComponent(`keyValueModal_hf_${this.input.id}`);
         const keyValueModal = this.getComponent(`keyValueModal_hf_${this.input.id}`);
         keyValueModal.setActive(true).setCloseAllowed(false).setLoading(true);
@@ -633,42 +632,49 @@ module.exports = class {
                 this.setState("keyValueSelectedType", data.data[0].type);
             }
             this.setState("keyValueFieldId", id);
+            this.setState("keyValueUID", null);
             await this.utils.waitForElement(`hform_keyValue_value_${this.input.id}`);
-            console.log("Calling onKeyValueKeyChange");
-            // this.onKeyValueKeyChange(null, data.data[0].id);
             this.setKeyValueDefaults(data.data[0].id);
-            // throw new Error("OK");
-        } catch (e) {
-            console.log(e);
+            document.getElementById(`hform_keyValueModal_${this.input.id}_key`).focus();
+        } catch {
             await this.showNotification(window.__heretic.t("hform_keyValueProviderError"), "is-danger");
             keyValueModal.setActive(false);
         }
     }
 
-    async onKeyValueModalButtonClick(button) {
-        switch (button) {
-        case "save":
-            await this.utils.waitForComponent(`keyValueModal_hf_${this.input.id}`);
-            const keyValueModal = this.getComponent(`keyValueModal_hf_${this.input.id}`);
-            await this.utils.waitForComponent(`hr_hf_f_${this.state.keyValueFieldId}_${this.state.mode}`);
-            const fieldComponent = this.getComponent(`hr_hf_f_${this.state.keyValueFieldId}_${this.state.mode}`);
-            let valueLabel;
-            const currentKeyValueItem = this.state.keyValueData.find(i => i.id === this.state.keyValueSelectedKey);
-            switch (currentKeyValueItem.type) {
-            case "database":
-            case "list":
-                const valueItem = currentKeyValueItem.items.find(i => i.id === this.state.keyValueValue);
-                valueLabel = valueItem ? valueItem.label : valueItem;
-                break;
-            default:
-                valueLabel = this.state.keyValueValue;
-            }
-            const currentValue = fieldComponent.getValue() || [];
-            if (currentKeyValueItem.unique && currentValue.find(i => i.id === this.state.keyValueSelectedKey)) {
-                this.showNotification("hform_keyIsNotUnique", "is-danger");
-                return;
-            }
-            keyValueModal.setActive(false);
+    async saveKeyValueFormData() {
+        await this.utils.waitForComponent(`keyValueModal_hf_${this.input.id}`);
+        const keyValueModal = this.getComponent(`keyValueModal_hf_${this.input.id}`);
+        await this.utils.waitForComponent(`hr_hf_f_${this.state.keyValueFieldId}_${this.state.mode}`);
+        const fieldComponent = this.getComponent(`hr_hf_f_${this.state.keyValueFieldId}_${this.state.mode}`);
+        let valueLabel;
+        const currentKeyValueItem = this.state.keyValueData.find(i => i.id === this.state.keyValueSelectedKey);
+        switch (currentKeyValueItem.type) {
+        case "database":
+        case "list":
+            const valueItem = currentKeyValueItem.items.find(i => i.id === this.state.keyValueValue);
+            valueLabel = valueItem ? valueItem.label : valueItem;
+            break;
+        default:
+            valueLabel = this.state.keyValueValue;
+        }
+        const currentValue = fieldComponent.getValue() || [];
+        const sameKeyValue = currentValue.find(i => i.id === this.state.keyValueSelectedKey);
+        if (currentKeyValueItem.unique && ((!this.state.keyValueUID && sameKeyValue) || (this.state.keyValueUID && sameKeyValue && sameKeyValue.uid !== this.state.keyValueUID))) {
+            this.showNotification("hform_keyIsNotUnique", "is-danger");
+            return;
+        }
+        keyValueModal.setActive(false);
+        if (this.state.keyValueUID) {
+            const value = fieldComponent.getValue();
+            const item = value.find(i => i.uid === this.state.keyValueUID);
+            item.id = this.state.keyValueSelectedKey;
+            item.type = this.state.keyValueSelectedType;
+            item.title = currentKeyValueItem.title;
+            item.value = this.state.keyValueValue;
+            item.valueLabel = valueLabel;
+            await fieldComponent.setValue(value);
+        } else {
             await fieldComponent.setValue([...currentValue, {
                 uid: uuidv4(),
                 id: this.state.keyValueSelectedKey,
@@ -677,16 +683,23 @@ module.exports = class {
                 value: this.state.keyValueValue,
                 valueLabel,
             }]);
+        }
+    }
+
+    async onKeyValueModalButtonClick(button) {
+        switch (button) {
+        case "save":
+            await this.saveKeyValueFormData();
             break;
         }
     }
 
     onKeyValueModalFormSubmit(e) {
         e.preventDefault();
+        this.saveKeyValueFormData();
     }
 
     setKeyValueDefaults(key) {
-        console.log(this.state.keyValueData.find(i => i.id === key));
         const {
             type,
             items,
@@ -696,15 +709,12 @@ module.exports = class {
         switch (type) {
         case "list":
         case "database":
-            console.log(`Setting ${items[0].id}`);
             this.setState("keyValueValue", items[0].id);
             break;
         case "boolean":
-            console.log(`Setting true`);
             this.setState("keyValueValue", true);
             break;
         default:
-            console.log(`Setting ""`);
             this.setState("keyValueValue", "");
             break;
         }
@@ -720,5 +730,36 @@ module.exports = class {
             value
         } = e.target;
         this.setState("keyValueValue", value);
+    }
+
+    async onKeyValueEditRequest(par) {
+        await this.utils.waitForComponent(`hr_hf_f_${par.id}_${this.state.mode}`);
+        const fieldComponent = this.getComponent(`hr_hf_f_${par.id}_${this.state.mode}`);
+        const keyValueItem = fieldComponent.getValue().find(i => i.uid === par.uid);
+        await this.utils.waitForComponent(`keyValueModal_hf_${this.input.id}`);
+        const keyValueModal = this.getComponent(`keyValueModal_hf_${this.input.id}`);
+        keyValueModal.setActive(true).setCloseAllowed(false).setLoading(true);
+        try {
+            const {
+                data,
+            } = await axios({
+                method: "get",
+                url: `/api/dataProviders/groups?language=${this.language}`,
+            });
+            keyValueModal.setLoading(false).setCloseAllowed(true);
+            if (data.data) {
+                this.setState("keyValueData", data.data);
+            }
+            this.setState("keyValueFieldId", par.id);
+            this.setState("keyValueUID", par.uid);
+            await this.utils.waitForElement(`hform_keyValue_value_${this.input.id}`);
+            this.setState("keyValueSelectedKey", keyValueItem.id);
+            this.setState("keyValueSelectedType", keyValueItem.type);
+            this.setState("keyValueValue", keyValueItem.value);
+            document.getElementById(`hform_keyValueModal_${this.input.id}_key`).focus();
+        } catch {
+            await this.showNotification(window.__heretic.t("hform_keyValueProviderError"), "is-danger");
+            keyValueModal.setActive(false);
+        }
     }
 };

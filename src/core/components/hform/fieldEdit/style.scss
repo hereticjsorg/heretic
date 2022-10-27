@@ -123,6 +123,16 @@
     fill: $white !important;
 }
 
+.hr-hf-keyValue-row {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+.hr-hf-keyValue-row:hover {
+    background: $white-ter;
+    border-radius: $radius;
+}
+
 @media (max-width: 769px) {
     .hr-hf-field-xxlarge {
         width: unset !important;

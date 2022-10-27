@@ -254,13 +254,13 @@ import { mdiReload, mdiPlus, mdiTrashCanOutline, mdiPencilOutline } from '@mdi/j
                     </span>
                 </button>
                 <if(state.value)>
-                    <div class="mt-3">
+                    <div class="mt-3 pt-3 mb-3">
                         <for|item| of=state.value>
-                            <div class="columns is-variable is-1 is-mobile is-vcentered">
+                            <div class="columns is-variable is-1 is-mobile is-vcentered hr-hf-keyValue-row pl-1 pr-2">
                                 <div class="column is-auto">${item.title}</div>
-                                <div class="column is-narrow">${item.valueLabel}</div>
+                                <div class="column is-narrow"><span class="tag">${item.valueLabel}</span></div>
                                 <div class="column is-narrow">
-                                    <button class="mr-1 button is-small hr-hf-action-button is-light" on-click("") data-tippy-content=(process.browser && window.__heretic ? window.__heretic.t("hform_edit") : null)>
+                                    <button class="mr-1 button is-small hr-hf-action-button is-light" data-uid=item.uid on-click("onKeyValueItemEditClick") data-tippy-content=(process.browser && window.__heretic ? window.__heretic.t("hform_edit") : null)>
                                         <span class="hr-hf-settings-icon icon">
                                             <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
                                                 <path d=mdiPencilOutline/>

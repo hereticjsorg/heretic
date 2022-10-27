@@ -46,6 +46,10 @@ module.exports = class {
         }
     }
 
+    onUpdate() {
+        window.__heretic.setTippy();
+    }
+
     async onMount() {
         this.utils = new Utils(this);
         const element = document.getElementById(`hr_hf_el_${this.input.formId}_${this.input.id}`);
@@ -197,7 +201,7 @@ module.exports = class {
             this.setState("value", value || null);
             break;
         case "keyValue":
-            this.setState("value", value);
+            this.setStateDirty("value", value);
             this.forceUpdate();
             break;
         default:
@@ -294,5 +298,16 @@ module.exports = class {
     async onKeyValueAddClick(e) {
         e.preventDefault();
         this.emit("key-value-add-request", this.input.id);
+    }
+
+    onKeyValueItemEditClick(e) {
+        e.preventDefault();
+        const {
+            uid,
+        } = e.target.closest("[data-uid]").dataset;
+        this.emit("key-value-edit-request", {
+            id: this.input.id,
+            uid,
+        });
     }
 };

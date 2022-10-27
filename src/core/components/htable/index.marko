@@ -1,4 +1,4 @@
-import { mdiReload, mdiMagnify, mdiCogOutline, mdiDrag, mdiPencilOutline, mdiTrashCanOutline, mdiFilterOutline, mdiDatabaseOutline, mdiContentSaveMoveOutline, mdiFormatListGroup, mdiDatabaseExportOutline } from "@mdi/js"
+import { mdiReload, mdiPlus, mdiMagnify, mdiCogOutline, mdiDrag, mdiPencilOutline, mdiTrashCanOutline, mdiFilterOutline, mdiDatabaseOutline, mdiContentSaveMoveOutline, mdiFormatListGroup, mdiDatabaseExportOutline } from "@mdi/js"
 import { format } from "date-fns"
 import SettingsPagesForm from "./settingsPagesForm"
 
@@ -450,6 +450,11 @@ import SettingsPagesForm from "./settingsPagesForm"
             }>
                 <div class="buttons mb-0">
                     <button class="button is-light is-small mb-0" on-click("settingsNewFilter")>
+                        <span class="hr-ht-top-button-icon icon">
+                            <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                <path d=mdiPlus/>
+                            </svg>
+                        </span>
                         <t>htable_filterNew</t>
                     </button>
                 </div>
@@ -599,6 +604,11 @@ import SettingsPagesForm from "./settingsPagesForm"
         <div class="p-3">
             <div class="buttons mb-0">
                 <button class="button is-light is-small mb-0" on-click("bulkItemNew")>
+                    <span class="hr-ht-top-button-icon icon">
+                        <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                            <path d=mdiPlus/>
+                        </svg>
+                    </span>
                     <t>htable_bulkItemNew</t>
                 </button>
             </div>
@@ -702,7 +712,7 @@ import SettingsPagesForm from "./settingsPagesForm"
                         </div>
                     </if>
                     <div style={
-                        display: state.tabs.length > 1 || state.tabs[0].id !== "_default" ? "block" : "none"
+                        display: state.tabs.length > 1 || (state.tabs && state.tabs[0] && state.tabs[0].id !== "_default") ? "block" : "none"
                     }>
                         <div class="mt-2">
                             <hselect key=`bulkItem_ht_${input.id}_tabs`/>

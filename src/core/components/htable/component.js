@@ -1185,12 +1185,15 @@ module.exports = class {
     }
 
     async setBulkItemTabs() {
-        await this.utils.waitForComponent(`bulkItem_ht_${this.input.id}_tabs`);
-        const hTabsSelect = this.getComponent(`bulkItem_ht_${this.input.id}_tabs`);
-        const items = {};
-        this.state.tabs.map(i => items[i.id] = i.label || window.__heretic.t("htable_defaultTab"));
-        hTabsSelect.setItems(items, this.state.tabs.map(i => i.id));
-        return hTabsSelect;
+        if (this.state.tabs && this.state.tabs.length) {
+            await this.utils.waitForComponent(`bulkItem_ht_${this.input.id}_tabs`);
+            const hTabsSelect = this.getComponent(`bulkItem_ht_${this.input.id}_tabs`);
+            const items = {};
+            this.state.tabs.map(i => items[i.id] = i.label || window.__heretic.t("htable_defaultTab"));
+            hTabsSelect.setItems(items, this.state.tabs.map(i => i.id));
+            return hTabsSelect;
+        }
+        return null;
     }
 
     async onBulkUpdateClick(e) {
@@ -1351,7 +1354,9 @@ module.exports = class {
         this.bulkSetValue(bulkItem.id, bulkItem.value);
         await this.utils.waitForElement(`bulkItem_ht_${this.input.id}_select_id`);
         const bulkTabs = await this.setBulkItemTabs();
-        bulkTabs.setSelected(bulkItem.tabs);
+        if (bulkTabs) {
+            bulkTabs.setSelected(bulkItem.tabs);
+        }
         document.getElementById(`bulkItem_ht_${this.input.id}_select_id`).focus();
     }
 

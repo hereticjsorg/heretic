@@ -117,7 +117,7 @@ import { format, parseISO } from "date-fns"
                             <for|i2| of=i1>
                                 <div class=`column pt-0 pb-0 mt-0 mb-3 ${i2.css ? i2.css : ""}`>
                                     <if(state.mode === "edit")>
-                                        <fieldEdit key=`hr_hf_f_${i2.id}_edit` formId=input.id on-button-click("onButtonClick") on-notify("onNotify") on-key-value-add-request("onKeyValueAddRequest") ...i2/>
+                                        <fieldEdit key=`hr_hf_f_${i2.id}_edit` formId=input.id on-button-click("onButtonClick") on-notify("onNotify") on-key-value-add-request("onKeyValueAddRequest") on-key-value-edit-request("onKeyValueEditRequest") ...i2/>
                                     </if>
                                     <else>
                                         <fieldView key=`hr_hf_f_${i2.id}_view` formId=input.id on-button-click("onButtonClick") formData=component.input.data ...i2/>
@@ -131,7 +131,7 @@ import { format, parseISO } from "date-fns"
                             <div class="columns pt-0 pb-0 mt-0 mb-1 is-variable is-2">
                                 <div class="column pt-0 pb-0 mt-0 mb-2">
                                     <if(state.mode === "edit")>
-                                        <fieldEdit key=`hr_hf_f_${i1.id}_edit` formId=input.id on-button-click("onButtonClick") on-notify("onNotify") on-key-value-add-request("onKeyValueAddRequest") ...i1/>
+                                        <fieldEdit key=`hr_hf_f_${i1.id}_edit` formId=input.id on-button-click("onButtonClick") on-notify("onNotify") on-key-value-add-request("onKeyValueAddRequest") on-key-value-edit-request("onKeyValueEditRequest") ...i1/>
                                     </if>
                                     <else>
                                         <fieldView key=`hr_hf_f_${i1.id}_view` formId=input.id on-button-click("onButtonClick") formData=component.input.data ...i1/> 
@@ -287,7 +287,7 @@ import { format, parseISO } from "date-fns"
                 </label>
                 <div class="control">
                     <div class="select is-fullwidth">
-                        <select on-change("onKeyValueKeyChange")>
+                        <select on-change("onKeyValueKeyChange") id=`hform_keyValueModal_${input.id}_key`>
                             <for|item| of=state.keyValueData>
                                 <option value=item.id selected=(item.id === state.keyValueSelectedKey)>${item.title}</option>
                             </for>
@@ -309,7 +309,7 @@ import { format, parseISO } from "date-fns"
                     </if>
                     <if(state.keyValueSelectedType === "text")>
                         <div id=`hform_keyValue_value_${input.id}`>
-                            <input type="text" class="input" value=state.onKeyValueValue on-change("onKeyValueValueChange")/>
+                            <input type="text" class="input" value=state.keyValueValue on-change("onKeyValueValueChange")/>
                         </div>
                     </if>
                     <if(["database", "list"].indexOf(state.keyValueSelectedType) > -1)>
@@ -317,7 +317,7 @@ import { format, parseISO } from "date-fns"
                             <select on-change("onKeyValueValueChange")>
                                 $ const { items } = state.keyValueData.find(i => i.id === state.keyValueSelectedKey);
                                 <for|item| of=items>
-                                    <option value=item.id selected=(String(item.id) === String(state.onKeyValueValue))>${item.label}</option>
+                                    <option value=item.id selected=(String(item.id) === String(state.keyValueValue))>${item.label}</option>
                                 </for>
                             </select>
                         </div>
