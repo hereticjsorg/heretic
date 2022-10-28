@@ -23,6 +23,9 @@ export default class {
                     mandatory: true,
                     validation: {
                         type: ["string"],
+                        pattern: "^[a-zA-Z0-9]+$",
+                        minLength: 2,
+                        maxLength: 32,
                     },
                     sortable: true,
                     searchable: true,
@@ -36,6 +39,37 @@ export default class {
                     label: this.t("data"),
                     mandatory: false,
                     validation: {
+                        type: ["array", "null"],
+                        items: {
+                            type: "object",
+                            properties: {
+                                uid: {
+                                    type: "string",
+                                    pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+                                },
+                                id: {
+                                    type: "string",
+                                    maxLength: 32,
+                                },
+                                type: {
+                                    type: "string",
+                                    maxLength: 32,
+                                },
+                                value: {
+                                    oneOf: [{
+                                        type: "string",
+                                        maxLength: 1024,
+                                    }, {
+                                        type: "boolean",
+                                    }, {
+                                        type: "null",
+                                    }]
+                                },
+                            },
+                            required: ["uid", "id", "type"],
+                        },
+                        minItems: 0,
+                        uniqueItems: false,
                     },
                     sortable: false,
                     searchable: false,

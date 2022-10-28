@@ -8,6 +8,7 @@ module.exports = class {
     onCreate(input, out) {
         this.state = {
             ready: !process.browser,
+            failed: false,
             headers: {},
             currentId: null,
         };
@@ -90,6 +91,18 @@ module.exports = class {
         this.setState("headers", {
             Authorization: `Bearer ${currentToken}`
         });
+        try {
+            const {
+                data,
+            } = await axios({
+                method: "get",
+                url: `/api/dataProviders/groups?language=${this.language}`,
+            });
+            this.providerData = data.data;
+        } catch {
+            this.setState("failed", true);
+            return;
+        }
         this.setState("ready", true);
     }
 
@@ -102,6 +115,8 @@ module.exports = class {
             modalDialog.setTitle(this.t("newRecord"));
             modalDialog.setActive(true).setCloseAllowed(true).setBackgroundCloseAllowed(false).setLoading(false);
             await this.utils.waitForComponent(`${moduleConfig.id}Form`);
+            const form = this.getComponent(`${moduleConfig.id}Form`);
+            form.setProviderData(this.providerData);
             break;
         }
     }
@@ -136,6 +151,7 @@ module.exports = class {
             modalDialog.setActive(true).setCloseAllowed(true).setBackgroundCloseAllowed(false).setLoading(false);
             await this.utils.waitForComponent(`${moduleConfig.id}Form`);
             const form = this.getComponent(`${moduleConfig.id}Form`);
+            form.setProviderData(this.providerData);
             await form.deserializeView(responseData._default);
             break;
         }

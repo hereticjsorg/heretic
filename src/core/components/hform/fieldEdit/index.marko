@@ -253,7 +253,7 @@ import { mdiReload, mdiPlus, mdiTrashCanOutline, mdiPencilOutline } from '@mdi/j
                         <t>hform_keyValueAdd</t>
                     </span>
                 </button>
-                <if(state.value)>
+                <if(state.value && state.value.length)>
                     <div class="mt-3 pt-3 mb-3">
                         <for|item| of=state.value>
                             <div class="columns is-variable is-1 is-mobile is-vcentered hr-hf-keyValue-row pl-1 pr-2">
@@ -267,7 +267,7 @@ import { mdiReload, mdiPlus, mdiTrashCanOutline, mdiPencilOutline } from '@mdi/j
                                             </svg>
                                         </span>
                                     </button>
-                                    <button class="button is-small hr-hf-action-button is-danger" on-click("") data-tippy-content=(process.browser && window.__heretic ? window.__heretic.t("hform_delete") : null)>
+                                    <button class="button is-small hr-hf-action-button is-danger" data-uid=item.uid on-click("onKeyValueItemDeleteClick") data-tippy-content=(process.browser && window.__heretic ? window.__heretic.t("hform_delete") : null)>
                                         <span class="hr-hf-settings-icon hr-hf-action-icon-danger icon">
                                             <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
                                                 <path d=mdiTrashCanOutline/>

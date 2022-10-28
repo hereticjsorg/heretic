@@ -297,7 +297,9 @@ module.exports = class {
 
     async onKeyValueAddClick(e) {
         e.preventDefault();
-        this.emit("key-value-add-request", this.input.id);
+        this.emit("key-value-add-request", {
+            id: this.input.id,
+        });
     }
 
     onKeyValueItemEditClick(e) {
@@ -306,6 +308,17 @@ module.exports = class {
             uid,
         } = e.target.closest("[data-uid]").dataset;
         this.emit("key-value-edit-request", {
+            id: this.input.id,
+            uid,
+        });
+    }
+
+    onKeyValueItemDeleteClick(e) {
+        e.preventDefault();
+        const {
+            uid,
+        } = e.target.closest("[data-uid]").dataset;
+        this.emit("key-value-delete-request", {
             id: this.input.id,
             uid,
         });

@@ -18,5 +18,6 @@
     "duplicateRecord": "Some fields are duplicate",
     "permissionAdmin": "Site Administrator",
     "permissionComment": "Comment",
-    "data": "Data"
+    "data": "Data",
+    "couldNotLoadData": "Could not load data"
 }
