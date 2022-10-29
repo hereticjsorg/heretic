@@ -1,5 +1,5 @@
 <if(state.active)>
-    <div class="modal is-active hr-hmodal">
+    <div class=`modal is-active hr-hmodal ${input.backgroundClass || ""}`>
         <div class=`modal-background ${input.backgroundClass || ""}` on-click("onBackgroundClick")/>
         <div class=`modal-card hr-hm-modal-card ${input.cardClass || ""}`>
             <if(state.loading)>

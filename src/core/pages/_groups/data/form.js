@@ -32,6 +32,7 @@ export default class {
                     css: "hr-hf-field-medium",
                     column: true,
                     createIndex: true,
+                    helpText: this.t("groupHelpText"),
                     autoFocus: true,
                 }, {
                     id: "data",

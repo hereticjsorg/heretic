@@ -19,6 +19,7 @@ module.exports = class {
             captchaLoading: false,
             imageSecret: null,
             calendarVisible: false,
+            enumList: [],
         };
         this.maskedInput = null;
     }
@@ -321,6 +322,95 @@ module.exports = class {
         this.emit("key-value-delete-request", {
             id: this.input.id,
             uid,
+        });
+    }
+
+    onTagsWrapClick() {
+        document.getElementById(`hr_hf_el_${this.input.formId}_${this.input.id}`).focus();
+    }
+
+    onTagCloseClick(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const index = parseInt(e.target.dataset.index, 10);
+        const tags = cloneDeep(this.state.value || []).filter((t, i) => i !== index);
+        this.setState("value", tags);
+        document.getElementById(`hr_hf_el_${this.input.formId}_${this.input.id}`).focus();
+    }
+
+    onTagsInputFocus(e) {
+        e.preventDefault();
+        const input = document.getElementById(`hr_hf_el_${this.input.formId}_${this.input.id}_wrap`);
+        input.className = `${input.className.replace(/(?:^|\s)hr-hf-tags-wrap-focus(?!\S)/gm, "")} hr-hf-tags-wrap-focus`;
+    }
+
+    onTagsInputBlur(e) {
+        e.preventDefault();
+        const input = document.getElementById(`hr_hf_el_${this.input.formId}_${this.input.id}_wrap`);
+        input.className = input.className.replace(/(?:^|\s)hr-hf-tags-wrap-focus(?!\S)/gm, "");
+    }
+
+    addTag(id) {
+        const tags = cloneDeep(this.state.value || []);
+        tags.push(id);
+        this.setState("value", tags);
+        this.onTagsInputKeyPress();
+    }
+
+    onTagsInputKeyDown(e) {
+        const inputField = document.getElementById(`hr_hf_el_${this.input.formId}_${this.input.id}`);
+        const value = inputField.value ? inputField.value.trim() : null;
+        if (value) {
+            if (e.keyCode === 13) {
+                e.preventDefault();
+                this.addTag(value);
+                inputField.value = "";
+                return;
+            }
+        }
+        if (e.keyCode === 8) {
+            if (!value && this.state.value && this.state.value.length) {
+                e.preventDefault();
+                const tags = cloneDeep(this.state.value || []).filter((t, i) => i !== (this.state.value || []).length - 1);
+                this.setState("value", tags);
+            }
+            if (value) {
+                this.onTagsInputKeyPress();
+            }
+        }
+    }
+
+    onTagsInputKeyPress() {
+        setTimeout(() => {
+            const inputField = document.getElementById(`hr_hf_el_${this.input.formId}_${this.input.id}`);
+            const value = inputField.value ? cloneDeep(inputField.value).trim() : null;
+            if (this.input.enumValues && value && value.length >= 2) {
+                const enumList = this.input.enumValues.filter(i => String(i.id).match(new RegExp(value, "i")) || String(i.label).match(new RegExp(value, "i")));
+                this.setState("enumList", enumList);
+            } else {
+                this.setState("enumList", []);
+            }
+        });
+    }
+
+    onEnumItemClick(e) {
+        e.preventDefault();
+        const {
+            id,
+        } = e.target.closest("[data-id]").dataset;
+        const inputField = document.getElementById(`hr_hf_el_${this.input.formId}_${this.input.id}`);
+        const tags = cloneDeep(this.state.value || []);
+        tags.push(id);
+        this.setState("value", tags);
+        inputField.value = "";
+        this.onTagsInputKeyPress();
+    }
+
+    onTagAddClick(e) {
+        e.preventDefault();
+        this.emit("tag-add-request", {
+            id: this.input.id,
+            data: this.input.enumValues,
         });
     }
 };

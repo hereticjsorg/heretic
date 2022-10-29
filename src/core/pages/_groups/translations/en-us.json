@@ -19,5 +19,6 @@
     "permissionAdmin": "Site Administrator",
     "permissionComment": "Comment",
     "data": "Data",
-    "couldNotLoadData": "Could not load data"
+    "couldNotLoadData": "Could not load data",
+    "groupHelpText": "Latin characters and numbers"
 }

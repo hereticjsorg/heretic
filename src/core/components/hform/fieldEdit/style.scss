@@ -49,7 +49,7 @@
 }
 
 .hr-hf-error-wrap {
-    margin-top: -3px;
+    margin-top: -5px;
 }
 
 .hr-hf-error-wrap-captcha {
@@ -131,6 +131,56 @@
 .hr-hf-keyValue-row:hover {
     background: $white-ter;
     border-radius: $radius;
+}
+
+.hr-hf-tags-wrap {
+    height: unset !important;
+    min-height: 2.5em;
+    margin-left: 0 !important;
+    padding-top: 5px !important;
+    padding-bottom: 3px !important;
+}
+
+.hr-hf-tag-delete {
+    margin-right: 3px !important;
+}
+
+.hr-hf-tags-wrap-focus {
+    border-color: $link !important;
+    box-shadow: 0 0 0 0.125em rgba($link, 0.25) !important;
+}
+
+.hr-hf-tags-input {
+    border: 0 !important;
+    width: 100%;
+    box-shadow: unset !important;
+    height: 100% !important;
+    min-width: 80px;
+    border-radius: 0 !important;
+    margin-top: 1px !important;
+}
+
+.hr-hf-tag-wrap {
+    min-height: 26px;
+}
+
+.hr-hf-tags-enum-wrap {
+    position: absolute;
+    border: 1px solid $grey-lightest;
+    border-radius: $radius;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    background: $white;
+    padding: 5px;
+    box-shadow: -2px 4px 8px -5px rgba(34, 60, 80, 0.2);
+    max-height: 120px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin-top: 7px;
+}
+
+.hr-hf-label-button {
+    height: 22px !important;
 }
 
 @media (max-width: 769px) {

@@ -151,5 +151,10 @@
     "hform_delete": "Delete",
     "hform_edit": "Edit",
     "hform_groupDataDeleteConfirmation": "Delete Group Data",
-    "hform_groupDataDeleteConfirmationText": "Are you sure you wish to delete the group data item?"
+    "hform_groupDataDeleteConfirmationText": "Are you sure you wish to delete the group data item?",
+    "hform_tagAdd": "Add",
+    "hform_add": "Add",
+    "hform_cancel": "Cancel",
+    "hform_tagAddModalTitle": "Add Item",
+    "hform_tagsFilter": "Filter Values"
 }

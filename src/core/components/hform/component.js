@@ -35,7 +35,6 @@ module.exports = class {
         if (process.browser) {
             this.forceUpdate();
         }
-        // this.rerender();
     }
 
     onCreate(input, out) {
@@ -73,6 +72,8 @@ module.exports = class {
             keyValueFieldId: null,
             keyValueUID: null,
             keyValueDeletePar: null,
+            tagsData: null,
+            tagsFilter: "",
         };
         this.fieldIds = [];
         this.sharedFieldIds = [];
@@ -176,7 +177,6 @@ module.exports = class {
                 const fieldComponent = this.getComponent(`hr_hf_f_${id}_${this.state.mode}`);
                 if (this.fieldsFlat[id].type === "keyValue") {
                     for (const item of (serialized[id] || [])) {
-                        console.log(item);
                         const currentKeyValueItem = this.state.keyValueData.find(i => i.id === item.id);
                         item.title = currentKeyValueItem.title;
                         switch (currentKeyValueItem.type) {
@@ -188,7 +188,6 @@ module.exports = class {
                         default:
                             item.valueLabel = item.value;
                         }
-                        console.log(item);
                     }
                 }
                 if (fieldComponent) {
@@ -647,8 +646,6 @@ module.exports = class {
     }
 
     setProviderData(data) {
-        console.log("setProviderData is called");
-        console.log(data);
         this.setState("keyValueData", data);
     }
 
@@ -788,5 +785,40 @@ module.exports = class {
             this.getComponent(`groupDataDeleteConfirmation_hf_${this.input.id}`).setActive(false);
             break;
         }
+    }
+
+    onTagAddModalButtonClick() {}
+
+    async onTagAddRequest(par) {
+        par.dataSave = cloneDeep(par.data);
+        this.setState("tagsData", par);
+        this.setState("tagsFilter", "");
+        await this.utils.waitForComponent(`tagAddModal_hf_${this.input.id}`);
+        this.getComponent(`tagAddModal_hf_${this.input.id}`).setActive(true);
+        await this.utils.waitForElement(`tagAddModal_filter_${this.input.id}`);
+        document.getElementById(`tagAddModal_filter_${this.input.id}`).focus();
+    }
+
+    async onTagClick(e) {
+        e.preventDefault();
+        const {
+            id,
+        } = e.target.closest("[data-id]").dataset;
+        await this.utils.waitForComponent(`tagAddModal_hf_${this.input.id}`);
+        this.getComponent(`tagAddModal_hf_${this.input.id}`).setActive(false);
+        await this.utils.waitForComponent(`hr_hf_f_${this.state.tagsData.id}_${this.state.mode}`);
+        const fieldComponent = this.getComponent(`hr_hf_f_${this.state.tagsData.id}_${this.state.mode}`);
+        fieldComponent.addTag(id);
+    }
+
+    onTagsFilterKeyup() {
+        setTimeout(() => {
+            const inputField = document.getElementById(`tagAddModal_filter_${this.input.id}`);
+            const value = inputField.value ? cloneDeep(inputField.value).trim() : null;
+            const tagsData = cloneDeep(this.state.tagsData);
+            tagsData.data = value ? tagsData.dataSave.filter(i => String(i.id).match(new RegExp(value, "i")) || String(i.label).match(new RegExp(value, "i"))) : tagsData.dataSave;
+            this.setState("tagsData", tagsData);
+            this.setState("tagsFilter", value);
+        });
     }
 };

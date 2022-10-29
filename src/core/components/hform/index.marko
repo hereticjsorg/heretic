@@ -117,7 +117,7 @@ import { format, parseISO } from "date-fns"
                             <for|i2| of=i1>
                                 <div class=`column pt-0 pb-0 mt-0 mb-3 ${i2.css ? i2.css : ""}`>
                                     <if(state.mode === "edit")>
-                                        <fieldEdit key=`hr_hf_f_${i2.id}_edit` formId=input.id on-button-click("onButtonClick") on-notify("onNotify") on-key-value-add-request("onKeyValueAddRequest") on-key-value-edit-request("onKeyValueEditRequest") on-key-value-delete-request("onKeyValueDeleteRequest") ...i2/>
+                                        <fieldEdit key=`hr_hf_f_${i2.id}_edit` formId=input.id on-button-click("onButtonClick") on-notify("onNotify") on-key-value-add-request("onKeyValueAddRequest") on-key-value-edit-request("onKeyValueEditRequest") on-key-value-delete-request("onKeyValueDeleteRequest") on-tag-add-request("onTagAddRequest") ...i2/>
                                     </if>
                                     <else>
                                         <fieldView key=`hr_hf_f_${i2.id}_view` formId=input.id on-button-click("onButtonClick") formData=component.input.data ...i2/>
@@ -131,7 +131,7 @@ import { format, parseISO } from "date-fns"
                             <div class="columns pt-0 pb-0 mt-0 mb-1 is-variable is-2">
                                 <div class="column pt-0 pb-0 mt-0 mb-2">
                                     <if(state.mode === "edit")>
-                                        <fieldEdit key=`hr_hf_f_${i1.id}_edit` formId=input.id on-button-click("onButtonClick") on-notify("onNotify") on-key-value-add-request("onKeyValueAddRequest") on-key-value-edit-request("onKeyValueEditRequest") on-key-value-delete-request("onKeyValueDeleteRequest") ...i1/>
+                                        <fieldEdit key=`hr_hf_f_${i1.id}_edit` formId=input.id on-button-click("onButtonClick") on-notify("onNotify") on-key-value-add-request("onKeyValueAddRequest") on-key-value-edit-request("onKeyValueEditRequest") on-key-value-delete-request("onKeyValueDeleteRequest") on-tag-add-request("onTagAddRequest") ...i1/>
                                     </if>
                                     <else>
                                         <fieldView key=`hr_hf_f_${i1.id}_view` formId=input.id on-button-click("onButtonClick") formData=component.input.data ...i1/> 
@@ -349,6 +349,38 @@ import { format, parseISO } from "date-fns"
     ]>
     <section class="modal-card-body">
         <t>hform_groupDataDeleteConfirmationText</t>
+    </section>
+</hmodal>
+<hmodal
+    key=`tagAddModal_hf_${input.id}`
+    on-button-click("onTagAddModalButtonClick")
+    close=true
+    cardClass="pl-3 pr-3 hr-hf-tagAddModal"
+    backgroundClass="hr-hm-background-60"
+    title="hform_tagAddModalTitle"
+    actions=[
+        {
+            id: "cancel",
+            label: "hform_cancel",
+            class: "button is-light",
+            close: true
+        }
+    ]>
+    <section class="hr-hf-tags-filter-wrap">
+        <input id=`tagAddModal_filter_${input.id}` class="input hr-hf-tags-filter" type="text" placeholder=(window.__heretic.t("hform_tagsFilter")) on-keyup("onTagsFilterKeyup") value=state.tagsFilter/>
+    </section>
+    <section class="modal-card-body p-0">
+        <div class="menu">
+            <ul class="menu-list">
+                <if(state.tagsData && state.tagsData.data.length)>
+                    <for|item| of=state.tagsData.data>
+                        <li on-click("onTagClick")>
+                            <a data-id=item.id>${item.label}</a>
+                        </li>
+                    </for>
+                </if>
+            </ul>
+        </div>
     </section>
 </hmodal>
 <hnotify key=`notify_field_${input.id}`/>

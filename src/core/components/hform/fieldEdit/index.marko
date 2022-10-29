@@ -258,7 +258,9 @@ import { mdiReload, mdiPlus, mdiTrashCanOutline, mdiPencilOutline } from '@mdi/j
                         <for|item| of=state.value>
                             <div class="columns is-variable is-1 is-mobile is-vcentered hr-hf-keyValue-row pl-1 pr-2">
                                 <div class="column is-auto">${item.title}</div>
-                                <div class="column is-narrow"><span class="tag">${item.valueLabel}</span></div>
+                                <div class="column is-narrow">
+                                    <span class="tag">${item.valueLabel}</span>
+                                </div>
                                 <div class="column is-narrow">
                                     <button class="mr-1 button is-small hr-hf-action-button is-light" data-uid=item.uid on-click("onKeyValueItemEditClick") data-tippy-content=(process.browser && window.__heretic ? window.__heretic.t("hform_edit") : null)>
                                         <span class="hr-hf-settings-icon icon">
@@ -292,3 +294,64 @@ import { mdiReload, mdiPlus, mdiTrashCanOutline, mdiPencilOutline } from '@mdi/j
     </div>
 </if>
 <!-- Key-Value Field: End -->
+<!-- Tags Field: Start -->
+<if(input.type === "tags")>
+    <div class="mb-4">
+        <div class="field">
+            <label class="label hr-hf-label columns is-vcentered p-0 m-0 is-variable is-1 is-mobile p-0 m-0">
+                <div class="column is-auto p-0 m-0">
+                    ${input.label || ""}<span>:</span>
+                    <if(input.mandatory)>
+                        &nbsp;<span class="hr-hf-label-mandatory">✱</span>
+                    </if>
+                </div>
+                <if(input.enumValues && input.enumValues.length && input.enumButton)>
+                    <div class="column is-narrow p-0 m-0">
+                        <button on-click("onTagAddClick") class="button is-small is-light hr-hf-label-button">
+                            <span>
+                                <t>hform_tagAdd</t>
+                            </span>
+                        </button>
+                    </div>
+                </if>
+            </label>
+            <div class="control">
+                <div class="input columns is-vcentered is-multiline is-mobile hr-hf-tags-wrap mt-2 is-variable is-1" on-click("onTagsWrapClick") id=`hr_hf_el_${input.formId}_${input.id}_wrap` key=`hr_hf_el_${input.formId}_${input.id}_wrap`>
+                    <for|tag, index| of=(state.value || [])>
+                        <div class="column is-narrow hr-hf-tag-wrap p-0">
+                            <div class="tags has-addons">
+                                <span class="tag is-info mb-0">${tag}</span>
+                                <a class="tag is-delete mb-0 hr-hf-tag-delete" on-click("onTagCloseClick") data-index=index/>
+                            </div>
+                        </div>
+                    </for>
+                    <div class="column is-auto p-0">
+                        <input id=`hr_hf_el_${input.formId}_${input.id}` on-focus("onTagsInputFocus") on-blur("onTagsInputBlur") on-keydown("onTagsInputKeyDown") on-keypress("onTagsInputKeyPress") class="input hr-hf-tags-input p-0" no-update/>
+                        <if(input.enumDropdown && state.enumList && state.enumList.length)>
+                            <div class="hr-hf-tags-enum-wrap">
+                                <div class="menu">
+                                    <ul class="menu-list">
+                                        <for|item| of=state.enumList>
+                                            <li on-click("onEnumItemClick")>
+                                                <a data-id=item.id>${item.label}</a>
+                                            </li>
+                                        </for>
+                                    </ul>
+                                </div>
+                            </div>
+                        </if>
+                    </div>
+                </div>
+            </div>
+            <if(state.error)>
+                <div class="hr-hf-error-wrap">
+                    <p class="tag is-danger hr-hf-error-tag">${state.error}</p>
+                </div>
+            </if>
+            <if(input.helpText)>
+                <p class="help">${input.helpText}</p>
+            </if>
+        </div>
+    </div>
+</if>
+<!-- Tags Field: End -->
