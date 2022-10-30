@@ -1,5 +1,3 @@
-import crypto from "crypto";
-
 const languages = Object.keys(require("../../../config/languages.json"));
 const routesData = require("../../../build/routes.json");
 
@@ -7,10 +5,13 @@ export default (route, languageData, language) => ({
     async handler(req, rep) {
         const authData = await req.auth.getData(req.auth.methods.COOKIE);
         if (route.dir === "_signIn" && authData) {
-            return rep.code(302).redirect(languages[0] === language ? `${this.siteConfig.routes.admin}?_=${crypto.randomUUID()}` : `/${language}${this.siteConfig.routes.admin}?_=${crypto.randomUUID()}`);
+            return rep.code(302).redirect(languages[0] === language ? this.siteConfig.routes.admin : `/${language}${this.siteConfig.routes.admin}`);
         }
         if (route.dir !== "_signIn" && !authData) {
-            return rep.code(302).redirect(languages[0] === language ? `${this.siteConfig.routes.signInAdmin}?_=${crypto.randomUUID()}&r=${route.path}` : `/${language}${this.siteConfig.routes.signInAdmin}?_=${crypto.randomUUID()}&r=/${language}${route.path}`);
+            return rep.code(302).redirect(languages[0] === language ? `${this.siteConfig.routes.signInAdmin}?r=${route.path}` : `/${language}${this.siteConfig.routes.signInAdmin}?r=/${language}${route.path}`);
+        }
+        if (route.dir !== "_signIn" && (!authData || !authData.groupData || !authData.groupData.admin)) {
+            return rep.code(302).redirect(languages[0] === language ? "/" : `/${language}`);
         }
         const translationData = routesData.translations.admin.find(i => i.id === route.id);
         const page = route.core ? (await import(`../../pages/${route.dir}/admin/server.marko`)).default : (await import(`../../../pages/${route.dir}/admin/server.marko`)).default;

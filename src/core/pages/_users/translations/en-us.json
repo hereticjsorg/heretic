@@ -19,5 +19,6 @@
     "password": "Password",
     "passwordHelpText": "Repeat your password twice to verify",
     "duplicateRecord": "Some fields are duplicate",
-    "groups": "Groups"
+    "groups": "Groups",
+    "couldNotLoadData": "Could not load data"
 }

@@ -76,12 +76,12 @@ $ const i18nNavigation = out.global.i18nNavigation;
                 </a>
                 <div class="navbar-dropdown is-right hr-navbar-dropdown">
                     <if(out.global.username)>
-                        <a class="navbar-item hr-navbar-item" href=component.getLocalizedURL(out.global.systemRoutes.signOut)>
+                        <a class="navbar-item hr-navbar-item" href=component.utils.getLocalizedURL(out.global.systemRoutes.signOut)>
                             <t>signOut</t>
                         </a>
                     </if>
                     <else>
-                        <a class="navbar-item hr-navbar-item" href=component.getLocalizedURL(out.global.systemRoutes.signIn)>
+                        <a class="navbar-item hr-navbar-item" href=component.utils.getLocalizedURL(out.global.systemRoutes.signIn)>
                             <t>signIn</t>
                         </a>
                     </else>

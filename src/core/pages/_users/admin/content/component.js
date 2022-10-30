@@ -10,6 +10,7 @@ module.exports = class {
             ready: !process.browser,
             headers: {},
             currentId: null,
+            failed: false,
         };
         this.language = out.global.language;
         this.siteTitle = out.global.siteTitle;
@@ -88,10 +89,29 @@ module.exports = class {
             setTimeout(() => window.location.href = `${this.getLocalizedURL(this.systemRoutes.signIn)}`, 100);
             return;
         }
-        this.setState("headers", {
+        const headers = {
             Authorization: `Bearer ${currentToken}`
-        });
+        };
+        this.setState("headers", headers);
+        try {
+            const {
+                data,
+            } = await axios({
+                method: "get",
+                headers,
+                url: "/api/admin/groups",
+            });
+            this.groupsData = data.groups;
+        } catch (e) {
+            this.setState("failed", true);
+            return;
+        }
         this.setState("ready", true);
+        // await this.utils.waitForComponent(`${moduleConfig.id}Form`);
+        // const form = this.getComponent(`${moduleConfig.id}Form`);
+        // form.initValidation({
+        //     data: this.formData,
+        // });
     }
 
     async onTopButtonClick(id) {
@@ -143,8 +163,13 @@ module.exports = class {
     }
 
     async onFormMountComplete() {
-        this.formData.data.form[0].fields.find(i => i.id === "password").mandatory = (this.state.currentId === null);
-        this.formData.data.form[0].fields.find(i => i.id === "password").validation.type = (this.state.currentId === null) ? ["string"] : ["string", "null"];
+        const formConfig = this.formData.data.form[0];
+        formConfig.fields.find(i => i.id === "password").mandatory = (this.state.currentId === null);
+        formConfig.fields.find(i => i.id === "password").validation.type = (this.state.currentId === null) ? ["string"] : ["string", "null"];
+        formConfig.fields.find(i => i.id === "groups").enumValues = this.groupsData.map(i => ({
+            id: i,
+            label: i,
+        }));
         await this.utils.waitForComponent(`${moduleConfig.id}Form`);
         const form = this.getComponent(`${moduleConfig.id}Form`);
         form.initValidation({
@@ -152,7 +177,10 @@ module.exports = class {
         });
     }
 
-    onUnauthorized() {}
+    onUnauthorized() {
+        this.setState("ready", false);
+        setTimeout(() => window.location.href = this.utils.getLocalizedURL(this.systemRoutes.signInAdmin), 100);
+    }
 
     onFormSubmit() {
         this.formSave();

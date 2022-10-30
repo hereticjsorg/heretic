@@ -48,8 +48,10 @@ export default () => ({
     async handler(req, rep) {
         try {
             const authData = await req.auth.getData(req.auth.methods.HEADERS);
-            if (!authData) {
-                return rep.error({}, 403);
+            if (!authData || !authData.groupData || !authData.groupData.admin) {
+                return rep.error({
+                    message: "Access Denied",
+                }, 403);
             }
             if (!req.validateDataExport()) {
                 return rep.error({

@@ -350,8 +350,37 @@ module.exports = class {
         input.className = input.className.replace(/(?:^|\s)hr-hf-tags-wrap-focus(?!\S)/gm, "");
     }
 
+    animateErrorField(id) {
+        const element = document.getElementById(id);
+        if (!element) {
+            return;
+        }
+        element.classList.add("hr-hf-error-bounce");
+        setTimeout(() => element.classList.remove("hr-hf-error-bounce"), 1000);
+    }
+
     addTag(id) {
         const tags = cloneDeep(this.state.value || []);
+        if (this.input.enumUnique && tags.indexOf(id) > -1) {
+            this.animateErrorField(`hr_hf_el_${this.input.formId}_${this.input.id}_wrap`);
+            this.input.parentComponent.showNotification(window.__heretic.t("hform_duplicateTag"), "is-warning");
+            return;
+        }
+        if (this.input.minLength && id.length < parseInt(this.input.minLength, 10)) {
+            this.animateErrorField(`hr_hf_el_${this.input.formId}_${this.input.id}_wrap`);
+            this.input.parentComponent.showNotification(window.__heretic.t("hform_tagTooShort"), "is-warning");
+            return;
+        }
+        if (this.input.maxLength && id.length > parseInt(this.input.maxLength, 10)) {
+            this.animateErrorField(`hr_hf_el_${this.input.formId}_${this.input.id}_wrap`);
+            this.input.parentComponent.showNotification(window.__heretic.t("hform_tagTooLong"), "is-warning");
+            return;
+        }
+        if (this.input.enumOnly && !this.input.enumValues.find(i => i.id === id)) {
+            this.animateErrorField(`hr_hf_el_${this.input.formId}_${this.input.id}_wrap`);
+            this.input.parentComponent.showNotification(window.__heretic.t("hform_tagInvalid"), "is-warning");
+            return;
+        }
         tags.push(id);
         this.setState("value", tags);
         this.onTagsInputKeyPress();

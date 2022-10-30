@@ -39,7 +39,7 @@ module.exports = class {
         this.query = new Query();
         const currentToken = this.cookies.get(`${this.siteId}.authToken`);
         if (currentToken) {
-            setTimeout(() => window.location.href = `${this.getLocalizedURL("/").url || "/"}?_=${new Date().getTime()}`, 100);
+            setTimeout(() => window.location.href = `${this.getLocalizedURL("/").url || "/"}`, 100);
             return;
         }
         this.setState("ready", true);

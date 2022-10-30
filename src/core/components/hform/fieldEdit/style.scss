@@ -150,6 +150,11 @@
     box-shadow: 0 0 0 0.125em rgba($link, 0.25) !important;
 }
 
+.hr-hf-tags-wrap-focus.is-danger {
+    border-color: $red !important;
+    box-shadow: 0 0 0 0.125em rgba($red, 0.25) !important;
+}
+
 .hr-hf-tags-input {
     border: 0 !important;
     width: 100%;
@@ -181,6 +186,62 @@
 
 .hr-hf-label-button {
     height: 22px !important;
+}
+
+.hr-hf-error-password-wrap {
+    margin-top: -29px;
+}
+
+.hr-hf-error-tags-wrap {
+    margin-top: 8px;
+}
+
+@keyframes hr-hf-error-bounce {
+    0% {
+        transform: translateX(0px);
+        timing-function: ease-in;
+    }
+
+    37% {
+        transform: translateX(5px);
+        timing-function: ease-out;
+    }
+
+    55% {
+        transform: translateX(-5px);
+        timing-function: ease-in;
+    }
+
+    73% {
+        transform: translateX(4px);
+        timing-function: ease-out;
+    }
+
+    82% {
+        transform: translateX(-4px);
+        timing-function: ease-in;
+    }
+
+    91% {
+        transform: translateX(2px);
+        timing-function: ease-out;
+    }
+
+    96% {
+        transform: translateX(-2px);
+        timing-function: ease-in;
+    }
+
+    100% {
+        transform: translateX(0px);
+        timing-function: ease-in;
+    }
+}
+
+.hr-hf-error-bounce {
+    animation-name: hr-hf-error-bounce;
+    animation-duration: .5s;
+    // animation-delay: 0.25s;
 }
 
 @media (max-width: 769px) {

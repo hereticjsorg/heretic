@@ -85,7 +85,7 @@ module.exports = class {
         this.cookies = new Cookies(this.cookieOptions);
         const currentToken = this.cookies.get(`${this.siteId}.authToken`);
         if (!currentToken) {
-            setTimeout(() => window.location.href = `${this.getLocalizedURL(this.systemRoutes.signIn)}`, 100);
+            setTimeout(() => window.location.href = this.utils.getLocalizedURL(this.systemRoutes.signInAdmin), 100);
             return;
         }
         this.setState("headers", {
@@ -96,10 +96,11 @@ module.exports = class {
                 data,
             } = await axios({
                 method: "get",
+                headers: this.state.headers,
                 url: `/api/dataProviders/groups?language=${this.language}`,
             });
             this.providerData = data.data;
-        } catch {
+        } catch (e) {
             this.setState("failed", true);
             return;
         }
@@ -159,7 +160,10 @@ module.exports = class {
 
     onFormMountComplete() {}
 
-    onUnauthorized() {}
+    onUnauthorized() {
+        this.setState("ready", false);
+        setTimeout(() => window.location.href = this.utils.getLocalizedURL(this.systemRoutes.signInAdmin), 100);
+    }
 
     onFormSubmit() {
         this.formSave();

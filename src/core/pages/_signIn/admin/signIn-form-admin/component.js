@@ -25,9 +25,16 @@ module.exports = class {
         };
         this.componentsLoaded = {};
         this.language = out.global.language;
-        this.serverRoute = out.global.route;
         this.siteId = out.global.siteId;
         this.cookieOptions = out.global.cookieOptions;
+        this.systemRoutes = out.global.systemRoutes;
+        if (process.browser && window.__heretic && window.__heretic.t) {
+            this.language = this.language || window.__heretic.outGlobal.language;
+            this.siteTitle = out.global.siteTitle || window.__heretic.outGlobal.siteTitle;
+            this.siteId = out.global.siteId || window.__heretic.outGlobal.siteId;
+            this.cookieOptions = out.global.cookieOptions || window.__heretic.outGlobal.cookieOptions;
+            this.systemRoutes = out.global.systemRoutes || window.__heretic.outGlobal.systemRoutes;
+        }
         this.utils = new Utils(this, this.language);
         await import(/* webpackChunkName: "bulma" */ "../../../../../styles/bulma.scss");
         await import(/* webpackChunkName: "heretic-signIn-admin" */ "./heretic-signIn-admin.scss");
@@ -51,10 +58,6 @@ module.exports = class {
 
     getNonLocalizedURL(url) {
         return this.utils.getNonLocalizedURL(url);
-    }
-
-    getLocalizedURL(url) {
-        return this.utils.getLocalizedURL(url);
     }
 
     onLangDropdownClick(e) {
@@ -83,7 +86,7 @@ module.exports = class {
             });
             const { token } = res.data;
             this.cookies.set(`${this.siteId}.authToken`, token);
-            window.location.href = `${this.query.get("r") || this.getLocalizedURL("/").url || "/"}?_=${new Date().getTime()}`;
+            window.location.href = `${this.query.get("r") || this.utils.getLocalizedURL(this.systemRoutes.admin) || "/"}`;
         } catch (e) {
             if (e && e.response && e.response.data) {
                 if (e.response.data.form) {

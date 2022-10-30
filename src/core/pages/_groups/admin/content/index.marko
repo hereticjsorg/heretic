@@ -32,7 +32,7 @@ $ {
         </section>
     </hmodal>
 </if>
-<if(!state.ready)>
+<if(!state.ready && !state.failed)>
     <hloading active=true/>
 </if>
 <if(state.failed)>

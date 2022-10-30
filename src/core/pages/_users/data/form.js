@@ -63,27 +63,22 @@ export default class {
                     type: "tags",
                     label: this.t("groups"),
                     mandatory: false,
-                    validation: {},
+                    validation: {
+                        type: ["array", "null"],
+                        items: {
+                            type: "string",
+                            minLength: 2,
+                            maxLength: 32,
+                        },
+                        minItems: 0,
+                        uniqueItems: true,
+                    },
                     sortable: false,
                     searchable: false,
                     column: true,
                     createIndex: false,
-                    enumValues: [{
-                        id: "group1",
-                        label: "Group 1",
-                    }, {
-                        id: "group2",
-                        label: "Group 2",
-                    }, {
-                        id: "group3",
-                        label: "Group 3",
-                    }, {
-                        id: "group4",
-                        label: "Group 4",
-                    }, {
-                        id: "group5",
-                        label: "Group 5",
-                    }],
+                    enumValues: [],
+                    enumUnique: true,
                     enumOnly: true,
                     enumButton: true,
                     enumDropdown: false,

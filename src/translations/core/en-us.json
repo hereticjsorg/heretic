@@ -156,5 +156,9 @@
     "hform_add": "Add",
     "hform_cancel": "Cancel",
     "hform_tagAddModalTitle": "Add Item",
-    "hform_tagsFilter": "Filter Values"
+    "hform_tagsFilter": "Filter Values",
+    "hform_duplicateTag": "Duplicate item",
+    "hform_tagTooShort": "Item is too short",
+    "hform_tagTooLong": "Item is too long",
+    "hform_tagInvalid": "Invalid tag"
 }

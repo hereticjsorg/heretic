@@ -378,7 +378,7 @@ module.exports = class {
                             delete item.title;
                             delete item.valueLabel;
                             if (item.type === "boolean") {
-                                item.value = (item.value === "true");
+                                item.value = (item.value === "true" || item.value === true);
                             }
                             if (item.value === "") {
                                 item.value = null;

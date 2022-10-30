@@ -47,7 +47,7 @@ $ const i18nNavigation = out.global.i18nNavigation;
             <div class=`navbar-item has-dropdown${state.authOpen ? " is-active" : ""}`>
                 <a class=`navbar-link hr-navbar-item-top is-arrowless${state.authOpen ? " hr-navbar-item-open" : ""}` on-click("onAuthClick") id="hr_navbar_auth">${out.global.userData.username}<span class="is-hidden-touch">&nbsp;&nbsp;▾</span></a>
                 <div class="navbar-dropdown is-right hr-navbar-dropdown">
-                    <a class="navbar-item hr-navbar-item" href=(out.global.language === Object.keys(languages)[0] ? `${out.global.systemRoutes.signOutAdmin}?_=${new Date().getTime()}` : `/${out.global.language}${out.global.systemRoutes.signOutAdmin}?_=${new Date().getTime()}`)>
+                    <a class="navbar-item hr-navbar-item" href=(out.global.language === Object.keys(languages)[0] ? out.global.systemRoutes.signOutAdmin : `/${out.global.language}${out.global.systemRoutes.signOutAdmin}`)>
                         <t>signOut</t>
                     </a>
                 </div>

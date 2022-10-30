@@ -210,8 +210,8 @@ import { mdiReload, mdiPlus, mdiTrashCanOutline, mdiPencilOutline } from '@mdi/j
                     &nbsp;<span class="hr-hf-label-mandatory">✱</span>
                 </if>
             </label>
-            <div class="control" no-update>
-                <div class="columns is-variable is-1 is-mobile">
+            <div class="control">
+                <div class="columns is-variable is-1 is-mobile" no-update>
                     <div class="column">
                         <input id=`hr_hf_el_${input.formId}_${input.id}` class="input hr-hf-text-input" type="password"/>
                     </div>
@@ -219,12 +219,12 @@ import { mdiReload, mdiPlus, mdiTrashCanOutline, mdiPencilOutline } from '@mdi/j
                         <input id=`hr_hf_el_${input.formId}_${input.id}_repeat` class="input hr-hf-text-input" type="password"/>
                     </div>
                 </div>
+                <if(state.error)>
+                    <div class="hr-hf-error-password-wrap">
+                        <p class="tag is-danger hr-hf-error-tag">${state.error}</p>
+                    </div>
+                </if>
             </div>
-            <if(state.error)>
-                <div class="hr-hf-error-wrap">
-                    <p class="tag is-danger hr-hf-error-tag">${state.error}</p>
-                </div>
-            </if>
             <if(input.helpText)>
                 <p class="help">${input.helpText}</p>
             </if>
@@ -298,7 +298,7 @@ import { mdiReload, mdiPlus, mdiTrashCanOutline, mdiPencilOutline } from '@mdi/j
 <if(input.type === "tags")>
     <div class="mb-4">
         <div class="field">
-            <label class="label hr-hf-label columns is-vcentered p-0 m-0 is-variable is-1 is-mobile p-0 m-0">
+            <div class="label hr-hf-label columns is-vcentered p-0 m-0 is-variable is-1 is-mobile p-0 m-0">
                 <div class="column is-auto p-0 m-0">
                     ${input.label || ""}<span>:</span>
                     <if(input.mandatory)>
@@ -314,9 +314,9 @@ import { mdiReload, mdiPlus, mdiTrashCanOutline, mdiPencilOutline } from '@mdi/j
                         </button>
                     </div>
                 </if>
-            </label>
+            </div>
             <div class="control">
-                <div class="input columns is-vcentered is-multiline is-mobile hr-hf-tags-wrap mt-2 is-variable is-1" on-click("onTagsWrapClick") id=`hr_hf_el_${input.formId}_${input.id}_wrap` key=`hr_hf_el_${input.formId}_${input.id}_wrap`>
+                <div class=`input columns is-vcentered is-multiline is-mobile hr-hf-tags-wrap mt-2 is-variable is-1${state.error ? " is-danger" : ""}` on-click("onTagsWrapClick") id=`hr_hf_el_${input.formId}_${input.id}_wrap` key=`hr_hf_el_${input.formId}_${input.id}_wrap`>
                     <for|tag, index| of=(state.value || [])>
                         <div class="column is-narrow hr-hf-tag-wrap p-0">
                             <div class="tags has-addons">
@@ -344,7 +344,7 @@ import { mdiReload, mdiPlus, mdiTrashCanOutline, mdiPencilOutline } from '@mdi/j
                 </div>
             </div>
             <if(state.error)>
-                <div class="hr-hf-error-wrap">
+                <div class="hr-hf-error-tags-wrap">
                     <p class="tag is-danger hr-hf-error-tag">${state.error}</p>
                 </div>
             </if>

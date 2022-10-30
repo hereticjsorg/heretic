@@ -20,5 +20,6 @@
     "permissionComment": "Comment",
     "data": "Data",
     "couldNotLoadData": "Could not load data",
-    "groupHelpText": "Latin characters and numbers"
+    "groupHelpText": "Latin characters and numbers",
+    "hform_tagInvalid": "Item is not valid"
 }

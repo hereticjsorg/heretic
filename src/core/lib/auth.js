@@ -109,6 +109,21 @@ export default class {
             if (!userDb || userDb.sid !== tokenData.sid) {
                 return null;
             }
+            if (userDb.groups && Array.isArray(userDb.groups) && userDb.groups.length) {
+                const groupsQuery = {
+                    $or: userDb.groups.map(g => ({
+                        group: g,
+                    })),
+                };
+                const groupData = {};
+                const groupsDb = await this.fastify.mongo.db.collection(this.fastify.siteConfig.collections.groups).find(groupsQuery).toArray();
+                for (const group of groupsDb) {
+                    for (const dataItem of group.data) {
+                        groupData[dataItem.id] = dataItem.value;
+                    }
+                }
+                userDb.groupData = groupData;
+            }
             return userDb;
         } catch {
             return null;

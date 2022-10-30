@@ -8,6 +8,12 @@ const ajv = new Ajv({
 
 export default () => ({
     async handler(req, rep) {
+        const authData = await req.auth.getData(req.auth.methods.HEADERS);
+        if (!authData || !authData.groupData || !authData.groupData.admin) {
+            return rep.error({
+                message: "Access Denied",
+            }, 403);
+        }
         const dataProvidersValidator = ajv.compile(dataProvidersSchema);
         try {
             const validationResult = !!dataProvidersValidator(req.query);

@@ -117,7 +117,7 @@ import { format, parseISO } from "date-fns"
                             <for|i2| of=i1>
                                 <div class=`column pt-0 pb-0 mt-0 mb-3 ${i2.css ? i2.css : ""}`>
                                     <if(state.mode === "edit")>
-                                        <fieldEdit key=`hr_hf_f_${i2.id}_edit` formId=input.id on-button-click("onButtonClick") on-notify("onNotify") on-key-value-add-request("onKeyValueAddRequest") on-key-value-edit-request("onKeyValueEditRequest") on-key-value-delete-request("onKeyValueDeleteRequest") on-tag-add-request("onTagAddRequest") ...i2/>
+                                        <fieldEdit key=`hr_hf_f_${i2.id}_edit` formId=input.id on-button-click("onButtonClick") on-notify("onNotify") on-key-value-add-request("onKeyValueAddRequest") on-key-value-edit-request("onKeyValueEditRequest") on-key-value-delete-request("onKeyValueDeleteRequest") on-tag-add-request("onTagAddRequest") parentComponent=component ...i2/>
                                     </if>
                                     <else>
                                         <fieldView key=`hr_hf_f_${i2.id}_view` formId=input.id on-button-click("onButtonClick") formData=component.input.data ...i2/>
@@ -131,7 +131,7 @@ import { format, parseISO } from "date-fns"
                             <div class="columns pt-0 pb-0 mt-0 mb-1 is-variable is-2">
                                 <div class="column pt-0 pb-0 mt-0 mb-2">
                                     <if(state.mode === "edit")>
-                                        <fieldEdit key=`hr_hf_f_${i1.id}_edit` formId=input.id on-button-click("onButtonClick") on-notify("onNotify") on-key-value-add-request("onKeyValueAddRequest") on-key-value-edit-request("onKeyValueEditRequest") on-key-value-delete-request("onKeyValueDeleteRequest") on-tag-add-request("onTagAddRequest") ...i1/>
+                                        <fieldEdit key=`hr_hf_f_${i1.id}_edit` formId=input.id on-button-click("onButtonClick") on-notify("onNotify") on-key-value-add-request("onKeyValueAddRequest") on-key-value-edit-request("onKeyValueEditRequest") on-key-value-delete-request("onKeyValueDeleteRequest") on-tag-add-request("onTagAddRequest") parentComponent=component ...i1/>
                                     </if>
                                     <else>
                                         <fieldView key=`hr_hf_f_${i1.id}_view` formId=input.id on-button-click("onButtonClick") formData=component.input.data ...i1/> 
