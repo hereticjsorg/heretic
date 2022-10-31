@@ -10,7 +10,7 @@ export default (route, languageData, language) => ({
         if (route.dir !== "_signIn" && !authData) {
             return rep.code(302).redirect(languages[0] === language ? `${this.siteConfig.routes.signInAdmin}?r=${route.path}` : `/${language}${this.siteConfig.routes.signInAdmin}?r=/${language}${route.path}`);
         }
-        if (route.dir !== "_signIn" && (!authData || !authData.groupData || !authData.groupData.admin)) {
+        if (route.dir !== "_signIn" && (!authData || !authData.groupData || !authData.groupData.find(i => i.id === "admin" && i.value === true))) {
             return rep.code(302).redirect(languages[0] === language ? "/" : `/${language}`);
         }
         const translationData = routesData.translations.admin.find(i => i.id === route.id);

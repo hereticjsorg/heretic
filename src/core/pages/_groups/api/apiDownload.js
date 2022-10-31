@@ -8,7 +8,7 @@ export default () => ({
     async handler(req, rep) {
         try {
             const authData = await req.auth.getData(req.auth.methods.COOKIE);
-            if (!authData || !authData.groupData || !authData.groupData.admin) {
+            if (!authData || !authData.groupData || !authData.groupData.find(i => i.id === "admin" && i.value === true)) {
                 return rep.error({
                     message: "Access Denied",
                 }, 403);

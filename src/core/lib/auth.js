@@ -115,14 +115,21 @@ export default class {
                         group: g,
                     })),
                 };
-                const groupData = {};
+                const groupData = [];
+                const groups = [];
                 const groupsDb = await this.fastify.mongo.db.collection(this.fastify.siteConfig.collections.groups).find(groupsQuery).toArray();
                 for (const group of groupsDb) {
                     for (const dataItem of group.data) {
-                        groupData[dataItem.id] = dataItem.value;
+                        groupData.push({
+                            id: dataItem.id,
+                            value: dataItem.value,
+                            group: group.group,
+                        });
                     }
+                    groups.push(group.group);
                 }
                 userDb.groupData = groupData;
+                userDb.groups = groups;
             }
             return userDb;
         } catch {

@@ -9,7 +9,7 @@ const ajv = new Ajv({
 export default () => ({
     async handler(req, rep) {
         const authData = await req.auth.getData(req.auth.methods.HEADERS);
-        if (!authData || !authData.groupData || !authData.groupData.admin) {
+        if (!authData || !authData.groupData || !authData.groupData.find(i => i.id === "admin" && i.value === true)) {
             return rep.error({
                 message: "Access Denied",
             }, 403);
