@@ -47,6 +47,8 @@ export default {
         }
         options.skip = (this.body.page - 1) * this.body.itemsPerPage;
         options.limit = this.body.itemsPerPage;
+        options.projection = {};
+        columns.map(c => options.projection[c] = 1);
         return options;
     },
     validateTableRecycleBinList: function () {

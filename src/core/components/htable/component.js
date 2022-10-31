@@ -546,6 +546,17 @@ module.exports = class {
                         headers: this.input.headers || {},
                     });
                     this.setState("data", response.data.items);
+                    this.setState("access", response.data.access || {});
+                    if (response.data.access) {
+                        const columns = cloneDeep(this.state.columns);
+                        for (const k of Object.keys(response.data.access)) {
+                            const allowed = response.data.access[k];
+                            if (!allowed) {
+                                delete columns[k];
+                            }
+                        }
+                        this.setState("columns", columns);
+                    }
                     this.setState("totalPages", response.data.total < this.state.itemsPerPage ? 1 : Math.ceil(response.data.total / this.state.itemsPerPage));
                     if (input.currentPage) {
                         input.currentPage = parseInt(input.currentPage, 10);
@@ -556,6 +567,7 @@ module.exports = class {
                             this.query.set(this.queryStringShorthands[k], input[k]);
                         }
                     }
+
                     this.generatePagination();
                     this.setTableDimensions();
                     this.needToUpdateTableWidth = true;

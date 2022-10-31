@@ -55,6 +55,7 @@ module.exports = class {
             errors: {},
             errorMessage: null,
             mode,
+            access: {},
             title: null,
             historyConfig: input.data.getHistoryConfig ? input.data.getHistoryConfig() : {
                 enabled: false,
@@ -177,8 +178,8 @@ module.exports = class {
                 const fieldComponent = this.getComponent(`hr_hf_f_${id}_${this.state.mode}`);
                 if (this.fieldsFlat[id].type === "keyValue") {
                     for (const item of (serialized[id] || [])) {
-                        const currentKeyValueItem = this.state.keyValueData.find(i => i.id === item.id);
-                        item.title = currentKeyValueItem.title;
+                        const currentKeyValueItem = this.state.keyValueData.find(i => i.id === item.id) || {};
+                        item.title = currentKeyValueItem.title || "";
                         switch (currentKeyValueItem.type) {
                         case "database":
                         case "list":
@@ -203,7 +204,6 @@ module.exports = class {
             if (this.formValidator) {
                 const result = this.formValidator.validate(data[tab], tab);
                 if (result) {
-                    console.log(result);
                     return result;
                 }
                 const resultPasswords = [];
@@ -529,6 +529,7 @@ module.exports = class {
         await this.deserializeView(data);
         this.focus();
         this.query.set(`mode_${this.input.id}`, mode);
+        this.setAccessData(this.state.access);
     }
 
     async onModeChange(e) {
@@ -820,5 +821,17 @@ module.exports = class {
             this.setState("tagsData", tagsData);
             this.setState("tagsFilter", value);
         });
+    }
+
+    setAccessData(access) {
+        this.setState("access", access);
+        for (const k of Object.keys(access)) {
+            if (access[k] === false) {
+                const element = document.getElementById(`hr_hf_el_${this.input.id}_${k}`);
+                if (element) {
+                    element.setAttribute("disabled", "");
+                }
+            }
+        }
     }
 };

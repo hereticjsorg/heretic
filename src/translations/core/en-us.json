@@ -160,5 +160,6 @@
     "hform_duplicateTag": "Duplicate item",
     "hform_tagTooShort": "Item is too short",
     "hform_tagTooLong": "Item is too long",
-    "hform_tagInvalid": "Invalid tag"
+    "hform_tagInvalid": "Invalid tag",
+    "salaryCurrentPermission": "Access to Salary"
 }
