@@ -32,7 +32,7 @@ import SignInForm from "../../data/signInForm"
                             <div class="dropdown-menu" id="hr_lang_dropdown" role="menu">
                                 <div class="dropdown-content">
                                     <for|lang| of=Object.keys(languages)>
-                                        $ const currentURL = process.browser ? component.getNonLocalizedURL(window.location.pathname).url : "/";
+                                        $ const currentURL = process.browser ? component.utils.getNonLocalizedURL(window.location.pathname).url : "/";
                                         <a class="dropdown-item" href=(lang === Object.keys(languages)[0] ? currentURL : `/${lang}${currentURL}`)>${languages[lang]}</a>
                                     </for>
                                 </div>

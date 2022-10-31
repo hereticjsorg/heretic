@@ -22,27 +22,6 @@ export default class {
             id: "comment",
             title: this.t("permissionComment"),
             type: "text",
-        }, {
-            id: "users",
-            title: this.t("usersList"),
-            type: "database",
-            collection: "users",
-            field: "username",
-            unique: true,
-        }, {
-            id: "test",
-            title: this.t("testList"),
-            type: "list",
-            items: [{
-                id: "item1",
-                label: "Item one",
-            }, {
-                id: "item2",
-                label: "Item two",
-            }, {
-                id: "item3",
-                label: "Item three",
-            }],
         }];
     }
 }

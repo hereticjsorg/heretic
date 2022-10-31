@@ -56,10 +56,6 @@ module.exports = class {
         this.query = new Query();
     }
 
-    getNonLocalizedURL(url) {
-        return this.utils.getNonLocalizedURL(url);
-    }
-
     onLangDropdownClick(e) {
         e.preventDefault();
         e.stopPropagation();
@@ -98,7 +94,6 @@ module.exports = class {
             } else {
                 signInForm.setErrorMessage(this.t("hform_error_general"));
             }
-        } finally {
             signInForm.setLoading(false);
         }
     }

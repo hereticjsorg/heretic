@@ -23,10 +23,6 @@ module.exports = class {
         this.utils = new Utils(this, this.language);
     }
 
-    getNonLocalizedURL(url) {
-        return this.utils.getNonLocalizedURL(url);
-    }
-
     getLocalizedURL(url) {
         return this.utils.getLocalizedURL(url);
     }
@@ -39,7 +35,7 @@ module.exports = class {
         this.query = new Query();
         const currentToken = this.cookies.get(`${this.siteId}.authToken`);
         if (currentToken) {
-            setTimeout(() => window.location.href = `${this.getLocalizedURL("/").url || "/"}`, 100);
+            setTimeout(() => window.location.href = `${this.utils.getLocalizedURL("/").url || "/"}`, 100);
             return;
         }
         this.setState("ready", true);
@@ -64,7 +60,7 @@ module.exports = class {
             });
             const { token } = res.data;
             this.cookies.set(`${this.siteId}.authToken`, token);
-            window.location.href = `${this.query.get("r") || this.getLocalizedURL("/").url || "/"}`;
+            window.location.href = `${this.query.get("r") || this.utils.getLocalizedURL("/").url || "/"}`;
         } catch (e) {
             if (e && e.response && e.response.data) {
                 if (e.response.data.form) {

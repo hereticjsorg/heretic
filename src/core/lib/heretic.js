@@ -315,6 +315,24 @@ export default class {
                 // Ignore
             }
         }
+        for (const module of routesData.directories.modules) {
+            try {
+                const Provider = (await import(`../../modules/${module}/data/provider`)).default;
+                const provider = new Provider();
+                dataProviders[module] = provider;
+            } catch {
+                // Ignore
+            }
+        }
+        for (const page of routesData.directories.pages) {
+            try {
+                const Provider = (await import(`../../pages/${page}/data/provider`)).default;
+                const provider = new Provider();
+                dataProviders[page] = provider;
+            } catch {
+                // Ignore
+            }
+        }
         this.fastify.decorate("dataProviders", dataProviders);
     }
 }

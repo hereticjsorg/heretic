@@ -32,10 +32,6 @@ module.exports = class {
         this.setRoute();
     }
 
-    getNonLocalizedURL(url) {
-        return this.utils.getNonLocalizedURL(url);
-    }
-
     getLocalizedURL(url) {
         return this.utils.getLocalizedURL(url);
     }

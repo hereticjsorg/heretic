@@ -25,7 +25,7 @@ typings/
 /etc
 src/pages
 src/modules
-src/config/navigation.json
+src/config/*
 src/view
 src/translations/user
 /logs

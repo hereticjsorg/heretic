@@ -1,1 +1,14 @@
-<div>Heretic: Admin Panel</div>
+<if(state.ready)>
+    <hadmin-title title=(process.browser && window.__heretic ? window.__heretic.t("moduleTitleAdmin") : null)/>
+    <div>
+        <span class="has-text-success hr-ah-blink">•</span>&nbsp;&nbsp;<t>hereticUpAndRunning</t>
+    </div>
+</if>
+<if(!state.ready && !state.failed)>
+    <hloading active=true/>
+</if>
+<if(state.failed)>
+    <div class="notification is-danger">
+        <t>couldNotLoadData</t>
+    </div>
+</if>

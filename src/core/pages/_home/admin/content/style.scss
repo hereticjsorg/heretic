@@ -1,0 +1,9 @@
+.hr-ah-blink {
+    animation: hr-ah-blink-animation 1s steps(5, start) infinite;
+}
+
+@keyframes hr-ah-blink-animation {
+    to {
+        visibility: hidden;
+    }
+}

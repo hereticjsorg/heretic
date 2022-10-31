@@ -86,7 +86,7 @@ module.exports = class {
         this.cookies = new Cookies(this.cookieOptions);
         const currentToken = this.cookies.get(`${this.siteId}.authToken`);
         if (!currentToken) {
-            setTimeout(() => window.location.href = `${this.getLocalizedURL(this.systemRoutes.signIn)}`, 100);
+            setTimeout(() => window.location.href = `${this.utils.getLocalizedURL(this.systemRoutes.signInAdmin)}`, 100);
             return;
         }
         const headers = {

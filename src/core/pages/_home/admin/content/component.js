@@ -1,5 +1,6 @@
 const Utils = require("../../../../lib/componentUtils").default;
 const meta = require("../../admin.js");
+const moduleConfig = require("../../admin.js");
 
 module.exports = class {
     onCreate(input, out) {
@@ -18,6 +19,7 @@ module.exports = class {
 
     async onMount() {
         await this.utils.waitForLanguageData();
+        await this.utils.loadLanguageData(moduleConfig.id);
         this.setState("ready", true);
     }
 };

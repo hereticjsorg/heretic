@@ -5,6 +5,9 @@ const commandLineArgs = require("command-line-args");
 const {
     MongoClient
 } = require("mongodb");
+const {
+    v4: uuidv4,
+} = require("uuid");
 const crypto = require("crypto");
 
 const config = require(path.resolve(`${__dirname}/../../etc/system.json`));
@@ -34,6 +37,10 @@ try {
     }, {
         name: "resetPassword",
         alias: "p",
+        type: String
+    }, {
+        name: "createAdmin",
+        alias: "u",
         type: String
     }]);
 } catch (e) {
@@ -245,6 +252,48 @@ const resetPasswordFunc = async username => {
     }
 };
 
+const createAdminFunc = async () => {
+    console.log(`Creating user "admin" and group "admin"...`);
+    try {
+        const {
+            mongoClient,
+            db
+        } = await connectDatabase();
+        const password = await createHash(`password${config.secret}`);
+        const resultUser = await db.collection(config.collections.users).findOneAndUpdate({
+            username: "admin",
+        }, {
+            $set: {
+                username: "admin",
+                password,
+                groups: ["admin"],
+            },
+        }, {
+            upsert: true,
+        });
+        const resultGroup = await db.collection(config.collections.groups).findOneAndUpdate({
+            group: "admin",
+        }, {
+            $set: {
+                group: "admin",
+                data: [{
+                    uid: uuidv4(),
+                    id: "admin",
+                    type: "boolean",
+                    value: true,
+                }]
+            },
+        }, {
+            upsert: true,
+        });
+        mongoClient.close();
+        console.log(resultUser.ok && resultGroup.ok ? "All done." : "Could not update database record(s)");
+    } catch (e) {
+        console.error(e.message);
+        process.exit(1);
+    }
+};
+
 if (!Object.keys(options).length) {
     console.log(`Usage:\n\nnpm run cli -- --addPage <id> [--navigation] - create a new page (optionally add to navbar)
                --removePage <id> - delete existing page
@@ -272,4 +321,8 @@ if (options.removeLanguage !== undefined) {
 
 if (options.resetPassword !== undefined) {
     resetPasswordFunc(options.resetPassword);
+}
+
+if (options.createAdmin !== undefined) {
+    createAdminFunc();
 }

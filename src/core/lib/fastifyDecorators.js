@@ -20,7 +20,7 @@ export default {
         for (const record of duplicateRecord) {
             if (!existingRecord || record._id.toString() !== existingRecord._id.toString()) {
                 for (const field of fields) {
-                    if (record[field] === values[field]) {
+                    if (values[field] && record[field] && record[field] === values[field]) {
                         duplicateErrors.push(duplicateErrorData(field));
                     }
                 }

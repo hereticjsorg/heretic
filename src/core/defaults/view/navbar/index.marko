@@ -42,23 +42,25 @@ $ const i18nNavigation = out.global.i18nNavigation;
                 </span>
                 <span>&nbsp;&nbsp;GitHub</span>
             </a>
-            <div class=`navbar-item has-dropdown${state.langOpen ? " is-active" : ""}`>
-                <a class=`navbar-link hr-navbar-item is-arrowless${state.langOpen ? " hr-navbar-item-open" : ""}` on-click("onLanguageClick") id="hr_navbar_language">
-                    <span class="icon hr-navbar-icon">
-                        <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                            <path d=mdiWeb/>
-                        </svg>
-                    </span>
-                    <span class="is-hidden-touch">&nbsp;&nbsp;▾</span>
-                    <span class="is-hidden-desktop">&nbsp;&nbsp;Language</span>
-                </a>
-                <div class="navbar-dropdown is-right hr-navbar-dropdown">
-                    <for|lang| of=Object.keys(languages)>
-                        $ const currentURL = process.browser ? component.getNonLocalizedURL(window.location.pathname).url : "/";
-                        <a class="navbar-item hr-navbar-item" href=(lang === Object.keys(languages)[0] ? currentURL : `/${lang}${currentURL}`)>${languages[lang]}</a>
-                    </for>
+            <if(Object.keys(languages).length > 1)>
+                <div class=`navbar-item has-dropdown${state.langOpen ? " is-active" : ""}`>
+                    <a class=`navbar-link hr-navbar-item is-arrowless${state.langOpen ? " hr-navbar-item-open" : ""}` on-click("onLanguageClick") id="hr_navbar_language">
+                        <span class="icon hr-navbar-icon">
+                            <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                <path d=mdiWeb/>
+                            </svg>
+                        </span>
+                        <span class="is-hidden-touch">&nbsp;&nbsp;▾</span>
+                        <span class="is-hidden-desktop">&nbsp;&nbsp;Language</span>
+                    </a>
+                    <div class="navbar-dropdown is-right hr-navbar-dropdown">
+                        <for|lang| of=Object.keys(languages)>
+                            $ const currentURL = process.browser ? component.utils.getNonLocalizedURL(window.location.pathname).url : "/";
+                            <a class="navbar-item hr-navbar-item" href=(lang === Object.keys(languages)[0] ? currentURL : `/${lang}${currentURL}`)>${languages[lang]}</a>
+                        </for>
+                    </div>
                 </div>
-            </div>
+            </if>
             <div class=`navbar-item has-dropdown${state.authOpen ? " is-active" : ""}`>
                 <a class=`navbar-link hr-navbar-item is-arrowless${state.authOpen ? " hr-navbar-item-open" : ""}` on-click("onAuthClick") id="hr_navbar_auth">
                     <if(out.global.username)>&nbsp;${out.global.username}</if>

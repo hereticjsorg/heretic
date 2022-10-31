@@ -20,5 +20,8 @@
     "passwordHelpText": "Repeat your password twice to verify",
     "duplicateRecord": "Some fields are duplicate",
     "groups": "Groups",
-    "couldNotLoadData": "Could not load data"
+    "couldNotLoadData": "Could not load data",
+    "usernameHelpText": "Latin characters, numbers, underscore",
+    "displayName": "Display Name",
+    "displayNameHelpText": "Shown instead of username when applicable"
 }

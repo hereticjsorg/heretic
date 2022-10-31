@@ -1,6 +1,6 @@
 {
   "name": "heretic",
-  "version": "1.0.69",
+  "version": "1.0.70",
   "description": "Heretic",
   "main": "index.js",
   "scripts": {
@@ -37,7 +37,7 @@
     "@marko/webpack": "^9.3.0",
     "@mdi/js": "^7.0.96",
     "ajv": "^8.11.0",
-    "autoprefixer": "^10.4.12",
+    "autoprefixer": "^10.4.13",
     "babel-loader": "^9.0.0",
     "bulma": "^0.9.4",
     "command-line-args": "^5.2.1",
