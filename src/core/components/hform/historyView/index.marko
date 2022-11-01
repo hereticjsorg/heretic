@@ -97,7 +97,7 @@
                     <for|f| of=input.valueOld>
                         <div>
                             <if(input.fieldData.download)>
-                                <a class="is-underlined" href=`${input.fieldData.download}?id=${f.uid}&language=${out.global.language || window.__heretic.outGlobal.language}` target="_blank">${f.name}</a>
+                                <a class="is-underlined" href=`${input.fieldData.download}?id=${f.uid}&language=${out.global.language || window.__heretic.outGlobal.language}&_=${Math.floor(Date.now())}` target="_blank">${f.name}</a>
                             </if>
                             <else>${f.name}</else>
                         </div>
@@ -115,7 +115,7 @@
                     <for|f| of=input.valueNew>
                         <div>
                             <if(input.fieldData.download)>
-                                <a class="is-underlined" href=`${input.fieldData.download}?id=${f.uid}&language=${out.global.language || window.__heretic.outGlobal.language}` target="_blank">${f.name}</a>
+                                <a class="is-underlined" href=`${input.fieldData.download}?id=${f.uid}&language=${out.global.language || window.__heretic.outGlobal.language}&_=${Math.floor(Date.now())}` target="_blank">${f.name}</a>
                             </if>
                             <else>${f.name}</else>
                         </div>

@@ -27,7 +27,6 @@ export default () => ({
                     form: validationResult,
                 });
             }
-            await formValidator.saveFiles(moduleConfig.id);
             const collection = this.mongo.db.collection(moduleConfig.collections.main);
             const result = {};
             data._default.group = data._default.group ? data._default.group.toLowerCase() : null;
@@ -47,6 +46,7 @@ export default () => ({
                 }, {
                     $set: data._default,
                 });
+                await formValidator.saveFiles(moduleConfig.id, String(data._id));
                 await formValidator.unlinkRemovedFiles({
                     _default: existingRecord,
                 });
@@ -59,6 +59,7 @@ export default () => ({
                     ...data._default,
                 });
                 result.insertedId = insertResult.insertedId;
+                await formValidator.saveFiles(moduleConfig.id, String(result.insertedId));
             }
             return rep.code(200).send(result);
         } catch (e) {

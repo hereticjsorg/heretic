@@ -1,6 +1,5 @@
 import path from "path";
 import fs from "fs-extra";
-import moduleConfig from "../admin.js";
 
 const languages = Object.keys(require("../../../../config/languages.json"));
 
@@ -17,7 +16,7 @@ export default () => ({
                 id,
             } = req.query;
             const language = req.query.language && typeof req.query.language === "string" && languages.indexOf(req.query.language) > -1 ? req.query.language : languages[0];
-            const redirectNotFound = () => rep.code(301).redirect(languages[0] === language ? `${moduleConfig.routes.userspace.list}/notFound` : `/${language}${moduleConfig.routes.userspace.list}/notFound`);
+            const redirectNotFound = () => rep.code(301).redirect(languages[0] === language ? `/notFound` : `/${language}/notFound`);
             if (!authData || !id || typeof id !== "string" || !id.match(/^[0-9a-f]{8}\b-[0-9a-f]{4}\b-[0-9a-f]{4}\b-[0-9a-f]{4}\b-[0-9a-f]{12}$/)) {
                 return redirectNotFound();
             }

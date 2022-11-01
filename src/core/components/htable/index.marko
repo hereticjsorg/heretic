@@ -821,7 +821,7 @@ import SettingsPagesForm from "./settingsPagesForm"
                 <t>htable_exportDownloadMessage</t>
             </div>
             <div class="mt-2">
-                <a class="is-underlined" href=`${state.exportConfig.download}?id=${state.dataExportUID}`>
+                <a class="is-underlined" href=`${state.exportConfig.download}?id=${state.dataExportUID}&_=${Math.floor(Date.now())}`>
                     <t>htable_exportDownload</t>
                 </a>
             </div>

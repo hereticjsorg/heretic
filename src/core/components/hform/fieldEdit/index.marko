@@ -93,7 +93,7 @@ import { mdiReload, mdiPlus, mdiTrashCanOutline, mdiPencilOutline } from '@mdi/j
                         <div>
                             <button class="delete is-small mt-1 mr-2" data-uid=f.uid on-click("onFileInputDeleteClick")/>
                             <if(input.download && !f.data)>
-                                <a class="is-underlined" href=`${input.download}?id=${f.uid}&language=${out.global.language || window.__heretic.outGlobal.language}` target="_blank">${f.name}</a>
+                                <a class="is-underlined" href=`${input.download}?id=${f.uid}&language=${out.global.language || window.__heretic.outGlobal.language}&_=${Math.floor(Date.now())}` target="_blank">${f.name}</a>
                             </if>
                             <else>${f.name}</else>
                         </div>

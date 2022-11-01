@@ -74,7 +74,7 @@ import { format } from "date-fns"
                     <for|f| of=state.value>
                         <div>
                             <if(input.download && !f.data)>
-                                <a class="is-underlined" href=`${input.download}?id=${f.uid}&language=${out.global.language || window.__heretic.outGlobal.language}` target="_blank">${f.name}</a>
+                                <a class="is-underlined" href=`${input.download}?id=${f.uid}&language=${out.global.language || window.__heretic.outGlobal.language}&_=${Math.floor(Date.now())}` target="_blank">${f.name}</a>
                             </if>
                             <else>${f.name}</else>
                         </div>
