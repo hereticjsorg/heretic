@@ -1231,7 +1231,7 @@ module.exports = class {
             const bulkItems = cloneDeep(this.state.bulkItems).map(item => ({
                 id: item.id,
                 value: item.value,
-                tabs: item.tabs,
+                tabs: item.tabs && item.tabs.length ? item.tabs : ["_default"],
             }));
             try {
                 bulkModal.setLoading(true).setCloseAllowed(false);
