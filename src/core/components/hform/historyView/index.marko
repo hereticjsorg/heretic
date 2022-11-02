@@ -3,26 +3,31 @@
     <div class="field">
         <label class="label">${input.fieldData.label}:</label>
         <div class="control">
-            <if(input.valueOld === null)>
-                <span class="hr-ht-history-tag hr-ht-history-tag-null">
-                    <t>hform_null</t>
-                </span>
+            <if(input.formData.getMagicStringAccessDenied && (input.valueNew === input.formData.getMagicStringAccessDenied() || input.valueOld === input.formData.getMagicStringAccessDenied()))>
+                <t>hform_historyRestrictedField</t>
             </if>
             <else>
-                $ const valueOld = {};
-                $ valueOld[input.fieldData.id] = input.valueOld;
-                <span class="hr-ht-history-tag">${input.formData.processTableCell(input.fieldData.id, valueOld)}</span>
-            </else>
-            <div class="hr-ht-history-to-right">&rarr;</div>
-            <if(input.valueNew === null)>
-                <span class="hr-ht-history-tag hr-ht-history-tag-null">
-                    <t>hform_null</t>
-                </span>
-            </if>
-            <else>
-                $ const valueNew = {};
-                $ valueNew[input.fieldData.id] = input.valueNew;
-                <span class="hr-ht-history-tag">${input.formData.processTableCell(input.fieldData.id, valueNew)}</span>
+                <if(input.valueOld === null)>
+                    <span class="hr-ht-history-tag hr-ht-history-tag-null">
+                        <t>hform_null</t>
+                    </span>
+                </if>
+                <else>
+                    $ const valueOld = {};
+                    $ valueOld[input.fieldData.id] = input.valueOld;
+                    <span class="hr-ht-history-tag">${input.formData.processTableCell(input.fieldData.id, valueOld)}</span>
+                </else>
+                <div class="hr-ht-history-to-right">&rarr;</div>
+                <if(input.valueNew === null)>
+                    <span class="hr-ht-history-tag hr-ht-history-tag-null">
+                        <t>hform_null</t>
+                    </span>
+                </if>
+                <else>
+                    $ const valueNew = {};
+                    $ valueNew[input.fieldData.id] = input.valueNew;
+                    <span class="hr-ht-history-tag">${input.formData.processTableCell(input.fieldData.id, valueNew)}</span>
+                </else>
             </else>
         </div>
     </div>

@@ -153,6 +153,11 @@ export default {
                             const qi = {};
                             qi[filter.id] = item;
                             queryItem.$or.push(qi);
+                            if (typeof item === "string" && item.match(/^[0-9]+$/)) {
+                                const qin = {};
+                                qin[filter.id] = parseInt(item, 10);
+                                queryItem.$or.push(qin);
+                            }
                         }
                     }
                     break;
@@ -164,6 +169,13 @@ export default {
                                 $ne: item,
                             };
                             query.$and.push(qi);
+                            if (typeof item === "string" && item.match(/^[0-9]+$/)) {
+                                const qin = {};
+                                qin[filter.id] = {
+                                    $ne: parseInt(item, 10),
+                                };
+                                query.$and.push(qin);
+                            }
                         }
                     }
                     break;

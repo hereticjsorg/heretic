@@ -56,6 +56,7 @@ module.exports = class {
             errorMessage: null,
             mode,
             access: {},
+            areas: {},
             title: null,
             historyConfig: input.data.getHistoryConfig ? input.data.getHistoryConfig() : {
                 enabled: false,
@@ -290,6 +291,8 @@ module.exports = class {
                 fieldComponent.setLoading(flag);
             }
         }
+        this.setAccessData(this.state.access);
+        this.setAreasData(this.state.areas);
     }
 
     setLoading(flag) {
@@ -530,6 +533,7 @@ module.exports = class {
         this.focus();
         this.query.set(`mode_${this.input.id}`, mode);
         this.setAccessData(this.state.access);
+        this.setAreasData(this.state.areas);
     }
 
     async onModeChange(e) {
@@ -830,6 +834,18 @@ module.exports = class {
                 const element = document.getElementById(`hr_hf_el_${this.input.id}_${k}`);
                 if (element) {
                     element.setAttribute("disabled", "");
+                }
+            }
+        }
+    }
+
+    setAreasData(areas) {
+        this.setState("areas", areas);
+        for (const k of Object.keys(areas)) {
+            if (areas[k] === false) {
+                const element = document.getElementById(`hr_hf_${this.input.id}_area_${k}`);
+                if (element) {
+                    element.style.display = "none";
                 }
             }
         }

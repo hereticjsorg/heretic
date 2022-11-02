@@ -104,7 +104,7 @@ import { format, parseISO } from "date-fns"
             </if>
         </if>
         <for|a| of=input.data.getData().form>
-            <div class=(a.css || "")>
+            <div class=(a.css || "") id=(a.label ? `hr_hf_${input.id}_area_${a.id}` : null)>
                 <if(a.label)>
                     <div class="hr-hf-f-area-label-wrap">
                         <div class="hr-hf-f-area-label">${a.label}</div>
@@ -169,7 +169,7 @@ import { format, parseISO } from "date-fns"
         }
     ]>
     <section class="modal-card-body p-0" id=`historyModal_hf_${input.id}_body`>
-        <div class="p-3">
+        <div class="p-3 pt-5">
             <if(state.historyData && state.historyData.length)>
                 <for|item| of=state.historyData>
                     <div class="p-0 mb-3">

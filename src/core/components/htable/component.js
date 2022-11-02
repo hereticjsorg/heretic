@@ -583,6 +583,7 @@ module.exports = class {
                     }
                     this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_loadingError"), "is-danger");
                     this.setState("data", []);
+                    this.setState("pagination", []);
                     setTimeout(() => this.setTableDimensions());
                 } finally {
                     this.setLoading(false);

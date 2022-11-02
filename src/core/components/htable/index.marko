@@ -537,7 +537,7 @@ import SettingsPagesForm from "./settingsPagesForm"
                     }/>
                 <div class="select is-fullwidth">
                     <select on-change("onSettingsFilterEditSelectedChange") id=`filterModal_ht_${input.id}_select_id`>
-                        <for|item| of=Object.keys(state.columnData)>
+                        <for|item| of=Object.keys(state.columnData).sort()>
                             <if(state.settingsFilterTypes.indexOf(state.columnData[item].type) > -1)>
                                 <option value=item selected=(state.settingsFilterEditSelectedId === item)>${state.columnData[item].label}</option>
                             </if>

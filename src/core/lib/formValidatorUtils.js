@@ -2,7 +2,11 @@ module.exports = {
     getValidationData: formData => {
         const validationSchema = {};
         const fieldsFlat = {};
+        const fieldsArea = {};
         for (const area of formData) {
+            if (area.id) {
+                fieldsArea[area.id] = [];
+            }
             for (const item of area.fields) {
                 if (Array.isArray(item)) {
                     for (const subItem of item) {
@@ -10,18 +14,25 @@ module.exports = {
                             validationSchema[subItem.id] = subItem.validation;
                         }
                         fieldsFlat[subItem.id] = subItem;
+                        if (area.id) {
+                            fieldsArea[area.id].push(subItem.id);
+                        }
                     }
                 } else {
                     if (item.validation) {
                         validationSchema[item.id] = item.validation;
                     }
                     fieldsFlat[item.id] = item;
+                    if (area.id) {
+                        fieldsArea[area.id].push(item.id);
+                    }
                 }
             }
         }
         return {
             validationSchema,
-            fieldsFlat
+            fieldsFlat,
+            fieldsArea,
         };
     },
     getErrorData: (validationResult, t) => {
