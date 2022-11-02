@@ -161,5 +161,11 @@
     "hform_tagTooShort": "Item is too short",
     "hform_tagTooLong": "Item is too long",
     "hform_tagInvalid": "Invalid tag",
-    "hform_historyRestrictedField": "Restricted Field"
+    "hform_historyRestrictedField": "Restricted Field",
+    "hform_logAdd": "Add",
+    "hform_logModal": "Edit Item",
+    "hform_logDate": "Date",
+    "hform_logValue": "Value",
+    "hform_logStatus": "Status",
+    "hform_logComments": "Comments"
 }

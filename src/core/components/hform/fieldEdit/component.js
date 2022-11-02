@@ -63,6 +63,9 @@ module.exports = class {
                 });
                 element.addEventListener("change", this.onInputChangeListener.bind(this));
                 break;
+            case "textarea":
+                element.addEventListener("change", this.onTextareaChangeListener.bind(this));
+                break;
             case "date":
                 this.maskedInput = new IMask(element, {
                     mask: Date,
@@ -94,6 +97,10 @@ module.exports = class {
         this.setState("value", this.maskedInput.unmaskedValue);
     }
 
+    onTextareaChangeListener(e) {
+        this.setState("value", e.target.value);
+    }
+
     setError(error) {
         this.setState("error", error);
         const element = document.getElementById(`hr_hf_el_${this.input.formId}_${this.input.id}`);
@@ -120,6 +127,7 @@ module.exports = class {
     setLoading(flag) {
         switch (this.input.type) {
         case "text":
+        case "textarea":
             const element = document.getElementById(`hr_hf_el_${this.input.formId}_${this.input.id}`);
             if (flag) {
                 element.setAttribute("disabled", "");
@@ -440,6 +448,15 @@ module.exports = class {
         this.emit("tag-add-request", {
             id: this.input.id,
             data: this.input.enumValues,
+        });
+    }
+
+    async onLogAddClick(e) {
+        e.preventDefault();
+        this.emit("log-add-request", {
+            id: this.input.id,
+            options: this.input.options,
+            defaultOption: this.input.defaultOption,
         });
     }
 };

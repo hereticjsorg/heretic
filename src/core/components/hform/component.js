@@ -76,6 +76,8 @@ module.exports = class {
             keyValueDeletePar: null,
             tagsData: null,
             tagsFilter: "",
+            logFieldId: null,
+            logValueUID: null,
         };
         this.fieldIds = [];
         this.sharedFieldIds = [];
@@ -849,5 +851,65 @@ module.exports = class {
                 }
             }
         }
+    }
+
+    async onLogAddRequest(par) {
+        await this.utils.waitForComponent(`logModal_hf_${this.input.id}`);
+        const logModal = this.getComponent(`logModal_hf_${this.input.id}`);
+        logModal.setBackgroundCloseAllowed(false).setActive(true);
+        this.setState("logFieldId", par.id);
+        this.setState("logValueUID", null);
+        await this.utils.waitForComponent(`logForm_${this.input.id}`);
+        const editForm = this.getComponent(`logForm_${this.input.id}`);
+        const logStatus = this.logFormData.data.form[0].fields.find(i => i.id === "logStatus");
+        logStatus.options = par.options;
+        logStatus.defaultValue = par.defaultOption;
+        logStatus.validation = {
+            type: ["string"],
+            enum: par.options.map(i => i.value),
+        };
+        const {
+            validationData,
+        } = this.logFormData;
+        validationData.validationSchema.logStatus = logStatus.validation;
+        editForm.initValidation({
+            data: this.logFormData,
+        });
+        editForm.setDefaultValues();
+    }
+
+    async saveLogValue() {
+        await this.utils.waitForComponent(`logForm_${this.input.id}`);
+        const editForm = this.getComponent(`logForm_${this.input.id}`);
+        const serializedData = editForm.process();
+        if (!serializedData) {
+            return;
+        }
+        const fieldComponent = this.getComponent(`hr_hf_f_${this.state.logFieldId}_${this.state.mode}`);
+        const currentLogValue = cloneDeep(fieldComponent.getValue() || []);
+        if (this.state.logValueUID) {
+            // TODO
+        } else {
+            currentLogValue.push({
+                uid: uuidv4(),
+                ...serializedData.formTabs._default,
+            });
+        }
+        await fieldComponent.setValue(currentLogValue);
+        await this.utils.waitForComponent(`logModal_hf_${this.input.id}`);
+        const logModal = this.getComponent(`logModal_hf_${this.input.id}`);
+        logModal.setActive(false);
+    }
+
+    onLogModalButtonClick(button) {
+        switch (button) {
+        case "save":
+            this.saveLogValue();
+            break;
+        }
+    }
+
+    onLogFormSubmit() {
+        this.saveLogValue();
     }
 };

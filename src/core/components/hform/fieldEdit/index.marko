@@ -1,4 +1,5 @@
-import { mdiReload, mdiPlus, mdiTrashCanOutline, mdiPencilOutline } from '@mdi/js'
+import { mdiReload, mdiPlus, mdiTrashCanOutline, mdiPencilOutline } from "@mdi/js"
+import { format } from "date-fns"
 
 <!-- Text Field: Start -->
 <if(input.type === "text")>
@@ -25,6 +26,31 @@ import { mdiReload, mdiPlus, mdiTrashCanOutline, mdiPencilOutline } from '@mdi/j
     </div>
 </if>
 <!-- Text Field: End -->
+<!-- Textarea Field: Start -->
+<if(input.type === "textarea")>
+    <div>
+        <div class="field">
+            <label class="label hr-hf-label">
+                ${input.label || ""}<span>:</span>
+                <if(input.mandatory)>
+                    &nbsp;<span class="hr-hf-label-mandatory">✱</span>
+                </if>
+            </label>
+            <div class="control" no-update>
+                <textarea id=`hr_hf_el_${input.formId}_${input.id}` class=`input hr-hf-text-input ${input.elementStyle || ""}` placeholder=(input.placeholder || "")/>
+            </div>
+            <if(state.error)>
+                <div class="hr-hf-error-wrap">
+                    <p class="tag is-danger hr-hf-error-tag">${state.error}</p>
+                </div>
+            </if>
+            <if(input.helpText)>
+                <p class="help">${input.helpText}</p>
+            </if>
+        </div>
+    </div>
+</if>
+<!-- Textarea Field: End -->
 <!-- Buttons: Start -->
 <if(input.type === "buttons")>
     <div class=`buttons ${input.css || ""}`>
@@ -159,7 +185,7 @@ import { mdiReload, mdiPlus, mdiTrashCanOutline, mdiPencilOutline } from '@mdi/j
                 <input on-focus("onDateInputFocus") id=`hr_hf_el_${input.formId}_${input.id}` class="input hr-hf-text-input input hr-hf-date-input" type="text" on-keypress("onCalendarInputKeypress") on-keydown("onCalendarInputKeydown")/>
             </div>
             <if(state.calendarVisible)>
-                <div class="hr-hf-calendar-wrap" id=`hr_hf_el_${input.formId}_${input.id}_calendar_wrap`>
+                <div class=`hr-hf-calendar-wrap ${input.calendarWrapClass || ""}` id=`hr_hf_el_${input.formId}_${input.id}_calendar_wrap`>
                     <hcalendar key=`hr_hf_el_${input.formId}_${input.id}_calendar` on-date-change("onCalendarDateChange")/>
                 </div>
             </if>
@@ -345,6 +371,71 @@ import { mdiReload, mdiPlus, mdiTrashCanOutline, mdiPencilOutline } from '@mdi/j
             </div>
             <if(state.error)>
                 <div class="hr-hf-error-tags-wrap">
+                    <p class="tag is-danger hr-hf-error-tag">${state.error}</p>
+                </div>
+            </if>
+            <if(input.helpText)>
+                <p class="help">${input.helpText}</p>
+            </if>
+        </div>
+    </div>
+</if>
+<!-- Tags Field: End -->
+<!-- Log: Start -->
+<if(input.type === "log")>
+    <div>
+        <div class="field">
+            <label class="label hr-hf-label">
+                ${input.label || ""}<span>:</span>
+                <if(input.mandatory)>
+                    &nbsp;<span class="hr-hf-label-mandatory">✱</span>
+                </if>
+            </label>
+            <div class="control">
+                <button on-click("onLogAddClick") class="button is-small is-light">
+                    <span class="hr-hf-top-button-icon">
+                        <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                            <path d=mdiPlus/>
+                        </svg>
+                    </span>
+                    <span>
+                        <t>hform_logAdd</t>
+                    </span>
+                </button>
+                <if(state.value && state.value.length)>
+                    <div class="mt-2 pt-3">
+                        <table class="table is-narrow is-striped is-hoverable is-bordered hr-hf-log-values-table">
+                            <tbody>
+                                <for|item| of=state.value>
+                                    <tr>
+                                        <td class="is-narrow">${item.logDate ? format(new Date(item.logDate * 1000), window.__heretic.t("global.dateFormatShort")) : "—"}</td>
+                                        <td class="is-narrow">${(process.browser && window.__heretic ? window.__heretic.t(`logValue.${item.logStatus}`) || "—" : "—")}</td>
+                                        <td>${item.logValue || "—"}</td>
+                                        <td class="is-narrow">
+                                            <button class="mr-1 button is-small hr-hf-action-button is-light" data-uid=item.uid on-click("onLogItemEditClick") data-tippy-content=(process.browser && window.__heretic ? window.__heretic.t("hform_edit") : null)>
+                                                <span class="hr-hf-settings-icon icon">
+                                                    <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d=mdiPencilOutline/>
+                                                    </svg>
+                                                </span>
+                                            </button>
+                                            <button class="button is-small hr-hf-action-button is-danger" data-uid=item.uid on-click("onLogItemDeleteClick") data-tippy-content=(process.browser && window.__heretic ? window.__heretic.t("hform_delete") : null)>
+                                                <span class="hr-hf-settings-icon hr-hf-action-icon-danger icon">
+                                                    <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d=mdiTrashCanOutline/>
+                                                    </svg>
+                                                </span>
+                                            </button>
+                                        </td>
+                                    </tr> 
+                                </for>
+                            </tbody>
+                        </table>
+                    </div>
+                </if>
+            </div>
+            <if(state.error)>
+                <div class="hr-hf-error-wrap">
                     <p class="tag is-danger hr-hf-error-tag">${state.error}</p>
                 </div>
             </if>

@@ -196,6 +196,24 @@
     margin-top: 8px;
 }
 
+.hr-hf-textarea-log {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.hr-hf-calendar-wrap-right {
+    margin-left: -125px;
+}
+
+.hr-hf-log-values-table {
+    max-width: 500px;
+    font-size: 90%;
+}
+
+.hr-hf-log-values-table>tbody>tr>td {
+    vertical-align: middle;
+}
+
 @keyframes hr-hf-error-bounce {
     0% {
         transform: translateX(0px);

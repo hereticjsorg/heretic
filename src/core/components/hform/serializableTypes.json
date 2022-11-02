@@ -1,1 +1,1 @@
-["text", "select", "files", "captcha", "date", "wysiwyg", "password", "keyValue", "tags"]
+["text", "textarea", "select", "files", "captcha", "date", "wysiwyg", "password", "keyValue", "tags"]

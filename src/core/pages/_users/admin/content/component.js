@@ -107,11 +107,6 @@ module.exports = class {
             return;
         }
         this.setState("ready", true);
-        // await this.utils.waitForComponent(`${moduleConfig.id}Form`);
-        // const form = this.getComponent(`${moduleConfig.id}Form`);
-        // form.initValidation({
-        //     data: this.formData,
-        // });
     }
 
     async onTopButtonClick(id) {

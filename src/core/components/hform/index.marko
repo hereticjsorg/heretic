@@ -1,5 +1,11 @@
 import { mdiEyeOutline, mdiPencilOutline, mdiHistory, mdiChevronDown } from '@mdi/js'
 import { format, parseISO } from "date-fns"
+import LogForm from "./data/logForm.js"
+
+$ {
+    const logFormData = new LogForm(process.browser && window.__heretic ? window.__heretic.t : out.global.t);
+    component.logFormData = logFormData;
+}
 
 <div class="hr-hf-wrap">
     <if(state.errorMessage)>
@@ -117,7 +123,7 @@ import { format, parseISO } from "date-fns"
                             <for|i2| of=i1>
                                 <div class=`column pt-0 pb-0 mt-0 mb-3 ${i2.css ? i2.css : ""}`>
                                     <if(state.mode === "edit")>
-                                        <fieldEdit key=`hr_hf_f_${i2.id}_edit` formId=input.id on-button-click("onButtonClick") on-notify("onNotify") on-key-value-add-request("onKeyValueAddRequest") on-key-value-edit-request("onKeyValueEditRequest") on-key-value-delete-request("onKeyValueDeleteRequest") on-tag-add-request("onTagAddRequest") parentComponent=component ...i2/>
+                                        <fieldEdit key=`hr_hf_f_${i2.id}_edit` formId=input.id on-button-click("onButtonClick") on-notify("onNotify") on-key-value-add-request("onKeyValueAddRequest") on-key-value-edit-request("onKeyValueEditRequest") on-key-value-delete-request("onKeyValueDeleteRequest") on-tag-add-request("onTagAddRequest") on-log-add-request("onLogAddRequest") parentComponent=component ...i2/>
                                     </if>
                                     <else>
                                         <fieldView key=`hr_hf_f_${i2.id}_view` formId=input.id on-button-click("onButtonClick") formData=component.input.data ...i2/>
@@ -131,7 +137,7 @@ import { format, parseISO } from "date-fns"
                             <div class="columns pt-0 pb-0 mt-0 mb-1 is-variable is-2">
                                 <div class="column pt-0 pb-0 mt-0 mb-2">
                                     <if(state.mode === "edit")>
-                                        <fieldEdit key=`hr_hf_f_${i1.id}_edit` formId=input.id on-button-click("onButtonClick") on-notify("onNotify") on-key-value-add-request("onKeyValueAddRequest") on-key-value-edit-request("onKeyValueEditRequest") on-key-value-delete-request("onKeyValueDeleteRequest") on-tag-add-request("onTagAddRequest") parentComponent=component ...i1/>
+                                        <fieldEdit key=`hr_hf_f_${i1.id}_edit` formId=input.id on-button-click("onButtonClick") on-notify("onNotify") on-key-value-add-request("onKeyValueAddRequest") on-key-value-edit-request("onKeyValueEditRequest") on-key-value-delete-request("onKeyValueDeleteRequest") on-tag-add-request("onTagAddRequest") on-log-add-request("onLogAddRequest") parentComponent=component ...i1/>
                                     </if>
                                     <else>
                                         <fieldView key=`hr_hf_f_${i1.id}_view` formId=input.id on-button-click("onButtonClick") formData=component.input.data ...i1/> 
@@ -367,7 +373,7 @@ import { format, parseISO } from "date-fns"
         }
     ]>
     <section class="hr-hf-tags-filter-wrap">
-        <input id=`tagAddModal_filter_${input.id}` class="input hr-hf-tags-filter" type="text" placeholder=(window.__heretic.t("hform_tagsFilter")) on-keyup("onTagsFilterKeyup") value=state.tagsFilter/>
+        <input id=`tagAddModal_filter_${input.id}` class="input hr-hf-tags-filter" type="text" placeholder=window.__heretic.t("hform_tagsFilter") on-keyup("onTagsFilterKeyup") value=state.tagsFilter/>
     </section>
     <section class="modal-card-body p-0">
         <div class="menu">
@@ -381,6 +387,28 @@ import { format, parseISO } from "date-fns"
                 </if>
             </ul>
         </div>
+    </section>
+</hmodal>
+<hmodal
+    key=`logModal_hf_${input.id}`
+    on-button-click("onLogModalButtonClick")
+    close=true
+    title="hform_logModal"
+    actions=[
+        {
+            id: "save",
+            label: "htable_save",
+            class: "button is-primary"
+        },
+        {
+            id: "cancel",
+            label: "htable_cancel",
+            class: "button is-light",
+            close: true
+        }
+    ]>
+    <section class="modal-card-body hr-ht-settings-body">
+        <hform key=`logForm_${input.id}` id=`logForm_${input.id}` data=logFormData on-form-submit("onLogFormSubmit")/>
     </section>
 </hmodal>
 <hnotify key=`notify_field_${input.id}`/>
