@@ -7,7 +7,7 @@ const {
 } = require("uuid");
 const crypto = require("crypto");
 
-const languages = Object.keys(require(path.resolve(__dirname, "..", "config", "languages")));
+const languages = Object.keys(require(fs.existsSync(path.resolve(__dirname, "../config/languages")) ? path.resolve(__dirname, "../config/languages") : path.resolve(__dirname, "../core/defaults/languages")));
 
 const options = commandLineArgs([{
     name: "defaults",

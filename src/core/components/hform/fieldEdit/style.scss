@@ -208,6 +208,8 @@
 .hr-hf-log-values-table {
     max-width: 500px;
     font-size: 90%;
+    border-radius: $radius;
+    background-color: $white-ter !important;
 }
 
 .hr-hf-log-values-table>tbody>tr>td {
@@ -267,5 +269,9 @@
         width: unset !important;
         min-width: unset !important;
         max-width: unset !important;
+    }
+
+    .hr-hf-calendar-wrap-right {
+        margin-left: unset;
     }
 }
