@@ -73,6 +73,17 @@
     border-radius: $radius;
 }
 
+.hr-hf-log-values-table {
+    max-width: 500px;
+    font-size: 90%;
+    background-color: $white-ter !important;
+    border-radius: $radius;
+}
+
+.hr-hf-log-values-table>tbody>tr>td {
+    vertical-align: middle;
+}
+
 @media (max-width: 769px) {
     .hr-hf-field-xxlarge {
         width: unset !important;

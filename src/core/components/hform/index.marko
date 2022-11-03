@@ -6,7 +6,6 @@ $ {
     const logFormData = new LogForm(process.browser && window.__heretic ? window.__heretic.t : out.global.t);
     component.logFormData = logFormData;
 }
-
 <div class="hr-hf-wrap">
     <if(state.errorMessage)>
         <div class=`notification is-danger mb-4 ${input.id}-errorNotification` id=`${input.id}_errorNotification`>
@@ -32,7 +31,7 @@ $ {
                                     </svg>
                                 </span>
                                 <span>
-                                    <t>htable_mode_edit</t>
+                                    <t>hform_mode_edit</t>
                                 </span>
                             </button>
                         </p>
@@ -44,7 +43,7 @@ $ {
                                     </svg>
                                 </span>
                                 <span>
-                                    <t>htable_mode_view</t>
+                                    <t>hform_mode_view</t>
                                 </span>
                             </button>
                         </p>
@@ -123,7 +122,7 @@ $ {
                             <for|i2| of=i1>
                                 <div class=`column pt-0 pb-0 mt-0 mb-3 ${i2.css ? i2.css : ""}`>
                                     <if(state.mode === "edit")>
-                                        <fieldEdit key=`hr_hf_f_${i2.id}_edit` formId=input.id on-button-click("onButtonClick") on-notify("onNotify") on-key-value-add-request("onKeyValueAddRequest") on-key-value-edit-request("onKeyValueEditRequest") on-key-value-delete-request("onKeyValueDeleteRequest") on-tag-add-request("onTagAddRequest") on-log-add-request("onLogAddRequest") parentComponent=component ...i2/>
+                                        <fieldEdit key=`hr_hf_f_${i2.id}_edit` formId=input.id on-button-click("onButtonClick") on-notify("onNotify") on-key-value-add-request("onKeyValueAddRequest") on-key-value-edit-request("onKeyValueEditRequest") on-key-value-delete-request("onKeyValueDeleteRequest") on-tag-add-request("onTagAddRequest") on-log-add-request("onLogAddRequest") on-log-edit-request("onLogEditRequest") on-log-delete-request("onLogDeleteRequest") parentComponent=component ...i2/>
                                     </if>
                                     <else>
                                         <fieldView key=`hr_hf_f_${i2.id}_view` formId=input.id on-button-click("onButtonClick") formData=component.input.data ...i2/>
@@ -137,7 +136,7 @@ $ {
                             <div class="columns pt-0 pb-0 mt-0 mb-1 is-variable is-2">
                                 <div class="column pt-0 pb-0 mt-0 mb-2">
                                     <if(state.mode === "edit")>
-                                        <fieldEdit key=`hr_hf_f_${i1.id}_edit` formId=input.id on-button-click("onButtonClick") on-notify("onNotify") on-key-value-add-request("onKeyValueAddRequest") on-key-value-edit-request("onKeyValueEditRequest") on-key-value-delete-request("onKeyValueDeleteRequest") on-tag-add-request("onTagAddRequest") on-log-add-request("onLogAddRequest") parentComponent=component ...i1/>
+                                        <fieldEdit key=`hr_hf_f_${i1.id}_edit` formId=input.id on-button-click("onButtonClick") on-notify("onNotify") on-key-value-add-request("onKeyValueAddRequest") on-key-value-edit-request("onKeyValueEditRequest") on-key-value-delete-request("onKeyValueDeleteRequest") on-tag-add-request("onTagAddRequest") on-log-add-request("onLogAddRequest") on-log-edit-request("onLogEditRequest") on-log-delete-request("onLogDeleteRequest") parentComponent=component ...i1/>
                                     </if>
                                     <else>
                                         <fieldView key=`hr_hf_f_${i1.id}_view` formId=input.id on-button-click("onButtonClick") formData=component.input.data ...i1/> 
@@ -169,7 +168,7 @@ $ {
     actions=[
         {
             id: "cancel",
-            label: "htable_close",
+            label: "hform_close",
             class: "button is-light",
             close: true
         }
@@ -236,7 +235,7 @@ $ {
         </div>
     </section>
     <if(state.historyData.length && state.historyPagination.length > 1)>
-        <div class="p-2 hr-ht-history-pagination-wrap">
+        <div class="p-2 hr-hf-history-pagination-wrap">
             <hpagination data=state.historyPagination currentPage=state.historyPage on-page-click("onHistoryPageClick")/>
         </div>
     </if>
@@ -251,12 +250,12 @@ $ {
     actions=[
         {
             id: "delete",
-            label: "htable_delete",
+            label: "hform_delete",
             class: "button is-danger"
         },
         {
             id: "cancel",
-            label: "htable_cancel",
+            label: "hform_cancel",
             class: "button is-light",
             close: true
         }
@@ -275,17 +274,17 @@ $ {
     actions=[
         {
             id: "save",
-            label: "htable_save",
+            label: "hform_save",
             class: "button is-primary"
         },
         {
             id: "cancel",
-            label: "htable_cancel",
+            label: "hform_cancel",
             class: "button is-light",
             close: true
         }
     ]>
-    <section class="modal-card-body hr-ht-settings-body" id=`hform_keyValueModal_${input.id}_body`>
+    <section class="modal-card-body hr-hf-settings-body" id=`hform_keyValueModal_${input.id}_body`>
         <form class="p-3" on-submit("onKeyValueModalFormSubmit")>
             <div class="field">
                 <label class="label hr-hf-label">
@@ -343,12 +342,12 @@ $ {
     actions=[
         {
             id: "delete",
-            label: "htable_delete",
+            label: "hform_delete",
             class: "button is-danger"
         },
         {
             id: "cancel",
-            label: "htable_cancel",
+            label: "hform_cancel",
             class: "button is-light",
             close: true
         }
@@ -397,18 +396,42 @@ $ {
     actions=[
         {
             id: "save",
-            label: "htable_save",
+            label: "hform_save",
             class: "button is-primary"
         },
         {
             id: "cancel",
-            label: "htable_cancel",
+            label: "hform_cancel",
             class: "button is-light",
             close: true
         }
     ]>
-    <section class="modal-card-body hr-ht-settings-body">
+    <section class="modal-card-body hr-hf-settings-body">
         <hform key=`logForm_${input.id}` id=`logForm_${input.id}` data=logFormData on-form-submit("onLogFormSubmit")/>
+    </section>
+</hmodal>
+<hmodal
+    key=`logItemDeleteConfirmation_hf_${input.id}`
+    on-button-click("onLogItemDeleteConfirmationButtonClick")
+    close=true
+    cardClass="pl-3 pr-3"
+    backgroundClass="hr-hm-background-60"
+    title="hform_logItemDeleteConfirmation"
+    actions=[
+        {
+            id: "delete",
+            label: "hform_delete",
+            class: "button is-danger"
+        },
+        {
+            id: "cancel",
+            label: "hform_cancel",
+            class: "button is-light",
+            close: true
+        }
+    ]>
+    <section class="modal-card-body">
+        <t>hform_lotItemDeleteConfirmationText</t>
     </section>
 </hmodal>
 <hnotify key=`notify_field_${input.id}`/>

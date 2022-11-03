@@ -78,6 +78,7 @@ module.exports = class {
             tagsFilter: "",
             logFieldId: null,
             logValueUID: null,
+            logDeletePar: null,
         };
         this.fieldIds = [];
         this.sharedFieldIds = [];
@@ -853,12 +854,12 @@ module.exports = class {
         }
     }
 
-    async onLogAddRequest(par) {
+    async showEmptyLogModal(par) {
         await this.utils.waitForComponent(`logModal_hf_${this.input.id}`);
         const logModal = this.getComponent(`logModal_hf_${this.input.id}`);
         logModal.setBackgroundCloseAllowed(false).setActive(true);
         this.setState("logFieldId", par.id);
-        this.setState("logValueUID", null);
+        this.setState("logValueUID", par.uid || null);
         await this.utils.waitForComponent(`logForm_${this.input.id}`);
         const editForm = this.getComponent(`logForm_${this.input.id}`);
         const logStatus = this.logFormData.data.form[0].fields.find(i => i.id === "logStatus");
@@ -876,6 +877,16 @@ module.exports = class {
             data: this.logFormData,
         });
         editForm.setDefaultValues();
+        const fieldComponent = this.getComponent(`hr_hf_f_${this.state.logFieldId}_${this.state.mode}`);
+        return {
+            editForm,
+            fieldComponent,
+            logModal,
+        };
+    }
+
+    onLogAddRequest(par) {
+        this.showEmptyLogModal(par);
     }
 
     async saveLogValue() {
@@ -888,14 +899,18 @@ module.exports = class {
         const fieldComponent = this.getComponent(`hr_hf_f_${this.state.logFieldId}_${this.state.mode}`);
         const currentLogValue = cloneDeep(fieldComponent.getValue() || []);
         if (this.state.logValueUID) {
-            // TODO
+            const currentLogValueItem = currentLogValue.find(i => i.uid === this.state.logValueUID);
+            currentLogValueItem.logDate = serializedData.formTabs._default.logDate;
+            currentLogValueItem.logValue = serializedData.formTabs._default.logValue;
+            currentLogValueItem.logComments = serializedData.formTabs._default.logComments;
+            currentLogValueItem.logStatus = serializedData.formTabs._default.logStatus;
         } else {
             currentLogValue.push({
                 uid: uuidv4(),
                 ...serializedData.formTabs._default,
             });
         }
-        await fieldComponent.setValue(currentLogValue);
+        await fieldComponent.setValue(currentLogValue.sort((a, b) => (a.logDate > b.logDate) ? 1 : ((b.logDate > a.logDate) ? -1 : 0)));
         await this.utils.waitForComponent(`logModal_hf_${this.input.id}`);
         const logModal = this.getComponent(`logModal_hf_${this.input.id}`);
         logModal.setActive(false);
@@ -911,5 +926,35 @@ module.exports = class {
 
     onLogFormSubmit() {
         this.saveLogValue();
+    }
+
+    async onLogEditRequest(par) {
+        const {
+            fieldComponent,
+            editForm,
+        } = await this.showEmptyLogModal(par);
+        const currentValue = cloneDeep(fieldComponent.getValue()).find(i => i.uid === par.uid);
+        editForm.deserializeData({
+            _default: currentValue,
+        });
+    }
+
+    async onLogDeleteRequest(par) {
+        await this.utils.waitForComponent(`logItemDeleteConfirmation_hf_${this.input.id}`);
+        this.getComponent(`logItemDeleteConfirmation_hf_${this.input.id}`).setActive(true);
+        this.setState("logDeletePar", par);
+    }
+
+    async onLogItemDeleteConfirmationButtonClick(button) {
+        switch (button) {
+        case "delete":
+            await this.utils.waitForComponent(`hr_hf_f_${this.state.logDeletePar.id}_${this.state.mode}`);
+            const fieldComponent = this.getComponent(`hr_hf_f_${this.state.logDeletePar.id}_${this.state.mode}`);
+            const currentValue = fieldComponent.getValue() || [];
+            fieldComponent.setValue(currentValue.filter(i => i.uid !== this.state.logDeletePar.uid));
+            await this.utils.waitForComponent(`logItemDeleteConfirmation_hf_${this.input.id}`);
+            this.getComponent(`logItemDeleteConfirmation_hf_${this.input.id}`).setActive(false);
+            break;
+        }
     }
 };

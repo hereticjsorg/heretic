@@ -213,6 +213,11 @@ module.exports = class {
             this.setStateDirty("value", value);
             this.forceUpdate();
             break;
+        case "textarea":
+            await this.utils.waitForElement(`hr_hf_el_${this.input.formId}_${this.input.id}`);
+            document.getElementById(`hr_hf_el_${this.input.formId}_${this.input.id}`).value = value;
+            this.setState("value", value);
+            break;
         default:
             this.setState("value", value);
         }
@@ -455,6 +460,32 @@ module.exports = class {
         e.preventDefault();
         this.emit("log-add-request", {
             id: this.input.id,
+            options: this.input.options,
+            defaultOption: this.input.defaultOption,
+        });
+    }
+
+    onLogItemEditClick(e) {
+        e.preventDefault();
+        const {
+            uid,
+        } = e.target.closest("[data-uid]").dataset;
+        this.emit("log-edit-request", {
+            id: this.input.id,
+            uid,
+            options: this.input.options,
+            defaultOption: this.input.defaultOption,
+        });
+    }
+
+    onLogItemDeleteClick(e) {
+        e.preventDefault();
+        const {
+            uid,
+        } = e.target.closest("[data-uid]").dataset;
+        this.emit("log-delete-request", {
+            id: this.input.id,
+            uid,
             options: this.input.options,
             defaultOption: this.input.defaultOption,
         });

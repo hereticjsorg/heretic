@@ -30,7 +30,7 @@ import { format } from "date-fns"
 <if(input.type === "textarea")>
     <div>
         <div class="field">
-            <label class="label hr-hf-label">
+            <label class=`label hr-hf-label${state.error ? " has-text-danger" : ""}`>
                 ${input.label || ""}<span>:</span>
                 <if(input.mandatory)>
                     &nbsp;<span class="hr-hf-label-mandatory">✱</span>
@@ -408,7 +408,7 @@ import { format } from "date-fns"
                             <tbody>
                                 <for|item| of=state.value>
                                     <tr>
-                                        <td class="is-narrow">${item.logDate ? format(new Date(item.logDate * 1000), window.__heretic.t("global.dateFormatShort")) : "—"}</td>
+                                        <td class="is-narrow has-text-center">${item.logDate ? format(new Date(item.logDate * 1000), window.__heretic.t("global.dateFormatShort")) : "—"}</td>
                                         <td class="is-narrow">${(process.browser && window.__heretic ? window.__heretic.t(`logValue.${item.logStatus}`) || "—" : "—")}</td>
                                         <td>${item.logValue || "—"}</td>
                                         <td class="is-narrow">
@@ -445,4 +445,4 @@ import { format } from "date-fns"
         </div>
     </div>
 </if>
-<!-- Tags Field: End -->
+<!-- Log: End -->

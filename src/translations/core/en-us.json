@@ -97,8 +97,10 @@
     "htable_itemsPerPage": "Items per page",
     "htable_filterNew": "New",
     "htable_filterEdit": "Edit Filter",
-    "htable_mode_edit": "Edit",
-    "htable_mode_view": "View",
+    "hform_mode_edit": "Edit",
+    "hform_mode_view": "View",
+    "hform_save": "Save",
+    "hform_close": "Close",
     "eq": "equals",
     "neq": "not equals",
     "rex": "is like",
@@ -140,8 +142,6 @@
     "hform_historyDeleteError": "Could not delete history record",
     "hform_historyDeleteConfirmation": "Delete History Record",
     "hform_historyDeleteConfirmationText": "The selected history record will be deleted from the database and you won't be able to restore it.",
-    "salaryCurrent": "Salary",
-    "areaFinanceInfo": "Finance",
     "hform_keyValueAdd": "Add",
     "hform_keyValueModal": "Edit Value",
     "hform_keyValueFormOption": "Option",
@@ -167,5 +167,7 @@
     "hform_logDate": "Date",
     "hform_logValue": "Value",
     "hform_logStatus": "Status",
-    "hform_logComments": "Comments"
+    "hform_logComments": "Comments",
+    "hform_logItemDeleteConfirmation": "Delete Item",
+    "hform_lotItemDeleteConfirmationText": "Are you sure you wish to delete requested item?"
 }

@@ -8,25 +8,25 @@
             </if>
             <else>
                 <if(input.valueOld === null)>
-                    <span class="hr-ht-history-tag hr-ht-history-tag-null">
+                    <span class="hr-hf-history-tag hr-hf-history-tag-null">
                         <t>hform_null</t>
                     </span>
                 </if>
                 <else>
                     $ const valueOld = {};
                     $ valueOld[input.fieldData.id] = input.valueOld;
-                    <span class="hr-ht-history-tag">${input.formData.processTableCell(input.fieldData.id, valueOld)}</span>
+                    <span class="hr-hf-history-tag">${input.formData.processTableCell(input.fieldData.id, valueOld)}</span>
                 </else>
-                <div class="hr-ht-history-to-right">&rarr;</div>
+                <div class="hr-hf-history-to-right">&rarr;</div>
                 <if(input.valueNew === null)>
-                    <span class="hr-ht-history-tag hr-ht-history-tag-null">
+                    <span class="hr-hf-history-tag hr-hf-history-tag-null">
                         <t>hform_null</t>
                     </span>
                 </if>
                 <else>
                     $ const valueNew = {};
                     $ valueNew[input.fieldData.id] = input.valueNew;
-                    <span class="hr-ht-history-tag">${input.formData.processTableCell(input.fieldData.id, valueNew)}</span>
+                    <span class="hr-hf-history-tag">${input.formData.processTableCell(input.fieldData.id, valueNew)}</span>
                 </else>
             </else>
         </div>
@@ -39,21 +39,21 @@
         <label class="label">${input.fieldData.label}:</label>
         <div class="control">
             <if(input.valueOld === null)>
-                <div class="hr-ht-history-tag hr-ht-history-tag-null">
+                <div class="hr-hf-history-tag hr-hf-history-tag-null">
                     <t>hform_null</t>
                 </div>
             </if>
             <else>
-                <div class="hr-ht-history-wysiwyg">$!{input.valueOld}</div>
+                <div class="hr-hf-history-wysiwyg">$!{input.valueOld}</div>
             </else>
-            <div class="hr-ht-history-to-down">&darr;</div>
+            <div class="hr-hf-history-to-down">&darr;</div>
             <if(input.valueNew === null)>
-                <div class="hr-ht-history-tag hr-ht-history-tag-null">
+                <div class="hr-hf-history-tag hr-hf-history-tag-null">
                     <t>hform_null</t>
                 </div>
             </if>
             <else>
-                <div class="hr-ht-history-wysiwyg">$!{input.valueNew}</div>
+                <div class="hr-hf-history-wysiwyg">$!{input.valueNew}</div>
             </else>
         </div>
     </div>
@@ -65,23 +65,23 @@
         <label class="label">${input.fieldData.label}:</label>
         <div class="control">
             <if(input.valueOld === null)>
-                <span class="hr-ht-history-tag hr-ht-history-tag-null">
+                <span class="hr-hf-history-tag hr-hf-history-tag-null">
                     <t>hform_null</t>
                 </span>
             </if>
             <else>
                 $ const valueOld = input.fieldData.options.find(i => i.value === input.valueOld);
-                <span class="hr-ht-history-tag">${valueOld ? valueOld.label : ""}</span>
+                <span class="hr-hf-history-tag">${valueOld ? valueOld.label : ""}</span>
             </else>
-            <div class="hr-ht-history-to-right">&rarr;</div>
+            <div class="hr-hf-history-to-right">&rarr;</div>
             <if(input.valueNew === null)>
-                <span class="hr-ht-history-tag hr-ht-history-tag-null">
+                <span class="hr-hf-history-tag hr-hf-history-tag-null">
                     <t>hform_null</t>
                 </span>
             </if>
             <else>
                 $ const valueNew = input.fieldData.options.find(i => i.value === input.valueNew);
-                <span class="hr-ht-history-tag">${valueNew ? valueNew.label : ""}</span>
+                <span class="hr-hf-history-tag">${valueNew ? valueNew.label : ""}</span>
             </else>
         </div>
     </div>
@@ -93,12 +93,12 @@
         <label class="label">${input.fieldData.label}:</label>
         <div class="control">
             <if(input.valueOld === null || !input.valueOld.length)>
-                <div class="hr-ht-history-tag hr-ht-history-tag-null">
+                <div class="hr-hf-history-tag hr-hf-history-tag-null">
                     <t>hform_null</t>
                 </div>
             </if>
             <else>
-                <div class="hr-ht-history-files">
+                <div class="hr-hf-history-files">
                     <for|f| of=input.valueOld>
                         <div>
                             <if(input.fieldData.download)>
@@ -109,14 +109,14 @@
                     </for>
                 </div>
             </else>
-            <div class="hr-ht-history-to-down">&darr;</div>
+            <div class="hr-hf-history-to-down">&darr;</div>
             <if(input.valueNew === null || !input.valueNew.length)>
-                <div class="hr-ht-history-tag hr-ht-history-tag-null">
+                <div class="hr-hf-history-tag hr-hf-history-tag-null">
                     <t>hform_null</t>
                 </div>
             </if>
             <else>
-                <div class="hr-ht-history-files">
+                <div class="hr-hf-history-files">
                     <for|f| of=input.valueNew>
                         <div>
                             <if(input.fieldData.download)>

@@ -1,6 +1,6 @@
 {
   "name": "heretic",
-  "version": "1.0.73",
+  "version": "1.0.74",
   "description": "Heretic",
   "main": "index.js",
   "scripts": {
@@ -32,6 +32,7 @@
     "@babel/plugin-transform-runtime": "^7.19.6",
     "@babel/preset-env": "^7.19.4",
     "@babel/runtime": "^7.20.1",
+    "@faker-js/faker": "^7.6.0",
     "@fastify/static": "^6.5.0",
     "@jest/globals": "^29.2.2",
     "@marko/webpack": "^9.3.0",
@@ -86,7 +87,7 @@
     "lodash": "^4.17.21",
     "lodash.debounce": "^4.0.8",
     "lodash.throttle": "^4.1.1",
-    "long": "^5.2.0",
+    "long": "^5.2.1",
     "mongodb": "^4.11.0",
     "nanoid": "^4.0.0",
     "node-xlsx": "^0.21.0",

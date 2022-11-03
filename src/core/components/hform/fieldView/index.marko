@@ -140,3 +140,40 @@ import { format } from "date-fns"
     </div>
 </if>
 <!-- WYSIWYG Field: End -->
+<!-- Log: Start -->
+<if(input.type === "log")>
+    <div>
+        <div class="field">
+            <label class="label hr-hf-label">
+                ${input.label || ""}<span>:</span>
+                <if(input.mandatory)>
+                    &nbsp;<span class="hr-hf-label-mandatory">✱</span>
+                </if>
+            </label>
+            <div class="control">
+                <if(state.value && state.value.length)>
+                    <div class="mt-2">
+                        <table class="table is-narrow is-striped hr-hf-log-values-table">
+                            <tbody>
+                                <for|item| of=state.value>
+                                    <tr>
+                                        <td class="is-narrow has-text-center">${item.logDate ? format(new Date(item.logDate * 1000), window.__heretic.t("global.dateFormatShort")) : "—"}</td>
+                                        <td class="is-narrow">${process.browser && window.__heretic ? window.__heretic.t(`logValue.${item.logStatus}`) || "—" : "—"}</td>
+                                        <td>${item.logValue || "—"}</td>
+                                    </tr> 
+                                </for>
+                            </tbody>
+                        </table>
+                    </div>
+                </if>
+                <else>
+                    <span>—</span>
+                </else>
+            </div>
+            <if(input.helpText)>
+                <p class="help">${input.helpText}</p>
+            </if>
+        </div>
+    </div>
+</if>
+<!-- Log: End -->
