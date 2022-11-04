@@ -9,7 +9,7 @@ const duplicateErrorData = field => ({
 /* eslint-disable func-names */
 export default {
     list: function () {
-        return ["success", "error", "wsBroadcast"];
+        return ["findDatabaseDuplicates", "wsBroadcast"];
     },
     findDatabaseDuplicates: async function (collection, fields, values, existingRecord) {
         const duplicateRecord = await this.mongo.db.collection(collection).find({

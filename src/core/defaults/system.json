@@ -23,7 +23,7 @@
         "host": "127.0.0.1",
         "port": 6379
     },
-    "webSocket": {
+    "webSockets": {
         "enabled": false,
         "url": "ws://127.0.0.1:3001/ws",
         "options": {

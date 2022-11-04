@@ -22,6 +22,9 @@ module.exports = class {
     }
 
     setActive(flag) {
+        if (window.__heretic && window.__heretic.tippyHideAll) {
+            window.__heretic.tippyHideAll();
+        }
         this.setState("active", flag);
         return this;
     }

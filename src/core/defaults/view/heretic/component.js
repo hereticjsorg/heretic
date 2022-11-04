@@ -1,5 +1,8 @@
 const cloneDeep = require("lodash.clonedeep");
 const tippy = require("tippy.js").default;
+const {
+    hideAll,
+} = require("tippy.js");
 const debounce = require("lodash.debounce");
 const i18nLoader = require("../../build/loaders/i18n-loader-core");
 const pagesLoader = require("../../build/loaders/page-loader-userspace");
@@ -72,6 +75,7 @@ module.exports = class {
     async onMount() {
         window.__heretic = window.__heretic || {};
         window.__heretic.setTippy = debounce(this.setTippy, 100);
+        window.__heretic.tippyHideAll = hideAll;
         await this.utils.waitForLanguageData();
         try {
             const webSocket = await this.connectWebSocket();
