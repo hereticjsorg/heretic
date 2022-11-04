@@ -78,6 +78,9 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
             api: {
                 modules: [],
             },
+            ws: {
+                modules: [],
+            },
         };
         const translationsAdmin = [];
         const translations = [];
@@ -93,6 +96,9 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
                 const moduleConfig = require(path.resolve(__dirname, "src", "modules", module, "module.js"));
                 if (fs.existsSync(path.resolve(__dirname, "src", "modules", module, "api"))) {
                     routesData.api.modules.push(module);
+                }
+                if (fs.existsSync(path.resolve(__dirname, "src", "modules", module, "ws"))) {
+                    routesData.ws.modules.push(module);
                 }
                 for (const routeId of Object.keys(moduleConfig.routes.userspace)) {
                     routesData.routes.userspace.push({
@@ -404,6 +410,25 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
             root: apiRoot,
             core: apiCore,
             userspace: apiPages,
+        };
+        const wsRoot = fs.existsSync(path.resolve(__dirname, "src", "core", "ws")) ? fs.readdirSync(path.resolve(__dirname, "src", "core", "ws")).filter(i => !i.match(/^\./)) : [];
+        const wsPages = [];
+        const wsCore = [];
+        for (const page of pages) {
+            if (fs.existsSync(path.resolve(__dirname, "src", "pages", page, "ws"))) {
+                wsPages.push(page);
+            }
+        }
+        for (const page of pagesCore) {
+            if (fs.existsSync(path.resolve(__dirname, "src", "core", "pages", page, "ws"))) {
+                wsCore.push(page);
+            }
+        }
+        routesData.ws = {
+            ...routesData.ws,
+            root: wsRoot,
+            core: wsCore,
+            userspace: wsPages,
         };
         routesData.server = {
             production: this.production,

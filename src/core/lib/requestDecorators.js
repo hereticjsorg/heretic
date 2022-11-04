@@ -9,24 +9,27 @@ import {
 import {
     ObjectID
 } from "bson";
-import listValidationSchema from "./listGenericValidationSchema.json";
-import recycleBinListValidationSchema from "./recycleBinListGenericValidationSchema.json";
-import loadGenericValidationSchema from "./loadGenericValidationSchema.json";
-import deleteGenericValidationSchema from "./deleteGenericValidationSchema.json";
-import bulkGenericValidationSchema from "./bulkGenericValidationSchema.json";
-import exportGenericValidationSchema from "./exportGenericValidationSchema.json";
-import historyListGenericValidationSchema from "./historyListGenericValidationSchema.json";
+import listValidationSchema from "./data/listValidationSchema.json";
+import recycleBinListValidationSchema from "./data/recycleBinListValidationSchema.json";
+import loadValidationSchema from "./data/loadValidationSchema.json";
+import deleteValidationSchema from "./data/deleteValidationSchema.json";
+import bulkValidationSchema from "./data/bulkValidationSchema.json";
+import exportValidationSchema from "./data/exportValidationSchema.json";
+import historyListValidationSchema from "./data/historyListValidationSchema.json";
 import languages from "../../config/languages.json";
 
 const ajv = new Ajv({
     allErrors: true,
     strict: true,
 });
-exportGenericValidationSchema.properties.language.enum = Object.keys(languages);
+exportValidationSchema.properties.language.enum = Object.keys(languages);
 
 /* eslint-disable object-shorthand */
 /* eslint-disable func-names */
 export default {
+    list: function () {
+        return ["validateTableList", "validateDataLoad", "validateDataDelete", "validateDataBulk", "validateDataExport", "validateRecycleBinList", "validateHistoryList", "generateQuery", "bulkUpdateQuery", "processFormData", "processDataList", "findUpdates"];
+    },
     validateTableList: function (formData) {
         const columns = Object.keys(formData.getTableColumns());
         const columnsSortable = Object.keys(Object.fromEntries(Object.entries(formData.getTableColumns()).filter(([, value]) => !!value.sortable)));
@@ -51,9 +54,9 @@ export default {
         columns.map(c => options.projection[c] = 1);
         return options;
     },
-    validateTableRecycleBinList: function () {
-        const recycleBinListGenericSchema = ajv.compile(recycleBinListValidationSchema);
-        if (!recycleBinListGenericSchema(this.body)) {
+    validateRecycleBinList: function () {
+        const recycleBinListSchema = ajv.compile(recycleBinListValidationSchema);
+        if (!recycleBinListSchema(this.body)) {
             return null;
         }
         return {
@@ -61,25 +64,25 @@ export default {
             limit: this.body.itemsPerPage,
         };
     },
-    validateDataLoadGeneric: function () {
-        const validateLoadGenericSchema = ajv.compile(loadGenericValidationSchema);
-        return !!validateLoadGenericSchema(this.body);
+    validateDataLoad: function () {
+        const validateLoadSchema = ajv.compile(loadValidationSchema);
+        return !!validateLoadSchema(this.body);
     },
-    validateDataDeleteGeneric: function () {
-        const deleteGenericSchema = ajv.compile(deleteGenericValidationSchema);
-        return !!deleteGenericSchema(this.body);
+    validateDataDelete: function () {
+        const deleteSchema = ajv.compile(deleteValidationSchema);
+        return !!deleteSchema(this.body);
     },
-    validateDataBulkGeneric: function () {
-        const bulkGenericSchema = ajv.compile(bulkGenericValidationSchema);
-        return !!bulkGenericSchema(this.body);
+    validateDataBulk: function () {
+        const bulkSchema = ajv.compile(bulkValidationSchema);
+        return !!bulkSchema(this.body);
     },
-    validateDataExportGeneric: function () {
-        const exportGenericSchema = ajv.compile(exportGenericValidationSchema);
-        return !!exportGenericSchema(this.body);
+    validateDataExport: function () {
+        const exportSchema = ajv.compile(exportValidationSchema);
+        return !!exportSchema(this.body);
     },
-    validateHistoryListGeneric: function () {
-        const historyListGenericSchema = ajv.compile(historyListGenericValidationSchema);
-        return !!historyListGenericSchema(this.body);
+    validateHistoryList: function () {
+        const historyListSchema = ajv.compile(historyListValidationSchema);
+        return !!historyListSchema(this.body);
     },
     generateQuery: function (formData) {
         const query = {

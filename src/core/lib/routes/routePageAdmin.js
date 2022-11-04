@@ -27,6 +27,7 @@ export default (route, languageData, language) => ({
                     cookieOptions: true,
                     userData: true,
                     systemRoutes: true,
+                    webSockets: true,
                 },
                 language,
                 route: route.id,
@@ -41,6 +42,7 @@ export default (route, languageData, language) => ({
                     username: authData.username,
                 } : {},
                 systemRoutes: this.siteConfig.routes,
+                webSockets: this.siteConfig.webSockets || {},
             },
         });
         rep.type("text/html");

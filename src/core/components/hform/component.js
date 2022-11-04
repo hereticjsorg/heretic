@@ -142,6 +142,7 @@ module.exports = class {
             }
         });
         this.emit("mount-complete");
+        this.emit("mode-change", this.state.mode);
     }
 
     setTitle(title) {
@@ -537,6 +538,7 @@ module.exports = class {
         this.query.set(`mode_${this.input.id}`, mode);
         this.setAccessData(this.state.access);
         this.setAreasData(this.state.areas);
+        this.emit("mode-change", this.state.mode);
     }
 
     async onModeChange(e) {
@@ -956,5 +958,9 @@ module.exports = class {
             this.getComponent(`logItemDeleteConfirmation_hf_${this.input.id}`).setActive(false);
             break;
         }
+    }
+
+    getMode() {
+        return this.state.mode;
     }
 };

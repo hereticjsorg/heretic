@@ -18,6 +18,7 @@ export default (route, languageData, language) => ({
                     userData: true,
                     systemRoutes: true,
                     username: true,
+                    webSockets: true,
                 },
                 language,
                 route: route.id,
@@ -29,6 +30,7 @@ export default (route, languageData, language) => ({
                 t: id => languageData[language] && languageData[language][id] ? `${languageData[language][id]}` : id,
                 systemRoutes: this.siteConfig.routes,
                 username: authData ? authData.username : null,
+                webSockets: this.siteConfig.webSockets || {},
             },
         });
         rep.type("text/html");

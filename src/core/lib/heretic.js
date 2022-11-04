@@ -58,31 +58,31 @@ export default class {
             secret: this.config.secret,
         });
         this.fastify.register(require("@fastify/cookie"));
+        if (this.config.webSockets || this.config.webSockets.enabled) {
+            this.fastify.register(require("@fastify/websocket"), {
+                options: this.config.webSockets.options,
+            });
+        }
+        this.wsHandlers = [];
         this.fastify.register(fastifyMultipart);
         this.fastify.register(fastifyURLData);
         this.fastify.decorate("i18nNavigation", {
             userspace: routesData.i18nNavigation.userspace,
             admin: routesData.i18nNavigation.admin,
         });
-        this.fastify.decorate("findDatabaseDuplicates", fastifyDecorators.findDatabaseDuplicates);
         this.fastify.decorate("siteMeta", this.siteMeta);
         this.fastify.decorate("siteConfig", this.config);
         this.fastify.decorate("languages", languages);
         this.fastify.decorate("navigation", navigation);
-        this.fastify.decorateRequest("validateTableList", requestDecorators.validateTableList);
-        this.fastify.decorateRequest("validateDataLoad", requestDecorators.validateDataLoadGeneric);
-        this.fastify.decorateRequest("validateDataDelete", requestDecorators.validateDataDeleteGeneric);
-        this.fastify.decorateRequest("validateDataBulk", requestDecorators.validateDataBulkGeneric);
-        this.fastify.decorateRequest("validateDataExport", requestDecorators.validateDataExportGeneric);
-        this.fastify.decorateRequest("validateRecycleBinList", requestDecorators.validateTableRecycleBinList);
-        this.fastify.decorateRequest("validateHistoryList", requestDecorators.validateHistoryListGeneric);
-        this.fastify.decorateRequest("generateQuery", requestDecorators.generateQuery);
-        this.fastify.decorateRequest("bulkUpdateQuery", requestDecorators.bulkUpdateQuery);
-        this.fastify.decorateRequest("processFormData", requestDecorators.processFormData);
-        this.fastify.decorateRequest("processDataList", requestDecorators.processDataList);
-        this.fastify.decorateRequest("findUpdates", requestDecorators.findUpdates);
-        this.fastify.decorateReply("success", replyDecorators.success);
-        this.fastify.decorateReply("error", replyDecorators.error);
+        for (const decorateItem of fastifyDecorators.list()) {
+            this.fastify.decorate(decorateItem, fastifyDecorators[decorateItem]);
+        }
+        for (const decorateItem of requestDecorators.list()) {
+            this.fastify.decorateRequest(decorateItem, requestDecorators[decorateItem]);
+        }
+        for (const decorateItem of replyDecorators.list()) {
+            this.fastify.decorateReply(decorateItem, replyDecorators[decorateItem]);
+        }
         this.fastify.addHook("preHandler", (request, reply, done) => {
             request.auth = new Auth(this.fastify, request);
             done();
@@ -229,6 +229,50 @@ export default class {
             const api = await import(`../../modules/${module}/api/index.js`);
             api.default(this.fastify);
         }
+    }
+
+    /**
+     * Register WebSocket routes
+     */
+    async registerRouteWS() {
+        if (!this.config.webSockets || !this.config.webSockets.enabled) {
+            return;
+        }
+        for (const page of routesData.ws.root) {
+            const Ws = (await import(`../ws/${page}/index.js`)).default;
+            this.wsHandlers.push(new Ws(this.fastify));
+        }
+        for (const page of routesData.ws.userspace) {
+            const Ws = (await import(`../../pages/${page}/ws/index.js`)).default;
+            this.wsHandlers.push(new Ws(this.fastify));
+        }
+        for (const page of routesData.ws.core) {
+            const Ws = (await import(`../pages/${page}/ws/index.js`)).default;
+            this.wsHandlers.push(new Ws(this.fastify));
+        }
+        for (const module of routesData.ws.modules) {
+            const Ws = (await import(`../../modules/${module}/ws/index.js`)).default;
+            this.wsHandlers.push(new Ws(this.fastify));
+        }
+        this.fastify.register(async (fastify) => {
+            fastify.get("/ws", {
+                websocket: true,
+            }, (connection, req) => {
+                for (const handler of this.wsHandlers) {
+                    handler.onConnect(connection, req);
+                }
+                connection.socket.on("message", message => {
+                    for (const handler of this.wsHandlers) {
+                        handler.onMessage(connection, req, message);
+                    }
+                });
+                connection.socket.on("close", () => {
+                    for (const handler of this.wsHandlers) {
+                        handler.onDisconnect(connection, req);
+                    }
+                });
+            });
+        });
     }
 
     /*

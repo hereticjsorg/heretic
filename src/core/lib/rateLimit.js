@@ -25,7 +25,7 @@ const getLimitData = async (fastify, settings, hashFull) => {
         updatedAt: new Date(),
         max: 0
     };
-    const dataLimit = await fastify.redis.get(`${fastify.siteMeta.id}_rateLimit_${hashFull}`);
+    const dataLimit = await fastify.redis.get(`${fastify.siteConfig.id}_rateLimit_${hashFull}`);
     const data = dataLimit ? dataLimit.split(",") : [defaults.updatedAt, defaults.max];
     data[0] = typeof data[0] === "string" ? new Date(data[0] * 1000) : data[0];
     return {
@@ -36,7 +36,7 @@ const getLimitData = async (fastify, settings, hashFull) => {
 };
 
 const getBanData = async (fastify, settings, hashIP) => {
-    const dataBan = await fastify.redis.get(`${fastify.siteMeta.id}_rateBan_${hashIP}`);
+    const dataBan = await fastify.redis.get(`${fastify.siteConfig.id}_rateBan_${hashIP}`);
     return !!dataBan;
 };
 
@@ -46,11 +46,11 @@ const updateOnLimitExceeded = async (fastify, settings, hashFull, max) => {
         updatedAt: new Date(),
         max
     };
-    await fastify.redis.set(`${fastify.siteMeta.id}_rateLimit_${hashFull}`, `${parseInt(data.updatedAt.getTime() / 1000, 10)},${data.max}`, "ex", 3600);
+    await fastify.redis.set(`${fastify.siteConfig.id}_rateLimit_${hashFull}`, `${parseInt(data.updatedAt.getTime() / 1000, 10)},${data.max}`, "ex", 3600);
 };
 
 const updateOnBan = async (fastify, settings, hashIP) => {
-    await fastify.redis.set(`${fastify.siteMeta.id}_rateBan_${hashIP}`, 1, "ex", 86400);
+    await fastify.redis.set(`${fastify.siteConfig.id}_rateBan_${hashIP}`, 1, "ex", 86400);
 };
 
 const updateDataLimit = async (fastify, settings, hashFull, createdAt, max) => {
@@ -59,7 +59,7 @@ const updateDataLimit = async (fastify, settings, hashFull, createdAt, max) => {
         updatedAt: new Date(),
         max
     };
-    await fastify.redis.set(`${fastify.siteMeta.id}_rateLimit_${hashFull}`, `${parseInt(data.updatedAt.getTime() / 1000, 10)},${data.max}`, "ex", 3600);
+    await fastify.redis.set(`${fastify.siteConfig.id}_rateLimit_${hashFull}`, `${parseInt(data.updatedAt.getTime() / 1000, 10)},${data.max}`, "ex", 3600);
 };
 
 const checkWhiteList = (settings, req) => {

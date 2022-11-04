@@ -37,11 +37,29 @@ module.exports = class {
         this.componentsLoaded = {};
         this.language = out.global.language;
         this.serverRoute = out.global.route;
+        this.webSockets = out.global.webSockets;
         this.utils = new Utils(this, this.language);
         await import(/* webpackChunkName: "bulma" */ "../../styles/bulma.scss");
         await import(/* webpackChunkName: "heretic" */ "../heretic.scss");
         await this.loadLanguageData();
         this.setGlobalVariables(out);
+    }
+
+    connectWebSocket() {
+        return new Promise((resolve, reject) => {
+            if (!this.webSockets || !this.webSockets.enabled) {
+                resolve(null);
+            }
+            const socket = new WebSocket(this.webSockets.url);
+            socket.onopen = () => resolve(socket);
+            socket.onerror = e => reject(e);
+        });
+    }
+
+    disconnectWebSocket() {
+        if (this.socket) {
+            this.socket.close();
+        }
     }
 
     setTippy() {
@@ -55,6 +73,14 @@ module.exports = class {
         window.__heretic = window.__heretic || {};
         window.__heretic.setTippy = debounce(this.setTippy, 100);
         await this.utils.waitForLanguageData();
+        try {
+            const webSocket = await this.connectWebSocket();
+            if (webSocket) {
+                window.__heretic.webSocket = webSocket;
+            }
+        } catch {
+            // Ignore
+        }
         this.setState("mounted", true);
     }
 

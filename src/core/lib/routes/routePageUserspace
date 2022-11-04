@@ -18,6 +18,7 @@ export default (route, languageData, language) => ({
                     siteId: true,
                     cookieOptions: true,
                     username: true,
+                    webSockets: true,
                 },
                 language,
                 route: route.id,
@@ -30,6 +31,7 @@ export default (route, languageData, language) => ({
                 siteId: this.siteConfig.id,
                 cookieOptions: this.siteConfig.cookieOptions,
                 username: authData ? authData.username : null,
+                webSockets: this.siteConfig.webSockets || {},
             },
         });
         rep.type("text/html");

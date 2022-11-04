@@ -78,6 +78,7 @@
     font-size: 90%;
     background-color: $white-ter !important;
     border-radius: $radius;
+    user-select: text;
 }
 
 .hr-hf-log-values-table-view>tbody>tr>td {

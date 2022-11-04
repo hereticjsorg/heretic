@@ -15,6 +15,7 @@ import Heretic from "./core/lib/heretic";
         heretic.registerRoutePagesCore();
         heretic.registerRouteErrors();
         await heretic.registerRouteAPI();
+        await heretic.registerRouteWS();
         heretic.listen();
     } catch (e) {
         heretic.getFastifyInstance().log.error(e.message);

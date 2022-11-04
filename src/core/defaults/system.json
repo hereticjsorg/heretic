@@ -23,6 +23,13 @@
         "host": "127.0.0.1",
         "port": 6379
     },
+    "webSocket": {
+        "enabled": false,
+        "url": "ws://127.0.0.1:3001/ws",
+        "options": {
+            "maxPayload": 1048576
+        }
+    },
     "token": {
         "expiresIn": "7 days",
         "ip": false
@@ -63,7 +70,7 @@
         "files": "files",
         "counters": "counters",
         "history": "history",
-		"groups": "groups"
+        "groups": "groups"
     },
     "routes": {
         "admin": "/admin",
@@ -72,7 +79,7 @@
         "signOutAdmin": "/admin/signOut",
         "signOut": "/signOut"
     },
-	"buildOptions": {
-		"productionCompress": false
-	}
+    "buildOptions": {
+        "productionCompress": false
+    }
 }

@@ -1,3 +1,5 @@
+import { format } from "date-fns"
+
 <!-- Text Inputs: Start -->
 <if(input.fieldData.type === "text")>
     <div class="field">
@@ -131,3 +133,34 @@
     </div>
 </if>
 <!-- Files: End -->
+<!-- Text Inputs: Start -->
+<if(input.fieldData.type === "date")>
+    <div class="field">
+        <label class="label">${input.fieldData.label}:</label>
+        <div class="control">
+            <if(input.formData.getMagicStringAccessDenied && (input.valueNew === input.formData.getMagicStringAccessDenied() || input.valueOld === input.formData.getMagicStringAccessDenied()))>
+                <t>hform_historyRestrictedField</t>
+            </if>
+            <else>
+                <if(input.valueOld === null)>
+                    <span class="hr-hf-history-tag hr-hf-history-tag-null">
+                        <t>hform_null</t>
+                    </span>
+                </if>
+                <else>
+                    <span class="hr-hf-history-tag">${input.valueOld ? format(new Date(input.valueOld), window.__heretic.t("global.dateFormatShort")) : "—"}</span>
+                </else>
+                <div class="hr-hf-history-to-right">&rarr;</div>
+                <if(input.valueNew === null)>
+                    <span class="hr-hf-history-tag hr-hf-history-tag-null">
+                        <t>hform_null</t>
+                    </span>
+                </if>
+                <else>
+                    <span class="hr-hf-history-tag">${input.valueNew ? format(new Date(input.valueNew), window.__heretic.t("global.dateFormatShort")) : "—"}</span>
+                </else>
+            </else>
+        </div>
+    </div>
+</if>
+<!-- Text Inputs: End -->
