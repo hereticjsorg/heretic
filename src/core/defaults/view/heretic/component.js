@@ -60,8 +60,14 @@ module.exports = class {
     }
 
     disconnectWebSocket() {
-        if (this.socket) {
+        if (this.socket && this.socket.readyState !== WebSocket.CLOSED && this.socket.readyState !== WebSocket.CLOSING) {
             this.socket.close();
+        }
+    }
+
+    sendMessage(message) {
+        if (this.socket && this.socket.readyState !== WebSocket.CLOSED && this.socket.readyState !== WebSocket.CLOSING) {
+            this.socket.send(JSON.stringify(message));
         }
     }
 
@@ -80,7 +86,9 @@ module.exports = class {
         try {
             const webSocket = await this.connectWebSocket();
             if (webSocket) {
+                this.socket = webSocket;
                 window.__heretic.webSocket = webSocket;
+                window.__heretic.webSocket.sendMessage = this.sendMessage.bind(this);
             }
         } catch {
             // Ignore
@@ -143,5 +151,9 @@ module.exports = class {
         if (componentBrowserError) {
             componentBrowserError.activatePanicMode();
         }
+    }
+
+    onDestroy() {
+        this.disconnectWebSocket();
     }
 };

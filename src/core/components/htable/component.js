@@ -68,6 +68,7 @@ module.exports = class {
             recycleBinTotalPages: 1,
             currentRecycleBinListPage: 1,
             recycleDeleteItems: [],
+            lockedItems: {},
         };
         this.queryStringShorthands = {
             currentPage: "p",
@@ -1664,5 +1665,16 @@ module.exports = class {
             }
             break;
         }
+    }
+
+    setLock(id, username) {
+        const lockedItems = cloneDeep(this.state.lockedItems);
+        if (username) {
+            lockedItems[id] = username;
+        } else {
+            delete lockedItems[id];
+        }
+        this.setStateDirty("lockedItems", lockedItems);
+        window.__heretic.setTippy();
     }
 };

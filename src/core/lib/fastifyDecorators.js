@@ -9,7 +9,7 @@ const duplicateErrorData = field => ({
 /* eslint-disable func-names */
 export default {
     list: function () {
-        return ["findDatabaseDuplicates", "wsBroadcast"];
+        return ["findDatabaseDuplicates", "webSocketBroadcast"];
     },
     findDatabaseDuplicates: async function (collection, fields, values, existingRecord) {
         const duplicateRecord = await this.mongo.db.collection(collection).find({
@@ -37,11 +37,11 @@ export default {
         }
         return null;
     },
-    wsBroadcast: function (data) {
+    webSocketBroadcast: function (data) {
         if (this.websocketServer && this.websocketServer.clients) {
             for (const client of this.websocketServer.clients) {
                 try {
-                    client.send(data);
+                    client.send(JSON.stringify(data));
                 } catch {
                     // Ignore
                 }

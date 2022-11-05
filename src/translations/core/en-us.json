@@ -59,6 +59,7 @@
     "signOut": "Sign Out",
     "signIn": "Sign In",
     "htable_actions": "Actions",
+    "htable_lockedBy": "Locked by",
     "htable_noRecords": "No records",
     "htable_loadingError": "Could not load data",
     "htable_deleteError": "Could not delete one or more items",

@@ -1,4 +1,4 @@
-import { mdiReload, mdiPlus, mdiMagnify, mdiCogOutline, mdiDrag, mdiPencilOutline, mdiTrashCanOutline, mdiFilterOutline, mdiDatabaseOutline, mdiContentSaveMoveOutline, mdiFormatListGroup, mdiDatabaseExportOutline } from "@mdi/js"
+import { mdiReload, mdiPlus, mdiMagnify, mdiCogOutline, mdiDrag, mdiPencilOutline, mdiTrashCanOutline, mdiFilterOutline, mdiDatabaseOutline, mdiContentSaveMoveOutline, mdiFormatListGroup, mdiDatabaseExportOutline, mdiLockOutline } from "@mdi/js"
 import { format } from "date-fns"
 import SettingsPagesForm from "./settingsPagesForm"
 
@@ -219,9 +219,18 @@ import SettingsPagesForm from "./settingsPagesForm"
                         <tr class="hr-ht-tr">
                             <if(state.checkboxColumn)>
                                 <td class="hr-ht-td p-0 m-0">
-                                    <div class="hr-ht-checkbox-wrap">
-                                        <input type="checkbox" data-id=row._id on-click("onCheckboxClick") checked=(state.checkboxes.indexOf(row._id) > -1)/>
-                                    </div>
+                                    <if(state.lockedItems[row._id])>
+                                        <span class="hr-ht-lock-icon icon">
+                                            <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg"  data-tippy-content=(process.browser && window.__heretic ? `${window.__heretic.t("htable_lockedBy")}: ${state.lockedItems[row._id]}` : null)>
+                                                <path d=mdiLockOutline/>
+                                            </svg>
+                                        </span>
+                                    </if>
+                                    <else>
+                                        <div class="hr-ht-checkbox-wrap">
+                                            <input type="checkbox" data-id=row._id on-click("onCheckboxClick") checked=(state.checkboxes.indexOf(row._id) > -1)/>
+                                        </div>
+                                    </else>
                                 </td>
                             </if>
                             <for|k| of=Object.keys(state.columns)>

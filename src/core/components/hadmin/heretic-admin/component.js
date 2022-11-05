@@ -1,5 +1,8 @@
 const cloneDeep = require("lodash.clonedeep");
 const tippy = require("tippy.js").default;
+const {
+    hideAll,
+} = require("tippy.js");
 const debounce = require("lodash.debounce");
 const Utils = require("../../../lib/componentUtils").default;
 const i18nLoader = require("../../../../build/loaders/i18n-loader-core");
@@ -26,6 +29,29 @@ module.exports = class {
         }
     }
 
+    connectWebSocket() {
+        return new Promise((resolve, reject) => {
+            if (!this.webSockets || !this.webSockets.enabled) {
+                resolve(null);
+            }
+            const socket = new WebSocket(this.webSockets.url);
+            socket.onopen = () => resolve(socket);
+            socket.onerror = e => reject(e);
+        });
+    }
+
+    disconnectWebSocket() {
+        if (this.socket && this.socket.readyState !== WebSocket.CLOSED && this.socket.readyState !== WebSocket.CLOSING) {
+            this.socket.close();
+        }
+    }
+
+    sendMessage(message) {
+        if (this.socket && this.socket.readyState !== WebSocket.CLOSED && this.socket.readyState !== WebSocket.CLOSING) {
+            this.socket.send(JSON.stringify(message));
+        }
+    }
+
     async onCreate(input, out) {
         this.state = {
             mounted: false,
@@ -37,6 +63,7 @@ module.exports = class {
         this.componentsLoaded = {};
         this.language = out.global.language;
         this.serverRoute = out.global.route;
+        this.webSockets = out.global.webSockets;
         await import(/* webpackChunkName: "bulma-admin" */ "./bulma-admin.scss");
         await import(/* webpackChunkName: "heretic-admin" */ "./heretic-admin.scss");
         await this.loadLanguageData();
@@ -66,11 +93,22 @@ module.exports = class {
     async onMount() {
         window.__heretic = window.__heretic || {};
         window.__heretic.setTippy = debounce(this.setTippy, 100);
+        window.__heretic.tippyHideAll = hideAll;
         this.utils = new Utils(this);
         await this.utils.waitForLanguageData();
         await this.utils.waitForComponent("menu");
         await this.utils.waitForComponent("navbar");
         window.addEventListener("scroll", this.sideMenuToggle.bind());
+        try {
+            const webSocket = await this.connectWebSocket();
+            if (webSocket) {
+                this.socket = webSocket;
+                window.__heretic.webSocket = webSocket;
+                window.__heretic.webSocket.sendMessage = this.sendMessage.bind(this);
+            }
+        } catch {
+            // Ignore
+        }
         this.setState("mounted", true);
         window.dispatchEvent(new CustomEvent("scroll"));
     }
@@ -127,5 +165,9 @@ module.exports = class {
         if (componentBrowserError) {
             componentBrowserError.activatePanicMode();
         }
+    }
+
+    onDestroy() {
+        this.disconnectWebSocket();
     }
 };
