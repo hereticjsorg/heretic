@@ -6,6 +6,9 @@ import crypto from "crypto";
 import {
     MongoClient
 } from "mongodb";
+import {
+    v4 as uuid,
+} from "uuid";
 
 import hereticRateLimit from "./rateLimit";
 import routePageUserspace from "./routes/routePageUserspace";
@@ -21,7 +24,6 @@ import routesData from "../../build/routes.json";
 import Logger from "./logger";
 import Utils from "./utils";
 import Auth from "./auth";
-import WebSocket from "./WebSocket";
 import fastifyDecorators from "./fastifyDecorators";
 import replyDecorators from "./replyDecorators";
 import requestDecorators from "./requestDecorators";
@@ -235,7 +237,7 @@ export default class {
     /**
      * Register WebSocket routes
      */
-    async registerRouteWS() {
+    async registerRouteWebSockets() {
         if (!this.config.webSockets || !this.config.webSockets.enabled) {
             return;
         }
@@ -255,11 +257,57 @@ export default class {
             const Ws = (await import(`../../modules/${module}/ws/index.js`)).default;
             this.wsHandlers.push(new Ws(this.fastify));
         }
-        const webSocket = new WebSocket(this);
-        this.fastify.register(async (fastify) => {
+        this.fastify.register(async fastify => {
             fastify.get("/ws", {
                 websocket: true,
-            }, webSocket.process.bind(this));
+            }, async (connection, req) => {
+                const authData = await req.auth.getData(req.auth.methods.COOKIE);
+                for (const handler of this.wsHandlers) {
+                    if (!authData) {
+                        try {
+                            connection.socket.send(JSON.stringify({
+                                error: true,
+                                code: 403,
+                                message: "accessDenied",
+                            }));
+                        } catch {
+                            // Ignore
+                        }
+                        try {
+                            connection.socket.close();
+                        } catch {
+                            // Ignore
+                        }
+                        return;
+                    }
+                    handler.onConnect(connection, req);
+                }
+                connection.uid = uuid();
+                if (fastify.redis) {
+                    try {
+                        await fastify.redis.set(`${fastify.siteConfig.id}_user_${authData._id.toString()}_${connection.uid.replace(/-/gm, "_")}`, Math.floor(Date.now() / 1000), "ex", 120);
+                    } catch {
+                        // Ignore
+                    }
+                }
+                connection.socket.on("message", message => {
+                    for (const handler of this.wsHandlers) {
+                        handler.onMessage(connection, req, message);
+                    }
+                });
+                connection.socket.on("close", async () => {
+                    if (fastify.redis) {
+                        try {
+                            await fastify.redis.del(`${fastify.siteConfig.id}_user_${authData._id.toString()}_${connection.uid.replace(/-/gm, "_")}`);
+                        } catch {
+                            // Ignore
+                        }
+                    }
+                    for (const handler of this.wsHandlers) {
+                        handler.onDisconnect(connection, req);
+                    }
+                });
+            });
         });
     }
 
