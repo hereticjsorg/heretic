@@ -21,6 +21,7 @@ import routesData from "../../build/routes.json";
 import Logger from "./logger";
 import Utils from "./utils";
 import Auth from "./auth";
+import WebSocket from "./WebSocket";
 import fastifyDecorators from "./fastifyDecorators";
 import replyDecorators from "./replyDecorators";
 import requestDecorators from "./requestDecorators";
@@ -254,42 +255,11 @@ export default class {
             const Ws = (await import(`../../modules/${module}/ws/index.js`)).default;
             this.wsHandlers.push(new Ws(this.fastify));
         }
+        const webSocket = new WebSocket(this);
         this.fastify.register(async (fastify) => {
             fastify.get("/ws", {
                 websocket: true,
-            }, async (connection, req) => {
-                const authData = await req.auth.getData(req.auth.methods.COOKIE);
-                for (const handler of this.wsHandlers) {
-                    if (!authData) {
-                        try {
-                            connection.socket.send(JSON.stringify({
-                                error: true,
-                                code: 403,
-                                message: "accessDenied",
-                            }));
-                        } catch {
-                            // Ignore
-                        }
-                        try {
-                            connection.socket.close();
-                        } catch {
-                            // Ignore
-                        }
-                        return;
-                    }
-                    handler.onConnect(connection, req);
-                }
-                connection.socket.on("message", message => {
-                    for (const handler of this.wsHandlers) {
-                        handler.onMessage(connection, req, message);
-                    }
-                });
-                connection.socket.on("close", () => {
-                    for (const handler of this.wsHandlers) {
-                        handler.onDisconnect(connection, req);
-                    }
-                });
-            });
+            }, webSocket.process.bind(this));
         });
     }
 
