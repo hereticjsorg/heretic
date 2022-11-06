@@ -21,5 +21,6 @@
     "data": "Data",
     "couldNotLoadData": "Could not load data",
     "groupHelpText": "Latin characters and numbers",
-    "hform_tagInvalid": "Item is not valid"
+    "hform_tagInvalid": "Item is not valid",
+    "lockedBy": "Locked by"
 }

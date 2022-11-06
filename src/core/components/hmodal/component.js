@@ -13,7 +13,7 @@ module.exports = class {
         if (e.key === "Escape" && this.state.active && this.state.closeAllowed) {
             e.preventDefault();
             e.stopPropagation();
-            this.setState("active", false);
+            this.onClose(e);
         }
     }
 

@@ -24,11 +24,11 @@ typings/
 /src/build
 /etc
 src/pages
-src/modules
 src/config/*
-src/view
 src/translations/user
 /logs
 src/static/public
 src/styles
 .DS_Store
+src/view
+src/modules

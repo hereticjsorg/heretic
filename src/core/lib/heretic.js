@@ -257,8 +257,26 @@ export default class {
         this.fastify.register(async (fastify) => {
             fastify.get("/ws", {
                 websocket: true,
-            }, (connection, req) => {
+            }, async (connection, req) => {
+                const authData = await req.auth.getData(req.auth.methods.COOKIE);
                 for (const handler of this.wsHandlers) {
+                    if (!authData) {
+                        try {
+                            connection.socket.send(JSON.stringify({
+                                error: true,
+                                code: 403,
+                                message: "accessDenied",
+                            }));
+                        } catch {
+                            // Ignore
+                        }
+                        try {
+                            connection.socket.close();
+                        } catch {
+                            // Ignore
+                        }
+                        return;
+                    }
                     handler.onConnect(connection, req);
                 }
                 connection.socket.on("message", message => {

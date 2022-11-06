@@ -14,5 +14,6 @@ module.exports = {
     },
     options: {
         itemsPerPage: 20,
+        lockTimeout: 60,
     },
 };

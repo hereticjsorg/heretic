@@ -575,6 +575,7 @@ module.exports = class {
                     if (!response.data.items.length) {
                         elementTableControls.style.display = "none";
                     }
+                    this.emit("load-complete", response.data);
                 } catch (e) {
                     await this.utils.waitForElement(`hr_ht_table_controls_${this.input.id}`);
                     elementTableControls.style.display = "none";
