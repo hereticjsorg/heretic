@@ -48,7 +48,9 @@ module.exports = class {
     }
 
     onUpdate() {
-        window.__heretic.setTippy();
+        if (window.__heretic && window.__heretic.setTippy) {
+            window.__heretic.setTippy();
+        }
     }
 
     async onMount() {

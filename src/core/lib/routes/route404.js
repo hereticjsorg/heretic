@@ -12,6 +12,9 @@ export default async (req, rep, languageData, language, siteMeta, siteConfig, i1
                 i18nNavigation: true,
                 username: true,
                 systemRoutes: true,
+                siteId: true,
+                cookieOptions: true,
+                webSockets: true,
             },
             language,
             route: null,
@@ -20,6 +23,9 @@ export default async (req, rep, languageData, language, siteMeta, siteConfig, i1
             i18nNavigation: i18nNavigation[language],
             username: authData ? authData.username : null,
             systemRoutes: siteConfig.routes,
+            siteId: siteConfig.id,
+            cookieOptions: siteConfig.cookieOptions,
+            webSockets: siteConfig.webSockets || {},
         },
     });
     rep.type("text/html");

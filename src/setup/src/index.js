@@ -7,7 +7,7 @@ import {
     format
 } from "date-fns";
 
-import routesData from "../../build/routes.json";
+import routesData from "../../build/build.json";
 
 // eslint-disable-next-line no-console
 const log = (message, error = false) => console[error ? "error" : "log"](`[${error ? "!" : " "}] ${format(new Date(), "yyyy-MM-dd HH:mm:ss")} ${message}`);

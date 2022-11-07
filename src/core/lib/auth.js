@@ -94,7 +94,7 @@ export default class {
         let tokenData;
         try {
             tokenData = this.fastify.jwt.verify(token);
-        } catch {
+        } catch (e) {
             return null;
         }
         // Check IP address

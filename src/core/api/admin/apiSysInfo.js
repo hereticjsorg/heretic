@@ -1,5 +1,10 @@
+import {
+    ObjectId
+} from "mongodb";
+
 const os = require("os");
 const packageJson = require("../../../../package.json");
+const buildConfig = require("../../../build/build.json");
 
 export default () => ({
     async handler(req, rep) {
@@ -10,12 +15,37 @@ export default () => ({
             }, 403);
         }
         try {
-            if (this.redis) {
+            const onlineUsers = {};
+            let connections = 0;
+            if (this.redis && this.siteConfig.webSockets && this.siteConfig.webSockets.enabled) {
                 try {
+                    const online = {};
+                    const query = {
+                        $or: [],
+                    };
                     const usersRecords = await this.redis.keys(`${this.siteConfig.id}_user_*`);
-                    for (const item of usersRecords) {
+                    connections = usersRecords.length;
+                    for (const item of usersRecords.slice(0, 100)) {
                         const [, , userId] = item.split(/_/);
-                        const lastSeen = await this.redis.get(item);
+                        let lastSeen = await this.redis.get(item);
+                        lastSeen = lastSeen ? parseInt(lastSeen, 10) : null;
+                        query.$or.push({
+                            _id: new ObjectId(userId),
+                        });
+                        if (lastSeen && (!online[userId] || online[userId] < lastSeen)) {
+                            online[userId] = lastSeen;
+                        }
+                    }
+                    if (query.$or.length) {
+                        const usersDb = await this.mongo.db.collection(this.siteConfig.collections.users).find(query, {
+                            projection: {
+                                _id: 1,
+                                username: 1,
+                            }
+                        }).toArray();
+                        for (const user of usersDb) {
+                            onlineUsers[user.username] = online[user._id.toString()];
+                        }
                     }
                 } catch {
                     // Ignore
@@ -26,6 +56,10 @@ export default () => ({
                 osType: os.type(),
                 osRelease: os.release(),
                 osPlatform: os.platform(),
+                onlineUsers,
+                connections,
+                pages: buildConfig.directories.pages,
+                modules: buildConfig.directories.modules,
             });
         } catch (e) {
             this.log.error(e);

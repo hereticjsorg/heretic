@@ -1,5 +1,15 @@
 {
     "moduleTitleAdmin": "Admin Panel",
     "couldNotLoadData": "Could not load data",
-    "hereticUpAndRunning": "Heretic is up and running"
+    "hereticUpAndRunning": "Heretic is up and running",
+    "hereticVersion": "Heretic version",
+    "operatingSystem": "Operating system",
+    "Darwin": "macOS",
+    "Windows_NT": "Windows",
+    "Linux": "Linux-based",
+    "operatingSystemRelease": "Operating system release",
+    "pagesAvail": "Pages available",
+    "modulesAvail": "Modules available",
+    "onlineUsers": "Online users",
+    "connections": "Connections"
 }

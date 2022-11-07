@@ -20,7 +20,7 @@ import route404 from "./routes/route404";
 import route500 from "./routes/route500";
 import apiRoute404 from "./routes/route404-api";
 import apiRoute500 from "./routes/route500-api";
-import routesData from "../../build/routes.json";
+import routesData from "../../build/build.json";
 import Logger from "./logger";
 import Utils from "./utils";
 import Auth from "./auth";
@@ -241,8 +241,8 @@ export default class {
         if (!this.config.webSockets || !this.config.webSockets.enabled) {
             return;
         }
-        for (const page of routesData.ws.root) {
-            const Ws = (await import(`../ws/${page}/index.js`)).default;
+        for (const file of routesData.ws.root) {
+            const Ws = (await import(`../ws/${file}`)).default;
             this.wsHandlers.push(new Ws(this.fastify));
         }
         for (const page of routesData.ws.userspace) {

@@ -1,5 +1,5 @@
 const languages = Object.keys(require("../../../config/languages.json"));
-const routesData = require("../../../build/routes.json");
+const routesData = require("../../../build/build.json");
 
 export default (route, languageData, language) => ({
     async handler(req, rep) {

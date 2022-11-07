@@ -1,8 +1,62 @@
 <if(state.ready)>
     <hadmin-title title=(process.browser && window.__heretic ? window.__heretic.t("moduleTitleAdmin") : null)/>
-    <div>
-        <span class="has-text-success hr-ah-blink">•</span>&nbsp;&nbsp;<t>hereticUpAndRunning</t>
+    <div class="notification is-success mb-1 p-2 pl-3">
+        <span class="has-text-white hr-ah-blink">•</span>&nbsp;&nbsp;<t>hereticUpAndRunning</t>
     </div>
+    <if(state.info)>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td>
+                        <t>hereticVersion</t>:
+                    </td>
+                    <td>${state.info.hereticVersion}</td>
+                </tr>
+                <tr>
+                    <td>
+                        <t>operatingSystem</t>:
+                    </td>
+                    <td>${window.__heretic.t(state.info.osType)}</td>
+                </tr>
+                <tr>
+                    <td>
+                        <t>operatingSystemRelease</t>:
+                    </td>
+                    <td>${window.__heretic.t(state.info.osRelease)}</td>
+                </tr>
+                <tr>
+                    <td>
+                        <t>pagesAvail</t>:
+                    </td>
+                    <td>${state.info.pages.join(", ")}</td>
+                </tr>
+                <tr>
+                    <td>
+                        <t>modulesAvail</t>:
+                    </td>
+                    <td>${state.info.modules.join(", ")}</td>
+                </tr>
+                <if(state.info.connections)>
+                    <tr>
+                        <td>
+                            <t>connections</t>:
+                        </td>
+                        <td>${state.info.connections}</td>
+                    </tr>
+                </if>
+            </tbody>
+        </table>
+        <if(state.info.onlineUsers && Object.keys(state.info.onlineUsers).length)>
+            <div class="mt-2">
+                <t>onlineUsers</t>:
+            </div>
+            <div class="mt-2">
+                <for|username| of=Object.keys(state.info.onlineUsers)>
+                    <span class="tag is-info mr-2">${username}</span>
+                </for>
+            </div>
+        </if>
+    </if>
 </if>
 <if(!state.ready && !state.failed)>
     <hloading active=true/>

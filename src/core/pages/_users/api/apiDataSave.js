@@ -65,6 +65,7 @@ export default () => ({
                 if (duplicateErrors) {
                     return rep.error(duplicateErrors);
                 }
+                data._default.password = await req.auth.createHash(`${data._default.password}${this.siteConfig.secret}`);
                 const insertResult = await collection.insertOne({
                     ...data._default,
                 });

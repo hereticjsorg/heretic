@@ -600,7 +600,9 @@ module.exports = class {
             this.needToUpdateTableWidth = false;
             this.setTableDimensionsDebounced();
         }
-        window.__heretic.setTippy();
+        if (window.__heretic && window.__heretic.setTippy) {
+            window.__heretic.setTippy();
+        }
     }
 
     generatePagination() {
@@ -1676,6 +1678,8 @@ module.exports = class {
             delete lockedItems[id];
         }
         this.setStateDirty("lockedItems", lockedItems);
-        window.__heretic.setTippy();
+        if (window.__heretic && window.__heretic.setTippy) {
+            window.__heretic.setTippy();
+        }
     }
 };

@@ -4,10 +4,11 @@ const {
     hideAll,
 } = require("tippy.js");
 const debounce = require("lodash.debounce");
+const Cookies = require("../../../lib/cookiesBrowser").default;
 const Utils = require("../../../lib/componentUtils").default;
 const i18nLoader = require("../../../../build/loaders/i18n-loader-core");
 const pagesLoader = require("../../../../build/loaders/page-loader-admin");
-const routesData = require("../../../../build/routes.json");
+const routesData = require("../../../../build/build.json");
 
 module.exports = class {
     async loadLanguageData() {
@@ -22,6 +23,18 @@ module.exports = class {
         }
     }
 
+    getWebSocket() {
+        return new Promise((resolve, reject) => {
+            if (!this.userData || !this.userData.id || !this.webSockets || !this.webSockets.enabled) {
+                resolve(null);
+                return;
+            }
+            const socket = new WebSocket(this.webSockets.url);
+            socket.onopen = () => resolve(socket);
+            socket.onerror = e => reject(e);
+        });
+    }
+
     setGlobalVariables(out) {
         if (process.browser) {
             window.__heretic = window.__heretic || {};
@@ -29,15 +42,31 @@ module.exports = class {
         }
     }
 
-    connectWebSocket() {
-        return new Promise((resolve, reject) => {
-            if (!this.webSockets || !this.webSockets.enabled) {
-                resolve(null);
-            }
-            const socket = new WebSocket(this.webSockets.url);
-            socket.onopen = () => resolve(socket);
-            socket.onerror = e => reject(e);
+    async ping() {
+        if (!this.socket) {
+            return;
+        }
+        if (this.socket.readyState === WebSocket.CLOSED || this.socket.readyState === WebSocket.CLOSING) {
+            await this.connectWebSocket();
+            return;
+        }
+        this.sendMessage({
+            module: "core",
+            action: "ping",
         });
+    }
+
+    async connectWebSocket() {
+        const webSocket = await this.getWebSocket();
+        if (webSocket && this.userData.id) {
+            this.socket = webSocket;
+            window.__heretic.webSocket = webSocket;
+            window.__heretic.webSocket.sendMessage = this.sendMessage.bind(this);
+            if (!this.socketPingInterval) {
+                this.ping();
+                this.socketPingInterval = setInterval(() => this.ping(), 30000);
+            }
+        }
     }
 
     disconnectWebSocket() {
@@ -64,6 +93,9 @@ module.exports = class {
         this.language = out.global.language;
         this.serverRoute = out.global.route;
         this.webSockets = out.global.webSockets;
+        this.siteId = out.global.siteId;
+        this.userData = out.global.userData;
+        this.cookieOptions = out.global.cookieOptions;
         await import(/* webpackChunkName: "bulma-admin" */ "./bulma-admin.scss");
         await import(/* webpackChunkName: "heretic-admin" */ "./heretic-admin.scss");
         await this.loadLanguageData();
@@ -99,13 +131,12 @@ module.exports = class {
         await this.utils.waitForComponent("menu");
         await this.utils.waitForComponent("navbar");
         window.addEventListener("scroll", this.sideMenuToggle.bind());
+        if (!this.userData || !this.userData.id) {
+            this.cookies = new Cookies(this.cookieOptions);
+            this.cookies.delete(`${this.siteId}.authToken`);
+        }
         try {
-            const webSocket = await this.connectWebSocket();
-            if (webSocket) {
-                this.socket = webSocket;
-                window.__heretic.webSocket = webSocket;
-                window.__heretic.webSocket.sendMessage = this.sendMessage.bind(this);
-            }
+            await this.connectWebSocket();
         } catch {
             // Ignore
         }
@@ -168,6 +199,9 @@ module.exports = class {
     }
 
     onDestroy() {
+        if (this.socketPingInterval) {
+            clearInterval(this.socketPingInterval);
+        }
         this.disconnectWebSocket();
     }
 };

@@ -30,7 +30,7 @@ module.exports = class {
     }
 
     generateLoaders() {
-        const routesData = fs.readJSONSync(path.resolve(__dirname, "src", "build", "routes.json"));
+        const routesData = fs.readJSONSync(path.resolve(__dirname, "src", "build", "build.json"));
         fs.writeFileSync(path.resolve(__dirname, "src", "build", "loaders", "page-loader-userspace.js"), `module.exports = {
     loadComponent: async route => {
         switch (route) {
@@ -439,13 +439,13 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
             modules: modulesList,
         };
         // Write configuration file
-        fs.writeJSONSync(path.resolve(__dirname, "src", "build", "routes.json"), routesData, {
+        fs.writeJSONSync(path.resolve(__dirname, "src", "build", "build.json"), routesData, {
             spaces: "\t",
         });
     }
 
     generateAdminIconsLoader() {
-        const routesData = fs.readJSONSync(path.resolve(__dirname, "src", "build", "routes.json"));
+        const routesData = fs.readJSONSync(path.resolve(__dirname, "src", "build", "build.json"));
         const icons = [];
         const pages = {};
         for (const route of routesData.routes.admin) {
@@ -505,7 +505,7 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
 
     generateSitemap() {
         const sitemapData = [];
-        const routesData = fs.readJSONSync(path.resolve(__dirname, "src", "build", "routes.json"));
+        const routesData = fs.readJSONSync(path.resolve(__dirname, "src", "build", "build.json"));
         for (const r of routesData.routes.userspace) {
             try {
                 const sitemap = fs.readJSONSync(path.resolve(__dirname, "src", "pages", r.dir, "sitemap.json"));
@@ -582,7 +582,7 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
     }
 
     generateLangSwitchComponents() {
-        const routesData = fs.readJSONSync(path.resolve(__dirname, "src", "build", "routes.json"));
+        const routesData = fs.readJSONSync(path.resolve(__dirname, "src", "build", "build.json"));
         let langSwitchMarko = "$ const language = process.browser ? window.__heretic.outGlobal.language : out.global.language;\n\n";
         Object.keys(this.languages).map(lang => langSwitchMarko += `<if(language === "${lang}")>\n    <lang-${lang}/>\n</if>\n`);
         for (const r of routesData.routes.userspace) {
