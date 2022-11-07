@@ -302,7 +302,10 @@ module.exports = class {
             Object.keys(this.state.columnData).map(c => columns[c] = this.state.columnData[c].column && !this.state.columnData[c].hidden);
         }
         this.setState("columns", columns);
-        window.addEventListener("resize", this.setTableDimensions.bind(this));
+        if (Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0) >= 1023) {
+            window.addEventListener("resize", this.setTableDimensions.bind(this));
+        }
+        window.addEventListener("orientationchange", this.setTableDimensions.bind(this));
         window.addEventListener("mouseup", this.onColumnMouseUp.bind(this));
         this.restoreWidthFromSavedRatios();
         window.dispatchEvent(new CustomEvent("resize"));
@@ -312,6 +315,8 @@ module.exports = class {
         if (scrollWrapper && tableContainer) {
             scrollWrapper.addEventListener("scroll", this.onScrollWrapScrollDebounced.bind(this));
             tableContainer.addEventListener("scroll", this.onTableContainerScroll.bind(this));
+            scrollWrapper.addEventListener("touchmove", this.onScrollWrapScrollDebounced.bind(this));
+            tableContainer.addEventListener("touchmove", this.onTableContainerScroll.bind(this));
         }
         tableContainer.dispatchEvent(new CustomEvent("scroll"));
         this.query = new Query();
