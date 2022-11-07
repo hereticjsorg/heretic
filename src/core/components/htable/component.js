@@ -338,7 +338,7 @@ module.exports = class {
         }
         this.loadDataDebounced = debounce(this.loadData, 500);
         this.placeStickyElementsDebounced = debounce(this.placeStickyElements, 100);
-        this.setTableDimensionsDebounced = debounce(this.setTableDimensions, 10);
+        this.setTableDimensionsDebounced = debounce(this.setTableDimensions, 100);
         this.moveColumnDebounced = debounce(this.moveColumn, 10);
         this.setState("filters", this.store.get("filters") || []);
         this.setState("filtersEnabledCount", this.state.filters.reduce((a, c) => a += c.enabled ? 1 : 0, 0));
@@ -568,14 +568,13 @@ module.exports = class {
                             this.query.set(this.queryStringShorthands[k], input[k]);
                         }
                     }
-
                     this.generatePagination();
-                    this.setTableDimensions();
-                    this.needToUpdateTableWidth = true;
+                    this.setTableDimensionsDebounced();
                     if (!response.data.items.length) {
                         elementTableControls.style.display = "none";
                     }
                     this.emit("load-complete", response.data);
+                    this.needToUpdateTableWidth = true;
                 } catch (e) {
                     await this.utils.waitForElement(`hr_ht_table_controls_${this.input.id}`);
                     elementTableControls.style.display = "none";
