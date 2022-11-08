@@ -1,13 +1,14 @@
-const {
+import {
     mdiPencilOutline,
     mdiTrashCanOutline,
     mdiAccountPlusOutline,
-} = require("@mdi/js");
-const {
+} from "@mdi/js";
+import {
     format,
-} = require("date-fns");
-const moduleConfig = require("../admin.js");
-const utils = require("../../../lib/formValidatorUtils");
+} from "date-fns";
+
+import moduleConfig from "../admin.js";
+import utils from "../../../lib/formValidatorUtils";
 
 export default class {
     constructor(t) {

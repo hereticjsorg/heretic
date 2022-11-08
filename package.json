@@ -1,6 +1,6 @@
 {
   "name": "heretic",
-  "version": "1.0.76",
+  "version": "1.0.77",
   "description": "Heretic",
   "main": "index.js",
   "scripts": {
@@ -34,7 +34,7 @@
     "@babel/runtime": "^7.20.1",
     "@faker-js/faker": "^7.6.0",
     "@fastify/static": "^6.5.0",
-    "@jest/globals": "^29.2.2",
+    "@jest/globals": "^29.3.0",
     "@marko/webpack": "^9.3.0",
     "@mdi/js": "^7.0.96",
     "ajv": "^8.11.0",

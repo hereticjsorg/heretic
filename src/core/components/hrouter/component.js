@@ -21,6 +21,9 @@ module.exports = class {
     }
 
     onRouteChangeHandler(router) {
+        if (window.__heretic && window.__heretic.tippyHideAll) {
+            window.__heretic.tippyHideAll();
+        }
         this.emit("route-change", router);
     }
 };
