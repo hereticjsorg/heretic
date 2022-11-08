@@ -46,7 +46,7 @@ Returns **[Object][10]** fastify object
 
 ### getConfigSystem
 
-This method returns system configuration data (system.json)
+This method returns system configuration data (system.js)
 
 Returns **[Object][10]** configuration data object (JSON)
 

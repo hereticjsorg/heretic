@@ -1,6 +1,6 @@
 const path = require("path");
 
-const systemConfig = require(path.resolve(__dirname, "etc", "system.json"));
+const systemConfig = require(path.resolve(__dirname, "etc", "system.js"));
 
 module.exports = {
     apps: [{

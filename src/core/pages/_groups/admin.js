@@ -1,5 +1,5 @@
 const id = "_groups";
-const siteConfig = require("../../../../etc/system.json");
+const siteConfig = require("../../../../etc/system.js");
 
 module.exports = {
     id,

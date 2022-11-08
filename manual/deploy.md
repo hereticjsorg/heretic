@@ -16,7 +16,7 @@ Please refer to the [PM2 docs](https://pm2.keymetrics.io/docs/usage/quick-start/
 
 ## Proxy Web Server Configuration
 
-Heretic needs to run as web server in order to render modules on server-side. In development mode, Heretic may also serve static assets for you (which is not recommended in production mode), please check [configuration files](configurationFiles.md) to disable or enable the *static* parameter in *./etc/system.json*.
+Heretic needs to run as web server in order to render modules on server-side. In development mode, Heretic may also serve static assets for you (which is not recommended in production mode), please check [configuration files](configurationFiles.md) to disable or enable the *static* parameter in *./etc/system.js*.
 
 It's recommended to use a proxy server such as NGINX in production. The simple configuration for NGINX may look like this:
 
@@ -61,6 +61,6 @@ server {
 
 ## Standalone
 
-The *dist* directory may work in standalone mode. This means that it's the only directory which might be copied to the production server (no *node_modules* and other directories are required in order to run). To do this: put *system.json* and *website.json* directly to the *dist* directory along with *server.js* file.
+The *dist* directory may work in standalone mode. This means that it's the only directory which might be copied to the production server (no *node_modules* and other directories are required in order to run). To do this: put *system.js* and *website.json* directly to the *dist* directory along with *server.js* file.
 
 However, it's recommended to keep the file structure as-is, because that's how you may simplify your updates and website rebuilds.

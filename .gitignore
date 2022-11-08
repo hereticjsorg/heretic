@@ -24,7 +24,7 @@ typings/
 /src/build
 /etc
 src/pages
-src/config/*
+src/config
 src/translations/user
 /logs
 src/static/public

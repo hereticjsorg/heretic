@@ -9,7 +9,7 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 const MarkoPlugin = require("@marko/webpack/plugin").default;
 const babelConfig = require("./babel.config");
 const WebpackUtils = require("./webpack.utils");
-const systemConfig = require("./etc/system.json");
+const systemConfig = require("./etc/system.js");
 
 // A dirty one-liner hack for webpack error during Fastify build
 fs.writeFileSync(path.resolve(__dirname, "node_modules", "fastify", "lib", "error-serializer.js"), fs.readFileSync(path.resolve(__dirname, "node_modules", "fastify", "lib", "error-serializer.js"), "utf8").replace(/return \$main/, ""));
@@ -228,7 +228,7 @@ module.exports = (env, argv) => {
                 __dirname: false,
             }
         }, {
-            name: "Src",
+            name: "Setup",
             context: path.resolve(`${__dirname}/src/setup`),
             devtool: argv.mode === "production" ? false : "eval",
             resolve: {
@@ -239,7 +239,7 @@ module.exports = (env, argv) => {
             },
             target: "async-node",
             // externals: [/^[^./!]/],
-            externals: ["mongodb"],
+            externals: ["mongodb", "@fastify/websocket"],
             optimization: argv.mode === "production" ? {
                 splitChunks: false,
                 minimizer: [

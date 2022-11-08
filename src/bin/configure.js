@@ -28,16 +28,22 @@ if (!options.defaults) {
 }
 
 // Reading configuration templates
-const configMeta = fs.readJSONSync(path.resolve(__dirname, "..", "core", "defaults", "website.json"));
-const configSystem = fs.readJSONSync(path.resolve(__dirname, "..", "core", "defaults", "system.json"));
 const configNavigation = fs.readJSONSync(path.resolve(__dirname, "..", "core", "defaults", "navigation.json"));
 const configLanguages = fs.readJSONSync(path.resolve(__dirname, "..", "core", "defaults", "languages.json"));
 
-// Generate Secret
-configSystem.secret = crypto.createHmac("sha256", uuidv4()).update(uuidv4()).digest("hex");
+if (!fs.existsSync(path.resolve(__dirname, "..", "..", "etc", "secure.json"))) {
+    // Generate Secure File
+    fs.ensureDirSync(path.resolve(__dirname, "..", "..", "etc"));
+    fs.writeJSONSync(path.resolve(__dirname, "..", "..", "etc", "secure.json"), {
+        secret: crypto.createHmac("sha256", uuidv4()).update(uuidv4()).digest("hex"),
+    }, {
+        spaces: "\t",
+    });
+}
 
 // Ensure that required directories exist
 fs.ensureDirSync(path.resolve(__dirname, "..", "pages"));
+fs.ensureDirSync(path.resolve(__dirname, "..", "modules"));
 fs.ensureDirSync(path.resolve(__dirname, "..", "config"));
 fs.ensureDirSync(path.resolve(__dirname, "..", "..", "etc"));
 fs.ensureDirSync(path.resolve(__dirname, "..", "translations", "user"));
@@ -75,22 +81,18 @@ if (!fs.existsSync(path.resolve(__dirname, "..", "pages", ".blank")) || options.
     console.log(`Warning: skipping pages/.blank, use --force parameter to override`);
 }
 
-// Copy etc/website.json configuration file
-if (!fs.existsSync(path.resolve(__dirname, "..", "..", "etc", "website.json")) || options.force) {
-    fs.writeJSONSync(path.resolve(__dirname, "..", "..", "etc", "website.json"), configMeta, {
-        spaces: "\t"
-    });
+// Copy etc/website.js configuration file
+if (!fs.existsSync(path.resolve(__dirname, "..", "..", "etc", "website.js")) || options.force) {
+    fs.copySync(path.resolve(__dirname, "..", "core", "defaults", "website.js"), path.resolve(__dirname, "..", "..", "etc", "website.js"));
 } else {
-    console.log(`Warning: skipping etc/website.json, use --force parameter to override`);
+    console.log(`Warning: skipping etc/website.js, use --force parameter to override`);
 }
 
 // Copy etc/system.json configuration file
-if (!fs.existsSync(path.resolve(__dirname, "..", "..", "etc", "system.json")) || options.force) {
-    fs.writeJSONSync(path.resolve(__dirname, "..", "..", "etc", "system.json"), configSystem, {
-        spaces: "\t"
-    });
+if (!fs.existsSync(path.resolve(__dirname, "..", "..", "etc", "system.js")) || options.force) {
+    fs.copySync(path.resolve(__dirname, "..", "core", "defaults", "system.js"), path.resolve(__dirname, "..", "..", "etc", "system.js"));
 } else {
-    console.log(`Warning: skipping etc/system.json, use --force parameter to override`);
+    console.log(`Warning: skipping etc/system.js, use --force parameter to override`);
 }
 
 // Copy config/navigation.json configuration file
@@ -99,7 +101,7 @@ if (!fs.existsSync(path.resolve(__dirname, "..", "config", "navigation.json")) |
         spaces: "\t"
     });
 } else {
-    console.log(`Warning: skipping etc/navigation.json, use --force parameter to override`);
+    console.log(`Warning: skipping config/navigation.json, use --force parameter to override`);
 }
 
 // Copy config/languages.json configuration file

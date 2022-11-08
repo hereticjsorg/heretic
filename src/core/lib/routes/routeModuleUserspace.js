@@ -18,6 +18,7 @@ export default (route, languageData, language) => ({
                     siteId: true,
                     cookieOptions: true,
                     username: true,
+                    isAdmin: true,
                     webSockets: true,
                 },
                 language,
@@ -31,6 +32,7 @@ export default (route, languageData, language) => ({
                 siteId: this.siteConfig.id,
                 cookieOptions: this.siteConfig.cookieOptions,
                 username: authData ? authData.username : null,
+                isAdmin: authData && authData.groupData && !authData.groupData.find(i => i.id === "admin" && i.value === true),
                 webSockets: this.siteConfig.webSockets || {},
             },
         });

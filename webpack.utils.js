@@ -3,7 +3,7 @@ const fs = require("fs-extra");
 
 module.exports = class {
     constructor(production) {
-        this.config = fs.readJSONSync(path.resolve(__dirname, "etc", "system.json"));
+        this.config = require(path.resolve(__dirname, "etc", "system.js"));
         fs.removeSync(path.resolve(__dirname, "dist/public/heretic"));
         fs.removeSync(path.resolve(__dirname, "dist/server.js"));
         fs.removeSync(path.resolve(__dirname, "src", "build"));
@@ -25,7 +25,7 @@ module.exports = class {
             fs.copySync(path.resolve(__dirname, "src", "core", "defaults", "bulma.scss"), path.resolve(__dirname, "src", "styles", "bulma.scss"));
         }
         this.languages = fs.readJSONSync(path.resolve(__dirname, "src", "config", "languages.json"));
-        this.meta = fs.readJSONSync(path.resolve(__dirname, "etc", "website.json"));
+        this.meta = require(path.resolve(__dirname, "etc", "website.js"));
         this.production = production;
     }
 

@@ -12,7 +12,7 @@ import {
 import crypto from "crypto";
 import fkill from "fkill";
 import Helpers from "../core/testHelpers";
-import systemConfig from "../../etc/system.json";
+import systemConfig from "../../etc/system.js";
 
 const routeId = "test3wEGNDiB";
 jest.setTimeout(120000);

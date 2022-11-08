@@ -1,7 +1,6 @@
 import Fastify from "fastify";
 import Redis from "ioredis";
 import path from "path";
-import fs from "fs-extra";
 import crypto from "crypto";
 import {
     MongoClient
@@ -39,13 +38,16 @@ import navigation from "../../config/navigation.json";
  */
 export default class {
     constructor() {
+        this.utils = new Utils(Object.keys(languages));
         // Read configuration files
         try {
-            this.config = fs.existsSync(path.resolve(__dirname, "system.json")) ? fs.readJSONSync(path.resolve(__dirname, "system.json")) : fs.readJSONSync(path.resolve(__dirname, "..", "etc", "system.json"));
-            this.siteMeta = fs.existsSync(path.resolve(__dirname, "website.json")) ? fs.readJSONSync(path.resolve(__dirname, "website.json")) : fs.readJSONSync(path.resolve(__dirname, "..", "etc", "website.json"));
+            // eslint-disable-next-line no-undef
+            this.config = __non_webpack_require__(path.resolve(__dirname, "..", "etc", "system.js"));
+            // eslint-disable-next-line no-undef
+            this.siteMeta = __non_webpack_require__(path.resolve(__dirname, "..", "etc", "website.js"));
         } catch {
             // eslint-disable-next-line no-console
-            console.error(`Could not read "system.json" and/or "website.json" configuration files.\nRun the following command to create: npm run setup\nRead documentation for more info.`);
+            console.error(`Could not read "system.js" and/or "website.js" configuration files.\nRun the following command to create: npm run configure\nRead documentation for more info.`);
             process.exit(1);
         }
         this.config.secretInt = parseInt(crypto.createHash("md5").update(this.config.secret).digest("hex"), 16);
@@ -55,7 +57,6 @@ export default class {
             ignoreTrailingSlash: this.config.server.ignoreTrailingSlash,
         });
         [this.defaultLanguage] = Object.keys(languages);
-        this.utils = new Utils(Object.keys(languages));
         this.fastify.register(require("@fastify/formbody"));
         this.fastify.register(require("@fastify/jwt"), {
             secret: this.config.secret,
@@ -373,7 +374,7 @@ export default class {
     }
 
     /*
-     * This method returns site metadata (website.json)
+     * This method returns site metadata (website.js)
      * @returns {Object} configuration data object (JSON)
      */
     getConfigMeta() {

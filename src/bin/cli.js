@@ -10,7 +10,7 @@ const {
 } = require("uuid");
 const crypto = require("crypto");
 
-const config = require(path.resolve(`${__dirname}/../../etc/system.json`));
+const config = require(path.resolve(`${__dirname}/../../etc/system.js`));
 
 let options;
 try {

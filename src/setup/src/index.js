@@ -1,4 +1,3 @@
-import fs from "fs-extra";
 import path from "path";
 import {
     MongoClient
@@ -55,8 +54,10 @@ const createExpireIndex = async (db, id, collection, field, seconds) => {
     try {
         log("Reading configuration files...");
         const config = {
-            system: await fs.readJSON(path.resolve(__dirname, "../etc/system.json")),
-            website: await fs.readJSON(path.resolve(__dirname, "../etc/website.json")),
+            // eslint-disable-next-line no-undef
+            system: __non_webpack_require__(path.resolve(__dirname, "../etc/system.js")),
+            // eslint-disable-next-line no-undef
+            website: __non_webpack_require__(path.resolve(__dirname, "../etc/website.js")),
         };
         const mongoClient = new MongoClient(config.system.mongo.url, config.system.mongo.options || {
             useUnifiedTopology: true,

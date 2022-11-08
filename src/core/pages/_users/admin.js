@@ -1,5 +1,5 @@
 const id = "_users";
-const siteConfig = require("../../../../etc/system.json");
+const siteConfig = require("../../../../etc/system.js");
 
 module.exports = {
     id,

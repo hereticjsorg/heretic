@@ -1,15 +1,15 @@
-{
-    "url": "http://127.0.0.1:3001",
-    "title": {
+module.exports = {
+    url: "http://127.0.0.1:3001",
+    title: {
         "en-us": "Heretic Test Website",
         "ru-ru": "Тестовый сайт на Heretic"
     },
-    "shortTitle": {
+    shortTitle: {
         "en-us": "Heretic",
         "ru-ru": "Тест"
     },
-    "description": {
+    description: {
         "ru-ru": "Тестовый сайт, созданный на Heretic",
         "en-us": "Test site built on Heretic"
     }
-}
+};

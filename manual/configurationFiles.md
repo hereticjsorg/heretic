@@ -2,7 +2,7 @@
 
 There are several configuration files available so you may adjust many parameters related to your website.
 
-## etc/system.json
+## etc/system.js
 
 This configuration file contains main options related to your web server (IP, ports, logging etc.).
 
