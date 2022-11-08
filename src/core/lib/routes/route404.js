@@ -23,7 +23,7 @@ export default async (req, rep, languageData, language, siteMeta, siteConfig, i1
             siteTitle: siteMeta.title[language],
             i18nNavigation: i18nNavigation[language],
             username: authData ? authData.username : null,
-            isAdmin: authData && authData.groupData && !authData.groupData.find(i => i.id === "admin" && i.value === true),
+            isAdmin: authData && authData.groupData && authData.groupData.find(i => i.id === "admin" && i.value === true),
             systemRoutes: siteConfig.routes,
             siteId: siteConfig.id,
             cookieOptions: siteConfig.cookieOptions,

@@ -31,7 +31,7 @@ export default (route, languageData, language) => ({
                 t: id => languageData[language] && languageData[language][id] ? `${languageData[language][id]}` : id,
                 systemRoutes: this.siteConfig.routes,
                 username: authData ? authData.username : null,
-                isAdmin: authData && authData.groupData && !authData.groupData.find(i => i.id === "admin" && i.value === true) ? this.siteConfig.routes.admin : false,
+                isAdmin: authData && authData.groupData && authData.groupData.find(i => i.id === "admin" && i.value === true) ? this.siteConfig.routes.admin : false,
                 webSockets: this.siteConfig.webSockets || {},
             },
         });

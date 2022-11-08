@@ -78,11 +78,15 @@ $ const i18nNavigation = out.global.i18nNavigation;
                 </a>
                 <div class="navbar-dropdown is-right hr-navbar-dropdown">
                     <if(out.global.username)>
+                        <if(out.global.isAdmin)>
+                            <a class="navbar-item hr-navbar-item" href=component.utils.getLocalizedURL(out.global.systemRoutes.admin)>
+                                <t>adminPanel</t>
+                            </a>
+                            <hr class="dropdown-divider">
+                        </if>
                         <a class="navbar-item hr-navbar-item" href=component.utils.getLocalizedURL(out.global.systemRoutes.signOut)>
                             <t>signOut</t>
                         </a>
-                        <if(out.global.admin)>
-                        </if>
                     </if>
                     <else>
                         <a class="navbar-item hr-navbar-item" href=component.utils.getLocalizedURL(out.global.systemRoutes.signIn)>

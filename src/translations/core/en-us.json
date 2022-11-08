@@ -170,5 +170,6 @@
     "hform_logStatus": "Status",
     "hform_logComments": "Comments",
     "hform_logItemDeleteConfirmation": "Delete Item",
-    "hform_lotItemDeleteConfirmationText": "Are you sure you wish to delete requested item?"
+    "hform_lotItemDeleteConfirmationText": "Are you sure you wish to delete requested item?",
+    "adminPanel": "Admin Panel"
 }
