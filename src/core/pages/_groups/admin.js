@@ -1,14 +1,11 @@
 const id = "_groups";
 const siteConfig = require("../../../../etc/system.js");
+const meta = require("./meta.json");
 
 module.exports = {
     id,
     path: "/groups",
     icon: "mdiFormatListChecks",
-    title: {
-        "ru-ru": "Группы",
-        "en-us": "Groups"
-    },
     collections: {
         main: siteConfig.collections.groups,
     },
@@ -16,4 +13,5 @@ module.exports = {
         itemsPerPage: 20,
         lockTimeout: 60,
     },
+    ...meta.admin,
 };

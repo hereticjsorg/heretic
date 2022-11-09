@@ -100,17 +100,17 @@ export default () => ({
                 dbData.mimeType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
                 const fileDataExcel = await buildExcelAsync(data);
                 dbData.size = fileDataExcel.length;
-                await fs.writeFile(path.resolve(__dirname, this.siteConfig.directories.files, uid), fileDataExcel);
+                await fs.writeFile(path.resolve(__dirname, this.systemConfig.directories.files, uid), fileDataExcel);
                 break;
             case "tsv":
                 dbData.filename = "export.tsv";
                 dbData.mimeType = "text/tab-separated-values";
                 const fileDataTSV = await buildTabSeparatedAsync(data);
                 dbData.size = fileDataTSV.length;
-                await fs.writeFile(path.resolve(__dirname, this.siteConfig.directories.files, uid), fileDataTSV, "utf8");
+                await fs.writeFile(path.resolve(__dirname, this.systemConfig.directories.files, uid), fileDataTSV, "utf8");
                 break;
             }
-            await this.mongo.db.collection(this.siteConfig.collections.files).insertOne({
+            await this.mongo.db.collection(this.systemConfig.collections.files).insertOne({
                 _id: uid,
                 filename: dbData.filename,
                 size: dbData.size,

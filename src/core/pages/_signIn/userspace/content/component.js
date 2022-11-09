@@ -1,5 +1,5 @@
 const axios = require("axios").default;
-const meta = require("../../page.json");
+const config = require("../../page.js");
 const Utils = require("../../../../lib/componentUtils").default;
 const Cookies = require("../../../../lib/cookiesBrowser").default;
 const Query = require("../../../../lib/queryBrowser").default;
@@ -18,7 +18,7 @@ module.exports = class {
             this.siteTitle = out.global.siteTitle || window.__heretic.outGlobal.siteTitle;
             this.siteId = out.global.siteId || window.__heretic.outGlobal.siteId;
             this.cookieOptions = out.global.cookieOptions || window.__heretic.outGlobal.cookieOptions;
-            document.title = `${meta.title[this.language]} – ${this.siteTitle}`;
+            document.title = `${config.title[this.language]} – ${this.siteTitle}`;
         }
         this.utils = new Utils(this, this.language);
     }

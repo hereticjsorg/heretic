@@ -1,0 +1,25 @@
+[{
+    "from": "../core/defaults/home",
+    "to": "../pages/home"
+}, {
+    "from": "../core/defaults/license",
+    "to": "../pages/license"
+}, {
+    "from": "../core/defaults/view",
+    "to": "../view"
+}, {
+    "from": "../core/defaults/static",
+    "to": "../static"
+}, {
+    "from": "../core/defaults/.blank",
+    "to": "../pages/.blank"
+}, {
+    "from": "../core/defaults/website.js",
+    "to": "../../etc/website.js"
+}, {
+    "from": "../core/defaults/system.js",
+    "to": "../../etc/system.js"
+}, {
+    "from": "../core/defaults/languages.json",
+    "to": "../config/languages.json"
+}]

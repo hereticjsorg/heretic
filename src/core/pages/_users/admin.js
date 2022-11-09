@@ -1,3 +1,5 @@
+const meta = require("./meta.json");
+
 const id = "_users";
 const siteConfig = require("../../../../etc/system.js");
 
@@ -5,10 +7,6 @@ module.exports = {
     id,
     path: "/users",
     icon: "mdiAccountMultipleOutline",
-    title: {
-        "ru-ru": "Пользователи",
-        "en-us": "Users"
-    },
     collections: {
         main: siteConfig.collections.users,
     },
@@ -16,4 +14,5 @@ module.exports = {
         itemsPerPage: 20,
         lockTimeout: 60,
     },
+    ...meta.admin,
 };

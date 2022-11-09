@@ -1,7 +1,7 @@
 const axios = require("axios").default;
 const Utils = require("../../../../lib/componentUtils").default;
 const Cookies = require("../../../../lib/cookiesBrowser").default;
-const meta = require("../../admin.js");
+const config = require("../../admin.js");
 const moduleConfig = require("../../admin.js");
 
 module.exports = class {
@@ -19,7 +19,7 @@ module.exports = class {
         if (process.browser && window.__heretic && window.__heretic.t) {
             this.language = this.language || window.__heretic.outGlobal.language;
             this.siteTitle = out.global.siteTitle || window.__heretic.outGlobal.siteTitle;
-            document.title = `${meta.title[this.language]} – ${this.siteTitle}`;
+            document.title = `${config.title[this.language]} – ${this.siteTitle}`;
             this.siteId = out.global.siteId || window.__heretic.outGlobal.siteId;
             this.cookieOptions = out.global.cookieOptions || window.__heretic.outGlobal.cookieOptions;
             this.systemRoutes = out.global.systemRoutes || window.__heretic.outGlobal.systemRoutes;

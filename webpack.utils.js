@@ -11,7 +11,6 @@ module.exports = class {
         fs.ensureDirSync(path.resolve(__dirname, "src", "build"));
         fs.ensureDirSync(path.resolve(__dirname, "src", "build", "loaders"));
         fs.ensureDirSync(path.resolve(__dirname, "src", "build", "components"));
-        fs.ensureDirSync(path.resolve(__dirname, "src", "styles"));
         fs.ensureDirSync(path.resolve(__dirname, "logs"));
         fs.ensureDirSync(path.resolve(__dirname, "dist"));
         if (this.config.directories.tmp) {
@@ -21,11 +20,8 @@ module.exports = class {
         if (!fs.existsSync(path.resolve(__dirname, "src", "static", "public"))) {
             fs.copySync(path.resolve(__dirname, "src", "core", "defaults", "public"), path.resolve(__dirname, "src", "static", "public"));
         }
-        if (!fs.existsSync(path.resolve(__dirname, "src", "styles", "bulma.scss"))) {
-            fs.copySync(path.resolve(__dirname, "src", "core", "defaults", "bulma.scss"), path.resolve(__dirname, "src", "styles", "bulma.scss"));
-        }
         this.languages = fs.readJSONSync(path.resolve(__dirname, "src", "config", "languages.json"));
-        this.meta = require(path.resolve(__dirname, "etc", "website.js"));
+        this.systemConfig = require(path.resolve(__dirname, "etc", "website.js"));
         this.production = production;
     }
 
@@ -84,15 +80,14 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
         };
         const translationsAdmin = [];
         const translations = [];
-        const pagesMeta = [];
-        const pagesAdminMeta = [];
-        const pagesCoreMeta = [];
+        const pagesConfig = [];
+        const pagesAdminConfig = [];
+        const pagesCoreConfig = [];
         const navigationData = {};
         // Process modules
         const modulesList = fs.readdirSync(path.resolve(__dirname, "src", "modules")).filter(p => !p.match(/^\./));
         for (const module of modulesList) {
             try {
-                // const moduleConfig = fs.readJSONSync(path.resolve(__dirname, "src", "modules", module, "module.json"));
                 const moduleConfig = require(path.resolve(__dirname, "src", "modules", module, "module.js"));
                 if (fs.existsSync(path.resolve(__dirname, "src", "modules", module, "api"))) {
                     routesData.api.modules.push(module);
@@ -108,7 +103,7 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
                         prefix: moduleConfig.id,
                         module: true,
                     });
-                    const modulePageConfig = fs.readJSONSync(path.resolve(__dirname, "src", "modules", moduleConfig.id, routeId, "page.json"));
+                    const modulePageConfig = require(path.resolve(__dirname, "src", "modules", moduleConfig.id, routeId, "page.js"));
                     translations.push({
                         id: `${moduleConfig.id}.${routeId}`,
                         title: modulePageConfig.title,
@@ -124,7 +119,6 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
                         prefix: moduleConfig.id,
                         module: true,
                     });
-                    // const moduleAdminConfig = fs.readJSONSync(path.resolve(__dirname, "src", "modules", moduleConfig.id, routeId, "admin.json"));
                     const moduleAdminConfig = require(path.resolve(__dirname, "src", "modules", moduleConfig.id, routeId, "admin.js"));
                     translationsAdmin.push({
                         id: `${moduleConfig.id}.${routeId}`,
@@ -139,10 +133,9 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
         // End processing modules
         fs.readdirSync(path.resolve(__dirname, "src", "core", "pages")).filter(p => !p.match(/^\./)).map(p => {
             try {
-                // const metaAdmin = fs.readJSONSync(path.resolve(__dirname, "src", "core", "pages", p, "admin.json"));
-                const metaAdmin = require(path.resolve(__dirname, "src", "core", "pages", p, "admin.js"));
-                pagesAdminMeta.push({
-                    ...metaAdmin,
+                const configAdmin = require(path.resolve(__dirname, "src", "core", "pages", p, "admin.js"));
+                pagesAdminConfig.push({
+                    ...configAdmin,
                     dir: p,
                     core: true,
                 });
@@ -152,9 +145,9 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
         });
         fs.readdirSync(path.resolve(__dirname, "src", "core", "pages")).filter(p => !p.match(/^\./)).map(p => {
             try {
-                const metaCore = fs.readJSONSync(path.resolve(__dirname, "src", "core", "pages", p, "page.json"));
-                pagesCoreMeta.push({
-                    ...metaCore,
+                const configCore = require(path.resolve(__dirname, "src", "core", "pages", p, "page.js"));
+                pagesCoreConfig.push({
+                    ...configCore,
                     dir: p,
                     core: true,
                 });
@@ -164,13 +157,13 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
         });
         fs.readdirSync(path.resolve(__dirname, "src", "pages")).filter(p => !p.match(/^\./)).map(p => {
             try {
-                const metaRoot = fs.readJSONSync(path.resolve(__dirname, "src", "pages", p, "page.json"));
-                if (Array.isArray(metaRoot)) {
-                    for (const mp of metaRoot) {
+                const configRoot = require(path.resolve(__dirname, "src", "pages", p, "page.js"));
+                if (Array.isArray(configRoot)) {
+                    for (const mp of configRoot) {
                         try {
-                            const metaSub = fs.readJSONSync(path.resolve(__dirname, "src", "pages", p, mp, "page.json"));
-                            pagesMeta.push({
-                                ...metaSub,
+                            const configSub = require(path.resolve(__dirname, "src", "pages", p, mp, "page.js"));
+                            pagesConfig.push({
+                                ...configSub,
                                 dir: `${p}/${mp}`
                             });
                         } catch {
@@ -178,10 +171,9 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
                         }
                         if (fs.existsSync(path.resolve(__dirname, "src", "pages", p, mp, "admin.js"))) {
                             try {
-                                // const metaAdmin = fs.readJSONSync(path.resolve(__dirname, "src", "pages", p, mp, "admin.json"));
-                                const metaAdmin = require(path.resolve(__dirname, "src", "pages", p, mp, "admin.js"));
-                                pagesAdminMeta.push({
-                                    ...metaAdmin,
+                                const configAdmin = require(path.resolve(__dirname, "src", "pages", p, mp, "admin.js"));
+                                pagesAdminConfig.push({
+                                    ...configAdmin,
                                     dir: `${p}/${mp}`
                                 });
                             } catch {
@@ -190,16 +182,15 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
                         }
                     }
                 } else {
-                    pagesMeta.push({
-                        ...metaRoot,
+                    pagesConfig.push({
+                        ...configRoot,
                         dir: p
                     });
                     if (fs.existsSync(path.resolve(__dirname, "src", "pages", p, "admin.js"))) {
                         try {
-                            // const metaAdmin = fs.readJSONSync(path.resolve(__dirname, "src", "pages", p, "admin.json"));
-                            const metaAdmin = require(path.resolve(__dirname, "src", "pages", p, "admin.js"));
-                            pagesAdminMeta.push({
-                                ...metaAdmin,
+                            const configAdmin = require(path.resolve(__dirname, "src", "pages", p, "admin.js"));
+                            pagesAdminConfig.push({
+                                ...configAdmin,
                                 dir: p
                             });
                         } catch {
@@ -211,7 +202,7 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
                 // Ignore
             }
         });
-        pagesMeta.map(i => {
+        pagesConfig.map(i => {
             routesData.routes.userspace.push({
                 id: i.id,
                 path: i.path,
@@ -224,7 +215,7 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
             });
         });
         routesData.translations.userspace = translations;
-        pagesAdminMeta.map(i => {
+        pagesAdminConfig.map(i => {
             routesData.routes.admin.push({
                 id: i.id,
                 path: `${this.config.routes.admin}${i.path}`,
@@ -239,7 +230,7 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
         routesData.translations.admin = translationsAdmin;
         const routesCore = [];
         const translationsCore = [];
-        pagesCoreMeta.map(i => {
+        pagesCoreConfig.map(i => {
             routesCore.push({
                 id: i.id,
                 path: i.path,
@@ -364,27 +355,25 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
         const navigation = fs.readJSONSync(path.resolve(__dirname, "src", "config", "navigation.json"));
         navigation.userspace.routes.map(r => {
             const id = typeof r === "string" ? r : r.id;
-            let meta = {
+            let config = {
                 title: {},
             };
             try {
-                meta = fs.readJSONSync(path.resolve(__dirname, "src", "pages", id, "page.json"));
+                config = require(path.resolve(__dirname, "src", "pages", id, "page.js"));
             } catch {
                 // Ignore
             }
-            Object.keys(titles).map(lang => titles[lang][id] = meta.title[lang] || userTranslations[lang][id] || "");
+            Object.keys(titles).map(lang => titles[lang][id] = config.title[lang] || userTranslations[lang][id] || "");
         });
         navigationData.userspace = titles;
         for (const route of routesData.routes.admin) {
             try {
                 if (route.module) {
-                    // const meta = fs.readJSONSync(path.resolve(__dirname, "src", "modules", route.prefix, route.dir, "admin.json"));
-                    const meta = require(path.resolve(__dirname, "src", "modules", route.prefix, route.dir, "admin.js"));
-                    Object.keys(titles).map(lang => titlesAdmin[lang][route.id] = meta.title[lang] || userTranslations[lang][route.id] || "");
+                    const config = require(path.resolve(__dirname, "src", "modules", route.prefix, route.dir, "admin.js"));
+                    Object.keys(titles).map(lang => titlesAdmin[lang][route.id] = config.title[lang] || userTranslations[lang][route.id] || "");
                 } else {
-                    // const meta = fs.readJSONSync(path.resolve(__dirname, route.core ? "src/core" : "src", "pages", route.dir, "admin.json"));
-                    const meta = require(path.resolve(__dirname, route.core ? "src/core" : "src", "pages", route.dir, "admin.js"));
-                    Object.keys(titles).map(lang => titlesAdmin[lang][route.id] = meta.title[lang] || userTranslations[lang][route.id] || "");
+                    const config = require(path.resolve(__dirname, route.core ? "src/core" : "src", "pages", route.dir, "admin.js"));
+                    Object.keys(titles).map(lang => titlesAdmin[lang][route.id] = config.title[lang] || userTranslations[lang][route.id] || "");
                 }
             } catch {
                 // Ignore
@@ -451,18 +440,16 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
         for (const route of routesData.routes.admin) {
             try {
                 if (route.module) {
-                    // const meta = fs.readJSONSync(path.resolve(__dirname, "src", "modules", route.prefix, route.dir, "admin.json"));
-                    const meta = require(path.resolve(__dirname, "src", "modules", route.prefix, route.dir, "admin.js"));
-                    if (meta.icon) {
-                        icons.push(meta.icon);
-                        pages[meta.icon] = route.id.replace(/\./gm, "_");
+                    const config = require(path.resolve(__dirname, "src", "modules", route.prefix, route.dir, "admin.js"));
+                    if (config.icon) {
+                        icons.push(config.icon);
+                        pages[config.icon] = route.id.replace(/\./gm, "_");
                     }
                 } else {
-                    // const meta = fs.readJSONSync(path.resolve(__dirname, route.core ? "src/core" : "src", "pages", route.dir, "admin.json"));
-                    const meta = require(path.resolve(__dirname, route.core ? "src/core" : "src", "pages", route.dir, "admin.js"));
-                    if (meta.icon) {
-                        icons.push(meta.icon);
-                        pages[meta.icon] = route.id.replace(/\./gm, "_");
+                    const config = require(path.resolve(__dirname, route.core ? "src/core" : "src", "pages", route.dir, "admin.js"));
+                    if (config.icon) {
+                        icons.push(config.icon);
+                        pages[config.icon] = route.id.replace(/\./gm, "_");
                     }
                 }
             } catch {
@@ -511,7 +498,7 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
                 const sitemap = fs.readJSONSync(path.resolve(__dirname, "src", "pages", r.dir, "sitemap.json"));
                 if (sitemap.include) {
                     const entry = {
-                        loc: `${this.meta.url}${r.path}`,
+                        loc: `${this.systemConfig.url}${r.path}`,
                     };
                     if (sitemap.lastmod) {
                         try {
@@ -570,10 +557,10 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
             description: ""
         };
         const language = Object.keys(this.languages)[0];
-        manifest.name = this.meta.title[language];
-        manifest.short_name = this.meta.shortTitle[language];
-        manifest.description = this.meta.description[language];
-        manifest.id = this.meta.id;
+        manifest.name = this.systemConfig.title[language];
+        manifest.short_name = this.systemConfig.shortTitle[language];
+        manifest.description = this.systemConfig.description[language];
+        manifest.id = this.systemConfig.id;
 
         fs.ensureDirSync(path.resolve(__dirname, "dist", "public", "heretic"));
         fs.writeJSONSync(path.resolve(__dirname, "dist", "public", "heretic", "site.webmanifest"), manifest, this.production ? {} : {
@@ -587,8 +574,8 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
         Object.keys(this.languages).map(lang => langSwitchMarko += `<if(language === "${lang}")>\n    <lang-${lang}/>\n</if>\n`);
         for (const r of routesData.routes.userspace) {
             if (!r.module && fs.existsSync(path.resolve(__dirname, "src", "pages", r.dir, "userspace", "content"))) {
-                const meta = fs.readJSONSync(path.resolve(__dirname, "src", "pages", r.dir, "page.json"));
-                if (meta.langSwitchComponent) {
+                const config = require(path.resolve(__dirname, "src", "pages", r.dir, "page.js"));
+                if (config.langSwitchComponent) {
                     fs.removeSync(path.resolve(__dirname, "src", "pages", r.dir, "userspace", "content", "lang-switch"));
                     fs.ensureDirSync(path.resolve(__dirname, "src", "pages", r.dir, "userspace", "content", "lang-switch"));
                     fs.writeFileSync(path.resolve(__dirname, "src", "pages", r.dir, "userspace", "content", "lang-switch", "marko.json"), `{"tags-dir": ["../"]}`);

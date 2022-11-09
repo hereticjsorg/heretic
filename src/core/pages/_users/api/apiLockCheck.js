@@ -16,9 +16,9 @@ export default () => ({
                 });
             }
             if (this.redis) {
-                const userId = await this.redis.get(`${this.siteConfig.id}_lock_${moduleConfig.id}_${req.body.id}`);
+                const userId = await this.redis.get(`${this.systemConfig.id}_lock_${moduleConfig.id}_${req.body.id}`);
                 if (userId) {
-                    const userDb = await this.mongo.db.collection(this.siteConfig.collections.users).findOne({
+                    const userDb = await this.mongo.db.collection(this.systemConfig.collections.users).findOne({
                         _id: new ObjectId(userId),
                     }, {
                         projection: {

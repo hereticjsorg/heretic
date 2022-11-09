@@ -4,10 +4,10 @@ Heretic provides several built-in libraries and helpers for you.
 
 ## Fastify Globals
 
-* Access both main configuration files (*system.js* and *website.json*) using the Fastify decorations: *fastify.siteConfig*, *fastify.siteMeta*:
+* Access both main configuration files (*system.js* and *website.json*) using the Fastify decorations: *fastify.systemConfig*, *fastify.siteConfig*:
 
 ```javascript
-    console.log(fastify.siteConfig.server.ip);
+    console.log(fastify.systemConfig.server.ip);
 ```
 
 * Access Redis instance (when enabled) using *fastify.redis*

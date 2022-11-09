@@ -1,6 +1,6 @@
 import error500 from "../../errors/500/server.marko";
 
-export default async (err, rep, languageData, language, siteMeta) => {
+export default async (err, rep, languageData, language, siteConfig) => {
     let title;
     let message;
     switch (err.code) {
@@ -13,7 +13,7 @@ export default async (err, rep, languageData, language, siteMeta) => {
         message = languageData[language].internalServerErrorMessage;
     }
     const renderPage = await error500.render({
-        siteTitle: siteMeta.title[language],
+        siteTitle: siteConfig.title[language],
         title,
         message,
         code: err.code || 500,

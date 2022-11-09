@@ -29,6 +29,7 @@ src/translations/user
 /logs
 src/static/public
 src/styles
+src/static
 .DS_Store
 src/view
 src/modules

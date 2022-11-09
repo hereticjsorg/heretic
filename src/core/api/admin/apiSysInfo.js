@@ -17,13 +17,13 @@ export default () => ({
         try {
             const onlineUsers = {};
             let connections = 0;
-            if (this.redis && this.siteConfig.webSockets && this.siteConfig.webSockets.enabled) {
+            if (this.redis && this.systemConfig.webSockets && this.systemConfig.webSockets.enabled) {
                 try {
                     const online = {};
                     const query = {
                         $or: [],
                     };
-                    const usersRecords = await this.redis.keys(`${this.siteConfig.id}_user_*`);
+                    const usersRecords = await this.redis.keys(`${this.systemConfig.id}_user_*`);
                     connections = usersRecords.length;
                     for (const item of usersRecords.slice(0, 100)) {
                         const [, , userId] = item.split(/_/);
@@ -37,7 +37,7 @@ export default () => ({
                         }
                     }
                     if (query.$or.length) {
-                        const usersDb = await this.mongo.db.collection(this.siteConfig.collections.users).find(query, {
+                        const usersDb = await this.mongo.db.collection(this.systemConfig.collections.users).find(query, {
                             projection: {
                                 _id: 1,
                                 username: 1,

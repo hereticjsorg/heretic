@@ -7,7 +7,7 @@ export default () => ({
             }, 403);
         }
         try {
-            const groups = await this.mongo.db.collection(this.siteConfig.collections.groups).find({}, {
+            const groups = await this.mongo.db.collection(this.systemConfig.collections.groups).find({}, {
                 projection: {
                     _id: 1,
                     group: 1,

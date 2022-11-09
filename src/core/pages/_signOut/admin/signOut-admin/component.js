@@ -1,7 +1,7 @@
 const Utils = require("../../../../lib/componentUtils").default;
 const Cookies = require("../../../../lib/cookiesBrowser").default;
 const languages = Object.keys(require("../../../../../config/languages.json"));
-const meta = require("../../page.json");
+const config = require("../../page.js");
 
 module.exports = class {
     async onCreate(input, out) {
@@ -20,7 +20,7 @@ module.exports = class {
             this.siteId = out.global.siteId || window.__heretic.outGlobal.siteId;
             this.cookieOptions = out.global.cookieOptions || window.__heretic.outGlobal.cookieOptions;
             this.systemRoutes = out.global.systemRoutes || window.__heretic.outGlobal.systemRoutes;
-            document.title = `${meta.title[this.language]} – ${this.siteTitle}`;
+            document.title = `${config.title[this.language]} – ${this.siteTitle}`;
         }
     }
 

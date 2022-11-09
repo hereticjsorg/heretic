@@ -6,7 +6,7 @@ const captcha = new Captcha();
 export default () => ({
     async handler(req, rep) {
         try {
-            const cryptr = new Cryptr(this.siteConfig.secret);
+            const cryptr = new Cryptr(this.systemConfig.secret);
             // c = code
             const c = Math.random().toString().substring(2, 6);
             const imageData = captcha.createCaptcha(c);

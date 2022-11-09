@@ -42,29 +42,29 @@ export default class {
         // Read configuration files
         try {
             // eslint-disable-next-line no-undef
-            this.config = __non_webpack_require__(path.resolve(__dirname, "..", "etc", "system.js"));
+            this.systemConfig = __non_webpack_require__(path.resolve(__dirname, "..", "etc", "system.js"));
             // eslint-disable-next-line no-undef
-            this.siteMeta = __non_webpack_require__(path.resolve(__dirname, "..", "etc", "website.js"));
+            this.siteConfig = __non_webpack_require__(path.resolve(__dirname, "..", "etc", "website.js"));
         } catch {
             // eslint-disable-next-line no-console
             console.error(`Could not read "system.js" and/or "website.js" configuration files.\nRun the following command to create: npm run configure\nRead documentation for more info.`);
             process.exit(1);
         }
-        this.config.secretInt = parseInt(crypto.createHash("md5").update(this.config.secret).digest("hex"), 16);
+        this.systemConfig.secretInt = parseInt(crypto.createHash("md5").update(this.systemConfig.secret).digest("hex"), 16);
         this.fastify = Fastify({
-            logger: new Logger(this.config).getPino(),
-            trustProxy: this.config.server.trustProxy,
-            ignoreTrailingSlash: this.config.server.ignoreTrailingSlash,
+            logger: new Logger(this.systemConfig).getPino(),
+            trustProxy: this.systemConfig.server.trustProxy,
+            ignoreTrailingSlash: this.systemConfig.server.ignoreTrailingSlash,
         });
         [this.defaultLanguage] = Object.keys(languages);
         this.fastify.register(require("@fastify/formbody"));
         this.fastify.register(require("@fastify/jwt"), {
-            secret: this.config.secret,
+            secret: this.systemConfig.secret,
         });
         this.fastify.register(require("@fastify/cookie"));
-        if (this.config.webSockets || this.config.webSockets.enabled) {
+        if (this.systemConfig.webSockets || this.systemConfig.webSockets.enabled) {
             this.fastify.register(require("@fastify/websocket"), {
-                options: this.config.webSockets.options,
+                options: this.systemConfig.webSockets.options,
             });
         }
         this.wsHandlers = [];
@@ -74,8 +74,8 @@ export default class {
             userspace: routesData.i18nNavigation.userspace,
             admin: routesData.i18nNavigation.admin,
         });
-        this.fastify.decorate("siteMeta", this.siteMeta);
-        this.fastify.decorate("siteConfig", this.config);
+        this.fastify.decorate("siteConfig", this.siteConfig);
+        this.fastify.decorate("systemConfig", this.systemConfig);
         this.fastify.decorate("languages", languages);
         this.fastify.decorate("navigation", navigation);
         for (const decorateItem of fastifyDecorators.list()) {
@@ -91,16 +91,16 @@ export default class {
             request.auth = new Auth(this.fastify, request);
             done();
         });
-        if (this.config.redis && this.config.redis.enabled) {
-            const redis = new Redis(this.config.redis);
+        if (this.systemConfig.redis && this.systemConfig.redis.enabled) {
+            const redis = new Redis(this.systemConfig.redis);
             redis.on("error", e => {
                 this.fastify.log.error(`Redis ${e}`);
                 process.exit(1);
             });
-            redis.on("connect", () => this.fastify.log.info(`Connected to Redis Server at ${this.config.redis.host}:${this.config.redis.port}`));
+            redis.on("connect", () => this.fastify.log.info(`Connected to Redis Server at ${this.systemConfig.redis.host}:${this.systemConfig.redis.port}`));
             this.fastify.decorate("redis", redis);
-            if (this.config.rateLimit && this.config.rateLimit.enabled) {
-                this.fastify.register(hereticRateLimit, this.config.rateLimit);
+            if (this.systemConfig.rateLimit && this.systemConfig.rateLimit.enabled) {
+                this.fastify.register(hereticRateLimit, this.systemConfig.rateLimit);
             }
         }
     }
@@ -200,14 +200,14 @@ export default class {
     registerRouteErrors() {
         this.fastify.setNotFoundHandler(async (req, rep) => {
             const language = this.utils.getLanguageFromUrl(req.url);
-            const output = req.urlData(null, req).path.match(/^\/api\//) ? apiRoute404(rep, this.languageData, language) : await route404(req, rep, this.languageData, language, this.siteMeta, this.config, routesData.i18nNavigation.userspace);
+            const output = req.urlData(null, req).path.match(/^\/api\//) ? apiRoute404(rep, this.languageData, language) : await route404(req, rep, this.languageData, language, this.siteConfig, this.systemConfig, routesData.i18nNavigation.userspace);
             rep.code(404);
             rep.send(output);
         });
         this.fastify.setErrorHandler(async (err, req, rep) => {
             this.fastify.log.error(err);
             const language = this.utils.getLanguageFromUrl(req.url);
-            const output = req.urlData(null, req).path.match(/^\/api\//) ? apiRoute500(err, rep, this.languageData, language) : await route500(err, rep, this.languageData, language, this.siteMeta);
+            const output = req.urlData(null, req).path.match(/^\/api\//) ? apiRoute500(err, rep, this.languageData, language) : await route500(err, rep, this.languageData, language, this.siteConfig);
             rep.code(err.code === 429 ? 429 : 500);
             rep.send(output);
         });
@@ -239,7 +239,7 @@ export default class {
      * Register WebSocket routes
      */
     async registerRouteWebSockets() {
-        if (!this.config.webSockets || !this.config.webSockets.enabled) {
+        if (!this.systemConfig.webSockets || !this.systemConfig.webSockets.enabled) {
             return;
         }
         for (const file of routesData.ws.root) {
@@ -317,8 +317,8 @@ export default class {
      */
     listen() {
         this.fastify.listen({
-            port: this.config.server.port,
-            host: this.config.server.ip
+            port: this.systemConfig.server.port,
+            host: this.systemConfig.server.ip
         });
     }
 
@@ -328,7 +328,7 @@ export default class {
 
     async connectDatabase() {
         // Create MongoDB client and connect
-        const mongoClient = new MongoClient(this.config.mongo.url, this.config.mongo.options || {
+        const mongoClient = new MongoClient(this.systemConfig.mongo.url, this.systemConfig.mongo.options || {
             useUnifiedTopology: true,
             connectTimeoutMS: 5000,
             keepAlive: true,
@@ -344,9 +344,9 @@ export default class {
         // Register MongoDB for Fastify
         this.fastify.register(require("@fastify/mongodb"), {
             client: mongoClient,
-            database: this.config.mongo.dbName
+            database: this.systemConfig.mongo.dbName
         }).register(async (ff, opts, next) => {
-            this.fastify.log.info(`Connected to Mongo Server: (${this.config.mongo.url}/${this.config.mongo.dbName})`);
+            this.fastify.log.info(`Connected to Mongo Server: (${this.systemConfig.mongo.url}/${this.systemConfig.mongo.dbName})`);
             next();
         });
     }
@@ -370,15 +370,15 @@ export default class {
      * @returns {Object} configuration data object (JSON)
      */
     getConfigSystem() {
-        return this.config;
+        return this.systemConfig;
     }
 
     /*
-     * This method returns site metadata (website.js)
+     * This method returns site config (website.js)
      * @returns {Object} configuration data object (JSON)
      */
-    getConfigMeta() {
-        return this.meta;
+    getConfigWebsite() {
+        return this.siteConfig;
     }
 
     /*

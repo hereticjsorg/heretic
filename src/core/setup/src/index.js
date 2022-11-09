@@ -6,7 +6,7 @@ import {
     format
 } from "date-fns";
 
-import routesData from "../../build/build.json";
+import routesData from "../../../build/build.json";
 
 // eslint-disable-next-line no-console
 const log = (message, error = false) => console[error ? "error" : "log"](`[${error ? "!" : " "}] ${format(new Date(), "yyyy-MM-dd HH:mm:ss")} ${message}`);
@@ -77,7 +77,7 @@ const createExpireIndex = async (db, id, collection, field, seconds) => {
         for (const page of routesData.directories.pages) {
             let Setup;
             try {
-                Setup = (await import(`../../pages/${page}/setup.js`)).default;
+                Setup = (await import(`../../../pages/${page}/setup.js`)).default;
             } catch {
                 // Ignore
             }
@@ -96,7 +96,7 @@ const createExpireIndex = async (db, id, collection, field, seconds) => {
         for (const page of routesData.directories.pagesCore) {
             let Setup;
             try {
-                Setup = (await import(`../../core/pages/${page}/setup.js`)).default;
+                Setup = (await import(`../../pages/${page}/setup.js`)).default;
             } catch {
                 // Ignore
             }
@@ -115,7 +115,7 @@ const createExpireIndex = async (db, id, collection, field, seconds) => {
         for (const module of routesData.directories.modules) {
             let Setup;
             try {
-                Setup = (await import(`../../modules/${module}/setup.js`)).default;
+                Setup = (await import(`../../../modules/${module}/setup.js`)).default;
             } catch {
                 // Ignore
             }

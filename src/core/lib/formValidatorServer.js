@@ -149,8 +149,8 @@ export default class {
                 for (const file of filesData) {
                     if (this.formFiles[file.uid]) {
                         try {
-                            await fs.move(this.formFiles[file.uid].filePath, `${path.resolve(__dirname, this.fastify.siteConfig.directories.files)}/${file.uid}`);
-                            await this.fastify.mongo.db.collection(this.fastify.siteConfig.collections.files).insertOne({
+                            await fs.move(this.formFiles[file.uid].filePath, `${path.resolve(__dirname, this.fastify.systemConfig.directories.files)}/${file.uid}`);
+                            await this.fastify.mongo.db.collection(this.fastify.systemConfig.collections.files).insertOne({
                                 _id: file.uid,
                                 filename: this.formFiles[file.uid].filename,
                                 size: this.formFiles[file.uid].size,
@@ -189,13 +189,13 @@ export default class {
                 _id,
             });
             try {
-                await fs.unlink(`${path.resolve(__dirname, this.fastify.siteConfig.directories.files)}/${_id}`);
+                await fs.unlink(`${path.resolve(__dirname, this.fastify.systemConfig.directories.files)}/${_id}`);
             } catch {
                 // Ignore
             }
         }
         try {
-            await await this.fastify.mongo.db.collection(this.fastify.siteConfig.collections.files).deleteMany(deleteManyQuery);
+            await await this.fastify.mongo.db.collection(this.fastify.systemConfig.collections.files).deleteMany(deleteManyQuery);
         } catch {
             // Ignore
         }

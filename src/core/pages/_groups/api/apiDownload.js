@@ -20,13 +20,13 @@ export default () => ({
             if (!authData || !id || typeof id !== "string" || !id.match(/^[0-9a-f]{8}\b-[0-9a-f]{4}\b-[0-9a-f]{4}\b-[0-9a-f]{4}\b-[0-9a-f]{12}$/)) {
                 return redirectNotFound();
             }
-            const filePath = path.resolve(__dirname, this.siteConfig.directories.files, id);
+            const filePath = path.resolve(__dirname, this.systemConfig.directories.files, id);
             try {
                 await fs.access(filePath, fs.F_OK);
             } catch (e) {
                 return redirectNotFound();
             }
-            const fileDb = await this.mongo.db.collection(this.siteConfig.collections.files).findOne({
+            const fileDb = await this.mongo.db.collection(this.systemConfig.collections.files).findOne({
                 _id: id,
             });
             if (!fileDb) {

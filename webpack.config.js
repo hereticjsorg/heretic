@@ -229,7 +229,7 @@ module.exports = (env, argv) => {
             }
         }, {
             name: "Setup",
-            context: path.resolve(`${__dirname}/src/setup`),
+            context: path.resolve(`${__dirname}/src/core/setup`),
             devtool: argv.mode === "production" ? false : "eval",
             resolve: {
                 extensions: [".js", ".json"]

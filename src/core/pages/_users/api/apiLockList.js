@@ -15,8 +15,8 @@ export default () => ({
                     $or: [],
                 };
                 const lockData = {};
-                const lockRecords = await this.redis.keys(`${this.siteConfig.id}_lock_${moduleConfig.id}_*`);
-                const lockRecordRex = new RegExp(`^${this.siteConfig.id}_lock_${moduleConfig.id}_`, "i");
+                const lockRecords = await this.redis.keys(`${this.systemConfig.id}_lock_${moduleConfig.id}_*`);
+                const lockRecordRex = new RegExp(`^${this.systemConfig.id}_lock_${moduleConfig.id}_`, "i");
                 for (const record of (lockRecords || [])) {
                     const userId = await this.redis.get(record);
                     if (userId) {
@@ -28,7 +28,7 @@ export default () => ({
                     }
                 }
                 if (query.$or.length) {
-                    const usersDb = await this.mongo.db.collection(this.siteConfig.collections.users).find(query, {
+                    const usersDb = await this.mongo.db.collection(this.systemConfig.collections.users).find(query, {
                         projection: {
                             _id: 1,
                             username: 1,

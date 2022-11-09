@@ -61,7 +61,7 @@ const fastifyMultipart = (fastify, options, done) => {
                 filesCount += 1;
                 const tempName = uuid();
                 try {
-                    const filePath = fastify.siteConfig.directories.tmp ? path.resolve(__dirname, fastify.siteConfig.directories.tmp, tempName) : path.join(os.tmpdir(), tempName);
+                    const filePath = fastify.systemConfig.directories.tmp ? path.resolve(__dirname, fastify.systemConfig.directories.tmp, tempName) : path.join(os.tmpdir(), tempName);
                     await saveFile(file, filePath);
                     const fileStat = await fs.stat(filePath);
                     multipartFiles[fieldName] = {

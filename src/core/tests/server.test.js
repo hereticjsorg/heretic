@@ -5,28 +5,22 @@ import {
     afterAll,
 } from "@jest/globals";
 import axios from "axios";
-import retryAxios from "retry-axios";
+import axiosRetry from "axios-retry";
 import {
     execa
 } from "execa";
 import crypto from "crypto";
 import fkill from "fkill";
-import Helpers from "../core/testHelpers";
+import Helpers from "../core/lib/testHelpers";
 import systemConfig from "../../etc/system.js";
+
+axiosRetry(axios, {
+    retryDelay: axiosRetry.exponentialDelay,
+});
 
 const routeId = "test3wEGNDiB";
 jest.setTimeout(120000);
 const helpers = new Helpers();
-const raxConfig = {
-    retry: 20,
-    noResponseRetries: 20,
-    retryDelay: 100,
-    statusCodesToRetry: [
-        [100, 199],
-        [400, 403],
-    ],
-};
-retryAxios.attach();
 let serverPid = [];
 
 test("Server availability (200)", async () => {
@@ -45,7 +39,6 @@ test("Server availability (200)", async () => {
             method: "get",
             url: `http://${systemConfig.server.ip}:${systemConfig.server.port}`,
             timeout: 30000,
-            raxConfig,
         });
     } catch {
         // Ignore
@@ -72,7 +65,6 @@ test("Server availability (404)", async () => {
             method: "get",
             url: `http://${systemConfig.server.ip}:${systemConfig.server.port}/zsBEB4Aj67RmaPskCDHNgh6PMQ4AgJ4`,
             timeout: 30000,
-            raxConfig,
         });
     } catch (e) {
         expect(e && e.response ? e.response.status : 0).toBe(404);
@@ -90,7 +82,7 @@ test("Test Page", async () => {
         await helpers.removeFile(`src/pages/${routeId}`);
     }
     await helpers.copy("src/core/defaults/.test", `src/pages/${routeId}`);
-    const testMeta = await helpers.readJSON(`src/pages/${routeId}/page.json`);
+    const testMeta = await helpers.readJSON(`src/pages/${routeId}/page.js`);
     testMeta.id = routeId;
     testMeta.path = `/${id}`;
     for (const language of helpers.getLanguagesList()) {
@@ -99,7 +91,7 @@ test("Test Page", async () => {
         await helpers.ensureDir(`src/pages/${routeId}/content/lang-${language}`);
         await helpers.writeFile(`src/pages/${routeId}/content/lang-${language}/index.marko`, `<div>site-content-${language}</div>\n`);
     }
-    await helpers.writeJSON(`src/pages/${routeId}/page.json`, testMeta);
+    await helpers.writeJSON(`src/pages/${routeId}/page.js`, testMeta);
     const {
         buildSuccess
     } = await helpers.build("dev");
@@ -115,7 +107,6 @@ test("Test Page", async () => {
                 method: "get",
                 url: `http://${systemConfig.server.ip}:${systemConfig.server.port}/${language === helpers.getLanguagesList()[0] ? "" : `${language}/`}${id}`,
                 timeout: 30000,
-                raxConfig,
             });
         } catch {
             // Ignore

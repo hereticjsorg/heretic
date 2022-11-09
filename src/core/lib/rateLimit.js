@@ -25,7 +25,7 @@ const getLimitData = async (fastify, settings, hashFull) => {
         updatedAt: new Date(),
         max: 0
     };
-    const dataLimit = await fastify.redis.get(`${fastify.siteConfig.id}_rateLimit_${hashFull}`);
+    const dataLimit = await fastify.redis.get(`${fastify.systemConfig.id}_rateLimit_${hashFull}`);
     const data = dataLimit ? dataLimit.split(",") : [defaults.updatedAt, defaults.max];
     data[0] = typeof data[0] === "string" ? new Date(data[0] * 1000) : data[0];
     return {
@@ -36,7 +36,7 @@ const getLimitData = async (fastify, settings, hashFull) => {
 };
 
 const getBanData = async (fastify, settings, hashIP) => {
-    const dataBan = await fastify.redis.get(`${fastify.siteConfig.id}_rateBan_${hashIP}`);
+    const dataBan = await fastify.redis.get(`${fastify.systemConfig.id}_rateBan_${hashIP}`);
     return !!dataBan;
 };
 
@@ -46,11 +46,11 @@ const updateOnLimitExceeded = async (fastify, settings, hashFull, max) => {
         updatedAt: new Date(),
         max
     };
-    await fastify.redis.set(`${fastify.siteConfig.id}_rateLimit_${hashFull}`, `${parseInt(data.updatedAt.getTime() / 1000, 10)},${data.max}`, "ex", 3600);
+    await fastify.redis.set(`${fastify.systemConfig.id}_rateLimit_${hashFull}`, `${parseInt(data.updatedAt.getTime() / 1000, 10)},${data.max}`, "ex", 3600);
 };
 
 const updateOnBan = async (fastify, settings, hashIP) => {
-    await fastify.redis.set(`${fastify.siteConfig.id}_rateBan_${hashIP}`, 1, "ex", 86400);
+    await fastify.redis.set(`${fastify.systemConfig.id}_rateBan_${hashIP}`, 1, "ex", 86400);
 };
 
 const updateDataLimit = async (fastify, settings, hashFull, createdAt, max) => {
@@ -59,7 +59,7 @@ const updateDataLimit = async (fastify, settings, hashFull, createdAt, max) => {
         updatedAt: new Date(),
         max
     };
-    await fastify.redis.set(`${fastify.siteConfig.id}_rateLimit_${hashFull}`, `${parseInt(data.updatedAt.getTime() / 1000, 10)},${data.max}`, "ex", 3600);
+    await fastify.redis.set(`${fastify.systemConfig.id}_rateLimit_${hashFull}`, `${parseInt(data.updatedAt.getTime() / 1000, 10)},${data.max}`, "ex", 3600);
 };
 
 const checkWhiteList = (settings, req) => {
@@ -92,8 +92,8 @@ const buildRate = async (fastify, settings, routeOptions) => {
         if (checkWhiteList(settings, req)) {
             return;
         }
-        const hashFull = xx64(`${req.ip}${req.urlData(null, req).path}`, fastify.siteConfig.secretInt).toString(16);
-        const hashIP = xx64(req.ip, fastify.siteConfig.secretInt).toString(16);
+        const hashFull = xx64(`${req.ip}${req.urlData(null, req).path}`, fastify.systemConfig.secretInt).toString(16);
+        const hashIP = xx64(req.ip, fastify.systemConfig.secretInt).toString(16);
         const dataLimit = await getLimitData(fastify, settings, hashFull);
         dataLimit.max += 1;
         const timestampNow = new Date().getTime();
@@ -134,7 +134,7 @@ const buildRate = async (fastify, settings, routeOptions) => {
             next(err, req, rep, fastify);
             return;
         }
-        const hashIP = xx64(req.ip, fastify.siteConfig.secretInt).toString(16);
+        const hashIP = xx64(req.ip, fastify.systemConfig.secretInt).toString(16);
         const dataBan = await getBanData(fastify, settings, hashIP);
         if (dataBan) {
             next(err, req, rep, fastify);

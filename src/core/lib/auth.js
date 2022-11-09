@@ -39,21 +39,21 @@ export default class {
 
     async authorize(username, password) {
         try {
-            const userDb = await this.fastify.mongo.db.collection(this.fastify.siteConfig.collections.users).findOne({
+            const userDb = await this.fastify.mongo.db.collection(this.fastify.systemConfig.collections.users).findOne({
                 username: username.toLowerCase(),
             });
             if (!userDb) {
                 return null;
             }
             const passwordHashDb = userDb.password;
-            if (!await this.verifyHash(`${password}${this.fastify.siteConfig.secret}`, passwordHashDb)) {
+            if (!await this.verifyHash(`${password}${this.fastify.systemConfig.secret}`, passwordHashDb)) {
                 return null;
             }
             if (userDb.sid) {
                 return userDb;
             }
             const sid = crypto.randomUUID();
-            await this.fastify.mongo.db.collection(this.fastify.siteConfig.collections.users).updateOne({
+            await this.fastify.mongo.db.collection(this.fastify.systemConfig.collections.users).updateOne({
                 _id: userDb._id
             }, {
                 $set: {
@@ -74,11 +74,11 @@ export default class {
             id: String(userDb._id),
             sid: userDb.sid || null,
         };
-        if (this.fastify.siteConfig.token.ip && this.req) {
+        if (this.fastify.systemConfig.token.ip && this.req) {
             signData.ip = this.req.ip;
         }
         return this.fastify.jwt.sign(signData, {
-            expiresIn: this.fastify.siteConfig.token.expiresIn,
+            expiresIn: this.fastify.systemConfig.token.expiresIn,
         });
     }
 
@@ -86,7 +86,7 @@ export default class {
         let token = null;
         switch (method) {
         case this.methods.COOKIE:
-            token = this.req.cookies[`${this.fastify.siteConfig.id || "heretic"}.authToken`];
+            token = this.req.cookies[`${this.fastify.systemConfig.id || "heretic"}.authToken`];
             break;
         default:
             token = this.req && this.req.headers && this.req.headers.authorization && typeof this.req.headers.authorization === "string" ? this.req.headers.authorization.replace(/^Bearer /, "") : null;
@@ -98,12 +98,12 @@ export default class {
             return null;
         }
         // Check IP address
-        if (this.fastify.siteConfig.token.ip && this.req && this.req.ip !== tokenData.ip) {
+        if (this.fastify.systemConfig.token.ip && this.req && this.req.ip !== tokenData.ip) {
             return null;
         }
         // Query database
         try {
-            const userDb = await this.fastify.mongo.db.collection(this.fastify.siteConfig.collections.users).findOne({
+            const userDb = await this.fastify.mongo.db.collection(this.fastify.systemConfig.collections.users).findOne({
                 _id: new ObjectId(tokenData.id),
             });
             if (!userDb || userDb.sid !== tokenData.sid) {
@@ -117,7 +117,7 @@ export default class {
                 };
                 const groupData = [];
                 const groups = [];
-                const groupsDb = await this.fastify.mongo.db.collection(this.fastify.siteConfig.collections.groups).find(groupsQuery).toArray();
+                const groupsDb = await this.fastify.mongo.db.collection(this.fastify.systemConfig.collections.groups).find(groupsQuery).toArray();
                 for (const group of groupsDb) {
                     for (const dataItem of group.data) {
                         groupData.push({

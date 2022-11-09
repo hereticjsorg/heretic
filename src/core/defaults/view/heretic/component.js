@@ -46,7 +46,7 @@ module.exports = class {
         this.siteId = out.global.siteId;
         this.cookieOptions = out.global.cookieOptions;
         this.utils = new Utils(this, this.language);
-        await import(/* webpackChunkName: "bulma" */ "../../styles/bulma.scss");
+        await import(/* webpackChunkName: "bulma" */ "../../view/bulma.scss");
         await import(/* webpackChunkName: "heretic" */ "../heretic.scss");
         await this.loadLanguageData();
         this.setGlobalVariables(out);

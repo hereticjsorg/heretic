@@ -1,4 +1,4 @@
-const meta = require("../../page.json");
+const config = require("../../page.js");
 const Utils = require("../../../../core/lib/componentUtils").default;
 
 module.exports = class {
@@ -11,7 +11,7 @@ module.exports = class {
         if (process.browser && window.__heretic && window.__heretic.t) {
             this.language = this.language || window.__heretic.outGlobal.language;
             this.siteTitle = out.global.siteTitle || window.__heretic.outGlobal.siteTitle;
-            document.title = `${meta.title[this.language]} – ${this.siteTitle}`;
+            document.title = `${config.title[this.language]} – ${this.siteTitle}`;
         }
         this.utils = new Utils(this, this.language);
     }

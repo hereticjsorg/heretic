@@ -47,7 +47,7 @@ export default () => ({
                     return rep.error(duplicateErrors);
                 }
                 if (data._default.password) {
-                    data._default.password = await req.auth.createHash(`${data._default.password}${this.siteConfig.secret}`);
+                    data._default.password = await req.auth.createHash(`${data._default.password}${this.systemConfig.secret}`);
                 } else {
                     delete data._default.password;
                 }
@@ -65,7 +65,7 @@ export default () => ({
                 if (duplicateErrors) {
                     return rep.error(duplicateErrors);
                 }
-                data._default.password = await req.auth.createHash(`${data._default.password}${this.siteConfig.secret}`);
+                data._default.password = await req.auth.createHash(`${data._default.password}${this.systemConfig.secret}`);
                 const insertResult = await collection.insertOne({
                     ...data._default,
                 });

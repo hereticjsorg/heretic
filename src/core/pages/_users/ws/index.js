@@ -13,12 +13,12 @@ export default class {
     }
 
     async lock(connection, id, user) {
-        await this.fastify.redis.set(`${this.fastify.siteConfig.id}_lock_${moduleConfig.id}_${id}`, user, "ex", moduleConfig.options.lockTimeout);
+        await this.fastify.redis.set(`${this.fastify.systemConfig.id}_lock_${moduleConfig.id}_${id}`, user, "ex", moduleConfig.options.lockTimeout);
         connection.lockId = id;
     }
 
     async unlock(connection, id) {
-        await this.fastify.redis.del(`${this.fastify.siteConfig.id}_lock_${moduleConfig.id}_${id || connection.lockId}`);
+        await this.fastify.redis.del(`${this.fastify.systemConfig.id}_lock_${moduleConfig.id}_${id || connection.lockId}`);
     }
 
     async onMessage(connection, req, message) {
@@ -49,7 +49,7 @@ export default class {
                 });
                 break;
             case "unlock":
-                const userId = await this.fastify.redis.get(`${this.fastify.siteConfig.id}_lock_${moduleConfig.id}_${connection.lockId}`);
+                const userId = await this.fastify.redis.get(`${this.fastify.systemConfig.id}_lock_${moduleConfig.id}_${connection.lockId}`);
                 if (userId === authData._id.toString()) {
                     await this.unlock(connection, data.id);
                     this.fastify.webSocketBroadcast({
