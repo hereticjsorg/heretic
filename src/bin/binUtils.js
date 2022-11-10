@@ -254,29 +254,35 @@ module.exports = class {
         fs.writeJSONSync(languageJSONPath, languageJSON, {
             spaces: "\t",
         });
-        console.log("Modifying existing pages...");
+        console.log("Modifying existing pages (userspace area)...");
         fs.readdirSync(path.resolve(__dirname, "../pages")).filter(p => !p.match(/^\./)).map(p => {
-            const pageUserspaceJSONPath = path.resolve(__dirname, `../pages/${p}/page.json`);
-            if (fs.existsSync(pageUserspaceJSONPath)) {
-                const pageJSON = fs.readJSONSync(pageUserspaceJSONPath);
-                pageJSON.title[id] = pageJSON.title[id] || "";
-                pageJSON.description[id] = pageJSON.description[id] || "";
-                fs.writeJSONSync(pageUserspaceJSONPath, pageJSON, {
-                    spaces: "\t",
-                });
+            const pageConfig = require(path.resolve(__dirname, `../pages/${p}/page.js`));
+            let directories;
+            if (Array.isArray(pageConfig)) {
+                directories = pageConfig;
+            } else {
+                directories = [""];
             }
-            const pageAdminJSONPath = path.resolve(__dirname, `../pages/${p}/meta.json`);
-            if (fs.existsSync(pageAdminJSONPath)) {
-                const pageJSON = fs.readJSONSync(pageAdminJSONPath);
-                pageJSON.title[id] = pageJSON.title[id] || "";
-                pageJSON.description[id] = pageJSON.description[id] || "";
-                fs.writeJSONSync(pageAdminJSONPath, pageJSON, {
-                    spaces: "\t",
-                });
-            }
-            if (fs.existsSync(path.resolve(__dirname, `../pages/${p}/userspace/content/lang-switch`))) {
-                fs.ensureDirSync(path.resolve(__dirname, `../pages/${p}/userspace/content/lang-${id}`));
-                fs.writeFileSync(path.resolve(__dirname, `../pages/${p}/userspace/content/lang-${id}/index.marko`), `<div>${name}</div>`, "utf8");
+            for (const dir of directories) {
+                const pageUserspaceJSONPath = path.resolve(__dirname, "..", "pages", dir, p, "meta.json");
+                if (fs.existsSync(pageUserspaceJSONPath)) {
+                    const pageJSON = fs.readJSONSync(pageUserspaceJSONPath);
+                    if (pageJSON.userspace) {
+                        pageJSON.userspace.title[id] = pageJSON.userspace.title[id] || "";
+                        pageJSON.userspace.description[id] = pageJSON.userspace.description[id] || "";
+                    }
+                    if (pageJSON.admin) {
+                        pageJSON.admin.title[id] = pageJSON.admin.title[id] || "";
+                        pageJSON.admin.description[id] = pageJSON.admin.description[id] || "";
+                    }
+                    fs.writeJSONSync(pageUserspaceJSONPath, pageJSON, {
+                        spaces: "\t",
+                    });
+                }
+                if (fs.existsSync(path.resolve(__dirname, "../pages", dir, `${p}/userspace/content/lang-switch`))) {
+                    fs.ensureDirSync(path.resolve(__dirname, "../pages", dir, `${p}/userspace/content/lang-${id}`));
+                    fs.writeFileSync(path.resolve(__dirname, "../pages", dir, `${p}/userspace/content/lang-${id}/index.marko`), `<div>${name}</div>`, "utf8");
+                }
             }
         });
         console.log("Modifying core translation files...");
