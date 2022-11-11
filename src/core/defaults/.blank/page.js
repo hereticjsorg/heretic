@@ -1,8 +1,8 @@
 const meta = require("./meta.json");
 
 module.exports = {
-    id: "blank",
-    path: "/blank",
+    id: meta.id,
+    path: `/${meta.id}`,
     langSwitchComponent: true,
     ...meta.userspace,
 };

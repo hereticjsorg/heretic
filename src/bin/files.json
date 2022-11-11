@@ -14,6 +14,9 @@
     "from": "../core/defaults/.blank",
     "to": "../pages/.blank"
 }, {
+    "from": "../core/defaults/meta.json",
+    "to": "../../etc/meta.json"
+}, {
     "from": "../core/defaults/website.js",
     "to": "../../etc/website.js"
 }, {

@@ -3,10 +3,6 @@ const commandLineArgs = require("command-line-args");
 const BinUtils = require("./binUtils");
 
 const options = commandLineArgs([{
-    name: "defaults",
-    alias: "d",
-    type: Boolean,
-}, {
     name: "force",
     alias: "f",
     type: Boolean,
@@ -18,4 +14,7 @@ binUtils.copyFiles();
 binUtils.generateSecureConfig();
 binUtils.writeNavigationConfig();
 binUtils.writeUserTranslationData();
-console.log("All done.\n");
+binUtils.initCorePagesMeta();
+binUtils.log("All done", {
+    success: true,
+});

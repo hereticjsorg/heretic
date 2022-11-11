@@ -51,13 +51,18 @@ export default () => ({
                     // Ignore
                 }
             }
+            const osTotalMem = os.totalmem();
+            const sizes = ["", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
             return rep.success({
                 hereticVersion: packageJson.version,
                 osType: os.type(),
                 osRelease: os.release(),
                 osPlatform: os.platform(),
+                osFreeMem: os.freemem(),
+                osTotalMem: `${parseFloat((osTotalMem / 1024 ** Math.floor(Math.log(osTotalMem) / Math.log(1024))).toFixed(0))} ${sizes[Math.floor(Math.log(osTotalMem) / Math.log(1024))]}`,
                 onlineUsers,
                 connections,
+                pagesCore: buildConfig.directories.pagesCore,
                 pages: buildConfig.directories.pages,
                 modules: buildConfig.directories.modules,
             });

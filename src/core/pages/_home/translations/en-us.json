@@ -11,5 +11,9 @@
     "pagesAvail": "Pages available",
     "modulesAvail": "Modules available",
     "onlineUsers": "Online users",
-    "connections": "Connections"
+    "connections": "Connections",
+    "ram": "RAM Available",
+    "pagesCount": "Pages count",
+    "modulesCount": "Modules",
+    "pagesCoreCount": "Core pages count"
 }

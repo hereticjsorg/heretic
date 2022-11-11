@@ -6,10 +6,12 @@
   "scripts": {
     "server": "node dist/server",
     "configure": "node src/bin/configure",
+    "setup": "node dist/setup",
+    "cli": "node src/bin/cli",
+    "cli-interactive": "node src/bin/cli-interactive",
     "cleanup-dev": "node src/bin/cleanup",
     "build-dev": "webpack --mode development",
     "build-production": "webpack --mode production",
-    "cli": "node src/bin/cli",
     "test": "jest --runInBand",
     "doc": "documentation build src/core/*.js -f md -o manual/core.md"
   },

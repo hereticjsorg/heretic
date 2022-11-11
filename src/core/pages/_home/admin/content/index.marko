@@ -1,51 +1,91 @@
 <if(state.ready)>
     <hadmin-title title=(process.browser && window.__heretic ? window.__heretic.t("moduleTitleAdmin") : null)/>
-    <div class="notification is-success mb-1 p-2 pl-3">
+    <!-- <div class="notification is-success mb-1 p-2 pl-3">
         <span class="has-text-white hr-ah-blink">•</span>&nbsp;&nbsp;<t>hereticUpAndRunning</t>
-    </div>
+    </div> -->
     <if(state.info)>
-        <table class="table">
-            <tbody>
-                <tr>
-                    <td>
-                        <t>hereticVersion</t>:
-                    </td>
-                    <td>${state.info.hereticVersion}</td>
-                </tr>
-                <tr>
-                    <td>
-                        <t>operatingSystem</t>:
-                    </td>
-                    <td>${window.__heretic.t(state.info.osType)}</td>
-                </tr>
-                <tr>
-                    <td>
-                        <t>operatingSystemRelease</t>:
-                    </td>
-                    <td>${window.__heretic.t(state.info.osRelease)}</td>
-                </tr>
-                <tr>
-                    <td>
-                        <t>pagesAvail</t>:
-                    </td>
-                    <td>${state.info.pages.join(", ")}</td>
-                </tr>
-                <tr>
-                    <td>
-                        <t>modulesAvail</t>:
-                    </td>
-                    <td>${state.info.modules.join(", ")}</td>
-                </tr>
-                <if(state.info.connections)>
+        <div class="hero">
+            <div class="hero-body">
+                <nav class="level">
+                    <div class="level-item has-text-centered">
+                        <div>
+                            <p class="heading">
+                                <t>hereticVersion</t>
+                            </p>
+                            <p class="title">${state.info.hereticVersion}</p>
+                        </div>
+                    </div>
+                    <div class="level-item has-text-centered">
+                        <div>
+                            <p class="heading">
+                                <t>operatingSystem</t>
+                            </p>
+                            <p class="title">${window.__heretic.t(state.info.osType)}&nbsp;${window.__heretic.t(state.info.osRelease)}</p>
+                        </div>
+                    </div>
+                    <div class="level-item has-text-centered">
+                        <div>
+                            <p class="heading">
+                                <t>ram</t>
+                            </p>
+                            <p class="title">${state.info.osTotalMem}</p>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+            <div class="hero-body">
+                <nav class="level">
+                    <div class="level-item has-text-centered">
+                        <div>
+                            <p class="heading">
+                                <t>pagesCoreCount</t>
+                            </p>
+                            <p class="title">${state.info.pagesCore.length}</p>
+                        </div>
+                    </div>
+                    <div class="level-item has-text-centered">
+                        <div>
+                            <p class="heading">
+                                <t>pagesCount</t>
+                            </p>
+                            <p class="title">${state.info.pages.length}</p>
+                        </div>
+                    </div>
+                    <div class="level-item has-text-centered">
+                        <div>
+                            <p class="heading">
+                                <t>modulesCount</t>
+                            </p>
+                            <p class="title">${state.info.modules.length}</p>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+            <table class="table">
+                <tbody>
                     <tr>
-                        <td>
-                            <t>connections</t>:
+                        <td class="is-narrow">
+                            <t>pagesAvail</t>:
                         </td>
-                        <td>${state.info.connections}</td>
+                        <td>${state.info.pages.join(", ")}</td>
                     </tr>
-                </if>
-            </tbody>
-        </table>
+                    <tr>
+                        <td class="is-narrow">
+                            <t>modulesAvail</t>:
+                        </td>
+                        <td>${state.info.modules.join(", ")}</td>
+                    </tr>
+                    <if(state.info.connections)>
+                        <tr class="is-narrow">
+                            <td>
+                                <t>connections</t>:
+                            </td>
+                            <td>${state.info.connections}</td>
+                        </tr>
+                    </if>
+                </tbody>
+            </table>
+        </div>
         <if(state.info.onlineUsers && Object.keys(state.info.onlineUsers).length)>
             <div class="mt-2">
                 <t>onlineUsers</t>:

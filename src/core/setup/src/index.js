@@ -23,7 +23,7 @@ const createIndex = async (db, id, collection, fields, direction = "asc") => {
     log(`Creating "${id}_${collection}_${direction}" index...`);
     try {
         await db.collection(collection).createIndex(indexCreate, {
-            name: `${id}_${collection}_${direction}`
+            name: `${id}_${collection}_${direction}`,
         });
     } catch {
         // Ignore
