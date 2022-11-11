@@ -31,18 +31,6 @@
                             <p class="title">${state.info.osTotalMem}</p>
                         </div>
                     </div>
-                </nav>
-            </div>
-            <div class="hero-body">
-                <nav class="level">
-                    <div class="level-item has-text-centered">
-                        <div>
-                            <p class="heading">
-                                <t>pagesCoreCount</t>
-                            </p>
-                            <p class="title">${state.info.pagesCore.length}</p>
-                        </div>
-                    </div>
                     <div class="level-item has-text-centered">
                         <div>
                             <p class="heading">
@@ -61,41 +49,8 @@
                     </div>
                 </nav>
             </div>
-            <table class="table">
-                <tbody>
-                    <tr>
-                        <td class="is-narrow">
-                            <t>pagesAvail</t>:
-                        </td>
-                        <td>${state.info.pages.join(", ")}</td>
-                    </tr>
-                    <tr>
-                        <td class="is-narrow">
-                            <t>modulesAvail</t>:
-                        </td>
-                        <td>${state.info.modules.join(", ")}</td>
-                    </tr>
-                    <if(state.info.connections)>
-                        <tr class="is-narrow">
-                            <td>
-                                <t>connections</t>:
-                            </td>
-                            <td>${state.info.connections}</td>
-                        </tr>
-                    </if>
-                </tbody>
-            </table>
         </div>
-        <if(state.info.onlineUsers && Object.keys(state.info.onlineUsers).length)>
-            <div class="mt-2">
-                <t>onlineUsers</t>:
-            </div>
-            <div class="mt-2">
-                <for|username| of=Object.keys(state.info.onlineUsers)>
-                    <span class="tag is-info mr-2">${username}</span>
-                </for>
-            </div>
-        </if>
+        <if(state.info.onlineUsers && Object.keys(state.info.onlineUsers).length)/>
     </if>
 </if>
 <if(!state.ready && !state.failed)>

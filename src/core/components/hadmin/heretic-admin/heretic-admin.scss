@@ -133,7 +133,8 @@
     font-size: 80%;
     background: $white;
     user-select: none;
-    border-top: 1px solid $grey-lightest;
+    // border-top: 1px solid $grey-lightest;
+    box-shadow: 0 .2em 1em -.05em rgba($grey-darker, .1), 0 0 0 1px rgba($grey-darker, .02) !important;
 }
 
 .hr-footer>*>a,
@@ -159,7 +160,13 @@
 
 .hr-page-content {
     padding: 10px;
-    border-left: 1px solid $grey-lightest;
+    // border-left: 1px solid $grey-lightest;
+}
+
+.hr-admin-box {
+    margin-top: -9px;
+    margin-left: -6px;
+    margin-right: -6px;
 }
 
 @media (max-width: 1023px) {
@@ -167,8 +174,6 @@
         border-left: unset;
     }
 }
-
-
 
 @supports(-webkit-appearance: none) or (-moz-appearance: none) {
 
