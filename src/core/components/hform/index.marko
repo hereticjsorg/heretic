@@ -15,13 +15,13 @@ $ {
     </if>
     <if(state.modeChangeAllowed || state.title || state.historyConfig.enabled)>
         <div class="columns p-0 m-0 is-variable is-1 mb-4">
-            <div class="column is-auto">
+            <div class="column is-auto pt-0">
                 <if(state.title)>
                     <span class="title is-3 has-text-weight-light is-size-4 p-0 m-0">${state.title}</span>
                 </if>
             </div>
             <if(state.modeChangeAllowed)>
-                <div class="is-column is-narrow pt-3">
+                <div class="is-column is-narrow pt-0">
                     <div class="field has-addons">
                         <p class="control">
                             <button on-click("onModeChange") data-mode="edit" class=`button is-small ${state.mode === "edit" ? "is-success" : "is-light"}`>
@@ -69,6 +69,7 @@ $ {
                 </div>
             </if>
         </div>
+        <div class="pb-3 is-hidden-desktop"/>
     </if>
     <form on-submit("onFormSubmit") class="hr-hf-form">
         <button

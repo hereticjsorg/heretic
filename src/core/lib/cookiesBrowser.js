@@ -24,7 +24,17 @@ export default class {
         if (!name) {
             return;
         }
-        const options = optionsData || this.options;
+        const { options } = this;
+        if (optionsData && typeof optionsData === "object") {
+            if (optionsData.expires !== undefined && optionsData.expires !== null) {
+                optionsData.expires = typeof optionsData.expires === "string" ? new Date(optionsData.expires) : new Date(new Date().getTime() + optionsData.expires * 1000);
+            } else {
+                optionsData.expires = this.options.expires;
+            }
+            Object.keys(optionsData).map(o => options[o] = optionsData[o]);
+            options.expires = options.expires.toUTCString();
+        }
+
         if (value instanceof Object) {
             value = JSON.stringify(value);
         }

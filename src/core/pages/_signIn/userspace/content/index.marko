@@ -1,6 +1,9 @@
 import SignInForm from "../../data/signInFormUserspace"
 
 <if(state.ready)>
+    <h1 class="title is-3 has-text-weight-light">
+        <t>signIn</t>
+    </h1>
     <hform key="signInForm" id="signInForm" data=(new SignInForm(process.browser && window.__heretic ? window.__heretic.t : out.global.t)) on-form-submit("onFormSubmit")/>
 </if>
 <else>

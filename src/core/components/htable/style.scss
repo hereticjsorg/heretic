@@ -314,7 +314,6 @@
 }
 
 .hr-hr-settings-tabs>ul>li:not(.is-active)>a:hover {
-    //border-bottom: 2px solid $grey-lighter !important;
     background: unset !important;
 }
 
@@ -418,5 +417,10 @@
 
     .hr-ht-search-field {
         margin-bottom: 10px;
+    }
+
+    .hr-hr-settings-tabs>ul {
+        position: relative;
+        top: 0;
     }
 }

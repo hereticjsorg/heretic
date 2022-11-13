@@ -363,6 +363,13 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
             } catch {
                 // Ignore
             }
+            if (!Object.keys(config.title).length) {
+                try {
+                    config = require(path.resolve(__dirname, "src", "modules", id.replace(/\./, "/"), "page.js"));
+                } catch {
+                    // Ignore
+                }
+            }
             Object.keys(titles).map(lang => titles[lang][id] = config.title[lang] || userTranslations[lang][id] || "");
         });
         navigationData.userspace = titles;

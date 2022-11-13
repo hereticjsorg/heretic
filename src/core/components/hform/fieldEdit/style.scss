@@ -5,33 +5,33 @@
 }
 
 .hr-hf-field-xxlarge {
-    width: 450px !important;
-    min-width: 450px !important;
-    max-width: 450px !important;
+    width: 450px;
+    min-width: 450px;
+    max-width: 450px;
 }
 
 .hr-hf-field-xlarge {
-    width: 350px !important;
-    min-width: 350px !important;
-    max-width: 350px !important;
+    width: 350px;
+    min-width: 350px;
+    max-width: 350px;
 }
 
 .hr-hf-field-large {
-    width: 250px !important;
-    min-width: 250px !important;
-    max-width: 250px !important;
+    width: 250px;
+    min-width: 250px;
+    max-width: 250px;
 }
 
 .hr-hf-field-medium {
-    width: 180px !important;
-    min-width: 180px !important;
-    max-width: 180px !important;
+    width: 180px;
+    min-width: 180px;
+    max-width: 180px;
 }
 
 .hr-hf-field-small {
-    width: 130px !important;
-    min-width: 130px !important;
-    max-width: 130px !important;
+    width: 130px;
+    min-width: 130px;
+    max-width: 130px;
 }
 
 .hr-hf-field-date {
@@ -264,9 +264,16 @@
     // animation-delay: 0.25s;
 }
 
+@media (max-width: 1023px) {
+}
+
 @media (max-width: 769px) {
-    .hr-hf-field-xxlarge {
-        width: unset !important;
+    .hr-hf-field-xxlarge,
+    .hr-hf-field-xlarge,
+    .hr-hf-field-large,
+    .hr-hf-field-medium,
+    .hr-hf-field-small {
+        width: 100% !important;
         min-width: unset !important;
         max-width: unset !important;
     }

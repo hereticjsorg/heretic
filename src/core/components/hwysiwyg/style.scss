@@ -11,7 +11,7 @@
 
 .hr-wy-controls {
     width: 100%;
-    background: $grey-lightest;
+    background: $white;
     border-bottom: 1px solid $grey-lighter;
 }
 
@@ -29,7 +29,7 @@
     width: 29px;
     height: 29px;
     padding: 0;
-    background: $white;
+    background: $white-ter;
     border: 0;
     border-radius: $radius;
     margin-left: 1px;
@@ -38,10 +38,11 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    margin-top: 1px;
 }
 
 .hr-wy-control-button:hover {
-    background: $white-bis;
+    background: $grey-lightest;
 }
 
 .hr-wy-control-button-selected {

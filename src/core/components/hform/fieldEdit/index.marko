@@ -212,7 +212,7 @@ import { format } from "date-fns"
                 </if>
             </label>
             <div class="control">
-                <hwysiwyg key=`hr_hf_el_${input.formId}_${input.id}_wysiwyg` on-value-change("onWYSIWYGValueChange")/>
+                <hwysiwyg key=`hr_hf_el_${input.formId}_${input.id}_wysiwyg` on-value-change("onWYSIWYGValueChange") formId=input.formId id=input.id/>
             </div>
             <if(state.error)>
                 <div class="hr-hf-error-wrap">

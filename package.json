@@ -1,6 +1,6 @@
 {
   "name": "heretic",
-  "version": "1.0.80",
+  "version": "1.0.81",
   "description": "Heretic",
   "main": "index.js",
   "scripts": {
@@ -47,7 +47,7 @@
     "command-line-args": "^5.2.1",
     "compression-webpack-plugin": "^10.0.0",
     "copy-webpack-plugin": "^11.0.0",
-    "css-loader": "^6.7.1",
+    "css-loader": "^6.7.2",
     "css-minimizer-webpack-plugin": "^4.2.2",
     "eslint": "^8.27.0",
     "eslint-config-airbnb-base": "^15.0.0",
@@ -75,7 +75,7 @@
   "dependencies": {
     "@fastify/cookie": "^8.3.0",
     "@fastify/formbody": "^7.3.0",
-    "@fastify/jwt": "^6.3.2",
+    "@fastify/jwt": "^6.3.3",
     "@fastify/mongodb": "^6.1.0",
     "@fastify/websocket": "^7.1.1",
     "argon2": "^0.30.2",

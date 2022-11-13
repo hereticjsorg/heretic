@@ -85,6 +85,9 @@ export default class {
             }
             data.url = urlParts.join("/") || "/";
             data.url = data.url.length > 1 ? data.url.replace(/\/$/, "") : data.url;
+        } else {
+            data.url = "";
+            [data.language] = languages;
         }
         return data;
     }

@@ -58,7 +58,9 @@ module.exports = class {
                 data,
                 headers: {},
             });
-            const { token } = res.data;
+            const {
+                token,
+            } = res.data;
             this.cookies.set(`${this.siteId}.authToken`, token);
             window.location.href = `${this.query.get("r") || this.utils.getLocalizedURL("/").url || "/"}`;
         } catch (e) {
@@ -72,7 +74,6 @@ module.exports = class {
             } else {
                 signInForm.setErrorMessage(this.t("hform_error_general"));
             }
-        } finally {
             signInForm.setLoading(false);
         }
     }
