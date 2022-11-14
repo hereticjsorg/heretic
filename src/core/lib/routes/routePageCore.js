@@ -25,7 +25,7 @@ export default (route, languageData, language) => ({
                 route: route.id,
                 title: translationData.title[language],
                 siteTitle: this.siteConfig.title[language],
-                i18nNavigation: this.i18nNavigation.admin[language],
+                i18nNavigation: this.i18nNavigation.userspace[language],
                 siteId: this.systemConfig.id,
                 cookieOptions: this.systemConfig.cookieOptions,
                 t: id => languageData[language] && languageData[language][id] ? `${languageData[language][id]}` : id,
