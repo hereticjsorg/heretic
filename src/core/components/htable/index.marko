@@ -221,7 +221,7 @@ import SettingsPagesForm from "./settingsPagesForm"
                                 <td class="hr-ht-td p-0 m-0">
                                     <if(state.lockedItems[row._id])>
                                         <span class="hr-ht-lock-icon icon">
-                                            <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg"  data-tippy-content=(process.browser && window.__heretic ? `${window.__heretic.t("htable_lockedBy")}: ${state.lockedItems[row._id]}` : null)>
+                                            <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg" data-tippy-content=(process.browser && window.__heretic ? `${window.__heretic.t("htable_lockedBy")}: ${state.lockedItems[row._id]}` : null)>
                                                 <path d=mdiLockOutline/>
                                             </svg>
                                         </span>
@@ -346,7 +346,11 @@ import SettingsPagesForm from "./settingsPagesForm"
             close: true
         }
     ]>
-    <section class="modal-card-body">
+    <section
+        class="modal-card-body"
+        style={
+            order: "2"
+        }>
         <t>htable_deleteItems</t>:
         <ul class="mt-2">
             <for|item| of=state.deleteItems>
@@ -374,7 +378,11 @@ import SettingsPagesForm from "./settingsPagesForm"
             close: true
         }
     ]>
-    <header class="modal-card-head hr-ht-settings-tabs-wrap p-0">
+    <header
+        class="modal-card-head hr-ht-settings-tabs-wrap p-0"
+        style={
+            order: "2"
+        }>
         <div class="tabs is-boxed hr-hr-settings-tabs p-0">
             <ul>
                 <for|i| of=["columns", "pages", "filter"]>
@@ -402,7 +410,11 @@ import SettingsPagesForm from "./settingsPagesForm"
             </ul>
         </div>
     </header>
-    <section class="modal-card-body hr-ht-settings-body">
+    <section
+        class="modal-card-body hr-ht-settings-body"
+        style={
+            order: "3"
+        }>
         <div class="p-3">
             <div style={
                 position: state.settingsTab === "columns" ? "unset" : "absolute",
@@ -539,7 +551,12 @@ import SettingsPagesForm from "./settingsPagesForm"
             close: true
         }
     ]>
-    <section class="modal-card-body hr-ht-settings-body" id=`filterModal_ht_${input.id}_body`>
+    <section
+        class="modal-card-body hr-ht-settings-body"
+        id=`filterModal_ht_${input.id}_body`
+        style={
+            order: "2"
+        }>
         <div class="p-3">
             <form on-submit("onFilterEditFormSubmit")>
                 <button
@@ -603,7 +620,12 @@ import SettingsPagesForm from "./settingsPagesForm"
             close: true
         }
     ]>
-    <section class="modal-card-body hr-ht-settings-body" id=`bulkUpdateModal_ht_${input.id}_body`>
+    <section
+        class="modal-card-body hr-ht-settings-body"
+        id=`bulkUpdateModal_ht_${input.id}_body`
+        style={
+            order: "2"
+        }>
         <if(state.checkboxes.length)>
             <div class="notification is-info p-4 mb-0 hr-ht-modal-notification">
                 <t>htable_bulkUpdateCount</t>: ${state.checkboxes.length}
@@ -688,7 +710,12 @@ import SettingsPagesForm from "./settingsPagesForm"
             close: true
         }
     ]>
-    <section class="modal-card-body hr-ht-settings-body" id=`bulkItem_ht_${input.id}_body`>
+    <section
+        class="modal-card-body hr-ht-settings-body"
+        id=`bulkItem_ht_${input.id}_body`
+        style={
+            order: "2"
+        }>
         <div class="p-3">
             <form on-submit("onBulkItemFormSubmit")>
                 <button
@@ -756,10 +783,18 @@ import SettingsPagesForm from "./settingsPagesForm"
             close: true
         }
     ]>
-    <div class="notification is-info p-4 mb-0 hr-ht-modal-notification">
+    <div
+        class="notification is-info p-4 mb-0 hr-ht-modal-notification"
+        style={
+            order: "2"
+        }>
         <t>htable_exportCount</t>: ${state.checkboxes.length}
     </div>
-    <div class="p-3 hr-ht-export-form-wrap">
+    <div
+        class="p-3 hr-ht-export-form-wrap"
+        style={
+            order: "3"
+        }>
         <div class="select is-fullwidth">
             <select id=`export_ht_${input.id}_format`>
                 <option value="excel">
@@ -771,7 +806,12 @@ import SettingsPagesForm from "./settingsPagesForm"
             </select>
         </div>
     </div>
-    <section class="modal-card-body hr-ht-settings-body" id=`exportModal_ht_${input.id}_body`>
+    <section
+        class="modal-card-body hr-ht-settings-body"
+        id=`exportModal_ht_${input.id}_body`
+        style={
+            order: "4"
+        }>
         <div class="p-3">
             <div>
                 <for|k, index| of=Object.keys(state.dataExportColumns)>
@@ -831,7 +871,12 @@ import SettingsPagesForm from "./settingsPagesForm"
             close: true
         }
     ]>
-    <section class="modal-card-body hr-ht-settings-body" id=`exportDownloadModal_ht_${input.id}_body`>
+    <section
+        class="modal-card-body hr-ht-settings-body"
+        id=`exportDownloadModal_ht_${input.id}_body`
+        style={
+            order: "2"
+        }>
         <div class="p-3">
             <div>
                 <t>htable_exportDownloadMessage</t>
@@ -858,7 +903,12 @@ import SettingsPagesForm from "./settingsPagesForm"
             close: true
         }
     ]>
-    <section class="modal-card-body hr-ht-settings-body" id=`recycleBinModal_ht_${input.id}_body`>
+    <section
+        class="modal-card-body hr-ht-settings-body"
+        id=`recycleBinModal_ht_${input.id}_body`
+        style={
+            order: "2"
+        }>
         <div class="p-0">
             <if(state.recycleBinList.length)>
                 <div class="table-container">
@@ -919,12 +969,21 @@ import SettingsPagesForm from "./settingsPagesForm"
         </div>
     </section>
     <if(state.recycleBinList.length && state.recycleBinPagination.length > 1)>
-        <div class="modal-card-body p-2 hr-ht-recycleBin-pagination-wrap">
+        <div
+            class="modal-card-body p-2 hr-ht-recycleBin-pagination-wrap"
+            style={
+                order: "3"
+            }>
             <hpagination data=state.recycleBinPagination currentPage=state.currentRecycleBinListPage on-page-click("onRecycleBinPageClick")/>
         </div>
     </if>
     <if(!state.recycleBinList.length)>
-        <section class="modal-card-body hr-ht-settings-body" id=`recycleBinModal_ht_${input.id}_body`>
+        <section
+            class="modal-card-body hr-ht-settings-body"
+            id=`recycleBinModal_ht_${input.id}_body`
+            style={
+                order: "4"
+            }>
             <div class="p-3">
                 <t>htable_noRecycleBinRecords</t>
             </div>
@@ -952,7 +1011,11 @@ import SettingsPagesForm from "./settingsPagesForm"
             close: true
         }
     ]>
-    <section class="modal-card-body">
+    <section
+        class="modal-card-body"
+        style={
+            order: "2"
+        }>
         <t>htable_deleteRecycleItems</t>:
         <ul class="mt-2">
             <for|item| of=state.recycleDeleteItems>

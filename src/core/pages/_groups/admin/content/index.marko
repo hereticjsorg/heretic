@@ -30,7 +30,11 @@ $ {
                 close: true
             }
         ]>
-        <section class="modal-card-body editModal-card-body">
+        <section
+            class="modal-card-body editModal-card-body"
+            style={
+                order: "2"
+            }>
             <hform key=`${moduleConfig.id}Form` id=`${moduleConfig.id}Form` data=formData on-button-click("onFormButtonClick") on-form-submit("onFormSubmit") on-mount-complete("onFormMountComplete")/>
         </section>
     </hmodal>

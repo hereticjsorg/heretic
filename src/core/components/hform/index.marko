@@ -175,7 +175,12 @@ $ {
             close: true
         }
     ]>
-    <section class="modal-card-body p-0" id=`historyModal_hf_${input.id}_body`>
+    <section
+        class="modal-card-body p-0"
+        id=`historyModal_hf_${input.id}_body`
+        style={
+            order: "2"
+        }>
         <div class="p-3 pt-5">
             <if(state.historyData && state.historyData.length)>
                 <for|item| of=state.historyData>
@@ -237,7 +242,11 @@ $ {
         </div>
     </section>
     <if(state.historyData.length && state.historyPagination.length > 1)>
-        <div class="p-2 hr-hf-history-pagination-wrap">
+        <div
+            class="p-2 hr-hf-history-pagination-wrap"
+            style={
+                order: "3"
+            }>
             <hpagination data=state.historyPagination currentPage=state.historyPage on-page-click("onHistoryPageClick")/>
         </div>
     </if>
@@ -263,7 +272,11 @@ $ {
             close: true
         }
     ]>
-    <section class="modal-card-body">
+    <section
+        class="modal-card-body"
+        style={
+            order: "2"
+        }>
         <t>hform_historyDeleteConfirmationText</t>
     </section>
 </hmodal>
@@ -288,7 +301,12 @@ $ {
             close: true
         }
     ]>
-    <section class="modal-card-body hr-hf-settings-body" id=`hform_keyValueModal_${input.id}_body`>
+    <section
+        class="modal-card-body hr-hf-settings-body"
+        id=`hform_keyValueModal_${input.id}_body`
+        style={
+            order: "2"
+        }>
         <form class="p-3" on-submit("onKeyValueModalFormSubmit")>
             <div class="field">
                 <label class="label hr-hf-label">
@@ -357,7 +375,11 @@ $ {
             close: true
         }
     ]>
-    <section class="modal-card-body">
+    <section
+        class="modal-card-body"
+        style={
+            order: "2"
+        }>
         <t>hform_groupDataDeleteConfirmationText</t>
     </section>
 </hmodal>
@@ -377,10 +399,18 @@ $ {
             close: true
         }
     ]>
-    <section class="hr-hf-tags-filter-wrap">
+    <section
+        class="hr-hf-tags-filter-wrap"
+        style={
+            order: "2"
+        }>
         <input id=`tagAddModal_filter_${input.id}` class="input hr-hf-tags-filter" type="text" placeholder=window.__heretic.t("hform_tagsFilter") on-keyup("onTagsFilterKeyup") value=state.tagsFilter/>
     </section>
-    <section class="modal-card-body p-0">
+    <section
+        class="modal-card-body p-0"
+        style={
+            order: "3"
+        }>
         <div class="menu">
             <ul class="menu-list">
                 <if(state.tagsData && state.tagsData.data.length)>
@@ -413,7 +443,11 @@ $ {
             close: true
         }
     ]>
-    <section class="modal-card-body hr-hf-settings-body">
+    <section
+        class="modal-card-body hr-hf-settings-body"
+        style={
+            order: "2"
+        }>
         <hform key=`logForm_${input.id}` id=`logForm_${input.id}` data=logFormData on-form-submit("onLogFormSubmit")/>
     </section>
 </hmodal>
@@ -438,7 +472,11 @@ $ {
             close: true
         }
     ]>
-    <section class="modal-card-body">
+    <section
+        class="modal-card-body"
+        style={
+            order: "2"
+        }>
         <t>hform_lotItemDeleteConfirmationText</t>
     </section>
 </hmodal>
