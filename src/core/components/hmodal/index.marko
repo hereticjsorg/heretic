@@ -1,13 +1,13 @@
 <if(state.active)>
-    <div class=`modal is-active hr-hmodal ${input.backgroundClass || ""}`>
-        <div class=`modal-background ${input.backgroundClass || ""}` on-click("onBackgroundClick")/>
+    <div class=`modal is-active hr-hmodal ${input.modalClass || ""}` id=input.id>
+        <div class=`modal-background hr-hm-modal-background ${input.backgroundClass || ""}` on-click("onBackgroundClick")/>
         <div class=`modal-card hr-hm-modal-card ${input.cardClass || ""}`>
             <if(state.loading)>
                 <div class="hr-hm-loader-overlay">
                     <hloading-dots/>
                 </div>
             </if>
-            <header class="modal-card-head p-3">
+            <header class=`modal-card-head hr-hm-modal-card-head p-3  ${input.headClass || ""}`>
                 <p class="modal-card-title is-3 has-text-weight-light">
                     <t>${state.title}</t>
                 </p>
@@ -15,8 +15,7 @@
                     <button class="delete" aria-label="close" on-click("onClose")/>
                 </if>
             </header>
-            <${input.renderBody}/>
-            <footer class="modal-card-foot hr-hm-modal-card-foot p-3">
+            <footer class=`modal-card-foot hr-hm-modal-card-foot p-3 ${input.footClass || ""}`>
                 <if(input.actions)>
                     <for|action| of=input.actions>
                         <button disabled=state.loading class=action.class data-id=action.id on-click("onActionButtonClick") data-close=!!action.close>
@@ -25,6 +24,9 @@
                     </for>
                 </if>
             </footer>
+            <div class="hr-hm-modal-card-body-wrap">
+                <${input.renderBody}/> 
+            </div>
         </div>
     </div>
 </if>

@@ -19,8 +19,22 @@
     border-radius: $radius;
 }
 
+// .hr-hm-modal-card {
+//     flex-direction: column-reverse !important;
+// }
+
+.hr-hm-modal-card-head {
+    order: 1;
+}
+
+.hr-hm-modal-card-body-wrap {
+    order: 2;
+}
+
 .hr-hm-modal-card-foot {
     background: $white-bis !important;
+    position: relative;
+    order: 3;
 }
 
 .hr-hmodal {
