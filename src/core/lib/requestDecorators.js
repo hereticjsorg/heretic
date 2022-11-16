@@ -122,14 +122,28 @@ export default {
                 const queryItem = {};
                 switch (filter.mode) {
                 case "eq":
-                    queryItem[filter.id] = {
-                        $eq: filter.value,
-                    };
+                    queryItem.$or = queryItem.$or || [];
+                    const qeq = {};
+                    qeq[filter.id] = filter.value;
+                    queryItem.$or.push(qeq);
+                    if (typeof filter.value === "string" && filter.value.match(/^[0-9]+$/)) {
+                        const qeqn = {};
+                        qeqn[filter.id] = parseInt(filter.value, 10);
+                        queryItem.$or.push(qeqn);
+                    }
                     break;
                 case "neq":
-                    queryItem[filter.id] = {
+                    queryItem.$and = queryItem.$and || [];
+                    const qneq = {};
+                    qneq[filter.id] = {
                         $ne: filter.value,
                     };
+                    queryItem.$and.push(qneq);
+                    if (typeof filter.value === "string" && filter.value.match(/^[0-9]+$/)) {
+                        const qneqn = {};
+                        qneqn[filter.id] = parseInt(filter.value, 10);
+                        queryItem.$and.push(qneqn);
+                    }
                     break;
                 case "rex":
                     if (filter.value.length > 1) {
@@ -357,14 +371,28 @@ export default {
                     const queryItem = {};
                     switch (filter.mode) {
                     case "eq":
-                        queryItem[filter.id] = {
-                            $eq: filter.value,
-                        };
+                        queryItem.$or = queryItem.$or || [];
+                        const qeq = {};
+                        qeq[filter.id] = filter.value;
+                        queryItem.$or.push(qeq);
+                        if (typeof filter.value === "string" && filter.value.match(/^[0-9]+$/)) {
+                            const qeqn = {};
+                            qeqn[filter.id] = parseInt(filter.value, 10);
+                            queryItem.$or.push(qeqn);
+                        }
                         break;
                     case "neq":
-                        queryItem[filter.id] = {
+                        queryItem.$and = queryItem.$and || [];
+                        const qneq = {};
+                        qneq[filter.id] = {
                             $ne: filter.value,
                         };
+                        queryItem.$and.push(qneq);
+                        if (typeof filter.value === "string" && filter.value.match(/^[0-9]+$/)) {
+                            const qneqn = {};
+                            qneqn[filter.id] = parseInt(filter.value, 10);
+                            queryItem.$and.push(qneqn);
+                        }
                         break;
                     case "rex":
                         if (filter.value.length > 1) {
