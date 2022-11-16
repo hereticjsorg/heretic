@@ -1,3 +1,5 @@
+const Utils = require("../../lib/componentUtils").default;
+
 module.exports = class {
     onCreate(input) {
         this.state = {
@@ -18,12 +20,21 @@ module.exports = class {
     }
 
     onMount() {
+        this.utils = new Utils(this);
         window.addEventListener("keydown", this.onKeyDown.bind(this));
     }
 
     setActive(flag) {
-        if (window.__heretic && window.__heretic.tippyHideAll) {
-            window.__heretic.tippyHideAll();
+        if (window.__heretic) {
+            if (window.__heretic.tippyHideAll) {
+                window.__heretic.tippyHideAll();
+            }
+            window.__heretic.modalStack = window.__heretic.modalStack || [];
+            if (flag) {
+                window.__heretic.modalStack.push(this.input.id);
+            } else {
+                window.__heretic.modalStack.pop();
+            }
         }
         this.setState("active", flag);
         return this;

@@ -5,3 +5,9 @@
 ._usersForm-errorNotification {
     margin-top: 0 !important;
 }
+
+@media (max-width: 769px) {
+    .hr-users-edit-modal>.hr-hm-modal-card {
+        height: 100vh;
+    }
+}
