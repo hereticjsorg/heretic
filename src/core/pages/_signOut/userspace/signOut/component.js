@@ -1,10 +1,34 @@
+const axios = require("axios").default;
 const Utils = require("../../../../lib/componentUtils").default;
 const Cookies = require("../../../../lib/cookiesBrowser").default;
+const i18nLoader = require("../../../../../build/loaders/i18n-loader-core");
 const languages = Object.keys(require("../../../../../config/languages.json"));
-const config = require("../../page.js");
+const moduleConfig = require("../../page.js");
 
 module.exports = class {
+    async loadLanguageData() {
+        if (process.browser && (!window.__heretic || !window.__heretic.languageData)) {
+            window.__heretic = window.__heretic || {};
+            if (!window.__heretic.languageData) {
+                window.__heretic.languageData = await i18nLoader.loadLanguageFile(this.language);
+            }
+            window.__heretic.t = id => window.__heretic.languageData[id] || id;
+            window.__heretic.translationsLoaded = {};
+            this.setState("languageLoaded", true);
+        }
+    }
+
+    setGlobalVariables(out) {
+        if (process.browser) {
+            window.__heretic = window.__heretic || {};
+            window.__heretic.outGlobal = out.global;
+        }
+    }
+
     async onCreate(input, out) {
+        this.state = {
+            failed: false,
+        };
         this.language = out.global.language;
         this.siteId = out.global.siteId;
         this.cookieOptions = out.global.cookieOptions;
@@ -20,15 +44,34 @@ module.exports = class {
             this.siteId = out.global.siteId || window.__heretic.outGlobal.siteId;
             this.cookieOptions = out.global.cookieOptions || window.__heretic.outGlobal.cookieOptions;
             this.systemRoutes = out.global.systemRoutes || window.__heretic.outGlobal.systemRoutes;
-            document.title = `${config.title[this.language]} – ${this.siteTitle}`;
+            document.title = `${moduleConfig.title[this.language]} – ${this.siteTitle}`;
         }
+        await import(/* webpackChunkName: "bulma" */ "../../../../../view/bulma.scss");
+        this.setGlobalVariables(out);
     }
 
     async onMount() {
+        await this.loadLanguageData();
+        await this.utils.waitForLanguageData();
+        await this.utils.loadLanguageData(moduleConfig.id);
         await this.utils.waitForComponent("loading");
-        this.getComponent("loading").setActive(true);
         this.cookies = new Cookies(this.cookieOptions);
-        this.cookies.delete(`${this.siteId}.authToken`);
+        const currentToken = this.cookies.get(`${this.siteId}.authToken`);
+        this.getComponent("loading").setActive(true);
+        try {
+            await axios({
+                method: "post",
+                url: "/api/signOut",
+                data: {},
+                headers: {
+                    Authorization: `Bearer ${currentToken}`,
+                },
+            });
+            this.cookies.delete(`${this.siteId}.authToken`);
+        } catch {
+            this.setState("failed", true);
+            return;
+        }
         setTimeout(() => window.location.href = languages[0] === this.language ? "/" : `/${this.language}`, 1000);
     }
 };

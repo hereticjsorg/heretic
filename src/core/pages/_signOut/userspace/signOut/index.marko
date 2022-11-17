@@ -1,1 +1,12 @@
-<hloading key="loading"/>
+<if(state.failed)>
+    <section class="section">
+        <div class="container">
+            <div class="notification is-danger">
+                <t>signOutError</t>
+            </div>
+        </div>
+    </section>
+</if>
+<else>
+    <hloading key="loading"/>
+</else>
