@@ -1,5 +1,6 @@
 {
     "username": "Имя пользователя",
     "password": "Пароль",
-    "signIn": "Войти"
+    "signIn": "Войти",
+    "error_invalid_credentials": "Неправильное имя пользователя или пароль"
 }

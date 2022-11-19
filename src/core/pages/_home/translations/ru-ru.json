@@ -1,1 +1,19 @@
-{}
+{
+    "moduleTitleAdmin": "Панель администратора",
+    "couldNotLoadData": "Ошибка во время загрузки данных",
+    "hereticUpAndRunning": "Heretic запущен и работает",
+    "hereticVersion": "Версия Heretic",
+    "operatingSystem": "Операционная система",
+    "Darwin": "macOS",
+    "Windows_NT": "Windows",
+    "Linux": "Linux",
+    "operatingSystemRelease": "Релиз ОС",
+    "pagesAvail": "Страницы",
+    "modulesAvail": "Модули",
+    "onlineUsers": "Пользователи онлайн",
+    "connections": "Соединения",
+    "ram": "Память",
+    "pagesCount": "Страницы",
+    "modulesCount": "Модули",
+    "pagesCoreCount": "Базовые страницы"
+}
