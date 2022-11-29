@@ -59,6 +59,11 @@
     text-overflow: ellipsis;
 }
 
+html.heretic-dark .hr-hf-view-input {
+    background: $heretic-dark-item-background-color;
+    color: $heretic-dark-text-color;
+}
+
 .hr-hf-date-input {
     text-align: center;
 }

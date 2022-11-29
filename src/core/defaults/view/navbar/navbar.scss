@@ -3,6 +3,7 @@
 .hr-navbar-item {
     margin: 1px;
     border-radius: $radius;
+    border: unset !important;
 }
 
 .hr-navbar-dropdown {
@@ -20,7 +21,7 @@
     color: $white !important;
 }
 
-.hr-navbar-item:hover:not(.hr-navbar-item-active) {
+.hr-navbar-item:hover:not(.hr-navbar-item-active):not(.hr-navbar-item-open) {
     background: $grey-lighter !important;
     transition: all 250ms;
 }
@@ -29,8 +30,9 @@
     background: $grey-lighter !important;
 }
 
-.hr-navbar {
-    user-select: none;
+html.heretic-dark .hr-navbar-item-open {
+    background: $heretic-dark-hover-background-color !important;
+    background-color: $heretic-dark-hover-background-color !important;
 }
 
 .hr-navbar-icon {

@@ -1,0 +1,247 @@
+// Dark theme
+
+html.heretic-dark,
+html.heretic-dark body,
+html.heretic-dark .box,
+html.heretic-dark pre {
+    background: $heretic-dark-body-background-color;
+    color: $heretic-dark-text-color;
+}
+
+html.heretic-dark .hr-footer {
+    color: $heretic-dark-text-color-light;
+    font-size: 80%;
+}
+
+html.heretic-dark .title {
+    color: $heretic-dark-text-color-light;
+}
+
+html.heretic-dark .navbar {
+    background: transparent !important;
+}
+
+html.heretic-dark .navbar-start>.navbar-item,
+html.heretic-dark .navbar-end>.navbar-item,
+html.heretic-dark .navbar-start>.navbar-item>.navbar-link,
+html.heretic-dark .navbar-end>.navbar-item>.navbar-link {
+    background: transparent;
+    background-color: transparent;
+    color: $heretic-dark-text-color;
+    border-radius: $radius;
+}
+
+html.heretic-dark .navbar-start>.navbar-item:hover:not(.hr-navbar-item-active),
+html.heretic-dark .navbar-end>.navbar-item:hover:not(.hr-navbar-item-active),
+html.heretic-dark .navbar-start>.navbar-item>.navbar-link:hover:not(.hr-navbar-item-active),
+html.heretic-dark .navbar-end>.navbar-item>.navbar-link:hover:not(.hr-navbar-item-active),
+html.heretic-dark .navbar-start>.navbar-item:focus:not(.hr-navbar-item-active),
+html.heretic-dark .navbar-end>.navbar-item:focus:not(.hr-navbar-item-active),
+html.heretic-dark .navbar-start>.navbar-item>.navbar-link:focus:not(.hr-navbar-item-active),
+html.heretic-dark .navbar-end>.navbar-item>.navbar-link:focus:not(.hr-navbar-item-active),
+html.heretic-dark .navbar-start>.navbar-item:active:not(.hr-navbar-item-active),
+html.heretic-dark .navbar-end>.navbar-item:active:not(.hr-navbar-item-active),
+html.heretic-dark .navbar-start>.navbar-item>.navbar-link:active:not(.hr-navbar-item-active),
+html.heretic-dark .navbar-end>.navbar-item>.navbar-link:active:not(.hr-navbar-item-active) {
+    background: $heretic-dark-hover-background-color !important;
+    background-color: $heretic-dark-hover-background-color !important;
+    color: $heretic-dark-text-color;
+    outline: 0 !important;
+    box-shadow: unset !important;
+}
+
+html.heretic-dark .hr-navbar-item-active {
+    background: $heretic-dark-primary-color !important;
+    background-color: $heretic-dark-primary-color !important;
+}
+
+html.heretic-dark .navbar-dropdown,
+html.heretic-dark .dropdown-content {
+    background: $heretic-dark-item-background-color;
+    border-radius: $radius !important;
+}
+
+html.heretic-dark .navbar-dropdown>.navbar-item,
+html.heretic-dark .dropdown-menu>.dropdown-content>.dropdown-item,
+html.heretic-dark .dropdown-menu>.dropdown-content>.dropdown-item>span {
+    color: $heretic-dark-text-color;
+}
+
+html.heretic-dark .navbar-dropdown>.navbar-item:hover,
+html.heretic-dark .dropdown-menu>.dropdown-content>.dropdown-item:hover,
+html.heretic-dark .dropdown-menu>.dropdown-content>.dropdown-item:hover>span {
+    background: $heretic-dark-hover-background-color !important;
+    color: $heretic-dark-text-color-light !important;
+}
+
+html.heretic-dark .navbar-dropdown>.dropdown-divider {
+    background: $heretic-dark-divider-color;
+}
+
+html.heretic-dark .navbar-start>.navbar-link,
+html.heretic-dark .navbar-end>.navbar-link,
+html.heretic-dark .navbar-start>.navbar-link>*,
+html.heretic-dark .navbar-end>.navbar-link>* {
+    color: $heretic-dark-text-color;
+}
+
+html.heretic-dark .navbar-link>.icon>svg>path,
+html.heretic-dark .navbar-item>.icon>svg>path {
+    fill: $heretic-dark-text-color !important;
+}
+
+html.heretic-dark .navbar-burger {
+    color: $heretic-dark-text-color;
+}
+
+html.heretic-dark .navbar-burger:hover,
+html.heretic-dark .navbar-burger:focus,
+html.heretic-dark .navbar-burger:active {
+    color: $heretic-dark-text-color-light;
+}
+
+html.heretic-dark a {
+    color: $heretic-dark-link-color;
+}
+
+html.heretic-dark a:hover,
+html.heretic-dark a:focus,
+html.heretic-dark a:active {
+    color: lighten($heretic-dark-link-color, 8%);
+    outline: 0 !important;
+    box-shadow: 0 !important;
+}
+
+// Table
+
+html.heretic-dark .table {
+    background: $heretic-dark-table-background-color;
+    color: $heretic-dark-text-color;
+}
+
+html.heretic-dark .table>thead>tr>th {
+    background: $heretic-dark-table-thead-color !important;
+    color: $heretic-dark-text-color-light !important;
+}
+
+html.heretic-dark .content table td,
+html.heretic-dark .content table th,
+html.heretic-dark .table td,
+html.heretic-dark .table th {
+    border: 1px solid $heretic-dark-table-border-color;
+}
+
+html.heretic-dark .table.is-striped>tbody>tr:nth-child(even) {
+    background: $heretic-dark-table-tr-even-color !important;
+}
+
+html.heretic-dark .table.is-striped>tbody>tr:nth-child(odd) {
+    background: lighten($heretic-dark-table-tr-even-color, 4%) !important;
+}
+
+html.heretic-dark .table.is-striped>tbody>tr:nth-child(odd):hover {
+    background: $heretic-dark-table-tr-odd-hover-color !important;
+}
+
+html.heretic-dark .table.is-striped>tbody>tr:nth-child(even):hover {
+    background: $heretic-dark-table-tr-odd-hover-color !important;
+}
+
+// Pagination
+
+html.heretic-dark .pagination-link,
+html.heretic-dark .pagination-previous,
+html.heretic-dark .pagination-next {
+    background: $grey-dark;
+    color: $heretic-dark-text-color;
+    border: unset;
+}
+
+html.heretic-dark .pagination-link:not(.is-current):hover,
+html.heretic-dark .pagination-previous:not(.is-current):hover,
+html.heretic-dark .pagination-next:not(.is-current):hover {
+    background: $grey-darker;
+    color: $heretic-dark-text-color-light;
+}
+
+html.heretic-dark .pagination-link.is-current {
+    background: $primary;
+}
+
+html.heretic-dark .pagination-link:hover.is-current {
+    background: lighten($primary, 10%);
+    color: $heretic-dark-text-color-light;
+}
+
+// Form
+
+html.heretic-dark input.input,
+html.heretic-dark textarea.input,
+html.heretic-dark .select>select {
+    background: $grey-dark;
+    box-shadow: inset 0 0.0625em 0.125em $black;
+    border: 1px solid lighten($grey-darker, 8%);
+    color: $heretic-dark-text-color-light;
+}
+
+html.heretic-dark input.input:hover,
+html.heretic-dark input.input:focus,
+html.heretic-dark input.input:active,
+html.heretic-dark textarea.input:hover,
+html.heretic-dark textarea.input:focus,
+html.heretic-dark textarea.input:active,
+html.heretic-dark .select>select:hover,
+html.heretic-dark .select>select:focus,
+html.heretic-dark .select>select:active {
+    border: 1px solid lighten($grey-darker, 22%);
+}
+
+html.heretic-dark .label {
+    color: $heretic-dark-text-color;
+}
+
+// Dialogs
+
+html.heretic-dark .modal-card-head,
+html.heretic-dark .modal-card-body {
+    background: $heretic-dark-item-background-color;
+}
+
+html.heretic-dark .modal-card-foot {
+    background: $heretic-dark-item-background-color !important;
+}
+
+html.heretic-dark .modal-card-foot {
+    border-top-color: $heretic-dark-divider-color;
+}
+
+html.heretic-dark .modal-card-head {
+    border-bottom-color: $heretic-dark-divider-color;
+}
+
+html.heretic-dark .modal-card-title {
+    color: $heretic-dark-text-color-light;
+}
+
+html.heretic-dark .delete {
+    background: darken($heretic-dark-divider-color, 15%);
+}
+
+html.heretic-dark .delete:hover {
+    background: $heretic-dark-divider-color;
+}
+
+// Tags
+
+html.heretic-dark .tag.is-white {
+    background: $grey;
+}
+
+@media (max-width: 1023px) {
+
+    html.heretic-dark .navbar-menu {
+        background: $black;
+        padding: 10px;
+    }
+
+}

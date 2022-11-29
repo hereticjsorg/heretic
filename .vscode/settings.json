@@ -18,6 +18,7 @@
         "getconfigmeta",
         "getconfigsystem",
         "getfastifyinstance",
+        "hadmin",
         "hcalendar",
         "hform",
         "hmodal",

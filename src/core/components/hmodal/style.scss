@@ -40,3 +40,17 @@
 .hr-hm-background-60 {
     background-color: rgba(10,10,10,.60) !important;
 }
+
+html.heretic-dark .hr-hm-tabs-wrap {
+    background: $heretic-dark-item-active-background-color !important;
+}
+
+html.heretic-dark .hr-hm-tabs>ul>li.is-active>a {
+    background: $heretic-dark-item-background-color !important;
+    color: $heretic-dark-text-color !important;
+    border-color: $heretic-dark-divider-color !important;
+}
+
+html.heretic-dark .hr-hm-tabs>ul>li>a {
+    color: $heretic-dark-text-color !important;
+}

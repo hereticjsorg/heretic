@@ -379,11 +379,11 @@ import SettingsPagesForm from "./settingsPagesForm"
         }
     ]>
     <header
-        class="modal-card-head hr-ht-settings-tabs-wrap p-0"
+        class="modal-card-head hr-hm-tabs-wrap p-0"
         style={
             order: "2"
         }>
-        <div class="tabs is-boxed hr-hr-settings-tabs p-0">
+        <div class="tabs is-boxed hr-hm-tabs p-0">
             <ul>
                 <for|i| of=["columns", "pages", "filter"]>
                     <li class=(state.settingsTab === i ? "is-active" : "")>
@@ -435,7 +435,7 @@ import SettingsPagesForm from "./settingsPagesForm"
                             </span>
                         </div>
                         <div class="column is-narrow mr-2">
-                            <input type="checkbox" class="hr-hr-settings-switch switch" checked=state.settingsColumns[k] on-change("onSettingsColumnCheckboxClick") data-id=k/>
+                            <input type="checkbox" class="hr-ht-settings-switch switch" checked=state.settingsColumns[k] on-change("onSettingsColumnCheckboxClick") data-id=k/>
                         </div>
                         <div class="column is-auto mr-2">${column.label}</div>
                         <div class="column is-narrow mr-2">
@@ -486,7 +486,7 @@ import SettingsPagesForm from "./settingsPagesForm"
                         <for|item| of=state.settingsFilters>
                             <div class="hr-ht-settings-filters-row columns is-vcentered is-mobile is-gapless p-1 m-0" data-uid=item.uid>
                                 <div class="column is-narrow mr-2">
-                                    <input type="checkbox" data-uid=item.uid class="hr-hr-settings-switch switch" checked=state.settingsFilters.find(i => i.uid === item.uid).enabled on-change("settingsFilterCheckboxChange")/>
+                                    <input type="checkbox" data-uid=item.uid class="hr-ht-settings-switch switch" checked=state.settingsFilters.find(i => i.uid === item.uid).enabled on-change("settingsFilterCheckboxChange")/>
                                 </div>
                                 <div class="column is-auto">
                                     <span class="tag is-white mr-1">${state.columnData[item.id].label}</span>
@@ -829,7 +829,7 @@ import SettingsPagesForm from "./settingsPagesForm"
                                 </span>
                             </div>
                             <div class="column is-narrow mr-2">
-                                <input type="checkbox" class="hr-hr-export-switch switch" checked=state.dataExportColumns[k] on-change("onExportColumnCheckboxClick") data-id=k/>
+                                <input type="checkbox" class="hr-ht-export-switch switch" checked=state.dataExportColumns[k] on-change("onExportColumnCheckboxClick") data-id=k/>
                             </div>
                             <div class="column is-auto mr-2">${column.label}</div>
                             <div class="column is-narrow mr-2">

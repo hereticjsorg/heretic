@@ -24,6 +24,10 @@
     box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
 }
 
+html.heretic-dark .hr-hf-area {
+    border: 1px solid $grey;
+}
+
 .hr-hf-tab {
     border: 1px solid $grey-lighter;
     border-radius: $radius;
@@ -60,6 +64,11 @@
     color: $grey;
     // border-bottom: 1px solid $grey-lighter;
     // border-radius: $radius-large;
+}
+
+html.heretic-dark .hr-hf-f-area-label {
+    background: $heretic-dark-body-background-color;
+    color: $heretic-dark-text-color;
 }
 
 .hr-hf-loader-overlay {

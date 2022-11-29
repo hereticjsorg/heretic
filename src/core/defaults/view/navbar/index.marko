@@ -1,13 +1,19 @@
 import navigation from "../../config/navigation.json"
 import languages from "../../config/languages.json"
-import logo from "../../core/images/logo.svg"
-import { mdiGithub, mdiWeb, mdiAccountCircleOutline } from "@mdi/js"
+import logoLight from "../../core/images/logo.svg"
+import logoDark from "../../core/images/logo_dark.svg"
+import { mdiGithub, mdiWeb, mdiAccountCircleOutline, mdiBrightness6, mdiBrightness4 } from "@mdi/js"
 
 $ const i18nNavigation = out.global.i18nNavigation;
 <nav class="navbar hr-navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
         <hrouter-link route=navigation.userspace.home class="navbar-item">
-            <img src=logo/>
+            <if(state.darkMode)>
+                <img src=logoDark/>
+            </if>
+            <else>
+                <img src=logoLight/>
+            </else>
         </hrouter-link>
         <a id="hr_navbar_burger" onClick("onBurgerClick") role="button" class=`navbar-burger${state.navOpen ? " is-active" : ""}` data-target="navbar">
             <span aria-hidden="true"/>
@@ -42,8 +48,19 @@ $ const i18nNavigation = out.global.i18nNavigation;
                 </span>
                 <span>&nbsp;&nbsp;GitHub</span>
             </a>
+            <a class="navbar-item hr-navbar-item" href="" on-click("onDarkModeSwitchClick")>
+                <span class="icon hr-navbar-icon">
+                    <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                        <path d=(state.darkMode ? mdiBrightness4 : mdiBrightness6)/>
+                    </svg>
+                </span>
+            </a>
             <if(Object.keys(languages).length > 1)>
-                <div class=`navbar-item has-dropdown${state.langOpen ? " is-active" : ""}`>
+                <div
+                    class=`navbar-item has-dropdown${state.langOpen ? " is-active" : ""}`
+                    style={
+                        background: "unset !important"
+                    }>
                     <a class=`navbar-link hr-navbar-item is-arrowless${state.langOpen ? " hr-navbar-item-open" : ""}` on-click("onLanguageClick") id="hr_navbar_language">
                         <span class="icon hr-navbar-icon">
                             <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
@@ -61,7 +78,11 @@ $ const i18nNavigation = out.global.i18nNavigation;
                     </div>
                 </div>
             </if>
-            <div class=`navbar-item has-dropdown${state.authOpen ? " is-active" : ""}`>
+            <div
+                class=`navbar-item has-dropdown${state.authOpen ? " is-active" : ""}`
+                style={
+                    background: "unset !important"
+                }>
                 <a class=`navbar-link hr-navbar-item is-arrowless${state.authOpen ? " hr-navbar-item-open" : ""}` on-click("onAuthClick") id="hr_navbar_auth">
                     <if(out.global.username)>&nbsp;${out.global.username}</if>
                     <else>
@@ -82,7 +103,7 @@ $ const i18nNavigation = out.global.i18nNavigation;
                             <a class="navbar-item hr-navbar-item" href=component.utils.getLocalizedURL(out.global.systemRoutes.admin)>
                                 <t>adminPanel</t>
                             </a>
-                            <hr class="dropdown-divider">
+                            <hr class="dropdown-divider"/>
                         </if>
                         <a class="navbar-item hr-navbar-item" href=component.utils.getLocalizedURL(out.global.systemRoutes.signOut)>
                             <t>signOut</t>

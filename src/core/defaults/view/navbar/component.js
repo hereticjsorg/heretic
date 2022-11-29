@@ -8,6 +8,7 @@ module.exports = class {
             authOpen: false,
             navOpen: false,
             navItemOpen: null,
+            darkMode: false,
         };
         this.language = out.global.language;
         this.utils = new Utils(this, this.language);
@@ -59,5 +60,11 @@ module.exports = class {
         e.preventDefault();
         const id = e.target.id.replace(/^hr_navbar_item_/, "");
         this.setState("navItemOpen", id);
+    }
+
+    onDarkModeSwitchClick(e) {
+        e.preventDefault();
+        this.setState("darkMode", !this.state.darkMode);
+        document.documentElement.classList[this.state.darkMode ? "add" : "remove"]("heretic-dark");
     }
 };

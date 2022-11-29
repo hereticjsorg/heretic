@@ -12,3 +12,7 @@
     align-items: center;
     justify-content: center;
 }
+
+html.heretic-dark .hr-loader-overlay {
+    background: rgba($heretic-dark-body-background-color, 0.8);
+}

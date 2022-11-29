@@ -26,6 +26,10 @@
     animation: hr-hld-loader-dot-before 2.0s infinite ease-in-out both;
 }
 
+html.heretic-dark .hr-hld-loader-dot:before {
+    background-color: $heretic-dark-text-color;
+}
+
 .hr-hld-loader-dot:nth-child(1) {
     animation-delay: -1.1s;
 }

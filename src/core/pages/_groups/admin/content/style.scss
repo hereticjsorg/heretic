@@ -1,5 +1,11 @@
+@import "../../../../components/hadmin/heretic-admin/variables-admin.scss";
+
 .editModal-card-body>.hr-hf-wrap>.hr-hf-form>.hr-hf-area {
     margin-bottom: 0 !important;
+}
+
+html.heretic-dark .editModal-card-body>.hr-hf-wrap>.hr-hf-form>.hr-hf-area {
+    border: 1px solid $grey;
 }
 
 ._groupsForm-errorNotification {
