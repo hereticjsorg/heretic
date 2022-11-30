@@ -94,6 +94,11 @@
     border-radius: 4px;
 }
 
+html.heretic-dark .hr-hf-calendar-wrap {
+    border: 1px solid $heretic-dark-border-color;
+    background: $heretic-dark-item-background-color;
+}
+
 .hr-hf-date-input {
     text-align: center;
 }

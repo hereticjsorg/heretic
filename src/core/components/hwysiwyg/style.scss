@@ -9,10 +9,19 @@
     flex-direction: column;
 }
 
+html.heretic-dark .hr-wy-wrap {
+    border: 1px solid $heretic-dark-border-color;
+}
+
 .hr-wy-controls {
     width: 100%;
     background: $white;
     border-bottom: 1px solid $grey-lighter;
+}
+
+html.heretic-dark .hr-wy-controls {
+    border-bottom: 1px solid darken($heretic-dark-border-color, 5%);
+    background: $heretic-dark-divider-color;
 }
 
 .hr-wy-editor {
@@ -23,6 +32,10 @@
     outline: 0 !important;
     padding: 10px;
     overflow: auto;
+}
+
+html.heretic-dark .hr-wy-editor {
+    background: $heretic-dark-input-color;
 }
 
 .hr-wy-control-button {
@@ -41,8 +54,16 @@
     margin-top: 1px;
 }
 
+html.heretic-dark .hr-wy-control-button {
+    background: lighten($heretic-dark-border-color, 20%);
+}
+
 .hr-wy-control-button:hover {
     background: $grey-lightest;
+}
+
+html.heretic-dark .hr-wy-control-button:hover {
+    background: lighten($heretic-dark-border-color, 25%);
 }
 
 .hr-wy-control-button-selected {

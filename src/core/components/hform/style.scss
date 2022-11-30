@@ -25,7 +25,7 @@
 }
 
 html.heretic-dark .hr-hf-area {
-    border: 1px solid $grey;
+    border: 1px solid $heretic-dark-border-color;
 }
 
 .hr-hf-tab {
@@ -82,6 +82,10 @@ html.heretic-dark .hr-hf-f-area-label {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+html.heretic-dark .hr-hf-loader-overlay {
+    background: rgba($heretic-dark-body-background-color, 0.8);
 }
 
 .hr-hf-form {
@@ -145,6 +149,10 @@ html.heretic-dark .hr-hf-f-area-label {
     box-decoration-break: slice;
 }
 
+html.heretic-dark .hr-hf-history-tag {
+    background-color: lighten($heretic-dark-table-background-color, 5%);
+    border: 1px solid darken($heretic-dark-border-color, 5%);
+}
 
 .hr-hf-history-tag-null {
     background: $primary;
@@ -160,6 +168,12 @@ html.heretic-dark .hr-hf-f-area-label {
     border-radius: $radius;
     display: block;
     user-select: auto;
+}
+
+html.heretic-dark .hr-hf-history-wysiwyg,
+html.heretic-dark .hr-hf-history-files {
+    background-color: lighten($heretic-dark-table-background-color, 5%);
+    border: 1px solid darken($heretic-dark-border-color, 5%);
 }
 
 .hr-hf-history-to-right {
@@ -185,6 +199,11 @@ html.heretic-dark .hr-hf-f-area-label {
     border-radius: $radius;
     background: $white-bis;
     box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
+}
+
+html.heretic-dark .hr-hf-history-changes-wrap {
+    border: 1px solid $heretic-dark-border-color;
+    background: $heretic-dark-table-background-color;
 }
 
 .hr-hf-tags-filter-wrap {

@@ -1,4 +1,5 @@
 const cloneDeep = require("lodash.clonedeep");
+const store = require("store2");
 const tippy = require("tippy.js").default;
 const {
     hideAll,
@@ -46,7 +47,7 @@ module.exports = class {
         this.siteId = out.global.siteId;
         this.cookieOptions = out.global.cookieOptions;
         this.utils = new Utils(this, this.language);
-        await import(/* webpackChunkName: "bulma" */ "../../view/bulma.scss");
+        await import(/* webpackChunkName: "bulma" */ "../bulma.scss");
         await import(/* webpackChunkName: "heretic" */ "../heretic.scss");
         await this.loadLanguageData();
         this.setGlobalVariables(out);
@@ -128,6 +129,10 @@ module.exports = class {
             this.cookies = new Cookies(this.cookieOptions);
             this.cookies.delete(`${this.siteId}.authToken`);
         }
+        this.store = store.namespace(`heretic_${this.siteId}`);
+        const darkMode = !!this.store.get("darkMode");
+        document.documentElement.classList[darkMode ? "add" : "remove"]("heretic-dark");
+        document.documentElement.style.transition = "all 0.6s ease";
         this.setState("mounted", true);
     }
 

@@ -1,6 +1,6 @@
 {
   "name": "heretic",
-  "version": "1.0.88",
+  "version": "1.0.89",
   "description": "Heretic",
   "main": "index.js",
   "scripts": {
@@ -54,7 +54,7 @@
     "eslint-plugin-import": "^2.26.0",
     "execa": "^6.1.0",
     "fkill": "^8.0.1",
-    "fs-extra": "^11.0.0",
+    "fs-extra": "^11.1.0",
     "ignore-loader": "^0.1.2",
     "jest": "^29.3.1",
     "lodash.clonedeep": "^4.5.0",
@@ -75,7 +75,7 @@
   "dependencies": {
     "@fastify/cookie": "^8.3.0",
     "@fastify/formbody": "^7.3.0",
-    "@fastify/jwt": "^6.4.0",
+    "@fastify/jwt": "^6.5.0",
     "@fastify/mongodb": "^6.2.0",
     "@fastify/websocket": "^7.1.1",
     "argon2": "^0.30.2",

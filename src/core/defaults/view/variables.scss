@@ -73,11 +73,11 @@ $block-spacing: 1.5rem !default;
 
 // Dark theme
 
-$heretic-dark-text-color: $black;
-$heretic-dark-text-color-light: $grey-darker;
 $heretic-dark-primary-color: $primary;
 $heretic-dark-text-color: $grey-light;
 $heretic-dark-text-color-light: $grey-lighter;
+$heretic-dark-border-color: $grey;
+$heretic-dark-input-color: $grey-dark;
 $heretic-dark-body-background-color: $black-bis;
 $heretic-dark-hover-background-color: lighten($grey-dark, 18%);
 $heretic-dark-item-background-color: lighten($grey-dark, 6%);
