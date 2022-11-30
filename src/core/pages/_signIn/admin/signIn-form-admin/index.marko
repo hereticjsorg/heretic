@@ -1,6 +1,5 @@
 import { mdiWeb } from "@mdi/js"
 import languages from "../../../../../config/languages.json"
-import logo from "../../../../../core/images/logo.svg"
 import SignInForm from "../../data/signInForm"
 
 <div
@@ -14,9 +13,7 @@ import SignInForm from "../../data/signInForm"
             <div class="mb-2">
                 <div class="columns m-0 p-0 is-gapless is-mobile">
                     <div class="column is-narrow is-flex is-align-items-center">
-                        <a href=component.utils.getLocalizedURL("/")>
-                            <img src=logo/>
-                        </a>
+                        <!-- Logo? -->
                     </div>
                     <div class="column is-auto is-flex is-justify-content-flex-end is-align-items-center">
                         <div class=`dropdown is-right${state.langOpen ? " is-active" : ""}`>
@@ -41,7 +38,7 @@ import SignInForm from "../../data/signInForm"
                     </div>
                 </div>
             </div>
-            <div class="card hr-signIn-card">
+            <div class="card hr-signIn-card p-0 m-0">
                 <if(!process.browser || state.ready)>
                     <hform key="signInForm" id="signInForm" data=(new SignInForm(process.browser && window.__heretic ? window.__heretic.t : out.global.t)) on-form-submit("onFormSubmit")/>
                 </if> 

@@ -1,15 +1,11 @@
 // Import variables and fonts
 
-html,
-body {
-    // transition: all 0.4s ease;
-}
-
+@import "./fonts.scss";
 @import "./variables.scss";
 @import "../core/styles/buttons.scss";
 @import "../core/styles/tippy.scss";
 @import "../core/styles/checkboxes.scss";
-@import "../core/styles/heretic-dark.scss";
+@import "../core/styles/dark.scss";
 
 // Template-related styles
 

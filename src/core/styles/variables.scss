@@ -30,7 +30,7 @@ $black: hsl(0, 0%, 4%) !default;
 $black-bis: hsl(0, 0%, 7%) !default;
 $black-ter: hsl(0, 0%, 14%) !default;
 $grey-darker: hsl(0, 0%, 21%) !default;
-$grey-dark: hsl(0, 0%, 29%) !default;
+$grey-dark: hsl(0, 5%, 12%) !default;
 $grey: hsl(0, 0%, 48%) !default;
 $grey-light: hsl(0, 0%, 71%) !default;
 $grey-lighter: hsl(0, 0%, 86%) !default;
@@ -70,3 +70,28 @@ $speed: 86ms !default;
 
 // Spacing
 $block-spacing: 1.5rem !default;
+
+// Dark theme
+
+$heretic-dark-primary-color: $primary;
+$heretic-dark-text-color: $grey-light;
+$heretic-dark-text-color-light: $grey-lighter;
+$heretic-dark-border-color: $grey;
+$heretic-dark-input-color: $grey-dark;
+$heretic-dark-body-background-color: $black-bis;
+$heretic-dark-hover-background-color: lighten($grey-dark, 18%);
+$heretic-dark-item-background-color: lighten($grey-dark, 6%);
+$heretic-dark-item-active-background-color: $grey-dark;
+$heretic-dark-divider-color: darken($grey, 20%);
+$heretic-dark-link-color: $blue;
+$heretic-dark-table-background-color: $grey-darker;
+$heretic-dark-table-border-color: lighten($grey-dark, 10%);
+$heretic-dark-table-thead-color: $grey-dark;
+$heretic-dark-table-tr-even-color: darken($grey-darker, 5%);
+$heretic-dark-table-tr-even-hover-color: lighten($grey-darker, 5%);
+$heretic-dark-table-tr-odd-color: lighten($heretic-dark-table-tr-even-color, 4%);
+$heretic-dark-table-tr-odd-hover-color: lighten($grey-darker, 5%);
+$heretic-light-tippy-background-color: $grey-dark;
+$heretic-light-tippy-text-color: $grey-lighter;
+$heretic-dark-tippy-background-color: $grey-lighter;
+$heretic-dark-tippy-text-color: $black-bis;

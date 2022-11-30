@@ -161,6 +161,11 @@ module.exports = (env, argv) => {
                 }),
                 markoPlugin.browser,
             ],
+            resolve: {
+                alias: {
+                    fonts: path.join(__dirname, "src/core/fonts"),
+                },
+            }
         },
         {
             name: "Backend",

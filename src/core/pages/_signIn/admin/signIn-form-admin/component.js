@@ -1,4 +1,5 @@
 const axios = require("axios").default;
+const store = require("store2");
 const i18nLoader = require("../../../../../build/loaders/i18n-loader-core");
 const Utils = require("../../../../lib/componentUtils").default;
 const Cookies = require("../../../../lib/cookiesBrowser").default;
@@ -49,6 +50,9 @@ module.exports = class {
                 this.setState("langOpen", false);
             }
         });
+        this.store = store.namespace(`heretic_${this.siteId}`);
+        const darkMode = !!this.store.get("darkMode");
+        document.documentElement.classList[darkMode ? "add" : "remove"]("heretic-dark");
         this.setState("ready", true);
         this.update();
         this.t = window.__heretic.t;

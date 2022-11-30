@@ -59,7 +59,7 @@ html.heretic-dark .navbar-dropdown,
 html.heretic-dark .dropdown-content {
     background: $heretic-dark-item-background-color;
     border-radius: $radius !important;
-    box-shadow: -1px 10px 39px -13px rgba(0,0,0,0.45) !important;
+    box-shadow: -1px 10px 39px -13px rgba(0,0,0,0.65) !important;
 }
 
 html.heretic-dark .navbar-dropdown>.navbar-item,
@@ -236,6 +236,12 @@ html.heretic-dark .delete:hover {
 
 html.heretic-dark .tag.is-white {
     background: $grey;
+}
+
+// Card
+
+html.heretic-dark .card {
+    background: $heretic-dark-item-background-color;
 }
 
 @media (max-width: 1023px) {
