@@ -1,4 +1,5 @@
-// Typography
+//////////////////////////////////////////////
+
 $family-sans-serif: "Source Sans Pro", sans-serif;
 $family-monospace: monospace !default;
 $render-mode: optimizeLegibility !default;
@@ -22,7 +23,9 @@ $size-normal: $size-6 !default;
 $size-medium: $size-5 !default;
 $size-large: $size-4 !default;
 
+//////////////////////////////////////////////
 // Colors
+
 $primary: hsl(221, 27%, 43%);
 $primary-dark: hsl(208, 25%, 21%);
 $link: hsl(212, 42%, 24%);
@@ -52,7 +55,9 @@ $red: hsl(3, 86%, 62%) !default;
 $red-dark: hsl(348, 86%, 51%) !default;
 $red-darker: hsl(348, 86%, 41%) !default;
 
+//////////////////////////////////////////////
 // Icons
+
 $mdi-font-path: "~@mdi/font/fonts";
 $z3-head-background-color: $white-lightest;
 $z3-head-text-color: $grey-darker;
@@ -60,7 +65,9 @@ $z3-yellow-light: hsl(48, 100%, 96%) !default;
 $z3-head-background-color: $white-lightest;
 $z3-head-text-color: $grey-darker;
 
+//////////////////////////////////////////////
 // Miscellaneous
+
 $easing: ease-out !default;
 $radius-small: 2px !default;
 $radius: 4px !default;
@@ -68,29 +75,31 @@ $radius-large: 6px !default;
 $radius-rounded: 9999px !default;
 $speed: 86ms !default;
 
+//////////////////////////////////////////////
 // Spacing
+
 $block-spacing: 1.5rem !default;
 
+//////////////////////////////////////////////
 // Dark theme
 
 $heretic-dark-primary-color: $primary;
 $heretic-dark-text-color: $grey-light;
 $heretic-dark-text-color-light: $grey-lighter;
-$heretic-dark-border-color: $grey;
-$heretic-dark-input-color: $grey-dark;
-$heretic-dark-body-background-color: $black-bis;
-$heretic-dark-hover-background-color: lighten($grey-dark, 18%);
-$heretic-dark-item-background-color: lighten($grey-dark, 6%);
-$heretic-dark-item-active-background-color: $grey-dark;
-$heretic-dark-divider-color: darken($grey, 20%);
-$heretic-dark-link-color: $blue;
-$heretic-dark-table-background-color: $grey-darker;
-$heretic-dark-table-border-color: lighten($grey-dark, 10%);
-$heretic-dark-table-thead-color: $grey-dark;
-$heretic-dark-table-tr-even-color: darken($grey-darker, 5%);
-$heretic-dark-table-tr-even-hover-color: lighten($grey-darker, 5%);
-$heretic-dark-table-tr-odd-color: lighten($heretic-dark-table-tr-even-color, 4%);
-$heretic-dark-table-tr-odd-hover-color: lighten($grey-darker, 5%);
+
+//////////////////////////////////////////////
+// Dark theme colors
+
+$heretic-dark-black-bis: $black-bis;
+$heretic-dark-grey-dark: $grey-dark;
+$heretic-dark-blue: $blue;
+$heretic-dark-grey: $grey;
+$heretic-dark-grey-darker: $grey-darker;
+$heretic-dark-black: $black;
+
+//////////////////////////////////////////////
+// Dark theme Tippy
+
 $heretic-light-tippy-background-color: $grey-dark;
 $heretic-light-tippy-text-color: $grey-lighter;
 $heretic-dark-tippy-background-color: $grey-lighter;

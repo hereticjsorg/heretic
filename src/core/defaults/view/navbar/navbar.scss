@@ -31,8 +31,8 @@
 }
 
 html.heretic-dark .hr-navbar-item-open {
-    background: $heretic-dark-hover-background-color !important;
-    background-color: $heretic-dark-hover-background-color !important;
+    background: lighten($heretic-dark-grey-dark, 18%) !important;
+    background-color: lighten($heretic-dark-grey-dark, 18%) !important;
 }
 
 .hr-navbar-icon {

@@ -25,7 +25,7 @@
 }
 
 html.heretic-dark .hr-hf-area {
-    border: 1px solid $heretic-dark-border-color;
+    border: 1px solid $heretic-dark-grey;
 }
 
 .hr-hf-tab {
@@ -67,7 +67,7 @@ html.heretic-dark .hr-hf-area {
 }
 
 html.heretic-dark .hr-hf-f-area-label {
-    background: $heretic-dark-body-background-color;
+    background: $heretic-dark-black-bis;
     color: $heretic-dark-text-color;
 }
 
@@ -85,7 +85,7 @@ html.heretic-dark .hr-hf-f-area-label {
 }
 
 html.heretic-dark .hr-hf-loader-overlay {
-    background: rgba($heretic-dark-body-background-color, 0.8);
+    background: rgba($heretic-dark-black-bis, 0.8);
 }
 
 .hr-hf-form {
@@ -150,8 +150,8 @@ html.heretic-dark .hr-hf-loader-overlay {
 }
 
 html.heretic-dark .hr-hf-history-tag {
-    background-color: lighten($heretic-dark-table-background-color, 5%);
-    border: 1px solid darken($heretic-dark-border-color, 5%);
+    background-color: lighten($heretic-dark-grey-darker, 5%);
+    border: 1px solid darken($heretic-dark-grey, 5%);
 }
 
 .hr-hf-history-tag-null {
@@ -172,8 +172,8 @@ html.heretic-dark .hr-hf-history-tag {
 
 html.heretic-dark .hr-hf-history-wysiwyg,
 html.heretic-dark .hr-hf-history-files {
-    background-color: lighten($heretic-dark-table-background-color, 5%);
-    border: 1px solid darken($heretic-dark-border-color, 5%);
+    background-color: lighten($heretic-dark-grey-darker, 5%);
+    border: 1px solid darken($heretic-dark-grey, 5%);
 }
 
 .hr-hf-history-to-right {
@@ -202,14 +202,19 @@ html.heretic-dark .hr-hf-history-files {
 }
 
 html.heretic-dark .hr-hf-history-changes-wrap {
-    border: 1px solid $heretic-dark-border-color;
-    background: $heretic-dark-table-background-color;
+    border: 1px solid $heretic-dark-grey;
+    background: $heretic-dark-grey-darker;
 }
 
 .hr-hf-tags-filter-wrap {
     padding: 10px;
     background: $white;
     border-bottom: 1px solid $grey-lightest;
+}
+
+html.heretic-dark .hr-hf-tags-filter-wrap {
+    background: $heretic-dark-grey-darker;
+    border-bottom: 1px solid darken($heretic-dark-grey-darker, 11%);
 }
 
 .hr-hf-tagAddModal {

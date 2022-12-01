@@ -1,6 +1,6 @@
 // Import variables and fonts
 
-@import "./variables-admin.scss";
+@import "../../../styles/variables.scss";
 @import "../../../styles/buttons.scss";
 @import "../../../styles/tippy.scss";
 @import "../../../styles/checkboxes.scss";
@@ -29,6 +29,12 @@
     background: $white;
     user-select: none;
     box-shadow: 0 .2em 1em -.05em rgba($grey-darker, .1), 0 0 0 1px rgba($grey-darker, .02) !important;
+}
+
+html.heretic-dark .hr-footer {
+    color: $heretic-dark-text-color !important;
+    background: $heretic-dark-black-bis !important;
+    border-top: 1px solid darken($heretic-dark-grey-darker, 2%);
 }
 
 .hr-footer>*>a,

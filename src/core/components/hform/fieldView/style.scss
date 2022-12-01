@@ -60,7 +60,7 @@
 }
 
 html.heretic-dark .hr-hf-view-input {
-    background: $heretic-dark-item-background-color;
+    background: lighten($heretic-dark-grey-dark, 6%);
     color: $heretic-dark-text-color;
 }
 

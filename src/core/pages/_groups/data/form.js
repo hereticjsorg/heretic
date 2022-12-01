@@ -15,8 +15,6 @@ export default class {
         this.t = t || (id => id);
         this.data = {
             form: [{
-                label: this.t("areaData"),
-                css: "hr-hf-area",
                 fields: [{
                     id: "group",
                     type: "text",

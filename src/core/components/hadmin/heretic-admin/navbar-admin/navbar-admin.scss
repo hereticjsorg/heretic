@@ -1,4 +1,4 @@
-@import "../variables-admin.scss";
+@import "../../../../styles/variables.scss";
 
 .hr-navbar-dummy {
     height: 58px;
@@ -6,11 +6,15 @@
 }
 
 .hr-navbar {
-    background: $grey-darker !important;
     user-select: none;
     position: fixed !important;
     width: 100%;
     top: 0px;
+    background: $grey-darker !important;
+}
+
+.hr-navbar-wrap {
+    background: $grey-darker !important;
 }
 
 .hr-navbar-item {
@@ -61,6 +65,41 @@
     fill: $white-ter !important;
 }
 
+.hr-navbar-icon {
+    display: inline-flex;
+    align-self: center;
+}
+
+.hr-navbar-icon svg {
+    height: 20px;
+    width: 20px;
+    top: 0px;
+    position: relative;
+}
+
+.hr-navbar-icon-admin {
+    display: inline-flex;
+    align-self: center;
+}
+
+.hr-navbar-icon-admin svg {
+    height: 20px !important;
+    width: 20px !important;
+    top: 0px;
+    position: relative;
+}
+
+.hr-navbar-icon-admin svg>path {
+    fill: $white-ter !important;
+}
+
+.hr-navbar-item-admin:hover,
+.hr-navbar-item-admin:focus,
+.hr-navbar-item-admin:active {
+    background: $heretic-dark-grey-dark !important;
+    transition: all 250ms;
+}
+
 .hr-navbar-burger {
     height: 59px !important;
 }
@@ -97,4 +136,14 @@
         padding: 8px !important;
         background: $white !important;
     }
+
+    html.heretic-dark .hr-navbar-admin-mode {
+        margin-left: 2px !important;
+        margin-right: 2px !important;
+    }
+
+    html.heretic-dark .hr-navbar-menu {
+        background: $heretic-dark-grey-dark !important;
+    }
+
 }

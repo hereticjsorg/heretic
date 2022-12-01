@@ -1,4 +1,5 @@
 const cloneDeep = require("lodash.clonedeep");
+const store = require("store2");
 const tippy = require("tippy.js").default;
 const {
     hideAll,
@@ -84,6 +85,7 @@ module.exports = class {
     async onCreate(input, out) {
         this.state = {
             mounted: false,
+            ready: false,
             route: null,
             languageLoaded: false,
             routed: false,
@@ -140,6 +142,10 @@ module.exports = class {
         } catch {
             // Ignore
         }
+        this.store = store.namespace(`heretic_${this.siteId}`);
+        const darkMode = !!this.store.get("darkMode");
+        document.documentElement.classList[darkMode ? "add" : "remove"]("heretic-dark");
+        document.documentElement.style.transition = "all 0.6s ease";
         this.setState("mounted", true);
         window.dispatchEvent(new CustomEvent("scroll"));
     }

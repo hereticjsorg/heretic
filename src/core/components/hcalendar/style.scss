@@ -5,7 +5,7 @@
 }
 
 html.heretic-dark .hr-mc-dow {
-    background: $heretic-dark-table-background-color;
+    background: $heretic-dark-grey-darker;
 }
 
 .hr-mc-cell {
@@ -35,7 +35,7 @@ html.heretic-dark .hr-mc-dow {
 }
 
 html.heretic-dark .hr-mc-cell-day-side {
-    background: $heretic-dark-item-active-background-color;
+    background: $heretic-dark-grey-dark;
 }
 
 .hr-mc-cell-day-today {
@@ -103,7 +103,7 @@ html.heretic-dark .hr-mc-cell-day-side {
 }
 
 html.heretic-dark .hr-mc-control {
-    border-top: 1px solid $heretic-dark-border-color;
+    border-top: 1px solid $heretic-dark-grey;
 }
 
 .hr-mc-control:hover {
@@ -111,7 +111,7 @@ html.heretic-dark .hr-mc-control {
 }
 
 html.heretic-dark .hr-mc-control:hover {
-    background: $heretic-dark-hover-background-color;
+    background: lighten($heretic-dark-grey-dark, 18%);
 }
 
 html.heretic-dark .hr-mc-control.has-text-primary {

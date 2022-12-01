@@ -10,7 +10,7 @@
 }
 
 html.heretic-dark .hr-wy-wrap {
-    border: 1px solid $heretic-dark-border-color;
+    border: 1px solid darken($heretic-dark-grey, 20%);
 }
 
 .hr-wy-controls {
@@ -20,8 +20,8 @@ html.heretic-dark .hr-wy-wrap {
 }
 
 html.heretic-dark .hr-wy-controls {
-    border-bottom: 1px solid darken($heretic-dark-border-color, 5%);
-    background: $heretic-dark-divider-color;
+    border-bottom: 1px solid darken($heretic-dark-grey, 20%);
+    background: darken($heretic-dark-grey-dark, 20%);
 }
 
 .hr-wy-editor {
@@ -35,7 +35,7 @@ html.heretic-dark .hr-wy-controls {
 }
 
 html.heretic-dark .hr-wy-editor {
-    background: $heretic-dark-input-color;
+    background: $heretic-dark-grey-dark;
 }
 
 .hr-wy-control-button {
@@ -55,7 +55,7 @@ html.heretic-dark .hr-wy-editor {
 }
 
 html.heretic-dark .hr-wy-control-button {
-    background: lighten($heretic-dark-border-color, 20%);
+    background: lighten($heretic-dark-grey, 20%);
 }
 
 .hr-wy-control-button:hover {
@@ -63,7 +63,7 @@ html.heretic-dark .hr-wy-control-button {
 }
 
 html.heretic-dark .hr-wy-control-button:hover {
-    background: lighten($heretic-dark-border-color, 25%);
+    background: lighten($heretic-dark-grey, 25%);
 }
 
 .hr-wy-control-button-selected {

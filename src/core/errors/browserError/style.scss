@@ -15,6 +15,10 @@
     user-select: none;
 }
 
+html.heretic-dark .hr-browserError-overlay {
+    background: darken($blue, 40%);
+}
+
 .hr-browserError-robot-icon {
     width: 32px;
     height: 24px;

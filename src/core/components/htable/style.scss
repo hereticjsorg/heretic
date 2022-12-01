@@ -287,7 +287,7 @@ html.heretic-dark .hr-ht-settings-columns-row:hover,
 html.heretic-dark .hr-ht-settings-filters-row:hover,
 html.heretic-dark .hr-ht-settings-bulk-row:hover,
 html.heretic-dark .hr-ht-export-columns-row:hover {
-    background: $heretic-dark-hover-background-color;
+    background: lighten($heretic-dark-grey-dark, 18%);
     border-radius: $radius;
 }
 
@@ -309,8 +309,8 @@ html.heretic-dark .hr-ht-export-columns-row:hover {
 
 html.heretic-dark .hr-ht-settings-columns-drop-area,
 html.heretic-dark .hr-ht-export-columns-drop-area {
-    background: $heretic-dark-item-active-background-color;
-    border: 1px dashed $heretic-dark-divider-color;
+    background: $heretic-dark-grey-dark;
+    border: 1px dashed darken($heretic-dark-grey-dark, 20%);
 }
 
 .hr-ht-settings-columns-drop-area-over,
@@ -324,7 +324,7 @@ html.heretic-dark .hr-ht-export-columns-drop-area {
 }
 
 html.heretic-dark .hr-hm-tabs-wrap {
-    background-color: $heretic-dark-item-active-background-color !important;
+    background-color: $heretic-dark-grey-dark !important;
 }
 
 .hr-hm-tabs>ul {
@@ -337,7 +337,7 @@ html.heretic-dark .hr-hm-tabs-wrap {
 }
 
 // html.heretic-dark .hr-hm-tabs>ul>li.is-active>a {
-//     background: $heretic-dark-body-background-color !important;
+//     background: $heretic-dark-black-bis !important;
 // }
 
 .hr-hm-tabs a,
@@ -430,23 +430,23 @@ html.heretic-dark .hr-hm-tabs-wrap {
 }
 
 html.heretic-dark .hr-ht-tbody>.hr-ht-tr:nth-child(even)>.hr-ht-td>.hr-ht-table-cell-wrap>.hr-ht-table-cell-fade {
-    background: linear-gradient(90deg, transparent, $heretic-dark-table-tr-even-color);
+    background: linear-gradient(90deg, transparent, darken($heretic-dark-grey-darker, 5%));
 }
 
 html.heretic-dark .hr-ht-tbody>.hr-ht-tr:nth-child(odd)>.hr-ht-td>.hr-ht-table-cell-wrap>.hr-ht-table-cell-fade {
-    background: linear-gradient(90deg, transparent, $heretic-dark-table-tr-odd-color);
+    background: linear-gradient(90deg, transparent, $heretic-dark-grey-darker);
 }
 
 html.heretic-dark .hr-ht-tbody>.hr-ht-tr:nth-child(even):hover>.hr-ht-td>.hr-ht-table-cell-wrap>.hr-ht-table-cell-fade {
-    background: linear-gradient(90deg, transparent, $heretic-dark-table-tr-even-hover-color);
+    background: linear-gradient(90deg, transparent, lighten($heretic-dark-grey-darker, 5%));
 }
 
 html.heretic-dark .hr-ht-tbody>.hr-ht-tr:nth-child(odd):hover>.hr-ht-td>.hr-ht-table-cell-wrap>.hr-ht-table-cell-fade {
-    background: linear-gradient(90deg, transparent, $heretic-dark-table-tr-odd-hover-color);
+    background: linear-gradient(90deg, transparent, lighten($heretic-dark-grey-darker, 5%));
 }
 
 html.heretic-dark .hr-ht-action-cell-odd {
-    background: $heretic-dark-table-tr-even-color;
+    background: darken($heretic-dark-grey-darker, 5%);
 }
 
 html.heretic-dark .hr-ht-action-cell-even {
@@ -454,19 +454,19 @@ html.heretic-dark .hr-ht-action-cell-even {
 }
 
 html.heretic-dark .hr-ht-action-cell {
-    border-left: 1px solid $heretic-dark-table-border-color;
-    border-right: 1px solid $heretic-dark-table-border-color;
+    border-left: 1px solid lighten($heretic-dark-grey-dark, 10%);
+    border-right: 1px solid lighten($heretic-dark-grey-dark, 10%);
 }
 
 html.heretic-dark .hr-ht-action-cell-control {
-    border-left: 1px solid $heretic-dark-table-border-color;
-    border-right: 1px solid $heretic-dark-table-border-color;
-    background: $heretic-dark-table-thead-color;
+    border-left: 1px solid lighten($heretic-dark-grey-dark, 10%);
+    border-right: 1px solid lighten($heretic-dark-grey-dark, 10%);
+    background: $heretic-dark-grey-dark;
     color: $heretic-dark-text-color-light !important;
 }
 
 html.heretic-dark .hr-ht-loading-wrap {
-    background: rgba($heretic-dark-body-background-color, 0.7);
+    background: rgba($heretic-dark-black-bis, 0.7);
 }
 
 @media (max-width: 1023px) {

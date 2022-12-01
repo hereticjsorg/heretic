@@ -171,5 +171,7 @@
     "hform_logComments": "Комментарий",
     "hform_logItemDeleteConfirmation": "Удалить запись",
     "hform_lotItemDeleteConfirmationText": "Вы действительно хотите удалить выбранную запись?",
-    "adminPanel": "Панель администратора"
+    "adminPanel": "Панель администратора",
+    "hereticModeToggle": "Переключение светлой/темной темы",
+    "goToUserspace": "Перейти к сайту"
 }

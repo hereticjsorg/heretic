@@ -1,14 +1,17 @@
+const store = require("store2");
 const Utils = require("../../../../lib/componentUtils").default;
 
 module.exports = class {
-    async onCreate() {
+    async onCreate(input, out) {
         const state = {
             route: null,
             langOpen: false,
             authOpen: false,
             navOpen: false,
             navItemOpen: null,
+            darkMode: false,
         };
+        this.siteId = out.global.siteId;
         this.state = state;
         await import(/* webpackChunkName: "navbar-admin" */ "./navbar-admin.scss");
         this.utils = new Utils();
@@ -29,6 +32,9 @@ module.exports = class {
                 this.setState("navItemOpen", "");
             }
         });
+        this.store = store.namespace(`heretic_${this.siteId}`);
+        const darkMode = !!this.store.get("darkMode");
+        this.setState("darkMode", darkMode);
         this.setRoute();
     }
 
@@ -60,5 +66,12 @@ module.exports = class {
         e.preventDefault();
         const id = e.target.id.replace(/^hr_navbar_item_/, "");
         this.setState("navItemOpen", id);
+    }
+
+    onDarkModeSwitchClick(e) {
+        e.preventDefault();
+        this.setState("darkMode", !this.state.darkMode);
+        document.documentElement.classList[this.state.darkMode ? "add" : "remove"]("heretic-dark");
+        this.store.set("darkMode", this.state.darkMode);
     }
 };

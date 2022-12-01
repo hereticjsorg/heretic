@@ -38,6 +38,11 @@
     fill: $grey-darker;
 }
 
+html.heretic-dark .navbar-link>.icon>svg>path,
+html.heretic-dark .navbar-item>.icon>svg>path {
+    fill: $heretic-dark-text-color !important;
+}
+
 @media (max-width: 1023px) {
 
     .hr-navbar-wrap {

@@ -1,11 +1,8 @@
-@import "../variables-admin.scss";
+@import "../../../../styles/variables.scss";
 
 .hr-menu-item {
     padding-bottom: 12px !important;
     margin-top: 1px;
-}
-
-.hr-menu-card-wrap {
 }
 
 .hr-menu-card {
@@ -21,6 +18,18 @@
     margin-top: 1px;
     display: flex;
     user-select: none;
+}
+
+html.heretic-dark .hr-menu-wrap {
+    background: darken($heretic-dark-grey-darker, 10%);
+}
+
+html.heretic-dark .hr-menu-card {
+    background: lighten($heretic-dark-grey-darker, 10%) !important;
+}
+
+html.heretic-dark .hr-icon-admin-wrap>svg>path {
+    fill: $heretic-dark-text-color-light;
 }
 
 .hr-menu-wrap>aside {

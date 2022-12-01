@@ -1,7 +1,7 @@
 import navigation from "../../../../../config/navigation.json"
 import languages from "../../../../../config/languages.json"
 import logo from "../../../../../core/images/logo_dark.svg"
-import { mdiGithub, mdiWeb } from "@mdi/js"
+import { mdiGithub, mdiWeb, mdiBrightness6, mdiBrightness4 } from "@mdi/js"
 
 $ const i18nNavigation = out.global.i18nNavigation;
 <div class="hr-navbar-dummy" id="hr_navbar_dummy"/>
@@ -29,7 +29,7 @@ $ const i18nNavigation = out.global.i18nNavigation;
                 <div class=`navbar-item has-dropdown${state.langOpen ? " is-active" : ""}`>
                     <a class=`navbar-link hr-navbar-item-top is-arrowless${state.langOpen ? " hr-navbar-item-open" : ""}` on-click("onLanguageClick") id="hr_navbar_language">
                         <span class="is-hidden-touch is-flex is-justify-content-center is-align-content-center">
-                            <span class="icon hr-admin-icon">
+                            <span class="icon hr-navbar-icon-admin">
                                 <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
                                     <path d=mdiWeb/>
                                 </svg>
@@ -46,11 +46,25 @@ $ const i18nNavigation = out.global.i18nNavigation;
                     </div>
                 </div>
             </if>
+            <a class="navbar-item hr-navbar-item hr-navbar-item-admin hr-navbar-admin-mode" href="" on-click("onDarkModeSwitchClick")>
+                <span class="icon hr-navbar-icon-admin is-hidden-touch">
+                    <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                        <path d=(state.darkMode ? mdiBrightness4 : mdiBrightness6)/>
+                    </svg>
+                </span>
+                <span class="is-hidden-desktop">
+                    <t>hereticModeToggle</t>
+                </span>
+            </a>
             <div class=`navbar-item has-dropdown${state.authOpen ? " is-active" : ""}`>
                 <a class=`navbar-link hr-navbar-item-top is-arrowless${state.authOpen ? " hr-navbar-item-open" : ""}` on-click("onAuthClick") id="hr_navbar_auth">
                     ${out.global.userData.username}<span class="is-hidden-touch">&nbsp;&nbsp;▾</span>
                 </a>
                 <div class="navbar-dropdown is-right hr-navbar-dropdown">
+                    <a class="navbar-item hr-navbar-item" href=(out.global.language === Object.keys(languages)[0] ? "/" : `/${out.global.language}`)>
+                        <t>goToUserspace</t>
+                    </a>
+                    <hr class="dropdown-divider"/>
                     <a class="navbar-item hr-navbar-item" href=(out.global.language === Object.keys(languages)[0] ? out.global.systemRoutes.signOutAdmin : `/${out.global.language}${out.global.systemRoutes.signOutAdmin}`)>
                         <t>signOut</t>
                     </a>
