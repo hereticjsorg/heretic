@@ -130,7 +130,7 @@ module.exports = class {
             this.cookies.delete(`${this.siteId}.authToken`);
         }
         this.store = store.namespace(`heretic_${this.siteId}`);
-        const darkMode = !!this.store.get("darkMode");
+        const darkMode = this.store.get("darkMode") || false;
         document.documentElement.classList[darkMode ? "add" : "remove"]("heretic-dark");
         document.documentElement.style.transition = "all 0.6s ease";
         this.setState("mounted", true);

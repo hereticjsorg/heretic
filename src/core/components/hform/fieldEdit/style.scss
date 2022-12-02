@@ -109,7 +109,16 @@ html.heretic-dark .hr-hf-calendar-wrap {
 
 .hr-hf-action-button {
     border-radius: 50% !important;
+}
+
+html:not(.heretic-dark) .hr-hf-action-button {
     height: 29px !important;
+    width: 29px !important;
+}
+
+html.heretic-dark .hr-hf-action-button {
+    height: 29px !important;
+    width: 30px !important;
 }
 
 .hr-hf-settings-icon svg {
@@ -118,6 +127,11 @@ html.heretic-dark .hr-hf-calendar-wrap {
     top: 1px;
     left: 0;
     position: relative;
+}
+
+html.heretic-dark .hr-hf-settings-icon svg {
+    height: 30px !important;
+    width: 30px !important;
 }
 
 .hr-hf-action-icon svg>path {

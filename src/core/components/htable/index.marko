@@ -5,16 +5,13 @@ import SettingsPagesForm from "./settingsPagesForm"
 <div class="columns is-gapless m-0 p-0">
     <div class="column is-auto">
         <if(state.topButtons)>
-            <div class="mb-3">
+            <div class="mb-3 buttons">
                 <for|item, index| of=state.topButtons>
                     <button
                         data-tippy-content=(state.clientWidth < 1023 ? item.label : null)
                         data-id=item.id
                         on-click("onTopButtonClick")
-                        class=`button ${item.danger ? "is-danger" : "is-light"}`
-                        style={
-                            "margin-left": index > 0 ? "4px" : "0"
-                        }>
+                        class=`button ${item.danger ? "is-danger" : "is-light"}`>
                         <span class=`hr-ht-top-button-icon icon${item.danger ? " hr-ht-top-button-icon-danger" : ""}`>
                             <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
                                 <path d=item.icon/>
@@ -29,10 +26,7 @@ import SettingsPagesForm from "./settingsPagesForm"
                     <button
                         data-tippy-content=(process.browser && state.clientWidth < 1023 && window.__heretic ? window.__heretic.t("htable_reloadButton") : null)
                         on-click("onReloadClick")
-                        class="button is-light"
-                        style={
-                            "margin-left": state.topButtons.length > 0 ? "4px" : "0"
-                        }>
+                        class="button is-light">
                         <span class="hr-ht-top-button-icon icon">
                             <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
                                 <path d=mdiReload/>
@@ -46,10 +40,7 @@ import SettingsPagesForm from "./settingsPagesForm"
                 <button
                     data-tippy-content=(process.browser && state.clientWidth < 1023 && window.__heretic ? window.__heretic.t("htable_settingsButton") : null)
                     on-click("onSettingsClick")
-                    class="button is-light"
-                    style={
-                        "margin-left": "4px"
-                    }>
+                    class="button is-light">
                     <span class="hr-ht-top-button-icon icon">
                         <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
                             <path d=mdiCogOutline/>
@@ -72,10 +63,7 @@ import SettingsPagesForm from "./settingsPagesForm"
                             <button
                                 data-tippy-content=(process.browser && state.clientWidth < 1023 && window.__heretic ? window.__heretic.t("htable_dataButton") : null)
                                 on-click("onDataClick")
-                                class="button is-light"
-                                style={
-                                    "margin-left": "4px"
-                                }>
+                                class="button is-light">
                                 <span class="hr-ht-top-button-icon icon">
                                     <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
                                         <path d=mdiDatabaseOutline/>

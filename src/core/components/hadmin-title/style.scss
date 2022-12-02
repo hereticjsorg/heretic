@@ -1,16 +1,17 @@
 @import "../../../view/variables.scss";
 
 .hr-hat-wrap {
-    // border-bottom: 1px solid $grey-lighter;
     margin-top: -20px;
     margin-left: -10px;
     margin-right: -10px;
+    margin-bottom: 20px !important;
     border-radius: 0 !important;
     border-left: 0 !important;
     border-right: 0 !important;
     color: $grey !important;
     padding-left: 15px !important;
-    box-shadow: 0 .2em 1em -.05em rgba($grey-darker, .1), 0 0 0 1px rgba($grey-darker, .02) !important;
+    box-shadow: 0 .2em 1em -.05em rgba($grey-darker, .1),
+        0 0 0 1px rgba($grey-darker, .02) !important;
 }
 
 html.heretic-dark .hr-hat-wrap {

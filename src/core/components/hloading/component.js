@@ -6,6 +6,9 @@ module.exports = class {
             isActive: !!input.active,
         };
         this.siteId = out.global.siteId;
+        if (process.browser && window.__heretic && window.__heretic.t) {
+            this.siteId = out.global.siteId || window.__heretic.outGlobal.siteId;
+        }
     }
 
     onMount() {
