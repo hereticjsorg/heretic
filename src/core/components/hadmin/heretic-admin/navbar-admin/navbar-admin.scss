@@ -28,11 +28,6 @@
     color: $white-ter !important;
 }
 
-.hr-navbar-item-top:hover {
-    background: $black-ter !important;
-    color: $white-bis !important;
-}
-
 .hr-navbar-dropdown {
     margin-top: 1px;
     padding: 4px !important;
@@ -44,13 +39,14 @@
 .hr-navbar-item-active:hover,
 .hr-navbar-item-active:focus,
 .hr-navbar-item-active:active {
-    background: $red !important;
+    background: $primary !important;
     color: $white !important;
 }
 
-.hr-navbar-item:hover:not(.hr-navbar-item-active) {
-    background: $grey-lighter !important;
-    transition: all 250ms;
+.navbar-item.has-dropdown>.hr-navbar-item-top {
+    margin-top: 2px !important;
+    margin-bottom: 2px !important;
+    border-radius: $radius;
 }
 
 .hr-navbar-item-open {
@@ -91,13 +87,6 @@
 
 .hr-navbar-icon-admin svg>path {
     fill: $white-ter !important;
-}
-
-.hr-navbar-item-admin:hover,
-.hr-navbar-item-admin:focus,
-.hr-navbar-item-admin:active {
-    background: $heretic-dark-grey-dark !important;
-    transition: all 250ms;
 }
 
 .hr-navbar-burger {
@@ -144,6 +133,31 @@
 
     html.heretic-dark .hr-navbar-menu {
         background: $heretic-dark-grey-dark !important;
+    }
+
+    html:not(.heretic-dark) .hr-navbar-item:hover:not(.hr-navbar-item-active) {
+        background: $grey-lighter;
+    }
+
+}
+
+@media (min-width: 1024px) {
+
+    .hr-navbar-item-top:hover {
+        background: $black-ter !important;
+        color: $white-bis !important;
+    }
+
+    .hr-navbar-item:hover:not(.hr-navbar-item-active) {
+        transition: all 250ms;
+        background: $heretic-dark-grey-dark;
+    }
+
+    .hr-navbar-item-admin:hover,
+    .hr-navbar-item-admin:focus,
+    .hr-navbar-item-admin:active {
+        background: $heretic-dark-grey-dark !important;
+        transition: all 250ms;
     }
 
 }

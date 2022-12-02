@@ -1486,7 +1486,7 @@ module.exports = class {
     }
 
     onExportColumnDragEnd() {
-        this.setState("settingColumnDrag", null);
+        this.setState("exportColumnDrag", null);
         return true;
     }
 

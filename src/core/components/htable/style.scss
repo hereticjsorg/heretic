@@ -386,9 +386,15 @@ html.heretic-dark .hr-hm-tabs-wrap {
 }
 
 .hr-ht-export-form-wrap {
-    background: $white-ter !important;
+    background: $white-ter;
     box-shadow: 20px 20px 60px #bebebe,
         -20px -20px 60px #ffffff;
+}
+
+html.heretic-dark .hr-ht-export-form-wrap {
+    background: lighten($heretic-dark-grey-dark, 3%) !important;
+    box-shadow: unset !important;
+    border-bottom: 1px solid $heretic-dark-grey-dark;
 }
 
 .hr-ht-recycleBin-pagination-wrap {
