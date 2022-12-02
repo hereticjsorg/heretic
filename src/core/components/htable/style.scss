@@ -440,7 +440,7 @@ html.heretic-dark .hr-ht-tbody>.hr-ht-tr:nth-child(even)>.hr-ht-td>.hr-ht-table-
 }
 
 html.heretic-dark .hr-ht-tbody>.hr-ht-tr:nth-child(odd)>.hr-ht-td>.hr-ht-table-cell-wrap>.hr-ht-table-cell-fade {
-    background: linear-gradient(90deg, transparent, $heretic-dark-grey-darker);
+    background: linear-gradient(90deg, transparent, darken($heretic-dark-grey-darker, 1%));
 }
 
 html.heretic-dark .hr-ht-tbody>.hr-ht-tr:nth-child(even):hover>.hr-ht-td>.hr-ht-table-cell-wrap>.hr-ht-table-cell-fade {

@@ -168,6 +168,16 @@ html:not(.heretic-dark) .hr-hf-tags-wrap {
     margin-right: 3px !important;
 }
 
+html.heretic-dark .hr-hf-tag-delete {
+    background: $heretic-dark-grey;
+    color: $heretic-dark-black-bis;
+}
+
+html.heretic-dark .hr-hf-tag-delete:hover {
+    background: lighten($heretic-dark-grey, 3%) !important;
+    color: $heretic-dark-black-bis !important;
+}
+
 html:not(.heretic-dark) .hr-hf-tags-wrap-focus {
     border-color: $link !important;
     box-shadow: 0 0 0 0.125em rgba($link, 0.25) !important;
