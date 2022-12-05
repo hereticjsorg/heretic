@@ -81,7 +81,6 @@ export default class {
         for (const decorateItem of fastifyDecorators.list()) {
             this.fastify.decorate(decorateItem, fastifyDecorators[decorateItem]);
         }
-        this.fastify.decorateRequest("fastify", this.fastify);
         for (const decorateItem of requestDecorators.list()) {
             this.fastify.decorateRequest(decorateItem, requestDecorators[decorateItem]);
         }
@@ -90,6 +89,7 @@ export default class {
         }
         this.fastify.addHook("preHandler", (request, reply, done) => {
             request.auth = new Auth(this.fastify, request);
+            request.fastify = this.fastify;
             done();
         });
         if (this.systemConfig.redis && this.systemConfig.redis.enabled) {
