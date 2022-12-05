@@ -9,6 +9,7 @@ import {
 import {
     ObjectID
 } from "bson";
+import IpTools from "./iptools";
 import listValidationSchema from "./data/listValidationSchema.json";
 import recycleBinListValidationSchema from "./data/recycleBinListValidationSchema.json";
 import loadValidationSchema from "./data/loadValidationSchema.json";
@@ -23,12 +24,13 @@ const ajv = new Ajv({
     strict: true,
 });
 exportValidationSchema.properties.language.enum = Object.keys(languages);
+const ipTools = new IpTools();
 
 /* eslint-disable object-shorthand */
 /* eslint-disable func-names */
 export default {
     list: function () {
-        return ["validateTableList", "validateDataLoad", "validateDataDelete", "validateDataBulk", "validateDataExport", "validateRecycleBinList", "validateHistoryList", "generateQuery", "bulkUpdateQuery", "processFormData", "processDataList", "findUpdates"];
+        return ["validateTableList", "validateDataLoad", "validateDataDelete", "validateDataBulk", "validateDataExport", "validateRecycleBinList", "validateHistoryList", "generateQuery", "bulkUpdateQuery", "processFormData", "processDataList", "findUpdates", "addEvent"];
     },
     validateTableList: function (formData) {
         const columns = Object.keys(formData.getTableColumns());
@@ -562,5 +564,58 @@ export default {
             }
         }
         return modifiedItems;
+    },
+    async addEvent(event, extras = {}) {
+        const clientIp = ipTools.getClientIp(this) || null;
+        let clientIpInt = null;
+        let geoNameId = null;
+        let continent = null;
+        let country = null;
+        if (clientIp) {
+            clientIpInt = ipTools.ip2int(clientIp);
+            console.log({
+                blockStart: {
+                    $lte: clientIpInt,
+                },
+                blockEnd: {
+                    $gte: clientIpInt,
+                },
+            }, {
+                projection: {
+                    geoNameId: 1,
+                },
+            });
+            const geoRecord = await this.fastify.mongo.db.collection(this.fastify.systemConfig.collections.geoNetworks).findOne({
+                blockStart: {
+                    $lte: clientIpInt,
+                },
+                blockEnd: {
+                    $gte: clientIpInt,
+                },
+            }, {
+                projection: {
+                    geoNameId: 1,
+                },
+            });
+            if (geoRecord && geoRecord.geoNameId) {
+                geoNameId = geoRecord.geoNameId;
+                const geoLocation = await this.fastify.mongo.db.collection(this.fastify.systemConfig.collections.geoLocations).findOne({
+                    _id: geoRecord.geoNameId,
+                });
+                if (geoLocation) {
+                    continent = geoLocation.continent;
+                    country = geoLocation.country;
+                }
+            }
+        }
+        await this.fastify.mongo.db.collection(this.fastify.systemConfig.collections.events).insertOne({
+            event,
+            date: new Date(),
+            ip: clientIpInt,
+            geoNameId,
+            continent,
+            country,
+            ...extras,
+        });
     }
 };

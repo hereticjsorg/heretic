@@ -82,6 +82,7 @@ export default class {
         for (const decorateItem of fastifyDecorators.list()) {
             this.fastify.decorate(decorateItem, fastifyDecorators[decorateItem]);
         }
+        this.fastify.decorateRequest("fastify", this.fastify);
         for (const decorateItem of requestDecorators.list()) {
             this.fastify.decorateRequest(decorateItem, requestDecorators[decorateItem]);
         }

@@ -1,10 +1,5 @@
 import SignInForm from "../../pages/_signIn/data/signInForm";
 import FormValidator from "../../lib/formValidatorServer";
-import {
-    getClientIp,
-} from "../../lib/ip";
-
-const ip2int = ip => ip.split(".").map((octet, index, array) => parseInt(octet, 10) * 256 ** (array.length - index - 1)).reduce((prev, curr) => prev + curr);
 
 export default () => ({
     async handler(req, rep) {
@@ -28,39 +23,7 @@ export default () => ({
                 }, 403);
             }
             const token = req.auth.generateToken(userDb);
-            let ip = getClientIp(req) || null;
-            ip = "31.152.171.183";
-            console.log("---------------------------");
-            console.log(ip);
-            if (req.ip) {
-                ip = ip2int(ip);
-                console.log({
-                    ipf: {
-                        $gte: ip,
-                    },
-                    ipt: {
-                        $lte: ip
-                    },
-                });
-                console.log(this.systemConfig.collections.geoNetworks);
-                const geoRecord = await this.mongo.db.collection(this.systemConfig.collections.geoNetworks).findOne({
-                    ipf: {
-                        $gte: ip,
-                    },
-                    ipt: {
-                        $lte: ip
-                    }
-                });
-                console.log(geoRecord);
-            }
-            await this.mongo.db.collection(this.systemConfig.collections.events).insertOne({
-                event: "loginSuccess",
-                date: new Date(),
-                ip,
-                geoId: "",
-                continent: "",
-                country: "",
-            });
+            await req.addEvent("loginSuccess");
             return rep.success({
                 token,
             });
