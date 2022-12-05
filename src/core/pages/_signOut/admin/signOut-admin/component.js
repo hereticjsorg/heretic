@@ -2,7 +2,6 @@ const axios = require("axios").default;
 const Utils = require("../../../../lib/componentUtils").default;
 const Cookies = require("../../../../lib/cookiesBrowser").default;
 const i18nLoader = require("../../../../../build/loaders/i18n-loader-core");
-const i18nLoaderGeo = require("../../../../../build/loaders/i18n-loader-geo");
 const languages = Object.keys(require("../../../../../config/languages.json"));
 const moduleConfig = require("../../admin.js");
 
@@ -12,9 +11,6 @@ module.exports = class {
             window.__heretic = window.__heretic || {};
             if (!window.__heretic.languageData) {
                 window.__heretic.languageData = await i18nLoader.loadLanguageFile(this.language);
-            }
-            if (!window.__heretic.languageData.geo) {
-                window.__heretic.languageData.geo = await i18nLoaderGeo.loadLanguageFile(this.language);
             }
             window.__heretic.t = id => window.__heretic.languageData[id] || id;
             window.__heretic.translationsLoaded = {};

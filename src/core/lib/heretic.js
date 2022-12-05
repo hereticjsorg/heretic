@@ -29,7 +29,6 @@ import requestDecorators from "./requestDecorators";
 import fastifyURLData from "./urlData";
 import fastifyMultipart from "./multipart";
 import i18nCore from "../../build/loaders/i18n-loader-core.js";
-import i18nGeo from "../../build/loaders/i18n-loader-geo.js";
 import languages from "../../config/languages.json";
 import navigation from "../../config/navigation.json";
 
@@ -111,9 +110,7 @@ export default class {
      * Load language data using i18n-loader
      */
     async loadLanguageData() {
-        this.languageData = {
-            geo: {},
-        };
+        this.languageData = {};
         for (const lang of Object.keys(languages)) {
             this.languageData[lang] = await i18nCore.loadLanguageFile(lang);
             for (const page of [...routesData.translatedPages.core, ...routesData.translatedPages.user, ...routesData.translatedPages.module]) {
@@ -123,9 +120,6 @@ export default class {
                     ...await i18nLoader.loadLanguageFile(lang),
                 };
             }
-        }
-        for (const lang of Object.keys(languages)) {
-            this.languageData.geo[lang] = await i18nGeo.loadLanguageFile(lang);
         }
         this.fastify.decorate("languageData", this.languageData);
     }

@@ -8,7 +8,6 @@ const debounce = require("lodash.debounce");
 const Cookies = require("../../../lib/cookiesBrowser").default;
 const Utils = require("../../../lib/componentUtils").default;
 const i18nLoader = require("../../../../build/loaders/i18n-loader-core");
-const i18nLoaderGeo = require("../../../../build/loaders/i18n-loader-geo");
 const pagesLoader = require("../../../../build/loaders/page-loader-admin");
 const routesData = require("../../../../build/build.json");
 
@@ -18,9 +17,6 @@ module.exports = class {
             window.__heretic = window.__heretic || {};
             if (!window.__heretic.languageData) {
                 window.__heretic.languageData = await i18nLoader.loadLanguageFile(this.language);
-            }
-            if (!window.__heretic.languageData.geo) {
-                window.__heretic.languageData.geo = await i18nLoaderGeo.loadLanguageFile(this.language);
             }
             window.__heretic.t = id => window.__heretic.languageData[id] || id;
             window.__heretic.translationsLoaded = {};

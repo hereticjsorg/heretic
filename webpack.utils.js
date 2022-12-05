@@ -265,27 +265,6 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
                 return languageData;
             },
         };\n`, "utf8");
-        fs.writeFileSync(path.resolve(__dirname, "src", "build", "loaders", "i18n-loader-geo.js"), `module.exports = {
-            loadLanguageFile: async lang => {
-                let translationContinents;
-                let translationCountries;
-                // eslint-disable-next-line prefer-const
-                switch (lang) {
-        ${Object.keys(this.languages).map(l => `        case "${l}":
-                    translationContinents = await import(/* webpackChunkName: "continents-${l}" */ "../../translations/core/continents-${l}.json");
-                    translationCountries = await import(/* webpackChunkName: "countries-${l}" */ "../../translations/core/countries-${l}.json");
-                    break;
-        `).join("")}        default:
-                    return null;
-                }
-                const languageData = {
-                    continents: translationContinents,
-                    countries: translationCountries,
-                };
-                delete languageData.default;
-                return languageData;
-            },
-        };\n`, "utf8");
         const pages = fs.readdirSync(path.resolve(__dirname, "src", "pages")).filter(p => !p.match(/^\./));
         const translatedPages = [];
         for (const page of pages) {

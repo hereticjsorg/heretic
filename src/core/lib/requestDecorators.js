@@ -566,32 +566,21 @@ export default {
         return modifiedItems;
     },
     async addEvent(event, extras = {}) {
-        const clientIp = ipTools.getClientIp(this) || null;
+        // const clientIp = ipTools.getClientIp(this) || null;
+        const clientIp = "31.152.171.183";
         let clientIpInt = null;
         let geoNameId = null;
         let continent = null;
         let country = null;
         if (clientIp) {
             clientIpInt = ipTools.ip2int(clientIp);
-            console.log({
-                blockStart: {
-                    $lte: clientIpInt,
-                },
-                blockEnd: {
-                    $gte: clientIpInt,
-                },
-            }, {
-                projection: {
-                    geoNameId: 1,
-                },
-            });
             const geoRecord = await this.fastify.mongo.db.collection(this.fastify.systemConfig.collections.geoNetworks).findOne({
                 blockStart: {
-                    $lte: clientIpInt,
-                },
-                blockEnd: {
                     $gte: clientIpInt,
                 },
+                // blockEnd: {
+                //     $gte: clientIpInt,
+                // },
             }, {
                 projection: {
                     geoNameId: 1,
