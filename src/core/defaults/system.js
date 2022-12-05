@@ -72,7 +72,10 @@ module.exports = {
         files: "files",
         counters: "counters",
         history: "history",
-        groups: "groups"
+        groups: "groups",
+        events: "events",
+        geoLocations: "geoLocations",
+        geoNetworks: "geoNetworks",
     },
     routes: {
         admin: "/admin",

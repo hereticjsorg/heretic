@@ -2,6 +2,8 @@ $ const attrs = Object.assign({}, input);
 $ delete attrs.renderBody;
 $ delete attrs.activeClass;
 $ delete attrs.parentElement;
+$ delete attrs.country;
+$ delete attrs.continent;
 <span ...attrs no-update>
-    <if(input.renderBody)>${component.translate()}</if>
+    <if(input.renderBody || input.country || input.continent)>${component.translate()}</if>
 </span>
