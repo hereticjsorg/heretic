@@ -981,6 +981,10 @@ module.exports = class {
         this.saveSettings();
     }
 
+    getFormData() {
+        return this.input.formData;
+    }
+
     getFirstFilterableColumn() {
         for (const item of Object.keys(this.state.columnData)) {
             if (this.state.settingsFilterTypes.indexOf(this.state.columnData[item].type) > -1) {

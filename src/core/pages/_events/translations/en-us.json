@@ -13,5 +13,8 @@
     "view": "View",
     "delete": "Delete",
     "lockedBy": "Locked by",
-    "event": "Event"
+    "event": "Event",
+    "eventIP": "IP",
+    "eventDate": "Date",
+    "eventLocation": "Location"
 }

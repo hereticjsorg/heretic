@@ -2,9 +2,9 @@ import {
     mdiTrashCanOutline,
     mdiFileFindOutline,
 } from "@mdi/js";
-// import {
-//     format,
-// } from "date-fns";
+import {
+    format,
+} from "date-fns";
 
 import moduleConfig from "../admin.js";
 import utils from "../../../lib/formValidatorUtils";
@@ -48,7 +48,7 @@ export default class {
                     createIndex: true,
                 }, {
                     id: "ip",
-                    type: "string",
+                    type: "text",
                     label: this.t("eventIP"),
                     validation: {
                         type: ["string", "null"]
@@ -57,6 +57,17 @@ export default class {
                     searchable: true,
                     column: true,
                     createIndex: true,
+                }, {
+                    id: "location",
+                    type: "text",
+                    label: this.t("eventLocation"),
+                    validation: {
+                        type: ["string", "null"]
+                    },
+                    sortable: false,
+                    searchable: false,
+                    column: true,
+                    createIndex: false,
                 }],
             }],
         };
@@ -85,6 +96,10 @@ export default class {
         this.historyConfig = {
             enabled: false,
         };
+    }
+
+    setProviderDataEvents(data) {
+        this.providerDataEvents = data;
     }
 
     getData() {
@@ -166,6 +181,19 @@ export default class {
 
     processTableCell(id, row) {
         switch (id) {
+        case "event":
+            if (!this.providerDataEvents) {
+                return;
+            }
+            return this.providerDataEvents[row[id]] || row[id];
+        case "date":
+            try {
+                return row[id] ? format(new Date(row[id] * 1000), `${this.t("global.dateFormatShort")} ${this.t("global.timeFormatShort")}`) : "";
+            } catch {
+                return row[id];
+            }
+            // eslint-disable-next-line no-unreachable
+            break;
         default:
             return row[id];
         }

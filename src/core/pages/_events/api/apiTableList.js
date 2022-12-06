@@ -20,6 +20,19 @@ export default () => ({
             const query = req.generateQuery(formData);
             const total = await this.mongo.db.collection(moduleConfig.collections.main).countDocuments(query);
             const items = await this.mongo.db.collection(moduleConfig.collections.main).find(query, options).toArray();
+            const locationQuery = {
+                $or: [],
+            };
+            for (const item of items) {
+                if (item.geoNameId) {
+                    locationQuery.$or.push({
+                        _id: item.geoNameId,
+                    });
+                }
+            }
+            if (locationQuery.$or.length) {
+                const locationsData = await this.fastify.mongo.db.collection(this.fastify.systemConfig.collections.geoNetworks).find(locationQuery).toArray();
+            }
             return rep.code(200).send({
                 items: req.processDataList(items, formData.getFieldsFlat()),
                 total,

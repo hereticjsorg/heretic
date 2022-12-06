@@ -112,7 +112,20 @@ module.exports = class {
                 headers: this.state.headers,
                 url: `/api/dataProviders/groups?language=${this.language}`,
             });
-            this.providerData = data.data;
+            this.providerDataGroups = data.data;
+        } catch (e) {
+            this.setState("failed", true);
+            return;
+        }
+        try {
+            const {
+                data,
+            } = await axios({
+                method: "get",
+                headers: this.state.headers,
+                url: `/api/dataProviders/events?language=${this.language}`,
+            });
+            this.providerDataEvents = data.data;
         } catch (e) {
             this.setState("failed", true);
             return;
@@ -121,6 +134,10 @@ module.exports = class {
         if (window.__heretic.webSocket) {
             window.__heretic.webSocket.addEventListener("message", this.onWebSocketMessage.bind(this));
         }
+        await this.utils.waitForComponent(`${moduleConfig.id}List`);
+        const table = this.getComponent(`${moduleConfig.id}List`);
+        const formData = table.getFormData();
+        formData.setProviderDataEvents(this.providerDataEvents);
     }
 
     async onTopButtonClick(id) {
@@ -133,7 +150,7 @@ module.exports = class {
             modalDialog.setActive(true).setCloseAllowed(true).setBackgroundCloseAllowed(false).setLoading(false);
             await this.utils.waitForComponent(`${moduleConfig.id}Form`);
             const form = this.getComponent(`${moduleConfig.id}Form`);
-            form.setProviderData(this.providerData);
+            form.setProviderData(this.providerDataGroups);
             break;
         }
     }
@@ -185,7 +202,7 @@ module.exports = class {
             modalDialog.setActive(true).setCloseAllowed(true).setBackgroundCloseAllowed(false).setLoading(false);
             await this.utils.waitForComponent(`${moduleConfig.id}Form`);
             const form = this.getComponent(`${moduleConfig.id}Form`);
-            form.setProviderData(this.providerData);
+            form.setProviderData(this.providerDataGroups);
             await form.deserializeView(responseData._default);
             this.sendLockAction("lock");
             this.startLockMessaging();

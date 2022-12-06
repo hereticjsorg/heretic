@@ -570,8 +570,6 @@ export default {
         const clientIp = "31.152.171.183";
         let clientIpInt = null;
         let geoNameId = null;
-        let continent = null;
-        let country = null;
         if (clientIp) {
             clientIpInt = ipTools.ip2int(clientIp);
             const geoRecord = await this.fastify.mongo.db.collection(this.fastify.systemConfig.collections.geoNetworks).findOne({
@@ -588,22 +586,13 @@ export default {
             });
             if (geoRecord && geoRecord.geoNameId) {
                 geoNameId = geoRecord.geoNameId;
-                const geoLocation = await this.fastify.mongo.db.collection(this.fastify.systemConfig.collections.geoLocations).findOne({
-                    _id: geoRecord.geoNameId,
-                });
-                if (geoLocation) {
-                    continent = geoLocation.continent;
-                    country = geoLocation.country;
-                }
             }
         }
         await this.fastify.mongo.db.collection(this.fastify.systemConfig.collections.events).insertOne({
             event,
             date: new Date(),
-            ip: clientIpInt,
+            ip: clientIp,
             geoNameId,
-            continent,
-            country,
             ...extras,
         });
     }
