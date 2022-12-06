@@ -194,6 +194,8 @@ export default class {
             }
             // eslint-disable-next-line no-unreachable
             break;
+        case "location":
+            return row[id] || "—";
         default:
             return row[id];
         }

@@ -38,6 +38,7 @@ export default {
         const listValidationSchemaClone = cloneDeep(listValidationSchema);
         listValidationSchemaClone.properties.fields.items.enum = columns;
         listValidationSchemaClone.properties.sortField.enum = [...columnsSortable, "null"];
+        listValidationSchemaClone.properties.language.enum = Object.keys(languages);
         const validate = ajv.compile(listValidationSchemaClone);
         if (!validate(this.body)) {
             return null;
@@ -566,20 +567,19 @@ export default {
         return modifiedItems;
     },
     async addEvent(event, extras = {}) {
-        // const clientIp = ipTools.getClientIp(this) || null;
-        const clientIp = "31.152.171.183";
+        const clientIp = ipTools.getClientIp(this) || null;
         let clientIpInt = null;
         let geoNameId = null;
-        if (clientIp) {
+        if (clientIp && clientIp !== "127.0.0.1") {
             clientIpInt = ipTools.ip2int(clientIp);
             const geoRecord = await this.fastify.mongo.db.collection(this.fastify.systemConfig.collections.geoNetworks).findOne({
-                blockStart: {
+                blockEnd: {
                     $gte: clientIpInt,
                 },
-                // blockEnd: {
-                //     $gte: clientIpInt,
-                // },
             }, {
+                sort: {
+                    blockEnd: 1,
+                },
                 projection: {
                     geoNameId: 1,
                 },

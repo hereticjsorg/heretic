@@ -76,6 +76,9 @@ module.exports = {
         events: "events",
         geoLocations: "geoLocations",
         geoNetworks: "geoNetworks",
+        geoContinents: "geoContinents",
+        geoCountries: "geoCountries",
+        geoCities: "geoCities",
     },
     routes: {
         admin: "/admin",

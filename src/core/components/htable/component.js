@@ -548,6 +548,7 @@ module.exports = class {
                             itemsPerPage: this.state.itemsPerPage,
                             page: input.currentPage || this.state.currentPage,
                             filters: this.state.filters.filter(i => i.enabled),
+                            language: this.language,
                         },
                         headers: this.input.headers || {},
                     });

@@ -79,6 +79,10 @@
             },
             "minItems": 0,
             "uniqueItems": true
+        },
+        "language": {
+            "type": ["string"],
+            "enum": []
         }
     },
     "required": ["fields", "itemsPerPage", "page"]
