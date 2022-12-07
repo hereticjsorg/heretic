@@ -12,5 +12,10 @@
     "loadingError": "Ошибка во время загрузки запрошенной записи",
     "view": "Просмотр",
     "delete": "Удалить",
-    "lockedBy": "Заблокировано"
+    "lockedBy": "Заблокировано",
+    "event": "Событие",
+    "eventIP": "IP",
+    "eventDate": "Дата",
+    "eventLocation": "Местоположение",
+    "eventUsername": "Пользователь"
 }

@@ -16,5 +16,6 @@
     "event": "Event",
     "eventIP": "IP",
     "eventDate": "Date",
-    "eventLocation": "Location"
+    "eventLocation": "Location",
+    "eventUsername": "Username"
 }

@@ -23,7 +23,7 @@ export default () => ({
                 }, 403);
             }
             const token = req.auth.generateToken(userDb);
-            await req.addEvent("loginSuccess");
+            await req.addEvent("loginSuccess", userDb);
             return rep.success({
                 token,
             });

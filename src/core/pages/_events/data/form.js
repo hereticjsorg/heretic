@@ -1,6 +1,6 @@
 import {
     mdiTrashCanOutline,
-    mdiFileFindOutline,
+    mdiSelectionEllipseArrowInside,
 } from "@mdi/js";
 import {
     format,
@@ -68,13 +68,24 @@ export default class {
                     searchable: false,
                     column: true,
                     createIndex: false,
+                }, {
+                    id: "username",
+                    type: "text",
+                    label: this.t("eventUsername"),
+                    validation: {
+                        type: ["string", "null"]
+                    },
+                    sortable: true,
+                    searchable: true,
+                    column: true,
+                    createIndex: true,
                 }],
             }],
         };
         this.validationData = utils.getValidationData(this.data.form);
         this.columnTypes = ["text", "select", "column", "date"];
-        this.defaultSortColumn = "event";
-        this.defaultSortDirection = "asc";
+        this.defaultSortColumn = "date";
+        this.defaultSortDirection = "desc";
         this.actionColumn = true;
         this.checkboxColumn = true;
         this.modeChangeAllowed = false;
@@ -141,7 +152,7 @@ export default class {
         return [{
             id: "view",
             label: this.t("view"),
-            icon: mdiFileFindOutline,
+            icon: mdiSelectionEllipseArrowInside,
         }, {
             id: "delete",
             label: this.t("delete"),
@@ -195,6 +206,8 @@ export default class {
             // eslint-disable-next-line no-unreachable
             break;
         case "location":
+            return row[id] || "—";
+        case "username":
             return row[id] || "—";
         default:
             return row[id];

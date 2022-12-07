@@ -566,7 +566,7 @@ export default {
         }
         return modifiedItems;
     },
-    async addEvent(event, extras = {}) {
+    async addEvent(event, authData = {}, extras = {}) {
         const clientIp = ipTools.getClientIp(this) || null;
         let clientIpInt = null;
         let geoNameId = null;
@@ -590,10 +590,12 @@ export default {
         }
         await this.fastify.mongo.db.collection(this.fastify.systemConfig.collections.events).insertOne({
             event,
+            userId: authData && authData._id ? String(authData._id) : null,
+            username: authData && authData.username ? authData.username : null,
             date: new Date(),
             ip: clientIp,
             geoNameId,
-            ...extras,
+            extras: Object.keys(extras).length ? extras : null,
         });
     }
 };
