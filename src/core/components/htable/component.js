@@ -82,7 +82,6 @@ module.exports = class {
 
     getElements() {
         const elementWrap = document.getElementById(`hr_ht_wrap_${this.input.id}`);
-        const elementTableControls = document.getElementById(`hr_ht_table_controls_${this.input.id}`);
         const elementDummy = document.getElementById(`hr_ht_dummy_${this.input.id}`);
         const elementTableContainer = document.getElementById(`hr_ht_table_container_${this.input.id}`);
         const mainWrap = document.getElementById(`hr_ht_wrap_${this.input.id}`);
@@ -98,7 +97,6 @@ module.exports = class {
         const elementHeaderActions = document.getElementById(`hr_ht_header_actions_${this.input.id}`);
         return {
             elementWrap,
-            elementTableControls,
             elementDummy,
             elementTableContainer,
             mainWrap,
@@ -126,20 +124,20 @@ module.exports = class {
     getCurrentTableWidth() {
         const {
             elementWrap,
-            elementTableControls,
+            tableControls,
             elementDummy
         } = this.getElements();
-        if (!elementWrap || !elementTableControls || !elementDummy) {
+        if (!elementWrap || !tableControls || !elementDummy) {
             return 0;
         }
         const elementWrapDisplay = elementWrap.style.display;
-        const tableControlsDisplay = elementTableControls.style.display;
+        const tableControlsDisplay = tableControls.style.display;
         elementWrap.style.display = "none";
-        elementTableControls.style.display = "none";
+        tableControls.style.display = "none";
         elementDummy.style.display = "block";
         const dummyRect = elementDummy.getBoundingClientRect();
         elementWrap.style.display = elementWrapDisplay;
-        elementTableControls.style.display = tableControlsDisplay;
+        tableControls.style.display = tableControlsDisplay;
         elementDummy.style.display = "none";
         return dummyRect.width;
     }
@@ -251,9 +249,9 @@ module.exports = class {
         // Calculate and set "Actions" column width
         if (!this.actionColumnWidth) {
             if (firstActionCell.getBoundingClientRect().width >= actionsTh.getBoundingClientRect().width) {
-                this.actionColumnWidth = firstActionCell.getBoundingClientRect().width;
+                this.actionColumnWidth = firstActionCell.getBoundingClientRect().width - 1;
             } else {
-                this.actionColumnWidth = actionsTh.getBoundingClientRect().width;
+                this.actionColumnWidth = actionsTh.getBoundingClientRect().width - 1;
             }
         }
         actionsColumns.style.width = `${this.actionColumnWidth}px`;
@@ -527,9 +525,9 @@ module.exports = class {
                 await this.setLoading(true);
                 await this.utils.waitForElement(`hr_ht_table_controls_${this.input.id}`);
                 const {
-                    elementTableControls,
+                    tableControls,
                 } = this.getElements();
-                elementTableControls.style.display = "block";
+                tableControls.style.display = "block";
                 try {
                     const {
                         table,
@@ -577,13 +575,13 @@ module.exports = class {
                     this.generatePagination();
                     this.setTableDimensionsDebounced();
                     if (!response.data.items.length) {
-                        elementTableControls.style.display = "none";
+                        tableControls.style.display = "none";
                     }
                     this.emit("load-complete", response.data);
                     this.needToUpdateTableWidth = true;
                 } catch (e) {
                     await this.utils.waitForElement(`hr_ht_table_controls_${this.input.id}`);
-                    elementTableControls.style.display = "none";
+                    tableControls.style.display = "none";
                     if (e && e.response && e.response.status === 403) {
                         this.emit("unauthorized");
                         resolve();
