@@ -409,7 +409,7 @@ import { format } from "date-fns"
                                 <for|item| of=state.value>
                                     <tr>
                                         <td class="is-narrow has-text-center">${item.logDate ? format(new Date(item.logDate * 1000), window.__heretic.t("global.dateFormatShort")) : "—"}</td>
-                                        <td class="is-narrow">${(process.browser && window.__heretic ? window.__heretic.t(`logValue.${item.logStatus}`) || "—" : "—")}</td>
+                                        <td class="is-narrow">${process.browser && window.__heretic ? window.__heretic.t(`logValue.${item.logStatus}`) || "—" : "—"}</td>
                                         <td>${item.logValue || "—"}</td>
                                         <td class="is-narrow">
                                             <button class="mr-1 button is-small hr-hf-action-button is-light" data-uid=item.uid on-click("onLogItemEditClick") data-tippy-content=(process.browser && window.__heretic ? window.__heretic.t("hform_edit") : null)>
@@ -446,3 +446,26 @@ import { format } from "date-fns"
     </div>
 </if>
 <!-- Log: End -->
+<!-- Div: Start -->
+<if(input.type === "div")>
+    <div>
+        <div class="field">
+            <label class="label hr-hf-label">
+                ${input.label || ""}<span>:</span>
+                <if(input.mandatory)>
+                    &nbsp;<span class="hr-hf-label-mandatory">✱</span>
+                </if>
+            </label>
+            <div class=`control ${input.divClass || ""}` id=`hr_hf_el_${input.formId}_${input.id}` no-update/>
+            <if(state.error)>
+                <div class="hr-hf-error-wrap">
+                    <p class="tag is-danger hr-hf-error-tag">${state.error}</p>
+                </div>
+            </if>
+            <if(input.helpText)>
+                <p class="help">${input.helpText}</p>
+            </if>
+        </div>
+    </div>
+</if>
+<!-- Div: End -->

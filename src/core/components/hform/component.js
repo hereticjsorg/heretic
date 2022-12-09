@@ -963,4 +963,8 @@ module.exports = class {
     getMode() {
         return this.state.mode;
     }
+
+    onFieldEditValueChange(data) {
+        this.emit("value-change", data);
+    }
 };

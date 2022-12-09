@@ -97,10 +97,20 @@ module.exports = class {
 
     onInputChangeListener() {
         this.setState("value", this.maskedInput.unmaskedValue);
+        this.emit("value-change", {
+            id: this.input.id,
+            type: this.input.type,
+            value: this.maskedInput.unmaskedValue
+        });
     }
 
     onTextareaChangeListener(e) {
         this.setState("value", e.target.value);
+        this.emit("value-change", {
+            id: this.input.id,
+            type: this.input.type,
+            value: e.target.value
+        });
     }
 
     setError(error) {
@@ -238,6 +248,11 @@ module.exports = class {
     onSelectChange(e) {
         e.preventDefault();
         this.setState("value", String(e.target.value));
+        this.emit("value-change", {
+            id: this.input.id,
+            type: this.input.type,
+            value: e.target.value
+        });
     }
 
     onFileInputChange(e) {
@@ -251,6 +266,11 @@ module.exports = class {
             });
         }
         this.setState("value", value);
+        this.emit("value-change", {
+            id: this.input.id,
+            type: this.input.type,
+            value
+        });
     }
 
     onFileInputDeleteClick(e) {
@@ -258,7 +278,13 @@ module.exports = class {
         const {
             uid
         } = e.target.closest("[data-uid]").dataset;
-        this.setState("value", cloneDeep(this.state.value).filter(f => f.uid !== uid));
+        const value = cloneDeep(this.state.value).filter(f => f.uid !== uid);
+        this.setState("value", value);
+        this.emit("value-change", {
+            id: this.input.id,
+            type: this.input.type,
+            value
+        });
     }
 
     onCaptchaImageClick(e) {
@@ -270,6 +296,11 @@ module.exports = class {
         this.maskedInput.value = timestamp ? format(new Date(timestamp * 1000), window.__heretic.t("global.dateFormatShort")) : "";
         this.setState("value", timestamp || null);
         this.setState("calendarVisible", false);
+        this.emit("value-change", {
+            id: this.input.id,
+            type: this.input.type,
+            value: timestamp || null
+        });
     }
 
     onCalendarInputKeypress() {
@@ -281,7 +312,13 @@ module.exports = class {
                     try {
                         await this.utils.waitForComponent(`hr_hf_el_${this.input.formId}_${this.input.id}_calendar`);
                         this.getComponent(`hr_hf_el_${this.input.formId}_${this.input.id}_calendar`).setDate(date);
-                        this.setState("value", date.getTime());
+                        const dateValue = date.getTime();
+                        this.setState("value", dateValue);
+                        this.emit("value-change", {
+                            id: this.input.id,
+                            type: this.input.type,
+                            value: dateValue
+                        });
                     } catch {
                         // Ignore
                     }
@@ -309,6 +346,11 @@ module.exports = class {
 
     async onWYSIWYGValueChange(value) {
         this.setState("value", value);
+        this.emit("value-change", {
+            id: this.input.id,
+            type: this.input.type,
+            value
+        });
     }
 
     async onKeyValueAddClick(e) {
@@ -350,6 +392,11 @@ module.exports = class {
         const index = parseInt(e.target.dataset.index, 10);
         const tags = cloneDeep(this.state.value || []).filter((t, i) => i !== index);
         this.setState("value", tags);
+        this.emit("value-change", {
+            id: this.input.id,
+            type: this.input.type,
+            value: tags
+        });
         document.getElementById(`hr_hf_el_${this.input.formId}_${this.input.id}`).focus();
     }
 
@@ -398,6 +445,11 @@ module.exports = class {
         }
         tags.push(id);
         this.setState("value", tags);
+        this.emit("value-change", {
+            id: this.input.id,
+            type: this.input.type,
+            value: tags
+        });
         this.onTagsInputKeyPress();
     }
 
@@ -417,6 +469,11 @@ module.exports = class {
                 e.preventDefault();
                 const tags = cloneDeep(this.state.value || []).filter((t, i) => i !== (this.state.value || []).length - 1);
                 this.setState("value", tags);
+                this.emit("value-change", {
+                    id: this.input.id,
+                    type: this.input.type,
+                    value: tags
+                });
             }
             if (value) {
                 this.onTagsInputKeyPress();
@@ -446,6 +503,11 @@ module.exports = class {
         const tags = cloneDeep(this.state.value || []);
         tags.push(id);
         this.setState("value", tags);
+        this.emit("value-change", {
+            id: this.input.id,
+            type: this.input.type,
+            value: tags
+        });
         inputField.value = "";
         this.onTagsInputKeyPress();
     }

@@ -9,30 +9,15 @@ export default class {
         };
     }
 
-    _not(func) {
-        // eslint-disable-next-line func-names
-        return function () {
-            // eslint-disable-next-line prefer-spread, prefer-rest-params
-            return !func.apply(null, Array.prototype.slice.call(arguments));
-        };
-    }
-
-    _ip(value) {
+    _isIP(value) {
         return (
-            (this._existy(value) && this._regexes.ipv4.test(value)) || this._regexes.ipv6.test(value)
+            (value && typeof value === "string" && this._regexes.ipv4.test(value)) || this._regexes.ipv6.test(value)
         );
     }
 
-    _existy(value) {
-        return value != null;
-    }
-
     _getClientIpFromXForwardedFor(value) {
-        if (!this._existy(value)) {
+        if (!value || typeof value !== "string") {
             return null;
-        }
-        if (this._not.string(value)) {
-            throw new TypeError(`Expected a string, got "${typeof value}"`);
         }
         const forwardedIps = value.split(",").map((e) => {
             const ip = e.trim();
@@ -45,7 +30,7 @@ export default class {
             return ip;
         });
         for (let i = 0; i < forwardedIps.length; i += 1) {
-            if (this._ip(forwardedIps[i])) {
+            if (this._isIP(forwardedIps[i])) {
                 return forwardedIps[i];
             }
         }
@@ -54,60 +39,60 @@ export default class {
 
     getClientIp(req) {
         if (req.headers) {
-            if (this._ip(req.headers["x-client-ip"])) {
+            if (this._isIP(req.headers["x-client-ip"])) {
                 return req.headers["x-client-ip"];
             }
             const xForwardedFor = this._getClientIpFromXForwardedFor(
                 req.headers["x-forwarded-for"],
             );
-            if (this._ip(xForwardedFor)) {
+            if (this._isIP(xForwardedFor)) {
                 return xForwardedFor;
             }
-            if (this._ip(req.headers["cf-connecting-ip"])) {
+            if (this._isIP(req.headers["cf-connecting-ip"])) {
                 return req.headers["cf-connecting-ip"];
             }
-            if (this._ip(req.headers["fastly-client-ip"])) {
+            if (this._isIP(req.headers["fastly-client-ip"])) {
                 return req.headers["fastly-client-ip"];
             }
-            if (this._ip(req.headers["true-client-ip"])) {
+            if (this._isIP(req.headers["true-client-ip"])) {
                 return req.headers["true-client-ip"];
             }
-            if (this._ip(req.headers["x-real-ip"])) {
+            if (this._isIP(req.headers["x-real-ip"])) {
                 return req.headers["x-real-ip"];
             }
-            if (this._ip(req.headers["x-cluster-client-ip"])) {
+            if (this._isIP(req.headers["x-cluster-client-ip"])) {
                 return req.headers["x-cluster-client-ip"];
             }
-            if (this._ip(req.headers["x-forwarded"])) {
+            if (this._isIP(req.headers["x-forwarded"])) {
                 return req.headers["x-forwarded"];
             }
-            if (this._ip(req.headers["forwarded-for"])) {
+            if (this._isIP(req.headers["forwarded-for"])) {
                 return req.headers["forwarded-for"];
             }
-            if (this._ip(req.headers.forwarded)) {
+            if (this._isIP(req.headers.forwarded)) {
                 return req.headers.forwarded;
             }
-            if (this._ip(req.headers["x-appengine-user-ip"])) {
+            if (this._isIP(req.headers["x-appengine-user-ip"])) {
                 return req.headers["x-appengine-user-ip"];
             }
         }
-        if (this._existy(req.socket) && this._ip(req.socket.remoteAddress)) {
+        if (req.socket && this._isIP(req.socket.remoteAddress)) {
             return req.socket.remoteAddress;
         }
-        if (this._existy(req.info) && this._ip(req.info.remoteAddress)) {
+        if (req.info && this._isIP(req.info.remoteAddress)) {
             return req.info.remoteAddress;
         }
-        if (this._existy(req.requestContext)
-            && this._existy(req.requestContext.identity)
-            && this._ip(req.requestContext.identity.sourceIp)) {
+        if (req.requestContext
+            && req.requestContext.identity
+            && this._isIP(req.requestContext.identity.sourceIp)) {
             return req.requestContext.identity.sourceIp;
         }
         if (req.headers) {
-            if (this._ip(req.headers["Cf-Pseudo-IPv4"])) {
+            if (this._isIP(req.headers["Cf-Pseudo-IPv4"])) {
                 return req.headers["Cf-Pseudo-IPv4"];
             }
         }
-        if (this._existy(req.raw)) {
+        if (req.raw) {
             return this.getClientIp(req.raw);
         }
         return null;

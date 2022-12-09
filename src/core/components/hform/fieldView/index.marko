@@ -177,3 +177,26 @@ import { format } from "date-fns"
     </div>
 </if>
 <!-- Log: End -->
+<!-- Div: Start -->
+<if(input.type === "div")>
+    <div>
+        <div class="field">
+            <label class="label hr-hf-label">
+                ${input.label || ""}<span>:</span>
+                <if(input.mandatory)>
+                    &nbsp;<span class="hr-hf-label-mandatory">✱</span>
+                </if>
+            </label>
+            <div class="hr-hf-view-input" id=`hr_hf_el_${input.formId}_${input.id}` no-update/>
+            <if(state.error)>
+                <div class="hr-hf-error-wrap">
+                    <p class="tag is-danger hr-hf-error-tag">${state.error}</p>
+                </div>
+            </if>
+            <if(input.helpText)>
+                <p class="help">${input.helpText}</p>
+            </if>
+        </div>
+    </div>
+</if>
+<!-- Div: End -->
