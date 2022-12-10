@@ -353,6 +353,7 @@ module.exports = class {
         } else {
             this.needToUpdateTableWidth = true;
         }
+        setTimeout(() => this.placeStickyElementsDebounced(), 1000);
         window.addEventListener("click", e => {
             if (document.getElementById(`hr_ht_data_dropdown_${this.input.id}`) && !document.getElementById(`hr_ht_data_dropdown_${this.input.id}`).contains(e.target)) {
                 this.setState("dataOpen", false);
