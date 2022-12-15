@@ -12,7 +12,8 @@
     "env": {
         "es6": true,
         "browser": true,
-        "node": true
+        "node": true,
+        "es2020": true
     },
     "rules": {
         "quotes": ["error", "double",

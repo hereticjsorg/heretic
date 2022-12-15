@@ -1,5 +1,8 @@
+/* eslint-disable max-classes-per-file */
+/* eslint-disable no-bitwise */
 // Based on: https://github.com/pbojinov/request-ip
 // The MIT License (MIT), copyright (c) 2022 Petar Bojinov - petarbojinov+github@gmail.com
+// Code portions: https://github.com/Scorpil/netmask6
 
 export default class {
     constructor() {
@@ -100,5 +103,109 @@ export default class {
 
     ip2int(ip) {
         return ip.split`.`.reduce((int, value) => int * 256 + +value);
+    }
+
+    _groupsToBigInt(_groups, ipData) {
+        const groups = _groups.map(BigInt);
+        const groupSize = BigInt(parseInt(ipData.groupSize, 10));
+        let bigInt = BigInt(0);
+        groups.forEach(group => {
+            if (bigInt > 0) {
+                bigInt <<= groupSize;
+            }
+            bigInt += group;
+        });
+        return bigInt;
+    }
+
+    _bigIntToGroups(_bigInt, _groupSize) {
+        const groupSize = BigInt(parseInt(_groupSize, 10));
+        const mask = 2n ** groupSize - 1n;
+        let bigInt = BigInt(_bigInt);
+        const groups = [];
+        while (bigInt > 0) {
+            groups.push(Number(bigInt & mask));
+            bigInt >>= groupSize;
+        }
+        return groups.reverse();
+    }
+
+    _groupsToString(groups, ipData) {
+        return groups
+            .map(group => group.toString(ipData.groupBase).padStart(4, "0"))
+            .join(ipData.groupDivider);
+    }
+
+    _zPadGroups(groups, length) {
+        while (groups.length < length) {
+            groups.unshift(0);
+        }
+        return groups;
+    }
+
+    _parseToGroups(ipStr, ipData) {
+        const groupsStr = ipStr.split(ipData.groupDivider);
+        if (groupsStr.length !== ipData.groupCount) {
+            throw new Error(`Incorrect format: expected ${ipData.groupCount} groups, found ${groupsStr.length} instead`);
+        }
+        const groups = groupsStr.map(groupStr => {
+            const groupDec = parseInt(groupStr, ipData.groupBase) || 0;
+            if (Number.isNaN(groupDec)) {
+                throw new Error(`Failed to parse IP group ${groupStr}`);
+            }
+            return groupDec;
+        });
+        return groups;
+    }
+
+    parse(netmask) {
+        const parts = netmask.split("/");
+        if (parts.length !== 2) {
+            throw new Error("Incorrect argument format: failed to spit IP/mask");
+        }
+        // eslint-disable-next-line prefer-const
+        let [ipStr, bitmaskStr] = parts;
+        const bitmask = parseInt(bitmaskStr, 10);
+        if (Number.isNaN(bitmask)) {
+            throw new Error("Failed to parse bitmask");
+        }
+        const ipVersion = ipStr.match(/:/) ? 6 : 4;
+        const ipData = {
+            version: ipVersion,
+            groupDivider: ipVersion === 6 ? ":" : ".",
+            groupBase: ipVersion === 6 ? 16 : 10,
+            groupCount: ipVersion === 6 ? 8 : 4,
+            addressSize: ipVersion === 6 ? 128 : 32,
+        };
+        ipData.groupSize = ipData.addressSize / ipData.groupCount;
+        if (ipVersion === 6) {
+            const ipStrArr = ipStr.split(/:/);
+            if (ipStrArr.length < ipData.groupCount) {
+                for (let i = 0; i < ipData.groupCount - ipStrArr.length; i += 1) {
+                    ipStr += ":";
+                }
+            }
+        }
+        const groups = this._parseToGroups(ipStr, ipData);
+        const asBigInt = this._groupsToBigInt(groups, ipData);
+        const maskRemainder = BigInt(ipData.addressSize - bitmask);
+        // eslint-disable-next-line no-mixed-operators
+        const firstIpBigInt = asBigInt >> maskRemainder << maskRemainder;
+        const firstIpGroups = this._zPadGroups(
+            this._bigIntToGroups(firstIpBigInt, ipData.groupSize),
+            ipData.groupCount,
+        );
+        const lastIpGroups = this._bigIntToGroups(
+            asBigInt | (2n ** maskRemainder - 1n),
+            ipData.groupSize,
+        );
+        const ipFirstInt = this._groupsToBigInt(firstIpGroups, ipData);
+        const ipLastInt = this._groupsToBigInt(lastIpGroups, ipData);
+        return {
+            ipFirst: this._groupsToString(firstIpGroups, ipData),
+            ipLast: this._groupsToString(lastIpGroups, ipData),
+            ipFistInt: ipVersion === 6 ? ipFirstInt : parseInt(ipFirstInt, 10),
+            ipLastInt: ipVersion === 6 ? ipLastInt : parseInt(ipLastInt, 10),
+        };
     }
 }
