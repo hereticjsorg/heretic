@@ -223,6 +223,15 @@ const importCities = async db => {
         await importBlocksV4(db);
         console.log("Inserting network data (IPv6)...");
         await importBlocksV6(db);
+        try {
+            await db.collection(config.collections.geoNetworks).createIndex({
+                blockEnd: 1,
+            }, {
+                name: "blockEndIndex",
+            });
+        } catch {
+            // Ignore
+        }
         console.log("Cleaning up...");
         await db.collection(config.collections.geoCountries).deleteMany({});
         console.log("Inserting countries data...");
