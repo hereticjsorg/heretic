@@ -9,6 +9,10 @@ import {
 import {
     ObjectID
 } from "bson";
+import {
+    IPv4,
+    IPv6,
+} from "ip-num/IPNumber";
 import IpTools from "./iptools";
 import listValidationSchema from "./data/listValidationSchema.json";
 import recycleBinListValidationSchema from "./data/recycleBinListValidationSchema.json";
@@ -569,9 +573,12 @@ export default {
     async addEvent(event, authData = {}, extras = {}) {
         const clientIp = ipTools.getClientIp(this) || null;
         let clientIpInt = null;
-        let geoNameId = null;
-        if (clientIp && clientIp !== "127.0.0.1") {
-            clientIpInt = ipTools.ip2int(clientIp);
+        let geoNameIdCity = null;
+        let geoNameIdCountry = null;
+        if (clientIp && ipTools.isIP(clientIp) && clientIp !== "127.0.0.1") {
+            const clientIpVersion = ipTools.getIPVersion(clientIp);
+            const clientIpData = clientIpVersion === 6 ? new IPv6(clientIp) : new IPv4(clientIp);
+            clientIpInt = clientIpVersion === 6 ? clientIpData.value : parseInt(clientIpData.value, 10);
             const geoRecord = await this.fastify.mongo.db.collection(this.fastify.systemConfig.collections.geoNetworks).findOne({
                 blockEnd: {
                     $gte: clientIpInt,
@@ -581,11 +588,17 @@ export default {
                     blockEnd: 1,
                 },
                 projection: {
-                    geoNameId: 1,
+                    geoNameIdCity: 1,
+                    geoNameIdCountry: 1,
                 },
             });
-            if (geoRecord && geoRecord.geoNameId) {
-                geoNameId = geoRecord.geoNameId;
+            if (geoRecord) {
+                if (geoRecord.geoNameIdCity) {
+                    geoNameIdCity = geoRecord.geoNameIdCity;
+                }
+                if (geoRecord.geoNameIdCountry) {
+                    geoNameIdCountry = geoRecord.geoNameIdCountry;
+                }
             }
         }
         await this.fastify.mongo.db.collection(this.fastify.systemConfig.collections.events).insertOne({
@@ -594,7 +607,8 @@ export default {
             username: authData && authData.username ? authData.username : null,
             date: new Date(),
             ip: clientIp,
-            geoNameId,
+            geoNameIdCity,
+            geoNameIdCountry,
             extras: Object.keys(extras).length ? extras : null,
         });
     }

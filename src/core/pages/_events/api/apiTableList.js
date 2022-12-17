@@ -20,126 +20,105 @@ export default () => ({
                     message: "validation_error"
                 });
             }
-            options.projection.geoNameId = 1;
+            options.projection.geoNameIdCity = 1;
+            options.projection.geoNameIdCountry = 1;
             options.projection.userId = 1;
             const query = req.generateQuery(formData);
             const total = await this.mongo.db.collection(moduleConfig.collections.main).countDocuments(query);
             const items = await this.mongo.db.collection(moduleConfig.collections.main).find(query, options).toArray();
-            const locationQuery = [];
             const usersQuery = [];
+            const citiesQuery = [];
+            const countriesQuery = [];
             for (const item of items) {
-                if (item.geoNameId && locationQuery.indexOf(item.geoNameId) === -1) {
-                    locationQuery.push(item.geoNameId);
-                }
                 if (item.userId && usersQuery.indexOf(item.userId) === -1) {
                     usersQuery.push(item.userId);
                 }
+                if (item.geoNameIdCity && usersQuery.indexOf(item.geoNameIdCity) === -1) {
+                    citiesQuery.push(item.geoNameIdCity);
+                }
+                if (item.geoNameIdCountry && countriesQuery.indexOf(item.geoNameIdCountry) === -1) {
+                    countriesQuery.push(item.geoNameIdCountry);
+                }
             }
-            if (locationQuery.length) {
-                const locationsData = await this.mongo.db.collection(this.systemConfig.collections.geoLocations).find({
-                    $or: locationQuery.map(i => ({
-                        _id: i,
+            if (usersQuery.length) {
+                const usersData = await this.mongo.db.collection(this.systemConfig.collections.users).find({
+                    $or: usersQuery.map(i => ({
+                        _id: new ObjectId(i),
                     })),
+                }, {
+                    projection: {
+                        _id: 1,
+                        username: 1,
+                    }
                 }).toArray();
-                const continentsQuery = [];
-                const countriesQuery = [];
-                const citiesQuery = [];
-                for (const item of locationsData) {
-                    if (item.continent && continentsQuery.indexOf(item.continent) === -1) {
-                        continentsQuery.push(item.continent);
-                    }
-                    if (item.country && countriesQuery.indexOf(item.country) === -1) {
-                        countriesQuery.push(item.country);
-                    }
-                    if (item.city && countriesQuery.indexOf(item.city) === -1) {
-                        citiesQuery.push(item.city);
-                    }
-                }
-                const projection = {};
-                projection[req.body.language] = 1;
-                let continentsData = [];
-                if (continentsQuery.length) {
-                    continentsData = await this.mongo.db.collection(this.systemConfig.collections.geoContinents).find({
-                        $or: continentsQuery.map(i => ({
-                            _id: i,
-                        })),
-                    }, {
-                        projection,
-                    }).toArray();
-                }
-                let countriesData = [];
-                if (countriesQuery.length) {
-                    countriesData = await this.mongo.db.collection(this.systemConfig.collections.geoCountries).find({
-                        $or: countriesQuery.map(i => ({
-                            _id: i,
-                        })),
-                    }, {
-                        projection,
-                    }).toArray();
-                }
-                let citiesData = [];
-                if (citiesQuery.length) {
-                    citiesData = await this.mongo.db.collection(this.systemConfig.collections.geoCities).find({
-                        $or: citiesQuery.map(i => ({
-                            _id: i,
-                        })),
-                    }).toArray();
-                }
-                let usersData = [];
-                if (usersQuery.length) {
-                    usersData = await this.mongo.db.collection(this.systemConfig.collections.users).find({
-                        $or: usersQuery.map(i => ({
-                            _id: new ObjectId(i),
-                        })),
-                    }, {
-                        projection: {
-                            username: 1,
-                        }
-                    }).toArray();
-                }
-                for (const item of locationsData) {
-                    if (item.continent) {
-                        const continentData = continentsData.find(i => i._id === item.continent);
-                        item.continent = continentData && continentData[req.body.language] ? continentData[req.body.language] : null;
-                    }
-                    if (item.country) {
-                        const countryData = countriesData.find(i => i._id === item.country);
-                        item.country = countryData && countryData[req.body.language] ? countryData[req.body.language] : null;
-                    }
-                    if (item.city) {
-                        const cityData = citiesData.find(i => i._id === item.city);
-                        const defaultCity = cityData["en-us"];
-                        if (defaultCity) {
-                            item.city = cityData && cityData[req.body.language] ? cityData[req.body.language] : defaultCity;
-                        } else {
-                            item.city = null;
-                        }
-                    }
-                }
                 for (const item of items) {
-                    item.location = null;
-                    if (item.geoNameId) {
-                        const location = locationsData.find(i => i._id === item.geoNameId);
-                        if (location) {
-                            const locationArr = [];
-                            if (location.continent) {
-                                locationArr.push(location.continent);
-                            }
-                            if (location.country) {
-                                locationArr.push(location.country);
-                            }
-                            if (location.city) {
-                                locationArr.push(location.city);
-                            }
-                            item.location = locationArr.join(", ");
-                        }
-                    }
                     if (item.userId) {
                         const userData = usersData.find(i => String(i._id) === item.userId);
                         if (userData && item.username && !item.username !== userData.username) {
                             item.username = `${item.username} (${userData.username})`;
                         }
                     }
+                }
+            }
+            let citiesData = [];
+            if (citiesQuery.length) {
+                const projection = {
+                    "en-us": 1,
+                };
+                projection[req.body.language] = 1;
+                citiesData = await this.mongo.db.collection(this.systemConfig.collections.geoCities).find({
+                    $or: citiesQuery.map(i => ({
+                        _id: String(i),
+                    })),
+                }, {
+                    projection,
+                }).toArray();
+            }
+            let countriesData = [];
+            if (countriesQuery.length) {
+                const projection = {
+                    "en-us": 1,
+                };
+                projection[req.body.language] = 1;
+                countriesData = await this.mongo.db.collection(this.systemConfig.collections.geoCountries).find({
+                    $or: countriesQuery.map(i => ({
+                        _id: String(i),
+                    })),
+                }, {
+                    projection,
+                }).toArray();
+            }
+            for (const item of items) {
+                const locationArr = [];
+                if (item.geoNameIdCountry) {
+                    const countryData = countriesData.find(i => String(i._id) === String(item.geoNameIdCountry));
+                    const defaultContinent = countryData["en-us"] && countryData["en-us"].continent ? countryData["en-us"].continent : null;
+                    const langContinent = countryData[req.body.language] && countryData[req.body.language].continent ? countryData[req.body.language].continent : null;
+                    if (langContinent) {
+                        locationArr.push(langContinent);
+                    } else if (defaultContinent) {
+                        locationArr.push(defaultContinent);
+                    }
+                    const defaultCountry = countryData["en-us"] && countryData["en-us"].country ? countryData["en-us"].country : null;
+                    const langCountry = countryData[req.body.language] && countryData[req.body.language].country ? countryData[req.body.language].country : null;
+                    if (langCountry) {
+                        locationArr.push(langCountry);
+                    } else if (defaultCountry) {
+                        locationArr.push(defaultCountry);
+                    }
+                }
+                if (item.geoNameIdCity) {
+                    const cityData = citiesData.find(i => String(i._id) === String(item.geoNameIdCity));
+                    const defaultCity = cityData["en-us"] || null;
+                    const langCity = cityData[req.body.language] || null;
+                    if (langCity) {
+                        locationArr.push(langCity);
+                    } else if (defaultCity) {
+                        locationArr.push(defaultCity);
+                    }
+                }
+                if (locationArr.length) {
+                    item.location = locationArr.join(", ");
                 }
             }
             return rep.code(200).send({
