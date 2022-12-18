@@ -1,11 +1,14 @@
 const fs = require("fs-extra");
 const path = require("path");
 const crypto = require("crypto");
+const cliProgress = require("cli-progress");
+const zlib = require("zlib");
 const {
     v4: uuidv4,
 } = require("uuid");
 const {
     MongoClient,
+    Long,
 } = require("mongodb");
 const {
     format,
@@ -23,6 +26,7 @@ module.exports = class {
         this.logEnabled = true;
         this.logColor = true;
         this.logNoDate = false;
+        this.interactive = false;
     }
 
     setOptions(options) {
@@ -37,6 +41,10 @@ module.exports = class {
         this.logEnabled = properties.enabled;
         this.logColor = properties.color;
         this.logNoDate = properties.noDate;
+    }
+
+    setInteractive(flag) {
+        this.interactive = flag;
     }
 
     log(message, options = {}) {
@@ -552,6 +560,325 @@ module.exports = class {
                 fs.copySync(metaDistPath, metaPath);
             }
         });
+    }
+
+    async geoCleanUp() {
+        if (!this.db) {
+            await this.connectDatabase();
+        }
+        this.log("Cleaning up...", {});
+        await this.db.collection(this.config.collections.geoCountries).deleteMany({});
+        await this.db.collection(this.config.collections.geoNetworks).deleteMany({});
+        await this.db.collection(this.config.collections.geoCities).deleteMany({});
+    }
+
+    async geoImportBlocksV4() {
+        if (!this.db) {
+            await this.connectDatabase();
+        }
+        const {
+            size: fileSize,
+        } = fs.statSync(`${__dirname}/data/geoNetworksV4.hgd`);
+        const fd = fs.openSync(`${__dirname}/data/geoNetworksV4.hgd`);
+        let globalOffset = 0;
+        const mainBufHead = Buffer.alloc(4);
+        fs.readSync(fd, mainBufHead, 0, 4, globalOffset);
+        const blockCount = (mainBufHead.readUInt32BE() / 2) + 1;
+        globalOffset += 4;
+        const progressBar = new cliProgress.SingleBar({
+            format: `Importing IPv4 Data | {bar} {percentage}%`,
+            barCompleteChar: "\u2588",
+            barIncompleteChar: "\u2591",
+            hideCursor: true
+        });
+        if (this.interactive) {
+            progressBar.start(blockCount, 0);
+        } else {
+            this.log("Importing IPv4 Data...", {});
+        }
+        while (globalOffset <= fileSize) {
+            if (this.interactive) {
+                progressBar.increment();
+                progressBar.update();
+            }
+            const bufHead = Buffer.alloc(4);
+            fs.readSync(fd, bufHead, 0, 4, globalOffset);
+            const size = bufHead.readUInt32BE();
+            if (!size) {
+                break;
+            }
+            const bufData = Buffer.alloc(size);
+            fs.readSync(fd, bufData, 0, size, globalOffset + 4);
+            const uncompressedBuf = zlib.brotliDecompressSync(bufData);
+            let pos = 0;
+            const insertData = [];
+            while (pos < uncompressedBuf.length) {
+                const geoNameIdCity = uncompressedBuf.readUInt32BE(pos);
+                pos += 4;
+                const geoNameIdCountry = uncompressedBuf.readUInt32BE(pos);
+                pos += 4;
+                const blockEnd = uncompressedBuf.readUInt32BE(pos);
+                pos += 4;
+                if (blockEnd) {
+                    insertData.push({
+                        geoNameIdCity: geoNameIdCity ? parseInt(geoNameIdCity, 10) : null,
+                        geoNameIdCountry: geoNameIdCountry ? parseInt(geoNameIdCountry, 10) : null,
+                        blockEnd,
+                    });
+                }
+            }
+            if (insertData.length) {
+                await this.db.collection(this.config.collections.geoNetworks).insertMany(insertData);
+            }
+            globalOffset = globalOffset + size + 4;
+        }
+        if (this.interactive) {
+            progressBar.stop();
+        }
+        fs.closeSync(fd);
+    }
+
+    async geoImportBlocksV6() {
+        if (!this.db) {
+            await this.connectDatabase();
+        }
+        const {
+            size: fileSize,
+        } = fs.statSync(`${__dirname}/data/geoNetworksV6.hgd`);
+        const fd = fs.openSync(`${__dirname}/data/geoNetworksV6.hgd`);
+        let globalOffset = 0;
+        const mainBufHead = Buffer.alloc(4);
+        fs.readSync(fd, mainBufHead, 0, 4, globalOffset);
+        const blockCount = (mainBufHead.readUInt32BE() / 2) + 1;
+        globalOffset += 4;
+        const progressBar = new cliProgress.SingleBar({
+            format: `Importing IPv6 Data | {bar} {percentage}%`,
+            barCompleteChar: "\u2588",
+            barIncompleteChar: "\u2591",
+            hideCursor: true
+        });
+        if (this.interactive) {
+            progressBar.start(blockCount, 0);
+        } else {
+            this.log("Importing IPv6 Data...", {});
+        }
+        while (globalOffset <= fileSize) {
+            if (this.interactive) {
+                progressBar.increment();
+                progressBar.update();
+            }
+            const bufHead = Buffer.alloc(4);
+            fs.readSync(fd, bufHead, 0, 4, globalOffset);
+            const size = bufHead.readUInt32BE();
+            if (!size) {
+                break;
+            }
+            const bufData = Buffer.alloc(size);
+            fs.readSync(fd, bufData, 0, size, globalOffset + 4);
+            const uncompressedBuf = zlib.brotliDecompressSync(bufData);
+            let pos = 0;
+            const insertData = [];
+            while (pos < uncompressedBuf.length) {
+                const geoNameIdCity = uncompressedBuf.readUInt32BE(pos);
+                const geoNameIdCountry = uncompressedBuf.readUInt32BE(pos + 4);
+                const blockEnd1 = uncompressedBuf.readBigUint64BE(pos + 8);
+                const blockEnd2 = uncompressedBuf.readBigUint64BE(pos + 16);
+                const blockEnd = BigInt(`${blockEnd1.toString()}${blockEnd2.toString()}`);
+                pos += 24;
+                if (blockEnd) {
+                    insertData.push({
+                        geoNameIdCity: geoNameIdCity ? parseInt(geoNameIdCity, 10) : null,
+                        geoNameIdCountry: geoNameIdCountry ? parseInt(geoNameIdCountry, 10) : null,
+                        blockEnd: Long(blockEnd),
+                    });
+                }
+            }
+            if (insertData.length) {
+                await this.db.collection(this.config.collections.geoNetworks).insertMany(insertData);
+            }
+            globalOffset = globalOffset + size + 4;
+        }
+        if (this.interactive) {
+            progressBar.stop();
+        }
+        fs.closeSync(fd);
+    }
+
+    async geoImportCountries() {
+        if (!this.db) {
+            await this.connectDatabase();
+        }
+        const {
+            size: fileSize,
+        } = fs.statSync(`${__dirname}/data/geoCountries.hgd`);
+        const fd = fs.openSync(`${__dirname}/data/geoCountries.hgd`);
+        let globalOffset = 0;
+        const mainBufHead = Buffer.alloc(4);
+        fs.readSync(fd, mainBufHead, 0, 4, globalOffset);
+        const blockCount = mainBufHead.readUInt32BE() / 2;
+        globalOffset += 4;
+        const progressBar = new cliProgress.SingleBar({
+            format: `Importing CNTR Data | {bar} {percentage}%`,
+            barCompleteChar: "\u2588",
+            barIncompleteChar: "\u2591",
+            hideCursor: true
+        });
+        if (this.interactive) {
+            progressBar.start(blockCount, 0);
+        } else {
+            this.log("Importing CNTR Data...", {});
+        }
+        const insertData = [];
+        while (globalOffset <= fileSize) {
+            if (this.interactive) {
+                progressBar.increment();
+                progressBar.update();
+            }
+            const bufHead = Buffer.alloc(4);
+            fs.readSync(fd, bufHead, 0, 4, globalOffset);
+            const size = bufHead.readUInt32BE();
+            if (!size) {
+                break;
+            }
+            const bufData = Buffer.alloc(size);
+            fs.readSync(fd, bufData, 0, size, globalOffset + 4);
+            const uncompressedBuf = zlib.brotliDecompressSync(bufData);
+            let pos = 0;
+            const geoNameId = parseInt(uncompressedBuf.readUInt32BE(pos), 10);
+            pos += 4;
+            const continentCode = uncompressedBuf.subarray(pos, pos + 2).toString();
+            pos += 2;
+            const countryCode = uncompressedBuf.subarray(pos, pos + 2).toString();
+            pos += 2;
+            const eu = uncompressedBuf.readUInt8(pos);
+            pos += 1;
+            const strDataLen = uncompressedBuf.readUInt16BE(pos);
+            pos += 4;
+            const strData = uncompressedBuf.subarray(pos, pos + strDataLen).toString();
+            const data = {};
+            const strArr = strData.split(/\t/);
+            for (let i = 0; i < strArr.length; i += 3) {
+                if (strArr[i + 1]) {
+                    data[strArr[i]] = data[strArr[i]] || {};
+                    data[strArr[i]].continent = strArr[i + 1];
+                }
+                if (strArr[i + 2]) {
+                    data[strArr[i]] = data[strArr[i]] || {};
+                    // eslint-disable-next-line no-control-regex
+                    data[strArr[i]].country = strArr[i + 2].replace(/\x00/gm, "");
+                }
+            }
+            insertData.push({
+                _id: String(geoNameId),
+                continentCode,
+                countryCode,
+                eu: eu === 1,
+                ...data,
+            });
+            globalOffset = globalOffset + size + 4;
+        }
+        if (insertData.length) {
+            await this.db.collection(this.config.collections.geoCountries).insertMany(insertData);
+        }
+        if (this.interactive) {
+            progressBar.stop();
+        }
+        fs.closeSync(fd);
+    }
+
+    async geoImportCities() {
+        if (!this.db) {
+            await this.connectDatabase();
+        }
+        const {
+            size: fileSize,
+        } = fs.statSync(`${__dirname}/data/geoCities.hgd`);
+        const fd = fs.openSync(`${__dirname}/data/geoCities.hgd`);
+        let globalOffset = 0;
+        const mainBufHead = Buffer.alloc(4);
+        fs.readSync(fd, mainBufHead, 0, 4, globalOffset);
+        const blockCount = mainBufHead.readUInt32BE() / 2;
+        globalOffset += 4;
+        const insertData = [];
+        const progressBar = new cliProgress.SingleBar({
+            format: `Importing CITY Data | {bar} {percentage}%`,
+            barCompleteChar: "\u2588",
+            barIncompleteChar: "\u2591",
+            hideCursor: true
+        });
+        if (this.interactive) {
+            progressBar.start(blockCount, 0);
+        } else {
+            this.log("Importing CITY Data...", {});
+        }
+        while (globalOffset <= fileSize) {
+            if (this.interactive) {
+                progressBar.increment();
+                progressBar.update();
+            }
+            const bufHead = Buffer.alloc(4);
+            fs.readSync(fd, bufHead, 0, 4, globalOffset);
+            const size = bufHead.readUInt32BE();
+            if (!size) {
+                break;
+            }
+            const bufData = Buffer.alloc(size);
+            fs.readSync(fd, bufData, 0, size, globalOffset + 4);
+            const uncompressedBuf = zlib.brotliDecompressSync(bufData);
+            let pos = 0;
+            const geoNameId = parseInt(uncompressedBuf.readUInt32BE(pos), 10);
+            pos += 4;
+            const strDataLen = uncompressedBuf.readUInt16BE(pos);
+            pos += 4;
+            const strData = uncompressedBuf.subarray(pos, pos + strDataLen).toString();
+            const data = {};
+            const strArr = strData.split(/\t/);
+            for (let i = 0; i < strArr.length; i += 2) {
+                if (strArr[i + 1]) {
+                    data[strArr[i]] = data[strArr[i]] || {};
+                    // eslint-disable-next-line no-control-regex
+                    data[strArr[i]] = strArr[i + 1].replace(/\x00/gm, "");
+                }
+            }
+            if (geoNameId && Object.keys(data).length) {
+                insertData.push({
+                    _id: String(geoNameId),
+                    ...data,
+                });
+                // await db.collection(config.collections.geoCities).insertOne({
+                //     _id: geoNameId,
+                //     ...data,
+                // });
+            }
+            if (insertData.length > 9999) {
+                await this.db.collection(this.config.collections.geoCities).insertMany(insertData);
+                insertData.length = 0;
+            }
+            globalOffset = globalOffset + size + 4;
+        }
+        if (insertData.length) {
+            await this.db.collection(this.config.collections.geoCities).insertMany(insertData);
+        }
+        if (this.interactive) {
+            progressBar.stop();
+        }
+        fs.closeSync(fd);
+    }
+
+    async geoEnsureIndexes() {
+        if (!this.db) {
+            await this.connectDatabase();
+        }
+        this.log("Creating indexes...", {});
+        try {
+            await this.db.collection(this.config.collections.geoNetworks).createIndex({
+                blockEnd: 1,
+            }, {
+                name: "blockEndIndex",
+            });
+        } catch {
+            // Ignore
+        }
     }
 
     printLogo() {

@@ -20,5 +20,8 @@ module.exports = {
     }, {
         name: "addNavigation",
         type: Boolean,
+    }, {
+        name: "importGeoData",
+        type: Boolean,
     }],
 };

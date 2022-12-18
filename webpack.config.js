@@ -24,6 +24,7 @@ module.exports = (env, argv) => {
     webpackUtils.copyDataDir();
     webpackUtils.generateSitemap();
     webpackUtils.generateManifest();
+    webpackUtils.initCorePages();
     return ([{
             context: path.resolve(`${__dirname}`),
             name: "Userspace",

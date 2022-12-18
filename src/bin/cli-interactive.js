@@ -10,6 +10,7 @@ const binUtils = new BinUtils({});
         color: true,
         noDate: true,
     });
+    binUtils.setInteractive(true);
     binUtils.printLogo();
     const inquirer = (await import("inquirer")).default;
     binUtils.readConfig();
@@ -29,6 +30,8 @@ const binUtils = new BinUtils({});
                     new inquirer.Separator(),
                     `Create "admin" user`,
                     "Reset password for user",
+                    new inquirer.Separator(),
+                    "Import Geo data",
                     new inquirer.Separator(),
                     "Quit",
                     new inquirer.Separator(),
@@ -136,6 +139,17 @@ const binUtils = new BinUtils({});
                 noDate: true,
             });
             await binUtils.resetPassword(resetPasswordAnswers.username);
+            break;
+        case "Import Geo data":
+            await binUtils.geoCleanUp();
+            await binUtils.geoImportBlocksV4();
+            await binUtils.geoImportBlocksV6();
+            await binUtils.geoImportCities();
+            await binUtils.geoImportCountries();
+            await binUtils.geoEnsureIndexes();
+            binUtils.log("Geo Data import success", {
+                success: true,
+            });
             break;
         default:
             binUtils.disconnectDatabase();

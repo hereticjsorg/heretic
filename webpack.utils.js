@@ -1,6 +1,8 @@
 const path = require("path");
 const fs = require("fs-extra");
 
+const BinUtils = require("./src/bin/binUtils");
+
 module.exports = class {
     constructor(production) {
         this.config = require(path.resolve(__dirname, "etc", "system.js"));
@@ -23,6 +25,11 @@ module.exports = class {
         this.languages = fs.readJSONSync(path.resolve(__dirname, "src", "config", "languages.json"));
         this.systemConfig = require(path.resolve(__dirname, "etc", "website.js"));
         this.production = production;
+        this.binUtils = new BinUtils({});
+    }
+
+    initCorePages() {
+        this.binUtils.initCorePagesMeta();
     }
 
     generateLoaders() {

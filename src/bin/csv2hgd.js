@@ -60,7 +60,9 @@ const generateCityBlocksBinaryV4 = () => {
         data.push(headBuf);
         data.push(compressedBuf);
     }
-    fs.writeFileSync(path.join(__dirname, "/data/geoNetworksV4.hgd"), Buffer.concat(data));
+    const headBuf = Buffer.alloc(4);
+    headBuf.writeUInt32BE(data.length);
+    fs.writeFileSync(path.join(__dirname, "/data/geoNetworksV4.hgd"), Buffer.concat([headBuf, ...data]));
 };
 
 const generateCityBlocksBinaryV6 = () => {
@@ -104,7 +106,9 @@ const generateCityBlocksBinaryV6 = () => {
         data.push(headBuf);
         data.push(compressedBuf);
     }
-    fs.writeFileSync(path.join(__dirname, "/data/geoNetworksV6.hgd"), Buffer.concat(data));
+    const headBuf = Buffer.alloc(4);
+    headBuf.writeUInt32BE(data.length);
+    fs.writeFileSync(path.join(__dirname, "/data/geoNetworksV6.hgd"), Buffer.concat([headBuf, ...data]));
 };
 
 const generateCityDataBinary = () => {
@@ -162,7 +166,9 @@ const generateCityDataBinary = () => {
         citiesBufArr.push(headBuf);
         citiesBufArr.push(compressedBuf);
     }
-    fs.writeFileSync(path.join(__dirname, "/data/geoCities.hgd"), Buffer.concat(citiesBufArr));
+    const headBuf = Buffer.alloc(4);
+    headBuf.writeUInt32BE(citiesBufArr.length);
+    fs.writeFileSync(path.join(__dirname, "/data/geoCities.hgd"), Buffer.concat([headBuf, ...citiesBufArr]));
 };
 
 const generateCountryDataBinary = () => {
@@ -229,7 +235,9 @@ const generateCountryDataBinary = () => {
         countriesBufArr.push(headBuf);
         countriesBufArr.push(compressedBuf);
     }
-    fs.writeFileSync(path.join(__dirname, "/data/geoCountries.hgd"), Buffer.concat(countriesBufArr));
+    const headBuf = Buffer.alloc(4);
+    headBuf.writeUInt32BE(countriesBufArr.length);
+    fs.writeFileSync(path.join(__dirname, "/data/geoCountries.hgd"), Buffer.concat([headBuf, ...countriesBufArr]));
 };
 
 fs.ensureDirSync(path.join(__dirname, "data"));
