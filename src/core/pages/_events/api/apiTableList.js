@@ -54,7 +54,7 @@ export default () => ({
                 for (const item of items) {
                     if (item.userId) {
                         const userData = usersData.find(i => String(i._id) === item.userId);
-                        if (userData && item.username && !item.username !== userData.username) {
+                        if (userData && item.username && item.username !== userData.username) {
                             item.username = `${item.username} (${userData.username})`;
                         }
                     }

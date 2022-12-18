@@ -1,6 +1,6 @@
 import {
     mdiTrashCanOutline,
-    mdiSelectionEllipseArrowInside,
+    mdiTextBoxSearchOutline,
 } from "@mdi/js";
 import {
     format,
@@ -20,15 +20,9 @@ export default class {
                     label: this.t("event"),
                     validation: {
                         type: "string",
-                        enum: ["loginSuccess", "loginFailed"]
+                        enum: []
                     },
-                    options: [{
-                        value: "loginSuccess",
-                        label: "eventLoginSuccess"
-                    }, {
-                        value: "loginFailed",
-                        label: "eventLoginFailed"
-                    }],
+                    options: [],
                     defaultValue: "",
                     sortable: true,
                     searchable: true,
@@ -68,6 +62,7 @@ export default class {
                     searchable: false,
                     column: true,
                     createIndex: false,
+                    noFilter: true,
                 }, {
                     id: "username",
                     type: "text",
@@ -94,7 +89,7 @@ export default class {
         };
         this.tableDeleteConfig = {
             url: `/api/${moduleConfig.id}/delete`,
-            titleId: "group",
+            titleId: "ip",
         };
         this.tableBulkUpdateConfig = null;
         this.tableExportConfig = {
@@ -111,6 +106,12 @@ export default class {
 
     setProviderDataEvents(data) {
         this.providerDataEvents = data;
+        const eventField = this.data.form[0].fields.find(i => i.id === "event");
+        eventField.options = Object.keys(data).map(k => ({
+            value: k,
+            label: data[k],
+        }));
+        eventField.validation.enum = Object.keys(data);
     }
 
     getData() {
@@ -152,7 +153,7 @@ export default class {
         return [{
             id: "view",
             label: this.t("view"),
-            icon: mdiSelectionEllipseArrowInside,
+            icon: mdiTextBoxSearchOutline,
         }, {
             id: "delete",
             label: this.t("delete"),
