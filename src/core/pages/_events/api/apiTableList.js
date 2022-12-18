@@ -92,29 +92,33 @@ export default () => ({
                 const locationArr = [];
                 if (item.geoNameIdCountry) {
                     const countryData = countriesData.find(i => String(i._id) === String(item.geoNameIdCountry));
-                    const defaultContinent = countryData["en-us"] && countryData["en-us"].continent ? countryData["en-us"].continent : null;
-                    const langContinent = countryData[req.body.language] && countryData[req.body.language].continent ? countryData[req.body.language].continent : null;
-                    if (langContinent) {
-                        locationArr.push(langContinent);
-                    } else if (defaultContinent) {
-                        locationArr.push(defaultContinent);
-                    }
-                    const defaultCountry = countryData["en-us"] && countryData["en-us"].country ? countryData["en-us"].country : null;
-                    const langCountry = countryData[req.body.language] && countryData[req.body.language].country ? countryData[req.body.language].country : null;
-                    if (langCountry) {
-                        locationArr.push(langCountry);
-                    } else if (defaultCountry) {
-                        locationArr.push(defaultCountry);
+                    if (countryData) {
+                        const defaultContinent = countryData["en-us"] && countryData["en-us"].continent ? countryData["en-us"].continent : null;
+                        const langContinent = countryData[req.body.language] && countryData[req.body.language].continent ? countryData[req.body.language].continent : null;
+                        if (langContinent) {
+                            locationArr.push(langContinent);
+                        } else if (defaultContinent) {
+                            locationArr.push(defaultContinent);
+                        }
+                        const defaultCountry = countryData["en-us"] && countryData["en-us"].country ? countryData["en-us"].country : null;
+                        const langCountry = countryData[req.body.language] && countryData[req.body.language].country ? countryData[req.body.language].country : null;
+                        if (langCountry) {
+                            locationArr.push(langCountry);
+                        } else if (defaultCountry) {
+                            locationArr.push(defaultCountry);
+                        }
                     }
                 }
                 if (item.geoNameIdCity) {
                     const cityData = citiesData.find(i => String(i._id) === String(item.geoNameIdCity));
-                    const defaultCity = cityData["en-us"] || null;
-                    const langCity = cityData[req.body.language] || null;
-                    if (langCity) {
-                        locationArr.push(langCity);
-                    } else if (defaultCity) {
-                        locationArr.push(defaultCity);
+                    if (cityData) {
+                        const defaultCity = cityData["en-us"] || null;
+                        const langCity = cityData[req.body.language] || null;
+                        if (langCity) {
+                            locationArr.push(langCity);
+                        } else if (defaultCity) {
+                            locationArr.push(defaultCity);
+                        }
                     }
                 }
                 if (locationArr.length) {

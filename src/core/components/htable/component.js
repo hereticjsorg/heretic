@@ -135,6 +135,7 @@ module.exports = class {
         elementWrap.style.display = "none";
         tableControls.style.display = "none";
         elementDummy.style.display = "block";
+        this.utils.waitForElement(`hr_ht_dummy_${this.input.id}`);
         const dummyRect = elementDummy.getBoundingClientRect();
         elementWrap.style.display = elementWrapDisplay;
         tableControls.style.display = tableControlsDisplay;
@@ -289,6 +290,7 @@ module.exports = class {
         tableControls.style.left = `${mainWrap.getBoundingClientRect().width - this.actionColumnWidth - 2}px`;
         actionCellControl.style.width = `${this.actionColumnWidth + 2}px`;
         actionCellControl.style.height = `${actionsTh.getBoundingClientRect().height - 1}px`;
+        actionCellControl.style.opacity = "1";
         this.onTableContainerScroll();
     }
 
@@ -306,7 +308,7 @@ module.exports = class {
         window.addEventListener("orientationchange", this.setTableDimensions.bind(this));
         window.addEventListener("mouseup", this.onColumnMouseUp.bind(this));
         this.restoreWidthFromSavedRatios();
-        window.dispatchEvent(new CustomEvent("resize"));
+        this.setState("clientWidth", Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0));
         const scrollWrapper = document.getElementById(`hr_ht_table_scroll_wrapper_${this.input.id}`);
         const tableContainer = document.getElementById(`hr_ht_table_container_${this.input.id}`);
         this.onScrollWrapScrollDebounced = debounce(this.onScrollWrapScroll, 50);
@@ -523,12 +525,15 @@ module.exports = class {
                 return;
             }
             setTimeout(async () => {
+                // await this.utils.waitForElement(`hr_ht_noRecords_${this.input.id}`);
                 await this.setLoading(true);
                 await this.utils.waitForElement(`hr_ht_table_controls_${this.input.id}`);
                 const {
                     tableControls,
+                    actionCellControl,
                 } = this.getElements();
                 tableControls.style.display = "block";
+                actionCellControl.style.opacity = "0";
                 try {
                     const {
                         table,
@@ -583,6 +588,7 @@ module.exports = class {
                 } catch (e) {
                     await this.utils.waitForElement(`hr_ht_table_controls_${this.input.id}`);
                     tableControls.style.display = "none";
+                    actionCellControl.style.opacity = "1";
                     if (e && e.response && e.response.status === 403) {
                         this.emit("unauthorized");
                         resolve();

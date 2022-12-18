@@ -572,6 +572,7 @@ export default {
     },
     async addEvent(event, authData = {}, extras = {}) {
         const clientIp = ipTools.getClientIp(this) || null;
+        // const clientIp = "77.247.174.92";
         let clientIpInt = null;
         let geoNameIdCity = null;
         let geoNameIdCountry = null;
