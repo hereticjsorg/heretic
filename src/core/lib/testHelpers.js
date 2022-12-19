@@ -4,6 +4,7 @@ import {
     spawn,
     // exec,
 } from "node:child_process";
+import which from "which";
 import languages from "../../config/languages.json";
 
 export default class {
@@ -93,6 +94,7 @@ export default class {
         });
     }
 
+    /* istanbul ignore file */
     runCommand(command = "") {
         const commandArr = command.split(/ /);
         if (!commandArr.length) {
@@ -106,6 +108,7 @@ export default class {
         return execObj;
     }
 
+    /* istanbul ignore file */
     killProcess(pid) {
         process.kill(-pid);
     }
@@ -123,5 +126,54 @@ export default class {
             publicDirExists,
             buildSuccess
         };
+    }
+
+    /* istanbul ignore file */
+    getChromePath() {
+        if (process.platform === "linux") {
+            let bin = null;
+            for (const command of ["google-chrome", "google-chrome-stable"]) {
+                try {
+                    if (which.sync(command)) {
+                        bin = command;
+                        break;
+                    }
+                } catch {
+                    // Ignore
+                }
+            }
+            return bin;
+        }
+        if (process.platform === "darwin") {
+            const defaultPath = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+            const homePath = path.join(process.env.HOME, defaultPath);
+            try {
+                fs.accessSync(homePath);
+                return homePath;
+            } catch {
+                // Ignore;
+            }
+            try {
+                fs.accessSync(defaultPath);
+                return defaultPath;
+            } catch {
+                // Ignore;
+            }
+            return null;
+        }
+        if (process.platform === "win32") {
+            const chromeDirName = "Chrome";
+            const suffix = `\\Google\\${chromeDirName}\\Application\\chrome.exe`;
+            for (const prefix of [process.env.LOCALAPPDATA, process.env.PROGRAMFILES, process.env["PROGRAMFILES(X86)"]]) {
+                try {
+                    const windowsChromeDirectory = path.join(prefix, suffix);
+                    fs.accessSync(windowsChromeDirectory);
+                    return windowsChromeDirectory;
+                } catch {
+                    // Ignore
+                }
+            }
+            return null;
+        }
     }
 }
