@@ -6,11 +6,6 @@ import {
 } from "@jest/globals";
 import axios from "axios";
 import axiosRetry from "axios-retry";
-import {
-    execa
-} from "execa";
-import crypto from "crypto";
-import fkill from "fkill";
 import Helpers from "../lib/testHelpers";
 import systemConfig from "../../../etc/system.js";
 
@@ -37,15 +32,13 @@ test("Server availability (200)", async () => {
     try {
         response = await axios({
             method: "get",
-            url: `http://${systemConfig.server.ip}:${systemConfig.server.port}`,
+            url: `http://${systemConfig.server.ip}:${systemConfig.server.port}/_status`,
             timeout: 30000,
         });
     } catch {
         // Ignore
     }
-    await fkill(childProcess.pid, {
-        force: true
-    });
+    helpers.killProcess(childProcess.pid);
     expect(response ? response.status : 0).toBe(200);
     serverPid = serverPid.filter(i => i !== childProcess.pid);
 });
@@ -70,28 +63,24 @@ test("Server availability (404)", async () => {
         expect(e && e.response ? e.response.status : 0).toBe(404);
         // Ignore
     }
-    await fkill(childProcess.pid, {
-        force: true
-    });
+    helpers.killProcess(childProcess.pid);
     serverPid = serverPid.filter(i => i !== childProcess.pid);
 });
 
 test("Test Page", async () => {
-    const id = crypto.randomBytes(20).toString("hex");
     if (await helpers.fileExists(`src/pages/${routeId}`)) {
         await helpers.removeFile(`src/pages/${routeId}`);
     }
     await helpers.copy("src/core/defaults/.test", `src/pages/${routeId}`);
-    const testMeta = await helpers.readJSON(`src/pages/${routeId}/page.js`);
+    const testMeta = await helpers.readJSON(`src/pages/${routeId}/meta.json`);
     testMeta.id = routeId;
-    testMeta.path = `/${id}`;
     for (const language of helpers.getLanguagesList()) {
-        testMeta.title[language] = `site-title-${language}`;
-        testMeta.description[language] = `site-description-${language}`;
-        await helpers.ensureDir(`src/pages/${routeId}/content/lang-${language}`);
-        await helpers.writeFile(`src/pages/${routeId}/content/lang-${language}/index.marko`, `<div>site-content-${language}</div>\n`);
+        testMeta.userspace.title[language] = `site-title-${language}`;
+        testMeta.userspace.description[language] = `site-description-${language}`;
+        await helpers.ensureDir(`src/pages/${routeId}/userspace/content/lang-${language}`);
+        await helpers.writeFile(`src/pages/${routeId}/userspace/content/lang-${language}/index.marko`, `<div>site-content-${language}</div>\n`);
     }
-    await helpers.writeJSON(`src/pages/${routeId}/page.js`, testMeta);
+    await helpers.writeJSON(`src/pages/${routeId}/meta.json`, testMeta);
     const {
         buildSuccess
     } = await helpers.build("dev");
@@ -105,7 +94,7 @@ test("Test Page", async () => {
         try {
             response = await axios({
                 method: "get",
-                url: `http://${systemConfig.server.ip}:${systemConfig.server.port}/${language === helpers.getLanguagesList()[0] ? "" : `${language}/`}${id}`,
+                url: `http://${systemConfig.server.ip}:${systemConfig.server.port}/${language === helpers.getLanguagesList()[0] ? "" : `${language}/`}${routeId}`,
                 timeout: 30000,
             });
         } catch {
@@ -116,18 +105,14 @@ test("Test Page", async () => {
         expect(response.data).toMatch(`site-description-${language}`);
         expect(response.data).toMatch(`site-content-${language}`);
     }
-    await fkill(childProcess.pid, {
-        force: true
-    });
+    helpers.killProcess(childProcess.pid);
     serverPid = serverPid.filter(i => i !== childProcess.pid);
 });
 
 afterAll(async () => {
     for (const pid of serverPid) {
         try {
-            await fkill(pid, {
-                force: true
-            });
+            helpers.killProcess(pid);
         } catch {
             // Ignore
         }

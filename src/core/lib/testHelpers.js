@@ -2,7 +2,7 @@ import path from "path";
 import fs from "fs-extra";
 import {
     spawn,
-    exec,
+    // exec,
 } from "node:child_process";
 import languages from "../../config/languages.json";
 
@@ -93,17 +93,26 @@ export default class {
         });
     }
 
-    async runCommand(command = "") {
-        const execObj = exec(command, {
+    runCommand(command = "") {
+        const commandArr = command.split(/ /);
+        if (!commandArr.length) {
+            throw new Error("No command specified");
+        }
+        const cmd = commandArr.shift();
+        const execObj = spawn(cmd, commandArr, {
             cwd: path.resolve(__dirname, "../../.."),
+            detached: true,
         });
         return execObj;
+    }
+
+    killProcess(pid) {
+        process.kill(-pid);
     }
 
     /* istanbul ignore file */
     async build(suffix) {
         await this.removeFile("dist");
-        // const data = await execa(`npm run build-${suffix} -- --no-color`);
         const data = await this.executeCommand(`npm run build-${suffix} -- --no-color`);
         const serverFileExists = await this.doesServerFileExists();
         const publicDirExists = await this.doesPublicDirExists();
