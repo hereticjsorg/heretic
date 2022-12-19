@@ -11,8 +11,8 @@ import {
 } from "execa";
 import crypto from "crypto";
 import fkill from "fkill";
-import Helpers from "../core/lib/testHelpers";
-import systemConfig from "../../etc/system.js";
+import Helpers from "../lib/testHelpers";
+import systemConfig from "../../../etc/system.js";
 
 axiosRetry(axios, {
     retryDelay: axiosRetry.exponentialDelay,
@@ -30,7 +30,7 @@ test("Server availability (200)", async () => {
         } = await helpers.build("dev");
         expect(buildSuccess).toBe(true);
     }
-    const childProcess = execa("npm run server");
+    const childProcess = helpers.runCommand("npm run server");
     expect(childProcess.pid).toBeGreaterThan(0);
     serverPid.push(childProcess.pid);
     let response;
@@ -57,7 +57,7 @@ test("Server availability (404)", async () => {
         } = await helpers.build("dev");
         expect(buildSuccess).toBe(true);
     }
-    const childProcess = execa("npm run server");
+    const childProcess = helpers.runCommand("npm run server");
     expect(childProcess.pid).toBeGreaterThan(0);
     serverPid.push(childProcess.pid);
     try {
@@ -97,7 +97,7 @@ test("Test Page", async () => {
     } = await helpers.build("dev");
     expect(buildSuccess).toBe(true);
     await helpers.removeFile(`src/pages/${routeId}`);
-    const childProcess = execa("npm run server");
+    const childProcess = helpers.runCommand("npm run server");
     expect(childProcess.pid).toBeGreaterThan(0);
     serverPid.push(childProcess.pid);
     for (const language of helpers.getLanguagesList()) {
