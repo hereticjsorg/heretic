@@ -27,6 +27,10 @@ module.exports = (env, argv) => {
     webpackUtils.initCorePages();
     return ([{
             context: path.resolve(`${__dirname}`),
+            performance: {
+                maxEntrypointSize: 10485760,
+                maxAssetSize: 5242880,
+            },
             name: "Userspace",
             target: ["web", "es5"],
             output: {
@@ -153,6 +157,7 @@ module.exports = (env, argv) => {
                 argv.mode === "production" ? new MiniCssExtractPlugin({
                     filename: "[name].[fullhash:8].css",
                     experimentalUseImportModule: true,
+                    ignoreOrder: true,
                 }) : () => {},
                 argv.mode === "production" && systemConfig.buildOptions && systemConfig.buildOptions.productionCompress ? new CompressionPlugin() : () => {},
                 new CopyWebpackPlugin({
