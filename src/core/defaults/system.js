@@ -8,7 +8,7 @@ module.exports = {
         port: 3001,
         static: true,
         trustProxy: true,
-        ignoreTrailingSlash: true
+        ignoreTrailingSlash: true,
     },
     mongo: {
         url: "mongodb://127.0.0.1:27017",
@@ -17,34 +17,34 @@ module.exports = {
             useUnifiedTopology: true,
             connectTimeoutMS: 5000,
             keepAlive: true,
-            useNewUrlParser: true
+            useNewUrlParser: true,
         }
     },
     redis: {
         enabled: false,
         host: "127.0.0.1",
-        port: 6379
+        port: 6379,
     },
     webSockets: {
         enabled: false,
         url: "ws://127.0.0.1:3001/ws",
         options: {
-            maxPayload: 1048576
+            maxPayload: 1048576,
         }
     },
     token: {
         expiresIn: "7 days",
-        ip: false
+        ip: false,
     },
     cookieOptions: {
         expires: 604800,
         path: "/",
         domain: "",
         secure: null,
-        sameSite: null
+        sameSite: null,
     },
     log: {
-        level: "info"
+        level: "info",
     },
     rateLimit: {
         enabled: false,
@@ -60,12 +60,12 @@ module.exports = {
             "x-ratelimit-limit": true,
             "x-ratelimit-remaining": true,
             "x-ratelimit-reset": true,
-            "retry-after": true
+            "retry-after": true,
         }
     },
     directories: {
         tmp: null,
-        files: "files"
+        files: "files",
     },
     collections: {
         users: "users",
@@ -83,9 +83,16 @@ module.exports = {
         signInAdmin: "/admin/signIn",
         signIn: "/signIn",
         signOutAdmin: "/admin/signOut",
-        signOut: "/signOut"
+        signOut: "/signOut",
     },
     buildOptions: {
-        productionCompress: false
+        productionCompress: false,
+    },
+    test: {
+        headless: true,
+        executablePath: "auto",
+        args: ["--window-size=1920,1080", "--no-sandbox"],
+        defaultViewport: null,
+        devtools: true,
     }
 };

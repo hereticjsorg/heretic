@@ -15,7 +15,7 @@ export default class {
                         type: ["string"],
                         pattern: "^[a-zA-Z0-9_-]+$",
                         minLength: 3,
-                        maxLength: 32,
+                        maxLength: 40,
                     }
                 }, {
                     id: "password",

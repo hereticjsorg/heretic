@@ -2,10 +2,14 @@ import path from "path";
 import fs from "fs-extra";
 import {
     spawn,
-    // exec,
 } from "node:child_process";
 import which from "which";
+import {
+    MongoClient,
+} from "mongodb";
+import puppeteer from "puppeteer-core";
 import languages from "../../config/languages.json";
+import config from "../../../etc/system";
 
 export default class {
     /* istanbul ignore file */
@@ -174,6 +178,54 @@ export default class {
                 }
             }
             return null;
+        }
+    }
+
+    /* istanbul ignore file */
+    async initBrowser() {
+        this.browser = await puppeteer.launch({
+            ...config.test,
+            executablePath: config.test.executablePath === "auto" ? this.getChromePath() : config.test.executablePath,
+        });
+    }
+
+    getBrowser() {
+        return this.browser;
+    }
+
+    /* istanbul ignore file */
+    async closeBrowser() {
+        if (this.browser) {
+            try {
+                const pages = await this.browser.pages();
+                await Promise.all(pages.map(page => page.close()));
+            } catch {
+                // Ignore
+            }
+            try {
+                if (this.browser && this.browser.process() != null) {
+                    this.browser.process().kill("SIGINT");
+                }
+            } catch {
+                // Ignore
+            }
+        }
+    }
+
+    async connectDatabase() {
+        this.mongoClient = new MongoClient(config.mongo.url, config.mongo.options || {
+            useUnifiedTopology: true,
+            connectTimeoutMS: 5000,
+            keepAlive: true,
+            useNewUrlParser: true
+        });
+        await this.mongoClient.connect();
+        this.db = this.mongoClient.db(config.mongo.dbName);
+    }
+
+    disconnectDatabase() {
+        if (this.db) {
+            this.mongoClient.close();
         }
     }
 }
