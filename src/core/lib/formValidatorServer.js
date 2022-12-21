@@ -150,14 +150,16 @@ export default class {
                     if (this.formFiles[file.uid]) {
                         try {
                             await fs.move(this.formFiles[file.uid].filePath, `${path.resolve(__dirname, this.fastify.systemConfig.directories.files)}/${file.uid}`);
-                            await this.fastify.mongo.db.collection(this.fastify.systemConfig.collections.files).insertOne({
-                                _id: file.uid,
-                                filename: this.formFiles[file.uid].filename,
-                                size: this.formFiles[file.uid].size,
-                                mimeType: this.formFiles[file.uid].mimeType,
-                                page,
-                                refId,
-                            });
+                            if (!this.fastify.systemConfig.mongo.enabled) {
+                                await this.fastify.mongo.db.collection(this.fastify.systemConfig.collections.files).insertOne({
+                                    _id: file.uid,
+                                    filename: this.formFiles[file.uid].filename,
+                                    size: this.formFiles[file.uid].size,
+                                    mimeType: this.formFiles[file.uid].mimeType,
+                                    page,
+                                    refId,
+                                });
+                            }
                         } catch {
                             // Ignore
                         }
@@ -194,10 +196,12 @@ export default class {
                 // Ignore
             }
         }
-        try {
-            await await this.fastify.mongo.db.collection(this.fastify.systemConfig.collections.files).deleteMany(deleteManyQuery);
-        } catch {
-            // Ignore
+        if (!this.fastify.systemConfig.mongo.enabled) {
+            try {
+                await await this.fastify.mongo.db.collection(this.fastify.systemConfig.collections.files).deleteMany(deleteManyQuery);
+            } catch {
+                // Ignore
+            }
         }
     }
 

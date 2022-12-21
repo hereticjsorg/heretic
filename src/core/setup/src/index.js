@@ -53,27 +53,31 @@ const createExpireIndex = async (db, id, collection, field, seconds) => {
 (async () => {
     try {
         log("Reading configuration files...");
+        let db = null;
+        let mongoClient = null;
         const config = {
             // eslint-disable-next-line no-undef
             system: __non_webpack_require__(path.resolve(__dirname, "../etc/system.js")),
             // eslint-disable-next-line no-undef
             website: __non_webpack_require__(path.resolve(__dirname, "../etc/website.js")),
         };
-        const mongoClient = new MongoClient(config.system.mongo.url, config.system.mongo.options || {
-            useUnifiedTopology: true,
-            connectTimeoutMS: 5000,
-            keepAlive: true,
-            useNewUrlParser: true
-        });
-        mongoClient.on("serverDescriptionChanged", e => {
-            if (e && e.newDescription && e.newDescription.error) {
-                log("Fatal: connection to MongoDB is broken", true);
-                process.exit(1);
-            }
-        });
-        log("Connecting to the database...");
-        await mongoClient.connect();
-        const db = mongoClient.db(config.system.mongo.dbName);
+        if (config.system.mongo.enabled) {
+            mongoClient = new MongoClient(config.system.mongo.url, config.system.mongo.options || {
+                useUnifiedTopology: true,
+                connectTimeoutMS: 5000,
+                keepAlive: true,
+                useNewUrlParser: true
+            });
+            mongoClient.on("serverDescriptionChanged", e => {
+                if (e && e.newDescription && e.newDescription.error) {
+                    log("Fatal: connection to MongoDB is broken", true);
+                    process.exit(1);
+                }
+            });
+            log("Connecting to the database...");
+            await mongoClient.connect();
+            db = mongoClient.db(config.system.mongo.dbName);
+        }
         for (const page of routesData.directories.pages) {
             let Setup;
             try {
@@ -131,8 +135,10 @@ const createExpireIndex = async (db, id, collection, field, seconds) => {
                 log(`No installation script for module "${module}" loaded`);
             }
         }
-        log("Disconnecting from the database...");
-        mongoClient.close();
+        if (config.system.mongo.enabled) {
+            log("Disconnecting from the database...");
+            mongoClient.close();
+        }
         log("All done.");
     } catch (e) {
         log(e.message, true);

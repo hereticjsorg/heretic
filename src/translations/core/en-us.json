@@ -173,5 +173,6 @@
     "hform_lotItemDeleteConfirmationText": "Are you sure you wish to delete requested item?",
     "adminPanel": "Admin Panel",
     "hereticModeToggle": "Toggle light/dark theme",
-    "goToUserspace": "Go to Website"
+    "goToUserspace": "Go to Website",
+    "requestedFeatureDisabled": "The requested feature has been disabled on this website"
 }

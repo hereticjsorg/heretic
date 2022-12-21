@@ -1,5 +1,7 @@
 import apiSignIn from "./apiSignIn";
 
 export default fastify => {
-    fastify.post("/api/signIn", apiSignIn());
+    if (fastify.systemConfig.auth.signIn) {
+        fastify.post("/api/signIn", apiSignIn());
+    }
 };

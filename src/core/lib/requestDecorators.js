@@ -571,8 +571,10 @@ export default {
         return modifiedItems;
     },
     async addEvent(event, authData = {}, extras = {}) {
+        if (!this.fastify.systemConfig.mongo.enabled) {
+            return;
+        }
         const clientIp = ipTools.getClientIp(this) || null;
-        // const clientIp = "77.247.174.92";
         let clientIpInt = null;
         let geoNameIdCity = null;
         let geoNameIdCountry = null;

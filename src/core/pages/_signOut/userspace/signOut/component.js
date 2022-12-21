@@ -54,6 +54,9 @@ module.exports = class {
         await this.loadLanguageData();
         await this.utils.waitForLanguageData();
         await this.utils.loadLanguageData(moduleConfig.id);
+        if (!this.mongoEnabled) {
+            return;
+        }
         await this.utils.waitForComponent("loading");
         this.cookies = new Cookies(this.cookieOptions);
         const currentToken = this.cookies.get(`${this.siteId}.authToken`);

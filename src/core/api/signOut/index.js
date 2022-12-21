@@ -1,5 +1,7 @@
 import apiSignOut from "./apiSignOut";
 
 export default fastify => {
-    fastify.post("/api/signOut", apiSignOut());
+    if (fastify.systemConfig.auth.signIn) {
+        fastify.post("/api/signOut", apiSignOut());
+    }
 };

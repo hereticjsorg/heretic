@@ -213,18 +213,20 @@ export default class {
     }
 
     async connectDatabase() {
-        this.mongoClient = new MongoClient(config.mongo.url, config.mongo.options || {
-            useUnifiedTopology: true,
-            connectTimeoutMS: 5000,
-            keepAlive: true,
-            useNewUrlParser: true
-        });
-        await this.mongoClient.connect();
-        this.db = this.mongoClient.db(config.mongo.dbName);
+        if (config.mongo.enabled) {
+            this.mongoClient = new MongoClient(config.mongo.url, config.mongo.options || {
+                useUnifiedTopology: true,
+                connectTimeoutMS: 5000,
+                keepAlive: true,
+                useNewUrlParser: true
+            });
+            await this.mongoClient.connect();
+            this.db = this.mongoClient.db(config.mongo.dbName);
+        }
     }
 
     disconnectDatabase() {
-        if (this.db) {
+        if (config.mongo.enabled && this.db) {
             this.mongoClient.close();
         }
     }

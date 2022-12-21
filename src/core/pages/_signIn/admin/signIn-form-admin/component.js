@@ -29,7 +29,11 @@ module.exports = class {
         this.siteId = out.global.siteId;
         this.cookieOptions = out.global.cookieOptions;
         this.systemRoutes = out.global.systemRoutes;
+        this.authOptions = out.global.authOptions;
+        this.mongoEnabled = out.global.mongoEnabled;
         if (process.browser && window.__heretic && window.__heretic.t) {
+            this.authOptions = this.authOptions || window.__heretic.outGlobal.authOptions;
+            this.mongoEnabled = this.mongoEnabled || window.__heretic.outGlobal.mongoEnabled;
             this.language = this.language || window.__heretic.outGlobal.language;
             this.siteTitle = out.global.siteTitle || window.__heretic.outGlobal.siteTitle;
             this.siteId = out.global.siteId || window.__heretic.outGlobal.siteId;
@@ -45,6 +49,9 @@ module.exports = class {
     async onMount() {
         await this.utils.waitForLanguageData();
         await this.utils.loadLanguageData("_signIn");
+        if (!this.mongoEnabled) {
+            return;
+        }
         window.addEventListener("click", e => {
             if (document.getElementById("hr_lang_dropdown") && !document.getElementById("hr_lang_dropdown").contains(e.target)) {
                 this.setState("langOpen", false);
@@ -84,7 +91,9 @@ module.exports = class {
                 data,
                 headers: {},
             });
-            const { token } = res.data;
+            const {
+                token
+            } = res.data;
             this.cookies.set(`${this.siteId}.authToken`, token);
             window.location.href = `${this.query.get("r") || this.utils.getLocalizedURL(this.systemRoutes.admin) || "/"}`;
         } catch (e) {

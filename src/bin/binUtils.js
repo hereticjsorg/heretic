@@ -96,18 +96,20 @@ module.exports = class {
     }
 
     async connectDatabase() {
-        this.mongoClient = new MongoClient(this.config.mongo.url, this.config.mongo.options || {
-            useUnifiedTopology: true,
-            connectTimeoutMS: 5000,
-            keepAlive: true,
-            useNewUrlParser: true
-        });
-        await this.mongoClient.connect();
-        this.db = this.mongoClient.db(this.config.mongo.dbName);
+        if (this.config.mongo.enabled) {
+            this.mongoClient = new MongoClient(this.config.mongo.url, this.config.mongo.options || {
+                useUnifiedTopology: true,
+                connectTimeoutMS: 5000,
+                keepAlive: true,
+                useNewUrlParser: true
+            });
+            await this.mongoClient.connect();
+            this.db = this.mongoClient.db(this.config.mongo.dbName);
+        }
     }
 
     disconnectDatabase() {
-        if (this.db) {
+        if (this.config.mongo.enabled && this.db) {
             this.mongoClient.close();
         }
     }
@@ -845,10 +847,6 @@ module.exports = class {
                     _id: String(geoNameId),
                     ...data,
                 });
-                // await db.collection(config.collections.geoCities).insertOne({
-                //     _id: geoNameId,
-                //     ...data,
-                // });
             }
             if (insertData.length > 9999) {
                 await this.db.collection(this.config.collections.geoCities).insertMany(insertData);

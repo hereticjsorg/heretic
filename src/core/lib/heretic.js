@@ -162,6 +162,9 @@ export default class {
      * Register admin routes for all pages
      */
     registerRoutePagesAdmin() {
+        if (!this.systemConfig.auth.admin) {
+            return;
+        }
         for (const route of routesData.routes.admin) {
             if (route.module) {
                 this.fastify.get(route.path, routeModuleAdmin(route, this.languageData, this.defaultLanguage));
@@ -329,31 +332,33 @@ export default class {
 
     async connectDatabase() {
         // Create MongoDB client and connect
-        const mongoClient = new MongoClient(this.systemConfig.mongo.url, this.systemConfig.mongo.options || {
-            useUnifiedTopology: true,
-            connectTimeoutMS: 5000,
-            keepAlive: true,
-            useNewUrlParser: true
-        });
-        mongoClient.on("serverDescriptionChanged", e => {
-            if (e && e.newDescription && e.newDescription.error) {
-                this.fastify.log.error("Fatal: connection to MongoDB is broken");
-                process.exit(1);
-            }
-        });
-        await mongoClient.connect();
-        // Register MongoDB for Fastify
-        this.fastify.register(require("@fastify/mongodb"), {
-            client: mongoClient,
-            database: this.systemConfig.mongo.dbName
-        }).register(async (ff, opts, next) => {
-            this.fastify.log.info(`Connected to Mongo Server: (${this.systemConfig.mongo.url}/${this.systemConfig.mongo.dbName})`);
-            next();
-        });
+        if (this.systemConfig.mongo.enabled) {
+            const mongoClient = new MongoClient(this.systemConfig.mongo.url, this.systemConfig.mongo.options || {
+                useUnifiedTopology: true,
+                connectTimeoutMS: 5000,
+                keepAlive: true,
+                useNewUrlParser: true
+            });
+            mongoClient.on("serverDescriptionChanged", e => {
+                if (e && e.newDescription && e.newDescription.error) {
+                    this.fastify.log.error("Fatal: connection to MongoDB is broken");
+                    process.exit(1);
+                }
+            });
+            await mongoClient.connect();
+            // Register MongoDB for Fastify
+            this.fastify.register(require("@fastify/mongodb"), {
+                client: mongoClient,
+                database: this.systemConfig.mongo.dbName
+            }).register(async (ff, opts, next) => {
+                this.fastify.log.info(`Connected to Mongo Server: (${this.systemConfig.mongo.url}/${this.systemConfig.mongo.dbName})`);
+                next();
+            });
+        }
     }
 
     disconnectDatabase() {
-        if (this.fastify.mongo && this.fastify.mongo.db) {
+        if (this.systemConfig.mongo.enabled && this.fastify.mongo && this.fastify.mongo.db) {
             this.fastify.mongo.db.close();
         }
     }

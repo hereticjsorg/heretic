@@ -16,7 +16,11 @@ module.exports = class {
         this.cookieOptions = out.global.cookieOptions;
         this.systemRoutes = out.global.systemRoutes;
         this.webSockets = out.global.webSockets;
+        this.authOptions = out.global.authOptions;
+        this.mongoEnabled = out.global.mongoEnabled;
         if (process.browser && window.__heretic && window.__heretic.t) {
+            this.authOptions = this.authOptions || window.__heretic.outGlobal.authOptions;
+            this.mongoEnabled = this.mongoEnabled || window.__heretic.outGlobal.mongoEnabled;
             this.language = this.language || window.__heretic.outGlobal.language;
             this.siteTitle = out.global.siteTitle || window.__heretic.outGlobal.siteTitle;
             document.title = `${config.title[this.language]} – ${this.siteTitle}`;

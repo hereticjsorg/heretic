@@ -13,7 +13,11 @@ module.exports = class {
         this.siteTitle = out.global.siteTitle;
         this.siteId = out.global.siteId;
         this.cookieOptions = out.global.cookieOptions;
+        this.authOptions = out.global.authOptions;
+        this.mongoEnabled = out.global.mongoEnabled;
         if (process.browser && window.__heretic && window.__heretic.t) {
+            this.authOptions = this.authOptions || window.__heretic.outGlobal.authOptions;
+            this.mongoEnabled = this.mongoEnabled || window.__heretic.outGlobal.mongoEnabled;
             this.language = this.language || window.__heretic.outGlobal.language;
             this.siteTitle = out.global.siteTitle || window.__heretic.outGlobal.siteTitle;
             this.siteId = out.global.siteId || window.__heretic.outGlobal.siteId;
@@ -30,6 +34,9 @@ module.exports = class {
     async onMount() {
         await this.utils.waitForLanguageData();
         await this.utils.loadLanguageData("_signIn");
+        if (!this.mongoEnabled || !this.authOptions.signIn) {
+            return;
+        }
         this.t = window.__heretic.t;
         this.cookies = new Cookies(this.cookieOptions);
         this.query = new Query();

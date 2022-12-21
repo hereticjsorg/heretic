@@ -1,4 +1,4 @@
-<if(state.failed)>
+<if(state.failed && component.mongoEnabled)>
     <section class="section">
         <div class="container">
             <div class="notification is-danger">
@@ -7,6 +7,11 @@
         </div>
     </section>
 </if>
-<else>
+<if(!state.failed && component.mongoEnabled)>
     <hloading key="loading"/>
-</else>
+</if>
+<if(!component.mongoEnabled)>
+    <div class="notification is-warning">
+        <t>requestedFeatureDisabled</t>
+    </div>
+</if>

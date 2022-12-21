@@ -4,8 +4,8 @@ import SignInForm from "../../data/signInForm"
 
 <div
     style={
-        position: state.ready ? "unset" : "absolute",
-        clip: state.ready ? "unset" : "rect(0 0 0 0)"
+        position: state.ready && component.mongoEnabled ? "unset" : "absolute",
+        clip: state.ready && component.mongoEnabled ? "unset" : "rect(0 0 0 0)"
     }
     class="hr-admin">
     <div class="hr-wrap">
@@ -46,3 +46,8 @@ import SignInForm from "../../data/signInForm"
         </div>
     </div>
 </div>
+<if(!component.mongoEnabled)>
+    <div class="notification is-warning">
+        <t>requestedFeatureDisabled</t>
+    </div>
+</if>

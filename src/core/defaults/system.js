@@ -10,7 +10,13 @@ module.exports = {
         trustProxy: true,
         ignoreTrailingSlash: true,
     },
+    auth: {
+        admin: true,
+        signIn: true,
+        signUp: false,
+    },
     mongo: {
+        enabled: true,
         url: "mongodb://127.0.0.1:27017",
         dbName: "heretic",
         options: {
@@ -94,5 +100,5 @@ module.exports = {
         args: ["--window-size=1920,1080", "--no-sandbox"],
         defaultViewport: null,
         devtools: true,
-    }
+    },
 };

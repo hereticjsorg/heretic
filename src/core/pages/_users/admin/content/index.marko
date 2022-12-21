@@ -5,7 +5,7 @@ $ {
     const formData = new FormData(process.browser && window.__heretic ? window.__heretic.t : out.global.t);
     component.formData = formData;
 }
-<if(state.ready)>
+<if(state.ready && component.mongoEnabled)>
     <hadmin-title title=(process.browser && window.__heretic ? window.__heretic.t("moduleTitleUsers") : null)/>
     <htable key=`${moduleConfig.id}List` id=`${moduleConfig.id}List` formData=(new FormData(process.browser && window.__heretic ? window.__heretic.t : out.global.t)) on-top-button-click("onTopButtonClick") on-action-button-click("onActionButtonClick") on-unauthorized("onUnauthorized") autoLoad=true queryString=true headers=state.headers on-load-complete("onLoadComplete")/>
     <hnotify key=`notify_${moduleConfig.id}List`/>
@@ -38,11 +38,16 @@ $ {
         </section>
     </hmodal>
 </if>
-<if(!state.ready && !state.failed)>
+<if(!state.ready && !state.failed && component.mongoEnabled)>
     <hloading active=true/>
 </if>
 <if(state.failed)>
     <div class="notification is-danger">
         <t>couldNotLoadData</t>
+    </div>
+</if>
+<if(!component.mongoEnabled)>
+    <div class="notification is-warning">
+        <t>requestedFeatureDisabled</t>
     </div>
 </if>

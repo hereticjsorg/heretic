@@ -1,6 +1,6 @@
 ![Heretic](src/core/images/logo_small.png)
 
-Heretic is something between a framework and a boilerplate which allows you to build a blazing fast and modern static website which combines both SSR and SPA approaches.
+Heretic is a framework which allows you to build a blazing fast and modern website which combines both SSR and SPA approaches.
 
 It's based on [Marko](https://markojs.com/), a language for building dynamic and reactive user interfaces - it's as if HTML and JS had a perfect baby that grew up to be awesome. Also under the hood: [Fastify](https://www.fastify.io/), [Bulma](https://bulma.io/), internationalization out-of-the-box and much more.
 

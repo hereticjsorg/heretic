@@ -21,6 +21,9 @@ const helpers = new Helpers();
 let serverPid = [];
 
 test("Login", async () => {
+    if (!systemConfig.mongo.enabled) {
+        return;
+    }
     if (!(await helpers.doesServerFileExists())) {
         const {
             buildSuccess
@@ -78,11 +81,13 @@ afterAll(async () => {
             // Ignore
         }
     }
-    if (helpers.db) {
-        await helpers.db.collection(systemConfig.collections.users).deleteMany({
-            test: true,
-        });
+    if (systemConfig.mongo.enabled) {
+        if (helpers.db) {
+            await helpers.db.collection(systemConfig.collections.users).deleteMany({
+                test: true,
+            });
+        }
+        helpers.disconnectDatabase();
     }
-    helpers.disconnectDatabase();
     await helpers.closeBrowser();
 });
