@@ -1,11 +1,10 @@
 {
     "moduleTitleGroups": "Events",
     "id": "ID",
-    "viewRecord": "View Event",
+    "viewEvent": "View Event",
     "fileDownload": "Download starts automatically, please wait…",
     "fileDownloadError": "Could not download requested file, please check your link and permissions",
-    "save": "Save",
-    "cancel": "Cancel",
+    "close": "Close",
     "newItem": "Add Group",
     "deleteSelected": "Delete",
     "saveSuccess": "Saved successfully",
@@ -17,5 +16,8 @@
     "eventIP": "IP",
     "eventDate": "Date",
     "eventLocation": "Location",
-    "eventUsername": "Username"
+    "eventUsername": "Username",
+    "ipAddress": "IP Address",
+    "username": "Username",
+    "extrasData": "Event Extras"
 }

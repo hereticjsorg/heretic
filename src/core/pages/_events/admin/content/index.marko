@@ -1,31 +1,25 @@
 import FormData from "../../data/form"
 import moduleConfig from "../../admin.js"
 
-$ {
-    const formData = new FormData(process.browser && window.__heretic ? window.__heretic.t : out.global.t);
-    component.formData = formData;
-}
 <if(state.ready && component.mongoEnabled)>
+    $ if (!component.formData) {
+        const formData = new FormData(process.browser && window.__heretic ? window.__heretic.t : out.global.t);
+        component.formData = formData;
+    }
     <hadmin-title title=(process.browser && window.__heretic ? window.__heretic.t("moduleTitleGroups") : null)/>
-    <htable key=`${moduleConfig.id}List` id=`${moduleConfig.id}List` formData=(new FormData(process.browser && window.__heretic ? window.__heretic.t : out.global.t)) on-top-button-click("onTopButtonClick") on-action-button-click("onActionButtonClick") on-unauthorized("onUnauthorized") on-load-complete("onLoadComplete") autoLoad=true queryString=true headers=state.headers/>
+    <htable key=`${moduleConfig.id}List` id=`${moduleConfig.id}List` formData=component.formData on-top-button-click("onTopButtonClick") on-action-button-click("onActionButtonClick") on-unauthorized("onUnauthorized") autoLoad=true queryString=true headers=state.headers/>
     <hnotify key=`notify_${moduleConfig.id}List`/>
     <hmodal
         key=`${moduleConfig.id}EditModal`
         id=`${moduleConfig.id}EditModal`
         footClass="hr-groups-edit-modal-foot"
         on-button-click("onModalButtonClick")
-        on-close("onEditModalClose")
         close=true
         title=""
         actions=[
             {
-                id: "save",
-                label: "save",
-                class: "button is-primary"
-            },
-            {
-                id: "cancel",
-                label: "cancel",
+                id: "close",
+                label: "close",
                 class: "button is-light",
                 close: true
             }
@@ -35,7 +29,29 @@ $ {
             style={
                 order: "2"
             }>
-            <hform key=`${moduleConfig.id}Form` id=`${moduleConfig.id}Form` data=formData on-button-click("onFormButtonClick") on-form-submit("onFormSubmit") on-mount-complete("onFormMountComplete")/>
+            <h2 class="subtitle mt-0 mb-0">${state.eventTitle}</h2>
+            <hr class="dropdown-divider"/>
+            <div class="is-size-7">${state.eventDateTime}</div>
+            <div class="mt-3 mb-0 box">
+                <div>
+                    <t class="has-text-weight-semibold">ipAddress</t>: ${state.eventIp}<if(state.eventLocation)>&nbsp;(${state.eventLocation})</if>
+                </div>
+                <div>
+                    <t class="has-text-weight-semibold">username</t>: ${state.eventUsername}
+                </div>
+            </div>
+            <if(state.eventExtras)>
+                <div class="mt-1 mb-0 box">
+                    <t class="is-size-7 mb-2">extrasData</t>:
+                    <hr class="dropdown-divider"/>
+                    <for|k| of=Object.keys(state.eventExtras)>
+                        <div>
+                            <span class="has-text-weight-semibold">${k}</span>:
+                            &nbsp;${state.eventExtras[k]}
+                        </div>
+                    </for>
+                </div>
+            </if>
         </section>
     </hmodal>
 </if>

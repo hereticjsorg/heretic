@@ -260,6 +260,13 @@ html.heretic-dark .menu>.menu-list>li>a:hover:not(.is-active) {
     color: $heretic-dark-grey-dark !important;
 }
 
+// Title
+
+html.heretic-dark .title,
+html.heretic-dark .subtitle {
+    color: $heretic-dark-text-color-light;
+}
+
 @media (max-width: 1023px) {
 
     html.heretic-dark .navbar-menu {

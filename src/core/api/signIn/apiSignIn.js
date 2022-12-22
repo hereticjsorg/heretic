@@ -18,6 +18,10 @@ export default () => ({
             }
             const userDb = await req.auth.authorize(data._default.username, data._default.password);
             if (!userDb) {
+                await req.addEvent("loginFail", {}, {
+                    username: data._default.username,
+                    password: data._default.password,
+                });
                 return rep.error({
                     message: "error_invalid_credentials"
                 }, 403);
