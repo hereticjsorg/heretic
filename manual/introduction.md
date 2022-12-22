@@ -4,11 +4,11 @@ Sometimes we just need a good old website, without any extras like database conn
 
 SPA (single page application) is a good solution which doesn't require to reload each page when its content needs an update. But the problem is that those websites are being completely rendered on client side, so not every search engine will be able to crawl them. A good solution is to render the page on the server side (server-side rendering) and "activate" the SPA mode afterwards (re-hydrate). When a user wants to get to another page, a small chunk of data will be loaded from server, and there is no need to reload a page completely.
 
-Putting it all together, the idea is to create a boilerplate so everyone (having a basic knowledge of HTML and CSS) will be able to build a website which is going to be fast, using SSR approach and easy to fill with unlimited number of pages. This is where the Heretic comes into play.
+Putting it all together, the idea is to create a framework so everyone (having a basic knowledge of HTML and CSS) will be able to build a website which is going to be fast, using SSR approach and easy to fill with unlimited number of pages. This is where the Heretic comes into play.
 
 ## Features
 
-Heretic is perfect use when you don't need any of advanced [ZOIA](https://github.com/xtremespb/zoia) features like database support, authentication etc.
+Heretic is perfect use when you don't always need any of advanced [ZOIA](https://github.com/xtremespb/zoia) features like database support, authentication etc. But also for sites that require the use of the database and advanced functions are provided to support them on-demand, by means of configuration parameters. 
 
 * Heretic is based on [Marko.js](https://markojs.com), a language for building dynamic and reactive user interfaces; it's like HTML and JS had a perfect baby that grew up to be awesome
 * Using [Bulma](https://bulma.io/), a free, open source modular framework that provides ready-to-use userspace components that you can easily combine to build responsive web interfaces
@@ -16,6 +16,9 @@ Heretic is perfect use when you don't need any of advanced [ZOIA](https://github
 * Built-in client-side and server-side routing and internationalization support
 * Combining server-side rendering (SSR) and single-page applications (SPA) = isomorphic
 * Using Fastify for higher performance
+* Using MongoDB as a database backend
+* Using Redis as a key-value based storage
+* Optional support for Websockets
 * Select the required components only to reduce the amount of data served
 
 ## Why Heretic?

@@ -35,6 +35,12 @@ server {
         proxy_set_header X-Forwarded-For $remote_addr;
         proxy_pass http://127.0.0.1:3001;
     }
+    location /ws {
+        proxy_pass http://127.0.0.1:3001;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+    }
     gzip on;
     gzip_min_length 10240;
     gzip_comp_level 1;
@@ -61,6 +67,6 @@ server {
 
 ## Standalone
 
-The *dist* directory may work in standalone mode. This means that it's the only directory which might be copied to the production server (no *node_modules* and other directories are required in order to run). To do this: put *system.js* and *website.json* directly to the *dist* directory along with *server.js* file.
+The *dist* directory may work in standalone mode. This means that it's the only directory which might be copied to the production server (no *node_modules* and other directories are required in order to run).
 
 However, it's recommended to keep the file structure as-is, because that's how you may simplify your updates and website rebuilds.

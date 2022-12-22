@@ -7,11 +7,11 @@ Heretic uses *Webpack*, a static module bundler for modern JavaScript applicatio
 During build process, Heretic creates a *./dist* directory which contains everything you need to run your website (static bundles, server script etc.). There are following stages of website build:
 
 * generate internationalization loader to fetch translation files dynamically (*./src/build/i18n-loader.js*) in SPA mode
-* generate modules loader used by SPA mode used to load data without page reload (*./src/build/modules-loader.js*)
+* generate pages and modules loader used by SPA mode used to load data without page reload (*./src/build/modules-loader.js*)
 * generate configuration files used by build script (saved to *./src/build* directory)
-* generate *sitemap.xml* file based on modules configuration
+* generate *sitemap.xml* file based on pages configuration
 * generate *site.webmanifest* (saved to *./src/static/site.webmanifest* directory)
-* generate *&lt;lang-switch/&gt;* components for each modules where *langSwitchComponent* parameter is set to *true*
+* generate *&lt;lang-switch/&gt;* components for each page where *langSwitchComponent* parameter is set to *true*
 * generate bundles and static assets (saved to *./dist/public*)
 * generate script to run as a web server (saved to *./dist/server.js*)
 
@@ -39,7 +39,7 @@ In *build-production* mode:
 
 Several static assets are automatically generated during the build process:
 
-* Sitemap file is generated automatically based on modules settings. Reade more [on sitemaps](modules.md).
+* Sitemap file is generated automatically based on pages settings. Reade more [on sitemaps](pages.md).
 * Site manifest is generated (based on website settings)
 * Everything from *./src/static* is copied to *./dist/public* automatically (this includes favicons, sitemap, site manifest etc.) - you may wish to copy your statics assets to include into *./dist* directory here
-* Everything from *./src/data* is copied to *./dist/data* automatically (this includes for example captcha font and other data which will be used by server but should not be exposed to public). 
+* Everything from *./src/data* is copied to *./dist* automatically (this includes for example captcha font and other data which will be used by server but should not be exposed to public). 

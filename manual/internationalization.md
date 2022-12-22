@@ -25,12 +25,10 @@ To include a new language into your website, simply add a new key and value, exa
 
 The first language in this list is a default one (used when no language is selected).
 
-After you've defined all the languages you need, it's time to change the main website.json (*./etc/website.json*) and update it according to your language list:
+After you've defined all the languages you need, it's time to change the main meta.json (*./etc/meta.json*) and update it according to your language list:
 
 ```json
 {
-    "id": "heretic",
-	"url": "http://127.0.0.1:3001",
 	"title": {
 		"en-us": "Heretic Test Website",
 		"ru-ru": "Тестовый сайт на Heretic"
@@ -48,24 +46,24 @@ After you've defined all the languages you need, it's time to change the main we
 
 You will need to set *title*, *shortTitle* and *description* to set website title, a shorter version of title and general description, correspondingly. These values are used to display in the browser window title and to generate sitemap for you.
 
-Each module has *module.json* file where you must define *title* and *description* of each module according to your language list.
+Each page has *page.json* file where you must define *title* and *description* of each page according to your language list.
 
-## Localized Module Versions
+## Localized Pages Versions
 
-Each module may have its localized version (that's optional, but you can use this feature in case when content for different languages is absolutely different).
+Each page may have its localized version (that's optional, but you can use this feature in case when content for different languages is absolutely different).
 
-To use this feature, you will need to set the *langSwitchComponent* parameter to *true* in module's *website.json* file. If true, Heretic will generate &lt;lang-switch/&gt; component for each module to display a different content version for each module.
+To use this feature, you will need to set the *langSwitchComponent* parameter to *true* in page's *page.js* file. If true, Heretic will generate &lt;lang-switch/&gt; component for each page to display a different content version for each page.
 
-Each module has the following structure:
+Each page has the following structure:
 
 * the main *index.marko* file only has &lt;content/&gt; tag inside
-* the *index.marko* of *contents* component refers to the the *&lt;lang-switch/&gt;* component of the current module
+* the *index.marko* of *contents* component refers to the the *&lt;lang-switch/&gt;* component of the current page
 * the *index.marko* of *lang-switch* component (auto-generated during build process) chooses which component to display, based on current language
 * the *index.marko* of *lang-xx-xx* component displays actual content for a corresponding language
 
-Take a look on a module template located in *./src/modules/.blank* as a reference.
+Take a look on a page template located in *./src/core/defaults/.blank* as a reference.
 
-**Note**: you should not edit *&lt;lang-switch/&gt;* manually because it gets overwritten each time you start the build process.
+**Note**: you should **NOT** edit *&lt;lang-switch/&gt;* manually because it gets overwritten each time you start the build process.
 
 If you don't need a separate content for different languages, you may wish to simply set *langSwitchComponent* parameter to *false*.
 

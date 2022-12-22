@@ -4,6 +4,8 @@
 
 In order to run Heretic, you will need a web server which can run Node.js scripts. There are no special requirements, so if you can install and use Node, you can host a Heretic website.
 
+In case your site needs additional features, such as database access, control panel, etc., you will also need to install additional packages.
+
 ## Building From Source
 
 First, you need to clone Heretic from Github repository:
@@ -19,6 +21,12 @@ npm i
 ```
 
 When successful, the required modules will be downloaded to *./node_modules* directory.
+
+In order to create templates of configuration files, directories, etc., you need to run the following command:
+
+```
+npm run configure
+```
 
 You will also need to create several files, directories and configuration files in order to start the build process:
 

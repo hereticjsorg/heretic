@@ -21,6 +21,7 @@
         "formbody",
         "fullhash",
         "fullwidth",
+        "geolocation",
         "getconfigmeta",
         "getconfigsystem",
         "getfastifyinstance",
