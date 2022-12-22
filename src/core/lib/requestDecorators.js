@@ -7,8 +7,8 @@ import {
     endOfDay
 } from "date-fns";
 import {
-    ObjectID
-} from "bson";
+    ObjectId
+} from "mongodb";
 import {
     IPv4,
     IPv6,
@@ -345,7 +345,7 @@ export default {
         if (this.body.selected && this.body.selected.length) {
             for (const item of this.body.selected) {
                 query.$or.push({
-                    _id: new ObjectID(item),
+                    _id: new ObjectId(item),
                 });
             }
         } else {
