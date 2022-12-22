@@ -202,8 +202,8 @@ module.exports = (env, argv) => {
             },
             target: "async-node",
             // externals: [/^[^./!]/],
-            // externals: ["mongodb", "@fastify/websocket"],
-            externals: [],
+            externals: ["mongodb", "@fastify/websocket"],
+            // externals: [],
             optimization: argv.mode === "production" ? {
                 splitChunks: false,
                 minimizer: [
