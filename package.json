@@ -8,6 +8,7 @@
         "configure": "node src/bin/configure",
         "setup": "node dist/setup",
         "cli": "node src/bin/cli",
+        "backup": "node src/bin/backup",
         "cli-interactive": "node src/bin/cli-interactive",
         "cleanup-dev": "node src/bin/cleanup",
         "build-dev": "webpack --mode development",

@@ -4,6 +4,9 @@ const crypto = require("crypto");
 const cliProgress = require("cli-progress");
 const zlib = require("zlib");
 const {
+    spawn,
+} = require("node:child_process");
+const {
     v4: uuidv4,
 } = require("uuid");
 const {
@@ -882,5 +885,27 @@ module.exports = class {
     printLogo() {
         // eslint-disable-next-line no-console
         console.log(`${this.color.get("                 ", ["bgGreen"])}\n${this.color.get("  H E R E T I C  ", ["bgGreen", "whiteBright"])}\n${this.color.get("                 ", ["bgGreen"])}\n`);
+    }
+
+    async executeCommand(command = "") {
+        return new Promise((resolve, reject) => {
+            const res = {
+                stdout: "",
+                stderr: "",
+                exitCode: 1,
+            };
+            const commandArr = command.split(/ /);
+            if (!commandArr.length) {
+                reject(new Error("No command specified"));
+            }
+            const cmd = commandArr.shift();
+            const result = spawn(cmd, commandArr);
+            result.stdout.on("data", data => res.stdout += data);
+            result.stderr.on("data", data => res.stderr += data);
+            result.on("close", code => resolve(({
+                ...res,
+                exitCode: code,
+            })));
+        });
     }
 };
