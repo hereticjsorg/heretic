@@ -16,9 +16,11 @@ export default class {
         return [{
             id: "loginSuccess",
             title: this.t("loginSuccess"),
+            level: "info",
         }, {
             id: "loginFail",
             title: this.t("loginFail"),
+            level: "warning",
         }];
     }
 }

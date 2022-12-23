@@ -191,7 +191,8 @@ import SettingsPagesForm from "./settingsPagesForm"
             <tbody class="hr-ht-tbody">
                 <if(state.data && state.data.length)>
                     <for|row, ix| of=state.data>
-                        <tr class="hr-ht-tr">
+                        $ const rowClassList = input.formData.processTableRow ? ` ${input.formData.processTableRow(row)}` : "";
+                        <tr class=`hr-ht-tr${rowClassList}`>
                             <if(state.checkboxColumn)>
                                 <td class="hr-ht-td p-0 m-0">
                                     <if(state.lockedItems[row._id])>
@@ -291,7 +292,7 @@ import SettingsPagesForm from "./settingsPagesForm"
             class=`hr-ht-td p-2 m-0 hr-ht-action-cell-control hr-ht-thead-label`
             id=`hr_ht_action_cell_control_${input.id}`
             style={
-                opacity: 0,
+                opacity: 0
             }>
             <t>htable_actions</t>
         </div>

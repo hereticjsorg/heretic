@@ -109,7 +109,7 @@ export default class {
         const eventField = this.data.form[0].fields.find(i => i.id === "event");
         eventField.options = Object.keys(data).map(k => ({
             value: k,
-            label: data[k],
+            label: data[k].title,
         }));
         eventField.validation.enum = Object.keys(data);
     }
@@ -197,7 +197,7 @@ export default class {
             if (!this.providerDataEvents) {
                 return;
             }
-            return this.providerDataEvents[row[id]] || row[id];
+            return this.providerDataEvents[row[id]] && this.providerDataEvents[row[id]].title ? this.providerDataEvents[row[id]].title : row[id];
         case "date":
             try {
                 return row[id] ? format(new Date(row[id] * 1000), `${this.t("global.dateFormatShort")} ${this.t("global.timeFormatShort")}`) : "";
@@ -212,6 +212,19 @@ export default class {
             return row[id] || "—";
         default:
             return row[id];
+        }
+    }
+
+    processTableRow(row) {
+        if (this.providerDataEvents && row.event && this.providerDataEvents[row.event] && this.providerDataEvents[row.event].level) {
+            switch (this.providerDataEvents[row.event].level) {
+            case "error":
+                return "hr-ht-row-error";
+            case "warning":
+                return "hr-ht-row-warning";
+            default:
+                return "";
+            }
         }
     }
 

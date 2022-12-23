@@ -18,6 +18,8 @@ module.exports = class {
             eventIp: null,
             eventUsername: null,
             eventExtras: null,
+            formData: null,
+            providerDataEvents: null,
         };
         this.language = out.global.language;
         this.siteTitle = out.global.siteTitle;
@@ -39,6 +41,13 @@ module.exports = class {
         this.utils = new Utils(this, this.language);
     }
 
+    setFormData(formData) {
+        if (this.state.providerDataEvents) {
+            formData.setProviderDataEvents(this.state.providerDataEvents);
+        }
+        this.state.formData = formData;
+    }
+
     async onMount() {
         await this.utils.waitForLanguageData();
         await this.utils.loadLanguageData(moduleConfig.id);
@@ -56,40 +65,26 @@ module.exports = class {
         this.setState("headers", {
             Authorization: `Bearer ${currentToken}`
         });
-        try {
-            const {
-                data,
-            } = await axios({
-                method: "get",
-                headers: this.state.headers,
-                url: `/api/dataProviders/groups?language=${this.language}`,
-            });
-            this.providerDataGroups = data.data;
-        } catch (e) {
-            this.setState("failed", true);
-            return;
-        }
-        try {
-            const {
-                data,
-            } = await axios({
-                method: "get",
-                headers: this.state.headers,
-                url: `/api/dataProviders/events?language=${this.language}`,
-            });
-            this.providerDataEvents = data.data;
-        } catch (e) {
-            this.setState("failed", true);
-            return;
+        if (!this.state.providerDataEvents) {
+            try {
+                const {
+                    data,
+                } = await axios({
+                    method: "get",
+                    headers: this.state.headers,
+                    url: `/api/dataProviders/events?language=${this.language}`,
+                });
+                this.setState("providerDataEvents", data.data);
+            } catch (e) {
+                this.setState("failed", true);
+                return;
+            }
         }
         this.setState("ready", true);
-        if (window.__heretic.webSocket) {
-            window.__heretic.webSocket.addEventListener("message", this.onWebSocketMessage.bind(this));
-        }
         await this.utils.waitForComponent(`${moduleConfig.id}List`);
-        const table = this.getComponent(`${moduleConfig.id}List`);
-        const formData = table.getFormData();
-        formData.setProviderDataEvents(this.providerDataEvents);
+        // const table = this.getComponent(`${moduleConfig.id}List`);
+        // const formData = table.getFormData();
+        this.state.formData.setProviderDataEvents(this.state.providerDataEvents);
     }
 
     onTopButtonClick() {}
@@ -121,7 +116,7 @@ module.exports = class {
             await this.utils.waitForComponent(`${moduleConfig.id}EditModal`);
             const modalDialog = await this.getComponent(`${moduleConfig.id}EditModal`);
             modalDialog.setTitle(this.t("viewEvent"));
-            this.setState("eventTitle", this.providerDataEvents[responseData.event] || responseData.event);
+            this.setState("eventTitle", this.state.providerDataEvents[responseData.event] && this.state.providerDataEvents[responseData.event].title ? this.state.providerDataEvents[responseData.event].title : responseData.event);
             this.setState("eventDateTime", format(new Date(responseData.date * 1000), `${this.t("global.dateFormatShort")} ${this.t("global.timeFormatShort")}`));
             this.setState("eventLocation", responseData.location);
             this.setState("eventUsername", responseData.username);

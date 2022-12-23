@@ -2,12 +2,11 @@ import FormData from "../../data/form"
 import moduleConfig from "../../admin.js"
 
 <if(state.ready && component.mongoEnabled)>
-    $ if (!component.formData) {
-        const formData = new FormData(process.browser && window.__heretic ? window.__heretic.t : out.global.t);
-        component.formData = formData;
+    $ if (!state.formData) {
+        component.setFormData(new FormData(process.browser && window.__heretic ? window.__heretic.t : out.global.t));
     }
     <hadmin-title title=(process.browser && window.__heretic ? window.__heretic.t("moduleTitleGroups") : null)/>
-    <htable key=`${moduleConfig.id}List` id=`${moduleConfig.id}List` formData=component.formData on-top-button-click("onTopButtonClick") on-action-button-click("onActionButtonClick") on-unauthorized("onUnauthorized") autoLoad=true queryString=true headers=state.headers/>
+    <htable key=`${moduleConfig.id}List` id=`${moduleConfig.id}List` formData=state.formData on-top-button-click("onTopButtonClick") on-action-button-click("onActionButtonClick") on-unauthorized("onUnauthorized") autoLoad=true queryString=true headers=state.headers/>
     <hnotify key=`notify_${moduleConfig.id}List`/>
     <hmodal
         key=`${moduleConfig.id}EditModal`

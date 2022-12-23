@@ -474,6 +474,16 @@ html.heretic-dark .hr-ht-loading-wrap {
     background: rgba($heretic-dark-black-bis, 0.7);
 }
 
+.hr-ht-row-warning {
+    border-top: 2px solid $yellow;
+    border-bottom: 2px solid $yellow;
+}
+
+.hr-ht-row-error {
+    border-top: 2px solid $red;
+    border-bottom: 2px solid $red;
+}
+
 @media (max-width: 1023px) {
     .hr-ht-hidden-touch {
         display: none;

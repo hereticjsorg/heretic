@@ -31,7 +31,10 @@ export default () => ({
                     const eventsData = dataProvider.getEvents();
                     if (eventsData) {
                         for (const event of eventsData) {
-                            data[event.id] = event.title;
+                            data[event.id] = {
+                                title: event.title,
+                                level: event.level || "info",
+                            };
                         }
                     }
                 }
