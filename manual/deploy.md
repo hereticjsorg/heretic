@@ -67,6 +67,30 @@ server {
 
 ## Standalone
 
-The *dist* directory may work in standalone mode. This means that it's the only directory which might be copied to the production server (no *node_modules* and other directories are required in order to run).
+The *dist* directory may work in standalone mode. This means that it's the only directory which might be copied to the production server (no *node_modules* and other directories are required in order to run). The only dependency which cannot be built along with Heretic server script is *MongoDB*. If you don't wish to have *node_modules* directory along with your deployment, you will need to follow these steps:
+
+1. Install *MongoDB* package globally by running command:
+
+```
+npm i -g mongodb
+```
+
+2. Change the following string in *webpack.config.js* file:
+
+```javascript
+externals: ["mongodb"],
+```
+
+```javascript
+externals: [],
+```
+
+3. Link the *mongodb* package by running the command:
+
+```
+npm link mongodb
+```
+
+4. Build your Heretic instance.
 
 However, it's recommended to keep the file structure as-is, because that's how you may simplify your updates and website rebuilds.
