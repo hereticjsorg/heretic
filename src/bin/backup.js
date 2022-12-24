@@ -1,6 +1,7 @@
 const fs = require("fs-extra");
 const path = require("path");
 const os = require("os");
+const commandLineArgs = require("command-line-args");
 const {
     format,
 } = require("date-fns");
@@ -8,7 +9,6 @@ const archiver = require("archiver");
 const {
     v4: uuidv4
 } = require("uuid");
-
 const BinUtils = require("./binUtils");
 
 const dirsArchive = ["dist", "src", "etc", "root", "dump"];
@@ -52,6 +52,13 @@ const saveBackupArchive = (dirPath, destPath) => new Promise((resolve, reject) =
     });
     binUtils.setInteractive(true);
     binUtils.printLogo();
+    let options;
+    try {
+        options = commandLineArgs(binUtils.getCliCommandLineArgs());
+    } catch (e) {
+        binUtils.log(e.message);
+        process.exit(1);
+    }
     try {
         let config;
         try {
@@ -94,7 +101,7 @@ const saveBackupArchive = (dirPath, destPath) => new Promise((resolve, reject) =
                 await binUtils.executeCommand(`mongodump --db ${config.mongo.dbName} --collection ${collection} --out "${path.join(dirPath, "dump")}"`);
             }
         }
-        const archiveFilePath = path.resolve(dirPath, `${config.id}_${format(new Date(), "yyyyMMdd_HHmmss")}.zip`);
+        const archiveFilePath = path.resolve(dirPath, `${uuidv4}.zip`);
         binUtils.log("Creating backup archive...", {
             noDate: true,
         });
@@ -103,9 +110,9 @@ const saveBackupArchive = (dirPath, destPath) => new Promise((resolve, reject) =
             const srcDir = path.join(dirPath, dir);
             await fs.remove(srcDir);
         }
-        const backupDirPath = path.join(__dirname, "../../backup");
+        const backupDirPath = path.join(__dirname, options.dir || "../../backup");
         await fs.ensureDir(backupDirPath);
-        const archiveFilename = `${config.id}_${format(new Date(), "yyyyMMdd_HHmmss")}.zip`;
+        const archiveFilename = options.filename || `${config.id}_${format(new Date(), "yyyyMMdd_HHmmss")}.zip`;
         await fs.copy(archiveFilePath, path.join(backupDirPath, archiveFilename));
         await fs.remove(dirPath);
         binUtils.log(`Backup has been created successfully: backup/${archiveFilename}`, {

@@ -1,11 +1,10 @@
 const commandLineArgs = require("command-line-args");
 const BinUtils = require("./binUtils");
-const cliData = require("./cliData");
 
 const binUtils = new BinUtils({});
 let options;
 try {
-    options = commandLineArgs(cliData.args);
+    options = commandLineArgs(binUtils.getCliCommandLineArgs());
 } catch (e) {
     binUtils.log(e.message);
     process.exit(1);
