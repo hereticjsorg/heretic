@@ -1,6 +1,6 @@
 {
     "name": "heretic",
-    "version": "1.0.114",
+    "version": "1.0.115",
     "description": "Heretic",
     "main": "index.js",
     "scripts": {
@@ -9,6 +9,7 @@
         "setup": "node dist/setup",
         "cli": "node src/bin/cli",
         "backup": "node src/bin/backup",
+        "update": "node src/bin/update",
         "cli-interactive": "node src/bin/cli-interactive",
         "cleanup-dev": "node src/bin/cleanup",
         "build-dev": "webpack --mode development",
