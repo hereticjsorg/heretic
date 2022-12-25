@@ -23,7 +23,6 @@ In order to build form data, you need to pass the *data* object. It contains eve
 const {
     mdiPencilOutline,
     mdiTrashCanOutline,
-    mdiAccountPlusOutline,
 } = require("@mdi/js");
 // Require form validator utilities library
 const utils = require("../../../core/lib/formValidatorUtils");
@@ -61,101 +60,6 @@ export default class {
     // Get object of available field areas
     getFieldsArea() {
         return this.validationData.fieldsArea;
-    }
-
-    // Get table columns (used for mtable component)
-    getTableColumns() {
-        return Object.fromEntries(Object.entries(this.validationData.fieldsFlat).filter(([, value]) => ["text", "select", "column", "date", "div"].indexOf(value.type) > -1));
-    }
-
-    // Get default sort column (used for mtable component)
-    getTableDefaultSortColumn() {
-        return {
-            id: "example",
-            direction: 1, // 1 = asc, 2 = desc
-        };
-    }
-
-    // Is action column enabled
-    isActionColumn() {
-        return true;
-    }
-
-    // Is checkbox column enabled
-    isCheckboxColumn() {
-        return this.checkboxColumn;
-    }
-
-    // Get buttons for action column
-    getActions() {
-        return [{
-            id: "edit", // Button ID
-            label: this.t("edit"), // Button label
-            icon: mdiPencilOutline, // Icon
-        }, {
-            id: "delete", // Button ID
-            label: this.t("delete"), // Button label
-            icon: mdiTrashCanOutline, // Icon
-            danger: true, // Red button
-        }];
-    }
-
-    // Get top buttons
-    getTopButtons() {
-        return [{
-            id: "newItem", // Button ID
-            label: this.t("newItem"), // Button label
-            icon: mdiAccountPlusOutline, // Icon
-        }, {
-            id: "delete", // Button ID
-            label: this.t("deleteSelected"), // Button label
-            icon: mdiTrashCanOutline, // Icon
-            danger: true, // Red button
-        }];
-    }
-
-    // Get data loading configuration (for mtable component)
-    getTableLoadConfig() {
-        return {
-            url: `/api/${moduleConfig.id}/list`,
-        };
-    }
-
-    // Get bulk edit configuration (for mtable component)
-    getTableBulkUpdateConfig() {
-        return {
-            url: `/api/${moduleConfig.id}/bulkSave`,
-        };
-    }
-
-    // Get table export configuration (for mtable component)
-    getTableExportConfig() {
-        return {
-            url: `/api/${moduleConfig.id}/export`,
-            download: `/api/${moduleConfig.id}/download`,
-        };
-    }
-
-    // Get recycle bin configuration (for mtable component)
-    getRecycleBinConfig() {
-        return {
-            enabled: true, // Is recycle bin enabled
-            title: "label", // Field ID used to display in confirmation dialog
-            id: "id", // Id field
-            url: {
-                list: `/api/${moduleConfig.id}/recycleBin/list`, // List endpoint
-                restore: `/api/${moduleConfig.id}/recycleBin/restore`, // Restore endpoint
-                delete: `/api/${moduleConfig.id}/recycleBin/delete`, // Delete endpoint
-            },
-        };
-    }
-
-    // Get item delete configuration
-    getTableDeleteConfig() {
-        return {
-            url: `/api/${moduleConfig.id}/delete`, // Delete endpoint
-            titleId: "id", // Field ID used to display in confirmation dialog
-        };
     }
 
     // Process value based on cell data
@@ -243,6 +147,29 @@ Used to display a text input field.
         min: 1,
         max: 99,
     },
+}
+```
+
+### textarea
+
+Used to display a text area field.
+
+```javascript
+{
+    id: "message", // Unique field ID
+    type: "text", // Field type
+    label: this.t("message"), // Field label
+    mandatory: false, // Mandatory flag
+    validation: { // Ajv validation schema
+        type: ["string"],
+    },
+    sortable: true, // Is field sortable? (used by mtable)
+    searchable: true, // Is field searchable (used by mtable)
+    css: "hr-hf-field-large", // Field wrapper styling used to set field width
+    column: true, // Should this field be displayed as column (used by mtable)
+    createIndex: true, // Should this field be indexed in database (used by mtable)
+    autoFocus: true, // Should this field be focused on first render?
+    hidden: false, // Don't show this field as a table column by default (used by mtable)
 }
 ```
 
@@ -416,6 +343,96 @@ Used to display a WYSIWYG editor.
     id: "comments", // Unique field ID
     type: "wysiwyg", // Field type
     label: this.t("notes"), // Field label
+}
+```
+
+### buttons
+
+Display form buttons.
+
+```javascript
+{
+    id: "buttons", // Unique field ID
+    type: "buttons",  // Field type
+    items: [{
+        id: "btnSubmit", // Unique button ID
+        type: "submit", // Button type (submit, button etc.)
+        label: this.t("signIn"), // Button label
+        css: "button is-primary mt-3" // List of button classes
+    }],
+}
+```
+
+### tags
+
+```javascript
+{
+    id: "groups", // Unique field ID
+    type: "tags", // Field type
+    label: this.t("groups"), // Field label
+    mandatory: false, // Mandatory flag
+    validation: { // Ajv validation schema
+        type: ["array", "null"],
+        items: {
+            type: "string",
+            minLength: 2,
+            maxLength: 32,
+        },
+        minItems: 0,
+        uniqueItems: true,
+    },
+    enumValues: [], // List of pre-defined values
+    enumUnique: true, // Every value should be unique
+    enumOnly: true, // Only allow pre-defined values
+    enumButton: true, // Show button to open dialog to select pre-defined values
+    enumDropdown: false, // Show drop-down menu for selecting pre-defined values
+}
+```
+
+### keyValue
+
+Used to display key-value selection field.
+
+```javascript
+{
+    id: "data", // Unique field ID
+    type: "keyValue", // Field type
+    label: this.t("data"), // Field label
+    mandatory: false, // Mandatory flag
+    validation: { // Ajv validation schema
+        type: ["array", "null"],
+        items: {
+            type: "object",
+            properties: {
+                uid: {
+                    type: "string",
+                    pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+                },
+                id: {
+                    type: "string",
+                    maxLength: 32,
+                },
+                type: {
+                    type: "string",
+                    maxLength: 32,
+                },
+                value: {
+                    oneOf: [{
+                        type: "string",
+                        maxLength: 1024,
+                    }, {
+                        type: "boolean",
+                    }, {
+                        type: "null",
+                    }]
+                },
+            },
+            required: ["uid", "id", "type"],
+        },
+        minItems: 0,
+        uniqueItems: false,
+    },
+    css: "hr-hf-field-medium",
 }
 ```
 
