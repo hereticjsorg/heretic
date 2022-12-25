@@ -13,7 +13,7 @@ Please read the docs before you get started:
 * [Configuration Files](manual/configurationFiles.md)
 * [Rate Limits](manual/rateLimit.md)
 * [Creating Pages](manual/pages.md)
-* [Components] (manual/components.md)
+* [Components](manual/components.md)
 * [Internationalization](manual/internationalization.md)
 * [API Modules](manual/api.md)
 * [Libraries and Helpers](manual/libraries.md)
