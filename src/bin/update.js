@@ -100,7 +100,9 @@ const patchPackageJson = async dirPath => {
         await patchPackageJson(dirPath);
         binUtils.log("Cleaning up...");
         await fs.remove(dirPath);
-        binUtils.log("All done. Please run 'npm run install' to update NPM packages.");
+        binUtils.log("All done. Please run 'npm run install' to update NPM packages.", {
+            success: true,
+        });
     } catch (e) {
         binUtils.log(e.message, {
             error: true,
