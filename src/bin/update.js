@@ -67,7 +67,7 @@ const patchPackageJson = async dirPath => {
     }
     oldPackageJson.version = newPackageJson.version;
     await fs.writeJson(path.join(__dirname, "../../package.json"), oldPackageJson, {
-        spaces: "\t",
+        spaces: "    ",
     });
 };
 
@@ -90,8 +90,8 @@ const patchPackageJson = async dirPath => {
         binUtils.log("Extracting archive...");
         await extractUpdate(data, dirPath);
         binUtils.log("Copying files...");
-        await fs.copy(path.join(dirPath, "src"), path.join(__dirname, "../../src2"));
-        await fs.copy(path.join(dirPath, "manual"), path.join(__dirname, "../../manual2"));
+        await fs.copy(path.join(dirPath, "src"), path.join(__dirname, "../../src"));
+        await fs.copy(path.join(dirPath, "manual"), path.join(__dirname, "../../manual"));
         const rootFiles = (await fs.readdir(path.join(dirPath, "root"))).filter(f => f !== "package.json");
         for (const file of rootFiles) {
             await fs.copy(path.join(dirPath, "root", file), path.join(__dirname, "../..", file));
