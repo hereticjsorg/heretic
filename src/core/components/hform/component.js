@@ -656,7 +656,7 @@ module.exports = class {
         }
     }
 
-    setProviderData(data) {
+    setKeyValueData(data) {
         this.setState("keyValueData", data);
     }
 

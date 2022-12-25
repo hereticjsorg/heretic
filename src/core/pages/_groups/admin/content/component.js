@@ -140,7 +140,7 @@ module.exports = class {
             modalDialog.setActive(true).setCloseAllowed(true).setBackgroundCloseAllowed(false).setLoading(false);
             await this.utils.waitForComponent(`${moduleConfig.id}Form`);
             const form = this.getComponent(`${moduleConfig.id}Form`);
-            form.setProviderData(this.providerData);
+            form.setKeyValueData(this.providerData);
             break;
         }
     }
@@ -192,7 +192,7 @@ module.exports = class {
             modalDialog.setActive(true).setCloseAllowed(true).setBackgroundCloseAllowed(false).setLoading(false);
             await this.utils.waitForComponent(`${moduleConfig.id}Form`);
             const form = this.getComponent(`${moduleConfig.id}Form`);
-            form.setProviderData(this.providerData);
+            form.setKeyValueData(this.providerData);
             await form.deserializeView(responseData._default);
             this.sendLockAction("lock");
             this.startLockMessaging();
