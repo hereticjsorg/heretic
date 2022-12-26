@@ -969,6 +969,13 @@ module.exports = class {
         }];
     }
 
+    getRestoreCommandLineArgs() {
+        return [{
+            name: "path",
+            type: String,
+        }];
+    }
+
     async extractUpdate(data, dirPath) {
         return new Promise((resolve, reject) => {
             data.pipe(unzip.Parse())

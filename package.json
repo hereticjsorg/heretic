@@ -9,6 +9,7 @@
         "setup": "node dist/setup",
         "cli": "node src/bin/cli",
         "backup": "node src/bin/backup",
+        "restore": "node src/bin/restore",
         "update": "node src/bin/update",
         "cli-interactive": "node src/bin/cli-interactive",
         "cleanup-dev": "node src/bin/cleanup",

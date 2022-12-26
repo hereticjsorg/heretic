@@ -115,7 +115,7 @@ const saveBackupArchive = (dirPath, destPath) => new Promise((resolve, reject) =
         const archiveFilename = options.filename || `${config.id}_${format(new Date(), "yyyyMMdd_HHmmss")}.zip`;
         await fs.copy(archiveFilePath, path.join(backupDirPath, archiveFilename));
         await fs.remove(dirPath);
-        binUtils.log(`Backup has been created successfully: ${options.dir ? path.resolve(options.dir) : "backup"}${archiveFilename}`, {
+        binUtils.log(`Backup has been created successfully: ${options.dir ? path.resolve(options.dir) : "backup"}/${archiveFilename}`, {
             noDate: true,
             success: true,
         });
