@@ -2,6 +2,7 @@ const fs = require("fs-extra");
 const path = require("path");
 const os = require("os");
 const axios = require("axios").default;
+const commandLineArgs = require("command-line-args");
 const {
     v4: uuidv4
 } = require("uuid");
@@ -19,6 +20,13 @@ binUtils.readConfig();
 binUtils.printLogo();
 
 (async () => {
+    let options;
+    try {
+        options = commandLineArgs(binUtils.getUpdateCommandLineArgs());
+    } catch (e) {
+        binUtils.log(e.message);
+        process.exit(1);
+    }
     if (config.directories.tmp) {
         await fs.ensureDir(path.resolve(__dirname, "dist", config.directories.tmp));
     }
@@ -47,9 +55,29 @@ binUtils.printLogo();
         await binUtils.patchPackageJson(dirPath);
         binUtils.log("Cleaning up...");
         await fs.remove(dirPath);
-        binUtils.log("All done. Please run 'npm run install' to update NPM packages.", {
+        if (options["npm-install"]) {
+            await binUtils.executeCommand("npm i");
+        }
+        if (options["rebuild-dev"]) {
+            await binUtils.executeCommand("npm run build-dev");
+        } else if (options["rebuild-production"]) {
+            await binUtils.executeCommand("npm run build-production");
+        }
+        if (options["restart-pm2"]) {
+            await binUtils.executeCommand(`pm2 restart ${config.id}`);
+        }
+        binUtils.log("All done.", {
             success: true,
         });
+        if (!options["npm-install"]) {
+            binUtils.log("Please run 'npm run install' in order to update NPM modules");
+        }
+        if (!options["rebuild-dev"] || !options["rebuild-production"]) {
+            binUtils.log("Please run 'npm run build-production' in order to rebuild Heretic");
+        }
+        if (!options["restart-pm2"]) {
+            binUtils.log(`Please run 'pm2 restart ${config.id}' in order to restart Heretic`);
+        }
     } catch (e) {
         binUtils.log(e.message, {
             error: true,

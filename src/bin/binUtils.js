@@ -940,6 +940,24 @@ module.exports = class {
         };
     }
 
+    getUpdateCommandLineArgs() {
+        return {
+            args: [{
+                name: "rebuild-dev",
+                type: Boolean,
+            }, {
+                name: "rebuild-production",
+                type: Boolean,
+            }, {
+                name: "restart-pm2",
+                type: Boolean,
+            }, {
+                name: "npm-install",
+                type: Boolean,
+            }],
+        };
+    }
+
     getBackupCommandLineArgs() {
         return {
             args: [{
