@@ -73,6 +73,7 @@
         "xtremespb",
         "xxhashjs",
         "xxlarge",
-        "zhistory"
+        "zhistory",
+        "zipball"
     ]
 }

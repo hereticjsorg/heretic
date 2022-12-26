@@ -101,4 +101,7 @@ module.exports = {
         defaultViewport: null,
         devtools: true,
     },
+    heretic: {
+        zipball: "http://github.com/xtremespb/heretic/zipball/master/",
+    },
 };

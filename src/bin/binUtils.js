@@ -2,6 +2,7 @@ const fs = require("fs-extra");
 const path = require("path");
 const crypto = require("crypto");
 const cliProgress = require("cli-progress");
+const unzip = require("unzip-stream");
 const zlib = require("zlib");
 const {
     spawn,
@@ -949,5 +950,57 @@ module.exports = class {
                 type: String,
             }],
         };
+    }
+
+    async extractUpdate(data, dirPath) {
+        return new Promise((resolve, reject) => {
+        data.pipe(unzip.Parse())
+            .on("entry", (entry) => {
+                const {
+                    type,
+                    path: entryPath,
+                } = entry;
+                const entryPathParsed = entryPath.replace(/xtremespb-heretic-[a-z0-9]+\//, "");
+                if (type === "Directory") {
+                    fs.ensureDirSync(path.join(dirPath, entryPathParsed));
+                    entry.autodrain();
+                } else {
+                    const entryDirName = path.dirname(entryPathParsed) === "." ? "root" : path.dirname(entryPathParsed);
+                    fs.ensureDirSync(path.join(dirPath, entryDirName));
+                    const entryFileName = path.basename(entryPathParsed);
+                    if (!entryFileName.match(/\.hgd$/)) {
+                        entry.pipe(fs.createWriteStream(path.join(dirPath, entryDirName, entryFileName)));
+                    } else {
+                        entry.autodrain();
+                    }
+                }
+            })
+            .on("close", () => resolve())
+            .on("reject", e => reject(e));
+        });
+    }
+
+    async patchPackageJson(dirPath) {
+        const oldPackageJson = await fs.readJSON(path.join(__dirname, "../../package.json"));
+        const newPackageJson = await fs.readJSON(path.join(dirPath, "root/package.json"));
+        for (const k of Object.keys(newPackageJson.devDependencies)) {
+            if (!oldPackageJson.devDependencies[k] || oldPackageJson.devDependencies[k] !== newPackageJson.devDependencies[k]) {
+                oldPackageJson.devDependencies[k] = newPackageJson.devDependencies[k];
+            }
+        }
+        for (const k of Object.keys(newPackageJson.dependencies)) {
+            if (!oldPackageJson.dependencies[k] || oldPackageJson.dependencies[k] !== newPackageJson.dependencies[k]) {
+                oldPackageJson.dependencies[k] = newPackageJson.dependencies[k];
+            }
+        }
+        for (const k of Object.keys(newPackageJson.scripts)) {
+            if (!oldPackageJson.scripts[k] || oldPackageJson.scripts[k] !== newPackageJson.scripts[k]) {
+                oldPackageJson.scripts[k] = newPackageJson.scripts[k];
+            }
+        }
+        oldPackageJson.version = newPackageJson.version;
+        await fs.writeJson(path.join(__dirname, "../../package.json"), oldPackageJson, {
+            spaces: "    ",
+        });
     }
 };
