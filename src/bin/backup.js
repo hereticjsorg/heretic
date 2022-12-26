@@ -7,7 +7,7 @@ const {
 } = require("date-fns");
 const archiver = require("archiver");
 const {
-    v4: uuidv4
+    v4: uuidv4,
 } = require("uuid");
 const BinUtils = require("./binUtils");
 
@@ -54,7 +54,7 @@ const saveBackupArchive = (dirPath, destPath) => new Promise((resolve, reject) =
     binUtils.printLogo();
     let options;
     try {
-        options = commandLineArgs(binUtils.getCliCommandLineArgs());
+        options = commandLineArgs(binUtils.getBackupCommandLineArgs());
     } catch (e) {
         binUtils.log(e.message);
         process.exit(1);
@@ -101,7 +101,7 @@ const saveBackupArchive = (dirPath, destPath) => new Promise((resolve, reject) =
                 await binUtils.executeCommand(`mongodump --db ${config.mongo.dbName} --collection ${collection} --out "${path.join(dirPath, "dump")}"`);
             }
         }
-        const archiveFilePath = path.resolve(dirPath, `${uuidv4}.zip`);
+        const archiveFilePath = path.resolve(dirPath, `${uuidv4()}.zip`);
         binUtils.log("Creating backup archive...", {
             noDate: true,
         });
@@ -110,12 +110,12 @@ const saveBackupArchive = (dirPath, destPath) => new Promise((resolve, reject) =
             const srcDir = path.join(dirPath, dir);
             await fs.remove(srcDir);
         }
-        const backupDirPath = path.join(__dirname, options.dir || "../../backup");
+        const backupDirPath = path.join(__dirname, options.dir ? `../../${options.dir}` : "../../backup");
         await fs.ensureDir(backupDirPath);
         const archiveFilename = options.filename || `${config.id}_${format(new Date(), "yyyyMMdd_HHmmss")}.zip`;
         await fs.copy(archiveFilePath, path.join(backupDirPath, archiveFilename));
         await fs.remove(dirPath);
-        binUtils.log(`Backup has been created successfully: backup/${archiveFilename}`, {
+        binUtils.log(`Backup has been created successfully: ${options.dir ? path.resolve(options.dir) : "backup"}${archiveFilename}`, {
             noDate: true,
             success: true,
         });
