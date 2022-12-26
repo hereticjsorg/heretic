@@ -84,7 +84,7 @@ binUtils.printLogo();
         if (!options["npm-install"]) {
             binUtils.log("Please run 'npm run install' in order to update NPM modules");
         }
-        if (!options["rebuild-dev"] || !options["rebuild-production"]) {
+        if (!options["rebuild-dev"] && !options["rebuild-production"]) {
             binUtils.log("Please run 'npm run build-production' in order to rebuild Heretic");
         }
         if (!options["restart-pm2"]) {
