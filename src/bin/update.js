@@ -58,15 +58,19 @@ binUtils.printLogo();
         binUtils.log("Cleaning up...");
         await fs.remove(dirPath);
         if (options["npm-install"]) {
+            binUtils.log("Updating NPM packages...");
             await binUtils.executeCommand("npm i");
         }
         if (options["rebuild-dev"]) {
+            binUtils.log("Rebuilding Heretic in 'Dev' mode...");
             await binUtils.executeCommand("npm run build-dev");
         } else if (options["rebuildProduction"]) {
+            binUtils.log("Rebuilding Heretic in 'Production' mode...");
             await binUtils.executeCommand("npm run build-production");
         }
         if (options["restart-pm2"]) {
             try {
+                binUtils.log(`Restarting PM2 process '${config.id}'...`);
                 await binUtils.executeCommand(`pm2 restart ${config.id}`);
             } catch {
                 binUtils.log("Could not restart PM2 process. Is PM2 installed?", {
