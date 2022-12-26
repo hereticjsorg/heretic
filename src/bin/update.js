@@ -24,7 +24,9 @@ binUtils.printLogo();
     try {
         options = commandLineArgs(binUtils.getUpdateCommandLineArgs());
     } catch (e) {
-        binUtils.log(e.message);
+        binUtils.log(e.message, {
+            error: true
+        });
         process.exit(1);
     }
     if (config.directories.tmp) {
@@ -55,17 +57,17 @@ binUtils.printLogo();
         await binUtils.patchPackageJson(dirPath);
         binUtils.log("Cleaning up...");
         await fs.remove(dirPath);
-        if (options["npmInstall"]) {
+        if (options["npm-install"]) {
             await binUtils.executeCommand("npm i");
         }
-        if (options["rebuildDev"]) {
+        if (options["rebuild-dev"]) {
             await binUtils.executeCommand("npm run build-dev");
         } else if (options["rebuildProduction"]) {
             await binUtils.executeCommand("npm run build-production");
         }
-        if (options["restartPM2"]) {
+        if (options["restart-pm2"]) {
             try {
-            await binUtils.executeCommand(`pm2 restart ${config.id}`);
+                await binUtils.executeCommand(`pm2 restart ${config.id}`);
             } catch {
                 binUtils.log("Could not restart PM2 process. Is PM2 installed?", {
                     error: true,
@@ -75,10 +77,10 @@ binUtils.printLogo();
         binUtils.log("All done.", {
             success: true,
         });
-        if (!options["npmInstall"]) {
+        if (!options["npm-install"]) {
             binUtils.log("Please run 'npm run install' in order to update NPM modules");
         }
-        if (!options["rebuildDev"] || !options["rebuildProduction"]) {
+        if (!options["rebuild-dev"] || !options["rebuild-production"]) {
             binUtils.log("Please run 'npm run build-production' in order to rebuild Heretic");
         }
         if (!options["restart-pm2"]) {
@@ -87,7 +89,6 @@ binUtils.printLogo();
     } catch (e) {
         binUtils.log(e.message, {
             error: true,
-            noDate: true,
         });
         process.exit(1);
     }

@@ -911,90 +911,84 @@ module.exports = class {
     }
 
     getCliCommandLineArgs() {
-        return {
-            args: [{
-                name: "addPage",
-                type: String,
-            }, {
-                name: "removePage",
-                type: String,
-            }, {
-                name: "addLanguage",
-                type: String,
-            }, {
-                name: "removeLanguage",
-                type: String,
-            }, {
-                name: "resetPassword",
-                type: String,
-            }, {
-                name: "createAdmin",
-                type: String,
-            }, {
-                name: "addNavigation",
-                type: Boolean,
-            }, {
-                name: "importGeoData",
-                type: Boolean,
-            }],
-        };
+        return [{
+            name: "addPage",
+            type: String,
+        }, {
+            name: "removePage",
+            type: String,
+        }, {
+            name: "addLanguage",
+            type: String,
+        }, {
+            name: "removeLanguage",
+            type: String,
+        }, {
+            name: "resetPassword",
+            type: String,
+        }, {
+            name: "createAdmin",
+            type: String,
+        }, {
+            name: "addNavigation",
+            type: Boolean,
+        }, {
+            name: "importGeoData",
+            type: Boolean,
+        }];
     }
 
     getUpdateCommandLineArgs() {
-        return {
-            args: [{
-                name: "rebuildDev",
-                type: Boolean,
-            }, {
-                name: "rebuildProduction",
-                type: Boolean,
-            }, {
-                name: "restartPM2",
-                type: Boolean,
-            }, {
-                name: "npmInstall",
-                type: Boolean,
-            }],
-        };
+        return [{
+            name: "rebuild-dev",
+            type: Boolean,
+        }, {
+            name: "rebuild-production",
+            type: Boolean,
+        }, {
+            name: "restart-pm2",
+            type: Boolean,
+        }, {
+            name: "npm-install",
+            type: Boolean,
+        }];
     }
 
     getBackupCommandLineArgs() {
-        return {
-            args: [{
-                name: "filename",
-                type: String,
-            }, {
-                name: "dir",
-                type: String,
-            }],
-        };
+        return [{
+            name: "filename",
+            type: String,
+        }, {
+            name: "dir",
+            type: String,
+        }];
     }
 
     async extractUpdate(data, dirPath) {
         return new Promise((resolve, reject) => {
-        data.pipe(unzip.Parse())
-            .on("entry", (entry) => {
-                const {
-                    type,
-                    path: entryPath,
-                } = entry;
-                const entryPathParsed = entryPath.replace(/xtremespb-heretic-[a-z0-9]+\//, "");
-                if (type === "Directory") {
-                    fs.ensureDirSync(path.join(dirPath, entryPathParsed));
-                    entry.autodrain();
-                } else {
-                    const entryDirName = path.dirname(entryPathParsed) === "." ? "root" : path.dirname(entryPathParsed);
-                    fs.ensureDirSync(path.join(dirPath, entryDirName));
-                    const entryFileName = path.basename(entryPathParsed);
-                    if (!entryFileName.match(/\.hgd$/)) {
-                        entry.pipe(fs.createWriteStream(path.join(dirPath, entryDirName, entryFileName)));
-                    } else {
+            data.pipe(unzip.Parse())
+                .on("entry", (entry) => {
+                    const {
+                        type,
+                        path: entryPath,
+                    } = entry;
+                    const entryPathParsed = entryPath.replace(/xtremespb-heretic-[a-z0-9]+\//, "");
+                    if (type === "Directory") {
+                        fs.ensureDirSync(path.join(dirPath, entryPathParsed));
                         entry.autodrain();
+                    } else {
+                        const entryDirName = path.dirname(entryPathParsed) === "." ? "root" : path.dirname(entryPathParsed);
+                        fs.ensureDirSync(path.join(dirPath, entryDirName));
+                        const entryFileName = path.basename(entryPathParsed);
+                        if (!entryFileName.match(/\.hgd$/)) {
+                            entry.pipe(fs.createWriteStream(path.join(dirPath, entryDirName, entryFileName)));
+                        } else {
+                            entry.autodrain();
+                        }
                     }
-                }
-            })
-            .on("close", () => resolve())
-            .on("reject", e => reject(e));
+                })
+                .on("close", () => resolve())
+                .on("reject", e => reject(e));
         });
     }
 
