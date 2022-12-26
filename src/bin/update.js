@@ -64,7 +64,13 @@ binUtils.printLogo();
             await binUtils.executeCommand("npm run build-production");
         }
         if (options["restart-pm2"]) {
+            try {
             await binUtils.executeCommand(`pm2 restart ${config.id}`);
+            } catch {
+                binUtils.log("Could not restart PM2 process. Is PM2 installed?", {
+                    error: true,
+                });
+            }
         }
         binUtils.log("All done.", {
             success: true,
