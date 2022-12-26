@@ -55,15 +55,15 @@ binUtils.printLogo();
         await binUtils.patchPackageJson(dirPath);
         binUtils.log("Cleaning up...");
         await fs.remove(dirPath);
-        if (options["npm-install"]) {
+        if (options["npmInstall"]) {
             await binUtils.executeCommand("npm i");
         }
-        if (options["rebuild-dev"]) {
+        if (options["rebuildDev"]) {
             await binUtils.executeCommand("npm run build-dev");
-        } else if (options["rebuild-production"]) {
+        } else if (options["rebuildProduction"]) {
             await binUtils.executeCommand("npm run build-production");
         }
-        if (options["restart-pm2"]) {
+        if (options["restartPm2"]) {
             try {
             await binUtils.executeCommand(`pm2 restart ${config.id}`);
             } catch {
@@ -75,10 +75,10 @@ binUtils.printLogo();
         binUtils.log("All done.", {
             success: true,
         });
-        if (!options["npm-install"]) {
+        if (!options["npmInstall"]) {
             binUtils.log("Please run 'npm run install' in order to update NPM modules");
         }
-        if (!options["rebuild-dev"] || !options["rebuild-production"]) {
+        if (!options["rebuildDev"] || !options["rebuildProduction"]) {
             binUtils.log("Please run 'npm run build-production' in order to rebuild Heretic");
         }
         if (!options["restart-pm2"]) {

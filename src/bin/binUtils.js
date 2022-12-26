@@ -943,16 +943,16 @@ module.exports = class {
     getUpdateCommandLineArgs() {
         return {
             args: [{
-                name: "rebuild-dev",
+                name: "rebuildDev",
                 type: Boolean,
             }, {
-                name: "rebuild-production",
+                name: "rebuildProduction",
                 type: Boolean,
             }, {
-                name: "restart-pm2",
+                name: "restartPM2",
                 type: Boolean,
             }, {
-                name: "npm-install",
+                name: "npmInstall",
                 type: Boolean,
             }],
         };
