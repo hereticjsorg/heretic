@@ -890,23 +890,28 @@ module.exports = class {
 
     async executeCommand(command = "") {
         return new Promise((resolve, reject) => {
-            const res = {
-                stdout: "",
-                stderr: "",
-                exitCode: 1,
-            };
-            const commandArr = command.split(/ /);
-            if (!commandArr.length) {
-                reject(new Error("No command specified"));
+            try {
+                const res = {
+                    stdout: "",
+                    stderr: "",
+                    exitCode: 1,
+                };
+                const commandArr = command.split(/ /);
+                if (!commandArr.length) {
+                    reject(new Error("No command specified"));
+                }
+                const cmd = commandArr.shift();
+                const result = spawn(cmd, commandArr);
+                result.stdout.on("data", data => res.stdout += data);
+                result.stderr.on("data", data => res.stderr += data);
+                result.on("close", code => resolve(({
+                    ...res,
+                    exitCode: code,
+                })));
+                result.on("error", error => reject(error));
+            } catch (e) {
+                reject(e);
             }
-            const cmd = commandArr.shift();
-            const result = spawn(cmd, commandArr);
-            result.stdout.on("data", data => res.stdout += data);
-            result.stderr.on("data", data => res.stderr += data);
-            result.on("close", code => resolve(({
-                ...res,
-                exitCode: code,
-            })));
         });
     }
 
