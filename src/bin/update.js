@@ -63,7 +63,7 @@ binUtils.printLogo();
         } else if (options["rebuildProduction"]) {
             await binUtils.executeCommand("npm run build-production");
         }
-        if (options["restartPm2"]) {
+        if (options["restartPM2"]) {
             try {
             await binUtils.executeCommand(`pm2 restart ${config.id}`);
             } catch {
