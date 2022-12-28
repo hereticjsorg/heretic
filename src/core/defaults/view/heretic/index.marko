@@ -18,15 +18,17 @@ import languages from "../../config/languages.json"
         </div>
         <div class="hr-content">
             <div class="pl-3 pr-3">
-                <if(!state.routed)>
-                    <${input.renderBody}/>
-                </if>
-                <if(process.browser)>
-                    <hrouter on-route-change("onRouteChange")/>
-                    <if(state.routed)>
-                        <div id="hr_content_render_wrap"/>
+                <div id="heretic_content">
+                    <if(!state.routed)>
+                        <${input.renderBody}/>
                     </if>
-                </if>
+                    <if(process.browser)>
+                        <hrouter on-route-change("onRouteChange")/>
+                        <if(state.routed)>
+                            <div id="hr_content_render_wrap"/>
+                        </if>
+                    </if>
+                </div>
             </div>
         </div>
         <div class="hr-footer">

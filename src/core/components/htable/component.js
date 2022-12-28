@@ -143,8 +143,13 @@ module.exports = class {
         return dummyRect.width;
     }
 
-    setTableDimensions() {
+    setClientWidth() {
         this.setState("clientWidth", Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0));
+    }
+
+    setTableDimensions() {
+        this.setClientWidth();
+        this.tableContainerWidth = this.getCurrentTableWidth();
         const {
             table,
             elementTableContainer,
@@ -154,7 +159,6 @@ module.exports = class {
             return;
         }
         this.resetColumnWidths();
-        this.tableContainerWidth = this.getCurrentTableWidth();
         elementTableContainer.style.width = `${this.tableContainerWidth}px`;
         elementWrap.style.width = `${this.tableContainerWidth}px`;
         table.style.width = `${this.tableContainerWidth}px`;
@@ -171,6 +175,14 @@ module.exports = class {
         }
         this.restoreWidthFromSavedRatios();
         this.placeStickyElements();
+        const hereticContent = document.getElementById("heretic_content");
+        if (hereticContent && !this.tableDimensionsResetFlag) {
+            this.tableDimensionsResetFlag = true;
+            const hereticContentWidth = this.getComputedStyles(hereticContent).width;
+            if (hereticContentWidth > this.tableContainerWidth) {
+                setTimeout(() => this.setTableDimensionsDebounced(), 150);
+            }
+        }
     }
 
     onScrollWrapScroll() {
@@ -596,7 +608,8 @@ module.exports = class {
                     this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_loadingError"), "is-danger");
                     this.setState("data", []);
                     this.setState("pagination", []);
-                    setTimeout(() => this.setTableDimensions());
+                    this.setClientWidth();
+                    setTimeout(() => this.setTableDimensionsDebounced());
                 } finally {
                     this.setLoading(false);
                     resolve();
