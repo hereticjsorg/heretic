@@ -1004,6 +1004,29 @@ module.exports = class {
         });
     }
 
+    async extractBackup(data, dirPath) {
+        return new Promise((resolve, reject) => {
+            data.pipe(unzip.Parse())
+                .on("entry", (entry) => {
+                    const {
+                        type,
+                        path: entryPath,
+                    } = entry;
+                    if (type === "Directory") {
+                        fs.ensureDirSync(path.join(dirPath, entryPath));
+                        entry.autodrain();
+                    } else {
+                        const entryDirName = path.dirname(entryPath);
+                        fs.ensureDirSync(path.join(dirPath, entryDirName));
+                        const entryFileName = path.basename(entryPath);
+                        entry.pipe(fs.createWriteStream(path.join(dirPath, entryDirName, entryFileName)));
+                    }
+                })
+                .on("close", () => resolve())
+                .on("reject", e => reject(e));
+        });
+    }
+
     async patchPackageJson(dirPath) {
         const oldPackageJson = await fs.readJSON(path.join(__dirname, "../../package.json"));
         const newPackageJson = await fs.readJSON(path.join(dirPath, "root/package.json"));
