@@ -66,7 +66,6 @@ const saveBackupArchive = (dirPath, destPath) => new Promise((resolve, reject) =
         } catch {
             binUtils.log("Error: configuration file is missing", {
                 error: true,
-                noDate: true,
             });
             process.exit(1);
         }
@@ -76,9 +75,7 @@ const saveBackupArchive = (dirPath, destPath) => new Promise((resolve, reject) =
         }
         const backupId = uuidv4();
         const dirPath = config.directories.tmp ? path.resolve(__dirname, config.directories.tmp, backupId) : path.join(os.tmpdir(), backupId);
-        binUtils.log("Copying directories...", {
-            noDate: true,
-        });
+        binUtils.log("Copying directories...");
         await fs.ensureDir(dirPath);
         await fs.copy(path.join(__dirname, "../../dist"), path.join(dirPath, "dist"));
         await fs.copy(path.join(__dirname, "../../src"), path.join(dirPath, "src"));
@@ -91,9 +88,7 @@ const saveBackupArchive = (dirPath, destPath) => new Promise((resolve, reject) =
         }
         await fs.ensureDir(path.join(dirPath, "dump"));
         if (config.mongo.enabled) {
-            binUtils.log("Dumping database collections...", {
-                noDate: true,
-            });
+            binUtils.log("Dumping database collections...");
             await binUtils.connectDatabase();
             const collections = (await binUtils.db.listCollections().toArray()).map(i => i.name);
             binUtils.disconnectDatabase();
@@ -102,9 +97,7 @@ const saveBackupArchive = (dirPath, destPath) => new Promise((resolve, reject) =
             }
         }
         const archiveFilePath = path.resolve(dirPath, `${uuidv4()}.zip`);
-        binUtils.log("Creating backup archive...", {
-            noDate: true,
-        });
+        binUtils.log("Creating backup archive...");
         await saveBackupArchive(dirPath, archiveFilePath);
         for (const dir of dirsArchive) {
             const srcDir = path.join(dirPath, dir);
@@ -116,13 +109,11 @@ const saveBackupArchive = (dirPath, destPath) => new Promise((resolve, reject) =
         await fs.copy(archiveFilePath, path.join(backupDirPath, archiveFilename));
         await fs.remove(dirPath);
         binUtils.log(`Backup has been created successfully: ${options.dir ? path.resolve(options.dir) : "backup"}/${archiveFilename}`, {
-            noDate: true,
             success: true,
         });
     } catch (e) {
         binUtils.log(e.message, {
             error: true,
-            noDate: true,
         });
         process.exit(1);
     }

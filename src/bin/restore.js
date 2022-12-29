@@ -1,9 +1,9 @@
 const fs = require("fs-extra");
 const path = require("path");
 const os = require("os");
-// const {
-//     format,
-// } = require("date-fns");
+const {
+    format,
+} = require("date-fns");
 const commandLineArgs = require("command-line-args");
 const {
     v4: uuidv4,
@@ -31,7 +31,7 @@ const dirsArchive = ["dist", "etc", "src"];
     }
     const archivePath = path.resolve(__dirname, `../../${options.path}`);
     if (!options.path || !fs.existsSync(archivePath)) {
-        binUtils.log(`Usage: npm run restore -- --path "path/to/backup.zip`);
+        binUtils.log(`Usage: npm run restore -- --path "path/to/backup.zip" [--no-save=true]`);
         process.exit(1);
     }
     try {
@@ -47,10 +47,18 @@ const dirsArchive = ["dist", "etc", "src"];
         binUtils.readConfig();
         const restoreId = uuidv4();
         const dirPath = config.directories.tmp ? path.resolve(__dirname, config.directories.tmp, restoreId) : path.join(os.tmpdir(), restoreId);
-        // const oldPath = path.resolve(__dirname, `../../${format(new Date(), "yyyyMMdd_HHmmss")}`);
-        binUtils.log("WARNING: your current directories will be overwritten.\nAll database collections will be dropped and overwritten by backup files.", {
+        const saveDirName = `save_${format(new Date(), "yyyyMMdd_HHmmss")}`;
+        const savePath = path.resolve(__dirname, `../../${saveDirName}`);
+        binUtils.log("WARNING: your current directories will be overwritten.\nAll database collections will be dropped and overwritten by backup files.\n", {
             warning: true,
         });
+        if (!options["no-save"]) {
+            binUtils.log(`Your current site will saved to: ${saveDirName}\n`);
+        } else {
+            binUtils.log("WARNING: your current site won't be saved!\n", {
+                warning: true,
+            });
+        }
         const confirmation = await inquirer.prompt([{
             type: "input",
             name: "confirmed",
@@ -67,6 +75,10 @@ const dirsArchive = ["dist", "etc", "src"];
         for (const dir of dirsArchive) {
             const srcDir = path.join(dirPath, dir);
             const destDir = path.join(__dirname, "../..", dir);
+            if (!options["no-save"]) {
+                binUtils.log(`Saving directory: "${dir}"...`);
+                await fs.copy(destDir, path.join(savePath, dir));
+            }
             binUtils.log(`Dropping directory: "${dir}"...`);
             await fs.remove(destDir);
             binUtils.log(`Restoring directory: "${dir}"...`);
@@ -74,25 +86,38 @@ const dirsArchive = ["dist", "etc", "src"];
         }
         const rootFiles = await fs.readdir(path.join(dirPath, "root"));
         for (const file of rootFiles) {
-            const srcFile = path.join(dirPath, file);
+            const srcFile = path.join(dirPath, "root", file);
             const destFile = path.join(__dirname, "../..", file);
+            if (!options["no-save"]) {
+                binUtils.log(`Saving file: "${file}"...`);
+                await fs.copy(destFile, path.join(savePath, file));
+            }
             binUtils.log(`Deleting file: "${file}"...`);
             await fs.remove(destFile);
             binUtils.log(`Restoring file: "${file}"...`);
             await fs.copy(srcFile, destFile);
         }
-        binUtils.log("Dropping collections...");
-        await binUtils.connectDatabase();
-        const collections = (await binUtils.db.listCollections().toArray()).map(i => i.name);
-        for (const collection of collections) {
-            binUtils.log(`Dropping collection: "${collection}"...`);
-            await binUtils.db.collection(collection).drop();
-            binUtils.log(`Restoring collection: "${collection}"...`);
-            await binUtils.executeCommand(`mongorestore --db ${config.mongo.dbName} --collection ${collection} --out "${path.join(dirPath, "dump")}"`);
+        if (config.mongo.enabled) {
+            await binUtils.connectDatabase();
+            const collections = (await binUtils.db.listCollections().toArray()).map(i => i.name);
+            for (const collection of collections.filter(i => ["geoNetworks", "geoCountries", "geoCities"].indexOf(i) === -1)) {
+                if (!options["no-save"]) {
+                    binUtils.log(`Saving collection: ${collection}...`);
+                    await binUtils.executeCommand(`mongodump --db ${config.mongo.dbName} --collection ${collection} --out "${path.join(savePath, "dump")}"`);
+                }
+                binUtils.log(`Dropping collection: "${collection}"...`);
+                await binUtils.db.collection(collection).drop();
+            }
+            binUtils.disconnectDatabase();
+            binUtils.log("Restoring database collections...");
+            await binUtils.executeCommand(`mongorestore ${path.join(dirPath, "dump")}`);
+            binUtils.log("Cleaning up...");
+            await fs.remove(dirPath);
+            binUtils.log("Backup archive has been restored.", {
+                success: true,
+            });
         }
-        binUtils.disconnectDatabase();
     } catch (e) {
-        console.log(e);
         binUtils.log(e.message, {
             error: true,
         });

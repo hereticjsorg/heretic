@@ -85,7 +85,6 @@ module.exports = class {
         this.fieldsFlat = {};
         this.passwordRepeat = {};
         // Collect field IDs
-        console.log(input.data);
         this.initValidation(input);
         this.language = out.global.language;
         if (process.browser && window.__heretic && window.__heretic.t) {

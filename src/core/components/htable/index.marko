@@ -7,7 +7,7 @@ import SettingsPagesForm from "./settingsPagesForm"
         <if(state.topButtons)>
             <div class="mb-3 buttons">
                 <for|item, index| of=state.topButtons>
-                    <button data-tippy-content=(state.clientWidth < 1023 ? item.label : null) data-id=item.id on-click("onTopButtonClick") class=`button ${item.danger ? "is-danger" : "is-light"}`>
+                    <button data-tippy-content=(state.clientWidth < 1023 ? item.label : null) data-id=item.id on-click("onTopButtonClick") class=`button ${item.danger ? "is-danger" : "is-light"}` disabled=state.loading>
                         <span class=`hr-ht-top-button-icon icon${item.danger ? " hr-ht-top-button-icon-danger" : ""}`>
                             <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
                                 <path d=item.icon/>
@@ -19,7 +19,7 @@ import SettingsPagesForm from "./settingsPagesForm"
                     </button>
                 </for>
                 <if(state.loadConfig && state.loadConfig.url)>
-                    <button data-tippy-content=(process.browser && state.clientWidth < 1023 && window.__heretic ? window.__heretic.t("htable_reloadButton") : null) on-click("onReloadClick") class="button is-light">
+                    <button data-tippy-content=(process.browser && state.clientWidth < 1023 && window.__heretic ? window.__heretic.t("htable_reloadButton") : null) on-click("onReloadClick") class="button is-light" disabled=state.loading>
                         <span class="hr-ht-top-button-icon icon">
                             <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
                                 <path d=mdiReload/>
@@ -30,7 +30,7 @@ import SettingsPagesForm from "./settingsPagesForm"
                         </if>
                     </button>
                 </if>
-                <button data-tippy-content=(process.browser && state.clientWidth < 1023 && window.__heretic ? window.__heretic.t("htable_settingsButton") : null) on-click("onSettingsClick") class="button is-light">
+                <button data-tippy-content=(process.browser && state.clientWidth < 1023 && window.__heretic ? window.__heretic.t("htable_settingsButton") : null) on-click("onSettingsClick") class="button is-light" disabled=state.loading>
                     <span class="hr-ht-top-button-icon icon">
                         <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
                             <path d=mdiCogOutline/>
@@ -50,7 +50,7 @@ import SettingsPagesForm from "./settingsPagesForm"
                 <if(state.bulkUpdateConfig || state.exportConfig || state.recycleBin.enabled)>
                     <div class=`dropdown${state.dataOpen ? " is-active" : ""}` id=`hr_ht_data_dropdown_${input.id}`>
                         <div class="dropdown-trigger">
-                            <button data-tippy-content=(process.browser && state.clientWidth < 1023 && window.__heretic ? window.__heretic.t("htable_dataButton") : null) on-click("onDataClick") class="button is-light">
+                            <button data-tippy-content=(process.browser && state.clientWidth < 1023 && window.__heretic ? window.__heretic.t("htable_dataButton") : null) on-click("onDataClick") class="button is-light" disabled=state.loading>
                                 <span class="hr-ht-top-button-icon icon">
                                     <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
                                         <path d=mdiDatabaseOutline/>
@@ -125,69 +125,71 @@ import SettingsPagesForm from "./settingsPagesForm"
 <div class="hr-ht-wrap" id=`hr_ht_wrap_${input.id}`>
     <div class="table-container hr-ht-table-container mb-0" id=`hr_ht_table_container_${input.id}`>
         <table id=`hr_ht_table_${input.id}` class="hr-ht-table table is-bordered is-striped is-hoverable is-fullwidth" on-mousemove("onColumnMove")>
-            <thead class="hr-ht-thead">
-                <tr class="hr-ht-thead-tr">
-                    <if(state.checkboxColumn)>
-                        <th class="hr-ht-th p-0 m-0 is-narrow">
-                            <div class="p-2">
-                                <input type="checkbox" checked=state.checkboxesAll class="hr-ht-checkbox-top" on-click("onCheckboxSelectAllClick")/>
-                            </div>
-                        </th>
-                    </if>
-                    <if(Object.keys(state.columns).length)>
-                        <for|k, index| of=Object.keys(state.columns)>
-                            <if(state.columns[k])>
-                                $ const item = state.columnData[k];
-                                <if(item && item.id)>
-                                    <th
-                                        data-id=item.id
-                                        on-click("onColumnThClick")
-                                        class="hr-ht-th p-0 m-0"
-                                        id=`hr_ht_column_${item.id}`
-                                        style={
-                                            cursor: item.sortable ? "pointer" : "inherit"
-                                        }>
-                                        <div class="columns is-gapless m-0 p-0">
-                                            <if(index > 0 && (!state.actionColumn || index < component.getLastVisibleColumnIndex()))>
-                                                <div class="column is-narrow">
-                                                    <div class="hr-ht-thead-move" id=`hr_ht_mover_${item.id}` data-id=item.id on-mousedown("onColumnMouseDown")/>
-                                                </div>
-                                            </if>
-                                            <div class="column is-auto">
-                                                <div class="p-2 hr-ht-thead-label">
-                                                    ${item.label}<if(state.sortField === item.id)>
-                                                        <icon-arrow direction=(state.sortDirection === "asc" ? "down" : "up")/>
-                                                    </if>
+            <if(state.data && state.data.length && !state.loading)>
+                <thead class="hr-ht-thead">
+                    <tr class="hr-ht-thead-tr">
+                        <if(state.checkboxColumn)>
+                            <th class="hr-ht-th p-0 m-0 is-narrow">
+                                <div class="p-2">
+                                    <input type="checkbox" checked=state.checkboxesAll class="hr-ht-checkbox-top" on-click("onCheckboxSelectAllClick")/>
+                                </div>
+                            </th>
+                        </if>
+                        <if(Object.keys(state.columns).length)>
+                            <for|k, index| of=Object.keys(state.columns)>
+                                <if(state.columns[k])>
+                                    $ const item = state.columnData[k];
+                                    <if(item && item.id)>
+                                        <th
+                                            data-id=item.id
+                                            on-click("onColumnThClick")
+                                            class="hr-ht-th p-0 m-0"
+                                            id=`hr_ht_column_${item.id}`
+                                            style={
+                                                cursor: item.sortable ? "pointer" : "inherit"
+                                            }>
+                                            <div class="columns is-gapless m-0 p-0">
+                                                <if(index > 0 && (!state.actionColumn || index < component.getLastVisibleColumnIndex()))>
+                                                    <div class="column is-narrow">
+                                                        <div class="hr-ht-thead-move" id=`hr_ht_mover_${item.id}` data-id=item.id on-mousedown("onColumnMouseDown")/>
+                                                    </div>
+                                                </if>
+                                                <div class="column is-auto">
+                                                    <div class="p-2 hr-ht-thead-label">
+                                                        ${item.label}<if(state.sortField === item.id)>
+                                                            <icon-arrow direction=(state.sortDirection === "asc" ? "down" : "up")/>
+                                                        </if>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </th>
+                                        </th>
+                                    </if>
                                 </if>
-                            </if>
-                        </for>
-                    </if>
-                    <else>
-                        <th class="hr-ht-th p-0 m-0">
-                            <div class="columns is-gapless m-0 p-0">
-                                <div class="column is-auto">
-                                    <div class="p-2 hr-ht-thead-label">&nbsp;</div>
-                                </div>
-                            </div>
-                        </th>
-                    </else>
-                    <if(state.actionColumn)>
-                        <th class="hr-ht-th p-0 m-0 is-narrow" id=`hr_ht_th_actions_${input.id}`>
-                            <div class="columns is-gapless m-0 p-0" id=`hr_ht_th_actions_columns_${input.id}`>
-                                <div class="column is-auto" id=`hr_ht_header_actions_${input.id}`>
-                                    <div class="p-2 hr-ht-thead-label hr-ht-thead-actions">
-                                        <t>htable_actions</t>
+                            </for>
+                        </if>
+                        <else>
+                            <th class="hr-ht-th p-0 m-0">
+                                <div class="columns is-gapless m-0 p-0">
+                                    <div class="column is-auto">
+                                        <div class="p-2 hr-ht-thead-label">&nbsp;</div>
                                     </div>
                                 </div>
-                            </div>
-                        </th>
-                    </if>
-                </tr>
-            </thead>
+                            </th>
+                        </else>
+                        <if(state.actionColumn)>
+                            <th class="hr-ht-th p-0 m-0 is-narrow" id=`hr_ht_th_actions_${input.id}`>
+                                <div class="columns is-gapless m-0 p-0" id=`hr_ht_th_actions_columns_${input.id}`>
+                                    <div class="column is-auto" id=`hr_ht_header_actions_${input.id}`>
+                                        <div class="p-2 hr-ht-thead-label hr-ht-thead-actions">
+                                            <t>htable_actions</t>
+                                        </div>
+                                    </div>
+                                </div>
+                            </th>
+                        </if>
+                    </tr>
+                </thead>
+            </if>
             <tbody class="hr-ht-tbody">
                 <if(state.data && state.data.length)>
                     <for|row, ix| of=state.data>

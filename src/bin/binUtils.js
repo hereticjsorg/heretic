@@ -973,6 +973,9 @@ module.exports = class {
         return [{
             name: "path",
             type: String,
+        }, {
+            name: "no-save",
+            type: Boolean,
         }];
     }
 

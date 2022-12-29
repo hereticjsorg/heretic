@@ -32,7 +32,11 @@ In order to restore backup archive, please run the following command:
 npm run restore -- --path "path/to/your/backup.zip"
 ```
 
-The directory is relative to Heretic root.
+The directory is relative to Heretic root. Your current site will be saved to *save_YYYYMMDD_HHMMSS* directory, including current database dump. If you don't wish to save current website, you may wish to specify *--no-save* option:
+
+```
+npm run restore -- --path "path/to/your/backup.zip" --no-save
+```
 
 What happens if you restore your backup archive using this utility:
 
