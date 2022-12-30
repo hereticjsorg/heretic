@@ -183,6 +183,7 @@ module.exports = class {
                 setTimeout(() => this.setTableDimensionsDebounced(), 150);
             }
         }
+        this.setLoadingWrapDimensions();
     }
 
     onScrollWrapScroll() {
@@ -211,24 +212,28 @@ module.exports = class {
         return styles;
     }
 
+    async setLoadingWrapDimensions() {
+        try {
+            await this.utils.waitForElement(`hr_ht_loading_${this.input.id}`);
+        } catch {
+            return;
+        }
+        const {
+            elementWrap,
+            elementLoadingWrap,
+            elementLoading,
+        } = this.getElements();
+        elementLoadingWrap.style.width = `${elementWrap.getBoundingClientRect().width}px`;
+        elementLoadingWrap.style.height = `${elementWrap.getBoundingClientRect().height}px`;
+        elementLoading.style.left = `${(elementWrap.getBoundingClientRect().width / 2) - (elementLoading.style.width / 2)}px`;
+        elementLoading.style.top = `${window.pageYOffset + 10}px`;
+        elementLoading.style.opacity = "1";
+    }
+
     async setLoading(flag) {
         if (flag) {
             this.setState("loading", true);
-            try {
-                await this.utils.waitForElement(`hr_ht_loading_${this.input.id}`);
-            } catch {
-                return;
-            }
-            const {
-                elementWrap,
-                elementLoadingWrap,
-                elementLoading,
-            } = this.getElements();
-            elementLoadingWrap.style.width = `${elementWrap.getBoundingClientRect().width}px`;
-            elementLoadingWrap.style.height = `${elementWrap.getBoundingClientRect().height}px`;
-            elementLoading.style.left = `${(elementWrap.getBoundingClientRect().width / 2) - (elementLoading.style.width / 2)}px`;
-            elementLoading.style.top = `${window.pageYOffset + 10}px`;
-            elementLoading.style.opacity = "1";
+            await this.setLoadingWrapDimensions();
         } else {
             const {
                 elementLoading,
