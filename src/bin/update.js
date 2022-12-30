@@ -63,10 +63,10 @@ binUtils.printLogo();
         }
         if (options["rebuild-dev"]) {
             binUtils.log("Rebuilding Heretic in 'Dev' mode...");
-            await binUtils.executeCommand("npm run build-dev");
+            await binUtils.executeCommand("npm run build -- --dev");
         } else if (options["rebuildProduction"]) {
             binUtils.log("Rebuilding Heretic in 'Production' mode...");
-            await binUtils.executeCommand("npm run build-production");
+            await binUtils.executeCommand("npm run build");
         }
         if (options["restart-pm2"]) {
             try {
@@ -85,7 +85,7 @@ binUtils.printLogo();
             binUtils.log("Please run 'npm run install' in order to update NPM modules");
         }
         if (!options["rebuild-dev"] && !options["rebuild-production"]) {
-            binUtils.log("Please run 'npm run build-production' in order to rebuild Heretic");
+            binUtils.log("Please run 'npm run build' in order to rebuild Heretic");
         }
         if (!options["restart-pm2"]) {
             binUtils.log(`Please run 'pm2 restart ${config.id}' in order to restart Heretic`);

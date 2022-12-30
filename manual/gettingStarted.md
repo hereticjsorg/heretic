@@ -39,10 +39,14 @@ The *--defaults* parameter is required on order to create default modules and na
 Finally, you may wish to run the build process:
 
 ```
-npm run build-dev
+npm run build -- --dev
 ```
 
-This command will generate your site in development mode (faster, less optimizations). In order to generate a website in production mode, use the *build-production* option instead.
+This command will generate your site in development mode (faster, less optimizations). In order to generate a website in production mode, run the following command:
+
+```
+npm run build
+```
 
 Finally, start your web server using the following command:
 

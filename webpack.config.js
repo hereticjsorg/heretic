@@ -34,7 +34,7 @@ module.exports = (env, argv) => {
             name: "Userspace",
             target: ["web", "es5"],
             output: {
-                path: path.resolve(__dirname, "dist", "public", "heretic"),
+                path: path.resolve(__dirname, "dist.new", "public", "heretic"),
                 filename: "[name].[fullhash:8].js"
             },
             devtool: argv.mode === "production" ? false : "inline-source-map",
@@ -221,7 +221,7 @@ module.exports = (env, argv) => {
             output: {
                 hashFunction: "xxhash64",
                 libraryTarget: "commonjs2",
-                path: path.resolve(__dirname, "dist"),
+                path: path.resolve(__dirname, "dist.new"),
                 filename: "server.js",
                 publicPath: "/heretic/",
             },
@@ -269,7 +269,7 @@ module.exports = (env, argv) => {
             output: {
                 hashFunction: "xxhash64",
                 libraryTarget: "commonjs2",
-                path: path.resolve(__dirname, "dist"),
+                path: path.resolve(__dirname, "dist.new"),
                 filename: "setup.js",
             },
             plugins: [

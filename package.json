@@ -1,6 +1,6 @@
 {
     "name": "heretic",
-    "version": "1.0.118",
+    "version": "1.0.119",
     "description": "Heretic",
     "main": "index.js",
     "scripts": {
@@ -13,6 +13,7 @@
         "update": "node src/bin/update",
         "cli-interactive": "node src/bin/cli-interactive",
         "cleanup-dev": "node src/bin/cleanup",
+        "build": "node src/bin/build",
         "build-dev": "webpack --mode development",
         "build-production": "webpack --mode production",
         "test": "jest --runInBand",

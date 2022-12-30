@@ -6,15 +6,17 @@ const BinUtils = require("./src/bin/binUtils");
 module.exports = class {
     constructor(production) {
         this.config = require(path.resolve(__dirname, "etc", "system.js"));
-        fs.removeSync(path.resolve(__dirname, "dist/public/heretic"));
-        fs.removeSync(path.resolve(__dirname, "dist/server.js"));
-        fs.removeSync(path.resolve(__dirname, "src", "build"));
+        // fs.removeSync(path.resolve(__dirname, "dist/public/heretic"));
+        // fs.removeSync(path.resolve(__dirname, "dist/server.js"));
+        fs.ensureDirSync(path.resolve(__dirname, "dist/public/heretic"));
+        fs.ensureDirSync(path.resolve(__dirname, "src", "modules"));
         fs.ensureDirSync(path.resolve(__dirname, "src", "modules"));
         fs.ensureDirSync(path.resolve(__dirname, "src", "build"));
         fs.ensureDirSync(path.resolve(__dirname, "src", "build", "loaders"));
         fs.ensureDirSync(path.resolve(__dirname, "src", "build", "components"));
         fs.ensureDirSync(path.resolve(__dirname, "logs"));
         fs.ensureDirSync(path.resolve(__dirname, "dist"));
+        fs.ensureDirSync(path.resolve(__dirname, "dist.new"));
         if (this.config.directories.tmp) {
             fs.ensureDirSync(path.resolve(__dirname, "dist", this.config.directories.tmp));
         }
@@ -544,8 +546,8 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
                 sitemapXML += `</url>`;
             });
             sitemapXML += `</urlset>`;
-            fs.ensureDirSync(path.resolve(__dirname, "dist", "public", "heretic"));
-            fs.writeFileSync(path.resolve(__dirname, "dist", "public", "heretic", "sitemap.xml"), sitemapXML, "utf8");
+            fs.ensureDirSync(path.resolve(__dirname, "dist.new", "public", "heretic"));
+            fs.writeFileSync(path.resolve(__dirname, "dist.new", "public", "heretic", "sitemap.xml"), sitemapXML, "utf8");
         }
     }
 
@@ -576,8 +578,8 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
         manifest.description = this.systemConfig.description[language];
         manifest.id = this.systemConfig.id;
 
-        fs.ensureDirSync(path.resolve(__dirname, "dist", "public", "heretic"));
-        fs.writeJSONSync(path.resolve(__dirname, "dist", "public", "heretic", "site.webmanifest"), manifest, this.production ? {} : {
+        fs.ensureDirSync(path.resolve(__dirname, "dist.new", "public", "heretic"));
+        fs.writeJSONSync(path.resolve(__dirname, "dist.new", "public", "heretic", "site.webmanifest"), manifest, this.production ? {} : {
             spaces: "\t",
         });
     }
@@ -600,6 +602,6 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
     }
 
     copyDataDir() {
-        fs.copySync(path.resolve(__dirname, "src", "static", "data"), path.resolve(__dirname, "dist", "data"));
+        fs.copySync(path.resolve(__dirname, "src", "static", "data"), path.resolve(__dirname, "dist.new", "data"));
     }
 };

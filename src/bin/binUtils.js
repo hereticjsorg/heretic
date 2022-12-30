@@ -969,6 +969,13 @@ module.exports = class {
         }];
     }
 
+    getBuildCommandLineArgs() {
+        return [{
+            name: "dev",
+            type: Boolean,
+        }];
+    }
+
     getRestoreCommandLineArgs() {
         return [{
             name: "path",

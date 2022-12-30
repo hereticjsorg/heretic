@@ -1,0 +1,66 @@
+const fs = require("fs-extra");
+const path = require("path");
+const commandLineArgs = require("command-line-args");
+const BinUtils = require("./binUtils");
+
+(async () => {
+    const binUtils = new BinUtils();
+    binUtils.setLogProperties({
+        enabled: true,
+        color: true,
+        noDate: true,
+    });
+    binUtils.setInteractive(true);
+    binUtils.printLogo();
+    let options;
+    try {
+        options = commandLineArgs(binUtils.getBuildCommandLineArgs());
+    } catch (e) {
+        binUtils.log(e.message);
+        process.exit(1);
+    }
+    try {
+        binUtils.log(`Building Heretic in ${options.dev ? "development" : "production"} mode${options.dev ? "" : " (may take a long time!)"}...`);
+        const data = await binUtils.executeCommand(`npm run build-${options.dev ? "dev" : "production"} -- --no-color`);
+        const buildResultMatch = data && data.exitCode === 0 && typeof data.stdout === "string" ? data.stdout.match(/compiled successfully/gm) : [];
+        const isSuccess = buildResultMatch && Array.isArray(buildResultMatch) && buildResultMatch.length === 3;
+        binUtils.log(isSuccess ? "Build successful." : `Error while building Heretic:\n\n${data.stdout}`, {
+            success: isSuccess,
+            error: !isSuccess,
+        });
+        if (isSuccess) {
+            binUtils.log("Cleaning up...");
+            await fs.remove(path.join(__dirname, "../../dist/public/heretic"));
+            await fs.remove(path.join(__dirname, "../../dist/data"));
+            await fs.remove(path.join(__dirname, "../../dist/server.js"));
+            await fs.remove(path.join(__dirname, "../../dist/setup.js"));
+            binUtils.log("Replacing files and directories...");
+            await fs.rename(path.join(__dirname, "../../dist.new/public/heretic"), path.join(__dirname, "../../dist/public/heretic"));
+            await fs.rename(path.join(__dirname, "../../dist.new/data"), path.join(__dirname, "../../dist/data"));
+            await fs.rename(path.join(__dirname, "../../dist.new/server.js"), path.join(__dirname, "../../dist/server.js"));
+            await fs.rename(path.join(__dirname, "../../dist.new/setup.js"), path.join(__dirname, "../../dist/setup.js"));
+            await fs.remove(path.join(__dirname, "../../dist.new"));
+            binUtils.log("All done.", {
+                success: true,
+            });
+            process.exit(0);
+        } else {
+            binUtils.log("Cleaning up...");
+            await fs.remove(path.join(__dirname, "../../dist.new"));
+            binUtils.log("Could not finish build process.", {
+                error: true,
+            });
+            process.exit(1);
+        }
+    } catch (e) {
+        binUtils.log(e.message, {
+            error: true,
+        });
+        try {
+            await fs.remove(path.join(__dirname, "../../dist.new"));
+        } catch {
+            // Ignore
+        }
+        process.exit(1);
+    }
+})();
