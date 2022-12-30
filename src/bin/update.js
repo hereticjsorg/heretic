@@ -62,10 +62,10 @@ binUtils.printLogo();
             await binUtils.executeCommand("npm i");
         }
         if (options["rebuild-dev"]) {
-            binUtils.log("Rebuilding Heretic in 'Dev' mode...");
+            binUtils.log("Rebuilding Heretic in development mode...");
             await binUtils.executeCommand("npm run build -- --dev");
-        } else if (options["rebuildProduction"]) {
-            binUtils.log("Rebuilding Heretic in 'Production' mode...");
+        } else if (options["rebuild-production"]) {
+            binUtils.log("Rebuilding Heretic in production mode...");
             await binUtils.executeCommand("npm run build");
         }
         if (options["restart-pm2"]) {
