@@ -1,6 +1,6 @@
 {
     "name": "heretic",
-    "version": "1.0.119",
+    "version": "1.0.120",
     "description": "Heretic",
     "main": "index.js",
     "scripts": {

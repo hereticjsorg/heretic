@@ -398,6 +398,11 @@ html.heretic-dark .hr-ht-export-form-wrap {
 
 .hr-ht-recycleBin-pagination-wrap {
     border-top: 1px solid $grey-lighter;
+    background: $white;
+}
+
+html.heretic-dark .hr-ht-recycleBin-pagination-wrap {
+    background: $heretic-dark-grey-dark;
 }
 
 .hr-ht-recycleBin-pagination-wrap>nav {
