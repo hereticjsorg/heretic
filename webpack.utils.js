@@ -12,6 +12,7 @@ module.exports = class {
         fs.ensureDirSync(path.resolve(__dirname, "src", "modules"));
         fs.ensureDirSync(path.resolve(__dirname, "src", "modules"));
         fs.ensureDirSync(path.resolve(__dirname, "src", "build"));
+        fs.removeSync(path.resolve(__dirname, "src", "build"));
         fs.ensureDirSync(path.resolve(__dirname, "src", "build", "loaders"));
         fs.ensureDirSync(path.resolve(__dirname, "src", "build", "components"));
         fs.ensureDirSync(path.resolve(__dirname, "logs"));
