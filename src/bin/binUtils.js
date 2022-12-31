@@ -160,7 +160,7 @@ module.exports = class {
         fs.writeJSONSync(configPath, {
             secret: crypto.createHmac("sha256", uuidv4()).update(uuidv4()).digest("hex"),
         }, {
-            spaces: "\t",
+            spaces: "  ",
         });
     }
 
@@ -180,7 +180,7 @@ module.exports = class {
             header: true,
         });
         fs.writeJSONSync(configDest, configNavigation, {
-            spaces: "\t"
+            spaces: "  "
         });
     }
 
@@ -197,7 +197,7 @@ module.exports = class {
                 header: true,
             });
             fs.writeJSONSync(filePath, {}, {
-                spaces: "\t"
+                spaces: "  "
             });
         }
     }
@@ -315,7 +315,7 @@ module.exports = class {
         const pageMeta = fs.readJSONSync(pageMetaPath);
         pageMeta.id = id;
         fs.writeJSONSync(pageMetaPath, pageMeta, {
-            spaces: "\t",
+            spaces: "  ",
         });
         if (addNavigationConfig) {
             const navJSONPath = path.resolve(__dirname, "../config/navigation.json");
@@ -327,7 +327,7 @@ module.exports = class {
                     navJSON.userspace.home = id;
                 }
                 fs.writeJSONSync(navJSONPath, navJSON, {
-                    spaces: "\t",
+                    spaces: "  ",
                 });
             }
         }
@@ -356,7 +356,7 @@ module.exports = class {
             navJSON.userspace.routes = navJSON.userspace.routes.filter(r => r !== id);
             navJSON.userspace.home = navJSON.home === id ? "" : navJSON.home;
             fs.writeJSONSync(navJSONPath, navJSON, {
-                spaces: "\t",
+                spaces: "  ",
             });
         }
     }
@@ -382,7 +382,7 @@ module.exports = class {
         this.log(`Adding new language to languages.json...`);
         languageJSON[id] = name;
         fs.writeJSONSync(languageJSONPath, languageJSON, {
-            spaces: "\t",
+            spaces: "  ",
         });
         this.log(`Modifying etc/meta.json...`);
         const mainMetaJSONPath = path.resolve(__dirname, "../../etc/meta.json");
@@ -391,7 +391,7 @@ module.exports = class {
         mainMetaJSON.shortTitle[id] = "";
         mainMetaJSON.description[id] = "";
         fs.writeJSONSync(mainMetaJSONPath, mainMetaJSON, {
-            spaces: "\t",
+            spaces: "  ",
         });
         this.log("Modifying existing pages...");
         for (const area of ["../pages", "../core/pages"]) {
@@ -423,7 +423,7 @@ module.exports = class {
                             }
                         }
                         fs.writeJSONSync(pageUserspaceJSONPath, pageJSON, {
-                            spaces: "\t",
+                            spaces: "  ",
                         });
                     }
                     if (fs.existsSync(path.resolve(__dirname, area, dir, `${p}/userspace/content/lang-switch`))) {
@@ -446,7 +446,7 @@ module.exports = class {
                         moduleJSON.description[id] = moduleJSON.description[id] || "";
                     }
                     fs.writeJSONSync(moduleMetaJSONPath, moduleJSON, {
-                        spaces: "\t",
+                        spaces: "  ",
                     });
                 }
             }
@@ -454,13 +454,13 @@ module.exports = class {
         this.log("Modifying core translation files...");
         const transCoreJSON = fs.readJSONSync(path.resolve(__dirname, `../translations/core/${Object.keys(languageJSON)[0]}.json`));
         fs.writeJSONSync(path.resolve(__dirname, `../translations/core/${id}.json`), transCoreJSON, {
-            spaces: "\t"
+            spaces: "  "
         });
         if (fs.existsSync(path.resolve(__dirname, "../translations/user"))) {
             this.log("Modifying user translation files...");
             const transUserJSON = fs.readJSONSync(path.resolve(__dirname, `../translations/user/${Object.keys(languageJSON)[0]}.json`));
             fs.writeJSONSync(path.resolve(__dirname, `../translations/user/${id}.json`), transUserJSON, {
-                spaces: "\t"
+                spaces: "  "
             });
         }
     }
@@ -479,7 +479,7 @@ module.exports = class {
         const languageJSON = fs.readJSONSync(languageJSONPath);
         delete languageJSON[id];
         fs.writeJSONSync(languageJSONPath, languageJSON, {
-            spaces: "\t",
+            spaces: "  ",
         });
         this.log(`Modifying etc/meta.json...`);
         const mainMetaJSONPath = path.resolve(__dirname, "../../etc/meta.json");
@@ -488,7 +488,7 @@ module.exports = class {
         delete mainMetaJSON.shortTitle[id];
         delete mainMetaJSON.description[id];
         fs.writeJSONSync(mainMetaJSONPath, mainMetaJSON, {
-            spaces: "\t",
+            spaces: "  ",
         });
         this.log("Modifying existing pages...");
         for (const area of ["../pages", "../core/pages"]) {
@@ -520,7 +520,7 @@ module.exports = class {
                             }
                         }
                         fs.writeJSONSync(pageUserspaceJSONPath, pageJSON, {
-                            spaces: "\t",
+                            spaces: "  ",
                         });
                     }
                     if (fs.existsSync(path.resolve(__dirname, area, dir, `${p}/userspace/content/lang-${id}`))) {
@@ -542,7 +542,7 @@ module.exports = class {
                         delete moduleJSON.description[id];
                     }
                     fs.writeJSONSync(moduleMetaJSONPath, moduleJSON, {
-                        spaces: "\t",
+                        spaces: "  ",
                     });
                 }
             }

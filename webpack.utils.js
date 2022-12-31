@@ -446,7 +446,7 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
         };
         // Write configuration file
         fs.writeJSONSync(path.resolve(__dirname, "src", "build", "build.json"), routesData, {
-            spaces: "\t",
+            spaces: "  ",
         });
     }
 
@@ -581,7 +581,7 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
 
         fs.ensureDirSync(path.resolve(__dirname, "dist.new", "public", "heretic"));
         fs.writeJSONSync(path.resolve(__dirname, "dist.new", "public", "heretic", "site.webmanifest"), manifest, this.production ? {} : {
-            spaces: "\t",
+            spaces: "  ",
         });
     }
 

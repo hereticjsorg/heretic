@@ -25,7 +25,7 @@ export default class {
     /* istanbul ignore file */
     async writeJSON(file, data) {
         await fs.writeJSON(path.resolve(__dirname, "..", "..", "..", file), data, {
-            spaces: "\t"
+            spaces: "  "
         });
     }
 
