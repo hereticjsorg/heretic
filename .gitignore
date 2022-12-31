@@ -36,3 +36,4 @@ src/modules
 src/core/pages/*/meta.json
 src/bin/csv
 backup/
+dist.new/

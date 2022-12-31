@@ -3,6 +3,7 @@ const fs = require("fs-extra");
 const webpack = require("webpack");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
+const ESLintPlugin = require("eslint-webpack-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
@@ -166,6 +167,7 @@ module.exports = (env, argv) => {
                     })),
                 }),
                 markoPlugin.browser,
+                new ESLintPlugin({}),
             ],
             resolve: {
                 alias: {
@@ -235,6 +237,7 @@ module.exports = (env, argv) => {
                     maxChunks: 1
                 }),
                 markoPlugin.server,
+                new ESLintPlugin({}),
             ],
             node: {
                 __dirname: false,
@@ -281,6 +284,7 @@ module.exports = (env, argv) => {
                 new webpack.optimize.LimitChunkCountPlugin({
                     maxChunks: 1
                 }),
+                new ESLintPlugin({}),
             ],
             node: {
                 __dirname: false,

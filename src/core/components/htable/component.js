@@ -29,6 +29,7 @@ module.exports = class {
             exportConfig: input.formData.getTableExportConfig(),
             recycleBin: input.formData.getRecycleBinConfig(),
             data: [],
+            firstLoadFlag: false,
             loading: false,
             currentPage: 1,
             totalPages: 1,
@@ -556,12 +557,12 @@ module.exports = class {
                 tableControls.style.display = "block";
                 actionCellControl.style.opacity = "0";
                 try {
-                    const {
-                        table,
-                    } = this.getElements();
-                    const tableHeightSave = table.getBoundingClientRect().height;
-                    this.setState("data", []);
-                    table.style.height = `${tableHeightSave}px`;
+                    // const {
+                    //     table,
+                    // } = this.getElements();
+                    // const tableHeightSave = table.getBoundingClientRect().height;
+                    // this.setState("data", []);
+                    // table.style.height = `${tableHeightSave}px`;
                     const response = await axios({
                         method: "post",
                         url: this.state.loadConfig.url,
@@ -577,6 +578,7 @@ module.exports = class {
                         },
                         headers: this.input.headers || {},
                     });
+                    this.setState("firstLoadFlag", true);
                     this.setState("data", response.data.items);
                     this.setState("access", response.data.access || {});
                     if (response.data.access) {
