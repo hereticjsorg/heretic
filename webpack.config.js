@@ -167,7 +167,10 @@ module.exports = (env, argv) => {
                     })),
                 }),
                 markoPlugin.browser,
-                new ESLintPlugin({}),
+                new ESLintPlugin({
+                    failOnError: true,
+                    failOnWarning: true,
+                }),
             ],
             resolve: {
                 alias: {
@@ -237,7 +240,10 @@ module.exports = (env, argv) => {
                     maxChunks: 1
                 }),
                 markoPlugin.server,
-                new ESLintPlugin({}),
+                new ESLintPlugin({
+                    failOnError: true,
+                    failOnWarning: true,
+                }),
             ],
             node: {
                 __dirname: false,
@@ -284,7 +290,10 @@ module.exports = (env, argv) => {
                 new webpack.optimize.LimitChunkCountPlugin({
                     maxChunks: 1
                 }),
-                new ESLintPlugin({}),
+                new ESLintPlugin({
+                    failOnError: true,
+                    failOnWarning: true,
+                }),
             ],
             node: {
                 __dirname: false,
