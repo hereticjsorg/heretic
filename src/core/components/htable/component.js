@@ -555,7 +555,8 @@ module.exports = class {
                     actionCellControl,
                 } = this.getElements();
                 tableControls.style.display = "block";
-                actionCellControl.style.opacity = "0";
+                // Set 0 to hide action cell control during load
+                actionCellControl.style.opacity = "1";
                 try {
                     // const {
                     //     table,
