@@ -150,6 +150,9 @@ module.exports = class {
 
     setTableDimensions() {
         this.setClientWidth();
+        if (this.state.loading) {
+            return;
+        }
         this.tableContainerWidth = this.getCurrentTableWidth();
         const {
             table,
@@ -244,6 +247,10 @@ module.exports = class {
             }
             this.setState("loading", false);
         }
+        const {
+            tableControls,
+        } = this.getElements();
+        tableControls.style.opacity = flag ? "1" : "0";
     }
 
     async placeStickyElements() {
@@ -277,6 +284,7 @@ module.exports = class {
         actionsTh.style.width = `${this.actionColumnWidth}px`;
         // setTimeout(async () => {
         this.stickyElementsUpdate = actionCellWraps.length;
+        this.setState("loading", true);
         for (const actionCellWrap of actionCellWraps) {
             // eslint-disable-next-line no-loop-func
             window.requestAnimationFrame(async () => {
@@ -284,6 +292,7 @@ module.exports = class {
                     // await this.utils.waitForElement(`hr_ht_action_cell_${this.input.id}_${actionCellWrap.dataset.index}`);
                     const actionElement = document.getElementById(`hr_ht_action_cell_${this.input.id}_${actionCellWrap.dataset.index}`);
                     actionElement.style.opacity = "0";
+                    tableControls.style.opacity = "0";
                     // actionCellWrap.style.height = "unset";
                     actionElement.style.height = "unset";
                     const actionColumnHeight = actionElement.getBoundingClientRect().height >= actionCellWrap.getBoundingClientRect().height ? actionElement.getBoundingClientRect().height : actionCellWrap.getBoundingClientRect().height;
@@ -293,11 +302,15 @@ module.exports = class {
                     actionElement.style.top = `${actionCellWrap.getBoundingClientRect().top - mainWrap.getBoundingClientRect().top + 1}px`;
                     if (actionCellWrap.getBoundingClientRect().top - mainWrap.getBoundingClientRect().top + 1 > 0) {
                         actionElement.style.opacity = "1";
+                        tableControls.style.opacity = "1";
                     }
                 } catch {
                     // Ignore
                 } finally {
                     this.stickyElementsUpdate -= 1;
+                    if (this.stickyElementsUpdate === 0) {
+                        this.setState("loading", false);
+                    }
                 }
             });
         }
@@ -309,6 +322,7 @@ module.exports = class {
         actionCellControl.style.width = `${this.actionColumnWidth + 2}px`;
         actionCellControl.style.height = `${actionsTh.getBoundingClientRect().height - 1}px`;
         actionCellControl.style.opacity = "1";
+        tableControls.style.opacity = "1";
         this.onTableContainerScroll();
     }
 
@@ -377,7 +391,11 @@ module.exports = class {
         if (hereticContent) {
             this.tableContainerWidth = this.getComputedStyles(hereticContent).width;
         }
-        setTimeout(() => this.placeStickyElementsDebounced(), 1000);
+        setTimeout(() => {
+            if (!this.state.loading) {
+                this.placeStickyElementsDebounced();
+            }
+        }, 1000);
         window.addEventListener("click", e => {
             if (document.getElementById(`hr_ht_data_dropdown_${this.input.id}`) && !document.getElementById(`hr_ht_data_dropdown_${this.input.id}`).contains(e.target)) {
                 this.setState("dataOpen", false);
@@ -556,7 +574,8 @@ module.exports = class {
                 } = this.getElements();
                 tableControls.style.display = "block";
                 // Set 0 to hide action cell control during load
-                actionCellControl.style.opacity = "1";
+                actionCellControl.style.opacity = "0";
+                tableControls.style.opacity = "0";
                 try {
                     // const {
                     //     table,
@@ -612,7 +631,8 @@ module.exports = class {
                 } catch (e) {
                     await this.utils.waitForElement(`hr_ht_table_controls_${this.input.id}`);
                     tableControls.style.display = "none";
-                    actionCellControl.style.opacity = "1";
+                    actionCellControl.style.opacity = "0";
+                    tableControls.style.opacity = "0";
                     if (e && e.response && e.response.status === 403) {
                         this.emit("unauthorized");
                         resolve();
@@ -706,6 +726,9 @@ module.exports = class {
 
     async onTopButtonClick(e) {
         e.preventDefault();
+        if (this.state.loading) {
+            return;
+        }
         const {
             id
         } = e.target.closest("[data-id]").dataset;
@@ -729,6 +752,9 @@ module.exports = class {
 
     async onActionButtonClick(e) {
         e.preventDefault();
+        if (this.state.loading) {
+            return;
+        }
         const buttonId = e.target.closest("[data-id]").dataset.id;
         const itemId = e.target.closest("[data-item]").dataset.item;
         this.emit("action-button-click", {

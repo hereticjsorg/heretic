@@ -60,6 +60,25 @@ export default class {
         return new Promise(wait);
     }
 
+    waitForVariable(variable, value) {
+        const timeout = 15000;
+        const start = Date.now();
+        const wait = (resolve, reject) => {
+            // eslint-disable-next-line no-console
+            console.log(variable);
+            // eslint-disable-next-line no-console
+            console.log(value);
+            if (variable === value) {
+                resolve();
+            } else if (timeout && (Date.now() - start) >= timeout) {
+                reject(new Error(`Timeout while waiting for: ${variable}`));
+            } else {
+                setTimeout(wait.bind(this, resolve, reject), 10);
+            }
+        };
+        return new Promise(wait);
+    }
+
     async loadLanguageData(page) {
         if (process.browser && window.__heretic && window.__heretic.languageData) { // && !window.__heretic.translationsLoaded[page]
             const i18nLoader = require(`../../build/loaders/i18n-loader-${page}`);
