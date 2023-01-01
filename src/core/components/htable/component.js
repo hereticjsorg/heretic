@@ -284,7 +284,7 @@ module.exports = class {
         actionsTh.style.width = `${this.actionColumnWidth}px`;
         // setTimeout(async () => {
         this.stickyElementsUpdate = actionCellWraps.length;
-        this.setState("loading", true);
+        // this.setState("loading", true);
         for (const actionCellWrap of actionCellWraps) {
             // eslint-disable-next-line no-loop-func
             window.requestAnimationFrame(async () => {
@@ -308,9 +308,9 @@ module.exports = class {
                     // Ignore
                 } finally {
                     this.stickyElementsUpdate -= 1;
-                    if (this.stickyElementsUpdate === 0) {
-                        this.setState("loading", false);
-                    }
+                    // if (this.stickyElementsUpdate === 0) {
+                    //     this.setState("loading", false);
+                    // }
                 }
             });
         }
