@@ -236,6 +236,8 @@ html.heretic-dark .hr-ht-action-button {
     justify-content: center;
     border-left: 1px solid $grey-lighter;
     border-right: 1px solid $grey-lighter;
+    border-bottom: 1px solid $grey-lighter;
+    border-top-right-radius: $radius;
     // border-right: 1px solid $grey-lighter;
     // border-left: 1px solid $grey-lighter;
 }
@@ -487,6 +489,10 @@ html.heretic-dark .hr-ht-loading-wrap {
 .hr-ht-row-error {
     border-top: 2px solid $red;
     border-bottom: 2px solid $red;
+}
+
+.hr-ht-action-cell-last {
+    border-bottom-right-radius: $radius;
 }
 
 @media (max-width: 1023px) {

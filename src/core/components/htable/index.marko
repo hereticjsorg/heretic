@@ -124,7 +124,7 @@ import SettingsPagesForm from "./settingsPagesForm"
 </div>
 <div class="hr-ht-wrap" id=`hr_ht_wrap_${input.id}`>
     <div class="table-container hr-ht-table-container mb-0" id=`hr_ht_table_container_${input.id}`>
-        <table id=`hr_ht_table_${input.id}` class="hr-ht-table table is-bordered is-striped is-hoverable is-fullwidth" on-mousemove("onColumnMove")>
+        <table id=`hr_ht_table_${input.id}` class="hr-ht-table table hr-is-bordered is-striped is-hoverable is-fullwidth" on-mousemove("onColumnMove")>
             <thead class="hr-ht-thead">
                 <tr class="hr-ht-thead-tr">
                     <if(state.checkboxColumn)>
@@ -255,7 +255,7 @@ import SettingsPagesForm from "./settingsPagesForm"
         <if(state.data && state.data.length)>
             <for|row, ix| of=state.data>
                 <div
-                    class=`hr-ht-action-cell hr-ht-action-cell-${input.id} p-2 m-0 ${ix % 2 === 0 ? "hr-ht-action-cell-even" : "hr-ht-action-cell-odd"}`
+                    class=`hr-ht-action-cell hr-ht-action-cell-${input.id} p-2 m-0 ${ix % 2 === 0 ? "hr-ht-action-cell-even" : "hr-ht-action-cell-odd"} ${ix === (state.data.length - 1) ? "hr-ht-action-cell-last" : ""}`
                     data-index=ix
                     id=`hr_ht_action_cell_${input.id}_${ix}`
                     style={
