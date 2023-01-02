@@ -63,7 +63,7 @@ export default class {
         });
         this.fastify.register(require("@fastify/cookie"));
         if (this.systemConfig.webSockets || this.systemConfig.webSockets.enabled) {
-            this.fastify.register(require("@fastify/websocket"), {
+            this.fastify.register(require("./websocket.js"), {
                 options: this.systemConfig.webSockets.options,
             });
         }
