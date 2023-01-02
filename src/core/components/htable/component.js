@@ -247,10 +247,6 @@ module.exports = class {
             }
             this.setState("loading", false);
         }
-        const {
-            tableControls,
-        } = this.getElements();
-        tableControls.style.opacity = flag ? "1" : "0";
     }
 
     async placeStickyElements() {

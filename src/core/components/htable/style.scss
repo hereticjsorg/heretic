@@ -194,6 +194,7 @@ html.heretic-dark .hr-ht-action-button {
     position: absolute;
     top: 0;
     left: 0;
+    z-index: 55;
 }
 
 .hr-ht-wrap {
@@ -206,7 +207,6 @@ html.heretic-dark .hr-ht-action-button {
     display: flex !important;
     flex-direction: row;
     justify-content: center;
-    z-index: 150 !important;
     border-left: 1px solid $grey-lighter;
     border-right: 1px solid $grey-lighter;
 }
@@ -251,7 +251,7 @@ html.heretic-dark .hr-ht-action-cell-control {
     left: 0;
     top: 0;
     background: rgba($white, 0.7);
-    z-index: 50;
+    z-index: 60;
 }
 
 .hr-ht-checkbox-top {

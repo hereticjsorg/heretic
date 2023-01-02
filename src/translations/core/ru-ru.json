@@ -173,5 +173,6 @@
     "hform_lotItemDeleteConfirmationText": "Вы действительно хотите удалить выбранную запись?",
     "adminPanel": "Панель администратора",
     "hereticModeToggle": "Переключение светлой/темной темы",
-    "goToUserspace": "Перейти к сайту"
+    "goToUserspace": "Перейти к сайту",
+    "couldNotLoadLockData": "Ошибка во время загрузки данных о блокировке"
 }
