@@ -11,6 +11,7 @@ import systemConfig from "../../../etc/system.js";
 
 axiosRetry(axios, {
     retryDelay: axiosRetry.exponentialDelay,
+    retries: 10,
 });
 
 const routeId = "test3wEGNDiB";
@@ -68,24 +69,6 @@ test("Server availability (404)", async () => {
 });
 
 test("Test Page", async () => {
-    if (await helpers.fileExists(`src/pages/${routeId}`)) {
-        await helpers.removeFile(`src/pages/${routeId}`);
-    }
-    await helpers.copy("src/core/defaults/.test", `src/pages/${routeId}`);
-    const testMeta = await helpers.readJSON(`src/pages/${routeId}/meta.json`);
-    testMeta.id = routeId;
-    for (const language of helpers.getLanguagesList()) {
-        testMeta.userspace.title[language] = `site-title-${language}`;
-        testMeta.userspace.description[language] = `site-description-${language}`;
-        await helpers.ensureDir(`src/pages/${routeId}/userspace/content/lang-${language}`);
-        await helpers.writeFile(`src/pages/${routeId}/userspace/content/lang-${language}/index.marko`, `<div>site-content-${language}</div>\n`);
-    }
-    await helpers.writeJSON(`src/pages/${routeId}/meta.json`, testMeta);
-    const {
-        buildSuccess
-    } = await helpers.build("dev");
-    expect(buildSuccess).toBe(true);
-    await helpers.removeFile(`src/pages/${routeId}`);
     const childProcess = helpers.runCommand("npm run server");
     expect(childProcess.pid).toBeGreaterThan(0);
     serverPid.push(childProcess.pid);

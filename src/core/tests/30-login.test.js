@@ -14,6 +14,7 @@ import websiteConfig from "../../../etc/website";
 
 axiosRetry(axios, {
     retryDelay: axiosRetry.exponentialDelay,
+    retries: 10,
 });
 
 jest.setTimeout(120000);

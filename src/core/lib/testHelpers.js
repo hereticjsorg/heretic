@@ -119,12 +119,11 @@ export default class {
 
     /* istanbul ignore file */
     async build(suffix) {
-        await this.removeFile("dist");
         const data = await this.executeCommand(`npm run build --${suffix === "dev" ? " --dev" : ""} --no-color`);
         const serverFileExists = await this.doesServerFileExists();
         const publicDirExists = await this.doesPublicDirExists();
-        const buildResultMatch = data && data.exitCode === 0 && typeof data.stdout === "string" ? data.stdout.match(/compiled successfully/gm) : [];
-        const buildSuccess = (buildResultMatch && Array.isArray(buildResultMatch) && buildResultMatch.length === 3);
+        const buildResultMatch = data && data.exitCode === 0 && typeof data.stdout === "string" ? data.stdout.match(/All done\./gm) : [];
+        const buildSuccess = (buildResultMatch && Array.isArray(buildResultMatch) && buildResultMatch.length === 1);
         return {
             serverFileExists,
             publicDirExists,

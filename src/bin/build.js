@@ -8,10 +8,9 @@ const BinUtils = require("./binUtils");
     binUtils.setLogProperties({
         enabled: true,
         color: true,
-        noDate: true,
+        noDate: false,
     });
     binUtils.setInteractive(true);
-    binUtils.printLogo();
     let options;
     try {
         options = commandLineArgs(binUtils.getBuildCommandLineArgs());
@@ -19,6 +18,10 @@ const BinUtils = require("./binUtils");
         binUtils.log(e.message);
         process.exit(1);
     }
+    if (options["no-color"]) {
+        binUtils.setLogPropertyColor(false);
+    }
+    binUtils.printLogo();
     try {
         binUtils.log(`Building Heretic in ${options.dev ? "development" : "production"} mode${options.dev ? "" : " (may take a long time!)"}...`);
         const data = await binUtils.executeCommand(`npm run build-${options.dev ? "dev" : "production"} -- --no-color`);

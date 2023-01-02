@@ -47,6 +47,10 @@ module.exports = class {
         this.logNoDate = properties.noDate;
     }
 
+    setLogPropertyColor(flag) {
+        this.logColor = flag;
+    }
+
     setInteractive(flag) {
         this.interactive = flag;
     }
@@ -884,8 +888,13 @@ module.exports = class {
     }
 
     printLogo() {
-        // eslint-disable-next-line no-console
-        console.log(`${this.color.get("                 ", ["bgGreen"])}\n${this.color.get("  H E R E T I C  ", ["bgGreen", "whiteBright"])}\n${this.color.get("                 ", ["bgGreen"])}\n`);
+        if (this.logColor) {
+            // eslint-disable-next-line no-console
+            console.log(`${this.color.get("                 ", ["bgGreen"])}\n${this.color.get("  H E R E T I C  ", ["bgGreen", "whiteBright"])}\n${this.color.get("                 ", ["bgGreen"])}\n`);
+        } else {
+            // eslint-disable-next-line no-console
+            console.log("╔═════════════════╗\n║                 ║\n║  H E R E T I C  ║\n║                 ║\n╚═════════════════╝\n");
+        }
     }
 
     async executeCommand(command = "") {
@@ -972,6 +981,9 @@ module.exports = class {
     getBuildCommandLineArgs() {
         return [{
             name: "dev",
+            type: Boolean,
+        }, {
+            name: "no-color",
             type: Boolean,
         }];
     }
