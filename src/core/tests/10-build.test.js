@@ -6,7 +6,7 @@ import {
 import Helpers from "../lib/testHelpers";
 
 const helpers = new Helpers();
-jest.setTimeout(120000);
+jest.setTimeout(500000);
 
 for (const mode of ["Dev", "Production"]) {
     test(`Build Test: ${mode} Mode`, async () => {

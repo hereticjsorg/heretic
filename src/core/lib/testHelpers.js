@@ -135,7 +135,7 @@ export default class {
     getChromePath() {
         if (process.platform === "linux") {
             let bin = null;
-            for (const command of ["google-chrome", "google-chrome-stable"]) {
+            for (const command of ["chromium", "google-chrome", "google-chrome-stable"]) {
                 try {
                     if (which.sync(command)) {
                         bin = command;
