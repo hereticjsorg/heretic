@@ -312,7 +312,7 @@ module.exports = class {
                     try {
                         await this.utils.waitForComponent(`hr_hf_el_${this.input.formId}_${this.input.id}_calendar`);
                         this.getComponent(`hr_hf_el_${this.input.formId}_${this.input.id}_calendar`).setDate(date);
-                        const dateValue = date.getTime();
+                        const dateValue = date.getTime() / 1000;
                         this.setState("value", dateValue);
                         this.emit("value-change", {
                             id: this.input.id,
