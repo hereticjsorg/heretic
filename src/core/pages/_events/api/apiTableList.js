@@ -24,6 +24,11 @@ export default () => ({
             options.projection.geoNameIdCountry = 1;
             options.projection.userId = 1;
             const query = req.generateQuery(formData);
+            const grandTotal = await this.mongo.db.collection(moduleConfig.collections.main).countDocuments({
+                deleted: {
+                    $exists: false,
+                },
+            });
             const total = await this.mongo.db.collection(moduleConfig.collections.main).countDocuments(query);
             const items = await this.mongo.db.collection(moduleConfig.collections.main).find(query, options).toArray();
             const usersQuery = [];
@@ -128,6 +133,7 @@ export default () => ({
             return rep.code(200).send({
                 items: req.processDataList(items, formData.getFieldsFlat()),
                 total,
+                grandTotal,
             });
         } catch (e) {
             this.log.error(e);
