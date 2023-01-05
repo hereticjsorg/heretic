@@ -154,10 +154,6 @@ html.heretic-dark .hr-ht-action-button {
     fill: $white !important;
 }
 
-.hr-ht-search-control .input:active>.hr-ht-search-icon>svg>path {
-    fill: red !important;
-}
-
 .hr-ht-form-icon,
 .hr-ht-search-close-icon {
     display: inline-flex;
@@ -525,5 +521,9 @@ html.heretic-dark .hr-ht-loading-wrap {
     .hr-hm-tabs>ul {
         position: relative;
         top: 0;
+    }
+
+    .hr-ht-search-control {
+        width: 100%;
     }
 }

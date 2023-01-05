@@ -102,7 +102,7 @@ import SettingsPagesForm from "./settingsPagesForm"
     </div>
     <div class="column is-narrow">
         <div class="field has-addons has-addons-centered">
-            <div class="control">
+            <div class="control hr-ht-search-control">
                 <input class="input hr-ht-search-field" type="text" value=state.searchText on-input("onSearchInputChange") placeholder=(process.browser ? window.__heretic.t("htable_searchPlaceholder") : "") disabled=state.loading id=`hr_ht_table_search_${input.id}`/>
             </div>
             <p class="control">

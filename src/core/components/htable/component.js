@@ -1762,11 +1762,13 @@ module.exports = class {
 
     onSearchButtonClearClick(e) {
         e.preventDefault();
-        this.setState("searchText", "");
-        this.loadDataDebounced({
-            searchText: "",
-            currentPage: 1,
-            focusOnSearch: true,
-        });
+        if (this.state.searchText && this.state.searchText.length) {
+            this.setState("searchText", "");
+            this.loadDataDebounced({
+                searchText: "",
+                currentPage: 1,
+                focusOnSearch: true,
+            });
+        }
     }
 };
