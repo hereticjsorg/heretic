@@ -175,5 +175,8 @@
     "hereticModeToggle": "Toggle light/dark theme",
     "goToUserspace": "Go to Website",
     "requestedFeatureDisabled": "The requested feature has been disabled on this website",
-    "couldNotLoadLockData": "Could not load lock data"
+    "couldNotLoadLockData": "Could not load lock data",
+    "htable_total": "Total",
+    "htable_selected": "selected",
+    "htable_searchPlaceholder": "Search"
 }

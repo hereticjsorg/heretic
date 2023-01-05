@@ -1,4 +1,4 @@
-import { mdiReload, mdiPlus, mdiMagnify, mdiCogOutline, mdiDrag, mdiPencilOutline, mdiTrashCanOutline, mdiFilterOutline, mdiDatabaseOutline, mdiContentSaveMoveOutline, mdiFormatListGroup, mdiDatabaseExportOutline, mdiLockOutline } from "@mdi/js"
+import { mdiReload, mdiPlus, mdiMagnify, mdiCogOutline, mdiDrag, mdiPencilOutline, mdiTrashCanOutline, mdiFilterOutline, mdiDatabaseOutline, mdiContentSaveMoveOutline, mdiFormatListGroup, mdiDatabaseExportOutline, mdiLockOutline, mdiClose } from "@mdi/js"
 import { format } from "date-fns"
 import SettingsPagesForm from "./settingsPagesForm"
 
@@ -101,15 +101,19 @@ import SettingsPagesForm from "./settingsPagesForm"
         </if>
     </div>
     <div class="column is-narrow">
-        <div class="control has-icons-right hr-ht-search-field">
-            <input class="input" type="text" value=state.searchText on-input("onSearchInputChange") disabled=state.loading/>
-            <span class="icon is-small is-right">
-                <span class="hr-ht-form-icon icon">
-                    <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                        <path d=mdiMagnify/>
-                    </svg>
-                </span>
-            </span>
+        <div class="field has-addons has-addons-centered">
+            <div class="control">
+                <input class="input hr-ht-search-field" type="text" value=state.searchText on-input("onSearchInputChange") placeholder=(process.browser ? window.__heretic.t("htable_searchPlaceholder") : "") disabled=state.loading id=`hr_ht_table_search_${input.id}`/>
+            </div>
+            <p class="control">
+                <a class="button" on-click("onSearchButtonClearClick")>
+                    <span class="hr-ht-form-icon icon">
+                        <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                            <path d=mdiClose/>
+                        </svg>
+                    </span>
+                </a>
+            </p>
         </div>
     </div>
 </div>
@@ -121,6 +125,10 @@ import SettingsPagesForm from "./settingsPagesForm"
         display: "none"
     }>
     <div class="hr-ht-scroll" id=`hr_ht_table_scroll_${input.id}`/>
+</div>
+<div class="menu-label">
+    <t>htable_total</t>: ${state.total}<if(state.total !== state.grandTotal)>&nbsp;(${state.grandTotal})</if>,&nbsp;
+    <t>htable_selected</t>: ${state.selected}
 </div>
 <div class="hr-ht-wrap" id=`hr_ht_wrap_${input.id}`>
     <div class="table-container hr-ht-table-container mb-0" id=`hr_ht_table_container_${input.id}`>
@@ -255,7 +263,7 @@ import SettingsPagesForm from "./settingsPagesForm"
         <if(state.data && state.data.length)>
             <for|row, ix| of=state.data>
                 <div
-                    class=`hr-ht-action-cell hr-ht-action-cell-${input.id} p-2 m-0 ${ix % 2 === 0 ? "hr-ht-action-cell-even" : "hr-ht-action-cell-odd"} ${ix === (state.data.length - 1) ? "hr-ht-action-cell-last" : ""}`
+                    class=`hr-ht-action-cell hr-ht-action-cell-${input.id} p-2 m-0 ${ix % 2 === 0 ? "hr-ht-action-cell-even" : "hr-ht-action-cell-odd"} ${ix === state.data.length - 1 ? "hr-ht-action-cell-last" : ""}`
                     data-index=ix
                     id=`hr_ht_action_cell_${input.id}_${ix}`
                     style={

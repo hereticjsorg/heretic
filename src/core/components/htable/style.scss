@@ -154,12 +154,18 @@ html.heretic-dark .hr-ht-action-button {
     fill: $white !important;
 }
 
-.hr-ht-form-icon {
+.hr-ht-search-control .input:active>.hr-ht-search-icon>svg>path {
+    fill: red !important;
+}
+
+.hr-ht-form-icon,
+.hr-ht-search-close-icon {
     display: inline-flex;
     align-self: center;
 }
 
-.hr-ht-form-icon svg {
+.hr-ht-form-icon svg,
+.hr-ht-search-close-icon svg {
     height: 17px;
     width: 17px;
     top: 0px;
@@ -168,6 +174,10 @@ html.heretic-dark .hr-ht-action-button {
 
 .hr-ht-form-icon svg>path {
     fill: $grey-light !important;
+}
+
+.hr-ht-search-close-icon svg>path {
+    fill: darken($grey, 5%) !important;
 }
 
 .hr-ht-drag-icon {

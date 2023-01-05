@@ -174,5 +174,8 @@
     "adminPanel": "Панель администратора",
     "hereticModeToggle": "Переключение светлой/темной темы",
     "goToUserspace": "Перейти к сайту",
-    "couldNotLoadLockData": "Ошибка во время загрузки данных о блокировке"
+    "couldNotLoadLockData": "Ошибка во время загрузки данных о блокировке",
+    "htable_total": "Всего записей",
+    "htable_selected": "выбрано",
+    "htable_searchPlaceholder": "Поиск"
 }

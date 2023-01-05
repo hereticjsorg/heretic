@@ -70,6 +70,9 @@ module.exports = class {
             currentRecycleBinListPage: 1,
             recycleDeleteItems: [],
             lockedItems: {},
+            total: 0,
+            grandTotal: 0,
+            selected: 0,
         };
         this.queryStringShorthands = {
             currentPage: "p",
@@ -608,6 +611,8 @@ module.exports = class {
                         this.setState("columns", columns);
                     }
                     this.setState("totalPages", response.data.total < this.state.itemsPerPage ? 1 : Math.ceil(response.data.total / this.state.itemsPerPage));
+                    this.setState("total", response.data.total);
+                    this.setState("grandTotal", response.data.grandTotal);
                     if (input.currentPage) {
                         input.currentPage = parseInt(input.currentPage, 10);
                     }
@@ -624,6 +629,12 @@ module.exports = class {
                     }
                     this.emit("load-complete", response.data);
                     this.needToUpdateTableWidth = true;
+                    if (input && input.focusOnSearch) {
+                        setTimeout(async () => {
+                            await this.utils.waitForElement(`hr_ht_table_search_${this.input.id}`);
+                            document.getElementById(`hr_ht_table_search_${this.input.id}`).focus();
+                        });
+                    }
                 } catch (e) {
                     await this.utils.waitForElement(`hr_ht_table_controls_${this.input.id}`);
                     tableControls.style.display = "none";
@@ -713,6 +724,7 @@ module.exports = class {
     }
 
     onPageClick(page) {
+        this.setState("selected", 0);
         this.setState("checkboxes", []);
         this.setState("checkboxesAll", false);
         this.loadData({
@@ -780,6 +792,7 @@ module.exports = class {
         } else {
             this.setState("checkboxes", []);
         }
+        this.setState("selected", this.state.checkboxes.length);
         this.setState("checkboxesAll", !!e.target.checked);
     }
 
@@ -795,6 +808,7 @@ module.exports = class {
             checkboxes = this.state.checkboxes.filter(i => i !== id);
         }
         const checkboxesUnique = [...new Set(checkboxes)];
+        this.setState("selected", checkboxesUnique.length);
         this.setState("checkboxes", checkboxesUnique);
         this.setState("checkboxesAll", checkboxesUnique.length === this.state.data.length);
     }
@@ -815,6 +829,7 @@ module.exports = class {
                     headers: this.input.headers || {},
                 });
                 this.setState("checkboxes", []);
+                this.setState("selected", 0);
                 this.setState("checkboxesAll", false);
                 await this.loadData({
                     currentPage: 1,
@@ -844,6 +859,7 @@ module.exports = class {
         this.loadDataDebounced({
             searchText: value,
             currentPage: 1,
+            focusOnSearch: true,
         });
     }
 
@@ -1742,5 +1758,15 @@ module.exports = class {
         if (window.__heretic && window.__heretic.setTippy) {
             window.__heretic.setTippy();
         }
+    }
+
+    onSearchButtonClearClick(e) {
+        e.preventDefault();
+        this.setState("searchText", "");
+        this.loadDataDebounced({
+            searchText: "",
+            currentPage: 1,
+            focusOnSearch: true,
+        });
     }
 };
