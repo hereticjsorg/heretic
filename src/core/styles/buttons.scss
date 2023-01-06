@@ -130,6 +130,12 @@ html.heretic-dark .button.is-light {
     color: $white-ter;
 }
 
+html.heretic-dark .button {
+    background: $grey-darker;
+    color: $white-ter;
+    border: 1px solid darken($grey, 10%);
+}
+
 html.heretic-dark .button.is-light>span>svg>path {
     fill: $white-ter !important;
 }
