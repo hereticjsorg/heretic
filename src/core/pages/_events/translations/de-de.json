@@ -1,0 +1,23 @@
+{
+    "moduleTitleGroups": "Veranstaltungen",
+    "id": "ID",
+    "viewEvent": "Veranstaltung ansehen",
+    "fileDownload": "Download startet automatisch, bitte warten…",
+    "fileDownloadError": "Die angeforderte Datei konnte nicht heruntergeladen werden, bitte überprüfen Sie Ihren Link und Ihre Berechtigungen",
+    "close": "Schließen",
+    "newItem": "Gruppe hinzufügen",
+    "deleteSelected": "Löschen",
+    "saveSuccess": "Erfolgreich gespeichert",
+    "loadingError": "Fehler beim Herunterladen des angeforderten Eintrags",
+    "view": "Ansicht",
+    "delete": "Löschen",
+    "lockedBy": "Gesperrt von",
+    "event": "Veranstaltung",
+    "eventIP": "IP",
+    "eventDate": "Datum",
+    "eventLocation": "Standort",
+    "eventUsername": "Benutzer",
+    "ipAddress": "IP-Adresse",
+    "username": "Benutzer",
+    "extrasData": "Veranstaltung Extras"
+}

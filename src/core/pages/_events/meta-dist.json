@@ -2,7 +2,8 @@
     "admin": {
         "title": {
             "ru-ru": "События",
-            "en-us": "Events"
+            "en-us": "Events",
+            "de-de": "Veranstaltungen"
         }
     }
 }

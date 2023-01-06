@@ -1,5 +1,6 @@
 {
     "cSpell.words": [
+        "Anbieterdaten",
         "appengine",
         "autocrop",
         "autodrain",
@@ -32,6 +33,7 @@
         "hcalendar",
         "hform",
         "HHMMDD",
+        "Historieneintrag",
         "hmodal",
         "hrouter",
         "hselect",
@@ -42,7 +44,9 @@
         "iptools",
         "lastmod",
         "linebreak",
+        "Lizensiert",
         "LOCALAPPDATA",
+        "marko",
         "Marko",
         "Matveev",
         "Mobi",
@@ -60,6 +64,7 @@
         "qneq",
         "qneqn",
         "ratelimit",
+        "Ratengrenze",
         "rdparty",
         "regexes",
         "registerrouteapi",

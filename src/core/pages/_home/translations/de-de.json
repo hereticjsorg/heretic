@@ -1,0 +1,19 @@
+{
+    "moduleTitleAdmin": "Administrationsbereich",
+    "couldNotLoadData": "Daten konnten nicht geladen werden",
+    "hereticUpAndRunning": "Heretic ist gestartet",
+    "hereticVersion": "Heretic Version",
+    "operatingSystem": "Betriebssystem",
+    "Darwin": "macOS",
+    "Windows_NT": "Windows",
+    "Linux": "Linux-based",
+    "operatingSystemRelease": "Version des Betriebssystems",
+    "pagesAvail": "Verfügbare Seiten",
+    "modulesAvail": "Verfügbare Module",
+    "onlineUsers": "Online Benutzer",
+    "connections": "Verbindungen",
+    "ram": "RAM verfügbar",
+    "pagesCount": "Anzahl der Seiten",
+    "modulesCount": "Anzahl der Module",
+    "pagesCoreCount": "Anzahl der Kernseiten"
+}

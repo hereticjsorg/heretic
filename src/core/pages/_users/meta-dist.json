@@ -2,7 +2,8 @@
     "admin": {
         "title": {
             "ru-ru": "Пользователи",
-            "en-us": "Users"
+            "en-us": "Users",
+            "de-de": "Benutzer"
         }
     }
 }

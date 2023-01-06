@@ -1,0 +1,8 @@
+{
+    "username": "Benutzername",
+    "password": "Kennwort",
+    "signIn": "Anmelden",
+    "error_invalid_credentials": "Ungültige Zugangsdaten",
+    "loginSuccess": "Anmeldung erfolgreich",
+    "loginFail": "Anmeldung fehlgeschlagen"
+}
