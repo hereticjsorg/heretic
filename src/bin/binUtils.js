@@ -411,28 +411,36 @@ module.exports = class {
                     }
                 }
                 for (const dir of directories) {
-                    const pageUserspaceJSONPath = path.resolve(__dirname, area, dir, p, "meta.json");
-                    if (fs.existsSync(pageUserspaceJSONPath)) {
-                        const pageJSON = fs.readJSONSync(pageUserspaceJSONPath);
-                        if (pageJSON.userspace) {
-                            pageJSON.userspace.title[id] = pageJSON.userspace.title[id] || "";
-                            if (pageJSON.userspace.description) {
-                                pageJSON.userspace.description[id] = pageJSON.userspace.description[id] || "";
+                    for (const prefix of ["", "-dist"]) {
+                        const pageUserspaceJSONPath = path.resolve(__dirname, area, dir, p, `meta${prefix}.json`);
+                        if (fs.existsSync(pageUserspaceJSONPath)) {
+                            const pageJSON = fs.readJSONSync(pageUserspaceJSONPath);
+                            if (pageJSON.userspace) {
+                                pageJSON.userspace.title[id] = pageJSON.userspace.title[id] || "";
+                                if (pageJSON.userspace.description) {
+                                    pageJSON.userspace.description[id] = pageJSON.userspace.description[id] || "";
+                                }
                             }
-                        }
-                        if (pageJSON.admin) {
-                            pageJSON.admin.title[id] = pageJSON.admin.title[id] || "";
-                            if (pageJSON.admin.description) {
-                                pageJSON.admin.description[id] = pageJSON.admin.description[id] || "";
+                            if (pageJSON.admin) {
+                                pageJSON.admin.title[id] = pageJSON.admin.title[id] || "";
+                                if (pageJSON.admin.description) {
+                                    pageJSON.admin.description[id] = pageJSON.admin.description[id] || "";
+                                }
                             }
+                            fs.writeJSONSync(pageUserspaceJSONPath, pageJSON, {
+                                spaces: "  ",
+                            });
                         }
-                        fs.writeJSONSync(pageUserspaceJSONPath, pageJSON, {
-                            spaces: "  ",
-                        });
                     }
                     if (fs.existsSync(path.resolve(__dirname, area, dir, `${p}/userspace/content/lang-switch`))) {
                         fs.ensureDirSync(path.resolve(__dirname, area, dir, `${p}/userspace/content/lang-${id}`));
                         fs.writeFileSync(path.resolve(__dirname, area, dir, `${p}/userspace/content/lang-${id}/index.marko`), `<div>${name}</div>`, "utf8");
+                    }
+                    if (fs.existsSync(path.resolve(__dirname, area, dir, `${p}/translations/${Object.keys(languageJSON)[0]}.json`))) {
+                        const transCoreJSON = fs.readJSONSync(path.resolve(__dirname, area, dir, `${p}/translations/${Object.keys(languageJSON)[0]}.json`));
+                        fs.writeJSONSync(path.resolve(__dirname, area, dir, `${p}/translations/${id}.json`), transCoreJSON, {
+                            spaces: "  "
+                        });
                     }
                 }
             }
@@ -451,6 +459,12 @@ module.exports = class {
                     }
                     fs.writeJSONSync(moduleMetaJSONPath, moduleJSON, {
                         spaces: "  ",
+                    });
+                }
+                if (fs.existsSync(path.resolve(__dirname, `../modules/${m}/translations/${Object.keys(languageJSON)[0]}.json`))) {
+                    const transCoreJSON = fs.readJSONSync(path.resolve(__dirname, `../modules/${m}/translations/${Object.keys(languageJSON)[0]}.json`));
+                    fs.writeJSONSync(path.resolve(__dirname, `../modules/${m}/translations/${id}.json`), transCoreJSON, {
+                        spaces: "  "
                     });
                 }
             }
