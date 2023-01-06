@@ -68,6 +68,24 @@ html.heretic-dark .hr-footer {
     margin-right: -6px;
 }
 
+.hr-demo-notice {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    background: $yellow;
+    padding: 6px 10px;
+    border-bottom-left-radius: $radius;
+    border-bottom-right-radius: $radius;
+    z-index: 35;
+    font-size: 80%;
+    box-shadow: rgba($black, 0.04) 0px 3px 5px;
+    text-align: center;
+}
+
+html.heretic-dark .hr-demo-notice {
+    color: $black-bis;
+}
+
 // Begin: hack to make round corners for table
 
 .table.hr-is-bordered {

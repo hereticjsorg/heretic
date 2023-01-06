@@ -178,5 +178,6 @@
     "couldNotLoadLockData": "Sperrdaten konnten nicht geladen werden",
     "htable_total": "Insgesamt",
     "htable_selected": "ausgewählt",
-    "htable_searchPlaceholder": "Suche"
+    "htable_searchPlaceholder": "Suche",
+    "noChangesSavedDemoMode": "Demo-Modus, Änderungen werden nicht gespeichert"
 }

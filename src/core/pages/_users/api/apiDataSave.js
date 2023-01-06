@@ -51,12 +51,14 @@ export default () => ({
                 } else {
                     delete data._default.password;
                 }
-                await collection.updateOne({
-                    _id: data._id,
-                }, {
-                    $set: data._default,
-                });
-                await formValidator.saveFiles(moduleConfig.id, String(data._id));
+                if (!this.systemConfig.demo) {
+                    await collection.updateOne({
+                        _id: data._id,
+                    }, {
+                        $set: data._default,
+                    });
+                    await formValidator.saveFiles(moduleConfig.id, String(data._id));
+                }
                 await formValidator.unlinkRemovedFiles({
                     _default: existingRecord,
                 });
@@ -65,12 +67,14 @@ export default () => ({
                 if (duplicateErrors) {
                     return rep.error(duplicateErrors);
                 }
-                data._default.password = await req.auth.createHash(`${data._default.password}${this.systemConfig.secret}`);
-                const insertResult = await collection.insertOne({
-                    ...data._default,
-                });
-                result.insertedId = insertResult.insertedId;
-                await formValidator.saveFiles(moduleConfig.id, String(insertResult.insertedId));
+                if (!this.systemConfig.demo) {
+                    data._default.password = await req.auth.createHash(`${data._default.password}${this.systemConfig.secret}`);
+                    const insertResult = await collection.insertOne({
+                        ...data._default,
+                    });
+                    result.insertedId = insertResult.insertedId;
+                    await formValidator.saveFiles(moduleConfig.id, String(insertResult.insertedId));
+                }
             }
             return rep.code(200).send(result);
         } catch (e) {

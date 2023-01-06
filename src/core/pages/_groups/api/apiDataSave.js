@@ -41,25 +41,29 @@ export default () => ({
                 if (duplicateErrors) {
                     return rep.error(duplicateErrors);
                 }
-                await collection.updateOne({
-                    _id: data._id,
-                }, {
-                    $set: data._default,
-                });
-                await formValidator.saveFiles(moduleConfig.id, String(data._id));
-                await formValidator.unlinkRemovedFiles({
-                    _default: existingRecord,
-                });
+                if (!this.systemConfig.demo) {
+                    await collection.updateOne({
+                        _id: data._id,
+                    }, {
+                        $set: data._default,
+                    });
+                    await formValidator.saveFiles(moduleConfig.id, String(data._id));
+                    await formValidator.unlinkRemovedFiles({
+                        _default: existingRecord,
+                    });
+                }
             } else {
                 const duplicateErrors = await this.findDatabaseDuplicates(moduleConfig.collections.main, uniqueFields, data._default, null);
                 if (duplicateErrors) {
                     return rep.error(duplicateErrors);
                 }
-                const insertResult = await collection.insertOne({
-                    ...data._default,
-                });
-                result.insertedId = insertResult.insertedId;
-                await formValidator.saveFiles(moduleConfig.id, String(result.insertedId));
+                if (!this.systemConfig.demo) {
+                    const insertResult = await collection.insertOne({
+                        ...data._default,
+                    });
+                    result.insertedId = insertResult.insertedId;
+                    await formValidator.saveFiles(moduleConfig.id, String(result.insertedId));
+                }
             }
             return rep.code(200).send(result);
         } catch (e) {

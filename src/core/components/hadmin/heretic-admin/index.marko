@@ -8,6 +8,11 @@ import languages from "../../../../config/languages.json"
     }
     class="hr-admin">
     <hloading key="loading"/>
+    <if(state.mounted && out.global.demo)>
+        <div class="hr-demo-notice">
+            <t>noChangesSavedDemoMode</t>
+        </div>
+    </if>
     <div
         class="hr-wrap"
         style={

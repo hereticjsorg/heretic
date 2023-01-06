@@ -178,5 +178,6 @@
     "couldNotLoadLockData": "Could not load lock data",
     "htable_total": "Total",
     "htable_selected": "selected",
-    "htable_searchPlaceholder": "Search"
+    "htable_searchPlaceholder": "Search",
+    "noChangesSavedDemoMode": "Database changes are not saved in demo mode"
 }

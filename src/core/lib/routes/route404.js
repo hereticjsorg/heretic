@@ -18,6 +18,7 @@ export default async (req, rep, languageData, language, siteConfig, systemConfig
                 webSockets: true,
                 authOptions: true,
                 mongoEnabled: true,
+                demo: true,
             },
             authOptions: systemConfig.auth,
             mongoEnabled: systemConfig.mongo.enabled,
@@ -32,6 +33,7 @@ export default async (req, rep, languageData, language, siteConfig, systemConfig
             siteId: systemConfig.id,
             cookieOptions: systemConfig.cookieOptions,
             webSockets: systemConfig.webSockets || {},
+            demo: systemConfig.demo,
         },
     });
     rep.type("text/html");

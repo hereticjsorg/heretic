@@ -27,6 +27,7 @@ export default (route, languageData, language) => ({
                     webSockets: true,
                     authOptions: true,
                     mongoEnabled: true,
+                    demo: true,
                 },
                 authOptions: this.systemConfig.auth,
                 mongoEnabled: this.systemConfig.mongo.enabled,
@@ -44,6 +45,7 @@ export default (route, languageData, language) => ({
                 } : {},
                 systemRoutes: this.systemConfig.routes,
                 webSockets: this.systemConfig.webSockets || {},
+                demo: this.systemConfig.demo,
             },
         });
         rep.type("text/html");

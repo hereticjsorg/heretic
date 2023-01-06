@@ -147,10 +147,10 @@ export default class {
             for (const tab of this.tabs) {
                 const filesData = this.data[tab][ff] ? (Array.isArray(this.data[tab][ff]) ? this.data[tab][ff] : [this.data[tab][ff]]) : [];
                 for (const file of filesData) {
-                    if (this.formFiles[file.uid]) {
+                    if (this.formFiles[file.uid] && !this.fastify.systemConfig.demo) {
                         try {
                             await fs.move(this.formFiles[file.uid].filePath, `${path.resolve(__dirname, this.fastify.systemConfig.directories.files)}/${file.uid}`);
-                            if (!this.fastify.systemConfig.mongo.enabled) {
+                            if (this.fastify.systemConfig.mongo.enabled) {
                                 await this.fastify.mongo.db.collection(this.fastify.systemConfig.collections.files).insertOne({
                                     _id: file.uid,
                                     filename: this.formFiles[file.uid].filename,
@@ -196,9 +196,9 @@ export default class {
                 // Ignore
             }
         }
-        if (!this.fastify.systemConfig.mongo.enabled) {
+        if (this.fastify.systemConfig.mongo.enabled) {
             try {
-                await await this.fastify.mongo.db.collection(this.fastify.systemConfig.collections.files).deleteMany(deleteManyQuery);
+                await this.fastify.mongo.db.collection(this.fastify.systemConfig.collections.files).deleteMany(deleteManyQuery);
             } catch {
                 // Ignore
             }

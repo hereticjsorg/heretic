@@ -22,6 +22,7 @@ export default (route, languageData, language) => ({
                     webSockets: true,
                     authOptions: true,
                     mongoEnabled: true,
+                    demo: true,
                 },
                 authOptions: this.systemConfig.auth,
                 mongoEnabled: this.systemConfig.mongo.enabled,
@@ -37,6 +38,7 @@ export default (route, languageData, language) => ({
                 username: authData ? authData.username : null,
                 isAdmin: authData && authData.groupData && authData.groupData.find(i => i.id === "admin" && i.value === true) ? this.systemConfig.routes.admin : false,
                 webSockets: this.systemConfig.webSockets || {},
+                demo: this.systemConfig.demo,
             },
         });
         rep.type("text/html");
