@@ -10,10 +10,14 @@ try {
     process.exit(1);
 }
 
+if (options["no-color"]) {
+    binUtils.setLogPropertyColor(false);
+}
+
 binUtils.printLogo();
 
 (async () => {
-    if (!Object.keys(options).length) {
+    if (!Object.keys(options).length || (Object.keys(options).length === 1 && options["no-color"])) {
         binUtils.log(`Usage:\n\nnpm run cli -- --addPage <id> [--addNavigation] - create a new page [add navigation]
                --removePage <id> - delete existing page
                --addLanguage <id:name> - add new language (example: de-de:Deutsch)

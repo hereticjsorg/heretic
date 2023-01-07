@@ -1,13 +1,18 @@
 const fs = require("fs-extra");
 const path = require("path");
+const commandLineArgs = require("command-line-args");
 const BinUtils = require("./binUtils");
 
-const binUtils = new BinUtils({});
+const options = commandLineArgs([{
+    name: "no-color",
+    type: Boolean,
+}]);
+const binUtils = new BinUtils(options);
 
 (async () => {
     binUtils.setLogProperties({
         enabled: true,
-        color: true,
+        color: !!options["no-color"],
         noDate: true,
     });
     binUtils.setInteractive(true);

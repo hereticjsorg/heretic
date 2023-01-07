@@ -28,7 +28,7 @@ module.exports = class {
         this.languages = Object.keys(fs.readJSONSync(fs.existsSync(path.resolve(__dirname, "../config/languages")) ? path.resolve(__dirname, "../config/languages.json") : path.resolve(__dirname, "../core/defaults/languages.json")));
         this.color = new Color();
         this.logEnabled = true;
-        this.logColor = true;
+        this.logColor = !options["no-color"];
         this.logNoDate = false;
         this.interactive = false;
     }
@@ -962,6 +962,9 @@ module.exports = class {
             type: Boolean,
         }, {
             name: "importGeoData",
+            type: Boolean,
+        }, {
+            name: "no-color",
             type: Boolean,
         }];
     }
