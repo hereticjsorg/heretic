@@ -1,6 +1,6 @@
 {
     "name": "heretic",
-    "version": "1.0.134",
+    "version": "1.0.135",
     "description": "Heretic",
     "main": "index.js",
     "scripts": {
@@ -106,6 +106,6 @@
         "unzip-stream": "^0.3.1",
         "uri-js": "^4.4.1",
         "uuid": "^9.0.0",
-        "ws": "^8.11.0"
+        "ws": "^8.12.0"
     }
 }
