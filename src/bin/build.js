@@ -26,7 +26,7 @@ const BinUtils = require("./binUtils");
         binUtils.log(`Building Heretic in ${options.dev ? "development" : "production"} mode${options.dev ? "" : " (may take a long time!)"}...`);
         const data = await binUtils.executeCommand(`npm run build-${options.dev ? "dev" : "production"} -- --no-color`);
         const buildResultMatch = data && data.exitCode === 0 && typeof data.stdout === "string" ? data.stdout.match(/compiled successfully/gm) : [];
-        const isSuccess = buildResultMatch && Array.isArray(buildResultMatch) && buildResultMatch.length === 3;
+        const isSuccess = buildResultMatch && Array.isArray(buildResultMatch) && buildResultMatch.length === 2;
         binUtils.log(isSuccess ? "Build successful." : `Error while building Heretic:\n\n${data.stdout}`, {
             success: isSuccess,
             error: !isSuccess,
@@ -36,12 +36,10 @@ const BinUtils = require("./binUtils");
             await fs.remove(path.join(__dirname, "../../dist/public/heretic"));
             await fs.remove(path.join(__dirname, "../../dist/data"));
             await fs.remove(path.join(__dirname, "../../dist/server.js"));
-            await fs.remove(path.join(__dirname, "../../dist/setup.js"));
             binUtils.log("Replacing files and directories...");
             await fs.rename(path.join(__dirname, "../../dist.new/public/heretic"), path.join(__dirname, "../../dist/public/heretic"));
             await fs.rename(path.join(__dirname, "../../dist.new/data"), path.join(__dirname, "../../dist/data"));
             await fs.rename(path.join(__dirname, "../../dist.new/server.js"), path.join(__dirname, "../../dist/server.js"));
-            await fs.rename(path.join(__dirname, "../../dist.new/setup.js"), path.join(__dirname, "../../dist/setup.js"));
             await fs.remove(path.join(__dirname, "../../dist.new"));
             binUtils.log("All done.", {
                 success: true,

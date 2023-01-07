@@ -444,6 +444,8 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
             pagesCore,
             modules: modulesList,
         };
+        const coreSetupFiles = fs.readdirSync(path.resolve(__dirname, "src", "core", "setup"));
+        routesData.coreSetupFiles = coreSetupFiles;
         // Write configuration file
         fs.writeJSONSync(path.resolve(__dirname, "src", "build", "build.json"), routesData, {
             spaces: "  ",

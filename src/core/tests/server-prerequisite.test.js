@@ -14,14 +14,11 @@ const helpers = new Helpers();
 test("Create site backup", () => {
     const publicPath = path.resolve(__dirname, "../../../dist.backup/public/heretic");
     const serverPath = path.resolve(__dirname, "../../../dist.backup/server.js");
-    const setupPath = path.resolve(__dirname, "../../../dist.backup/setup.js");
     fs.ensureDirSync(path.resolve(__dirname, "../../../dist.backup/public/heretic"));
     fs.copySync(path.resolve(__dirname, "../../../dist/public/heretic"), publicPath);
     fs.copySync(path.resolve(__dirname, "../../../dist/server.js"), serverPath);
-    fs.copySync(path.resolve(__dirname, "../../../dist/setup.js"), setupPath);
     expect(fs.existsSync(publicPath)).toBe(true);
     expect(fs.existsSync(serverPath)).toBe(true);
-    expect(fs.existsSync(setupPath)).toBe(true);
 });
 
 test("Create test page", async () => {

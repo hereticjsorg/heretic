@@ -122,6 +122,7 @@ module.exports = {
         geoNetworks: "geoNetworks",
         geoCountries: "geoCountries",
         geoCities: "geoCities",
+        system: "system",
         ...conf.collections,
     },
     routes: {

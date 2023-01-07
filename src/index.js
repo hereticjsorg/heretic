@@ -9,6 +9,17 @@ import Heretic from "./core/lib/heretic";
             heretic.serveStaticContent();
         }
         await heretic.connectDatabase();
+        if (systemConfig.mongo.enabled) {
+            const installedVersion = await heretic.installedDbVersion();
+            if (!installedVersion || heretic.getOptions().setup) {
+                await heretic.setup();
+            }
+            if (heretic.getOptions().setup) {
+                heretic.disconnectDatabase();
+                heretic.getFastifyInstance().log.info("Setup complete.");
+                process.exit(1);
+            }
+        }
         await heretic.initDataProviders();
         heretic.registerRoutePagesUserspace();
         heretic.registerRoutePagesAdmin();

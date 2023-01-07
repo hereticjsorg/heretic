@@ -8,6 +8,7 @@ import {
 import {
     v4 as uuid,
 } from "uuid";
+import commandLineArgs from "command-line-args";
 
 import hereticRateLimit from "./rateLimit";
 import routePageUserspace from "./routes/routePageUserspace";
@@ -104,6 +105,22 @@ export default class {
                 this.fastify.register(hereticRateLimit, this.systemConfig.rateLimit);
             }
         }
+        try {
+            this.options = commandLineArgs([{
+                name: "setup",
+                type: Boolean,
+            }]);
+        } catch (e) {
+            this.fastify.log.error(e.message);
+            process.exit(1);
+        }
+    }
+
+    /**
+     * Get options object
+     */
+    getOptions() {
+        return this.options;
     }
 
     /**
@@ -346,20 +363,26 @@ export default class {
                 }
             });
             await mongoClient.connect();
+            this.fastify.decorate("mongoClient", mongoClient);
+            this.fastify.log.info(`Connected to Mongo Server: (${this.systemConfig.mongo.url}/${this.systemConfig.mongo.dbName})`);
             // Register MongoDB for Fastify
             this.fastify.register(require("@fastify/mongodb"), {
                 client: mongoClient,
-                database: this.systemConfig.mongo.dbName
+                database: this.systemConfig.mongo.dbName,
             }).register(async (ff, opts, next) => {
-                this.fastify.log.info(`Connected to Mongo Server: (${this.systemConfig.mongo.url}/${this.systemConfig.mongo.dbName})`);
                 next();
             });
         }
     }
 
     disconnectDatabase() {
-        if (this.systemConfig.mongo.enabled && this.fastify.mongo && this.fastify.mongo.db) {
-            this.fastify.mongo.db.close();
+        if (this.systemConfig.mongo.enabled) {
+            try {
+                this.fastify.mongoClient.close();
+                this.fastify.log.info("Disconnected from database");
+            } catch (e) {
+                this.fastify.log.error(e.message);
+            }
         }
     }
 
@@ -421,5 +444,136 @@ export default class {
             }
         }
         this.fastify.decorate("dataProviders", dataProviders);
+    }
+
+    async createIndex(id, collection, fields, direction = "asc") {
+        const db = this.fastify.mongoClient.db(this.fastify.systemConfig.mongo.dbName);
+        const indexCreate = {};
+        fields.map(i => indexCreate[i] = direction === "asc" ? 1 : -1);
+        this.fastify.log.info(`Dropping index: ${id}_${collection}_${direction}...`);
+        try {
+            await db.collection(collection).dropIndex(`${id}_${collection}_${direction}`);
+        } catch {
+            // Ignore
+        }
+        this.fastify.log.info(`Creating index: ${id}_${collection}_${direction}...`);
+        try {
+            await db.collection(collection).createIndex(indexCreate, {
+                name: `${id}_${collection}_${direction}`,
+            });
+        } catch {
+            // Ignore
+        }
+    }
+
+    async createExpireIndex(id, collection, field, seconds) {
+        const db = this.fastify.mongoClient.db(this.fastify.systemConfig.mongo.dbName);
+        const indexExpire = {};
+        indexExpire[field] = 1;
+        this.fastify.log.info(`Dropping index: ${id}_${collection}_expire...`);
+        try {
+            await db.collection(collection).dropIndex(`${id}_${collection}_expire}`);
+        } catch {
+            // Ignore
+        }
+        this.fastify.log.info(`Creating index: ${id}_${collection}_expire...`);
+        try {
+            await db.collection(collection).createIndex(indexExpire, {
+                expireAfterSeconds: parseInt(seconds, 10),
+                name: `${id}_${collection}_expire`
+            });
+        } catch {
+            // Ignore
+        }
+    }
+
+    async setup() {
+        for (const file of routesData.coreSetupFiles) {
+            let Setup;
+            try {
+                Setup = (await import(`../setup/${file}`)).default;
+            } catch {
+                // Ignore
+            }
+            if (Setup) {
+                this.fastify.log.info(`Executing installation script: ${file}...`);
+                const setup = new Setup(file, this.fastify, {
+                    createIndex: this.createIndex.bind(this),
+                    createExpireIndex: this.createExpireIndex.bind(this),
+                });
+                await setup.process();
+            } else {
+                this.fastify.log.info(`Could not load installation script: ${file}`);
+            }
+        }
+        for (const page of routesData.directories.pages) {
+            let Setup;
+            try {
+                Setup = (await import(`../../pages/${page}/setup.js`)).default;
+            } catch {
+                // Ignore
+            }
+            if (Setup) {
+                this.fastify.log.info(`Executing installation script for page: ${page}...`);
+                const setup = new Setup(page, this.fastify, {
+                    createIndex: this.createIndex.bind(this),
+                    createExpireIndex: this.createExpireIndex.bind(this),
+                });
+                await setup.process();
+            } else {
+                this.fastify.log.info(`No installation script for page: ${page}`);
+            }
+        }
+        for (const page of routesData.directories.pagesCore) {
+            let Setup;
+            try {
+                Setup = (await import(`../pages/${page}/setup.js`)).default;
+            } catch {
+                // Ignore
+            }
+            if (Setup) {
+                this.fastify.log.info(`Executing installation script for core page: ${page}...`);
+                const setup = new Setup(page, this.fastify, {
+                    createIndex: this.createIndex.bind(this),
+                    createExpireIndex: this.createExpireIndex.bind(this),
+                });
+                await setup.process();
+            } else {
+                this.fastify.log.info(`No installation script for page: ${page}`);
+            }
+        }
+        for (const module of routesData.directories.modules) {
+            let Setup;
+            try {
+                Setup = (await import(`../../modules/${module}/setup.js`)).default;
+            } catch {
+                // Ignore
+            }
+            if (Setup) {
+                this.fastify.log.info(`Executing installation script for module: ${module}...`);
+                const setup = new Setup(module, this.fastify, {
+                    createIndex: this.createIndex.bind(this),
+                    createExpireIndex: this.createExpireIndex.bind(this),
+                });
+                await setup.process();
+            } else {
+                this.fastify.log.info(`No installation script for module: ${module}`);
+            }
+        }
+    }
+
+    async installedDbVersion() {
+        if (!this.fastify.systemConfig.mongo.enabled) {
+            return null;
+        }
+        const db = this.fastify.mongoClient.db(this.fastify.systemConfig.mongo.dbName);
+        try {
+            const versionData = await db.collection(this.fastify.systemConfig.collections.system).findOne({
+                _id: "version"
+            });
+            return versionData ? versionData.value : null;
+        } catch {
+            return null;
+        }
     }
 }

@@ -28,14 +28,6 @@ In order to create templates of configuration files, directories, etc., you need
 npm run configure
 ```
 
-You will also need to create several files, directories and configuration files in order to start the build process:
-
-```
-npm run setup -- --defaults
-```
-
-The *--defaults* parameter is required on order to create default modules and navigation. If not required, just ignore this parameter.
-
 Finally, you may wish to run the build process:
 
 ```

@@ -67,7 +67,7 @@ module.exports = class {
             firstChild,
         }
     }) {
-        if (firstChild && firstChild.nodeType === 3) {
+        if (firstChild && firstChild.nodeType === 2) {
             document.execCommand("formatBlock", false, `<${this.paragraphSeparator}>`);
         } else if (this.editor.innerHTML === "<br>") {
             this.editor.innerHTML = "";
