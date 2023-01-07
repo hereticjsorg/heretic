@@ -50,11 +50,11 @@ binUtils.printLogo();
     }
 
     if (options.resetPassword !== undefined) {
-        binUtils.resetPassword(options.resetPassword);
+        await binUtils.resetPassword(options.resetPassword);
     }
 
     if (options.createAdmin !== undefined) {
-        binUtils.createAdmin();
+        await binUtils.createAdmin();
     }
 
     if (options.importGeoData !== undefined) {
@@ -70,4 +70,5 @@ binUtils.printLogo();
     binUtils.log("All done", {
         success: true,
     });
+    process.exit(0);
 })();

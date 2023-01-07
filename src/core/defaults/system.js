@@ -59,13 +59,13 @@ module.exports = {
         ...conf.mongo,
     },
     redis: {
-        enabled: true,
+        enabled: false,
         host: "127.0.0.1",
         port: 6379,
         ...conf.redis,
     },
     webSockets: {
-        enabled: true,
+        enabled: false,
         url: "ws://127.0.0.1:3001/ws",
         options: {
             maxPayload: 1048576,
