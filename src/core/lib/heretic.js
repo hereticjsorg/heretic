@@ -32,6 +32,7 @@ import fastifyMultipart from "./multipart";
 import i18nCore from "../../build/loaders/i18n-loader-core.js";
 import languages from "../../config/languages.json";
 import navigation from "../../config/navigation.json";
+import packageJson from "../../../package.json";
 
 /*
  * Main Heretic class used to load configs,
@@ -487,93 +488,111 @@ export default class {
         }
     }
 
-    async setup() {
-        for (const file of routesData.coreSetupFiles) {
-            let Setup;
-            try {
-                Setup = (await import(`../setup/${file}`)).default;
-            } catch {
-                // Ignore
-            }
-            if (Setup) {
-                this.fastify.log.info(`Executing installation script: ${file}...`);
-                const setup = new Setup(file, this.fastify, {
-                    createIndex: this.createIndex.bind(this),
-                    createExpireIndex: this.createExpireIndex.bind(this),
-                });
-                await setup.process();
-            } else {
-                this.fastify.log.info(`Could not load installation script: ${file}`);
+    async updateSetupVersion(_id) {
+        const db = this.fastify.mongoClient.db(this.fastify.systemConfig.mongo.dbName);
+        await db.collection(this.fastify.systemConfig.collections.version).findOneAndUpdate({
+            _id,
+        }, {
+            $set: {
+                value: packageJson.version,
+            },
+        }, {
+            upsert: true,
+        });
+    }
+
+    async setup(installedVersions, options) {
+        if (!installedVersions.core || options.setup) {
+            for (const file of routesData.coreSetupFiles) {
+                let Setup;
+                try {
+                    Setup = (await import(`../setup/${file}`)).default;
+                } catch {
+                    // Ignore
+                }
+                if (Setup) {
+                    this.fastify.log.info(`Executing installation script: ${file}...`);
+                    const setup = new Setup(file, this.fastify, {
+                        createIndex: this.createIndex.bind(this),
+                        createExpireIndex: this.createExpireIndex.bind(this),
+                    });
+                    await setup.process();
+                    await this.updateSetupVersion("core");
+                } else {
+                    this.fastify.log.info(`Could not load installation script: ${file}`);
+                }
             }
         }
         for (const page of routesData.directories.pages) {
-            let Setup;
-            try {
-                Setup = (await import(`../../pages/${page}/setup.js`)).default;
-            } catch {
-                // Ignore
-            }
-            if (Setup) {
-                this.fastify.log.info(`Executing installation script for page: ${page}...`);
-                const setup = new Setup(page, this.fastify, {
-                    createIndex: this.createIndex.bind(this),
-                    createExpireIndex: this.createExpireIndex.bind(this),
-                });
-                await setup.process();
-            } else {
-                this.fastify.log.info(`No installation script for page: ${page}`);
+            if (!installedVersions[page] || options.setup) {
+                let Setup;
+                try {
+                    Setup = (await import(`../../pages/${page}/setup.js`)).default;
+                } catch {
+                    // Ignore
+                }
+                if (Setup) {
+                    this.fastify.log.info(`Executing installation script for page: ${page}...`);
+                    const setup = new Setup(page, this.fastify, {
+                        createIndex: this.createIndex.bind(this),
+                        createExpireIndex: this.createExpireIndex.bind(this),
+                    });
+                    await setup.process();
+                    await this.updateSetupVersion(page);
+                }
             }
         }
         for (const page of routesData.directories.pagesCore) {
-            let Setup;
-            try {
-                Setup = (await import(`../pages/${page}/setup.js`)).default;
-            } catch {
-                // Ignore
-            }
-            if (Setup) {
-                this.fastify.log.info(`Executing installation script for core page: ${page}...`);
-                const setup = new Setup(page, this.fastify, {
-                    createIndex: this.createIndex.bind(this),
-                    createExpireIndex: this.createExpireIndex.bind(this),
-                });
-                await setup.process();
-            } else {
-                this.fastify.log.info(`No installation script for page: ${page}`);
+            if (!installedVersions[page] || options.setup) {
+                let Setup;
+                try {
+                    Setup = (await import(`../pages/${page}/setup.js`)).default;
+                } catch {
+                    // Ignore
+                }
+                if (Setup) {
+                    this.fastify.log.info(`Executing installation script for core page: ${page}...`);
+                    const setup = new Setup(page, this.fastify, {
+                        createIndex: this.createIndex.bind(this),
+                        createExpireIndex: this.createExpireIndex.bind(this),
+                    });
+                    await setup.process();
+                    await this.updateSetupVersion(page);
+                }
             }
         }
         for (const module of routesData.directories.modules) {
-            let Setup;
-            try {
-                Setup = (await import(`../../modules/${module}/setup.js`)).default;
-            } catch {
-                // Ignore
-            }
-            if (Setup) {
-                this.fastify.log.info(`Executing installation script for module: ${module}...`);
-                const setup = new Setup(module, this.fastify, {
-                    createIndex: this.createIndex.bind(this),
-                    createExpireIndex: this.createExpireIndex.bind(this),
-                });
-                await setup.process();
-            } else {
-                this.fastify.log.info(`No installation script for module: ${module}`);
+            if (!installedVersions[module] || options.setup) {
+                let Setup;
+                try {
+                    Setup = (await import(`../../modules/${module}/setup.js`)).default;
+                } catch {
+                    // Ignore
+                }
+                if (Setup) {
+                    this.fastify.log.info(`Executing installation script for module: ${module}...`);
+                    const setup = new Setup(module, this.fastify, {
+                        createIndex: this.createIndex.bind(this),
+                        createExpireIndex: this.createExpireIndex.bind(this),
+                    });
+                    await setup.process();
+                    await this.updateSetupVersion(module);
+                }
             }
         }
     }
 
-    async installedDbVersion() {
-        if (!this.fastify.systemConfig.mongo.enabled) {
-            return null;
-        }
+    async installedDbVersions() {
         const db = this.fastify.mongoClient.db(this.fastify.systemConfig.mongo.dbName);
         try {
-            const versionData = await db.collection(this.fastify.systemConfig.collections.system).findOne({
-                _id: "version"
-            });
-            return versionData ? versionData.value : null;
+            const versionData = {};
+            const versionDataDb = (await db.collection(this.fastify.systemConfig.collections.version).find({}).toArray()) || [];
+            for (const item of versionDataDb) {
+                versionData[item._id] = item.value;
+            }
+            return versionData;
         } catch {
-            return null;
+            return {};
         }
     }
 }

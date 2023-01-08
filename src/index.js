@@ -10,10 +10,8 @@ import Heretic from "./core/lib/heretic";
         }
         await heretic.connectDatabase();
         if (systemConfig.mongo.enabled) {
-            const installedVersion = await heretic.installedDbVersion();
-            if (!installedVersion || heretic.getOptions().setup) {
-                await heretic.setup();
-            }
+            const installedVersions = await heretic.installedDbVersions();
+            await heretic.setup(installedVersions, heretic.getOptions());
             if (heretic.getOptions().setup) {
                 heretic.disconnectDatabase();
                 heretic.getFastifyInstance().log.info("Setup complete.");

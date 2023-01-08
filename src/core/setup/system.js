@@ -1,5 +1,3 @@
-const packageJson = require("../../../package.json");
-
 export default class {
     constructor(id, fastify, func) {
         this.fastify = fastify;
@@ -19,19 +17,10 @@ export default class {
         }
         try {
             try {
-                await db.createCollection(this.fastify.systemConfig.collections.system);
+                await db.createCollection(this.fastify.systemConfig.collections.version);
             } catch {
                 // Ignore
             }
-            await db.collection(this.fastify.systemConfig.collections.system).findOneAndUpdate({
-                _id: "version",
-            }, {
-                $set: {
-                    value: packageJson.version,
-                },
-            }, {
-                upsert: true,
-            });
         } catch (e) {
             this.fastify.log.error(e.message);
             // Ignore
