@@ -108,9 +108,14 @@ export default class {
         }
         try {
             this.options = commandLineArgs([{
+                name: "command",
+                defaultOption: true,
+            }, {
                 name: "setup",
                 type: Boolean,
-            }]);
+            }], {
+                stopAtFirstUnknown: true,
+            });
         } catch (e) {
             this.fastify.log.error(e.message);
             process.exit(1);
