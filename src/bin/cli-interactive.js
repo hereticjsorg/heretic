@@ -12,7 +12,7 @@ const binUtils = new BinUtils(options);
 (async () => {
     binUtils.setLogProperties({
         enabled: true,
-        color: !!options["no-color"],
+        color: !options["no-color"],
         noDate: true,
     });
     binUtils.setInteractive(true);
