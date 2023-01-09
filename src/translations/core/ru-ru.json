@@ -26,7 +26,7 @@
         "Ноябрь",
         "Декабрь"
     ],
-    "global.dateMask.pattern": "d{.}`m{.}`Y",
+    "global.dateMask.pattern": "`d-m`-Y`",
     "calendar.today": "Сегодня",
     "calendar.clear": "Очистить",
     "404": "Не найдено",

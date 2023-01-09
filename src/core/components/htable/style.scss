@@ -505,6 +505,10 @@ html.heretic-dark .hr-ht-loading-wrap {
     border-bottom-right-radius: $radius;
 }
 
+.hr-ht-search-button {
+    border-left: unset;
+}
+
 @media (max-width: 1023px) {
     .hr-ht-hidden-touch {
         display: none;

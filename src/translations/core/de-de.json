@@ -27,7 +27,7 @@
         "November",
         "Dezember"
     ],
-    "global.dateMask.pattern": "d{.}`m{.}`Y",
+    "global.dateMask.pattern": "`d-m`-Y`",
     "calendar.today": "Heute",
     "calendar.clear": "Löschen",
     "desc404": "Der Link ist defekt oder die Seite wurde verschoben.",
