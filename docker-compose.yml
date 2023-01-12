@@ -1,1 +1,37 @@
+version: '3'
+services:
+  heretic-app:
+    container_name: heretic-app
+    restart: always
+    build:
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    depends_on:
+      - heretic-mongodb
+      - heretic-redis
+    networks:
+      - heretic-network
+    volumes:
+      - ./public:/zoia/dist/public
 
+  heretic-mongodb:
+    container_name: heretic-mongodb
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    restart: always
+    networks:
+      - heretic-network
+
+  heretic-redis:
+    container_name: heretic-redis
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    restart: always
+    networks:
+      - heretic-network
+
+networks:
+  heretic-network:
