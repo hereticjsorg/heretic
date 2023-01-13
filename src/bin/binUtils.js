@@ -969,6 +969,28 @@ module.exports = class {
         }];
     }
 
+    getDockerCommandLineArgs() {
+        return [{
+            name: "id",
+            type: String,
+        }, {
+            name: "heretic-port",
+            type: String,
+        }, {
+            name: "mongo-port",
+            type: String,
+        }, {
+            name: "redis-port",
+            type: String,
+        }, {
+            name: "public-dir",
+            type: String,
+        }, {
+            name: "demo",
+            type: Boolean,
+        }];
+    }
+
     getUpdateCommandLineArgs() {
         return [{
             name: "rebuild-dev",
