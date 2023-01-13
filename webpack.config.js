@@ -26,6 +26,7 @@ module.exports = (env, argv) => {
     webpackUtils.generateSitemap();
     webpackUtils.generateManifest();
     webpackUtils.initCorePages();
+    webpackUtils.initVersionFile();
     return ([{
             context: path.resolve(`${__dirname}`),
             performance: {

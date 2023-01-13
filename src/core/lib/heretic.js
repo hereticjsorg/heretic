@@ -52,6 +52,7 @@ export default class {
             console.error(`Could not read "system.js" and/or "website.js" configuration files.\nRun the following command to create: npm run configure\nRead documentation for more info.`);
             process.exit(1);
         }
+        this.systemConfig.versionHash = crypto.createHmac("sha256", this.systemConfig.secret).update(packageJson.version).digest("hex");
         this.systemConfig.secretInt = parseInt(crypto.createHash("md5").update(this.systemConfig.secret).digest("hex"), 16);
         this.fastify = Fastify({
             logger: new Logger(this.systemConfig).getPino(),

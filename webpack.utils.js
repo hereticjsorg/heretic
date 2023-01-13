@@ -1,5 +1,7 @@
 const path = require("path");
 const fs = require("fs-extra");
+const crypto = require("crypto");
+const packageJson = require("./package.json");
 
 const BinUtils = require("./src/bin/binUtils");
 
@@ -606,5 +608,14 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
 
     copyDataDir() {
         fs.copySync(path.resolve(__dirname, "src", "static", "data"), path.resolve(__dirname, "dist.new", "data"));
+    }
+
+    initVersionFile() {
+        const versionData = {
+            version: crypto.createHmac("sha256", this.config.secret).update(packageJson.version).digest("hex"),
+        };
+        fs.writeJSONSync(path.resolve(__dirname, "dist.new/public/heretic/version.json"), versionData, {
+            spaces: "  ",
+        });
     }
 };
