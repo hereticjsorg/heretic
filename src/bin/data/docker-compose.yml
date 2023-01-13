@@ -1,0 +1,37 @@
+version: '3'
+services:
+  $ID-app:
+    container_name: $ID-app
+    restart: always
+    build:
+      dockerfile: Dockerfile
+    ports:
+      - "3001:$HERETIC_PORT"
+    depends_on:
+      - $ID-mongo
+      - $ID-redis
+    networks:
+      - $ID-network
+    volumes:
+      - $PUBLIC_DIR:/zoia/dist/public
+
+  $ID-mongo:
+    container_name: $ID-mongo
+    image: mongo:latest
+    ports:
+      - "$MONGO_PORT:$MONGO_PORT"
+    restart: always
+    networks:
+      - $ID-network
+
+  $ID-redis:
+    container_name: $ID-redis
+    image: redis:latest
+    ports:
+      - "$REDIS_PORT:$REDIS_PORT"
+    restart: always
+    networks:
+      - $ID-network
+
+networks:
+  $ID-network:
