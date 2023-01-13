@@ -11,4 +11,4 @@ if !(test -f "$VERSION_FILE"); then
         exit 1
     fi
 fi
-pm2 start
+pm2-runtime start ecosystem.config.js
