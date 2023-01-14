@@ -2,11 +2,13 @@
     "userspace": {
         "title": {
             "ru-ru": "Лицензия",
-            "en-us": "License"
+            "en-us": "License",
+            "de-de": "Lizenz"
         },
         "description": {
             "ru-ru": "Лицензия на использование Heretic",
-            "en-us": "License for Heretic"
+            "en-us": "License for Heretic",
+            "de-de": "Lizenz für Heretic"
         }
     }
 }
