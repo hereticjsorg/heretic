@@ -5,7 +5,8 @@ SCRIPT_PATH=$(
     pwd -P
 )
 VERSION_FILE="$SCRIPT_PATH/dist/public/heretic/version.json"
-if !(test -f "$VERSION_FILE"); then
+SERVER_FILE="$SCRIPT_PATH/dist/server.js"
+if [!(test -f "$VERSION_FILE");] || [!(test -f "$SERVER_FILE");] then
     npm run build -- --no-color
     if [ $? -ne 0 ]; then
         exit 1
