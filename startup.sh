@@ -6,7 +6,7 @@ SCRIPT_PATH=$(
 )
 VERSION_FILE="$SCRIPT_PATH/dist/public/heretic/version.json"
 if !(test -f "$VERSION_FILE"); then
-    npm run build
+    npm run build -- --no-color
     if [ $? -ne 0 ]; then
         exit 1
     fi

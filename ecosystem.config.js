@@ -5,7 +5,7 @@ const systemConfig = require(path.resolve(__dirname, "etc", "system.js"));
 module.exports = {
     apps: [{
         name: systemConfig.id,
-        script: path.resolve(__dirname, "./dist/server.js"),
+        script: path.resolve(__dirname, "dist/server.js"),
         watch: false,
         exec_mode: "cluster",
         instances: 1,
