@@ -521,7 +521,7 @@ export default class {
                     const setup = new Setup(file, this.fastify, {
                         createIndex: this.createIndex.bind(this),
                         createExpireIndex: this.createExpireIndex.bind(this),
-                    });
+                    }, installedVersions);
                     await setup.process();
                     await this.updateSetupVersion("core");
                 } else {
@@ -542,7 +542,7 @@ export default class {
                     const setup = new Setup(page, this.fastify, {
                         createIndex: this.createIndex.bind(this),
                         createExpireIndex: this.createExpireIndex.bind(this),
-                    });
+                    }, installedVersions);
                     await setup.process();
                     await this.updateSetupVersion(page);
                 }
@@ -561,7 +561,7 @@ export default class {
                     const setup = new Setup(page, this.fastify, {
                         createIndex: this.createIndex.bind(this),
                         createExpireIndex: this.createExpireIndex.bind(this),
-                    });
+                    }, installedVersions);
                     await setup.process();
                     await this.updateSetupVersion(page);
                 }
