@@ -2,13 +2,11 @@
     "userspace": {
         "title": {
             "ru-ru": "Главная",
-            "en-us": "Home Page",
-            "de-de": "Hauptseite"
+            "en-us": "Home Page"
         },
         "description": {
             "ru-ru": "Главная страница сайта, созданного на Heretic",
-            "en-us": "Home page of the site built on Heretic",
-            "de-de": "Startseite der auf Heretic aufgebauten Website"
+            "en-us": "Home page of the site built on Heretic"
         }
     }
 }

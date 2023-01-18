@@ -22,17 +22,17 @@ test("Create site backup", () => {
 });
 
 test("Create test page", async () => {
-    if (await helpers.fileExists(`src/pages/${routeId}`)) {
-        await helpers.removeFile(`src/pages/${routeId}`);
+    if (await helpers.fileExists(`site/pages/${routeId}`)) {
+        await helpers.removeFile(`site/pages/${routeId}`);
     }
-    await helpers.copy("src/core/defaults/.test", `src/pages/${routeId}`);
-    const testMeta = await helpers.readJSON(`src/pages/${routeId}/meta.json`);
+    await helpers.copy("src/core/defaults/.test", `site/pages/${routeId}`);
+    const testMeta = await helpers.readJSON(`site/pages/${routeId}/meta.json`);
     testMeta.id = routeId;
     for (const language of helpers.getLanguagesList()) {
         testMeta.userspace.title[language] = `site-title-${language}`;
         testMeta.userspace.description[language] = `site-description-${language}`;
-        await helpers.ensureDir(`src/pages/${routeId}/userspace/content/lang-${language}`);
-        await helpers.writeFile(`src/pages/${routeId}/userspace/content/lang-${language}/index.marko`, `<div>site-content-${language}</div>\n`);
+        await helpers.ensureDir(`site/pages/${routeId}/userspace/content/lang-${language}`);
+        await helpers.writeFile(`site/pages/${routeId}/userspace/content/lang-${language}/index.marko`, `<div>site-content-${language}</div>\n`);
     }
-    await helpers.writeJSON(`src/pages/${routeId}/meta.json`, testMeta);
+    await helpers.writeJSON(`site/pages/${routeId}/meta.json`, testMeta);
 });

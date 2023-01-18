@@ -100,7 +100,7 @@ afterAll(async () => {
             // Ignore
         }
     }
-    if (await helpers.fileExists(`src/pages/${routeId}`)) {
-        await helpers.removeFile(`src/pages/${routeId}`);
+    if (await helpers.fileExists(`site/pages/${routeId}`)) {
+        await helpers.removeFile(`site/pages/${routeId}`);
     }
 });

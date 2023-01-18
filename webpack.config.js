@@ -163,8 +163,8 @@ module.exports = (env, argv) => {
                 }) : () => {},
                 argv.mode === "production" && systemConfig.buildOptions && systemConfig.buildOptions.productionCompress ? new CompressionPlugin() : () => {},
                 new CopyWebpackPlugin({
-                    patterns: fs.readdirSync(path.resolve(__dirname, "src", "static", "public")).map(f => ({
-                        from: `./src/static/public/${f}`
+                    patterns: fs.readdirSync(path.resolve(__dirname, "site", "static", "public")).map(f => ({
+                        from: `./site/static/public/${f}`
                     })),
                 }),
                 markoPlugin.browser,

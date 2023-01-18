@@ -12,7 +12,7 @@ import {
     formatISO,
 } from "date-fns";
 import FormData from "../data/form";
-import languages from "../../../../config/languages.json";
+import languages from "../../../../../site/config/languages.json";
 import moduleConfig from "../admin.js";
 
 const translation = {};

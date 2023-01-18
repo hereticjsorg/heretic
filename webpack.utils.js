@@ -11,8 +11,6 @@ module.exports = class {
         // fs.removeSync(path.resolve(__dirname, "dist/public/heretic"));
         // fs.removeSync(path.resolve(__dirname, "dist/server.js"));
         fs.ensureDirSync(path.resolve(__dirname, "dist/public/heretic"));
-        fs.ensureDirSync(path.resolve(__dirname, "src", "modules"));
-        fs.ensureDirSync(path.resolve(__dirname, "src", "modules"));
         fs.ensureDirSync(path.resolve(__dirname, "src", "build"));
         fs.removeSync(path.resolve(__dirname, "src", "build"));
         fs.ensureDirSync(path.resolve(__dirname, "src", "build", "loaders"));
@@ -24,10 +22,10 @@ module.exports = class {
             fs.ensureDirSync(path.resolve(__dirname, "dist", this.config.directories.tmp));
         }
         fs.ensureDirSync(path.resolve(__dirname, "dist", this.config.directories.files));
-        if (!fs.existsSync(path.resolve(__dirname, "src", "static", "public"))) {
-            fs.copySync(path.resolve(__dirname, "src", "core", "defaults", "public"), path.resolve(__dirname, "src", "static", "public"));
+        if (!fs.existsSync(path.resolve(__dirname, "site", "static", "public"))) {
+            fs.copySync(path.resolve(__dirname, "src", "core", "defaults", "public"), path.resolve(__dirname, "site", "static", "public"));
         }
-        this.languages = fs.readJSONSync(path.resolve(__dirname, "src", "config", "languages.json"));
+        this.languages = fs.readJSONSync(path.resolve(__dirname, "site", "config", "languages.json"));
         this.systemConfig = require(path.resolve(__dirname, "etc", "website.js"));
         this.production = production;
         this.binUtils = new BinUtils({});
@@ -43,9 +41,9 @@ module.exports = class {
     loadComponent: async route => {
         switch (route) {
 ${routesData.routes.userspace.filter(i => i.module).map(r => `        case "${r.id}":
-            return import(/* webpackChunkName: "module.${r.id}" */ "../../modules/${r.prefix}/${r.dir}/userspace/index.marko");
+            return import(/* webpackChunkName: "module.${r.id}" */ "../../../site/modules/${r.prefix}/${r.dir}/userspace/index.marko");
 `).join("")}${routesData.routes.userspace.filter(i => !i.module).map(r => `        case "${r.id}":
-            return import(/* webpackChunkName: "page.${r.id}" */ "../../pages/${r.dir}/userspace/index.marko");
+            return import(/* webpackChunkName: "page.${r.id}" */ "../../../site/pages/${r.dir}/userspace/index.marko");
 `).join("")}        default:
             return import(/* webpackChunkName: "page.404" */ "../../core/errors/404/index.marko");
         }
@@ -55,9 +53,9 @@ ${routesData.routes.userspace.filter(i => i.module).map(r => `        case "${r.
     loadComponent: async route => {
         switch (route) {
 ${routesData.routes.admin.filter(i => i.module).map(r => `        case "${r.id}":
-            return import(/* webpackChunkName: "module.admin.${r.id}" */ "../../modules/${r.prefix}/${r.dir}/admin/index.marko");
+            return import(/* webpackChunkName: "module.admin.${r.id}" */ "../../../site/modules/${r.prefix}/${r.dir}/admin/index.marko");
 `).join("")}${routesData.routes.admin.filter(i => !i.module).map(r => `        case "${r.id}":
-            return import(/* webpackChunkName: "page.admin.${r.id}" */ "../../${r.core ? "core/" : ""}pages/${r.dir}/admin/index.marko");
+            return import(/* webpackChunkName: "page.admin.${r.id}" */ "../../${r.core ? "core/" : "../site/"}pages/${r.dir}/admin/index.marko");
 `).join("")}        default:
             return import(/* webpackChunkName: "page.404" */ "../../core/errors/404/index.marko");
         }
@@ -67,7 +65,7 @@ ${routesData.routes.admin.filter(i => i.module).map(r => `        case "${r.id}"
     loadComponent: async route => {
         switch (route) {
 ${routesData.routes.core.map(r => `        case "${r.id}":
-            return import(/* webpackChunkName: "page.${r.id}" */ "../../${r.core ? "core/" : ""}pages/${r.dir}/userspace/index.marko");
+            return import(/* webpackChunkName: "page.${r.id}" */ "../../${r.core ? "core/" : "../site/"}pages/${r.dir}/userspace/index.marko");
 `).join("")}        default:
             return import(/* webpackChunkName: "page.404" */ "../../core/errors/404/index.marko");
         }
@@ -97,14 +95,14 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
         const pagesCoreConfig = [];
         const navigationData = {};
         // Process modules
-        const modulesList = fs.readdirSync(path.resolve(__dirname, "src", "modules")).filter(p => !p.match(/^\./));
+        const modulesList = fs.readdirSync(path.resolve(__dirname, "site", "modules")).filter(p => !p.match(/^\./));
         for (const module of modulesList) {
             try {
-                const moduleConfig = require(path.resolve(__dirname, "src", "modules", module, "module.js"));
-                if (fs.existsSync(path.resolve(__dirname, "src", "modules", module, "api"))) {
+                const moduleConfig = require(path.resolve(__dirname, "site", "modules", module, "module.js"));
+                if (fs.existsSync(path.resolve(__dirname, "site", "modules", module, "api"))) {
                     routesData.api.modules.push(module);
                 }
-                if (fs.existsSync(path.resolve(__dirname, "src", "modules", module, "ws"))) {
+                if (fs.existsSync(path.resolve(__dirname, "site", "modules", module, "ws"))) {
                     routesData.ws.modules.push(module);
                 }
                 for (const routeId of Object.keys(moduleConfig.routes.userspace)) {
@@ -115,7 +113,7 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
                         prefix: moduleConfig.id,
                         module: true,
                     });
-                    const modulePageConfig = require(path.resolve(__dirname, "src", "modules", moduleConfig.id, routeId, "page.js"));
+                    const modulePageConfig = require(path.resolve(__dirname, "site", "modules", moduleConfig.id, routeId, "page.js"));
                     translations.push({
                         id: `${moduleConfig.id}.${routeId}`,
                         title: modulePageConfig.title,
@@ -131,7 +129,7 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
                         prefix: moduleConfig.id,
                         module: true,
                     });
-                    const moduleAdminConfig = require(path.resolve(__dirname, "src", "modules", moduleConfig.id, routeId, "admin.js"));
+                    const moduleAdminConfig = require(path.resolve(__dirname, "site", "modules", moduleConfig.id, routeId, "admin.js"));
                     translationsAdmin.push({
                         id: `${moduleConfig.id}.${routeId}`,
                         title: moduleAdminConfig.title,
@@ -167,13 +165,13 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
                 // Ignore
             }
         });
-        fs.readdirSync(path.resolve(__dirname, "src", "pages")).filter(p => !p.match(/^\./)).map(p => {
+        fs.readdirSync(path.resolve(__dirname, "site", "pages")).filter(p => !p.match(/^\./)).map(p => {
             try {
-                const configRoot = require(path.resolve(__dirname, "src", "pages", p, "page.js"));
+                const configRoot = require(path.resolve(__dirname, "site", "pages", p, "page.js"));
                 if (Array.isArray(configRoot)) {
                     for (const mp of configRoot) {
                         try {
-                            const configSub = require(path.resolve(__dirname, "src", "pages", p, mp, "page.js"));
+                            const configSub = require(path.resolve(__dirname, "site", "pages", p, mp, "page.js"));
                             pagesConfig.push({
                                 ...configSub,
                                 dir: `${p}/${mp}`
@@ -181,9 +179,9 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
                         } catch {
                             // Ignore
                         }
-                        if (fs.existsSync(path.resolve(__dirname, "src", "pages", p, mp, "admin.js"))) {
+                        if (fs.existsSync(path.resolve(__dirname, "site", "pages", p, mp, "admin.js"))) {
                             try {
-                                const configAdmin = require(path.resolve(__dirname, "src", "pages", p, mp, "admin.js"));
+                                const configAdmin = require(path.resolve(__dirname, "site", "pages", p, mp, "admin.js"));
                                 pagesAdminConfig.push({
                                     ...configAdmin,
                                     dir: `${p}/${mp}`
@@ -198,9 +196,9 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
                         ...configRoot,
                         dir: p
                     });
-                    if (fs.existsSync(path.resolve(__dirname, "src", "pages", p, "admin.js"))) {
+                    if (fs.existsSync(path.resolve(__dirname, "site", "pages", p, "admin.js"))) {
                         try {
-                            const configAdmin = require(path.resolve(__dirname, "src", "pages", p, "admin.js"));
+                            const configAdmin = require(path.resolve(__dirname, "site", "pages", p, "admin.js"));
                             pagesAdminConfig.push({
                                 ...configAdmin,
                                 dir: p
@@ -263,8 +261,8 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
                 let translationUser = {};
                 switch (lang) {
         ${Object.keys(this.languages).map(l => `        case "${l}":
-                    translationCore = await import(/* webpackChunkName: "lang-core-${l}" */ "../../translations/core/${l}.json");${fs.existsSync(path.resolve(__dirname, "src", "translations", "user", `${l}.json`)) ? `
-                    translationUser = await import(/* webpackChunkName: "lang-${l}" */ "../../translations/user/${l}.json");` : ""}
+                    translationCore = await import(/* webpackChunkName: "lang-core-${l}" */ "../../translations/${l}.json");${fs.existsSync(path.resolve(__dirname, "src", "translations", "user", `${l}.json`)) ? `
+                    translationUser = await import(/* webpackChunkName: "lang-${l}" */ "../../../site/translations/${l}.json");` : ""}
                     break;
         `).join("")}        default:
                     return null;
@@ -277,17 +275,17 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
                 return languageData;
             },
         };\n`, "utf8");
-        const pages = fs.readdirSync(path.resolve(__dirname, "src", "pages")).filter(p => !p.match(/^\./));
+        const pages = fs.readdirSync(path.resolve(__dirname, "site", "pages")).filter(p => !p.match(/^\./));
         const translatedPages = [];
         for (const page of pages) {
-            if (fs.existsSync(path.resolve(__dirname, "src", "pages", page, "translations"))) {
+            if (fs.existsSync(path.resolve(__dirname, "site", "pages", page, "translations"))) {
                 translatedPages.push(page);
                 fs.writeFileSync(path.resolve(__dirname, "src", "build", "loaders", `i18n-loader-${page}.js`), `module.exports = {
             loadLanguageFile: async lang => {
                 let translationPage = {};
                 switch (lang) {
         ${Object.keys(this.languages).map(l => `        case "${l}":
-                    translationPage = await import(/* webpackChunkName: "lang-${page}-${l}" */ "../../pages/${page}/translations/${l}.json");
+                    translationPage = await import(/* webpackChunkName: "lang-${page}-${l}" */ "../../../site/pages/${page}/translations/${l}.json");
                     break;
         `).join("")}        default:
                     return null;
@@ -303,14 +301,14 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
         }
         const translatedModules = [];
         for (const module of modulesList) {
-            if (fs.existsSync(path.resolve(__dirname, "src", "modules", module, "translations"))) {
+            if (fs.existsSync(path.resolve(__dirname, "site", "modules", module, "translations"))) {
                 translatedModules.push(module);
                 fs.writeFileSync(path.resolve(__dirname, "src", "build", "loaders", `i18n-loader-${module}.js`), `module.exports = {
             loadLanguageFile: async lang => {
                 let translationModule = {};
                 switch (lang) {
         ${Object.keys(this.languages).map(l => `        case "${l}":
-                    translationModule = await import(/* webpackChunkName: "lang-${module}-${l}" */ "../../modules/${module}/translations/${l}.json");
+                    translationModule = await import(/* webpackChunkName: "lang-${module}-${l}" */ "../../../site/modules/${module}/translations/${l}.json");
                     break;
         `).join("")}        default:
                     return null;
@@ -359,25 +357,25 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
             titlesAdmin[l] = {};
             userTranslations[l] = {};
             try {
-                userTranslations[l] = fs.readJSONSync(path.resolve(__dirname, "src", "translations", "user", `${l}.json`));
+                userTranslations[l] = fs.readJSONSync(path.resolve(__dirname, "site", "translations", `${l}.json`));
             } catch {
                 // Ignore
             }
         });
-        const navigation = fs.readJSONSync(path.resolve(__dirname, "src", "config", "navigation.json"));
+        const navigation = fs.readJSONSync(path.resolve(__dirname, "site", "config", "navigation.json"));
         navigation.userspace.routes.map(r => {
             const id = typeof r === "string" ? r : r.id;
             let config = {
                 title: {},
             };
             try {
-                config = require(path.resolve(__dirname, "src", "pages", id, "page.js"));
+                config = require(path.resolve(__dirname, "site", "pages", id, "page.js"));
             } catch {
                 // Ignore
             }
             if (!Object.keys(config.title).length) {
                 try {
-                    config = require(path.resolve(__dirname, "src", "modules", id.replace(/\./, "/"), "page.js"));
+                    config = require(path.resolve(__dirname, "site", "modules", id.replace(/\./, "/"), "page.js"));
                 } catch {
                     // Ignore
                 }
@@ -388,10 +386,10 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
         for (const route of routesData.routes.admin) {
             try {
                 if (route.module) {
-                    const config = require(path.resolve(__dirname, "src", "modules", route.prefix, route.dir, "admin.js"));
+                    const config = require(path.resolve(__dirname, "site", "modules", route.prefix, route.dir, "admin.js"));
                     Object.keys(titles).map(lang => titlesAdmin[lang][route.id] = config.title[lang] || userTranslations[lang][route.id] || "");
                 } else {
-                    const config = require(path.resolve(__dirname, route.core ? "src/core" : "src", "pages", route.dir, "admin.js"));
+                    const config = require(path.resolve(__dirname, route.core ? "src/core" : "site", "pages", route.dir, "admin.js"));
                     Object.keys(titles).map(lang => titlesAdmin[lang][route.id] = config.title[lang] || userTranslations[lang][route.id] || "");
                 }
             } catch {
@@ -404,7 +402,7 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
         const apiPages = [];
         const apiCore = [];
         for (const page of pages) {
-            if (fs.existsSync(path.resolve(__dirname, "src", "pages", page, "api"))) {
+            if (fs.existsSync(path.resolve(__dirname, "site", "pages", page, "api"))) {
                 apiPages.push(page);
             }
         }
@@ -423,7 +421,7 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
         const wsPages = [];
         const wsCore = [];
         for (const page of pages) {
-            if (fs.existsSync(path.resolve(__dirname, "src", "pages", page, "ws"))) {
+            if (fs.existsSync(path.resolve(__dirname, "site", "pages", page, "ws"))) {
                 wsPages.push(page);
             }
         }
@@ -461,13 +459,13 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
         for (const route of routesData.routes.admin) {
             try {
                 if (route.module) {
-                    const config = require(path.resolve(__dirname, "src", "modules", route.prefix, route.dir, "admin.js"));
+                    const config = require(path.resolve(__dirname, "site", "modules", route.prefix, route.dir, "admin.js"));
                     if (config.icon) {
                         icons.push(config.icon);
                         pages[config.icon] = route.id.replace(/\./gm, "_");
                     }
                 } else {
-                    const config = require(path.resolve(__dirname, route.core ? "src/core" : "src", "pages", route.dir, "admin.js"));
+                    const config = require(path.resolve(__dirname, route.core ? "src/core" : "site", "pages", route.dir, "admin.js"));
                     if (config.icon) {
                         icons.push(config.icon);
                         pages[config.icon] = route.id.replace(/\./gm, "_");
@@ -516,14 +514,14 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
         const routesData = fs.readJSONSync(path.resolve(__dirname, "src", "build", "build.json"));
         for (const r of routesData.routes.userspace) {
             try {
-                const sitemap = fs.readJSONSync(path.resolve(__dirname, "src", "pages", r.dir, "sitemap.json"));
+                const sitemap = fs.readJSONSync(path.resolve(__dirname, "site", "pages", r.dir, "sitemap.json"));
                 if (sitemap.include) {
                     const entry = {
                         loc: `${this.systemConfig.url}${r.path}`,
                     };
                     if (sitemap.lastmod) {
                         try {
-                            const stats = fs.statSync(path.resolve(__dirname, "src", "pages", r.dir, "userspace", "content", "index.marko"));
+                            const stats = fs.statSync(path.resolve(__dirname, "site", "pages", r.dir, "userspace", "content", "index.marko"));
                             entry.lastmod = new Date(stats.mtime).toISOString().slice(0, 10);
                         } catch (e) {
                             entry.lastmod = new Date().toISOString().slice(0, 10);
@@ -594,20 +592,20 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
         let langSwitchMarko = "$ const language = process.browser ? window.__heretic.outGlobal.language : out.global.language;\n\n";
         Object.keys(this.languages).map(lang => langSwitchMarko += `<if(language === "${lang}")>\n    <lang-${lang}/>\n</if>\n`);
         for (const r of routesData.routes.userspace) {
-            if (!r.module && fs.existsSync(path.resolve(__dirname, "src", "pages", r.dir, "userspace", "content"))) {
-                const config = require(path.resolve(__dirname, "src", "pages", r.dir, "page.js"));
+            if (!r.module && fs.existsSync(path.resolve(__dirname, "site", "pages", r.dir, "userspace", "content"))) {
+                const config = require(path.resolve(__dirname, "site", "pages", r.dir, "page.js"));
                 if (config.langSwitchComponent) {
-                    fs.removeSync(path.resolve(__dirname, "src", "pages", r.dir, "userspace", "content", "lang-switch"));
-                    fs.ensureDirSync(path.resolve(__dirname, "src", "pages", r.dir, "userspace", "content", "lang-switch"));
-                    fs.writeFileSync(path.resolve(__dirname, "src", "pages", r.dir, "userspace", "content", "lang-switch", "marko.json"), `{"tags-dir": ["../"]}`);
-                    fs.writeFileSync(path.resolve(__dirname, "src", "pages", r.dir, "userspace", "content", "lang-switch", "index.marko"), langSwitchMarko);
+                    fs.removeSync(path.resolve(__dirname, "site", "pages", r.dir, "userspace", "content", "lang-switch"));
+                    fs.ensureDirSync(path.resolve(__dirname, "site", "pages", r.dir, "userspace", "content", "lang-switch"));
+                    fs.writeFileSync(path.resolve(__dirname, "site", "pages", r.dir, "userspace", "content", "lang-switch", "marko.json"), `{"tags-dir": ["../"]}`);
+                    fs.writeFileSync(path.resolve(__dirname, "site", "pages", r.dir, "userspace", "content", "lang-switch", "index.marko"), langSwitchMarko);
                 }
             }
         }
     }
 
     copyDataDir() {
-        fs.copySync(path.resolve(__dirname, "src", "static", "data"), path.resolve(__dirname, "dist.new", "data"));
+        fs.copySync(path.resolve(__dirname, "site", "static", "data"), path.resolve(__dirname, "dist.new", "data"));
     }
 
     initVersionFile() {

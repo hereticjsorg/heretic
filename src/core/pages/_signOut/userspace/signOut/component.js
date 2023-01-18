@@ -2,7 +2,7 @@ const axios = require("axios").default;
 const Utils = require("../../../../lib/componentUtils").default;
 const Cookies = require("../../../../lib/cookiesBrowser").default;
 const i18nLoader = require("../../../../../build/loaders/i18n-loader-core");
-const languages = Object.keys(require("../../../../../config/languages.json"));
+const languages = Object.keys(require("../../../../../../site/config/languages.json"));
 const moduleConfig = require("../../page.js");
 
 module.exports = class {
@@ -46,7 +46,7 @@ module.exports = class {
             this.systemRoutes = out.global.systemRoutes || window.__heretic.outGlobal.systemRoutes;
             document.title = `${moduleConfig.title[this.language]} – ${this.siteTitle}`;
         }
-        await import(/* webpackChunkName: "bulma" */ "../../../../../view/bulma.scss");
+        await import(/* webpackChunkName: "bulma" */ "../../../../../../site/view/bulma.scss");
         this.setGlobalVariables(out);
     }
 

@@ -47,7 +47,7 @@ const binUtils = new BinUtils(options);
         });
         switch (answers.action) {
         case "Remove page":
-            const pagesList = fs.readdirSync(path.resolve(__dirname, "../pages")).filter(p => !p.match(/^\./));
+            const pagesList = fs.readdirSync(path.resolve(__dirname, "../../site/pages")).filter(p => !p.match(/^\./));
             if (!pagesList.length) {
                 binUtils.log("No pages to remove", {
                     error: true,
@@ -105,9 +105,9 @@ const binUtils = new BinUtils(options);
             await binUtils.addLanguage(addLanguageAnswers.id, addLanguageAnswers.name);
             break;
         case "Remove language":
-            const languagesConfigPath = path.resolve(__dirname, "../config/languages.json");
+            const languagesConfigPath = path.resolve(__dirname, "../../site/config/languages.json");
             if (!fs.existsSync(languagesConfigPath)) {
-                binUtils.log(`The "etc/languages.json" file is missing`, {
+                binUtils.log(`The "site/languages.json" file is missing`, {
                     error: true,
                     noDate: true,
                 });

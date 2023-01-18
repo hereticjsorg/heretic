@@ -30,5 +30,5 @@ test("Restore site backup", () => {
 });
 
 test("Remove test page", async () => {
-    await helpers.removeFile(`src/pages/${routeId}`);
+    await helpers.removeFile(`site/pages/${routeId}`);
 });

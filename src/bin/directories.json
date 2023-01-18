@@ -1,1 +1,7 @@
-["../../etc", "../pages", "../modules", "../config", "../../etc", "../translations/user"]
+[
+    "../../etc",
+    "../../site/pages",
+    "../../site/config",
+    "../../site/modules",
+    "../../site/translations"
+]

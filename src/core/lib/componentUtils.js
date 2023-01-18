@@ -1,4 +1,4 @@
-const languagesList = require("../../config/languages.json");
+const languagesList = require("../../../site/config/languages.json");
 
 export default class {
     constructor(component, language) {

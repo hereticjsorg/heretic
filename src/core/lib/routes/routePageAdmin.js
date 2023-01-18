@@ -1,4 +1,4 @@
-const languages = Object.keys(require("../../../config/languages.json"));
+const languages = Object.keys(require("../../../../site/config/languages.json"));
 const routesData = require("../../../build/build.json");
 
 export default (route, languageData, language) => ({
@@ -14,7 +14,7 @@ export default (route, languageData, language) => ({
             return rep.code(302).redirect(languages[0] === language ? "/" : `/${language}`);
         }
         const translationData = routesData.translations.admin.find(i => i.id === route.id);
-        const page = route.core ? (await import(`../../pages/${route.dir}/admin/server.marko`)).default : (await import(`../../../pages/${route.dir}/admin/server.marko`)).default;
+        const page = route.core ? (await import(`../../pages/${route.dir}/admin/server.marko`)).default : (await import(`../../../../site/pages/${route.dir}/admin/server.marko`)).default;
         const renderPage = await page.render({
             $global: {
                 serializedGlobals: {

@@ -21,7 +21,7 @@ import deleteValidationSchema from "./data/deleteValidationSchema.json";
 import bulkValidationSchema from "./data/bulkValidationSchema.json";
 import exportValidationSchema from "./data/exportValidationSchema.json";
 import historyListValidationSchema from "./data/historyListValidationSchema.json";
-import languages from "../../config/languages.json";
+import languages from "../../../site/config/languages.json";
 
 const ajv = new Ajv({
     allErrors: true,

@@ -41,7 +41,7 @@ module.exports = class {
             this.systemRoutes = out.global.systemRoutes || window.__heretic.outGlobal.systemRoutes;
         }
         this.utils = new Utils(this, this.language);
-        await import(/* webpackChunkName: "bulma" */ "../../../../../view/bulma.scss");
+        await import(/* webpackChunkName: "bulma" */ "../../../../../../site/view/bulma.scss");
         await import(/* webpackChunkName: "heretic-signIn-admin" */ "./heretic-signIn-admin.scss");
         await this.loadLanguageData();
     }

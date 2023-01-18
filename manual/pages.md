@@ -9,7 +9,7 @@ You will need to copy the *./src/core/defaults/.blank* directory to the *./src/p
 * Rename the *./src/pages/.blank* directory to match its contents (e.g. "test", *./src/pages/test*)
 * Set page configuration in a *./src/pages/test/page.js* (it's mandatory to set the unique page ID and route path)
 * Put the required contents to the *./src/pages/test/content/lang-xx-xx* directories (matching your languages)
-* When necessary, add your page ID to the *./src/config/navigation.json* file (see [configuration files](./configurationFiles.md) for more info)
+* When necessary, add your page ID to the *./site/config/navigation.json* file (see [configuration files](./configurationFiles.md) for more info)
 
 ## Page Configuration
 

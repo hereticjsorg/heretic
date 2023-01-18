@@ -1,6 +1,6 @@
 const Router = require("../../lib/router");
-const languages = require("../../../config/languages.json");
-const navigation = require("../../../config/navigation.json");
+const languages = require("../../../../site/config/languages.json");
+const navigation = require("../../../../site/config/navigation.json");
 const routesData = require("../../../build/build.json");
 
 module.exports = class {

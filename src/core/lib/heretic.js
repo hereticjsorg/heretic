@@ -30,8 +30,8 @@ import requestDecorators from "./requestDecorators";
 import fastifyURLData from "./urlData";
 import fastifyMultipart from "./multipart";
 import i18nCore from "../../build/loaders/i18n-loader-core.js";
-import languages from "../../config/languages.json";
-import navigation from "../../config/navigation.json";
+import languages from "../../../site/config/languages.json";
+import navigation from "../../../site/config/navigation.json";
 import packageJson from "../../../package.json";
 
 /*
@@ -250,7 +250,7 @@ export default class {
             api.default(this.fastify);
         }
         for (const page of routesData.api.userspace) {
-            const api = await import(`../../pages/${page}/api/index.js`);
+            const api = await import(`../../../site/pages/${page}/api/index.js`);
             api.default(this.fastify);
         }
         for (const page of routesData.api.core) {
@@ -258,7 +258,7 @@ export default class {
             api.default(this.fastify);
         }
         for (const module of routesData.api.modules) {
-            const api = await import(`../../modules/${module}/api/index.js`);
+            const api = await import(`../../../site/modules/${module}/api/index.js`);
             api.default(this.fastify);
         }
     }
@@ -275,7 +275,7 @@ export default class {
             this.wsHandlers.push(new Ws(this.fastify));
         }
         for (const page of routesData.ws.userspace) {
-            const Ws = (await import(`../../pages/${page}/ws/index.js`)).default;
+            const Ws = (await import(`../../../site/pages/${page}/ws/index.js`)).default;
             this.wsHandlers.push(new Ws(this.fastify));
         }
         for (const page of routesData.ws.core) {
@@ -283,7 +283,7 @@ export default class {
             this.wsHandlers.push(new Ws(this.fastify));
         }
         for (const module of routesData.ws.modules) {
-            const Ws = (await import(`../../modules/${module}/ws/index.js`)).default;
+            const Ws = (await import(`../../../site/modules/${module}/ws/index.js`)).default;
             this.wsHandlers.push(new Ws(this.fastify));
         }
         this.fastify.register(async fastify => {
@@ -434,7 +434,7 @@ export default class {
         }
         for (const module of routesData.directories.modules) {
             try {
-                const Provider = (await import(`../../modules/${module}/data/provider`)).default;
+                const Provider = (await import(`../../../site/modules/${module}/data/provider`)).default;
                 const provider = new Provider();
                 dataProviders[module] = provider;
             } catch {
@@ -443,7 +443,7 @@ export default class {
         }
         for (const page of routesData.directories.pages) {
             try {
-                const Provider = (await import(`../../pages/${page}/data/provider`)).default;
+                const Provider = (await import(`../../../site/pages/${page}/data/provider`)).default;
                 const provider = new Provider();
                 dataProviders[page] = provider;
             } catch {
@@ -521,7 +521,7 @@ export default class {
                     const setup = new Setup(file, this.fastify, {
                         createIndex: this.createIndex.bind(this),
                         createExpireIndex: this.createExpireIndex.bind(this),
-                    });
+                    }, installedVersions);
                     await setup.process();
                     await this.updateSetupVersion("core");
                 } else {
@@ -533,7 +533,7 @@ export default class {
             if (!installedVersions[page] || options.setup) {
                 let Setup;
                 try {
-                    Setup = (await import(`../../pages/${page}/setup.js`)).default;
+                    Setup = (await import(`../../../site/pages/${page}/setup.js`)).default;
                 } catch {
                     // Ignore
                 }
@@ -542,7 +542,7 @@ export default class {
                     const setup = new Setup(page, this.fastify, {
                         createIndex: this.createIndex.bind(this),
                         createExpireIndex: this.createExpireIndex.bind(this),
-                    });
+                    }, installedVersions);
                     await setup.process();
                     await this.updateSetupVersion(page);
                 }
@@ -561,7 +561,7 @@ export default class {
                     const setup = new Setup(page, this.fastify, {
                         createIndex: this.createIndex.bind(this),
                         createExpireIndex: this.createExpireIndex.bind(this),
-                    });
+                    }, installedVersions);
                     await setup.process();
                     await this.updateSetupVersion(page);
                 }
@@ -571,7 +571,7 @@ export default class {
             if (!installedVersions[module] || options.setup) {
                 let Setup;
                 try {
-                    Setup = (await import(`../../modules/${module}/setup.js`)).default;
+                    Setup = (await import(`../../../site/modules/${module}/setup.js`)).default;
                 } catch {
                     // Ignore
                 }
@@ -580,7 +580,7 @@ export default class {
                     const setup = new Setup(module, this.fastify, {
                         createIndex: this.createIndex.bind(this),
                         createExpireIndex: this.createExpireIndex.bind(this),
-                    });
+                    }, installedVersions);
                     await setup.process();
                     await this.updateSetupVersion(module);
                 }

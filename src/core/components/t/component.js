@@ -5,15 +5,15 @@ module.exports = class {
         this.language = out.global.language;
         this.languageData = {};
         if (!process.browser) {
-            this.languages = require("../../../config/languages.json");
+            this.languages = require("../../../../site/config/languages.json");
             this.languageData = {
-                ...require(`../../../translations/core/${this.language}.json`),
-                ...require(`../../../translations/user/${this.language}.json`)
+                ...require(`../../../translations/${this.language}.json`),
+                ...require(`../../../../site/translations/${this.language}.json`)
             };
             for (const page of routesData.translatedPages.user) {
                 this.languageData = {
                     ...this.languageData,
-                    ...require(`../../../pages/${page}/translations/${this.language}.json`),
+                    ...require(`../../../../site/pages/${page}/translations/${this.language}.json`),
                 };
             }
         }
