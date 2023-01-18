@@ -30,8 +30,8 @@ import requestDecorators from "./requestDecorators";
 import fastifyURLData from "./urlData";
 import fastifyMultipart from "./multipart";
 import i18nCore from "../../build/loaders/i18n-loader-core.js";
-import languages from "../../../site/config/languages.json";
-import navigation from "../../../site/config/navigation.json";
+import languages from "../../../etc/languages.json";
+import navigation from "../../../etc/navigation.json";
 import packageJson from "../../../package.json";
 
 /*

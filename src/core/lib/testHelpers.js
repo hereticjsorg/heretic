@@ -8,7 +8,7 @@ import {
     MongoClient,
 } from "mongodb";
 import puppeteer from "puppeteer-core";
-import languages from "../../../site/config/languages.json";
+import languages from "../../../etc/languages.json";
 import config from "../../../etc/system";
 
 export default class {

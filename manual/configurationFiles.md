@@ -86,7 +86,7 @@ This configuration file describes the meta data of your website which is used sy
 | shortTitle  | A shorter version of site title (specified for each site language individually) |
 | description | Site description (specified for each site language individually)                |
 
-## site/config/languages.json
+## etc/languages.json
 
 This configuration file contains a list of languages in the following format:
 
@@ -97,7 +97,7 @@ This configuration file contains a list of languages in the following format:
 }
 ```
 
-## site/config/navigation.json
+## etc/navigation.json
 
 This file is being used as a source to display the top navigation menu on your website (in the default template). Additionally, you've to set the default route ID.
 

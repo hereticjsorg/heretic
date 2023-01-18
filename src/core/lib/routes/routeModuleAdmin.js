@@ -1,4 +1,4 @@
-const languages = Object.keys(require("../../../../site/config/languages.json"));
+const languages = Object.keys(require("../../../../etc/languages.json"));
 const routesData = require("../../../build/build.json");
 
 export default (route, languageData, language) => ({

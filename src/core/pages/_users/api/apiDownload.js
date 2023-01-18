@@ -1,7 +1,7 @@
 import path from "path";
 import fs from "fs-extra";
 
-const languages = Object.keys(require("../../../../../site/config/languages.json"));
+const languages = Object.keys(require("../../../../../etc/languages.json"));
 
 export default () => ({
     async handler(req, rep) {

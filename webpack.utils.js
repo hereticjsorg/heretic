@@ -25,7 +25,7 @@ module.exports = class {
         if (!fs.existsSync(path.resolve(__dirname, "site", "static", "public"))) {
             fs.copySync(path.resolve(__dirname, "src", "core", "defaults", "public"), path.resolve(__dirname, "site", "static", "public"));
         }
-        this.languages = fs.readJSONSync(path.resolve(__dirname, "site", "config", "languages.json"));
+        this.languages = fs.readJSONSync(path.resolve(__dirname, "etc", "languages.json"));
         this.systemConfig = require(path.resolve(__dirname, "etc", "website.js"));
         this.production = production;
         this.binUtils = new BinUtils({});
@@ -362,7 +362,7 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
                 // Ignore
             }
         });
-        const navigation = fs.readJSONSync(path.resolve(__dirname, "site", "config", "navigation.json"));
+        const navigation = fs.readJSONSync(path.resolve(__dirname, "etc", "navigation.json"));
         navigation.userspace.routes.map(r => {
             const id = typeof r === "string" ? r : r.id;
             let config = {

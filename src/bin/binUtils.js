@@ -25,7 +25,7 @@ const cleanupData = require("./cleanup.json");
 module.exports = class {
     constructor(options) {
         this.options = options;
-        this.languages = Object.keys(fs.readJSONSync(fs.existsSync(path.resolve(__dirname, "../../site/config/languages")) ? path.resolve(__dirname, "../../site/config/languages.json") : path.resolve(__dirname, "../core/defaults/languages.json")));
+        this.languages = Object.keys(fs.readJSONSync(fs.existsSync(path.resolve(__dirname, "../../etc/languages.json")) ? path.resolve(__dirname, "../../etc/languages.json") : path.resolve(__dirname, "../core/defaults/languages.json")));
         this.color = new Color();
         this.logEnabled = true;
         this.logColor = !options || !options["no-color"];
@@ -169,9 +169,9 @@ module.exports = class {
     }
 
     writeNavigationConfig() {
-        const configDest = path.resolve(__dirname, "../../site/config/navigation.json");
+        const configDest = path.resolve(__dirname, "../../etc/navigation.json");
         if (fs.existsSync(configDest)) {
-            this.log(`Skipping: "config/navigation.json"`, {
+            this.log(`Skipping: "etc/navigation.json"`, {
                 warning: true,
             });
             return;
@@ -180,7 +180,7 @@ module.exports = class {
         if (!fs.existsSync(path.resolve(__dirname, "../../site/pages/home")) || !fs.existsSync(path.resolve(__dirname, "../../site/pages/license"))) {
             configNavigation.routes = [];
         }
-        this.log(`Writing "config/navigation.json"...`, {
+        this.log(`Writing "etc/navigation.json"...`, {
             header: true,
         });
         fs.writeJSONSync(configDest, configNavigation, {
@@ -322,7 +322,7 @@ module.exports = class {
             spaces: "  ",
         });
         if (addNavigationConfig) {
-            const navJSONPath = path.resolve(__dirname, "../config/navigation.json");
+            const navJSONPath = path.resolve(__dirname, "../../etc/navigation.json");
             const navJSON = fs.readJSONSync(navJSONPath);
             if (navJSON.userspace.routes.indexOf(id) === -1) {
                 this.log(`Adding navbar item: ${id}...`);
@@ -353,7 +353,7 @@ module.exports = class {
             return;
         }
         fs.removeSync(pagePath);
-        const navJSONPath = path.resolve(__dirname, "../config/navigation.json");
+        const navJSONPath = path.resolve(__dirname, "../../etc/navigation.json");
         const navJSON = fs.readJSONSync(navJSONPath);
         if (navJSON.userspace.routes.indexOf(id) >= 0) {
             this.log("Removing page from navbar...");
@@ -375,7 +375,7 @@ module.exports = class {
             });
             return;
         }
-        const languageJSONPath = path.resolve(__dirname, "../../site/config/languages.json");
+        const languageJSONPath = path.resolve(__dirname, "../../etc/languages.json");
         const languageJSON = fs.readJSONSync(languageJSONPath);
         if (Object.keys(languageJSON).indexOf(id) >= 0) {
             this.log(`Language '${id}' already exists`, {
@@ -493,7 +493,7 @@ module.exports = class {
             });
             return;
         }
-        const languageJSONPath = path.resolve(__dirname, "../../site/config/languages.json");
+        const languageJSONPath = path.resolve(__dirname, "../../etc/languages.json");
         const languageJSON = fs.readJSONSync(languageJSONPath);
         delete languageJSON[id];
         fs.writeJSONSync(languageJSONPath, languageJSON, {
