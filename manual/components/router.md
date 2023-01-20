@@ -28,7 +28,6 @@ async onCreate(input, out) {
         mounted: false,
         route: null,
         routed: false,
-        currentComponent: null,
     };
     this.componentsLoaded = {};
     this.serverRoute = out.global.route;
@@ -57,7 +56,6 @@ async onRouteChange(router) {
     if (this.state.routed && !routeData) {
         component = await pagesLoader.loadComponent(null);
         this.componentsLoaded["404"] = true;
-        this.setState("currentComponent", component);
         this.setState("route", cloneDeep(route));
     }
 }
