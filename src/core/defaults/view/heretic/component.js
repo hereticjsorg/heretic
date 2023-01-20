@@ -1,4 +1,3 @@
-const cloneDeep = require("lodash.clonedeep");
 const store = require("store2");
 const tippy = require("tippy.js").default;
 const {
@@ -37,7 +36,6 @@ module.exports = class {
             route: null,
             languageLoaded: false,
             routed: false,
-            currentComponent: null,
         };
         this.componentsLoaded = {};
         this.language = out.global.language;
@@ -162,7 +160,7 @@ module.exports = class {
                 const contentRenderWrap = document.getElementById("hr_content_render_wrap");
                 renderedComponent.replaceChildrenOf(contentRenderWrap);
                 this.componentsLoaded[route.id] = true;
-                this.utils.waitForComponent("navbar");
+                await this.utils.waitForComponent("navbar");
                 const navbarComponent = this.getComponent("navbar");
                 navbarComponent.setRoute();
             } catch (e) {
@@ -173,10 +171,24 @@ module.exports = class {
             this.clearAnimationTimer(timer);
         }
         if (this.state.routed && !routeData) {
-            component = await pagesLoader.loadComponent(null);
-            this.componentsLoaded["404"] = true;
-            this.setState("currentComponent", component);
-            this.setState("route", cloneDeep(route));
+            const timer = this.getAnimationTimer();
+            try {
+                component = await pagesLoader.loadComponent();
+                const renderedComponent = await component.default.render();
+                this.setState("routed", true);
+                await this.utils.waitForElement("hr_content_render_wrap");
+                const contentRenderWrap = document.getElementById("hr_content_render_wrap");
+                renderedComponent.replaceChildrenOf(contentRenderWrap);
+                this.componentsLoaded["404"] = true;
+                await this.utils.waitForComponent("navbar");
+                const navbarComponent = this.getComponent("navbar");
+                navbarComponent.setRoute();
+            } catch (e) {
+                this.clearAnimationTimer(timer);
+                this.panicMode(e);
+                return;
+            }
+            this.clearAnimationTimer(timer);
         }
     }
 

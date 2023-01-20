@@ -649,6 +649,7 @@ module.exports = class {
                     this.setState("pagination", []);
                     this.setClientWidth();
                     setTimeout(() => this.setTableDimensionsDebounced());
+                    setTimeout(() => this.setTableDimensionsDebounced(), 1500);
                 } finally {
                     this.setLoading(false);
                     resolve();

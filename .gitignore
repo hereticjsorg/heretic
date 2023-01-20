@@ -26,7 +26,6 @@ typings/
 /site
 /logs
 .DS_Store
-src/view
 src/modules
 src/core/pages/*/meta.json
 src/bin/csv

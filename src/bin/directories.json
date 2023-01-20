@@ -1,7 +1,6 @@
 [
     "../../etc",
     "../../site/pages",
-    "../../site/config",
     "../../site/modules",
     "../../site/translations"
 ]
