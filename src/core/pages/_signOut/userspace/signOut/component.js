@@ -38,7 +38,9 @@ module.exports = class {
         this.siteId = out.global.siteId;
         this.cookieOptions = out.global.cookieOptions;
         this.systemRoutes = out.global.systemRoutes;
+        this.mongoEnabled = out.global.mongoEnabled;
         if (process.browser && window.__heretic && window.__heretic.t) {
+            this.mongoEnabled = this.mongoEnabled || window.__heretic.outGlobal.mongoEnabled;
             this.language = this.language || window.__heretic.outGlobal.language;
             this.siteTitle = out.global.siteTitle || window.__heretic.outGlobal.siteTitle;
             this.siteId = out.global.siteId || window.__heretic.outGlobal.siteId;

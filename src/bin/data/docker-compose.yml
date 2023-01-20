@@ -13,7 +13,11 @@ services:
     networks:
       - $ID-network
     volumes:
-      - $PUBLIC_DIR:/zoia/dist/public
+      - $PUBLIC_DIR:/heretic/dist/public
+      - $ETC_DIR:/heretic/etc
+      - $SITE_DIR:/heretic/site
+      - $FILES_DIR:/heretic/files
+      - $LOGS_DIR:/heretic/logs
 
   $ID-mongo:
     container_name: $ID-mongo
