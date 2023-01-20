@@ -4,7 +4,7 @@ Heretic has a full support for multi-language sites out of the box.
 
 ## Configuration files
 
-First thing first, you well need to edit the file containing a list of languages available (*./src/config/languages.json*):
+First thing first, you well need to edit the file containing a list of languages available (*./etc/languages.json*):
 
 ```json
 {
@@ -73,7 +73,7 @@ You may use the *&lt;t/&gt;* component to translate strings. There are two kind 
 
 To translate strings this way, you will need:
 
-1. Add a new key-value pair to each language, dictionary, e.g. *./src/translations/user/en-us.json*, *./src/translations/user/ru-ru.json* etc.
+1. Add a new key-value pair to each language, dictionary, e.g. *./site/translations/en-us.json*, *./site/translations/ru-ru.json* etc.
 2. Add a *&lt;t/&gt;* and set your key as tag body
 
 Translation dictionary (e.g. *en-us.json*) is a simple JSON file and looks like this:

@@ -23,6 +23,7 @@ Heretic backup file is a regular ZIP archive which contains the following direct
 * *etc*: all configuration files from *etc* directory
 * *root*: Webpack and package.json/package-lock.json files from root directory
 * *src*: copy of *src* directory
+* *site*: copy of *src* directory
 
 ## Restore Backup
 
@@ -40,6 +41,6 @@ npm run restore -- --path "path/to/your/backup.zip" --no-save
 
 What happens if you restore your backup archive using this utility:
 
-* *src*, *dist* and *etc* directories of your website are dropped and replaced by the corresponding directories from backup archive
+* *src*, *dist*, *site* and *etc* directories of your website are dropped and replaced by the corresponding directories from backup archive
 * All collections from your database are dropped and replaced by collections from backup archive
 * The following files are dropped and replaced in the root folder of your site: *webpack.config.js*, *webpack.utils.js*, *package.json*, *package-lock.json*

@@ -12,5 +12,5 @@ Heretic provides several built-in libraries and helpers for you.
 
 * Access Redis instance (when enabled) using *fastify.redis*
 * Access MongoDB instance (when enabled) using *fastify.mongo*
-* Access *languages* object using *fastify.languages* (this returns key-value paris from *./src/config/languages.json*)
+* Access *languages* object using *fastify.languages* (this returns key-value pairs from *./etc/languages.json*)
 * Access *navigation* data using *fastify.navigation* (this returns *./etc/navigation.json*)
