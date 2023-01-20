@@ -21,4 +21,4 @@ Please read the docs before you get started:
 * [Build Process](manual/build.md)
 * [Deploy on Server](manual/deploy.md)
 
-Check out the [Demo](https://heretic.zoiajs.org/) - sample website build on Heretic.
+Check out the [Demo](https://demo.hereticjs.org) - sample website build on Heretic.
