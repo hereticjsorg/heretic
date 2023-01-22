@@ -20,7 +20,6 @@
     "passwordHelpText": "Wiederholen Sie Ihr Passwort zweimal",
     "duplicateRecord": "Einige Felder sind doppelt vorhanden",
     "groups": "Gruppen",
-    "couldNotLoadData": "Daten konnten nicht geladen werden",
     "usernameHelpText": "Lateinische Buchstaben, Zahlen, Unterstrich",
     "displayName": "Anzeigename",
     "displayNameHelpText": "Wird anstelle des Benutzernamens angezeigt, falls zutreffend",

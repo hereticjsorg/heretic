@@ -179,5 +179,6 @@
     "htable_total": "Total",
     "htable_selected": "selected",
     "htable_searchPlaceholder": "Search",
-    "noChangesSavedDemoMode": "Database changes are not saved in demo mode"
+    "noChangesSavedDemoMode": "Database changes are not saved in demo mode",
+    "couldNotLoadData": "Could not load data"
 }

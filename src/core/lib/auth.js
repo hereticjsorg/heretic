@@ -2,6 +2,7 @@ import crypto from "crypto";
 import {
     ObjectId
 } from "mongodb";
+import IpTools from "./iptools";
 
 export default class {
     constructor(fastify, req) {
@@ -11,6 +12,7 @@ export default class {
             HEADERS: Symbol("headers"),
             COOKIE: Symbol("cookie"),
         });
+        this.ipTools = new IpTools();
     }
 
     createHash(data) {
@@ -50,20 +52,18 @@ export default class {
                 if (!await this.verifyHash(`${password}${this.fastify.systemConfig.secret}`, passwordHashDb)) {
                     return null;
                 }
-                if (userDb.sid) {
-                    return userDb;
-                }
                 const sid = crypto.randomUUID();
-                await this.fastify.mongo.db.collection(this.fastify.systemConfig.collections.users).updateOne({
-                    _id: userDb._id
-                }, {
-                    $set: {
-                        sid,
-                    }
+                const clientIp = this.ipTools.getClientIp(this.req) || null;
+                await this.fastify.mongo.db.collection(this.fastify.systemConfig.collections.sessions).insertOne({
+                    _id: sid,
+                    userId: String(userDb._id),
+                    username: userDb.username,
+                    createdAt: new Date(),
+                    ip: clientIp,
                 });
                 return {
                     ...userDb,
-                    sid
+                    sid,
                 };
             } catch (e) {
                 return null;
@@ -72,13 +72,14 @@ export default class {
         return null;
     }
 
-    generateToken(userDb) {
+    generateToken(uid, sid) {
         const signData = {
-            id: String(userDb._id),
-            sid: userDb.sid || null,
+            uid,
+            sid,
         };
-        if (this.fastify.systemConfig.token.ip && this.req) {
-            signData.ip = this.req.ip;
+        const clientIp = this.ipTools.getClientIp(this.req) || null;
+        if (clientIp) {
+            signData.ip = clientIp;
         }
         return this.fastify.jwt.sign(signData, {
             expiresIn: this.fastify.systemConfig.token.expiresIn,
@@ -102,15 +103,22 @@ export default class {
                 return null;
             }
             // Check IP address
-            if (this.fastify.systemConfig.token.ip && this.req && this.req.ip !== tokenData.ip) {
+            const clientIp = this.req ? this.ipTools.getClientIp(this.req) || null : null;
+            if (this.fastify.systemConfig.token.ip && clientIp !== tokenData.ip) {
                 return null;
             }
             // Query database
             try {
-                const userDb = await this.fastify.mongo.db.collection(this.fastify.systemConfig.collections.users).findOne({
-                    _id: new ObjectId(tokenData.id),
+                const sessionDb = await this.fastify.mongo.db.collection(this.fastify.systemConfig.collections.sessions).findOne({
+                    _id: tokenData.sid,
                 });
-                if (!userDb || userDb.sid !== tokenData.sid) {
+                if (!sessionDb) {
+                    return null;
+                }
+                const userDb = await this.fastify.mongo.db.collection(this.fastify.systemConfig.collections.users).findOne({
+                    _id: new ObjectId(tokenData.uid),
+                });
+                if (!userDb) {
                     return null;
                 }
                 if (userDb.groups && Array.isArray(userDb.groups) && userDb.groups.length) {
@@ -135,6 +143,7 @@ export default class {
                     userDb.groupData = groupData;
                     userDb.groups = groups;
                 }
+                userDb.session = sessionDb;
                 return userDb;
             } catch {
                 return null;

@@ -19,7 +19,6 @@
     "permissionAdmin": "Website-Administrator",
     "permissionComment": "Kommentar",
     "data": "Daten",
-    "couldNotLoadData": "Daten konnten nicht geladen werden",
     "groupHelpText": "Lateinische Buchstaben und Zahlen",
     "hform_tagInvalid": "Eintrag ist nicht gültig",
     "lockedBy": "Gesperrt von"

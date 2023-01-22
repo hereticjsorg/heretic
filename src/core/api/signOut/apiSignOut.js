@@ -1,7 +1,3 @@
-import {
-    ObjectId
-} from "mongodb";
-
 export default () => ({
     async handler(req, rep) {
         try {
@@ -11,14 +7,8 @@ export default () => ({
                     message: "Access Denied",
                 }, 403);
             }
-            await this.mongo.db.collection(this.systemConfig.collections.users).updateOne({
-                _id: new ObjectId(authData._id),
-            }, {
-                $unset: {
-                    sid: null,
-                },
-            }, {
-                upsert: false,
+            await this.mongo.db.collection(this.systemConfig.collections.sessions).deleteOne({
+                _id: authData.session._id,
             });
             return rep.success({});
         } catch (e) {

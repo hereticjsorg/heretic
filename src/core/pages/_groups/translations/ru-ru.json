@@ -19,7 +19,6 @@
     "permissionAdmin": "Администратор сайта",
     "permissionComment": "Комментарии",
     "data": "Данные",
-    "couldNotLoadData": "Ошибка во время загрузки данных",
     "groupHelpText": "Лат. символы и цифры",
     "hform_tagInvalid": "Наверное значение",
     "lockedBy": "Заблокировано"

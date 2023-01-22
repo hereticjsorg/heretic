@@ -7,8 +7,7 @@
         "asc": ["recordId", "userId", "updated", "module"],
         "desc":  ["recordId", "userId", "updated", "module"],
         "expire": {
-            "field": "updated",
-            "seconds": 604800
+            "field": "updated"
         }
     }
 }

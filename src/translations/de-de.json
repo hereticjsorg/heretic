@@ -179,5 +179,6 @@
     "htable_total": "Insgesamt",
     "htable_selected": "ausgewählt",
     "htable_searchPlaceholder": "Suche",
-    "noChangesSavedDemoMode": "Demo-Modus, Änderungen werden nicht gespeichert"
+    "noChangesSavedDemoMode": "Demo-Modus, Änderungen werden nicht gespeichert",
+    "couldNotLoadData": "Daten konnten nicht geladen werden"
 }

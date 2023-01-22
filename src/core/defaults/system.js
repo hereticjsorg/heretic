@@ -1,3 +1,6 @@
+const {
+    parse,
+} = require("@lukeed/ms");
 const secure = require("./secure.json");
 
 const conf = {
@@ -28,6 +31,8 @@ if (!process.browser) {
         }
     }
 }
+
+const sessionTTL = parseInt(parse("7 days") / 1000, 10);
 
 module.exports = {
     id: "heretic",
@@ -73,12 +78,12 @@ module.exports = {
         ...conf.webSockets,
     },
     token: {
-        expiresIn: "7 days",
+        expiresIn: sessionTTL,
         ip: false,
         ...conf.token,
     },
     cookieOptions: {
-        expires: 604800,
+        expires: sessionTTL,
         path: "/",
         domain: "",
         secure: null,
@@ -123,6 +128,7 @@ module.exports = {
         geoCountries: "geoCountries",
         geoCities: "geoCities",
         version: "version",
+        sessions: "sessions",
         ...conf.collections,
     },
     routes: {
@@ -150,4 +156,5 @@ module.exports = {
         ...conf.heretic,
     },
     ...conf.system,
+    sessionTTL,
 };

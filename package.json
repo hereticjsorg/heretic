@@ -1,6 +1,6 @@
 {
     "name": "heretic",
-    "version": "1.0.145",
+    "version": "1.0.146",
     "description": "Heretic",
     "main": "index.js",
     "scripts": {
@@ -38,7 +38,7 @@
         "@babel/plugin-transform-async-to-generator": "^7.20.7",
         "@babel/plugin-transform-runtime": "^7.19.6",
         "@babel/preset-env": "^7.20.2",
-        "@babel/runtime": "^7.20.7",
+        "@babel/runtime": "^7.20.13",
         "@faker-js/faker": "^7.6.0",
         "@fastify/static": "^6.6.1",
         "@jest/globals": "^29.3.1",
@@ -82,6 +82,7 @@
         "@fastify/formbody": "^7.4.0",
         "@fastify/jwt": "^6.5.0",
         "@fastify/mongodb": "^6.2.0",
+        "@lukeed/ms": "^2.0.1",
         "archiver": "^5.3.1",
         "axios": "^1.2.3",
         "axios-retry": "^3.4.0",
@@ -89,7 +90,7 @@
         "cli-progress": "^3.11.2",
         "cryptr": "^6.1.0",
         "date-fns": "^2.29.3",
-        "fastify": "^4.11.0",
+        "fastify": "^4.12.0",
         "imask": "^6.4.3",
         "inquirer": "^9.1.4",
         "ioredis": "^5.2.5",

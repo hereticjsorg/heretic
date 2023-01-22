@@ -13,7 +13,7 @@ export default () => ({
             const validationResult = formValidator.validate();
             if (validationResult) {
                 return rep.error({
-                    form: validationResult
+                    form: validationResult,
                 });
             }
             const userDb = await req.auth.authorize(data._default.username, data._default.password);
@@ -26,7 +26,9 @@ export default () => ({
                     message: "error_invalid_credentials"
                 }, 403);
             }
-            const token = req.auth.generateToken(userDb);
+            const token = req.auth.generateToken(String(userDb._id), userDb.sid);
+            // eslint-disable-next-line no-console
+            console.log(token);
             await req.addEvent("loginSuccess", userDb);
             return rep.success({
                 token,

@@ -457,16 +457,16 @@ export default class {
         const db = this.fastify.mongoClient.db(this.fastify.systemConfig.mongo.dbName);
         const indexCreate = {};
         fields.map(i => indexCreate[i] = direction === "asc" ? 1 : -1);
-        this.fastify.log.info(`Dropping index: ${id}_${collection}_${direction}...`);
+        this.fastify.log.info(`Dropping index: ${collection}_${direction}...`);
         try {
-            await db.collection(collection).dropIndex(`${id}_${collection}_${direction}`);
+            await db.collection(collection).dropIndex(`${collection}_${direction}`);
         } catch {
             // Ignore
         }
-        this.fastify.log.info(`Creating index: ${id}_${collection}_${direction}...`);
+        this.fastify.log.info(`Creating index: ${collection}_${direction}...`);
         try {
             await db.collection(collection).createIndex(indexCreate, {
-                name: `${id}_${collection}_${direction}`,
+                name: `${collection}_${direction}`,
             });
         } catch {
             // Ignore
@@ -477,17 +477,17 @@ export default class {
         const db = this.fastify.mongoClient.db(this.fastify.systemConfig.mongo.dbName);
         const indexExpire = {};
         indexExpire[field] = 1;
-        this.fastify.log.info(`Dropping index: ${id}_${collection}_expire...`);
+        this.fastify.log.info(`Dropping index: ${collection}_expire...`);
         try {
-            await db.collection(collection).dropIndex(`${id}_${collection}_expire}`);
+            await db.collection(collection).dropIndex(`${collection}_expire}`);
         } catch {
             // Ignore
         }
-        this.fastify.log.info(`Creating index: ${id}_${collection}_expire...`);
+        this.fastify.log.info(`Creating index: ${collection}_expire...`);
         try {
             await db.collection(collection).createIndex(indexExpire, {
                 expireAfterSeconds: parseInt(seconds, 10),
-                name: `${id}_${collection}_expire`
+                name: `${collection}_expire`
             });
         } catch {
             // Ignore

@@ -5,7 +5,6 @@
     "fileDownload": "Download starts automatically, please wait…",
     "fileDownloadError": "Could not download requested file, please check your link and permissions",
     "close": "Close",
-    "newItem": "Add Group",
     "deleteSelected": "Delete",
     "saveSuccess": "Saved successfully",
     "loadingError": "Could not load the requested item",
