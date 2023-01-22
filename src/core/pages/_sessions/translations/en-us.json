@@ -1,0 +1,20 @@
+{
+    "moduleTitleGroups": "Sessions",
+    "id": "ID",
+    "viewSession": "View Session",
+    "fileDownload": "Download starts automatically, please wait…",
+    "fileDownloadError": "Could not download requested file, please check your link and permissions",
+    "close": "Close",
+    "deleteSelected": "Delete",
+    "saveSuccess": "Saved successfully",
+    "loadingError": "Could not load the requested item",
+    "view": "View",
+    "delete": "Delete",
+    "lockedBy": "Locked by",
+    "session": "Session",
+    "sessionIP": "IP",
+    "sessionDate": "Date",
+    "sessionUsername": "Username",
+    "ipAddress": "IP Address",
+    "username": "Username"
+}
