@@ -2,6 +2,7 @@ import crypto from "crypto";
 import {
     ObjectId
 } from "mongodb";
+import argon2 from "argon2";
 import {
     addSeconds,
 } from "date-fns";
@@ -18,9 +19,12 @@ export default class {
         this.ipTools = new IpTools();
     }
 
-    createHash(data) {
+    async createHash(data) {
+        if (this.fastify.systemConfig.hashMethod === "argon2") {
+            return argon2.hash(data);
+        }
         return new Promise((resolve, reject) => {
-            const salt = crypto.randomBytes(8).toString("hex");
+            const salt = crypto.randomBytes(16).toString("hex");
             crypto.scrypt(data, salt, 64, (err, derivedKey) => {
                 if (err) {
                     reject(err);
@@ -30,7 +34,10 @@ export default class {
         });
     }
 
-    verifyHash(data, hash) {
+    async verifyHash(data, hash) {
+        if (this.fastify.systemConfig.hashMethod === "argon2") {
+            return argon2.verify(hash, data);
+        }
         return new Promise((resolve, reject) => {
             const [salt, key] = hash.split(":");
             crypto.scrypt(data, salt, 64, (err, derivedKey) => {

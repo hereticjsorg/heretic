@@ -4,6 +4,7 @@ const crypto = require("crypto");
 const cliProgress = require("cli-progress");
 const unzip = require("unzip-stream");
 const zlib = require("zlib");
+const argon2 = require("argon2");
 const {
     spawn,
 } = require("node:child_process");
@@ -217,6 +218,9 @@ module.exports = class {
     }
 
     async createHash(data) {
+        if (this.config.hashMethod === "argon2") {
+            return argon2.hash(data);
+        }
         return new Promise((resolve, reject) => {
             const salt = crypto.randomBytes(8).toString("hex");
             crypto.scrypt(data, salt, 64, (err, derivedKey) => {

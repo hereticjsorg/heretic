@@ -69,7 +69,7 @@ module.exports = class {
                 token,
             } = res.data;
             this.cookies.set(`${this.siteId}.authToken`, token);
-            window.location.href = `${this.query.get("r") || this.utils.getLocalizedURL("/").url || "/"}`;
+            window.location.href = `${this.query.get("r") || this.utils.getLocalizedURL("/") || "/"}`;
         } catch (e) {
             if (e && e.response && e.response.data) {
                 if (e.response.data.form) {

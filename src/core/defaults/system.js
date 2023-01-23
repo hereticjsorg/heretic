@@ -37,6 +37,7 @@ const sessionTTL = parseInt(parse("7 days") / 1000, 10);
 module.exports = {
     id: "heretic",
     secret: secure.secret,
+    hashMethod: "argon2",
     server: {
         ip: "127.0.0.1",
         port: 3001,
