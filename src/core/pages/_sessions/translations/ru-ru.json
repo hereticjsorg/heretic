@@ -15,6 +15,7 @@
     "session": "Событие",
     "sessionIP": "IP",
     "sessionDate": "Дата",
+    "sessionDateEnd": "Завершается",
     "sessionUsername": "Пользователь",
     "ipAddress": "IP адрес",
     "username": "Имя пользователя"

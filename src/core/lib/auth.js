@@ -2,6 +2,9 @@ import crypto from "crypto";
 import {
     ObjectId
 } from "mongodb";
+import {
+    addSeconds,
+} from "date-fns";
 import IpTools from "./iptools";
 
 export default class {
@@ -59,6 +62,7 @@ export default class {
                     userId: String(userDb._id),
                     username: userDb.username,
                     createdAt: new Date(),
+                    dateEnd: addSeconds(new Date(), this.fastify.systemConfig.sessionTTL),
                     ip: clientIp,
                 });
                 return {

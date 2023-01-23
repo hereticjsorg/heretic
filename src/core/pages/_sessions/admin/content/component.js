@@ -13,7 +13,7 @@ module.exports = class {
             ready: !process.browser,
             failed: false,
             headers: {},
-            sessionTitle: null,
+            sessionId: null,
             sessionDateTime: null,
             sessionIp: null,
             sessionUsername: null,
@@ -94,7 +94,8 @@ module.exports = class {
             await this.utils.waitForComponent(`${moduleConfig.id}EditModal`);
             const modalDialog = await this.getComponent(`${moduleConfig.id}EditModal`);
             modalDialog.setTitle(this.t("viewSession"));
-            this.setState("sessionDateTime", format(new Date(responseData.date * 1000), `${this.t("global.dateFormatShort")} ${this.t("global.timeFormatShort")}`));
+            this.setState("sessionId", responseData._id);
+            this.setState("sessionDateTime", format(new Date(responseData.createdAt * 1000), `${this.t("global.dateFormatShort")} ${this.t("global.timeFormatShort")}`));
             this.setState("sessionLocation", responseData.location);
             this.setState("sessionUsername", responseData.username);
             this.setState("sessionExtras", responseData.extras);

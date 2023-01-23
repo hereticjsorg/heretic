@@ -28,29 +28,17 @@ import moduleConfig from "../../admin.js"
             style={
                 order: "2"
             }>
-            <h2 class="subtitle mt-0 mb-0">${state.sessionTitle}</h2>
+            <h2 class="subtitle mt-0 mb-0">${state.sessionId}</h2>
             <hr class="dropdown-divider"/>
             <div class="is-size-7">${state.sessionDateTime}</div>
             <div class="mt-3 mb-0 box">
                 <div>
-                    <t class="has-text-weight-semibold">ipAddress</t>: ${state.sessionIp}<if(state.sessionLocation)>&nbsp;(${state.sessionLocation})</if>
+                    <t class="has-text-weight-semibold">ipAddress</t>: ${state.sessionIp}
                 </div>
                 <div>
                     <t class="has-text-weight-semibold">username</t>: ${state.sessionUsername}
                 </div>
             </div>
-            <if(state.sessionExtras)>
-                <div class="mt-1 mb-0 box">
-                    <t class="is-size-7 mb-2">extrasData</t>:
-                    <hr class="dropdown-divider"/>
-                    <for|k| of=Object.keys(state.sessionExtras)>
-                        <div>
-                            <span class="has-text-weight-semibold">${k}</span>:
-                            &nbsp;${state.sessionExtras[k]}
-                        </div>
-                    </for>
-                </div>
-            </if>
         </section>
     </hmodal>
 </if>

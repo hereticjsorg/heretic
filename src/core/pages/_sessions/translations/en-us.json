@@ -13,7 +13,8 @@
     "lockedBy": "Locked by",
     "session": "Session",
     "sessionIP": "IP",
-    "sessionDate": "Date",
+    "sessionDate": "Created",
+    "sessionDateEnd": "Ends",
     "sessionUsername": "Username",
     "ipAddress": "IP Address",
     "username": "Username"

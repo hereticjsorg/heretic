@@ -15,6 +15,7 @@
     "session": "Veranstaltung",
     "sessionIP": "IP",
     "sessionDate": "Datum",
+    "sessionDateEnd": "Ende",
     "sessionUsername": "Benutzer",
     "ipAddress": "IP-Adresse",
     "username": "Benutzer"

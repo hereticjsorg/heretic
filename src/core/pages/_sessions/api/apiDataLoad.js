@@ -1,7 +1,4 @@
 import Ajv from "ajv";
-import {
-    ObjectId
-} from "mongodb";
 import FormData from "../data/form";
 import moduleConfig from "../admin.js";
 import loadValidationSchema from "../data/loadValidationSchema.json";
@@ -28,7 +25,7 @@ export default () => ({
             }
             const formData = new FormData();
             const item = await this.mongo.db.collection(moduleConfig.collections.main).findOne({
-                _id: new ObjectId(req.body.id),
+                _id: req.body.id,
             });
             const data = req.processFormData({
                 _default: item,

@@ -41,6 +41,18 @@ export default class {
                     column: true,
                     createIndex: true,
                 }, {
+                    id: "dateEnd",
+                    type: "date",
+                    label: this.t("sessionDateEnd"),
+                    validation: {
+                        type: ["integer", "null"]
+                    },
+                    convert: "integer",
+                    sortable: true,
+                    searchable: false,
+                    column: true,
+                    createIndex: true,
+                }, {
                     id: "ip",
                     type: "text",
                     label: this.t("sessionIP"),
@@ -77,7 +89,7 @@ export default class {
         };
         this.tableDeleteConfig = {
             url: `/api/${moduleConfig.id}/delete`,
-            titleId: "ip",
+            titleId: "_id",
         };
         this.tableBulkUpdateConfig = null;
         this.tableExportConfig = {
@@ -172,6 +184,7 @@ export default class {
     processTableCell(id, row) {
         switch (id) {
         case "createdAt":
+        case "dateEnd":
             try {
                 return row[id] ? format(new Date(row[id] * 1000), `${this.t("global.dateFormatShort")} ${this.t("global.timeFormatShort")}`) : "";
             } catch {
