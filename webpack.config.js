@@ -208,7 +208,7 @@ module.exports = (env, argv) => {
             },
             target: "async-node",
             // externals: [/^[^./!]/],
-            externals: ["mongodb"],
+            externals: ["mongodb", "argon2"],
             // externals: [],
             optimization: argv.mode === "production" ? {
                 splitChunks: false,
