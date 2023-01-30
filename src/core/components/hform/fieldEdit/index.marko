@@ -186,7 +186,7 @@ import { format } from "date-fns"
             </div>
             <if(state.calendarVisible)>
                 <div class=`hr-hf-calendar-wrap ${input.calendarWrapClass || ""}` id=`hr_hf_el_${input.formId}_${input.id}_calendar_wrap`>
-                    <hcalendar key=`hr_hf_el_${input.formId}_${input.id}_calendar` on-date-change("onCalendarDateChange")/>
+                    <hcalendar admin=input.admin key=`hr_hf_el_${input.formId}_${input.id}_calendar` on-date-change("onCalendarDateChange")/>
                 </div>
             </if>
             <if(state.error)>
@@ -212,7 +212,7 @@ import { format } from "date-fns"
                 </if>
             </label>
             <div class="control">
-                <hwysiwyg key=`hr_hf_el_${input.formId}_${input.id}_wysiwyg` on-value-change("onWYSIWYGValueChange") formId=input.formId id=input.id/>
+                <hwysiwyg admin=input.admin key=`hr_hf_el_${input.formId}_${input.id}_wysiwyg` on-value-change("onWYSIWYGValueChange") formId=input.formId id=input.id/>
             </div>
             <if(state.error)>
                 <div class="hr-hf-error-wrap">

@@ -5,10 +5,11 @@ import moduleConfig from "../../admin.js"
     $ if (!state.formData) {
         component.setFormData(new FormData(process.browser && window.__heretic ? window.__heretic.t : out.global.t));
     }
-    <hadmin-title title=(process.browser && window.__heretic ? window.__heretic.t("moduleTitleGroups") : null)/>
-    <htable key=`${moduleConfig.id}List` id=`${moduleConfig.id}List` formData=state.formData on-top-button-click("onTopButtonClick") on-action-button-click("onActionButtonClick") on-unauthorized("onUnauthorized") autoLoad=true queryString=true headers=state.headers/>
-    <hnotify key=`notify_${moduleConfig.id}List`/>
+    <hadmin-title admin=true title=(process.browser && window.__heretic ? window.__heretic.t("moduleTitleGroups") : null)/>
+    <htable admin=true key=`${moduleConfig.id}List` id=`${moduleConfig.id}List` formData=state.formData on-top-button-click("onTopButtonClick") on-action-button-click("onActionButtonClick") on-unauthorized("onUnauthorized") autoLoad=true queryString=true headers=state.headers/>
+    <hnotify admin=true key=`notify_${moduleConfig.id}List`/>
     <hmodal
+        admin=true
         key=`${moduleConfig.id}EditModal`
         id=`${moduleConfig.id}EditModal`
         footClass="hr-groups-edit-modal-foot"
@@ -24,7 +25,7 @@ import moduleConfig from "../../admin.js"
             }
         ]>
         <section
-            class="modal-card-body editModal-card-body"
+            class="modal-card-body editModal-card-body eventsModal-card-body"
             style={
                 order: "2"
             }>
@@ -55,7 +56,7 @@ import moduleConfig from "../../admin.js"
     </hmodal>
 </if>
 <if(!state.ready && !state.failed && component.mongoEnabled)>
-    <!-- <hloading active=true/> -->
+    <!-- <hloading admin=true active=true/> -->
 </if>
 <if(state.failed)>
     <div class="notification is-danger">

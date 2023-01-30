@@ -1,13 +1,18 @@
 const store = require("store2");
 
 module.exports = class {
-    onCreate(input, out) {
+    async onCreate(input, out) {
         this.state = {
             isActive: !!input.active,
         };
         this.siteId = out.global.siteId;
         if (process.browser && window.__heretic && window.__heretic.t) {
             this.siteId = out.global.siteId || window.__heretic.outGlobal.siteId;
+        }
+        if (input.admin) {
+            await import(/* webpackChunkName: "hloading-admin" */ "./style-admin.scss");
+        } else {
+            await import(/* webpackChunkName: "hloading-frontend" */ "./style-frontend.scss");
         }
     }
 

@@ -7,7 +7,7 @@ import languages from "../../../../../etc/languages.json"
         clip: state.mounted ? "unset" : "rect(0 0 0 0)"
     }
     class="hr-admin">
-    <hloading key="loading"/>
+    <hloading admin=true key="loading"/>
     <if(state.mounted && out.global.demo)>
         <div class="hr-demo-notice">
             <t>noChangesSavedDemoMode</t>
@@ -35,7 +35,7 @@ import languages from "../../../../../etc/languages.json"
                             <${input.renderBody}/>
                         </if>
                         <if(process.browser)>
-                            <hrouter-admin on-route-change("onRouteChange")/>
+                            <hrouter-admin admin=true on-route-change("onRouteChange")/>
                             <if(state.routed)>
                                 <div id="hr_content_render_wrap"/>
                             </if>
@@ -56,5 +56,5 @@ import languages from "../../../../../etc/languages.json"
 </div>
 <browserError key="hr_browserError"/>
 <if(!state.mounted)>
-    <hloading active="true"/>
+    <hloading admin=true active="true"/>
 </if>

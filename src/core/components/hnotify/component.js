@@ -4,7 +4,7 @@ const {
 } = require("uuid");
 
 module.exports = class {
-    onCreate() {
+    async onCreate(input) {
         const state = {
             notificationQueue: []
         };
@@ -14,6 +14,11 @@ module.exports = class {
             show: this.show.bind(this),
             clean: this.clean.bind(this),
         };
+        if (input.admin) {
+            await import(/* webpackChunkName: "hnotify-admin" */ "./style-admin.scss");
+        } else {
+            await import(/* webpackChunkName: "hnotify-frontend" */ "./style-frontend.scss");
+        }
     }
 
     positionQueueItems() {

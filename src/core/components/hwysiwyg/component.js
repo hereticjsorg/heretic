@@ -2,9 +2,14 @@ const Utils = require("../../lib/componentUtils").default;
 const icons = require("./icons.json");
 
 module.exports = class {
-    onCreate() {
+    async onCreate(input) {
         this.state = {};
         this.maskedInput = null;
+        if (input.admin) {
+            await import(/* webpackChunkName: "hwysiwyg-admin" */ "./style-admin.scss");
+        } else {
+            await import(/* webpackChunkName: "hwysiwyg-frontend" */ "./style-frontend.scss");
+        }
     }
 
     getActionState(action) {

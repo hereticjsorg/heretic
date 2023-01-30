@@ -7,7 +7,7 @@ const {
 } = require("date-fns");
 
 module.exports = class {
-    onCreate(input) {
+    async onCreate(input) {
         this.state = {
             year: new Date().getFullYear(),
             month: new Date().getMonth(),
@@ -18,6 +18,11 @@ module.exports = class {
             selected: {},
             visible: typeof input.visible === "boolean" ? input.visible : true,
         };
+        if (input.admin) {
+            await import(/* webpackChunkName: "hcalendar-admin" */ "./style-admin.scss");
+        } else {
+            await import(/* webpackChunkName: "hcalendar-frontend" */ "./style-frontend.scss");
+        }
     }
 
     setCalendarData() {

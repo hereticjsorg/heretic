@@ -40,7 +40,7 @@ import SignInForm from "../../data/signInForm"
             </div>
             <div class="card hr-signIn-card p-0 m-0">
                 <if(!process.browser || state.ready)>
-                    <hform key="signInForm" id="signInForm" data=(new SignInForm(process.browser && window.__heretic ? window.__heretic.t : out.global.t)) on-form-submit("onFormSubmit")/>
+                    <hform admin=true key="signInForm" id="signInForm" data=(new SignInForm(process.browser && window.__heretic ? window.__heretic.t : out.global.t)) on-form-submit("onFormSubmit")/>
                 </if> 
             </div>
         </div>

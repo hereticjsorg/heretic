@@ -4,6 +4,10 @@
     margin-bottom: 0 !important;
 }
 
+.eventsModal-card-body {
+    user-select: text;
+}
+
 html.heretic-dark .editModal-card-body>.hr-hf-wrap>.hr-hf-form>.hr-hf-area {
     border: 1px solid $grey;
 }

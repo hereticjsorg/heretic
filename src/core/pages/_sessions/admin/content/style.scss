@@ -1,5 +1,9 @@
 @import "../../../../styles/variables.scss";
 
+.sessionsModal-card-body {
+    user-select: text;
+}
+
 .editModal-card-body>.hr-hf-wrap>.hr-hf-form>.hr-hf-area {
     margin-bottom: 0 !important;
 }

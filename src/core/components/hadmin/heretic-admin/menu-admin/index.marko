@@ -8,8 +8,8 @@ $ const i18nNavigation = out.global.i18nNavigation;
                 <ul class="menu-list">
                     <for|item| of=navigation.admin>
                         <li>
-                            <hrouter-link-admin route=item class=`hr-menu-item ${state.route === item ? " is-active" : ""}`>
-                                <hicon-admin id=item.replace(/\./gm, "_") width=20 height=20 marginTop=5 marginRight=5 css="hr-menu-icon"/>
+                            <hrouter-link-admin admin=true route=item class=`hr-menu-item ${state.route === item ? " is-active" : ""}`>
+                                <hicon-admin admin=true id=item.replace(/\./gm, "_") width=20 height=20 marginTop=5 marginRight=5 css="hr-menu-icon"/>
                                 ${i18nNavigation[item]}
                             </hrouter-link-admin>
                         </li>

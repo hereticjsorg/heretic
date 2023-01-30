@@ -1,9 +1,14 @@
 module.exports = class {
-    onCreate() {
+    async onCreate(input) {
         this.state = {
             items: {},
             selected: [],
         };
+        if (input.admin) {
+            await import(/* webpackChunkName: "hselect-admin" */ "./style-admin.scss");
+        } else {
+            await import(/* webpackChunkName: "hselect-frontend" */ "./style-frontend.scss");
+        }
     }
 
     setItems(items, selected = []) {
