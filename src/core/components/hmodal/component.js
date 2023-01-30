@@ -1,7 +1,7 @@
 const Utils = require("../../lib/componentUtils").default;
 
 module.exports = class {
-    onCreate(input) {
+    async onCreate(input) {
         this.state = {
             active: input.active,
             closeAllowed: true,
@@ -9,6 +9,11 @@ module.exports = class {
             loading: false,
             title: input.title,
         };
+        if (input.admin) {
+            await import(/* webpackChunkName: "hmodal-admin" */ "./style-admin.scss");
+        } else {
+            await import(/* webpackChunkName: "hmodal-frontend" */ "./style-frontend.scss");
+        }
     }
 
     onKeyDown(e) {

@@ -123,10 +123,10 @@ $ {
                             <for|i2| of=i1>
                                 <div class=`column pt-0 pb-0 mt-0 mb-3 ${i2.css ? i2.css : ""}`>
                                     <if(state.mode === "edit")>
-                                        <fieldEdit key=`hr_hf_f_${i2.id}_edit` formId=input.id on-button-click("onButtonClick") on-notify("onNotify") on-key-value-add-request("onKeyValueAddRequest") on-key-value-edit-request("onKeyValueEditRequest") on-key-value-delete-request("onKeyValueDeleteRequest") on-tag-add-request("onTagAddRequest") on-log-add-request("onLogAddRequest") on-log-edit-request("onLogEditRequest") on-log-delete-request("onLogDeleteRequest") on-value-change("onFieldEditValueChange") parentComponent=component ...i2/>
+                                        <fieldEdit admin=input.admin key=`hr_hf_f_${i2.id}_edit` formId=input.id on-button-click("onButtonClick") on-notify("onNotify") on-key-value-add-request("onKeyValueAddRequest") on-key-value-edit-request("onKeyValueEditRequest") on-key-value-delete-request("onKeyValueDeleteRequest") on-tag-add-request("onTagAddRequest") on-log-add-request("onLogAddRequest") on-log-edit-request("onLogEditRequest") on-log-delete-request("onLogDeleteRequest") on-value-change("onFieldEditValueChange") parentComponent=component ...i2/>
                                     </if>
                                     <else>
-                                        <fieldView key=`hr_hf_f_${i2.id}_view` formId=input.id on-button-click("onButtonClick") formData=component.input.data ...i2/>
+                                        <fieldView admin=input.admin key=`hr_hf_f_${i2.id}_view` formId=input.id on-button-click("onButtonClick") formData=component.input.data ...i2/>
                                     </else>
                                 </div>
                             </for>
@@ -152,7 +152,7 @@ $ {
     </form>
     <if(state.loading)>
         <div class="hr-hf-loader-overlay">
-            <hloading-dots/>
+            <hloading-dots admin=input.admin/>
         </div>
     </if>
     <if(state.progress)>
@@ -162,6 +162,7 @@ $ {
     </if>
 </div>
 <hmodal
+    admin=input.admin
     key=`historyModal_hf_${input.id}`
     id=`historyModal_hf_${input.id}`
     on-button-click("onHistoryModalButtonClick")
@@ -222,7 +223,7 @@ $ {
                             <if(item.changes && item.changes.length)>
                                 <for|change| of=item.changes>
                                     $ const fieldData = component.fieldsFlat[change.id];
-                                    <historyView fieldData=fieldData valueOld=change.valueOld valueNew=change.valueNew formData=component.input.data/>
+                                    <historyView admin=input.admin fieldData=fieldData valueOld=change.valueOld valueNew=change.valueNew formData=component.input.data/>
                                 </for>
                             </if>
                             <else>
@@ -247,11 +248,12 @@ $ {
             style={
                 order: "3"
             }>
-            <hpagination data=state.historyPagination currentPage=state.historyPage on-page-click("onHistoryPageClick")/>
+            <hpagination admin=input.admin data=state.historyPagination currentPage=state.historyPage on-page-click("onHistoryPageClick")/>
         </div>
     </if>
 </hmodal>
 <hmodal
+    admin=input.admin
     key=`historyDeleteConfirmation_hf_${input.id}`
     id=`historyDeleteConfirmation_hf_${input.id}`
     on-button-click("onHistoryDeleteConfirmationButtonClick")
@@ -281,6 +283,7 @@ $ {
     </section>
 </hmodal>
 <hmodal
+    admin=input.admin
     key=`keyValueModal_hf_${input.id}`
     id=`keyValueModal_hf_${input.id}`
     on-button-click("onKeyValueModalButtonClick")
@@ -355,6 +358,7 @@ $ {
     </section>
 </hmodal>
 <hmodal
+    admin=input.admin
     key=`groupDataDeleteConfirmation_hf_${input.id}`
     id=`groupDataDeleteConfirmation_hf_${input.id}`
     on-button-click("onGroupDataDeleteConfirmationButtonClick")
@@ -384,6 +388,7 @@ $ {
     </section>
 </hmodal>
 <hmodal
+    admin=input.admin
     key=`tagAddModal_hf_${input.id}`
     id=`tagAddModal_hf_${input.id}`
     on-button-click("onTagAddModalButtonClick")
@@ -425,6 +430,7 @@ $ {
     </section>
 </hmodal>
 <hmodal
+    admin=input.admin
     key=`logModal_hf_${input.id}`
     id=`logModal_hf_${input.id}`
     on-button-click("onLogModalButtonClick")
@@ -448,7 +454,7 @@ $ {
         style={
             order: "2"
         }>
-        <hform key=`logForm_${input.id}` id=`logForm_${input.id}` data=logFormData on-form-submit("onLogFormSubmit")/>
+        <hform admin=input.admin admin=input.admin key=`logForm_${input.id}` id=`logForm_${input.id}` data=logFormData on-form-submit("onLogFormSubmit")/>
     </section>
 </hmodal>
 <hmodal
@@ -480,4 +486,4 @@ $ {
         <t>hform_lotItemDeleteConfirmationText</t>
     </section>
 </hmodal>
-<hnotify key=`notify_field_${input.id}`/>
+<hnotify admin=input.admin key=`notify_field_${input.id}`/>

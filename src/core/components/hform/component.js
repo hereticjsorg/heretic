@@ -37,7 +37,7 @@ module.exports = class {
         }
     }
 
-    onCreate(input, out) {
+    async onCreate(input, out) {
         let mode = "edit";
         if (process.browser) {
             const query = new Query();
@@ -89,6 +89,11 @@ module.exports = class {
         this.language = out.global.language;
         if (process.browser && window.__heretic && window.__heretic.t) {
             this.language = this.language || window.__heretic.outGlobal.language;
+        }
+        if (input.admin) {
+            await import(/* webpackChunkName: "hform-admin" */ "./style-admin.scss");
+        } else {
+            await import(/* webpackChunkName: "hform-frontend" */ "./style-frontend.scss");
         }
     }
 

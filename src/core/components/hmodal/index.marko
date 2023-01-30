@@ -4,7 +4,7 @@
         <div class=`modal-card hr-hm-modal-card ${input.cardClass || ""}`>
             <if(state.loading)>
                 <div class="hr-hm-loader-overlay">
-                    <hloading-dots/>
+                    <hloading-dots admin=input.admin/>
                 </div>
             </if>
             <header class=`modal-card-head hr-hm-modal-card-head p-3  ${input.headClass || ""}`>

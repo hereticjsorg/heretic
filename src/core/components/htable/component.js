@@ -9,7 +9,7 @@ const Utils = require("../../lib/componentUtils").default;
 const Query = require("../../lib/queryBrowser").default;
 
 module.exports = class {
-    onCreate(input, out) {
+    async onCreate(input, out) {
         this.defaultSortData = input.formData.getTableDefaultSortColumn ? input.formData.getTableDefaultSortColumn() : {};
         this.state = {
             columnData: input.formData.getTableColumns(),
@@ -80,6 +80,11 @@ module.exports = class {
             sortDirection: "d",
             searchText: "s",
         };
+        if (input.admin) {
+            await import(/* webpackChunkName: "htable-admin" */ "./style-admin.scss");
+        } else {
+            await import(/* webpackChunkName: "htable-frontend" */ "./style-frontend.scss");
+        }
         this.language = process.browser ? window.__heretic.outGlobal.language : out.global.language;
         this.stickyElementsUpdate = 0;
     }

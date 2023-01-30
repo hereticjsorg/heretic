@@ -6,10 +6,11 @@ $ {
     component.formData = formData;
 }
 <if(state.ready && component.mongoEnabled)>
-    <hadmin-title title=(process.browser && window.__heretic ? window.__heretic.t("moduleTitleGroups") : null)/>
-    <htable key=`${moduleConfig.id}List` id=`${moduleConfig.id}List` formData=(new FormData(process.browser && window.__heretic ? window.__heretic.t : out.global.t)) on-top-button-click("onTopButtonClick") on-action-button-click("onActionButtonClick") on-unauthorized("onUnauthorized") on-load-complete("onLoadComplete") autoLoad=true queryString=true headers=state.headers/>
-    <hnotify key=`notify_${moduleConfig.id}List`/>
+    <hadmin-title admin=true title=(process.browser && window.__heretic ? window.__heretic.t("moduleTitleGroups") : null)/>
+    <htable admin=true key=`${moduleConfig.id}List` id=`${moduleConfig.id}List` formData=(new FormData(process.browser && window.__heretic ? window.__heretic.t : out.global.t)) on-top-button-click("onTopButtonClick") on-action-button-click("onActionButtonClick") on-unauthorized("onUnauthorized") on-load-complete("onLoadComplete") autoLoad=true queryString=true headers=state.headers/>
+    <hnotify admin=true key=`notify_${moduleConfig.id}List`/>
     <hmodal
+        admin=true
         key=`${moduleConfig.id}EditModal`
         id=`${moduleConfig.id}EditModal`
         footClass="hr-groups-edit-modal-foot"
@@ -35,12 +36,12 @@ $ {
             style={
                 order: "2"
             }>
-            <hform key=`${moduleConfig.id}Form` id=`${moduleConfig.id}Form` data=formData on-button-click("onFormButtonClick") on-form-submit("onFormSubmit") on-mount-complete("onFormMountComplete")/>
+            <hform admin=true key=`${moduleConfig.id}Form` id=`${moduleConfig.id}Form` data=formData on-button-click("onFormButtonClick") on-form-submit("onFormSubmit") on-mount-complete("onFormMountComplete")/>
         </section>
     </hmodal>
 </if>
 <if(!state.ready && !state.failed && component.mongoEnabled)>
-    <!-- <hloading active=true/> -->
+    <!-- <hloading admin=true active=true/> -->
 </if>
 <if(state.failed)>
     <div class="notification is-danger">
