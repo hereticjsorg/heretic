@@ -204,6 +204,9 @@ module.exports = (env, argv) => {
                 }, {
                     test: /\.(ttf)(\?v=\d+\.\d+\.\d+)?$/,
                     type: "asset/inline",
+                }, {
+                    test: /\.template\.html$/,
+                    use: "lines-loader",
                 }]
             },
             target: "async-node",

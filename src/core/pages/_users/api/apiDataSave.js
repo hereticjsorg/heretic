@@ -1,7 +1,12 @@
 import FormData from "../data/form";
 import FormValidator from "../../../lib/formValidatorServer";
 import moduleConfig from "../admin.js";
+import EmailTemplate from "../../../lib/emailTemplate";
+// eslint-disable-next-line no-unused-vars
+import passwordNotification from "../email/passwordNotification.template.html";
 
+// eslint-disable-next-line no-unused-vars
+const emailTemplate = new EmailTemplate(passwordNotification.join("\n"));
 const uniqueFields = ["username", "email"];
 
 export default () => ({
@@ -76,6 +81,9 @@ export default () => ({
                     await formValidator.saveFiles(moduleConfig.id, String(insertResult.insertedId));
                 }
             }
+            // eslint-disable-next-line no-unused-vars
+            // eslint-disable-next-line no-console
+            console.log(passwordNotification);
             return rep.code(200).send(result);
         } catch (e) {
             if (formValidator) {

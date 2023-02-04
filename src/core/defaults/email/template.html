@@ -8,7 +8,7 @@
     <!--[if !mso]><!-->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!--<![endif]-->
-    <title>${out.global.title}</title>
+    <title>${title}</title>
     <style type="text/css">
         a,
         a[href],
@@ -72,7 +72,7 @@
             <tbody>
                 <tr>
                     <td style="width: 596px; vertical-align: top; padding-left: 30px; padding-right: 30px; padding-top: 30px; padding-bottom: 40px;" width="596">
-                        <${input.renderBody} />
+                        ${content}
                     </td>
                 </tr>
             </tbody>
@@ -82,7 +82,7 @@
                 <tr>
                     <td style="width: 596px; vertical-align: top; padding-left: 30px; padding-right: 30px; padding-top: 10px; padding-bottom: 30px;" width="596">
                         <p style="font-size: 12px; line-height: 12px; font-family: 'Helvetica', Arial, sans-serif; font-weight: normal; text-decoration: none; color: #000000;">
-                            Heretic Demo Website
+                            ${siteTitle}
                         </p>
                         <p style="font-size: 12px; line-height: 12px; font-family: 'Helvetica', Arial, sans-serif; font-weight: normal; text-decoration: none; color: #919293; margin-top: 10px;">
                             Powered by <a style="text-decoration: none; color: #919293;" href="https://hereticjs.org"><u>Heretic</u></a>
