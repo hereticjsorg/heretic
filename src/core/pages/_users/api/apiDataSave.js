@@ -1,13 +1,15 @@
 import FormData from "../data/form";
 import FormValidator from "../../../lib/formValidatorServer";
 import moduleConfig from "../admin.js";
-import EmailTemplate from "../../../lib/emailTemplate";
-// eslint-disable-next-line no-unused-vars
-import passwordNotification from "../email/passwordNotification.template.html";
+import languages from "../../../../../etc/languages.json";
+import Email from "../../../lib/email";
+import passwordNotification from "../email/passwordNotification.marko";
 
-// eslint-disable-next-line no-unused-vars
-const emailTemplate = new EmailTemplate(passwordNotification.join("\n"));
 const uniqueFields = ["username", "email"];
+const translation = {};
+for (const language of Object.keys(languages)) {
+    translation[language] = require(`../translations/${language}.json`);
+}
 
 export default () => ({
     async handler(req, rep) {
@@ -30,12 +32,14 @@ export default () => ({
                 data,
             } = formValidator.parseMultipartData(multipartData);
             const validationResult = formValidator.validate();
-            if (validationResult) {
+            if (validationResult || !multipartData.fields.language || typeof multipartData.fields.language !== "string" || multipartData.fields.language.length !== 5) {
                 await formValidator.cleanUpFiles();
                 return rep.error({
                     form: validationResult,
                 });
             }
+            const language = translation[multipartData.fields.language] ? multipartData.fields.language : Object.keys(languages)[0];
+            const t = id => translation[language] || id;
             const collection = this.mongo.db.collection(moduleConfig.collections.main);
             const result = {};
             data._default.email = data._default.email ? data._default.email.toLowerCase() : null;
@@ -81,9 +85,14 @@ export default () => ({
                     await formValidator.saveFiles(moduleConfig.id, String(insertResult.insertedId));
                 }
             }
-            // eslint-disable-next-line no-unused-vars
-            // eslint-disable-next-line no-console
-            console.log(passwordNotification);
+            const email = new Email(this);
+            const passwordNotificationHTML = (await passwordNotification.render({
+                $global: {
+                    siteTitle: this.siteConfig.title[language],
+                    t,
+                }
+            })).getOutput();
+            await email.send("xtreme@rh1.ru", "Hello world", passwordNotificationHTML);
             return rep.code(200).send(result);
         } catch (e) {
             if (formValidator) {
