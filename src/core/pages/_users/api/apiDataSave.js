@@ -1,8 +1,13 @@
 import FormData from "../data/form";
 import FormValidator from "../../../lib/formValidatorServer";
 import moduleConfig from "../admin.js";
+import languages from "../../../../../etc/languages.json";
 
 const uniqueFields = ["username", "email"];
+const translation = {};
+for (const language of Object.keys(languages)) {
+    translation[language] = require(`../translations/${language}.json`);
+}
 
 export default () => ({
     async handler(req, rep) {
@@ -25,12 +30,15 @@ export default () => ({
                 data,
             } = formValidator.parseMultipartData(multipartData);
             const validationResult = formValidator.validate();
-            if (validationResult) {
+            if (validationResult || !multipartData.fields.language || typeof multipartData.fields.language !== "string" || multipartData.fields.language.length !== 5) {
                 await formValidator.cleanUpFiles();
                 return rep.error({
                     form: validationResult,
                 });
             }
+            const language = translation[multipartData.fields.language] ? multipartData.fields.language : Object.keys(languages)[0];
+            // eslint-disable-next-line no-unused-vars
+            const t = id => translation[language] || id;
             const collection = this.mongo.db.collection(moduleConfig.collections.main);
             const result = {};
             data._default.email = data._default.email ? data._default.email.toLowerCase() : null;

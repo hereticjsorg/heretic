@@ -49,6 +49,7 @@ module.exports = class {
         for (const k of Object.keys(serializedData.upload)) {
             data.append(k, serializedData.upload[k]);
         }
+        data.append("language", this.language);
         await this.utils.waitForComponent(`${moduleConfig.id}EditModal`);
         const editModal = this.getComponent(`${moduleConfig.id}EditModal`);
         editModal.setLoading(true).setCloseAllowed(false);

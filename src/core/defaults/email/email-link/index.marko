@@ -1,0 +1,7 @@
+$ const attrs = Object.assign({}, input);
+$ delete attrs.renderBody;
+$ delete attrs.activeClass;
+$ delete attrs.parentElement;
+<a target="_blank" style="text-decoration: underline; color: #000000;" ...attrs>
+    <u><${input.renderBody}/></u>
+</a>
