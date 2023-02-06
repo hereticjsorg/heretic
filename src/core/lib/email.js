@@ -4,7 +4,7 @@ const path = require("path");
 export default class {
     constructor(fastify) {
         this.fastify = fastify;
-        if (fastify.systemConfig.email) {
+        if (fastify.systemConfig.email && fastify.systemConfig.email.enabled) {
             this.transporter = nodemailer.createTransport(fastify.systemConfig.email.config);
         }
     }
@@ -15,7 +15,7 @@ export default class {
         }
         await this.transporter.sendMail({
             from: this.fastify.systemConfig.email.from,
-            to, // list of receivers
+            to,
             subject,
             html,
             attachments: [{

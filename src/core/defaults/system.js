@@ -8,6 +8,7 @@ const conf = {
     auth: {},
     mongo: {},
     redis: {},
+    email: {},
     webSockets: {},
     token: {},
     cookieOptions: {},
@@ -69,6 +70,11 @@ module.exports = {
         host: "127.0.0.1",
         port: 6379,
         ...conf.redis,
+    },
+    email: {
+        enabled: false,
+        from: "noreply@hereticjs.org",
+        config: {},
     },
     webSockets: {
         enabled: false,

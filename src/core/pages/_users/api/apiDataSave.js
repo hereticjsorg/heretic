@@ -2,8 +2,6 @@ import FormData from "../data/form";
 import FormValidator from "../../../lib/formValidatorServer";
 import moduleConfig from "../admin.js";
 import languages from "../../../../../etc/languages.json";
-import Email from "../../../lib/email";
-import passwordNotification from "../email/passwordNotification.marko";
 
 const uniqueFields = ["username", "email"];
 const translation = {};
@@ -39,6 +37,7 @@ export default () => ({
                 });
             }
             const language = translation[multipartData.fields.language] ? multipartData.fields.language : Object.keys(languages)[0];
+            // eslint-disable-next-line no-unused-vars
             const t = id => translation[language] || id;
             const collection = this.mongo.db.collection(moduleConfig.collections.main);
             const result = {};
@@ -85,14 +84,6 @@ export default () => ({
                     await formValidator.saveFiles(moduleConfig.id, String(insertResult.insertedId));
                 }
             }
-            const email = new Email(this);
-            const passwordNotificationHTML = (await passwordNotification.render({
-                $global: {
-                    siteTitle: this.siteConfig.title[language],
-                    t,
-                }
-            })).getOutput();
-            await email.send("xtreme@rh1.ru", "Hello world", passwordNotificationHTML);
             return rep.code(200).send(result);
         } catch (e) {
             if (formValidator) {

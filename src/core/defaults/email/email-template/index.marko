@@ -42,6 +42,13 @@
                 table.body .logo {
                     padding-bottom: 30px !important;
                 }
+                table.body .powered-by,
+                table.body .powered-by-link {
+                    font-size: 9px !important;
+                }
+                table.body .apple-link {
+                    font-size: 11px !important;
+                }
             }
             @media all {
                 .ExternalClass {
@@ -76,8 +83,12 @@
                 table.body .logo {
                     padding-top: 30px !important;
                 }
-                table.body .powered-by {
-                    font-size: 9px !important;
+                table.body .powered-by,
+                table.body .powered-by-link {
+                    font-size: 11px !important;
+                }
+                table.body .apple-link {
+                    font-size: 13px !important;
                 }
             }
         </style>
@@ -116,13 +127,14 @@
                             <table role="presentation" border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;" width="100%">
                                 <tr>
                                     <td class="content-block" style="font-family: sans-serif; vertical-align: top; padding-bottom: 5px; padding-top: 10px; color: #999999; font-size: 12px; text-align: center;" valign="top" align="center">
-                                        <span class="apple-link" style="color: #999999; font-size: 12px; text-align: center;">${out.global.siteTitle}</span>
+                                        <span class="apple-link" style="color: #999999; text-align: center;">${out.global.siteTitle}</span>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="content-block powered-by" style="font-family: sans-serif; vertical-align: top; padding-bottom: 10px; padding-top: 0px; color: #999999; font-size: 12px; text-align: center;" valign="top" align="center">
-                                        Powered by
-                                        <a href="https://hereticjs.org" style="color: #999999; text-align: center; text-decoration: none;"><u>Heretic</u></a>
+                                    <td class="content-block" style="font-family: sans-serif; vertical-align: top; padding-bottom: 10px; padding-top: 0px; color: #999999; text-align: center;" valign="top" align="center">
+                                        <span class="powered-by">Powered by</span>&nbsp;<a class="powered-by-link" href="https://hereticjs.org" style="color: #999999;">
+                                            <u>Heretic</u>
+                                        </a>
                                     </td>
                                 </tr>
                             </table>
