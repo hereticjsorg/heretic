@@ -176,6 +176,7 @@ module.exports = (env, argv) => {
             resolve: {
                 alias: {
                     fonts: path.join(__dirname, "src/core/fonts"),
+                    siteFonts: path.join(__dirname, "site/fonts"),
                 },
             }
         },
