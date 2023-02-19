@@ -253,13 +253,23 @@ html.heretic-dark .delete:hover {
 // Tags
 
 html.heretic-dark .tag.is-white {
-    background: $grey;
+    background: $grey-dark;
+}
+
+html.heretic-dark .tag.is-light {
+    background: $heretic-dark-grey-dark;
+    color: $heretic-dark-text-color-light;
 }
 
 // Card
 
-html.heretic-dark .card {
+html.heretic-dark .card,
+html.heretic-dark .card-content {
     background: lighten($heretic-dark-grey-dark, 6%);
+}
+
+html.heretic-dark .card-content {
+    color: $heretic-dark-text-color;
 }
 
 // Menu
