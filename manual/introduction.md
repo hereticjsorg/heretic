@@ -8,7 +8,7 @@ Putting it all together, the idea is to create a framework so everyone (having a
 
 ## Features
 
-Heretic is perfect use when you don't always need any of advanced [ZOIA](https://github.com/xtremespb/zoia) features like database support, authentication etc. But also for sites that require the use of the database and advanced functions are provided to support them on-demand, by means of configuration parameters. 
+Heretic is perfect use when you don't always need any of advanced [ZOIA](https://github.com/hereticjsorg/zoia) features like database support, authentication etc. But also for sites that require the use of the database and advanced functions are provided to support them on-demand, by means of configuration parameters. 
 
 * Heretic is based on [Marko.js](https://markojs.com), a language for building dynamic and reactive user interfaces; it's like HTML and JS had a perfect baby that grew up to be awesome
 * Using [Bulma](https://bulma.io/), a free, open source modular framework that provides ready-to-use userspace components that you can easily combine to build responsive web interfaces

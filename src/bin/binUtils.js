@@ -1049,7 +1049,7 @@ module.exports = class {
                         type,
                         path: entryPath,
                     } = entry;
-                    const entryPathParsed = entryPath.replace(/xtremespb-heretic-[a-z0-9]+\//, "");
+                    const entryPathParsed = entryPath.replace(/hereticjsorg-heretic-[a-z0-9]+\//, "");
                     if (type === "Directory") {
                         fs.ensureDirSync(path.join(dirPath, entryPathParsed));
                         entry.autodrain();
