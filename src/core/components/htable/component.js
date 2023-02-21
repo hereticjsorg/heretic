@@ -156,7 +156,7 @@ module.exports = class {
         this.setState("clientWidth", Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0));
     }
 
-    setTableDimensions() {
+    setTableWidth() {
         this.setClientWidth();
         if (this.state.loading) {
             return;
@@ -174,12 +174,16 @@ module.exports = class {
         elementTableContainer.style.width = `${this.tableContainerWidth}px`;
         elementWrap.style.width = `${this.tableContainerWidth}px`;
         table.style.width = `${this.tableContainerWidth}px`;
-        const elementTableWidth = table.getBoundingClientRect().width;
-        table.style.width = `${elementTableWidth}px`;
+        this.elementTableWidth = table.getBoundingClientRect().width;
+        table.style.width = `${this.elementTableWidth}px`;
+    }
+
+    setTableDimensions() {
+        this.setTableWidth();
         const elementScrollWrapper = document.getElementById(`hr_ht_table_scroll_wrapper_${this.input.id}`);
-        if (this.tableContainerWidth < elementTableWidth) {
+        if (this.tableContainerWidth < this.elementTableWidth) {
             const elementScroll = document.getElementById(`hr_ht_table_scroll_${this.input.id}`);
-            elementScroll.style.width = `${elementTableWidth}px`;
+            elementScroll.style.width = `${this.elementTableWidth}px`;
             elementScrollWrapper.style.width = `${this.tableContainerWidth}px`;
             elementScrollWrapper.style.display = "block";
         } else {
@@ -386,6 +390,7 @@ module.exports = class {
         if (this.store.get("itemsPerPage")) {
             this.setState("itemsPerPage", parseInt(this.store.get("itemsPerPage"), 10));
         }
+        this.setTableWidth();
         if (this.input.autoLoad) {
             await this.loadData(loadInput);
         } else {
