@@ -11,7 +11,7 @@ In case your site needs additional features, such as database access, control pa
 First, you need to clone Heretic from Github repository:
 
 ```
-git clone https://github.com/xtremespb/heretic.git
+git clone https://github.com/hereticjsorg/heretic.git
 ```
 
 Then, you will need to install the required NPM modules and start the build process:

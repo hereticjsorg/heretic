@@ -159,7 +159,7 @@ module.exports = {
         ...conf.test,
     },
     heretic: {
-        zipball: "http://github.com/xtremespb/heretic/zipball/master/",
+        zipball: "http://github.com/hereticjsorg/heretic/zipball/master/",
         ...conf.heretic,
     },
     ...conf.system,
