@@ -2,324 +2,321 @@ import { mdiReload, mdiPlus, mdiMagnify, mdiCogOutline, mdiDrag, mdiPencilOutlin
 import { format } from "date-fns"
 import SettingsPagesForm from "./settingsPagesForm"
 
-<div class="columns is-gapless m-0 p-0">
-    <div class="column is-auto">
-        <if(state.topButtons)>
-            <div class="mb-3 buttons">
-                <for|item, index| of=state.topButtons>
-                    <button data-tippy-content=(state.clientWidth < 1023 ? item.label : null) data-id=item.id on-click("onTopButtonClick") class=`button ${item.danger ? "is-danger" : "is-light"}` disabled=state.loading>
-                        <span class=`hr-ht-top-button-icon icon${item.danger ? " hr-ht-top-button-icon-danger" : ""}`>
-                            <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                                <path d=item.icon/>
-                            </svg>
-                        </span>
-                        <if(state.clientWidth > 1023)>
-                            <span>${item.label}</span>
-                        </if>
-                    </button>
-                </for>
-                <if(state.loadConfig && state.loadConfig.url)>
-                    <button data-tippy-content=(process.browser && state.clientWidth < 1023 && window.__heretic ? window.__heretic.t("htable_reloadButton") : null) on-click("onReloadClick") class="button is-light" disabled=state.loading>
+<div class="hr-ht-global-wrap" id=`hr_ht_global_wrap_${input.id}`>
+    <div class="columns is-gapless m-0 p-0">
+        <div class="column is-auto">
+            <if(state.topButtons)>
+                <div class="mb-3 buttons">
+                    <for|item, index| of=state.topButtons>
+                        <button data-tippy-content=(state.clientWidth < 1023 ? item.label : null) data-id=item.id on-click("onTopButtonClick") class=`button ${item.danger ? "is-danger" : "is-light"}` disabled=state.loading>
+                            <span class=`hr-ht-top-button-icon icon${item.danger ? " hr-ht-top-button-icon-danger" : ""}`>
+                                <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d=item.icon/>
+                                </svg>
+                            </span>
+                            <if(state.clientWidth > 1023)>
+                                <span>${item.label}</span>
+                            </if>
+                        </button>
+                    </for>
+                    <if(state.loadConfig && state.loadConfig.url)>
+                        <button data-tippy-content=(process.browser && state.clientWidth < 1023 && window.__heretic ? window.__heretic.t("htable_reloadButton") : null) on-click("onReloadClick") class="button is-light" disabled=state.loading>
+                            <span class="hr-ht-top-button-icon icon">
+                                <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d=mdiReload/>
+                                </svg>
+                            </span>
+                            <if(state.clientWidth > 1023)>
+                                <t>htable_reloadButton</t>
+                            </if>
+                        </button>
+                    </if>
+                    <button data-tippy-content=(process.browser && state.clientWidth < 1023 && window.__heretic ? window.__heretic.t("htable_settingsButton") : null) on-click("onSettingsClick") class="button is-light" disabled=state.loading>
                         <span class="hr-ht-top-button-icon icon">
                             <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                                <path d=mdiReload/>
+                                <path d=mdiCogOutline/>
                             </svg>
                         </span>
                         <if(state.clientWidth > 1023)>
-                            <t>htable_reloadButton</t>
+                            <t>htable_settingsButton</t>
+                        </if>
+                        <if(state.filtersEnabledCount)>
+                            <span class="hr-ht-top-info-icon icon">
+                                <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d=mdiFilterOutline/>
+                                </svg>
+                            </span>
                         </if>
                     </button>
-                </if>
-                <button data-tippy-content=(process.browser && state.clientWidth < 1023 && window.__heretic ? window.__heretic.t("htable_settingsButton") : null) on-click("onSettingsClick") class="button is-light" disabled=state.loading>
-                    <span class="hr-ht-top-button-icon icon">
-                        <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                            <path d=mdiCogOutline/>
-                        </svg>
-                    </span>
-                    <if(state.clientWidth > 1023)>
-                        <t>htable_settingsButton</t>
+                    <if(state.bulkUpdateConfig || state.exportConfig || state.recycleBin.enabled)>
+                        <div class=`dropdown${state.dataOpen ? " is-active" : ""}` id=`hr_ht_data_dropdown_${input.id}`>
+                            <div class="dropdown-trigger">
+                                <button data-tippy-content=(process.browser && state.clientWidth < 1023 && window.__heretic ? window.__heretic.t("htable_dataButton") : null) on-click("onDataClick") class="button is-light" disabled=state.loading>
+                                    <span class="hr-ht-top-button-icon icon">
+                                        <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d=mdiDatabaseOutline/>
+                                        </svg>
+                                    </span>
+                                    <if(state.clientWidth > 1023)>
+                                        <t>htable_dataButton</t>
+                                    </if>
+                                </button>
+                            </div>
+                            <div class="dropdown-menu" role="menu">
+                                <div class="dropdown-content">
+                                    <if(state.bulkUpdateConfig)>
+                                        <a class="dropdown-item" on-click("onBulkUpdateClick")>
+                                            <span class="hr-ht-top-button-submenu-icon">
+                                                <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d=mdiFormatListGroup/>
+                                                </svg>
+                                            </span>
+                                            <t>htable_bulkUpdate</t>
+                                        </a>
+                                    </if>
+                                    <if(state.exportConfig)>
+                                        <a class="dropdown-item" on-click("onExportClick")>
+                                            <span class="hr-ht-top-button-submenu-icon">
+                                                <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d=mdiDatabaseExportOutline/>
+                                                </svg>
+                                            </span>
+                                            <t>htable_export</t>
+                                        </a>
+                                    </if>
+                                    <if(state.recycleBin && state.recycleBin.enabled)>
+                                        <a class="dropdown-item" on-click("onRecycleBinClick")>
+                                            <span class="hr-ht-top-button-submenu-icon">
+                                                <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d=mdiTrashCanOutline/>
+                                                </svg>
+                                            </span>
+                                            <t>htable_recycleBin</t>
+                                        </a>
+                                    </if>
+                                </div>
+                            </div>
+                        </div>
                     </if>
-                    <if(state.filtersEnabledCount)>
-                        <span class="hr-ht-top-info-icon icon">
+                </div>
+            </if>
+        </div>
+        <div class="column is-narrow">
+            <div class="field has-addons has-addons-centered">
+                <div class="control hr-ht-search-control">
+                    <input class="input hr-ht-search-field" type="text" value=state.searchText on-input("onSearchInputChange") placeholder=(process.browser ? window.__heretic.t("htable_searchPlaceholder") : "") disabled=state.loading id=`hr_ht_table_search_${input.id}`/>
+                </div>
+                <p class="control">
+                    <a class="button hr-ht-search-button" on-click("onSearchButtonClearClick")>
+                        <span class="hr-ht-form-icon icon">
                             <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                                <path d=mdiFilterOutline/>
+                                <path d=mdiClose/>
                             </svg>
                         </span>
-                    </if>
-                </button>
-                <if(state.bulkUpdateConfig || state.exportConfig || state.recycleBin.enabled)>
-                    <div class=`dropdown${state.dataOpen ? " is-active" : ""}` id=`hr_ht_data_dropdown_${input.id}`>
-                        <div class="dropdown-trigger">
-                            <button data-tippy-content=(process.browser && state.clientWidth < 1023 && window.__heretic ? window.__heretic.t("htable_dataButton") : null) on-click("onDataClick") class="button is-light" disabled=state.loading>
-                                <span class="hr-ht-top-button-icon icon">
-                                    <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                                        <path d=mdiDatabaseOutline/>
-                                    </svg>
-                                </span>
-                                <if(state.clientWidth > 1023)>
-                                    <t>htable_dataButton</t>
-                                </if>
-                            </button>
-                        </div>
-                        <div class="dropdown-menu" role="menu">
-                            <div class="dropdown-content">
-                                <if(state.bulkUpdateConfig)>
-                                    <a class="dropdown-item" on-click("onBulkUpdateClick")>
-                                        <span class="hr-ht-top-button-submenu-icon">
-                                            <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                                                <path d=mdiFormatListGroup/>
-                                            </svg>
-                                        </span>
-                                        <t>htable_bulkUpdate</t>
-                                    </a>
-                                </if>
-                                <if(state.exportConfig)>
-                                    <a class="dropdown-item" on-click("onExportClick")>
-                                        <span class="hr-ht-top-button-submenu-icon">
-                                            <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                                                <path d=mdiDatabaseExportOutline/>
-                                            </svg>
-                                        </span>
-                                        <t>htable_export</t>
-                                    </a>
-                                </if>
-                                <if(state.recycleBin && state.recycleBin.enabled)>
-                                    <a class="dropdown-item" on-click("onRecycleBinClick")>
-                                        <span class="hr-ht-top-button-submenu-icon">
-                                            <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                                                <path d=mdiTrashCanOutline/>
-                                            </svg>
-                                        </span>
-                                        <t>htable_recycleBin</t>
-                                    </a>
-                                </if>
-                            </div>
-                        </div>
-                    </div>
-                </if>
+                    </a>
+                </p>
             </div>
-        </if>
-    </div>
-    <div class="column is-narrow">
-        <div class="field has-addons has-addons-centered">
-            <div class="control hr-ht-search-control">
-                <input class="input hr-ht-search-field" type="text" value=state.searchText on-input("onSearchInputChange") placeholder=(process.browser ? window.__heretic.t("htable_searchPlaceholder") : "") disabled=state.loading id=`hr_ht_table_search_${input.id}`/>
-            </div>
-            <p class="control">
-                <a class="button hr-ht-search-button" on-click("onSearchButtonClearClick")>
-                    <span class="hr-ht-form-icon icon">
-                        <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                            <path d=mdiClose/>
-                        </svg>
-                    </span>
-                </a>
-            </p>
         </div>
     </div>
-</div>
-<div
-    no-update
-    class="hr-ht-scroll-wrapper"
-    id=`hr_ht_table_scroll_wrapper_${input.id}`
-    style={
-        display: "none"
-    }>
-    <div class="hr-ht-scroll" id=`hr_ht_table_scroll_${input.id}`/>
-</div>
-<div class="menu-label">
-    <t>htable_total</t>: ${state.total}<if(state.total !== state.grandTotal)>&nbsp;(${state.grandTotal})</if>,&nbsp;
-    <t>htable_selected</t>: ${state.selected}
-</div>
-<div class="hr-ht-wrap" id=`hr_ht_wrap_${input.id}`>
-    <div class="table-container hr-ht-table-container mb-0" id=`hr_ht_table_container_${input.id}`>
-        <table id=`hr_ht_table_${input.id}` class="hr-ht-table table hr-is-bordered is-striped is-hoverable is-fullwidth" on-mousemove("onColumnMove")>
-            <thead class="hr-ht-thead">
-                <tr class="hr-ht-thead-tr">
-                    <if(state.checkboxColumn)>
-                        <th class="hr-ht-th p-0 m-0 is-narrow">
-                            <div class="p-2">
-                                <input type="checkbox" checked=state.checkboxesAll class="hr-ht-checkbox-top" on-click("onCheckboxSelectAllClick")/>
-                            </div>
-                        </th>
-                    </if>
-                    <if(Object.keys(state.columns).length)>
-                        <for|k, index| of=Object.keys(state.columns)>
-                            <if(state.columns[k])>
-                                $ const item = state.columnData[k];
-                                <if(item && item.id)>
-                                    <th
-                                        data-id=item.id
-                                        on-click("onColumnThClick")
-                                        class="hr-ht-th p-0 m-0"
-                                        id=`hr_ht_column_${item.id}`
-                                        style={
-                                            cursor: item.sortable ? "pointer" : "inherit"
-                                        }>
-                                        <div class="columns is-gapless m-0 p-0">
-                                            <if(index > 0 && (!state.actionColumn || index < component.getLastVisibleColumnIndex()))>
-                                                <div class="column is-narrow">
-                                                    <div class="hr-ht-thead-move" id=`hr_ht_mover_${item.id}` data-id=item.id on-mousedown("onColumnMouseDown")/>
-                                                </div>
-                                            </if>
-                                            <div class="column is-auto">
-                                                <div class="p-2 hr-ht-thead-label">
-                                                    ${item.label}<if(state.sortField === item.id)>
-                                                        <icon-arrow direction=(state.sortDirection === "asc" ? "down" : "up")/>
-                                                    </if>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </th>
-                                </if>
-                            </if>
-                        </for>
-                    </if>
-                    <else>
-                        <th class="hr-ht-th p-0 m-0">
-                            <div class="columns is-gapless m-0 p-0">
-                                <div class="column is-auto">
-                                    <div class="p-2 hr-ht-thead-label">&nbsp;</div>
+    <div
+        no-update
+        class="hr-ht-scroll-wrapper"
+        id=`hr_ht_table_scroll_wrapper_${input.id}`
+        style={
+            display: "none"
+        }>
+        <div class="hr-ht-scroll" id=`hr_ht_table_scroll_${input.id}`/>
+    </div>
+    <div class="menu-label">
+        <t>htable_total</t>: ${state.total}<if(state.total !== state.grandTotal)>&nbsp;(${state.grandTotal})</if>,&nbsp;
+        <t>htable_selected</t>: ${state.selected}
+    </div>
+    <div class="hr-ht-wrap" id=`hr_ht_wrap_${input.id}`>
+        <div class="table-container hr-ht-table-container mb-0" id=`hr_ht_table_container_${input.id}`>
+            <table id=`hr_ht_table_${input.id}` class="hr-ht-table table hr-is-bordered is-striped is-hoverable is-fullwidth" on-mousemove("onColumnMove")>
+                <thead class="hr-ht-thead">
+                    <tr class="hr-ht-thead-tr">
+                        <if(state.checkboxColumn)>
+                            <th class="hr-ht-th p-0 m-0 is-narrow">
+                                <div class="p-2">
+                                    <input type="checkbox" checked=state.checkboxesAll class="hr-ht-checkbox-top" on-click("onCheckboxSelectAllClick")/>
                                 </div>
-                            </div>
-                        </th>
-                    </else>
-                    <if(state.actionColumn)>
-                        <th class="hr-ht-th p-0 m-0 is-narrow" id=`hr_ht_th_actions_${input.id}`>
-                            <div class="columns is-gapless m-0 p-0" id=`hr_ht_th_actions_columns_${input.id}`>
-                                <div class="column is-auto" id=`hr_ht_header_actions_${input.id}`>
-                                    <div class="p-2 hr-ht-thead-label hr-ht-thead-actions">
-                                        <t>htable_actions</t>
-                                    </div>
-                                </div>
-                            </div>
-                        </th>
-                    </if>
-                </tr>
-            </thead>
-            <tbody class="hr-ht-tbody">
-                <if(state.data && state.data.length)>
-                    <for|row, ix| of=state.data>
-                        $ const rowClassList = input.formData.processTableRow ? ` ${input.formData.processTableRow(row)}` : "";
-                        <tr class=`hr-ht-tr${rowClassList}`>
-                            <if(state.checkboxColumn)>
-                                <td class="hr-ht-td p-0 m-0">
-                                    <if(state.lockedItems[row._id])>
-                                        <span class="hr-ht-lock-icon icon">
-                                            <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg" data-tippy-content=(process.browser && window.__heretic ? `${window.__heretic.t("htable_lockedBy")}: ${state.lockedItems[row._id]}` : null)>
-                                                <path d=mdiLockOutline/>
-                                            </svg>
-                                        </span>
-                                    </if>
-                                    <else>
-                                        <div class="hr-ht-checkbox-wrap">
-                                            <input type="checkbox" data-id=row._id on-click("onCheckboxClick") checked=(state.checkboxes.indexOf(row._id) > -1)/>
-                                        </div>
-                                    </else>
-                                </td>
-                            </if>
-                            <for|k| of=Object.keys(state.columns)>
+                            </th>
+                        </if>
+                        <if(Object.keys(state.columns).length)>
+                            <for|k, index| of=Object.keys(state.columns)>
                                 <if(state.columns[k])>
                                     $ const item = state.columnData[k];
                                     <if(item && item.id)>
-                                        <td class="hr-ht-td p-0 m-0">
-                                            <div class="hr-ht-table-cell-wrap">
-                                                <div class=`p-2 hr-ht-table-cell hr-ht-cell-inner-${input.id}-${k}`>
-                                                    <span class="hr-ht-table-cell-value-wrap">
-                                                        <span class="hr-ht-table-cell-value">${input.formData.processTableCell(k, row)}</span>
-                                                    </span>
+                                        <th
+                                            data-id=item.id
+                                            on-click("onColumnThClick")
+                                            class="hr-ht-th p-0 m-0"
+                                            id=`hr_ht_column_${item.id}`
+                                            style={
+                                                cursor: item.sortable ? "pointer" : "inherit"
+                                            }>
+                                            <div class="columns is-gapless m-0 p-0">
+                                                <if(index > 0 && (!state.actionColumn || index < component.getLastVisibleColumnIndex()))>
+                                                    <div class="column is-narrow">
+                                                        <div class="hr-ht-thead-move" id=`hr_ht_mover_${item.id}` data-id=item.id on-mousedown("onColumnMouseDown")/>
+                                                    </div>
+                                                </if>
+                                                <div class="column is-auto">
+                                                    <div class="p-2 hr-ht-thead-label">
+                                                        ${item.label}<if(state.sortField === item.id)>
+                                                            <icon-arrow direction=(state.sortDirection === "asc" ? "down" : "up")/>
+                                                        </if>
+                                                    </div>
                                                 </div>
-                                                <div class="hr-ht-table-cell-fade"/>
                                             </div>
-                                        </td>
+                                        </th>
                                     </if>
                                 </if>
                             </for>
-                            <if(state.actionColumn)>
-                                <td class=`hr-ht-td is-narrow p-0 m-0 hr-ht-action-cell-wrap hr-ht-action-cell-wrap-${input.id}` id=`hr_ht_action_cell_wrap_${input.id}_${ix}` data-index=ix/>
-                            </if>
-                        </tr>
-                    </for>
-                </if>
-                <else>
-                    <tr class="hr-ht-tr">
-                        <td class="hr-ht-td p-0 m-0" colspan=((Object.keys(state.columns).length || 1) + (state.checkboxColumn ? 1 : 0) + 1)>
-                            <div class="p-2">
-                                <if(!state.firstLoadFlag || !state.data.length)>
-                                    <t id=`hr_ht_noRecords_${input.id}`>htable_noRecords</t>
-                                </if>
-                            </div>
-                        </td>
+                        </if>
+                        <else>
+                            <th class="hr-ht-th p-0 m-0">
+                                <div class="columns is-gapless m-0 p-0">
+                                    <div class="column is-auto">
+                                        <div class="p-2 hr-ht-thead-label">&nbsp;</div>
+                                    </div>
+                                </div>
+                            </th>
+                        </else>
+                        <if(state.actionColumn)>
+                            <th class="hr-ht-th p-0 m-0 is-narrow" id=`hr_ht_th_actions_${input.id}`>
+                                <div class="columns is-gapless m-0 p-0" id=`hr_ht_th_actions_columns_${input.id}`>
+                                    <div class="column is-auto" id=`hr_ht_header_actions_${input.id}`>
+                                        <div class="p-2 hr-ht-thead-label hr-ht-thead-actions">
+                                            <t>htable_actions</t>
+                                        </div>
+                                    </div>
+                                </div>
+                            </th>
+                        </if>
                     </tr>
-                </else>
-            </tbody>
-        </table>
-    </div>
-    <div
-        class="hr-ht-table-controls"
-        id=`hr_ht_table_controls_${input.id}`
-        style={
-            opacity: state.data && state.data.length ? "1" : "0"
-        }>
-        <if(state.data && state.data.length)>
-            <for|row, ix| of=state.data>
-                <div
-                    class=`hr-ht-action-cell hr-ht-action-cell-${input.id} p-2 m-0 ${ix % 2 === 0 ? "hr-ht-action-cell-even" : "hr-ht-action-cell-odd"} ${ix === state.data.length - 1 ? "hr-ht-action-cell-last" : ""}`
-                    data-index=ix
-                    id=`hr_ht_action_cell_${input.id}_${ix}`
-                    style={
-                        opacity: 0
-                    }>
-                    <div class="field is-grouped hr-ht-action-cell-buttons">
-                        <for|item, index| of=state.actions>
-                            <button
-                                data-id=item.id
-                                data-tippy-content=(process.browser && window.__heretic ? window.__heretic.t(item.label) : null)
-                                data-item=row._id
-                                on-click("onActionButtonClick")
-                                class=`button is-small hr-ht-action-button ${item.danger ? "is-danger" : "is-light"}`
-                                style={
-                                    "margin-left": index > 0 ? "2px" : "0"
-                                }>
-                                <span class=`hr-ht-action-icon icon${item.danger ? " hr-ht-action-icon-danger" : ""}`>
-                                    <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                                        <path d=item.icon/>
-                                    </svg>
-                                </span>
-                            </button>
+                </thead>
+                <tbody class="hr-ht-tbody">
+                    <if(state.data && state.data.length)>
+                        <for|row, ix| of=state.data>
+                            $ const rowClassList = input.formData.processTableRow ? ` ${input.formData.processTableRow(row)}` : "";
+                            <tr class=`hr-ht-tr${rowClassList}`>
+                                <if(state.checkboxColumn)>
+                                    <td class="hr-ht-td p-0 m-0">
+                                        <if(state.lockedItems[row._id])>
+                                            <span class="hr-ht-lock-icon icon">
+                                                <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg" data-tippy-content=(process.browser && window.__heretic ? `${window.__heretic.t("htable_lockedBy")}: ${state.lockedItems[row._id]}` : null)>
+                                                    <path d=mdiLockOutline/>
+                                                </svg>
+                                            </span>
+                                        </if>
+                                        <else>
+                                            <div class="hr-ht-checkbox-wrap">
+                                                <input type="checkbox" data-id=row._id on-click("onCheckboxClick") checked=(state.checkboxes.indexOf(row._id) > -1)/>
+                                            </div>
+                                        </else>
+                                    </td>
+                                </if>
+                                <for|k| of=Object.keys(state.columns)>
+                                    <if(state.columns[k])>
+                                        $ const item = state.columnData[k];
+                                        <if(item && item.id)>
+                                            <td class="hr-ht-td p-0 m-0">
+                                                <div class="hr-ht-table-cell-wrap">
+                                                    <div class=`p-2 hr-ht-table-cell hr-ht-cell-inner-${input.id}-${k}`>
+                                                        <span class="hr-ht-table-cell-value-wrap">
+                                                            <span class="hr-ht-table-cell-value">${input.formData.processTableCell(k, row)}</span>
+                                                        </span>
+                                                    </div>
+                                                    <div class="hr-ht-table-cell-fade"/>
+                                                </div>
+                                            </td>
+                                        </if>
+                                    </if>
+                                </for>
+                                <if(state.actionColumn)>
+                                    <td class=`hr-ht-td is-narrow p-0 m-0 hr-ht-action-cell-wrap hr-ht-action-cell-wrap-${input.id}` id=`hr_ht_action_cell_wrap_${input.id}_${ix}` data-index=ix/>
+                                </if>
+                            </tr>
                         </for>
-                    </div>
-                </div>
-            </for>
-        </if>
-        <else>
-            <if(!state.loading)>
-                <div class=`hr-ht-action-cell hr-ht-action-cell-${input.id} p-2 m-0 hr-ht-action-cell-even` data-index=0 id=`hr_ht_action_cell_${input.id}_0`>&ndash;</div>
-            </if>
-        </else>
-        <div
-            class=`hr-ht-td p-2 m-0 hr-ht-action-cell-control hr-ht-thead-label`
-            id=`hr_ht_action_cell_control_${input.id}`
-            style={
-                opacity: 0
-            }>
-            <t>htable_actions</t>
+                    </if>
+                    <else>
+                        <tr class="hr-ht-tr">
+                            <td class="hr-ht-td p-0 m-0" colspan=((Object.keys(state.columns).length || 1) + (state.checkboxColumn ? 1 : 0) + 1)>
+                                <div class="p-2">
+                                    <if(!state.firstLoadFlag || !state.data.length)>
+                                        <t id=`hr_ht_noRecords_${input.id}`>htable_noRecords</t>
+                                    </if>
+                                </div>
+                            </td>
+                        </tr>
+                    </else>
+                </tbody>
+            </table>
         </div>
-    </div>
-    <if(state.loading)>
-        <div class="hr-ht-loading-wrap" id=`hr_ht_loading_wrap_${input.id}` no-update>
-            <div class="hr-ht-loading" id=`hr_ht_loading_${input.id}`>
-                <hloading-dots admin=input.admin/>
+        <div
+            class="hr-ht-table-controls"
+            id=`hr_ht_table_controls_${input.id}`
+            style={
+                opacity: state.data && state.data.length ? "1" : "0"
+            }>
+            <if(state.data && state.data.length)>
+                <for|row, ix| of=state.data>
+                    <div
+                        class=`hr-ht-action-cell hr-ht-action-cell-${input.id} p-2 m-0 ${ix % 2 === 0 ? "hr-ht-action-cell-even" : "hr-ht-action-cell-odd"} ${ix === state.data.length - 1 ? "hr-ht-action-cell-last" : ""}`
+                        data-index=ix
+                        id=`hr_ht_action_cell_${input.id}_${ix}`
+                        style={
+                            opacity: 0
+                        }>
+                        <div class="field is-grouped hr-ht-action-cell-buttons">
+                            <for|item, index| of=state.actions>
+                                <button
+                                    data-id=item.id
+                                    data-tippy-content=(process.browser && window.__heretic ? window.__heretic.t(item.label) : null)
+                                    data-item=row._id
+                                    on-click("onActionButtonClick")
+                                    class=`button is-small hr-ht-action-button ${item.danger ? "is-danger" : "is-light"}`
+                                    style={
+                                        "margin-left": index > 0 ? "2px" : "0"
+                                    }>
+                                    <span class=`hr-ht-action-icon icon${item.danger ? " hr-ht-action-icon-danger" : ""}`>
+                                        <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d=item.icon/>
+                                        </svg>
+                                    </span>
+                                </button>
+                            </for>
+                        </div>
+                    </div>
+                </for>
+            </if>
+            <else>
+                <if(!state.loading)>
+                    <div class=`hr-ht-action-cell hr-ht-action-cell-${input.id} p-2 m-0 hr-ht-action-cell-even` data-index=0 id=`hr_ht_action_cell_${input.id}_0`>&ndash;</div>
+                </if>
+            </else>
+            <div
+                class=`hr-ht-td p-2 m-0 hr-ht-action-cell-control hr-ht-thead-label`
+                id=`hr_ht_action_cell_control_${input.id}`
+                style={
+                    opacity: 0
+                }>
+                <t>htable_actions</t>
             </div>
         </div>
-    </if>
+        <if(state.loading)>
+            <div class="hr-ht-loading-wrap" id=`hr_ht_loading_wrap_${input.id}` no-update>
+                <div class="hr-ht-loading" id=`hr_ht_loading_${input.id}`>
+                    <hloading-dots admin=input.admin/>
+                </div>
+            </div>
+        </if>
+    </div>
+    <hpagination admin=input.admin data=state.pagination currentPage=state.currentPage on-page-click("onPageClick")/>
+    <div id=`hr_ht_dummy_${input.id}` class="hr-ht-dummy"/>
 </div>
-<hpagination admin=input.admin data=state.pagination currentPage=state.currentPage on-page-click("onPageClick")/>
-<div
-    id=`hr_ht_dummy_${input.id}`
-    style={
-        display: "none"
-    }
-    class="hr-ht-dummy"/>
 <hnotify admin=input.admin key=`notify_ht_${input.id}`/>
 <hmodal
     admin=input.admin

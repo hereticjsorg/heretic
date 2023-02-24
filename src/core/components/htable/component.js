@@ -92,6 +92,7 @@ module.exports = class {
     getElements() {
         const elementWrap = document.getElementById(`hr_ht_wrap_${this.input.id}`);
         const elementDummy = document.getElementById(`hr_ht_dummy_${this.input.id}`);
+        const elementGlobalWrap = document.getElementById(`hr_ht_global_wrap_${this.input.id}`);
         const elementTableContainer = document.getElementById(`hr_ht_table_container_${this.input.id}`);
         const mainWrap = document.getElementById(`hr_ht_wrap_${this.input.id}`);
         const table = document.getElementById(`hr_ht_table_${this.input.id}`);
@@ -107,6 +108,7 @@ module.exports = class {
         return {
             elementWrap,
             elementDummy,
+            elementGlobalWrap,
             elementTableContainer,
             mainWrap,
             table,
@@ -131,25 +133,30 @@ module.exports = class {
     }
 
     getCurrentTableWidth() {
+        // const {
+        //     elementWrap,
+        //     tableControls,
+        //     elementDummy,
+        // } = this.getElements();
+        // if (!elementWrap || !tableControls || !elementDummy) {
+        //     return 0;
+        // }
+        // const elementWrapDisplay = elementWrap.style.display;
+        // const tableControlsDisplay = tableControls.style.display;
+        // elementWrap.style.display = "none";
+        // tableControls.style.display = "none";
+        // elementDummy.style.display = "block";
+        // this.utils.waitForElement(`hr_ht_dummy_${this.input.id}`);
+        // const dummyRect = elementDummy.getBoundingClientRect();
+        // elementWrap.style.display = elementWrapDisplay;
+        // tableControls.style.display = tableControlsDisplay;
+        // elementDummy.style.display = "none";
+        // return dummyRect.width;
         const {
-            elementWrap,
-            tableControls,
-            elementDummy
+            elementGlobalWrap,
         } = this.getElements();
-        if (!elementWrap || !tableControls || !elementDummy) {
-            return 0;
-        }
-        const elementWrapDisplay = elementWrap.style.display;
-        const tableControlsDisplay = tableControls.style.display;
-        elementWrap.style.display = "none";
-        tableControls.style.display = "none";
-        elementDummy.style.display = "block";
-        this.utils.waitForElement(`hr_ht_dummy_${this.input.id}`);
-        const dummyRect = elementDummy.getBoundingClientRect();
-        elementWrap.style.display = elementWrapDisplay;
-        tableControls.style.display = tableControlsDisplay;
-        elementDummy.style.display = "none";
-        return dummyRect.width;
+        const elementGlobalRect = elementGlobalWrap.getBoundingClientRect();
+        return elementGlobalRect.width;
     }
 
     setClientWidth() {
@@ -347,7 +354,7 @@ module.exports = class {
         }
         window.addEventListener("orientationchange", this.setTableDimensions.bind(this));
         window.addEventListener("mouseup", this.onColumnMouseUp.bind(this));
-        this.restoreWidthFromSavedRatios();
+        // this.restoreWidthFromSavedRatios();
         this.setState("clientWidth", Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0));
         const scrollWrapper = document.getElementById(`hr_ht_table_scroll_wrapper_${this.input.id}`);
         const tableContainer = document.getElementById(`hr_ht_table_container_${this.input.id}`);
@@ -405,7 +412,7 @@ module.exports = class {
                 this.placeStickyElementsDebounced();
             }
             this.setTableDimensions();
-        }, 1000);
+        });
         window.addEventListener("click", e => {
             if (document.getElementById(`hr_ht_data_dropdown_${this.input.id}`) && !document.getElementById(`hr_ht_data_dropdown_${this.input.id}`).contains(e.target)) {
                 this.setState("dataOpen", false);
