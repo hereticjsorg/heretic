@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 const store = require("store2");
 const axios = require("axios").default;
 const cloneDeep = require("lodash.clonedeep");
@@ -134,25 +133,6 @@ module.exports = class {
     }
 
     getCurrentTableWidth() {
-        // const {
-        //     elementWrap,
-        //     tableControls,
-        //     elementDummy,
-        // } = this.getElements();
-        // if (!elementWrap || !tableControls || !elementDummy) {
-        //     return 0;
-        // }
-        // const elementWrapDisplay = elementWrap.style.display;
-        // const tableControlsDisplay = tableControls.style.display;
-        // elementWrap.style.display = "none";
-        // tableControls.style.display = "none";
-        // elementDummy.style.display = "block";
-        // this.utils.waitForElement(`hr_ht_dummy_${this.input.id}`);
-        // const dummyRect = elementDummy.getBoundingClientRect();
-        // elementWrap.style.display = elementWrapDisplay;
-        // tableControls.style.display = tableControlsDisplay;
-        // elementDummy.style.display = "none";
-        // return dummyRect.width;
         const {
             elementGlobalWrap,
         } = this.getElements();
@@ -181,17 +161,14 @@ module.exports = class {
         }
         this.resetColumnWidths();
         const currentTableWidth = this.getCurrentTableWidth();
-        console.log(currentTableWidth);
         elementTableContainer.style.width = `${this.tableContainerWidth}px`;
         elementWrap.style.width = `${this.tableContainerWidth}px`;
         table.style.width = `${this.tableContainerWidth}px`;
         this.elementTableWidth = table.getBoundingClientRect().width;
         table.style.width = `${currentTableWidth > this.elementTableWidth ? currentTableWidth : this.elementTableWidth}px`;
-        console.log(`${this.elementTableWidth}px`);
     }
 
     setTableDimensions() {
-        console.log("Setting table dimensions");
         this.setTableWidth();
         const elementScrollWrapper = document.getElementById(`hr_ht_table_scroll_wrapper_${this.input.id}`);
         if (this.tableContainerWidth < this.elementTableWidth) {
@@ -350,8 +327,8 @@ module.exports = class {
         this.onTableContainerScroll();
     }
 
-    async onMount() {
-        this.utils = new Utils(this);
+    async init() {
+        this.globalWrapResizeObserver.unobserve(document.getElementById(`hr_ht_global_wrap_${this.input.id}`));
         this.store = store.namespace(`heretic_htable_${this.input.id}`);
         const columns = this.store.get("columns") || {};
         if (Object.keys(columns).length !== Object.keys(this.state.columnData).length) {
@@ -363,8 +340,7 @@ module.exports = class {
         }
         window.addEventListener("orientationchange", this.setTableDimensions.bind(this));
         window.addEventListener("mouseup", this.onColumnMouseUp.bind(this));
-        // this.restoreWidthFromSavedRatios();
-        this.setState("clientWidth", Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0));
+        this.restoreWidthFromSavedRatios();
         const scrollWrapper = document.getElementById(`hr_ht_table_scroll_wrapper_${this.input.id}`);
         const tableContainer = document.getElementById(`hr_ht_table_container_${this.input.id}`);
         this.onScrollWrapScrollDebounced = debounce(this.onScrollWrapScroll, 50);
@@ -397,6 +373,7 @@ module.exports = class {
                 loadInput.searchText = searchText;
             }
         }
+        this.setTableWidth();
         this.loadDataDebounced = debounce(this.loadData, 500);
         this.placeStickyElementsDebounced = debounce(this.placeStickyElements, 100);
         this.setTableDimensionsDebounced = debounce(this.setTableDimensions, 100);
@@ -406,11 +383,12 @@ module.exports = class {
         if (this.store.get("itemsPerPage")) {
             this.setState("itemsPerPage", parseInt(this.store.get("itemsPerPage"), 10));
         }
-        // if (this.input.autoLoad) {
-        //     await this.loadData(loadInput);
-        // } else {
-        //     this.needToUpdateTableWidth = true;
-        // }
+        this.setLoadingWrapDimensions();
+        if (this.input.autoLoad) {
+            await this.loadData(loadInput);
+        } else {
+            this.needToUpdateTableWidth = true;
+        }
         this.needToUpdateTableWidth = true;
         const hereticContent = document.getElementById("heretic_content");
         if (hereticContent) {
@@ -422,6 +400,16 @@ module.exports = class {
                 this.setState("dataOpen", false);
             }
         });
+    }
+
+    async onMount() {
+        this.utils = new Utils(this);
+        await this.utils.waitForElement(`hr_ht_global_wrap_${this.input.id}`);
+        const globalWrap = document.getElementById(`hr_ht_global_wrap_${this.input.id}`);
+        this.setState("clientWidth", Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0));
+        const initDebounced = debounce(this.init.bind(this), 200);
+        this.globalWrapResizeObserver = new ResizeObserver(() => initDebounced());
+        this.globalWrapResizeObserver.observe(globalWrap);
     }
 
     getPrevVisibleColumn(index) {
