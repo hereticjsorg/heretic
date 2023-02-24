@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const store = require("store2");
 const axios = require("axios").default;
 const cloneDeep = require("lodash.clonedeep");
@@ -186,6 +187,7 @@ module.exports = class {
     }
 
     setTableDimensions() {
+        console.log("Setting table dimensions");
         this.setTableWidth();
         const elementScrollWrapper = document.getElementById(`hr_ht_table_scroll_wrapper_${this.input.id}`);
         if (this.tableContainerWidth < this.elementTableWidth) {
@@ -203,7 +205,7 @@ module.exports = class {
             this.tableDimensionsResetFlag = true;
             const hereticContentWidth = this.getComputedStyles(hereticContent).width;
             if (hereticContentWidth > this.tableContainerWidth) {
-                setTimeout(() => this.setTableDimensionsDebounced(), 150);
+                setTimeout(() => this.setTableDimensionsDebounced(), 350);
             }
         }
         this.setLoadingWrapDimensions();
@@ -397,22 +399,17 @@ module.exports = class {
         if (this.store.get("itemsPerPage")) {
             this.setState("itemsPerPage", parseInt(this.store.get("itemsPerPage"), 10));
         }
-        this.setTableWidth();
-        if (this.input.autoLoad) {
-            await this.loadData(loadInput);
-        } else {
-            this.needToUpdateTableWidth = true;
-        }
+        // if (this.input.autoLoad) {
+        //     await this.loadData(loadInput);
+        // } else {
+        //     this.needToUpdateTableWidth = true;
+        // }
+        this.needToUpdateTableWidth = true;
         const hereticContent = document.getElementById("heretic_content");
         if (hereticContent) {
             this.tableContainerWidth = this.getComputedStyles(hereticContent).width;
         }
-        setTimeout(() => {
-            if (!this.state.loading) {
-                this.placeStickyElementsDebounced();
-            }
-            this.setTableDimensions();
-        });
+        setTimeout(() => this.setTableDimensionsDebounced());
         window.addEventListener("click", e => {
             if (document.getElementById(`hr_ht_data_dropdown_${this.input.id}`) && !document.getElementById(`hr_ht_data_dropdown_${this.input.id}`).contains(e.target)) {
                 this.setState("dataOpen", false);
@@ -594,12 +591,6 @@ module.exports = class {
                 actionCellControl.style.opacity = "0";
                 tableControls.style.opacity = "0";
                 try {
-                    // const {
-                    //     table,
-                    // } = this.getElements();
-                    // const tableHeightSave = table.getBoundingClientRect().height;
-                    // this.setState("data", []);
-                    // table.style.height = `${tableHeightSave}px`;
                     const response = await axios({
                         method: "post",
                         url: this.state.loadConfig.url,
@@ -646,13 +637,15 @@ module.exports = class {
                         tableControls.style.display = "none";
                     }
                     this.emit("load-complete", response.data);
-                    this.needToUpdateTableWidth = true;
                     if (input && input.focusOnSearch) {
                         setTimeout(async () => {
                             await this.utils.waitForElement(`hr_ht_table_search_${this.input.id}`);
                             document.getElementById(`hr_ht_table_search_${this.input.id}`).focus();
                         });
                     }
+                    setTimeout(() => {
+                        this.needToUpdateTableWidth = true;
+                    }, 10);
                 } catch (e) {
                     await this.utils.waitForElement(`hr_ht_table_controls_${this.input.id}`);
                     tableControls.style.display = "none";
@@ -826,7 +819,9 @@ module.exports = class {
         } else if (!e.target.checked) {
             checkboxes = this.state.checkboxes.filter(i => i !== id);
         }
-        const checkboxesUnique = [...new Set(checkboxes)];
+        const checkboxesUnique = [
+            ...new Set(checkboxes)
+        ];
         this.setState("selected", checkboxesUnique.length);
         this.setState("checkboxes", checkboxesUnique);
         this.setState("checkboxesAll", checkboxesUnique.length === this.state.data.length);

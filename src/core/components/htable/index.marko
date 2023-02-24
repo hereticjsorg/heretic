@@ -293,7 +293,7 @@ import SettingsPagesForm from "./settingsPagesForm"
                 </for>
             </if>
             <else>
-                <if(!state.loading)>
+                <if(!state.loading && state.data && state.data.length)>
                     <div class=`hr-ht-action-cell hr-ht-action-cell-${input.id} p-2 m-0 hr-ht-action-cell-even` data-index=0 id=`hr_ht_action_cell_${input.id}_0`>&ndash;</div>
                 </if>
             </else>
