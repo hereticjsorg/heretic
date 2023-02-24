@@ -289,6 +289,9 @@ module.exports = class {
             return;
         }
         const firstActionCell = document.getElementById(`hr_ht_action_cell_${this.input.id}_0`);
+        if (!firstActionCell) {
+            return;
+        }
         // Calculate and set "Actions" column width
         if (!this.actionColumnWidth) {
             if (firstActionCell.getBoundingClientRect().width >= actionsTh.getBoundingClientRect().width) {
