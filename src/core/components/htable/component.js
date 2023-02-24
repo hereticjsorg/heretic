@@ -184,6 +184,7 @@ module.exports = class {
         table.style.width = `${this.tableContainerWidth}px`;
         this.elementTableWidth = table.getBoundingClientRect().width;
         table.style.width = `${this.elementTableWidth}px`;
+        console.log(`${this.elementTableWidth}px`);
     }
 
     setTableDimensions() {
