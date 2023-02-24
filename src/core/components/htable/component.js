@@ -179,11 +179,13 @@ module.exports = class {
             return;
         }
         this.resetColumnWidths();
+        const currentTableWidth = this.getCurrentTableWidth();
+        console.log(currentTableWidth);
         elementTableContainer.style.width = `${this.tableContainerWidth}px`;
         elementWrap.style.width = `${this.tableContainerWidth}px`;
         table.style.width = `${this.tableContainerWidth}px`;
         this.elementTableWidth = table.getBoundingClientRect().width;
-        table.style.width = `${this.elementTableWidth}px`;
+        table.style.width = `${currentTableWidth > this.elementTableWidth ? currentTableWidth : this.elementTableWidth}px`;
         console.log(`${this.elementTableWidth}px`);
     }
 
