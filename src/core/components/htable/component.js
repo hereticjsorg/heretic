@@ -156,6 +156,7 @@ module.exports = class {
         const {
             elementGlobalWrap,
         } = this.getElements();
+        this.utils.waitForElement(`hr_ht_global_wrap_${this.input.id}`);
         const elementGlobalRect = elementGlobalWrap.getBoundingClientRect();
         return elementGlobalRect.width;
     }
