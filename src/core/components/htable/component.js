@@ -12,6 +12,7 @@ module.exports = class {
     async onCreate(input, out) {
         this.defaultSortData = input.formData.getTableDefaultSortColumn ? input.formData.getTableDefaultSortColumn() : {};
         this.state = {
+            init: false,
             columnData: input.formData.getTableColumns(),
             columns: [],
             tabs: input.formData.getTabs ? input.formData.getTabs : [{
@@ -170,6 +171,9 @@ module.exports = class {
 
     setTableDimensions() {
         this.setTableWidth();
+        const {
+            table,
+        } = this.getElements();
         const elementScrollWrapper = document.getElementById(`hr_ht_table_scroll_wrapper_${this.input.id}`);
         if (this.tableContainerWidth < this.elementTableWidth) {
             const elementScroll = document.getElementById(`hr_ht_table_scroll_${this.input.id}`);
@@ -190,6 +194,7 @@ module.exports = class {
             }
         }
         this.setLoadingWrapDimensions();
+        setTimeout(() => table.style.opacity = "1", 10);
     }
 
     onScrollWrapScroll() {
@@ -328,14 +333,18 @@ module.exports = class {
     }
 
     async init() {
+        if (this.state.init) {
+            return;
+        }
         this.globalWrapResizeObserver.unobserve(document.getElementById(`hr_ht_global_wrap_${this.input.id}`));
-        this.store = store.namespace(`heretic_htable_${this.input.id}`);
+        this.setState("init", true);
+        await this.utils.waitForElement(`hr_ht_table_${this.input.id}`);
         const columns = this.store.get("columns") || {};
         if (Object.keys(columns).length !== Object.keys(this.state.columnData).length) {
             Object.keys(this.state.columnData).map(c => columns[c] = this.state.columnData[c].column && !this.state.columnData[c].hidden);
         }
         this.setState("columns", columns);
-        if (Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0) >= 1023) {
+        if (this.state.clientWidth >= 1023) {
             window.addEventListener("resize", this.setTableDimensions.bind(this));
         }
         window.addEventListener("orientationchange", this.setTableDimensions.bind(this));
@@ -373,7 +382,6 @@ module.exports = class {
                 loadInput.searchText = searchText;
             }
         }
-        this.setTableWidth();
         this.loadDataDebounced = debounce(this.loadData, 500);
         this.placeStickyElementsDebounced = debounce(this.placeStickyElements, 100);
         this.setTableDimensionsDebounced = debounce(this.setTableDimensions, 100);
@@ -404,10 +412,11 @@ module.exports = class {
 
     async onMount() {
         this.utils = new Utils(this);
+        this.store = store.namespace(`heretic_htable_${this.input.id}`);
         await this.utils.waitForElement(`hr_ht_global_wrap_${this.input.id}`);
         const globalWrap = document.getElementById(`hr_ht_global_wrap_${this.input.id}`);
-        this.setState("clientWidth", Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0));
-        const initDebounced = debounce(this.init.bind(this), 200);
+        this.setClientWidth();
+        const initDebounced = debounce(this.init.bind(this), 100);
         this.globalWrapResizeObserver = new ResizeObserver(() => initDebounced());
         this.globalWrapResizeObserver.observe(globalWrap);
     }
@@ -585,6 +594,7 @@ module.exports = class {
                 // Set 0 to hide action cell control during load
                 actionCellControl.style.opacity = "0";
                 tableControls.style.opacity = "0";
+                this.utils.waitForElement(`hr_ht_loading_wrap_${this.input.id}`);
                 try {
                     const response = await axios({
                         method: "post",
@@ -653,11 +663,9 @@ module.exports = class {
                     this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_loadingError"), "is-danger");
                     this.setState("data", []);
                     this.setState("pagination", []);
-                    this.setClientWidth();
-                    setTimeout(() => this.setTableDimensionsDebounced());
-                    setTimeout(() => this.setTableDimensionsDebounced(), 1500);
+                    setTimeout(() => this.setTableDimensionsDebounced(), 10);
                 } finally {
-                    this.setLoading(false);
+                    setTimeout(() => this.setLoading(false));
                     resolve();
                 }
             }, 0);
