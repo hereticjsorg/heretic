@@ -4,5 +4,6 @@
     "signIn": "Sign In",
     "error_invalid_credentials": "Invalid credentials",
     "loginSuccess": "Login successful",
-    "loginFail": "Login failed"
+    "loginFail": "Login failed",
+    "submit": "Submit"
 }

@@ -32,5 +32,4 @@ src/bin/csv
 backup/
 dist.new/
 dist.backup/
-./Dockerfile
 ./docker-compose.yml

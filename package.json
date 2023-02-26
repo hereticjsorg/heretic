@@ -1,6 +1,6 @@
 {
     "name": "heretic",
-    "version": "1.0.185",
+    "version": "1.0.186",
     "description": "Heretic",
     "main": "index.js",
     "scripts": {
@@ -17,7 +17,8 @@
         "build-dev": "webpack --mode development",
         "build-production": "webpack --mode production",
         "test": "jest --runInBand",
-        "doc": "documentation build src/core/*.js -f md -o manual/core.md"
+        "doc": "documentation build src/core/*.js -f md -o manual/core.md",
+        "docker-compose": "node src/bin/docker-compose"
     },
     "keywords": [
         "heretic",
@@ -54,7 +55,7 @@
         "copy-webpack-plugin": "^11.0.0",
         "css-loader": "^6.7.3",
         "css-minimizer-webpack-plugin": "^4.2.2",
-        "eslint": "^8.34.0",
+        "eslint": "^8.35.0",
         "eslint-config-airbnb-base": "^15.0.0",
         "eslint-webpack-plugin": "^4.0.0",
         "fastify-plugin": "^4.5.0",

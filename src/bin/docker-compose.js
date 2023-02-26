@@ -47,21 +47,8 @@ binUtils.printLogo();
             .replace(/\$FILES_DIR/gm, filesDir)
             .replace(/\$LOGS_DIR/gm, logsDir)
             .replace(/\$DEMO/gm, demo);
-        const dockerFileTemplate = (await fs.readFile(path.resolve(__dirname, "data/Dockerfile"), "utf8"))
-            .replace(/\$ID/gm, id)
-            .replace(/\$HERETIC_PORT/gm, hereticPort)
-            .replace(/\$MONGO_PORT/gm, mongoPort)
-            .replace(/\$REDIS_PORT/gm, redisPort)
-            .replace(/\$PUBLIC_DIR/gm, publicDir)
-            .replace(/\$ETC_DIR/gm, etcDir)
-            .replace(/\$SITE_DIR/gm, siteDir)
-            .replace(/\$FILES_DIR/gm, filesDir)
-            .replace(/\$LOGS_DIR/gm, logsDir)
-            .replace(/\$DEMO/gm, demo);
         binUtils.log("Writing docker-compose.yml...");
         await fs.writeFile(path.resolve(__dirname, "../../docker-compose.yml"), dockerComposeTemplate, "utf8");
-        binUtils.log("Writing Dockerfile...");
-        await fs.writeFile(path.resolve(__dirname, "../../Dockerfile"), dockerFileTemplate, "utf8");
         binUtils.log("All done.", {
             success: true,
         });

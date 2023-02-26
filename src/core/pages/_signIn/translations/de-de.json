@@ -4,5 +4,6 @@
     "signIn": "Anmelden",
     "error_invalid_credentials": "Ungültige Zugangsdaten",
     "loginSuccess": "Anmeldung erfolgreich",
-    "loginFail": "Anmeldung fehlgeschlagen"
+    "loginFail": "Anmeldung fehlgeschlagen",
+    "submit": "Submit"
 }
