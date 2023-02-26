@@ -8,7 +8,7 @@ import SettingsPagesForm from "./settingsPagesForm"
             <if(state.topButtons)>
                 <div class="mb-3 buttons">
                     <for|item, index| of=state.topButtons>
-                        <button data-tippy-content=(state.clientWidth < 1023 ? item.label : null) data-id=item.id on-click("onTopButtonClick") class=`button ${item.danger ? "is-danger" : "is-light"}` disabled=state.loading>
+                        <button data-tippy-content=(state.clientWidth < 1023 ? item.label : null) data-id=item.id on-click("onTopButtonClick") class=`button ${item.danger ? "is-danger" : "is-light"}` disabled=(!state.init || state.loading)>
                             <span class=`hr-ht-top-button-icon icon${item.danger ? " hr-ht-top-button-icon-danger" : ""}`>
                                 <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
                                     <path d=item.icon/>
@@ -20,7 +20,7 @@ import SettingsPagesForm from "./settingsPagesForm"
                         </button>
                     </for>
                     <if(state.loadConfig && state.loadConfig.url)>
-                        <button data-tippy-content=(process.browser && state.clientWidth < 1023 && window.__heretic ? window.__heretic.t("htable_reloadButton") : null) on-click("onReloadClick") class="button is-light" disabled=state.loading>
+                        <button data-tippy-content=(process.browser && state.clientWidth < 1023 && window.__heretic ? window.__heretic.t("htable_reloadButton") : null) on-click("onReloadClick") class="button is-light" disabled=(!state.init || state.loading)>
                             <span class="hr-ht-top-button-icon icon">
                                 <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
                                     <path d=mdiReload/>
@@ -31,7 +31,7 @@ import SettingsPagesForm from "./settingsPagesForm"
                             </if>
                         </button>
                     </if>
-                    <button data-tippy-content=(process.browser && state.clientWidth < 1023 && window.__heretic ? window.__heretic.t("htable_settingsButton") : null) on-click("onSettingsClick") class="button is-light" disabled=state.loading>
+                    <button data-tippy-content=(process.browser && state.clientWidth < 1023 && window.__heretic ? window.__heretic.t("htable_settingsButton") : null) on-click("onSettingsClick") class="button is-light" disabled=(!state.init || state.loading)>
                         <span class="hr-ht-top-button-icon icon">
                             <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
                                 <path d=mdiCogOutline/>
@@ -51,7 +51,7 @@ import SettingsPagesForm from "./settingsPagesForm"
                     <if(state.bulkUpdateConfig || state.exportConfig || state.recycleBin.enabled)>
                         <div class=`dropdown${state.dataOpen ? " is-active" : ""}` id=`hr_ht_data_dropdown_${input.id}`>
                             <div class="dropdown-trigger">
-                                <button data-tippy-content=(process.browser && state.clientWidth < 1023 && window.__heretic ? window.__heretic.t("htable_dataButton") : null) on-click("onDataClick") class="button is-light" disabled=state.loading>
+                                <button data-tippy-content=(process.browser && state.clientWidth < 1023 && window.__heretic ? window.__heretic.t("htable_dataButton") : null) on-click("onDataClick") class="button is-light" disabled=(!state.init || state.loading)>
                                     <span class="hr-ht-top-button-icon icon">
                                         <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
                                             <path d=mdiDatabaseOutline/>
@@ -104,10 +104,10 @@ import SettingsPagesForm from "./settingsPagesForm"
         <div class="column is-narrow">
             <div class="field has-addons has-addons-centered">
                 <div class="control hr-ht-search-control">
-                    <input class="input hr-ht-search-field" type="text" value=state.searchText on-input("onSearchInputChange") placeholder=(process.browser ? window.__heretic.t("htable_searchPlaceholder") : "") disabled=state.loading id=`hr_ht_table_search_${input.id}`/>
+                    <input class="input hr-ht-search-field" type="text" value=state.searchText on-input("onSearchInputChange") placeholder=(process.browser ? window.__heretic.t("htable_searchPlaceholder") : "") disabled=(!state.init || state.loading) id=`hr_ht_table_search_${input.id}`/>
                 </div>
                 <p class="control">
-                    <a class="button hr-ht-search-button" on-click("onSearchButtonClearClick")>
+                    <a class="button hr-ht-search-button" on-click("onSearchButtonClearClick") disabled=(!state.init || state.loading)>
                         <span class="hr-ht-form-icon icon">
                             <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
                                 <path d=mdiClose/>
