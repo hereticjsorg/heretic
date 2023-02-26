@@ -134,12 +134,31 @@ module.exports = class {
     }
 
     getCurrentTableWidth() {
+        // const {
+        //     elementGlobalWrap,
+        // } = this.getElements();
+        // this.utils.waitForElement(`hr_ht_global_wrap_${this.input.id}`);
+        // const elementGlobalRect = elementGlobalWrap.getBoundingClientRect();
+        // return elementGlobalRect.width;
         const {
-            elementGlobalWrap,
+            elementWrap,
+            tableControls,
+            elementDummy,
         } = this.getElements();
-        this.utils.waitForElement(`hr_ht_global_wrap_${this.input.id}`);
-        const elementGlobalRect = elementGlobalWrap.getBoundingClientRect();
-        return elementGlobalRect.width;
+        if (!elementWrap || !tableControls || !elementDummy) {
+            return 0;
+        }
+        const elementWrapDisplay = elementWrap.style.display;
+        const tableControlsDisplay = tableControls.style.display;
+        elementWrap.style.display = "none";
+        tableControls.style.display = "none";
+        elementDummy.style.display = "block";
+        this.utils.waitForElement(`hr_ht_dummy_${this.input.id}`);
+        const dummyRect = elementDummy.getBoundingClientRect();
+        elementWrap.style.display = elementWrapDisplay;
+        tableControls.style.display = tableControlsDisplay;
+        elementDummy.style.display = "none";
+        return dummyRect.width;
     }
 
     setClientWidth() {
@@ -170,6 +189,7 @@ module.exports = class {
     }
 
     setTableDimensions() {
+        // eslint-disable-next-line no-console
         this.setTableWidth();
         const {
             table,
@@ -338,6 +358,7 @@ module.exports = class {
         }
         this.globalWrapResizeObserver.unobserve(document.getElementById(`hr_ht_global_wrap_${this.input.id}`));
         this.setState("init", true);
+        this.setClientWidth();
         await this.utils.waitForElement(`hr_ht_table_${this.input.id}`);
         const columns = this.store.get("columns") || {};
         if (Object.keys(columns).length !== Object.keys(this.state.columnData).length) {

@@ -4,5 +4,6 @@
     "signIn": "Войти",
     "error_invalid_credentials": "Неправильное имя пользователя или пароль",
     "loginSuccess": "Успешный вход",
-    "loginFail": "Ошибка авторизации"
+    "loginFail": "Ошибка авторизации",
+    "submit": "Submit"
 }

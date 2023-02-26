@@ -519,6 +519,18 @@ html.heretic-dark .hr-ht-loading-wrap {
     background: $white-ter;
 }
 
+html.heretic-dark .hr-ht-search-button,
+html.heretic-dark .hr-ht-search-button:hover {
+    border-top: 1px solid lighten($heretic-dark-grey-darker, 8%) !important;
+    border-right: 1px solid lighten($heretic-dark-grey-darker, 8%) !important;
+    border-bottom: 1px solid lighten($heretic-dark-grey-darker, 8%) !important;
+    border-left: unset;
+}
+
+html.heretic-dark .hr-ht-search-button:hover {
+    background: lighten($heretic-dark-grey-darker, 5%) !important;
+}
+
 @media (max-width: 1023px) {
     .hr-ht-hidden-touch {
         display: none;

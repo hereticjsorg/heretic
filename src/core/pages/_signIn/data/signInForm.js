@@ -32,7 +32,7 @@ export default class {
                     items: [{
                         id: "btnSubmit",
                         type: "submit",
-                        label: this.t("signIn"),
+                        label: this.t("submit"),
                         css: "button is-primary is-medium is-fullwidth mt-3"
                     }]
                 }],

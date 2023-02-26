@@ -48,14 +48,14 @@ module.exports = {
         ...conf.server,
     },
     auth: {
-        admin: true,
-        signIn: true,
+        admin: false,
+        signIn: false,
         signUp: false,
         ...conf.auth,
     },
     mongo: {
-        enabled: true,
-        url: "mongodb://127.0.0.1:27017",
+        enabled: false,
+        url: "mongodb://0.0.0.0:27017",
         dbName: "heretic",
         options: {
             useUnifiedTopology: true,
