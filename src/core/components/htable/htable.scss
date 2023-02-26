@@ -507,8 +507,16 @@ html.heretic-dark .hr-ht-loading-wrap {
     border-bottom-right-radius: $radius;
 }
 
-.hr-ht-search-button {
+.hr-ht-search-button,
+.hr-ht-search-button:hover {
+    border-top: 1px solid $grey-lighter;
+    border-right: 1px solid $grey-lighter;
+    border-bottom: 1px solid $grey-lighter;
     border-left: unset;
+}
+
+.hr-ht-search-button:hover {
+    background: $white-ter;
 }
 
 @media (max-width: 1023px) {

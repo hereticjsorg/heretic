@@ -31,7 +31,7 @@ module.exports = class {
             recycleBin: input.formData.getRecycleBinConfig(),
             data: [],
             firstLoadFlag: false,
-            loading: false,
+            loading: true,
             currentPage: 1,
             totalPages: 1,
             itemsPerPage: 30,
@@ -393,8 +393,9 @@ module.exports = class {
         }
         this.setLoadingWrapDimensions();
         if (this.input.autoLoad) {
-            await this.loadData(loadInput);
+            await this.loadData(loadInput, true);
         } else {
+            this.setState("loading", false);
             this.needToUpdateTableWidth = true;
         }
         this.needToUpdateTableWidth = true;
@@ -574,8 +575,8 @@ module.exports = class {
         this.setState("sortDirection", sortDirection);
     }
 
-    loadData(input = {}) {
-        if (this.state.loading) {
+    loadData(input = {}, firstTime = false) {
+        if (!firstTime && this.state.loading) {
             return;
         }
         return new Promise((resolve) => {
