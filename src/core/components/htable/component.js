@@ -189,7 +189,6 @@ module.exports = class {
     }
 
     setTableDimensions() {
-        // eslint-disable-next-line no-console
         this.setTableWidth();
         const {
             table,

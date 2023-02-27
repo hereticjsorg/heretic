@@ -50,15 +50,6 @@ module.exports = class {
 
     getClientIp(req) {
         if (req.headers) {
-            if (this.isIP(req.headers["x-client-ip"])) {
-                return req.headers["x-client-ip"];
-            }
-            const xForwardedFor = this._getClientIpFromXForwardedFor(
-                req.headers["x-forwarded-for"],
-            );
-            if (this.isIP(xForwardedFor)) {
-                return xForwardedFor;
-            }
             if (this.isIP(req.headers["cf-connecting-ip"])) {
                 return req.headers["cf-connecting-ip"];
             }
@@ -74,6 +65,18 @@ module.exports = class {
             if (this.isIP(req.headers["x-cluster-client-ip"])) {
                 return req.headers["x-cluster-client-ip"];
             }
+            if (this.isIP(req.headers["x-appengine-user-ip"])) {
+                return req.headers["x-appengine-user-ip"];
+            }
+            const xForwardedFor = this._getClientIpFromXForwardedFor(
+                req.headers["x-forwarded-for"],
+            );
+            if (this.isIP(xForwardedFor)) {
+                return xForwardedFor;
+            }
+            if (this.isIP(req.headers["x-client-ip"])) {
+                return req.headers["x-client-ip"];
+            }
             if (this.isIP(req.headers["x-forwarded"])) {
                 return req.headers["x-forwarded"];
             }
@@ -82,9 +85,6 @@ module.exports = class {
             }
             if (this.isIP(req.headers.forwarded)) {
                 return req.headers.forwarded;
-            }
-            if (this.isIP(req.headers["x-appengine-user-ip"])) {
-                return req.headers["x-appengine-user-ip"];
             }
         }
         if (req.socket && this.isIP(req.socket.remoteAddress)) {
