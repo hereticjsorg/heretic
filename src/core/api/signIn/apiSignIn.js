@@ -27,8 +27,6 @@ export default () => ({
                 }, 403);
             }
             const token = req.auth.generateToken(String(userDb._id), userDb.sid);
-            // eslint-disable-next-line no-console
-            console.log(token);
             await req.addEvent("loginSuccess", userDb);
             return rep.success({
                 token,
