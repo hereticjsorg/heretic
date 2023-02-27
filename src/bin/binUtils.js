@@ -717,7 +717,7 @@ module.exports = class {
                     insertData.push({
                         geoNameIdCity: geoNameIdCity ? parseInt(geoNameIdCity, 10) : null,
                         geoNameIdCountry: geoNameIdCountry ? parseInt(geoNameIdCountry, 10) : null,
-                        blockEnd: Long(blockEnd),
+                        blockEnd: new Long(blockEnd),
                     });
                 }
             }
