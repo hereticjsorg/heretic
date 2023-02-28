@@ -197,9 +197,11 @@ module.exports = class {
         if (elementScrollWrapper) {
             if (this.tableContainerWidth < this.elementTableWidth) {
                 const elementScroll = document.getElementById(`hr_ht_table_scroll_${this.input.id}`);
-                elementScroll.style.width = `${this.elementTableWidth}px`;
-                elementScrollWrapper.style.width = `${this.tableContainerWidth}px`;
-                elementScrollWrapper.style.display = "block";
+                if (elementScroll) {
+                    elementScroll.style.width = `${this.elementTableWidth}px`;
+                    elementScrollWrapper.style.width = `${this.tableContainerWidth}px`;
+                    elementScrollWrapper.style.display = "block";
+                }
             } else {
                 elementScrollWrapper.style.display = "none";
             }
