@@ -32,9 +32,10 @@ export default class {
                 optionsData.expires = this.options.expires;
             }
             Object.keys(optionsData).map(o => options[o] = optionsData[o]);
+        }
+        if (options.expires) {
             options.expires = options.expires.toUTCString();
         }
-
         if (value instanceof Object) {
             value = JSON.stringify(value);
         }
