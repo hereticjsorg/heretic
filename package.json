@@ -1,6 +1,6 @@
 {
     "name": "heretic",
-    "version": "1.0.192",
+    "version": "1.0.194",
     "description": "Heretic",
     "main": "index.js",
     "scripts": {
@@ -92,7 +92,7 @@
         "cli-progress": "^3.12.0",
         "cryptr": "^6.1.0",
         "date-fns": "^2.29.3",
-        "fastify": "^4.13.0",
+        "fastify": "^4.14.0",
         "imask": "^6.4.3",
         "inquirer": "^9.1.4",
         "ioredis": "^5.3.1",
