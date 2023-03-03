@@ -162,6 +162,7 @@ module.exports = {
         zipball: "http://github.com/hereticjsorg/heretic/zipball/master/",
         ...conf.heretic,
     },
+    darkModeEnabled: true,
     ...conf.system,
     sessionTTL,
 };

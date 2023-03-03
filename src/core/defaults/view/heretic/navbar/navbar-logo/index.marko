@@ -3,7 +3,19 @@ import logoDark from "../../../../../src/core/images/logo_dark.svg"
 
 <if(input.darkMode)>
     <img src=logoDark/>
+    <img
+        src=logoLight
+        style={
+            clip: "rect(0,0,0,0)",
+            position: "absolute"
+        }/>
 </if>
 <else>
     <img src=logoLight/>
+    <img
+        src=logoDark
+        style={
+            clip: "rect(0,0,0,0)",
+            position: "absolute"
+        }/>
 </else>

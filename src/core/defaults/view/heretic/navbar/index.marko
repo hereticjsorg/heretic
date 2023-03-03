@@ -32,9 +32,13 @@ $ const i18nNavigation = out.global.i18nNavigation;
         </div>
         <div class="navbar-end">
             <navbar-github/>
-            <navbar-dark on-dark-mode("onDarkMode")/>
+            <if(out.global.darkModeEnabled)>
+                <navbar-dark on-dark-mode("onDarkMode")/>
+            </if>
             <navbar-lang/>
-            <navbar-auth/>
+            <if(out.global.authOptions.signIn)>
+                <navbar-auth/>
+            </if>
         </div>
     </div>
 </nav>
