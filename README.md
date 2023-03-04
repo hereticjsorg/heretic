@@ -19,6 +19,7 @@ Please read the docs before you get started:
 * [Libraries and Helpers](manual/libraries.md)
 * [Console Client](manual/cli.md)
 * [Build Process](manual/build.md)
+* [Using Docker](manual/docker.md)
 * [Deploy on Server](manual/deploy.md)
 
-Check out the [Demo](https://demo.hereticjs.org) - sample website build on Heretic.
+Check out the [Demo](https://demo.hereticjs.org) - sample website build on Heretic. It's automatically updated every time a new release is being pushed to the *master* branch of Heretic repository.
