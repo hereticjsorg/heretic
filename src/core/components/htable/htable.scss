@@ -258,12 +258,12 @@ html.heretic-dark .hr-ht-action-cell-control {
     position: absolute;
     left: 0;
     top: 0;
-    background: rgba($white, 0.7);
+    background: rgba($heretic-theme-loading-background-color, 0.7);
     z-index: 60;
 }
 
 .hr-ht-checkbox-top {
-    position: absolute;
+    position: absolute  ;
     top: 3px;
 }
 
