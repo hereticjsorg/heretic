@@ -3,7 +3,7 @@ services:
   $ID-app:
     container_name: $ID-app
     restart: always
-    image: heretcicjsorg/heretic:latest
+    image: hereticjsorg/heretic:latest
     ports:
       - "$HERETIC_PORT:3001"
     depends_on:
