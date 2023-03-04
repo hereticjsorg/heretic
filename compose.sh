@@ -20,3 +20,4 @@ sed -i "" "s/\$SITE_DIR/$CURRENT_DIR\/site/g" docker-compose.yml
 sed -i "" "s/\$ETC_DIR/$CURRENT_DIR\/etc/g" docker-compose.yml
 sed -i "" "s/\$FILES_DIR/$CURRENT_DIR\/files/g" docker-compose.yml
 sed -i "" "s/\$LOGS_DIR/$CURRENT_DIR\/logs/g" docker-compose.yml
+sed -i "" "s/\$MONGO_DIR/$CURRENT_DIR\/mongo/g" docker-compose.yml

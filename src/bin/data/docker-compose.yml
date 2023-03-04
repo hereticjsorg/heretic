@@ -24,6 +24,8 @@ services:
     restart: always
     networks:
       - $ID-network
+    volumes:
+      - $MONGO_DIR:/data/db
 
   $ID-redis:
     container_name: $ID-redis
