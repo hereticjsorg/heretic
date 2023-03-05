@@ -16,6 +16,7 @@ module.exports = class {
         fs.ensureDirSync(path.resolve(__dirname, "src", "build", "loaders"));
         fs.ensureDirSync(path.resolve(__dirname, "src", "build", "components"));
         fs.ensureDirSync(path.resolve(__dirname, "logs"));
+        fs.ensureDirSync(path.resolve(__dirname, "backup"));
         fs.ensureDirSync(path.resolve(__dirname, "dist"));
         fs.ensureDirSync(path.resolve(__dirname, "dist.new"));
         if (this.config.directories.tmp) {

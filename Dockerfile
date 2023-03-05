@@ -8,4 +8,5 @@ VOLUME /heretic/etc
 VOLUME /heretic/site
 VOLUME /heretic/files
 VOLUME /heretic/logs
+VOLUME /heretic/backup
 CMD [ "/usr/bin/env", "bash", "startup.sh" ]

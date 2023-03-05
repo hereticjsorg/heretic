@@ -13,6 +13,7 @@ docker run -d --name heretic  \
     -v /var/www/heretic/site:/heretic/site \
     -v /var/www/heretic/files:/heretic/files \
     -v /var/www/heretic/logs:/heretic/logs \
+    -v /var/www/heretic/backup:/heretic/backup \
     -p 3001:3001 \
     hereticjsorg/heretic:latest
 ```
@@ -23,7 +24,7 @@ You may wish to replace */var/www/heretic* with any directory which shall ne use
 
 To use the full configuration, you will either need to install additional services such as *Mongo* and *Redis* on the target machine, or use the Docker Compose mechanism to run multiple containers, including a Heretic container, in conjunction.
 
-To use the helper script that generates the Docker Compose configuration file, the *curl* and *sed* commands must be available on your machine.
+The helper script generates the Docker Compose configuration file, the *curl* and *sed* commands must be available on your machine.
 
 ```bash
 curl -o ./compose.sh https://raw.githubusercontent.com/hereticjsorg/heretic/master/compose.sh
