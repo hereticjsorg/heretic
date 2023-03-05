@@ -1,4 +1,6 @@
 const fs = require("fs-extra");
+
+const os = require("os");
 const path = require("path");
 const commandLineArgs = require("command-line-args");
 const BinUtils = require("./binUtils");
@@ -24,7 +26,7 @@ const BinUtils = require("./binUtils");
     binUtils.printLogo();
     try {
         binUtils.log(`Building Heretic in ${options.dev ? "development" : "production"} mode${options.dev ? "" : " (may take a long time!)"}...`);
-        const data = await binUtils.executeCommand(`npm run build-${options.dev ? "dev" : "production"} -- --no-color`);
+        const data = await binUtils.executeCommand(`npm${os.platform() === "win32" ? ".cmd" : ""} run build-${options.dev ? "dev" : "production"} -- --no-color`);
         const buildResultMatch = data && data.exitCode === 0 && typeof data.stdout === "string" ? data.stdout.match(/compiled successfully/gm) : [];
         const isSuccess = buildResultMatch && Array.isArray(buildResultMatch) && buildResultMatch.length === 2;
         binUtils.log(isSuccess ? "Build successful." : `Error while building Heretic:\n\n${data.stdout}`, {
