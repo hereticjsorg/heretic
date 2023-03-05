@@ -217,7 +217,11 @@ module.exports = class {
             }
         }
         this.setLoadingWrapDimensions();
-        setTimeout(() => table.style.opacity = "1", 10);
+        setTimeout(() => {
+            if (table) {
+                table.style.opacity = "1";
+            }
+        }, 10);
     }
 
     onScrollWrapScroll() {
