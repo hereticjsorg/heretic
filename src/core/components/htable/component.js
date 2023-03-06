@@ -170,6 +170,9 @@ module.exports = class {
         if (this.state.loading) {
             return;
         }
+        if (this.state.clientWidth > 1023) {
+            this.tableContainerWidth = this.getCurrentTableWidth();
+        }
         this.tableContainerWidth = this.getCurrentTableWidth();
         const {
             table,
@@ -363,7 +366,11 @@ module.exports = class {
         if (this.state.init) {
             return;
         }
-        this.globalWrapResizeObserver.unobserve(document.getElementById(`hr_ht_global_wrap_${this.input.id}`));
+        const globalWrap = document.getElementById(`hr_ht_global_wrap_${this.input.id}`);
+        if (this.state.clientWidth > 1023 && globalWrap && globalWrap.getBoundingClientRect().width < 768) {
+            return;
+        }
+        this.globalWrapResizeObserver.unobserve(globalWrap);
         this.setState("init", true);
         this.setClientWidth();
         await this.utils.waitForElement(`hr_ht_table_${this.input.id}`);
@@ -446,7 +453,9 @@ module.exports = class {
         const globalWrap = document.getElementById(`hr_ht_global_wrap_${this.input.id}`);
         this.setClientWidth();
         const initDebounced = debounce(this.init.bind(this), 100);
-        this.globalWrapResizeObserver = new ResizeObserver(() => initDebounced());
+        this.globalWrapResizeObserver = new ResizeObserver(() => {
+            initDebounced();
+        });
         this.globalWrapResizeObserver.observe(globalWrap);
     }
 

@@ -1,4 +1,5 @@
 import path from "path";
+import os from "os";
 import fs from "fs-extra";
 import {
     spawn,
@@ -119,7 +120,7 @@ export default class {
 
     /* istanbul ignore file */
     async build(suffix) {
-        const data = await this.executeCommand(`npm run build --${suffix === "dev" ? " --dev" : ""} --no-color`);
+        const data = await this.executeCommand(`npm${os.platform() === "win32" ? ".cmd" : ""} run build --${suffix === "dev" ? " --dev" : ""} --no-color`);
         const serverFileExists = await this.doesServerFileExists();
         const publicDirExists = await this.doesPublicDirExists();
         const buildResultMatch = data && data.exitCode === 0 && typeof data.stdout === "string" ? data.stdout.match(/All done\./gm) : [];
