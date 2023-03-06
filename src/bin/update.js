@@ -59,14 +59,14 @@ binUtils.printLogo();
         await fs.remove(dirPath);
         if (options["npm-install"]) {
             binUtils.log("Updating NPM packages...");
-            await binUtils.executeCommand("npm i");
+            await binUtils.executeCommand(`npm${os.platform() === "win32" ? ".cmd" : ""} i`);
         }
         if (options["rebuild-dev"]) {
             binUtils.log("Rebuilding Heretic in development mode...");
-            await binUtils.executeCommand("npm run build -- --dev");
+            await binUtils.executeCommand(`npm${os.platform() === "win32" ? ".cmd" : ""} run build -- --dev`);
         } else if (options["rebuild-production"]) {
             binUtils.log("Rebuilding Heretic in production mode...");
-            await binUtils.executeCommand("npm run build");
+            await binUtils.executeCommand(`npm${os.platform() === "win32" ? ".cmd" : ""} run build`);
         }
         if (options["restart-pm2"]) {
             try {

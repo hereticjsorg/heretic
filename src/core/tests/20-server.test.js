@@ -4,6 +4,7 @@ import {
     expect,
     afterAll,
 } from "@jest/globals";
+import os from "os";
 import axios from "axios";
 import axiosRetry from "axios-retry";
 import Helpers from "../lib/testHelpers";
@@ -26,7 +27,7 @@ test("Server availability (200)", async () => {
         } = await helpers.build("dev");
         expect(buildSuccess).toBe(true);
     }
-    const childProcess = helpers.runCommand("npm run server");
+    const childProcess = helpers.runCommand(`npm${os.platform() === "win32" ? ".cmd" : ""} run server`);
     expect(childProcess.pid).toBeGreaterThan(0);
     serverPid.push(childProcess.pid);
     let response;
@@ -51,7 +52,7 @@ test("Server availability (404)", async () => {
         } = await helpers.build("dev");
         expect(buildSuccess).toBe(true);
     }
-    const childProcess = helpers.runCommand("npm run server");
+    const childProcess = helpers.runCommand(`npm${os.platform() === "win32" ? ".cmd" : ""} run server`);
     expect(childProcess.pid).toBeGreaterThan(0);
     serverPid.push(childProcess.pid);
     try {
@@ -69,7 +70,7 @@ test("Server availability (404)", async () => {
 });
 
 test("Test Page", async () => {
-    const childProcess = helpers.runCommand("npm run server");
+    const childProcess = helpers.runCommand(`npm${os.platform() === "win32" ? ".cmd" : ""} run server`);
     expect(childProcess.pid).toBeGreaterThan(0);
     serverPid.push(childProcess.pid);
     for (const language of helpers.getLanguagesList()) {

@@ -4,6 +4,7 @@ import {
     expect,
     afterAll,
 } from "@jest/globals";
+import os from "os";
 import crypto from "crypto";
 import axios from "axios";
 import axiosRetry from "axios-retry";
@@ -31,7 +32,7 @@ test("Login", async () => {
         } = await helpers.build("dev");
         expect(buildSuccess).toBe(true);
     }
-    const childProcess = helpers.runCommand("npm run server");
+    const childProcess = helpers.runCommand(`npm${os.platform() === "win32" ? ".cmd" : ""} run server`);
     expect(childProcess.pid).toBeGreaterThan(0);
     serverPid.push(childProcess.pid);
     let response;
