@@ -42,6 +42,10 @@ module.exports = (env, argv) => {
             devtool: argv.mode === "production" ? false : "inline-source-map",
             module: {
                 rules: [{
+                    test: /\.tsx?$/,
+                    use: "ts-loader",
+                    exclude: /node_modules/,
+                  }, {
                         test: /\.(woff(2)?|ttf|eot|otf|png|jpg|svg)(\?v=\d+\.\d+\.\d+)?$/,
                         type: "asset/resource",
                         generator: {
@@ -178,6 +182,7 @@ module.exports = (env, argv) => {
                     fonts: path.join(__dirname, "src/core/fonts"),
                     siteFonts: path.join(__dirname, "site/fonts"),
                 },
+                extensions: [".tsx", ".ts", ".js"],
             }
         },
         {
@@ -185,10 +190,14 @@ module.exports = (env, argv) => {
             context: path.resolve(`${__dirname}`),
             devtool: argv.mode === "production" ? false : "eval",
             resolve: {
-                extensions: [".js", ".json", ".marko", ".fnt"]
+                extensions: [".js", ".json", ".marko", ".fnt", ".tsx", ".ts"]
             },
             module: {
                 rules: [{
+                    test: /\.tsx?$/,
+                    use: "ts-loader",
+                    exclude: /node_modules/,
+                  }, {
                     test: /\.s?css$/,
                     loader: "ignore-loader"
                 }, {
