@@ -1,4 +1,4 @@
-import Heretic from "./core/lib/heretic";
+import Heretic from "./core/lib/heretic.ts";
 
 (async () => {
     const heretic = new Heretic();
