@@ -220,6 +220,7 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
                 id: i.id,
                 path: i.path,
                 dir: i.dir,
+                module: false,
             });
             translations.push({
                 id: i.id,

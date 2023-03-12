@@ -40,13 +40,21 @@ import packageJson from "../../../package.json";
  */
 export default class {
     utils: Utils;
+
     systemConfig: any;
+
     siteConfig: any;
+
     fastify: any;
+
     defaultLanguage: any;
+
     wsHandlers: any[];
+
     options: commandLineArgs.CommandLineOptions;
-    languageData: {};
+
+    languageData: any;
+
     constructor() {
         this.utils = new Utils(Object.keys(languages));
         // Read configuration files
@@ -616,4 +624,3 @@ export default class {
         }
     }
 }
-
