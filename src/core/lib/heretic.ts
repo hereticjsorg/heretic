@@ -11,7 +11,7 @@ import {
 import commandLineArgs from "command-line-args";
 
 import hereticRateLimit from "./rateLimit";
-import routePageUserspace from "./routes/routePageUserspace";
+import routePageUserspace from "./routes/routePageUserspace.js";
 import routeModuleUserspace from "./routes/routeModuleUserspace";
 import routePageAdmin from "./routes/routePageAdmin";
 import routeModuleAdmin from "./routes/routeModuleAdmin";
@@ -39,6 +39,22 @@ import packageJson from "../../../package.json";
  * initialize Fastify and its plugins
  */
 export default class {
+    utils: Utils;
+
+    systemConfig: any;
+
+    siteConfig: any;
+
+    fastify: any;
+
+    defaultLanguage: any;
+
+    wsHandlers: any[];
+
+    options: commandLineArgs.CommandLineOptions;
+
+    languageData: any;
+
     constructor() {
         this.utils = new Utils(Object.keys(languages));
         // Read configuration files
@@ -81,16 +97,19 @@ export default class {
         this.fastify.decorate("systemConfig", this.systemConfig);
         this.fastify.decorate("languages", languages);
         this.fastify.decorate("navigation", navigation);
-        for (const decorateItem of fastifyDecorators.list()) {
-            this.fastify.decorate(decorateItem, fastifyDecorators[decorateItem]);
+        const fastifyDecoratorsList = fastifyDecorators.list();
+        for (const decorateItem of fastifyDecoratorsList) {
+            this.fastify.decorate(decorateItem, fastifyDecorators[decorateItem as keyof typeof fastifyDecorators]);
         }
-        for (const decorateItem of requestDecorators.list()) {
-            this.fastify.decorateRequest(decorateItem, requestDecorators[decorateItem]);
+        const requestDecoratorsList = requestDecorators.list();
+        for (const decorateItem of requestDecoratorsList) {
+            this.fastify.decorateRequest(decorateItem, requestDecorators[decorateItem as keyof typeof requestDecorators]);
         }
-        for (const decorateItem of replyDecorators.list()) {
-            this.fastify.decorateReply(decorateItem, replyDecorators[decorateItem]);
+        const replyDecoratorsList = replyDecorators.list();
+        for (const decorateItem of replyDecoratorsList) {
+            this.fastify.decorateReply(decorateItem, replyDecorators[decorateItem as keyof typeof replyDecorators]);
         }
-        this.fastify.addHook("preHandler", (request, reply, done) => {
+        this.fastify.addHook("preHandler", (request: { auth: Auth; fastify: any; }, reply: any, done: () => void) => {
             request.auth = new Auth(this.fastify, request);
             request.fastify = this.fastify;
             done();
@@ -135,12 +154,13 @@ export default class {
      */
     async loadLanguageData() {
         this.languageData = {};
-        for (const lang of Object.keys(languages)) {
-            this.languageData[lang] = await i18nCore.loadLanguageFile(lang);
+        const languagesList = Object.keys(languages);
+        for (const lang of languagesList) {
+            (this.languageData as Record<string, object>)[lang] = await i18nCore.loadLanguageFile(lang);
             for (const page of [...routesData.translatedPages.core, ...routesData.translatedPages.user, ...routesData.translatedPages.module]) {
                 const i18nLoader = await import(`../../build/loaders/i18n-loader-${page}.js`);
-                this.languageData[lang] = {
-                    ...this.languageData[lang],
+                (this.languageData as Record<string, object>)[lang] = {
+                    ...(this.languageData as Record<string, object>)[lang],
                     ...await i18nLoader.loadLanguageFile(lang),
                 };
             }
@@ -226,13 +246,13 @@ export default class {
      * Register error routes (both 404 and 500)
      */
     registerRouteErrors() {
-        this.fastify.setNotFoundHandler(async (req, rep) => {
+        this.fastify.setNotFoundHandler(async (req: { url: any; urlData: (arg0: null, arg1: any) => { (): any; new(): any; path: string; }; }, rep: { code: (arg0: number) => void; send: (arg0: string | { error: number; errorMessage: any; }) => void; }) => {
             const language = this.utils.getLanguageFromUrl(req.url);
             const output = req.urlData(null, req).path.match(/^\/api\//) ? apiRoute404(rep, this.languageData, language) : await route404(req, rep, this.languageData, language, this.siteConfig, this.systemConfig, routesData.i18nNavigation.userspace);
             rep.code(404);
             rep.send(output);
         });
-        this.fastify.setErrorHandler(async (err, req, rep) => {
+        this.fastify.setErrorHandler(async (err: { code: number; }, req: { url: any; urlData: (arg0: null, arg1: any) => { (): any; new(): any; path: string; }; }, rep: { code: (arg0: number) => void; send: (arg0: string | { error: number; errorMessage: any; }) => void; }) => {
             this.fastify.log.error(err);
             const language = this.utils.getLanguageFromUrl(req.url);
             const output = req.urlData(null, req).path.match(/^\/api\//) ? apiRoute500(err, rep, this.languageData, language) : await route500(err, rep, this.languageData, language, this.siteConfig);
@@ -286,10 +306,10 @@ export default class {
             const Ws = (await import(`../../../site/modules/${module}/ws/index.js`)).default;
             this.wsHandlers.push(new Ws(this.fastify));
         }
-        this.fastify.register(async fastify => {
+        this.fastify.register(async (fastify: { get: (arg0: string, arg1: { websocket: boolean; }, arg2: (connection: any, req: any) => Promise<void>) => void; redis: { set: (arg0: string, arg1: number, arg2: string, arg3: number) => any; del: (arg0: string) => any; }; siteConfig: { id: any; }; }) => {
             fastify.get("/ws", {
                 websocket: true,
-            }, async (connection, req) => {
+            }, async (connection: { socket: { send: (arg0: string) => void; close: () => void; on: any; }; uid: string; }, req: { auth: { getData: (arg0: any) => any; methods: { COOKIE: any; }; }; }) => {
                 const authData = await req.auth.getData(req.auth.methods.COOKIE);
                 for (const handler of this.wsHandlers) {
                     if (!authData) {
@@ -319,7 +339,7 @@ export default class {
                         // Ignore
                     }
                 }
-                connection.socket.on("message", message => {
+                connection.socket.on("message", async (message: any) => {
                     for (const handler of this.wsHandlers) {
                         handler.onMessage(connection, req, message);
                     }
@@ -376,7 +396,7 @@ export default class {
             this.fastify.register(require("@fastify/mongodb"), {
                 client: mongoClient,
                 database: this.systemConfig.mongo.dbName,
-            }).register(async (ff, opts, next) => {
+            }).register(async (ff: any, opts: any, next: () => void) => {
                 next();
             });
         }
@@ -427,7 +447,7 @@ export default class {
             try {
                 const Provider = (await import(`../pages/${page}/data/provider`)).default;
                 const provider = new Provider();
-                dataProviders[page] = provider;
+                (dataProviders as Record<typeof page, typeof provider>)[page] = provider;
             } catch {
                 // Ignore
             }
@@ -436,7 +456,7 @@ export default class {
             try {
                 const Provider = (await import(`../../../site/modules/${module}/data/provider`)).default;
                 const provider = new Provider();
-                dataProviders[module] = provider;
+                (dataProviders as Record<typeof module, typeof provider>)[module] = provider;
             } catch {
                 // Ignore
             }
@@ -445,7 +465,7 @@ export default class {
             try {
                 const Provider = (await import(`../../../site/pages/${page}/data/provider`)).default;
                 const provider = new Provider();
-                dataProviders[page] = provider;
+                (dataProviders as Record<typeof page, typeof provider>)[page] = provider;
             } catch {
                 // Ignore
             }
@@ -453,10 +473,12 @@ export default class {
         this.fastify.decorate("dataProviders", dataProviders);
     }
 
-    async createIndex(id, collection, fields, direction = "asc") {
+    async createIndex(id: any, collection: any, fields: any[], direction = "asc") {
         const db = this.fastify.mongoClient.db(this.fastify.systemConfig.mongo.dbName);
         const indexCreate = {};
-        fields.map(i => indexCreate[i] = direction === "asc" ? 1 : -1);
+        fields.map((i: string | number) => {
+            (indexCreate as Record<string | number, number>)[i] = direction === "asc" ? 1 : -1;
+        });
         this.fastify.log.info(`Dropping index: ${collection}_${direction}...`);
         try {
             await db.collection(collection).dropIndex(`${collection}_${direction}`);
@@ -473,10 +495,10 @@ export default class {
         }
     }
 
-    async createExpireIndex(id, collection, field, seconds) {
+    async createExpireIndex(id: any, collection: any, field: string | number, seconds: string) {
         const db = this.fastify.mongoClient.db(this.fastify.systemConfig.mongo.dbName);
         const indexExpire = {};
-        indexExpire[field] = 1;
+        (indexExpire as Record<typeof field, number>)[field] = 1;
         this.fastify.log.info(`Dropping index: ${collection}_expire...`);
         try {
             await db.collection(collection).dropIndex(`${collection}_expire}`);
@@ -494,7 +516,7 @@ export default class {
         }
     }
 
-    async updateSetupVersion(_id) {
+    async updateSetupVersion(_id: string) {
         const db = this.fastify.mongoClient.db(this.fastify.systemConfig.mongo.dbName);
         await db.collection(this.fastify.systemConfig.collections.version).findOneAndUpdate({
             _id,
@@ -507,7 +529,7 @@ export default class {
         });
     }
 
-    async setup(installedVersions, options) {
+    async setup(installedVersions: { [x: string]: any; core?: any; }, options: commandLineArgs.CommandLineOptions) {
         if (!installedVersions.core || options.setup) {
             for (const file of routesData.coreSetupFiles) {
                 let Setup;
@@ -594,7 +616,7 @@ export default class {
             const versionData = {};
             const versionDataDb = (await db.collection(this.fastify.systemConfig.collections.version).find({}).toArray()) || [];
             for (const item of versionDataDb) {
-                versionData[item._id] = item.value;
+                (versionData as Record<typeof item._id, typeof item._id>)[item._id] = item.value;
             }
             return versionData;
         } catch {

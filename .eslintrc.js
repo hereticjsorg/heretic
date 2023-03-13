@@ -1,28 +1,31 @@
-{
-    "ignorePatterns": ["src/core/defaults"],
-    "parser": "@babel/eslint-parser",
-    "parserOptions": {
-        "ecmaVersion": 2018,
-        "sourceType": "module",
-        "ecmaFeatures": {
-            "jsx": false
+module.exports = {
+    ignorePatterns: ["src/core/defaults"],
+    parser: "@babel/eslint-parser",
+    parserOptions: {
+        ecmaVersion: 2018,
+        sourceType: "module",
+        ecmaFeatures: {
+            jsx: false
         }
     },
-    "extends": "airbnb-base",
-    "env": {
-        "es6": true,
-        "browser": true,
-        "node": true,
-        "es2020": true
+    plugins: [
+        "@typescript-eslint"
+    ],
+    extends: "airbnb-base",
+    env: {
+        es6: true,
+        browser: true,
+        node: true,
+        es2020: true
     },
-    "rules": {
-        "quotes": ["error", "double",
+    rules: {
+        quotes: ["error", "double",
             {
-                "allowTemplateLiterals": true
+                allowTemplateLiterals: true
             }
         ],
         "template-curly-spacing": "off",
-        "indent": "off",
+        indent: "off",
         "arrow-parens": "off",
         "comma-dangle": "off",
         "array-callback-return": "off",
@@ -50,5 +53,20 @@
         "no-await-in-loop": "off",
         "no-restricted-syntax": "off",
         "no-continue": "off"
-    }
-}
+    },
+    overrides: [{
+        files: ["**/*.ts", "**/*.tsx"],
+        plugins: [
+            "@typescript-eslint",
+        ],
+        extends: ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
+        parser: "@typescript-eslint/parser",
+        parserOptions: {
+            project: [`${__dirname}/tsconfig.json`],
+        },
+        rules: {
+            "@typescript-eslint/no-explicit-any": "off",
+            "@typescript-eslint/no-var-requires": "off",
+        }
+    }],
+};

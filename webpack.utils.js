@@ -149,6 +149,7 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
                     ...configAdmin,
                     dir: p,
                     core: true,
+                    module: false,
                 });
             } catch {
                 // Ignore
@@ -161,6 +162,7 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
                     ...configCore,
                     dir: p,
                     core: true,
+                    module: false,
                 });
             } catch {
                 // Ignore
@@ -218,6 +220,7 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
                 id: i.id,
                 path: i.path,
                 dir: i.dir,
+                module: false,
             });
             translations.push({
                 id: i.id,
@@ -232,6 +235,7 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
                 path: `${this.config.routes.admin}${i.path}`,
                 dir: i.dir,
                 core: i.core,
+                module: false,
             });
             translationsAdmin.push({
                 id: i.id,
@@ -247,6 +251,7 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
                 path: i.path,
                 dir: i.dir,
                 core: i.core,
+                module: false,
             });
             translationsCore.push({
                 id: i.id,
