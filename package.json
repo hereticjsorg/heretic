@@ -1,6 +1,6 @@
 {
     "name": "heretic",
-    "version": "1.0.208",
+    "version": "1.0.210",
     "description": "Heretic",
     "main": "index.js",
     "scripts": {
@@ -44,7 +44,7 @@
         "@fastify/static": "^6.9.0",
         "@jest/globals": "^29.5.0",
         "@marko/webpack": "^9.3.1",
-        "@mdi/js": "^7.1.96",
+        "@mdi/js": "^7.2.96",
         "@types/command-line-args": "^5.2.0",
         "@types/node": "^18.15.3",
         "@types/uuid": "^9.0.1",
