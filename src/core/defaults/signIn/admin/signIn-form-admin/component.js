@@ -1,9 +1,9 @@
 const axios = require("axios").default;
 const store = require("store2");
-const i18nLoader = require("../../../../../build/loaders/i18n-loader-core");
-const Utils = require("../../../../lib/componentUtils").default;
-const Cookies = require("../../../../lib/cookiesBrowser").default;
-const Query = require("../../../../lib/queryBrowser").default;
+const i18nLoader = require("../../../../../src/build/loaders/i18n-loader-core");
+const Utils = require("../../../../../src/core/lib/componentUtils").default;
+const Cookies = require("../../../../../src/core/lib/cookiesBrowser").default;
+const Query = require("../../../../../src/core/lib/queryBrowser").default;
 
 module.exports = class {
     async loadLanguageData() {
@@ -41,7 +41,7 @@ module.exports = class {
             this.systemRoutes = out.global.systemRoutes || window.__heretic.outGlobal.systemRoutes;
         }
         this.utils = new Utils(this, this.language);
-        await import(/* webpackChunkName: "bulma" */ "../../../../../../site/view/bulma.scss");
+        await import(/* webpackChunkName: "bulma" */ "../../../../view/bulma.scss");
         await import(/* webpackChunkName: "heretic-signIn-admin" */ "./heretic-signIn-admin.scss");
         await this.loadLanguageData();
     }

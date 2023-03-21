@@ -5,6 +5,9 @@
     "from": "../core/defaults/license",
     "to": "../../site/pages/license"
 }, {
+    "from": "../core/defaults/signIn",
+    "to": "../../site/pages/signIn"
+}, {
     "from": "../core/defaults/view",
     "to": "../../site/view"
 }, {
