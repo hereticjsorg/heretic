@@ -33,7 +33,7 @@ module.exports = class {
 
     async onMount() {
         await this.utils.waitForLanguageData();
-        await this.utils.loadLanguageData("_signIn");
+        await this.utils.loadLanguageData("signIn");
         if (!this.mongoEnabled || !this.authOptions.signIn) {
             return;
         }
