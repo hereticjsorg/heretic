@@ -1,0 +1,16 @@
+{
+    "admin": {
+        "title": {
+            "ru-ru": "Авторизация",
+            "en-us": "Sign In",
+            "de-de": "Anmeldung"
+        }
+    },
+    "userspace": {
+        "title": {
+            "ru-ru": "Авторизация",
+            "en-us": "Sign In",
+            "de-de": "Anmeldung"
+        }
+    }
+}

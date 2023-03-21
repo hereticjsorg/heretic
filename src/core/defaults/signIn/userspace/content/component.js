@@ -1,8 +1,8 @@
 const axios = require("axios").default;
 const config = require("../../page.js");
-const Utils = require("../../../../lib/componentUtils").default;
-const Cookies = require("../../../../lib/cookiesBrowser").default;
-const Query = require("../../../../lib/queryBrowser").default;
+const Utils = require("../../../../../src/core/lib/componentUtils").default;
+const Cookies = require("../../../../../src/core/lib/cookiesBrowser").default;
+const Query = require("../../../../../src/core/lib/queryBrowser").default;
 
 module.exports = class {
     onCreate(input, out) {

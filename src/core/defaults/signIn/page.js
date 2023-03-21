@@ -1,7 +1,7 @@
 const meta = require("./meta.json");
 
 module.exports = {
-    id: "_signIn",
+    id: "signIn",
     path: "/signIn",
     langSwitchComponent: false,
     ...meta.userspace,
