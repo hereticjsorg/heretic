@@ -1,6 +1,6 @@
 const meta = require("./meta.json");
 
-const id = "_signIn";
+const id = "signIn";
 
 module.exports = {
     id,
