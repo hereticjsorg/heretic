@@ -259,6 +259,7 @@ html.heretic-dark .hr-ht-action-cell-control {
     left: 0;
     top: 0;
     background: rgba($heretic-theme-loading-background-color, 0.7);
+    backdrop-filter: grayscale(200%);
     z-index: 60;
 }
 

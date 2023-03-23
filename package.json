@@ -1,6 +1,6 @@
 {
     "name": "heretic",
-    "version": "1.0.212",
+    "version": "1.0.213",
     "description": "Heretic",
     "main": "index.js",
     "scripts": {
@@ -83,7 +83,7 @@
         "terser-webpack-plugin": "^5.3.7",
         "ts-loader": "^9.4.2",
         "typescript": "^5.0.2",
-        "webpack": "^5.76.2",
+        "webpack": "^5.76.3",
         "webpack-cli": "^5.0.1"
     },
     "dependencies": {
