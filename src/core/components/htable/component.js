@@ -1,4 +1,3 @@
-/* eslint-disable no-unreachable */
 const store = require("store2");
 const axios = require("axios").default;
 const cloneDeep = require("lodash.clonedeep");
@@ -277,7 +276,6 @@ module.exports = class {
             this.setState("loading", true);
             await this.setLoadingWrapDimensions();
         } else {
-            return;
             const {
                 elementLoading,
             } = this.getElements();
