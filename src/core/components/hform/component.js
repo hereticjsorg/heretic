@@ -148,7 +148,6 @@ module.exports = class {
         });
         this.emit("mount-complete");
         this.emit("mode-change", this.state.mode);
-        this.setLoading(true);
     }
 
     setTitle(title) {
@@ -310,8 +309,6 @@ module.exports = class {
         this.setComponentsState(flag);
         this.utils.waitForElement(`${this.input.id}_form_body`);
         document.getElementById(`${this.input.id}_form_body`).style.opacity = flag ? "0.3" : "1";
-        // eslint-disable-next-line no-console
-        console.log(flag);
         return this;
     }
 
