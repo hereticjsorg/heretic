@@ -2,7 +2,7 @@ const routesData = require("../../../build/build.json");
 
 export default (route, languageData, language) => ({
     async handler(req, rep) {
-        const authData = await req.auth.getData(req.auth.methods.HEADERS);
+        const authData = await req.auth.getData(req.auth.methods.COOKIE);
         const translationData = routesData.translations.core.find(i => i.id === route.id);
         const page = (await import(`../../pages/${route.dir}/userspace/server.marko`)).default;
         const renderPage = await page.render({
