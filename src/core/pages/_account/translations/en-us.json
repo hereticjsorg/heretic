@@ -1,0 +1,12 @@
+{
+    "account": "Account",
+    "dataLoadingError": "Error while loading data from server",
+    "accountFormHelp": "To change your account information, use the form below. Please note that when you change your email address, you will be sent a link to activate your new address. If you enter a new password, you will need to log in to your account again.",
+    "displayName": "Display name",
+    "displayNameHelpText": "Shown instead of username when applicable",
+    "email": "E-mail",
+    "password": "Change password",
+    "passwordHelpText": "Repeat your password twice to verify",
+    "passwordCurrent": "Current password",
+    "submit": "Save changes"
+}
