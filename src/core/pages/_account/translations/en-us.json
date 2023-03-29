@@ -5,8 +5,14 @@
     "displayName": "Display name",
     "displayNameHelpText": "Shown instead of username when applicable",
     "email": "E-mail",
-    "password": "Change password",
+    "password": "New password",
     "passwordHelpText": "Repeat your password twice to verify",
     "passwordCurrent": "Current password",
-    "submit": "Save changes"
+    "submit": "Save changes",
+    "tabProfile": "Profile",
+    "tabPassword": "Password",
+    "tabEmail": "E-Mail",
+    "couldNotSaveData": "Could not save data",
+    "hform_error_invalidPassword": "Invalid password",
+    "saveSuccess": "Changes successfully saved"
 }

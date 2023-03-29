@@ -15,6 +15,7 @@ module.exports = class {
                     username: null,
                 },
             },
+            currentAccountTab: "profile",
         };
         this.language = out.global.language;
         this.siteTitle = out.global.siteTitle;
@@ -74,22 +75,73 @@ module.exports = class {
             return;
         }
         this.setState("ready", true);
-        await this.utils.waitForComponent("accountForm");
-        const accountForm = this.getComponent("accountForm");
-        accountForm.deserializeData(this.state.userData);
-        setTimeout(() => accountForm.focus());
+        for (const f of ["profileForm", "passwordForm", "emailForm"]) {
+            await this.utils.waitForComponent(f);
+            const form = this.getComponent(f);
+            form.deserializeData(this.state.userData);
+        }
+        // setTimeout(() => profileForm.focus());
     }
 
-    async onFormSubmit() {
-        this.utils.waitForComponent("accountForm");
-        const accountForm = this.getComponent("accountForm");
-        accountForm.setErrors(false);
-        const validationResult = accountForm.validate(accountForm.saveView());
+    async onProfileFormSubmit() {
+        this.utils.waitForComponent("profileForm");
+        const profileForm = this.getComponent("profileForm");
+        profileForm.setErrors(false);
+        profileForm.setErrorMessage(false);
+        const validationResult = profileForm.validate(profileForm.saveView());
         if (validationResult) {
-            return accountForm.setErrors(accountForm.getErrorData(validationResult));
+            return profileForm.setErrors(profileForm.getErrorData(validationResult));
         }
-        const data = accountForm.getFormDataObject(accountForm.serializeData());
+        const formData = profileForm.serializeData();
+        try {
+            await axios({
+                method: "post",
+                url: "/api/user/saveProfile",
+                data: formData.formTabs._default,
+                headers: {
+                    Authorization: `Bearer ${this.currentToken}`,
+                },
+            });
+            this.getComponent("notify").show(this.t("saveSuccess"), "is-success");
+        } catch (e) {
+            profileForm.setErrorMessage(this.t("couldNotSaveData"));
+            if (e && e.response && e.response.data && e.response.data.errors) {
+                profileForm.setErrors(profileForm.getErrorData(e.response.data.errors));
+            }
+        }
+    }
+
+    async onPasswordFormSubmit() {
+        this.utils.waitForComponent("passwordForm");
+        const passwordForm = this.getComponent("passwordForm");
+        passwordForm.setErrors(false);
+        const validationResult = passwordForm.validate(passwordForm.saveView());
+        if (validationResult) {
+            return passwordForm.setErrors(passwordForm.getErrorData(validationResult));
+        }
+        const data = passwordForm.getFormDataObject(passwordForm.serializeData());
         // eslint-disable-next-line no-console
         console.log(data);
+    }
+
+    async onEmailFormSubmit() {
+        this.utils.waitForComponent("emailForm");
+        const emailForm = this.getComponent("emailForm");
+        emailForm.setErrors(false);
+        const validationResult = emailForm.validate(emailForm.saveView());
+        if (validationResult) {
+            return emailForm.setErrors(emailForm.getErrorData(validationResult));
+        }
+        const data = emailForm.getFormDataObject(emailForm.serializeData());
+        // eslint-disable-next-line no-console
+        console.log(data);
+    }
+
+    onAccountTabsClick(e) {
+        e.preventDefault();
+        const {
+            id,
+        } = e.target.closest("[data-id]").dataset;
+        this.setState("currentAccountTab", id);
     }
 };

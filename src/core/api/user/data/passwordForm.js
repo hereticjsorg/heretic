@@ -7,37 +7,6 @@ export default class {
             form: [{
                 fields: [
                     [{
-                        id: "displayName",
-                        type: "text",
-                        label: this.t("displayName"),
-                        mandatory: false,
-                        validation: {
-                            type: ["string", "null"],
-                            maxLength: 128,
-                        },
-                        sortable: true,
-                        searchable: true,
-                        css: "hr-hf-field-xlarge",
-                        column: true,
-                        helpText: this.t("displayNameHelpText"),
-                        createIndex: true,
-                        autoFocus: true,
-                    }, {
-                        id: "email",
-                        type: "text",
-                        label: this.t("email"),
-                        mandatory: true,
-                        validation: {
-                            type: ["string", "null"],
-                            pattern: "(^(?:[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-])+@(?:[a-zA-Z0-9]|[^\\u0000-\\u007F])(?:(?:[a-zA-Z0-9-]|[^\\u0000-\\u007F]){0,61}(?:[a-zA-Z0-9]|[^\\u0000-\\u007F]))?(?:\\.(?:[a-zA-Z0-9]|[^\\u0000-\\u007F])(?:(?:[a-zA-Z0-9-]|[^\\u0000-\\u007F]){0,61}(?:[a-zA-Z0-9]|[^\\u0000-\\u007F]))?)*$)|^()$",
-                            maxLength: 254
-                        },
-                        sortable: true,
-                        searchable: true,
-                        css: "hr-hf-field-large",
-                        column: true,
-                        createIndex: true,
-                    }, {
                         id: "password",
                         type: "password",
                         label: this.t("password"),
@@ -51,8 +20,7 @@ export default class {
                         column: false,
                         createIndex: false,
                         css: "hr-hf-field-xlarge",
-                    }],
-                    [{
+                    }, {
                         id: "passwordCurrent",
                         type: "text",
                         fieldType: "password",

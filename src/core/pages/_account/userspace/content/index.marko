@@ -1,4 +1,6 @@
-import AccountForm from "../../data/accountForm.js"
+import ProfileForm from "../../../../api/user/data/profileForm.js"
+import PasswordForm from "../../../../api/user/data/passwordForm.js"
+import EmailForm from "../../../../api/user/data/emailForm.js"
 
 <if(state.error)>
     <div class="notification is-danger">
@@ -14,8 +16,47 @@ import AccountForm from "../../data/accountForm.js"
             <t>accountFormHelp</t>
         </p>
         <div class="mt-4">
-            <hform key="accountForm" id="accountForm" data=(new AccountForm(process.browser && window.__heretic ? window.__heretic.t : out.global.t)) on-form-submit("onFormSubmit")/>
+            <div class="tabs">
+                <ul>
+                    <li class=(state.currentAccountTab === "profile" ? "is-active" : "") data-id="profile" on-click("onAccountTabsClick")>
+                        <a>
+                            <t>tabProfile</t>
+                        </a>
+                    </li>
+                    <li class=(state.currentAccountTab === "password" ? "is-active" : "") data-id="password" on-click("onAccountTabsClick")>
+                        <a>
+                            <t>tabPassword</t>
+                        </a>
+                    </li>
+                    <li class=(state.currentAccountTab === "email" ? "is-active" : "") data-id="email" on-click("onAccountTabsClick")>
+                        <a>
+                            <t>tabEmail</t>
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
+        <div class="mt-4">
+            <div style={
+                position: state.currentAccountTab === "profile" ? "unset" : "absolute",
+                clip: state.currentAccountTab === "profile" ? "unset" : "rect(0 0 0 0)"
+            }>
+                <hform key="profileForm" id="profileForm" data=(new ProfileForm(process.browser && window.__heretic ? window.__heretic.t : out.global.t)) on-form-submit("onProfileFormSubmit")/>
+            </div>
+            <div style={
+                position: state.currentAccountTab === "password" ? "unset" : "absolute",
+                clip: state.currentAccountTab === "password" ? "unset" : "rect(0 0 0 0)"
+            }>
+                <hform key="passwordForm" id="passwordForm" data=(new PasswordForm(process.browser && window.__heretic ? window.__heretic.t : out.global.t)) on-form-submit("onPasswordFormSubmit")/>
+            </div>
+            <div style={
+                position: state.currentAccountTab === "email" ? "unset" : "absolute",
+                clip: state.currentAccountTab === "email" ? "unset" : "rect(0 0 0 0)"
+            }>
+                <hform key="emailForm" id="emailForm" data=(new EmailForm(process.browser && window.__heretic ? window.__heretic.t : out.global.t)) on-form-submit("onEmailFormSubmit")/>
+            </div>
+        </div>
+        <hnotify key="notify"/>
     </if>
     <if(!state.ready && component.mongoEnabled && component.authOptions.signIn)>
         <hloading active=true/>
