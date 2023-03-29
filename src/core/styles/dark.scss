@@ -158,6 +158,18 @@ html.heretic-dark .table.hr-is-bordered th:first-child {
     border-left: 1px solid lighten($heretic-dark-grey-dark, 10%);
 }
 
+// Tabs
+
+html.heretic-dark .tabs>ul>li>a {
+    color: $white;
+    border-bottom-color: $white !important;
+}
+
+html.heretic-dark .tabs>ul>li.is-active>a {
+    color: $blue;
+    border-bottom-color: $blue !important;
+}
+
 // Pagination
 
 html.heretic-dark .pagination-link,
