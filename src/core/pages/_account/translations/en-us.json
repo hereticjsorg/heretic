@@ -14,5 +14,8 @@
     "tabEmail": "E-Mail",
     "couldNotSaveData": "Could not save data",
     "hform_error_invalidPassword": "Invalid password",
-    "saveSuccess": "Changes successfully saved"
+    "saveSuccess": "Changes successfully saved",
+    "changeEmailModalTitle": "Change E-mail",
+    "changeEmailModalClose": "Close",
+    "changeEmailModalText": "The e-mail address change request has been successfully registered. To complete the procedure, please follow the instructions sent to the specified email address. Please note that the link in the email is valid for one hour."
 }

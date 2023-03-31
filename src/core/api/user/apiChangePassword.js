@@ -1,13 +1,13 @@
 import Ajv from "ajv";
-import ProfileForm from "./data/profileForm";
+import PasswordForm from "./data/passwordForm";
 
 const ajv = new Ajv({
     allErrors: true,
     strict: true,
 });
-const profileForm = new ProfileForm();
-const profileFormValidationSchema = profileForm.getValidationSchema();
-const profileFormValidation = ajv.compile(profileFormValidationSchema);
+const passwordForm = new PasswordForm();
+const passwordFormValidationSchema = passwordForm.getValidationSchema();
+const passwordFormValidation = ajv.compile(passwordFormValidationSchema);
 
 export default () => ({
     async handler(req, rep) {
@@ -18,10 +18,10 @@ export default () => ({
                     message: "Access Denied",
                 }, 403);
             }
-            const validationResult = profileFormValidation(req.body);
+            const validationResult = passwordFormValidation(req.body);
             if (!validationResult) {
                 return rep.error({
-                    form: profileFormValidation.errors,
+                    form: passwordFormValidation.errors,
                 });
             }
             const userDb = await this.mongo.db.collection(this.systemConfig.collections.users).findOne({
@@ -37,14 +37,20 @@ export default () => ({
                     }],
                 }, 403);
             }
+            const newPasswordHash = await req.auth.createHash(`${req.body.password}${this.systemConfig.secret}`);
             await this.mongo.db.collection(this.systemConfig.collections.users).updateOne({
                 _id: authData._id,
             }, {
                 $set: {
-                    displayName: req.body.displayName,
+                    password: newPasswordHash,
                 },
             });
-            return rep.success({});
+            await this.mongo.db.collection(this.systemConfig.collections.sessions).deleteOne({
+                _id: authData.session._id,
+            });
+            return rep.success({
+                sessionData: authData.session,
+            });
         } catch (e) {
             this.log.error(e);
             return Promise.reject(e);

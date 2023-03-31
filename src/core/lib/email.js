@@ -9,7 +9,7 @@ export default class {
         }
     }
 
-    async send(to = "", subject = "", html = "") {
+    async send(to = "", subject = "", html = "", text = "") {
         if (!this.transporter) {
             return null;
         }
@@ -18,6 +18,7 @@ export default class {
             to,
             subject,
             html,
+            text,
             attachments: [{
                 filename: "logo.png",
                 path: path.resolve(__dirname, "data/email-logo.png"),

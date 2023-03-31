@@ -2,5 +2,13 @@
     "users": {
         "asc": ["username", "email"],
         "desc":  ["username", "email"]
+    },
+    "activation": {
+        "asc": [],
+        "desc":  [],
+        "expire": {
+            "field": "createdAt",
+            "seconds": 3600
+        }
     }
 }

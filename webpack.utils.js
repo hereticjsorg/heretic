@@ -144,19 +144,6 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
         // End processing modules
         fs.readdirSync(path.resolve(__dirname, "src", "core", "pages")).filter(p => !p.match(/^\./)).map(p => {
             try {
-                const configAdmin = require(path.resolve(__dirname, "src", "core", "pages", p, "admin.js"));
-                pagesAdminConfig.push({
-                    ...configAdmin,
-                    dir: p,
-                    core: true,
-                    module: false,
-                });
-            } catch {
-                // Ignore
-            }
-        });
-        fs.readdirSync(path.resolve(__dirname, "src", "core", "pages")).filter(p => !p.match(/^\./)).map(p => {
-            try {
                 const configCore = require(path.resolve(__dirname, "src", "core", "pages", p, "page.js"));
                 pagesCoreConfig.push({
                     ...configCore,

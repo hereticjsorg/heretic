@@ -92,6 +92,7 @@ module.exports = class {
         if (validationResult) {
             return profileForm.setErrors(profileForm.getErrorData(validationResult));
         }
+        profileForm.setLoading(true);
         const formData = profileForm.serializeData();
         try {
             await axios({
@@ -108,6 +109,8 @@ module.exports = class {
             if (e && e.response && e.response.data && e.response.data.errors) {
                 profileForm.setErrors(profileForm.getErrorData(e.response.data.errors));
             }
+        } finally {
+            profileForm.setLoading(false);
         }
     }
 
@@ -115,26 +118,66 @@ module.exports = class {
         this.utils.waitForComponent("passwordForm");
         const passwordForm = this.getComponent("passwordForm");
         passwordForm.setErrors(false);
+        passwordForm.setErrorMessage(false);
         const validationResult = passwordForm.validate(passwordForm.saveView());
         if (validationResult) {
             return passwordForm.setErrors(passwordForm.getErrorData(validationResult));
         }
-        const data = passwordForm.getFormDataObject(passwordForm.serializeData());
-        // eslint-disable-next-line no-console
-        console.log(data);
+        passwordForm.setLoading(true);
+        const formData = passwordForm.serializeData();
+        try {
+            await axios({
+                method: "post",
+                url: "/api/user/changePassword",
+                data: formData.formTabs._default,
+                headers: {
+                    Authorization: `Bearer ${this.currentToken}`,
+                },
+            });
+            this.getComponent("notify").show(this.t("saveSuccess"), "is-success");
+            this.cookies.delete(`${this.siteId}.authToken`);
+            setTimeout(() => window.location.href = `${this.getLocalizedURL(this.systemRoutes.signIn)}?r=${this.getLocalizedURL(pageConfig.path)}`, 100);
+        } catch (e) {
+            passwordForm.setLoading(false);
+            passwordForm.setErrorMessage(this.t("couldNotSaveData"));
+            if (e && e.response && e.response.data && e.response.data.errors) {
+                passwordForm.setErrors(passwordForm.getErrorData(e.response.data.errors));
+            }
+        }
     }
 
     async onEmailFormSubmit() {
         this.utils.waitForComponent("emailForm");
         const emailForm = this.getComponent("emailForm");
         emailForm.setErrors(false);
+        emailForm.setErrorMessage(false);
         const validationResult = emailForm.validate(emailForm.saveView());
         if (validationResult) {
             return emailForm.setErrors(emailForm.getErrorData(validationResult));
         }
-        const data = emailForm.getFormDataObject(emailForm.serializeData());
-        // eslint-disable-next-line no-console
-        console.log(data);
+        emailForm.setLoading(true);
+        const formData = emailForm.serializeData();
+        try {
+            await axios({
+                method: "post",
+                url: "/api/user/changeEmail",
+                data: {
+                    ...formData.formTabs._default,
+                    language: this.language,
+                },
+                headers: {
+                    Authorization: `Bearer ${this.currentToken}`,
+                },
+            });
+            this.getComponent("changeEmailModal").setActive(true).setCloseAllowed(true).setLoading(false);
+        } catch (e) {
+            emailForm.setErrorMessage(this.t("couldNotSaveData"));
+            if (e && e.response && e.response.data && e.response.data.errors) {
+                emailForm.setErrors(emailForm.getErrorData(e.response.data.errors));
+            }
+        } finally {
+            emailForm.setLoading(false);
+        }
     }
 
     onAccountTabsClick(e) {

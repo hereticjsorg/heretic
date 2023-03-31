@@ -136,6 +136,7 @@ module.exports = {
         geoCities: "geoCities",
         version: "version",
         sessions: "sessions",
+        activation: "activation",
         ...conf.collections,
     },
     routes: {
