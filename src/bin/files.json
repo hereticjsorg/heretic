@@ -2,6 +2,9 @@
     "from": "../core/defaults/home",
     "to": "../../site/pages/home"
 }, {
+    "from": "../core/defaults/email",
+    "to": "../../site/email"
+}, {
     "from": "../core/defaults/license",
     "to": "../../site/pages/license"
 }, {

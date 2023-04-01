@@ -146,7 +146,7 @@ module.exports = class {
                 continue;
             }
             const from = path.resolve(__dirname, item.from);
-            this.log(`Copying: "${item.to.replace(/\.\.\//gm, "")}...`);
+            this.log(`Copying: "${item.to.replace(/\.\.\//gm, "")}"...`);
             fs.copySync(from, to);
         }
     }
