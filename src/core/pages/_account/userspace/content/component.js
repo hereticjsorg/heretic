@@ -66,7 +66,6 @@ module.exports = class {
                     Authorization: `Bearer ${this.currentToken}`,
                 },
             });
-            // eslint-disable-next-line no-console
             this.setState("userData", {
                 _default: data,
             });

@@ -1,3 +1,7 @@
+import {
+    ObjectId
+} from "mongodb";
+
 export default () => ({
     async handler(req, rep) {
         try {
@@ -9,9 +13,31 @@ export default () => ({
                     message: "Invalid ID",
                 });
             }
+            const activationDb = await this.mongo.db.collection(this.systemConfig.collections.activation).findOne({
+                _id: id,
+            });
+            if (!activationDb) {
+                return rep.error({
+                    message: "Invalid ID",
+                });
+            }
+            switch (activationDb.type) {
+            case "email":
+                await this.mongo.db.collection(this.systemConfig.collections.users).updateOne({
+                    _id: new ObjectId(activationDb.userId),
+                }, {
+                    $set: {
+                        email: activationDb.value,
+                    },
+                });
+                break;
+            }
+            await this.mongo.db.collection(this.systemConfig.collections.activation).deleteOne({
+                _id: id,
+            });
             return rep.success({
-                type: "email",
-                value: "xtreme@rh1.ru",
+                type: activationDb.type,
+                value: activationDb.value,
             });
         } catch (e) {
             this.log.error(e);

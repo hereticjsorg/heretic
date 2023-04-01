@@ -48,7 +48,7 @@ export default () => ({
                 _id: uid,
                 type: "email",
                 userId: String(authData._id),
-                email: req.body.email.toLowerCase(),
+                value: req.body.email.toLowerCase(),
             });
             const {
                 language,
@@ -67,10 +67,6 @@ export default () => ({
             };
             const renderPage = await emailChangeNotificationTemplate.render(input);
             const renderText = (await import("./email/emailChangeNotification.js")).default(input);
-            // eslint-disable-next-line no-console
-            console.log(renderPage.toString());
-            // eslint-disable-next-line no-console
-            console.log(renderText);
             const email = new Email(this);
             await email.send("xtreme@rh1.ru", "Test message", renderPage.toString(), renderText);
             return rep.success({});
