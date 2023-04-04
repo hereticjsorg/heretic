@@ -17,5 +17,22 @@
     "saveSuccess": "Changes successfully saved",
     "changeEmailModalTitle": "Change E-mail",
     "changeEmailModalClose": "Close",
-    "changeEmailModalText": "The e-mail address change request has been successfully registered. To complete the procedure, please follow the instructions sent to the specified email address. Please note that the link in the email is valid for one hour."
+    "changeEmailModalText": "The e-mail address change request has been successfully registered. To complete the procedure, please follow the instructions sent to the specified email address. Please note that the link in the email is valid for one hour.",
+    "passwordShouldContain": "Password should contain characters",
+    "orMoreGroups": "or more groups",
+    "passwordMinLength": "Minimum length",
+    "passwordMaxLength": "Maximum length",
+    "passwordUppercase": "uppercase",
+    "passwordLowercase": "lowercase",
+    "passwordNumbers": "numbers",
+    "passwordSpecial": "special",
+    "passwordMinGroups": "of the following groups",
+    "errorPasswordLength": "invalid length",
+    "errorPasswordUppercase": "should contain uppercase characters",
+    "errorPasswordLowercase": "should contain lowercase characters",
+    "errorPasswordNumbers": "should contain numbers",
+    "errorPasswordSpecial": "should contain special characters (#, $, @ etc.)",
+    "errorMinGroups": "should contain more different types of characters",
+    "passwordPolicy": "Password Policy",
+    "passwordPolicyViolation": "Password policy violation"
 }

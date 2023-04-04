@@ -1,5 +1,5 @@
 {
-    "changeEmailMailText": "You received this message because your email address is listed as the primary email address on the site.",
-    "changeEmailMailNotice": "If you did not enter your email, you probably received this message by mistake. In that case, please just ignore this email.",
-    "changeEmailMailButton": "Confirm address"
+    "changeEmailMailText": "You received this message because you or someone else has defined your email address as the primary email on the website.",
+    "changeEmailMailNotice": "If you did not expect this change, you probably received this message by mistake. In that case, please just ignore this email. Otherwise please confirm.",
+    "changeEmailMailButton": "Confirm Address"
 }

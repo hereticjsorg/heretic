@@ -37,6 +37,35 @@ export default () => ({
                     }],
                 }, 403);
             }
+            // Check the length
+            const policyErrors = [];
+            if (this.systemConfig.passwordPolicy.minLength && ((this.systemConfig.passwordPolicy.minLength > 0 && req.body.password.length < this.systemConfig.passwordPolicy.minLength) || (this.systemConfig.passwordPolicy.maxLength > 0 && req.body.password.length > this.systemConfig.passwordPolicy.maxLength))) {
+                policyErrors.push("errorPasswordLength");
+            }
+            // Check groups
+            const availGroups = {
+                Lowercase: !!this.systemConfig.passwordPolicy.lowercase && req.body.password.match(/[a-z]+/),
+                Uppercase: !!this.systemConfig.passwordPolicy.uppercase && req.body.password.match(/[A-Z]+/),
+                Numbers: !!this.systemConfig.passwordPolicy.numbers && req.body.password.match(/[0-9]+/),
+                Special: !!this.systemConfig.passwordPolicy.special && !!req.body.password.match(/[^a-zA-Z0-9]+/),
+            };
+            const countGroups = Object.values(availGroups).filter(i => i).length;
+            if (this.systemConfig.passwordPolicy.minGroups && countGroups < this.systemConfig.passwordPolicy.minGroups) {
+                policyErrors.push("errorMinGroups");
+            } else {
+                Object.keys(availGroups).map(i => policyErrors.push(`errorPassword${i}`));
+            }
+            if (policyErrors.length) {
+                return rep.error({
+                    message: "Password policy violation",
+                    errors: [{
+                        instancePath: "password",
+                        keyword: "invalidPassword",
+                        tab: "_default",
+                    }],
+                    policyErrors,
+                });
+            }
             const newPasswordHash = await req.auth.createHash(`${req.body.password}${this.systemConfig.secret}`);
             await this.mongo.db.collection(this.systemConfig.collections.users).updateOne({
                 _id: authData._id,

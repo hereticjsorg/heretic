@@ -200,3 +200,14 @@ import { format } from "date-fns"
     </div>
 </if>
 <!-- Div: End -->
+<!-- Message: Start -->
+<if(input.type === "message")>
+    <div>
+        <div class="field">
+            <div class=`control ${input.messageClass || ""}` id=`hr_hf_el_${input.formId}_${input.id}`>
+                ${input.content}
+            </div>
+        </div>
+    </div>
+</if>
+<!-- Message: End -->

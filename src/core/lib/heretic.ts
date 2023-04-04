@@ -70,6 +70,15 @@ export default class {
         }
         this.systemConfig.versionHash = crypto.createHmac("sha256", this.systemConfig.secret).update(packageJson.version).digest("hex");
         this.systemConfig.secretInt = parseInt(crypto.createHash("md5").update(this.systemConfig.secret).digest("hex"), 16);
+        this.systemConfig.passwordPolicy = this.systemConfig.passwordPolicy || {
+            minLength: 8,
+            maxLength: null,
+            minGroups: 2,
+            uppercase: true,
+            lowercase: true,
+            numbers: true,
+            special: true,
+        };
         this.fastify = Fastify({
             logger: new Logger(this.systemConfig).getPino(),
             trustProxy: this.systemConfig.server.trustProxy,

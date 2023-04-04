@@ -31,19 +31,28 @@ export default class {
                         },
                         css: "hr-hf-field-large",
                     }],
-                    [{
-                        id: "buttons",
-                        type: "buttons",
-                        items: [{
-                            id: "btnSubmit",
-                            type: "submit",
-                            label: this.t("submit"),
-                            css: "button is-primary is-fullwidth mt-3"
-                        }],
-                        css: "hr-hf-field-small",
-                    }]
                 ],
-            }],
+            }, {
+                id: "generalInfo",
+                label: this.t("passwordPolicy"),
+                css: "hr-hf-area mt-4",
+                fields: [{
+                    id: "passwordPolicy",
+                    type: "div",
+                }]
+            }, {
+                fields: [{
+                    id: "buttons",
+                    type: "buttons",
+                    items: [{
+                        id: "btnSubmit",
+                        type: "submit",
+                        label: this.t("submit"),
+                        css: "button is-primary is-fullwidth mt-3"
+                    }],
+                    css: "hr-hf-field-small",
+                }]
+            }]
         };
         this.validationData = utils.getValidationData(this.data.form);
     }

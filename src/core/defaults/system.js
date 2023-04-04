@@ -11,6 +11,7 @@ const conf = {
     email: {},
     webSockets: {},
     token: {},
+    passwordPolicy: {},
     cookieOptions: {},
     log: {},
     rateLimit: {},
@@ -88,6 +89,15 @@ module.exports = {
         expiresIn: sessionTTL,
         ip: false,
         ...conf.token,
+    },
+    passwordPolicy: {
+        minLength: 8,
+        maxLength: null,
+        minGroups: 2,
+        uppercase: true,
+        lowercase: true,
+        numbers: true,
+        special: true,
     },
     cookieOptions: {
         expires: sessionTTL,
