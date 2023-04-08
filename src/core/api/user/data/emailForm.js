@@ -21,6 +21,7 @@ export default class {
                         css: "hr-hf-field-large",
                         column: true,
                         createIndex: true,
+                        autoFocus: true,
                     }, {
                         id: "passwordCurrent",
                         type: "text",

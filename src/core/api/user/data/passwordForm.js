@@ -11,7 +11,7 @@ export default class {
                         type: "password",
                         label: this.t("password"),
                         helpText: this.t("passwordHelpText"),
-                        mandatory: false,
+                        mandatory: true,
                         validation: {
                             type: ["string"],
                         },
@@ -20,6 +20,7 @@ export default class {
                         column: false,
                         createIndex: false,
                         css: "hr-hf-field-xlarge",
+                        autoFocus: true,
                     }, {
                         id: "passwordCurrent",
                         type: "text",

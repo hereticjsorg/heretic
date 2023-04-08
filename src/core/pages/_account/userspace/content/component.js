@@ -103,7 +103,9 @@ module.exports = class {
         if (this.passwordPolicy.maxLength) {
             passwordPolicyDiv.innerHTML += `<div><strong>${this.t("passwordMaxLength")}</strong>: ${this.passwordPolicy.maxLength}<div>`;
         }
-        // setTimeout(() => profileForm.focus());
+        this.utils.waitForComponent("profileForm");
+        const profileForm = this.getComponent("profileForm");
+        setTimeout(() => profileForm.focus());
     }
 
     async onProfileFormSubmit() {
@@ -206,11 +208,14 @@ module.exports = class {
         }
     }
 
-    onAccountTabsClick(e) {
+    async onAccountTabsClick(e) {
         e.preventDefault();
         const {
             id,
         } = e.target.closest("[data-id]").dataset;
         this.setState("currentAccountTab", id);
+        await this.utils.waitForComponent(`${id}Form`);
+        const form = this.getComponent(`${id}Form`);
+        setTimeout(() => form.focus());
     }
 };
