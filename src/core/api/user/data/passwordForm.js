@@ -34,9 +34,9 @@ export default class {
                     }],
                 ],
             }, {
-                id: "generalInfo",
-                label: this.t("passwordPolicy"),
-                css: "hr-hf-area mt-4",
+                id: "passwordPolicyArea",
+                // label: this.t("passwordPolicy"),
+                // css: "mt-4",
                 fields: [{
                     id: "passwordPolicy",
                     type: "div",

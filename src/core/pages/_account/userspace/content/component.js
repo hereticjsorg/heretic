@@ -1,8 +1,10 @@
 const axios = require("axios");
+const debounce = require("lodash.debounce");
 const config = require("../../page.js");
 const Utils = require("../../../../lib/componentUtils").default;
 const Cookies = require("../../../../lib/cookiesBrowser").default;
 const Query = require("../../../../lib/queryBrowser").default;
+const Password = require("../../../../lib/password").default;
 const pageConfig = require("../../page");
 
 module.exports = class {
@@ -37,10 +39,28 @@ module.exports = class {
             document.title = `${config.title[this.language]} – ${this.siteTitle}`;
         }
         this.utils = new Utils(this, this.language);
+        this.password = new Password(this.passwordPolicy);
     }
 
     getLocalizedURL(url) {
         return this.utils.getLocalizedURL(url);
+    }
+
+    onPasswordChange() {
+        setTimeout(() => {
+            const passwordPolicyDiv = document.getElementById("hr_hf_el_passwordForm_passwordPolicy");
+            const password = document.getElementById("hr_hf_el_passwordForm_password").value.trim();
+            const check = this.password.checkPolicy(password);
+            const htmlArr = [`<span class="tag is-light ${(!password.length || check.errors.indexOf("errorPasswordLength")) !== -1 ? "is-danger" : "is-success"}">${this.t(`passwordLength`)}: ${password.length}</span>`];
+            for (const k of ["uppercase", "lowercase", "numbers", "special"]) {
+                if (this.passwordPolicy.minGroups) {
+                    htmlArr.push(`<span class="tag ${(check.groups.length >= this.passwordPolicy.minGroups ? (check.groups.indexOf(k) > -1 ? "is-success" : "") : (check.groups.indexOf(k) > -1 ? "is-success" : "is-danger"))} is-light">${this.t(`password_${k}`)}</span>`);
+                } else {
+                    htmlArr.push(`<span class="tag ${(check.groups.indexOf(k) > -1 ? "is-success" : "is-danger")} is-light">${this.t(`password_${k}`)}</span>`);
+                }
+            }
+            passwordPolicyDiv.innerHTML = `<div class="tags">${htmlArr.join("")}</div>`;
+        });
     }
 
     async onMount() {
@@ -82,27 +102,9 @@ module.exports = class {
             form.deserializeData(this.state.userData);
         }
         await this.utils.waitForElement("hr_hf_el_passwordForm_passwordPolicy");
-        const passwordPolicyDiv = document.getElementById("hr_hf_el_passwordForm_passwordPolicy");
-        const policyStrings = [];
-        if (this.passwordPolicy.lowercase) {
-            policyStrings.push(`${this.t("passwordLowercase")}`);
-        }
-        if (this.passwordPolicy.uppercase) {
-            policyStrings.push(`${this.t("passwordUppercase")}`);
-        }
-        if (this.passwordPolicy.numbers) {
-            policyStrings.push(`${this.t("passwordNumbers")}`);
-        }
-        if (this.passwordPolicy.special) {
-            policyStrings.push(`${this.t("passwordSpecial")}`);
-        }
-        passwordPolicyDiv.innerHTML = `<div><strong>${this.t("passwordShouldContain")}:</strong>&nbsp;${policyStrings.join(", ")}${this.passwordPolicy.minGroups ? ` <strong>(${this.passwordPolicy.minGroups} ${this.t("orMoreGroups")})</strong>` : ""}</div>`;
-        if (this.passwordPolicy.minLength) {
-            passwordPolicyDiv.innerHTML += `<div><strong>${this.t("passwordMinLength")}</strong>: ${this.passwordPolicy.minLength}<div>`;
-        }
-        if (this.passwordPolicy.maxLength) {
-            passwordPolicyDiv.innerHTML += `<div><strong>${this.t("passwordMaxLength")}</strong>: ${this.passwordPolicy.maxLength}<div>`;
-        }
+        await this.utils.waitForElement("hr_hf_el_passwordForm_password");
+        document.getElementById("hr_hf_el_passwordForm_password").addEventListener("keydown", debounce(this.onPasswordChange.bind(this), 50));
+        this.onPasswordChange();
         this.utils.waitForComponent("profileForm");
         const profileForm = this.getComponent("profileForm");
         setTimeout(() => profileForm.focus());

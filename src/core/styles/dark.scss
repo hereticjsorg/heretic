@@ -273,6 +273,19 @@ html.heretic-dark .tag.is-light {
     color: $heretic-dark-text-color-light;
 }
 
+
+html.heretic-dark .tag.is-danger.is-light {
+    background: darken($red, 30%);
+}
+
+html.heretic-dark .tag.is-success.is-light {
+    background: darken($green, 30%);
+}
+
+html.heretic-dark .tag.is-warning.is-light {
+    background: darken($yellow, 30%);
+}
+
 // Card
 
 html.heretic-dark .card,
