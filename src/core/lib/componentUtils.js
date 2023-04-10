@@ -89,12 +89,15 @@ export default class {
             data.url = "";
             [data.language] = languages;
         }
+        data.parts = urlParts;
+        data.base = `${urlParts[0]}//${urlParts[2]}`;
+        data.dir = urlParts.length > 3 ? urlParts.filter((_, i) => i > 2).join("/") : "";
         return data;
     }
 
     getLocalizedURL(url) {
         const nonLocalizedURL = this.getNonLocalizedURL(url);
-        const resultURL = this.language === Object.keys(languagesList)[0] ? nonLocalizedURL.url : `/${this.language}${nonLocalizedURL.url}`;
+        const resultURL = this.language === Object.keys(languagesList)[0] ? nonLocalizedURL.url : `${nonLocalizedURL.base}/${this.language}/${nonLocalizedURL.dir}`;
         return resultURL.endsWith("/") && resultURL.length > 1 ? resultURL.slice(0, -1) : resultURL;
     }
 }

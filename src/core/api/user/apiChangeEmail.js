@@ -61,10 +61,14 @@ export default () => ({
                 ...languageData[language],
                 ...(await import(`./translations/${language}.json`)).default,
             };
+            // eslint-disable-next-line no-console
+            console.log(this.siteConfig.url);
             const input = {
                 t: id => languageData[language] && languageData[language][id] ? languageData[language][id] : id,
-                activationUrl: `${utils.getLocalizedURL(this.siteConfig.url)}/activate?id=${uid}`,
+                activationUrl: utils.getLocalizedURL(`${this.siteConfig.url}/activate?id=${uid}`),
             };
+            // eslint-disable-next-line no-console
+            console.log(input);
             const renderPage = await emailChangeNotificationTemplate.render(input);
             const renderText = (await import("./email/emailChangeNotification.js")).default(input);
             const email = new Email(this);
