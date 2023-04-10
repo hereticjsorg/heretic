@@ -179,5 +179,6 @@
     "htable_selected": "выбрано",
     "htable_searchPlaceholder": "Поиск",
     "noChangesSavedDemoMode": "В демо-режиме изменения не сохраняются",
-    "couldNotLoadData": "Ошибка во время загрузки данных"
+    "couldNotLoadData": "Ошибка во время загрузки данных",
+    "userAccount": "Личный кабинет"
 }

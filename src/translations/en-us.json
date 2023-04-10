@@ -183,5 +183,6 @@
     "couldNotLoadData": "Could not load data",
     "changeEmailMailText": "You received this message because your email address is listed as the primary email address on the site.",
     "changeEmailMailNotice": "If you did not enter your email, you probably received this message by mistake. In that case, please just ignore this email.",
-    "changeEmailMailButton": "Confirm address"
+    "changeEmailMailButton": "Confirm address",
+    "userAccount": "Account"
 }
