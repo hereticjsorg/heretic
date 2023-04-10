@@ -1,1 +1,6 @@
-{}
+{
+    "activationError": "Fehler während des Aktivierungsvorgangs. Die Aktion wurde möglicherweise bereits durchgeführt, oder der Link ist ungültig, weil er abgelaufen ist. Bitte versuchen Sie, die Aktion erneut anzufordern.",
+    "activation": "Aktivierung",
+    "activationSuccessEmail": "Die neue E-Mail-Adresse wurde erfolgreich in Ihrem Profil als primäre E-Mail-Adresse gespeichert.",
+    "newEmail": "Neue E-Mail"
+}
