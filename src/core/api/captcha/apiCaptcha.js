@@ -1,4 +1,6 @@
-import Cryptr from "cryptr";
+import {
+    v4 as uuid,
+} from "uuid";
 import Captcha from "../../lib/captcha";
 
 const captcha = new Captcha();
@@ -6,20 +8,22 @@ const captcha = new Captcha();
 export default () => ({
     async handler(req, rep) {
         try {
-            const cryptr = new Cryptr(this.systemConfig.secret);
-            // c = code
-            const c = Math.random().toString().substring(2, 6);
-            const imageData = captcha.createCaptcha(c);
-            // t = current timestamp
-            const t = new Date().getTime();
-            const imageSecret = cryptr.encrypt(JSON.stringify({
-                c,
-                t
-            }));
+            const code = Math.random().toString().substring(2, 6);
+            const imageSecret = uuid();
+            const imageData = captcha.createCaptcha(code);
+            if (this.redis) {
+                await this.redis.set(`${this.siteConfig.id}_captcha_${imageSecret}}`, code, "ex", 300);
+            } else {
+                await this.mongo.db.collection(this.systemConfig.collections.captcha).insertOne({
+                    _id: imageSecret,
+                    code,
+                    createdAt: new Date(),
+                });
+            }
             // Send response
             return rep.code(200).send({
                 imageData,
-                imageSecret
+                imageSecret,
             });
         } catch (e) {
             this.log.error(e);

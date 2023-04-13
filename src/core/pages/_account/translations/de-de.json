@@ -32,5 +32,7 @@
     "errorPasswordSpecial": "sollte Sonderzeichen enthalten (#, $, @ etc.)",
     "errorMinGroups": "sollte mehr verschiedene Arten von Zeichen enthalten",
     "passwordPolicy": "Passwortrichtlinien",
-    "passwordPolicyViolation": "Verletzung der Passwortrichtlinien"
+    "passwordPolicyViolation": "Verletzung der Passwortrichtlinien",
+    "hform_error_emailNotChanged": "Keine Änderungen",
+    "hform_error_passwordNotChanged": "Ist dem alten gleich"
 }

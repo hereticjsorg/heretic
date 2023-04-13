@@ -21,20 +21,22 @@ export default () => ({
                     message: "Invalid ID",
                 });
             }
-            switch (activationDb.type) {
-            case "email":
-                await this.mongo.db.collection(this.systemConfig.collections.users).updateOne({
-                    _id: new ObjectId(activationDb.userId),
-                }, {
-                    $set: {
-                        email: activationDb.value,
-                    },
+            if (!this.systemConfig.demo) {
+                switch (activationDb.type) {
+                case "email":
+                    await this.mongo.db.collection(this.systemConfig.collections.users).updateOne({
+                        _id: new ObjectId(activationDb.userId),
+                    }, {
+                        $set: {
+                            email: activationDb.value,
+                        },
+                    });
+                    break;
+                }
+                await this.mongo.db.collection(this.systemConfig.collections.activation).deleteOne({
+                    _id: id,
                 });
-                break;
             }
-            await this.mongo.db.collection(this.systemConfig.collections.activation).deleteOne({
-                _id: id,
-            });
             return rep.success({
                 type: activationDb.type,
                 value: activationDb.value,

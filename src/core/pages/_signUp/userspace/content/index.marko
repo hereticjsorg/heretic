@@ -1,0 +1,23 @@
+import SignUpForm from "../../../../api/user/data/signUpForm.js"
+
+<if(state.error)>
+    <div class="notification is-warning">
+        <t>pageError</t>
+    </div>
+</if>
+<else>
+    <if(state.ready && component.mongoEnabled && component.authOptions.signUp)>
+        <h1 class="title is-3 has-text-weight-light">
+            <t>signUp</t>
+        </h1>
+        <hform key="signUpForm" id="signUpForm" data=(new SignUpForm(process.browser && window.__heretic ? window.__heretic.t : out.global.t)) on-form-submit("onSignUpFormSubmit")/>
+    </if>
+    <if(!state.ready && component.mongoEnabled && component.authOptions.signUp)>
+        <hloading active=true/>
+    </if>
+    <if(!component.mongoEnabled || !component.authOptions.signUp)>
+        <div class="notification is-warning">
+            <t>requestedFeatureDisabled</t>
+        </div>
+    </if>
+</else>

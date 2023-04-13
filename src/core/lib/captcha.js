@@ -2,7 +2,7 @@ import path from "path";
 import opentype from "opentype.js";
 
 export default class {
-    constructor(options = {}) {
+    constructor(fastify, options = {}) {
         this.options = {
             width: 100,
             height: 40,
@@ -13,6 +13,7 @@ export default class {
             ...options,
         };
         this.font = opentype.loadSync(path.join(__dirname, "data", "captcha.ttf"));
+        this.fastify = fastify;
     }
 
     rndPathCmd(cmd) {
@@ -173,5 +174,27 @@ export default class {
         const paths = [].concat(this.getLineNoise(width, height, noise, background)).concat(this.getText(text, width, height)).join("");
         const start = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">`;
         return `${start}${bgRect}${paths}</svg>`;
+    }
+
+    async verifyCaptcha(imageSecret, code) {
+        let codeDb;
+        if (this.fastify.redis) {
+            codeDb = await this.redis.get(`${this.fastify.siteConfig.id}_captcha_${imageSecret}}`);
+            await this.fastify.redis.del(`${this.fastify.siteConfig.id}_captcha_${imageSecret}}`);
+        } else {
+            const dbData = await this.fastify.db.collection(this.fastify.systemConfig.collections.captcha).findOneAndUpdate({
+                _id: imageSecret,
+            }, {
+                $set: {
+                    code: null,
+                },
+            }, {
+                upsert: false,
+            });
+            if (dbData) {
+                codeDb = dbData.code;
+            }
+        }
+        return code && codeDb && String(codeDb) === String(code);
     }
 }

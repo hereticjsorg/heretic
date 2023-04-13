@@ -37,13 +37,15 @@ export default () => ({
                     }],
                 }, 403);
             }
-            await this.mongo.db.collection(this.systemConfig.collections.users).updateOne({
-                _id: authData._id,
-            }, {
-                $set: {
-                    displayName: req.body.displayName,
-                },
-            });
+            if (!this.systemConfig.demo) {
+                await this.mongo.db.collection(this.systemConfig.collections.users).updateOne({
+                    _id: authData._id,
+                }, {
+                    $set: {
+                        displayName: req.body.displayName,
+                    },
+                });
+            }
             return rep.success({});
         } catch (e) {
             this.log.error(e);

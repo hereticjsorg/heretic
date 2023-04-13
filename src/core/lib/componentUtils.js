@@ -74,7 +74,12 @@ export default class {
 
     getNonLocalizedURL(url) {
         const languages = Object.keys(languagesList);
-        const data = {};
+        const data = {
+            url: "",
+        };
+        if (!url) {
+            return data;
+        }
         const urlParts = url.split(/\//);
         if (urlParts.length > 1) {
             const firstPartOfURL = urlParts[1];

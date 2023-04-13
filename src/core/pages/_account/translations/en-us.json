@@ -32,5 +32,7 @@
     "errorPasswordSpecial": "should contain special characters (#, $, @ etc.)",
     "errorMinGroups": "should contain more different types of characters",
     "passwordPolicy": "Password Policy",
-    "passwordPolicyViolation": "Password policy violation"
+    "passwordPolicyViolation": "Password policy violation",
+    "hform_error_emailNotChanged": "No changes",
+    "hform_error_passwordNotChanged": "Identical to the old one"
 }

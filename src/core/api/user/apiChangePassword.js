@@ -38,6 +38,16 @@ export default () => ({
                     }],
                 }, 403);
             }
+            if (req.body.passwordCurrent.trim() === req.body.password.trim()) {
+                return rep.error({
+                    message: "Password not changed",
+                    errors: [{
+                        instancePath: "password",
+                        keyword: "passwordNotChanged",
+                        tab: "_default",
+                    }],
+                });
+            }
             const password = new Password(this.systemConfig.passwordPolicy);
             const check = password.checkPolicy(req.body.password);
             if (check.errors.length) {
@@ -52,16 +62,18 @@ export default () => ({
                 });
             }
             const newPasswordHash = await req.auth.createHash(`${req.body.password}${this.systemConfig.secret}`);
-            await this.mongo.db.collection(this.systemConfig.collections.users).updateOne({
-                _id: authData._id,
-            }, {
-                $set: {
-                    password: newPasswordHash,
-                },
-            });
-            await this.mongo.db.collection(this.systemConfig.collections.sessions).deleteOne({
-                _id: authData.session._id,
-            });
+            if (!this.systemConfig.demo) {
+                await this.mongo.db.collection(this.systemConfig.collections.users).updateOne({
+                    _id: authData._id,
+                }, {
+                    $set: {
+                        password: newPasswordHash,
+                    },
+                });
+                await this.mongo.db.collection(this.systemConfig.collections.sessions).deleteOne({
+                    _id: authData.session._id,
+                });
+            }
             return rep.success({
                 sessionData: authData.session,
             });

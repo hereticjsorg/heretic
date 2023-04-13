@@ -43,13 +43,26 @@ export default () => ({
                     }],
                 }, 403);
             }
+            const value = req.body.email.toLowerCase();
+            if (userDb.email === value) {
+                return rep.error({
+                    message: "E-mail not changed",
+                    errors: [{
+                        instancePath: "email",
+                        keyword: "emailNotChanged",
+                        tab: "_default",
+                    }],
+                });
+            }
             const uid = uuid();
-            await this.mongo.db.collection(this.systemConfig.collections.activation).insertOne({
-                _id: uid,
-                type: "email",
-                userId: String(authData._id),
-                value: req.body.email.toLowerCase(),
-            });
+            if (!this.systemConfig.demo) {
+                await this.mongo.db.collection(this.systemConfig.collections.activation).insertOne({
+                    _id: uid,
+                    type: "email",
+                    userId: String(authData._id),
+                    value,
+                });
+            }
             const {
                 language,
             } = req.body;
@@ -61,14 +74,17 @@ export default () => ({
                 ...languageData[language],
                 ...(await import(`./translations/${language}.json`)).default,
             };
+            const t = id => languageData[language] && languageData[language][id] ? languageData[language][id] : id;
             const input = {
-                t: id => languageData[language] && languageData[language][id] ? languageData[language][id] : id,
+                t,
                 activationUrl: utils.getLocalizedFullURL(`${this.siteConfig.url}/activate?id=${uid}`),
             };
             const renderPage = await emailChangeNotificationTemplate.render(input);
             const renderText = (await import("./email/emailChangeNotification.js")).default(input);
             const email = new Email(this);
-            await email.send("xtreme@rh1.ru", "Test message", renderPage.toString(), renderText);
+            if (!this.systemConfig.demo) {
+                await email.send(value, t("changeEmail"), renderPage.toString(), renderText);
+            }
             return rep.success({});
         } catch (e) {
             this.log.error(e);

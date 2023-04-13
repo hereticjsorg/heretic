@@ -32,5 +32,7 @@
     "errorPasswordSpecial": "должен содержать специальные символы (#, $, @ etc.)",
     "errorMinGroups": "должны содержать больше различных типов символов",
     "passwordPolicy": "Политика паролей",
-    "passwordPolicyViolation": "Нарушение политики паролей"
+    "passwordPolicyViolation": "Нарушение политики паролей",
+    "hform_error_notChanged": "Нет изменений",
+    "hform_error_passwordNotChanged": "Идентичен предыдущему"
 }

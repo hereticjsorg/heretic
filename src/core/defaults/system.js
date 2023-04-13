@@ -147,6 +147,7 @@ module.exports = {
         version: "version",
         sessions: "sessions",
         activation: "activation",
+        captcha: "captcha",
         ...conf.collections,
     },
     routes: {

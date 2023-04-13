@@ -32,7 +32,7 @@ module.exports = class {
             const {
                 data
             } = await axios({
-                method: "post",
+                method: "get",
                 url: "/api/captcha",
             });
             captchaImageWrap.innerHTML = data.imageData;
