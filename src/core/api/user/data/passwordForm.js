@@ -34,14 +34,6 @@ export default class {
                     }],
                 ],
             }, {
-                id: "passwordPolicyArea",
-                // label: this.t("passwordPolicy"),
-                // css: "mt-4",
-                fields: [{
-                    id: "passwordPolicy",
-                    type: "div",
-                }]
-            }, {
                 fields: [{
                     id: "buttons",
                     type: "buttons",

@@ -36,12 +36,7 @@ export default class {
                         css: "hr-hf-field-large",
                         column: true,
                         createIndex: true,
-                    }],
-                ],
-            }, {
-                id: "passwordArea",
-                fields: [
-                    [{
+                    }, {
                         id: "password",
                         type: "password",
                         label: this.t("password"),
@@ -54,12 +49,10 @@ export default class {
                         searchable: false,
                         column: false,
                         createIndex: false,
-                        css: "hr-hf-field-xlarge",
-                    }], {
-                        id: "passwordPolicy",
-                        type: "div",
-                    }
-                ]
+                        passwordPolicy: true,
+                        css: "hr-hf-field-xxlarge",
+                    }],
+                ],
             }, {
                 id: "captchaArea",
                 fields: [{

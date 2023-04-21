@@ -389,7 +389,6 @@ export default class {
             const mongoClient = new MongoClient(this.systemConfig.mongo.url, this.systemConfig.mongo.options || {
                 useUnifiedTopology: true,
                 connectTimeoutMS: 5000,
-                keepAlive: true,
                 useNewUrlParser: true
             });
             mongoClient.on("serverDescriptionChanged", e => {

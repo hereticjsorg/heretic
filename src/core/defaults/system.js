@@ -61,7 +61,6 @@ module.exports = {
         options: {
             useUnifiedTopology: true,
             connectTimeoutMS: 5000,
-            keepAlive: true,
             useNewUrlParser: true,
         },
         ...conf.mongo,

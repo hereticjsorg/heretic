@@ -54,4 +54,26 @@ export default class {
             passwordPolicyDiv.innerHTML = `<div class="tags">${htmlArr.join("")}</div>`;
         });
     }
+
+    getPasswordPolicyData(password) {
+        const check = this.checkPolicy(password);
+        const dataArr = [{
+            label: `${this.t(`passwordLength`)}: ${password.length}`,
+            type: (!password.length || check.errors.indexOf("errorPasswordLength") !== -1) ? "is-danger" : "is-success",
+        }];
+        for (const k of ["uppercase", "lowercase", "numbers", "special"]) {
+            if (this.policy.minGroups) {
+                dataArr.push({
+                    type: (check.groups.length >= this.policy.minGroups ? (check.groups.indexOf(k) > -1 ? "is-success" : "") : (check.groups.indexOf(k) > -1 ? "is-success" : "is-danger")),
+                    label: this.t(`password_${k}`),
+                });
+            } else {
+                dataArr.push({
+                    type: (check.groups.indexOf(k) > -1 ? "is-success" : "is-danger"),
+                    label: this.t(`password_${k}`),
+                });
+            }
+        }
+        return dataArr;
+    }
 }

@@ -109,7 +109,6 @@ module.exports = class {
             this.mongoClient = new MongoClient(this.config.mongo.url, this.config.mongo.options || {
                 useUnifiedTopology: true,
                 connectTimeoutMS: 5000,
-                keepAlive: true,
                 useNewUrlParser: true
             });
             await this.mongoClient.connect();

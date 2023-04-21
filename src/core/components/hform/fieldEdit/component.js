@@ -3,6 +3,7 @@ const {
     v4: uuidv4
 } = require("uuid");
 const axios = require("axios").default;
+const debounce = require("lodash.debounce");
 const cloneDeep = require("lodash.clonedeep");
 const {
     format,
@@ -10,9 +11,14 @@ const {
     isValid,
 } = require("date-fns");
 const Utils = require("../../../lib/componentUtils").default;
+const Password = require("../../../lib/password").default;
 
 module.exports = class {
-    onCreate(input) {
+    onCreate(input, out) {
+        this.passwordPolicy = out.global.passwordPolicy;
+        if (process.browser && window.__heretic && window.__heretic.t) {
+            this.passwordPolicy = out.global.passwordPolicy || window.__heretic.outGlobal.passwordPolicy;
+        }
         this.state = {
             error: null,
             value: input.value || null,
@@ -20,6 +26,7 @@ module.exports = class {
             imageSecret: null,
             calendarVisible: false,
             enumList: [],
+            passwordPolicyData: [],
         };
         this.maskedInput = null;
     }
@@ -55,6 +62,13 @@ module.exports = class {
         }
     }
 
+    onPasswordChange() {
+        if (this.input.type === "password" && this.input.passwordPolicy) {
+            const testArr = this.password.getPasswordPolicyData(this.maskedInput.unmaskedValue);
+            this.setState("passwordPolicyData", testArr);
+        }
+    }
+
     async onMount() {
         this.utils = new Utils(this);
         const element = document.getElementById(`hr_hf_el_${this.input.formId}_${this.input.id}`);
@@ -65,7 +79,10 @@ module.exports = class {
                 this.maskedInput = new IMask(element, this.input.maskedOptions || {
                     mask: /^.+$/
                 });
+                this.password = new Password(this.passwordPolicy, window.__heretic.t);
                 element.addEventListener("change", this.onInputChangeListener.bind(this));
+                element.addEventListener("keydown", debounce(this.onPasswordChange.bind(this), 50));
+                this.onPasswordChange();
                 break;
             case "textarea":
                 element.addEventListener("change", this.onTextareaChangeListener.bind(this));
@@ -102,7 +119,7 @@ module.exports = class {
         this.emit("value-change", {
             id: this.input.id,
             type: this.input.type,
-            value: this.maskedInput.unmaskedValue
+            value: this.maskedInput.unmaskedValue,
         });
     }
 

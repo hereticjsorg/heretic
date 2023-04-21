@@ -254,6 +254,13 @@ import { format } from "date-fns"
             <if(input.helpText)>
                 <p class="help">${input.helpText}</p>
             </if>
+            <if(input.passwordPolicy && state.passwordPolicyData && state.passwordPolicyData.length)>
+                <div class="tags mt-2">
+                    <for|item| of=state.passwordPolicyData>
+                        <span class=`tag is-light ${item.type}`>${item.label}</span>
+                    </for>
+                </div>
+            </if>
         </div>
     </div>
 </if>
@@ -475,9 +482,7 @@ import { format } from "date-fns"
 <if(input.type === "message")>
     <div>
         <div class="field">
-            <div class=`control ${input.messageClass || ""}` id=`hr_hf_el_${input.formId}_${input.id}`>
-                ${input.content}
-            </div>
+            <div class=`control ${input.messageClass || ""}` id=`hr_hf_el_${input.formId}_${input.id}`>${input.content}</div>
         </div>
     </div>
 </if>

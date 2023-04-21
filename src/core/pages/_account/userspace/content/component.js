@@ -1,10 +1,8 @@
 const axios = require("axios");
-const debounce = require("lodash.debounce");
 const config = require("../../page.js");
 const Utils = require("../../../../lib/componentUtils").default;
 const Cookies = require("../../../../lib/cookiesBrowser").default;
 const Query = require("../../../../lib/queryBrowser").default;
-const Password = require("../../../../lib/password").default;
 const pageConfig = require("../../page");
 
 module.exports = class {
@@ -45,10 +43,6 @@ module.exports = class {
         return this.utils.getLocalizedURL(url);
     }
 
-    onPasswordChange() {
-        this.password.onPasswordChange("hr_hf_el_passwordForm_passwordPolicy", "hr_hf_el_passwordForm_password");
-    }
-
     async onMount() {
         await this.utils.waitForLanguageData();
         await this.utils.loadLanguageData(pageConfig.id);
@@ -56,7 +50,6 @@ module.exports = class {
             return;
         }
         this.t = window.__heretic.t;
-        this.password = new Password(this.passwordPolicy, this.t);
         this.cookies = new Cookies(this.cookieOptions);
         this.query = new Query();
         this.currentToken = this.cookies.get(`${this.siteId}.authToken`);
@@ -88,10 +81,6 @@ module.exports = class {
             const form = this.getComponent(f);
             form.deserializeData(this.state.userData);
         }
-        await this.utils.waitForElement("hr_hf_el_passwordForm_passwordPolicy");
-        await this.utils.waitForElement("hr_hf_el_passwordForm_password");
-        document.getElementById("hr_hf_el_passwordForm_password").addEventListener("keydown", debounce(this.onPasswordChange.bind(this), 50));
-        this.onPasswordChange();
         this.utils.waitForComponent("profileForm");
         const profileForm = this.getComponent("profileForm");
         setTimeout(() => profileForm.focus());

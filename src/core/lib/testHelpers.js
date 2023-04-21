@@ -217,7 +217,6 @@ export default class {
             this.mongoClient = new MongoClient(config.mongo.url, config.mongo.options || {
                 useUnifiedTopology: true,
                 connectTimeoutMS: 5000,
-                keepAlive: true,
                 useNewUrlParser: true
             });
             await this.mongoClient.connect();

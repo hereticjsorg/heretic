@@ -1,8 +1,6 @@
-const debounce = require("lodash.debounce");
 const axios = require("axios").default;
 const Utils = require("../../../../lib/componentUtils").default;
 const Cookies = require("../../../../lib/cookiesBrowser").default;
-const Password = require("../../../../lib/password").default;
 const pageConfig = require("../../page");
 
 module.exports = class {
@@ -35,15 +33,10 @@ module.exports = class {
         this.utils = new Utils(this, this.language);
     }
 
-    onPasswordChange() {
-        this.password.onPasswordChange("hr_hf_el_signUpForm_passwordPolicy", "hr_hf_el_signUpForm_password");
-    }
-
     async onMount() {
         await this.utils.waitForLanguageData();
         await this.utils.loadLanguageData(pageConfig.id);
         this.t = window.__heretic.t;
-        this.password = new Password(this.passwordPolicy, this.t);
         this.cookies = new Cookies(this.cookieOptions);
         const currentToken = this.cookies.get(`${this.siteId}.authToken`);
         if (currentToken) {
@@ -51,11 +44,6 @@ module.exports = class {
             return;
         }
         this.setState("ready", true);
-        await this.utils.waitForComponent("signUpForm");
-        await this.utils.waitForElement("hr_hf_el_signUpForm_passwordPolicy");
-        await this.utils.waitForElement("hr_hf_el_signUpForm_password");
-        document.getElementById("hr_hf_el_signUpForm_password").addEventListener("keydown", debounce(this.onPasswordChange.bind(this), 50));
-        this.onPasswordChange();
         const signUpForm = this.getComponent("signUpForm");
         setTimeout(() => signUpForm.focus());
     }
