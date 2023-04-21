@@ -22,5 +22,8 @@
     "passwordPolicy": "Password Policy",
     "passwordPolicyViolation": "Password policy violation",
     "captcha": "Captcha",
-    "captchaHelpText": "Code from the picture"
+    "captchaHelpText": "Code from the picture",
+    "username": "Username",
+    "usernameHelpText": "Latin characters, numbers, \"-\", \"_\", length: 3-40",
+    "hform_error_invalidCaptcha": "Invalid code"
 }

@@ -157,6 +157,7 @@ module.exports = {
         signOutAdmin: "/admin/signOut",
         signOut: "/signOut",
         account: "/account",
+        signUp: "/signUp",
         ...conf.routes,
     },
     buildOptions: {

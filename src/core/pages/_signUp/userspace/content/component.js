@@ -1,4 +1,5 @@
 const debounce = require("lodash.debounce");
+const axios = require("axios").default;
 const Utils = require("../../../../lib/componentUtils").default;
 const Cookies = require("../../../../lib/cookiesBrowser").default;
 const Password = require("../../../../lib/password").default;
@@ -59,7 +60,42 @@ module.exports = class {
         setTimeout(() => signUpForm.focus());
     }
 
-    onSignUpFormSubmit() {
-
+    async onSignUpFormSubmit() {
+        this.utils.waitForComponent("signUpForm");
+        const signUpForm = this.getComponent("signUpForm");
+        signUpForm.setErrors(false);
+        const validationResult = signUpForm.validate(signUpForm.saveView());
+        if (validationResult) {
+            return signUpForm.setErrors(signUpForm.getErrorData(validationResult));
+        }
+        const data = signUpForm.serializeData();
+        signUpForm.setErrorMessage(null).setErrors(null).setLoading(true);
+        try {
+            await axios({
+                method: "post",
+                url: "/api/signUp",
+                data,
+                headers: {},
+            });
+            signUpForm.setLoading(false);
+        } catch (e) {
+            if (e && e.response && e.response.data) {
+                if (e.response.data.form) {
+                    const errorData = signUpForm.getErrorData(e.response.data.form);
+                    signUpForm.setErrors(errorData);
+                    if (errorData.find(i => i.errorCode === "hform_error_invalidCaptcha")) {
+                        signUpForm.loadCaptchaData("captcha");
+                    }
+                }
+                if (e.response.data.message) {
+                    signUpForm.setErrorMessage(this.t(e.response.data.message));
+                } else {
+                    signUpForm.setErrorMessage(this.t("hform_error_general"));
+                }
+            } else {
+                signUpForm.setErrorMessage(this.t("hform_error_general"));
+            }
+            signUpForm.setLoading(false);
+        }
     }
 };

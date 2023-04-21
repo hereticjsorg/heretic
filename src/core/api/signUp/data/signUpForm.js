@@ -7,13 +7,27 @@ export default class {
             form: [{
                 fields: [
                     [{
+                        id: "username",
+                        type: "text",
+                        label: this.t("username"),
+                        helpText: this.t("usernameHelpText"),
+                        mandatory: true,
+                        css: "hr-hf-field-medium",
+                        autoFocus: true,
+                        validation: {
+                            type: ["string"],
+                            pattern: "^[a-zA-Z0-9_-]+$",
+                            minLength: 3,
+                            maxLength: 40,
+                        }
+                    }, {
                         id: "email",
                         type: "text",
                         label: this.t("email"),
                         helpText: this.t("emailHelpText"),
                         mandatory: true,
                         validation: {
-                            type: ["string", "null"],
+                            type: ["string"],
                             pattern: "(^(?:[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-])+@(?:[a-zA-Z0-9]|[^\\u0000-\\u007F])(?:(?:[a-zA-Z0-9-]|[^\\u0000-\\u007F]){0,61}(?:[a-zA-Z0-9]|[^\\u0000-\\u007F]))?(?:\\.(?:[a-zA-Z0-9]|[^\\u0000-\\u007F])(?:(?:[a-zA-Z0-9-]|[^\\u0000-\\u007F]){0,61}(?:[a-zA-Z0-9]|[^\\u0000-\\u007F]))?)*$)|^()$",
                             maxLength: 254
                         },
@@ -22,8 +36,12 @@ export default class {
                         css: "hr-hf-field-large",
                         column: true,
                         createIndex: true,
-                        autoFocus: true,
-                    }, {
+                    }],
+                ],
+            }, {
+                id: "passwordArea",
+                fields: [
+                    [{
                         id: "password",
                         type: "password",
                         label: this.t("password"),
@@ -37,27 +55,28 @@ export default class {
                         column: false,
                         createIndex: false,
                         css: "hr-hf-field-xlarge",
-                    }, {
-                        id: "captcha",
-                        type: "captcha",
-                        label: this.t("captcha"),
-                        helpText: this.t("captchaHelpText"),
-                        mandatory: true,
-                        validation: {
-                            type: ["string"],
-                        },
-                        sortable: false,
-                        searchable: false,
-                        column: false,
-                        createIndex: false,
-                    }],
-                ],
+                    }], {
+                        id: "passwordPolicy",
+                        type: "div",
+                    }
+                ]
             }, {
-                id: "passwordPolicyArea",
+                id: "captchaArea",
                 fields: [{
-                    id: "passwordPolicy",
-                    type: "div",
-                }]
+                    id: "captcha",
+                    type: "captcha",
+                    label: this.t("captcha"),
+                    helpText: this.t("captchaHelpText"),
+                    mandatory: true,
+                    validation: {
+                        type: ["string"],
+                        pattern: "^[0-9]{4}_[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+                    },
+                    sortable: false,
+                    searchable: false,
+                    column: false,
+                    createIndex: false,
+                }],
             }, {
                 fields: [{
                     id: "buttons",

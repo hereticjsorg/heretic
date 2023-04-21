@@ -37,6 +37,8 @@ module.exports = class {
             });
             captchaImageWrap.innerHTML = data.imageData;
             this.setState("imageSecret", data.imageSecret);
+            this.setState("value", "");
+            this.maskedInput.unmaskedValue = "";
         } catch {
             this.emit("notify", {
                 message: "hform_error_captchaLoading",
