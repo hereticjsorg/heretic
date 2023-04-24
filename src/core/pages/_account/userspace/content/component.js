@@ -108,9 +108,10 @@ module.exports = class {
             });
             this.getComponent("notify").show(this.t("saveSuccess"), "is-success");
         } catch (e) {
-            profileForm.setErrorMessage(this.t("couldNotSaveData"));
-            if (e && e.response && e.response.data && e.response.data.errors) {
-                profileForm.setErrors(profileForm.getErrorData(e.response.data.errors));
+            if (e && e.response && e.response.data && e.response.data.form) {
+                profileForm.setErrors(profileForm.getErrorData(e.response.data.form));
+            } else {
+                profileForm.setErrorMessage(this.t("couldNotSaveData"));
             }
         } finally {
             profileForm.setLoading(false);
@@ -142,12 +143,13 @@ module.exports = class {
             setTimeout(() => window.location.href = `${this.getLocalizedURL(this.systemRoutes.signIn)}?r=${this.getLocalizedURL(pageConfig.path)}`, 100);
         } catch (e) {
             passwordForm.setLoading(false);
-            passwordForm.setErrorMessage(this.t("couldNotSaveData"));
-            if (e && e.response && e.response.data && e.response.data.errors) {
-                passwordForm.setErrors(passwordForm.getErrorData(e.response.data.errors));
+            if (e && e.response && e.response.data && e.response.data.form) {
+                passwordForm.setErrors(passwordForm.getErrorData(e.response.data.form));
                 if (e.response.data.policyErrors) {
                     passwordForm.setErrorMessage(`${this.t("passwordPolicyViolation")}: ${e.response.data.policyErrors.map(i => this.t(i)).join(", ")}`);
                 }
+            } else {
+                passwordForm.setErrorMessage(this.t("couldNotSaveData"));
             }
         }
     }
@@ -177,9 +179,10 @@ module.exports = class {
             });
             this.getComponent("changeEmailModal").setActive(true).setCloseAllowed(true).setLoading(false);
         } catch (e) {
-            emailForm.setErrorMessage(this.t("couldNotSaveData"));
-            if (e && e.response && e.response.data && e.response.data.errors) {
-                emailForm.setErrors(emailForm.getErrorData(e.response.data.errors));
+            if (e && e.response && e.response.data && e.response.data.form) {
+                emailForm.setErrors(emailForm.getErrorData(e.response.data.form));
+            } else {
+                emailForm.setErrorMessage(this.t("couldNotSaveData"));
             }
         } finally {
             emailForm.setLoading(false);

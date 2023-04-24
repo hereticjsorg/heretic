@@ -181,5 +181,19 @@
     "htable_searchPlaceholder": "Suche",
     "noChangesSavedDemoMode": "Demo-Modus, Änderungen werden nicht gespeichert",
     "couldNotLoadData": "Daten konnten nicht geladen werden",
-    "userAccount": "Benutzerkonto"
+    "userAccount": "Benutzerkonto",
+    "passwordMinLength": "Minimale Länge",
+    "passwordMaxLength": "Maximale Länge",
+    "password_uppercase": "Großbuchstaben",
+    "password_lowercase": "Kleinbuchstaben",
+    "password_numbers": "Zahlen",
+    "password_special": "Sonderzeichen",
+    "passwordLength": "Länge",
+    "errorPasswordLength": "ungültige Länge",
+    "errorPasswordUppercase": "sollte Großbuchstaben enthalten",
+    "errorPasswordLowercase": "sollte Kleinbuchstaben enthalten",
+    "errorPasswordNumbers": "sollte Zahlen enthalten",
+    "errorPasswordSpecial": "sollte Sonderzeichen enthalten (#, $, @ etc.)",
+    "errorMinGroups": "sollte mehr verschiedene Arten von Zeichen enthalten",
+    "passwordPolicyViolation": "Verletzung der Passwortrichtlinien"
 }

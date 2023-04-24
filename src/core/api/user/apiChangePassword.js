@@ -30,8 +30,7 @@ export default () => ({
             });
             if (!await req.auth.verifyHash(`${req.body.passwordCurrent}${this.systemConfig.secret}`, userDb.password)) {
                 return rep.error({
-                    message: "Access Denied",
-                    errors: [{
+                    form: [{
                         instancePath: "passwordCurrent",
                         keyword: "invalidPassword",
                         tab: "_default",
@@ -40,8 +39,7 @@ export default () => ({
             }
             if (req.body.passwordCurrent.trim() === req.body.password.trim()) {
                 return rep.error({
-                    message: "Password not changed",
-                    errors: [{
+                    form: [{
                         instancePath: "password",
                         keyword: "passwordNotChanged",
                         tab: "_default",
@@ -52,8 +50,7 @@ export default () => ({
             const check = password.checkPolicy(req.body.password);
             if (check.errors.length) {
                 return rep.error({
-                    message: "Password policy violation",
-                    errors: [{
+                    form: [{
                         instancePath: "password",
                         keyword: "invalidPassword",
                         tab: "_default",

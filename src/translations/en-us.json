@@ -181,8 +181,19 @@
     "htable_searchPlaceholder": "Search",
     "noChangesSavedDemoMode": "Database changes are not saved in demo mode",
     "couldNotLoadData": "Could not load data",
-    "changeEmailMailText": "You received this message because your email address is listed as the primary email address on the site.",
-    "changeEmailMailNotice": "If you did not enter your email, you probably received this message by mistake. In that case, please just ignore this email.",
-    "changeEmailMailButton": "Confirm address",
-    "userAccount": "Account"
+    "userAccount": "Account",
+    "passwordMinLength": "Minimum length",
+    "passwordMaxLength": "Maximum length",
+    "password_uppercase": "Uppercase",
+    "password_lowercase": "Lowercase",
+    "password_numbers": "Numbers",
+    "password_special": "Special",
+    "passwordLength": "Length",
+    "errorPasswordLength": "invalid length",
+    "errorPasswordUppercase": "should contain uppercase characters",
+    "errorPasswordLowercase": "should contain lowercase characters",
+    "errorPasswordNumbers": "should contain numbers",
+    "errorPasswordSpecial": "should contain special characters (#, $, @ etc.)",
+    "errorMinGroups": "should contain more different types of characters",
+    "passwordPolicyViolation": "Password policy violation"
 }

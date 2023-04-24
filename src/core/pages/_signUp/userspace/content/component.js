@@ -71,15 +71,16 @@ module.exports = class {
                 if (e.response.data.form) {
                     const errorData = signUpForm.getErrorData(e.response.data.form);
                     signUpForm.setErrors(errorData);
-                    if (errorData.find(i => i.errorCode === "hform_error_invalidCaptcha")) {
-                        signUpForm.loadCaptchaData("captcha");
-                    }
                 }
                 if (e.response.data.message) {
                     signUpForm.setErrorMessage(this.t(e.response.data.message));
                 } else {
                     signUpForm.setErrorMessage(this.t("hform_error_general"));
                 }
+                if (e.response.data.policyErrors) {
+                    signUpForm.setErrorMessage(`${this.t("passwordPolicyViolation")}: ${e.response.data.policyErrors.map(i => this.t(i)).join(", ")}`);
+                }
+                signUpForm.loadCaptchaData("captcha");
             } else {
                 signUpForm.setErrorMessage(this.t("hform_error_general"));
             }

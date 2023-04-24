@@ -19,8 +19,9 @@ export default class {
                         searchable: false,
                         column: false,
                         createIndex: false,
-                        css: "hr-hf-field-xlarge",
+                        css: "hr-hf-field-xxlarge",
                         autoFocus: true,
+                        passwordPolicy: true,
                     }, {
                         id: "passwordCurrent",
                         type: "text",

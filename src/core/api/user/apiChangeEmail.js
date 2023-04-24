@@ -35,8 +35,7 @@ export default () => ({
             });
             if (!await req.auth.verifyHash(`${req.body.passwordCurrent}${this.systemConfig.secret}`, userDb.password)) {
                 return rep.error({
-                    message: "Access Denied",
-                    errors: [{
+                    form: [{
                         instancePath: "passwordCurrent",
                         keyword: "invalidPassword",
                         tab: "_default",
@@ -46,8 +45,7 @@ export default () => ({
             const value = req.body.email.toLowerCase();
             if (userDb.email === value) {
                 return rep.error({
-                    message: "E-mail not changed",
-                    errors: [{
+                    form: [{
                         instancePath: "email",
                         keyword: "emailNotChanged",
                         tab: "_default",

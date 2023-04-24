@@ -29,8 +29,7 @@ export default () => ({
             });
             if (!await req.auth.verifyHash(`${req.body.passwordCurrent}${this.systemConfig.secret}`, userDb.password)) {
                 return rep.error({
-                    message: "Access Denied",
-                    errors: [{
+                    form: [{
                         instancePath: "passwordCurrent",
                         keyword: "invalidPassword",
                         tab: "_default",
