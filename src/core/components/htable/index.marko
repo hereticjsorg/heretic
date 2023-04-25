@@ -497,6 +497,9 @@ import SettingsPagesForm from "./settingsPagesForm"
                                     <if(state.columnData[item.id].type === "text" && item.value !== null)>
                                         <span class="tag is-white">${item.value}</span>
                                     </if>
+                                    <if(state.columnData[item.id].type === "checkbox")>
+                                        <span class="tag is-white">${!!item.value ? window.__heretic.t("checkboxChecked") : window.__heretic.t("checkboxNotChecked")}</span>
+                                    </if>
                                     <if(item.value === null)>
                                         <span class="tag is-primary">null</span>
                                     </if>
@@ -596,7 +599,7 @@ import SettingsPagesForm from "./settingsPagesForm"
                         <div class="mt-2 is-fullwidth">
                             <label class="label hr-hf-label">
                                 <input type="checkbox" checked=state.settingsFilterEditSelectedValue on-change("onSettingsFilterEditCheckboxValueChange")/>
-                                &nbsp;(${window.__heretic.t("selected")})
+                                &nbsp;(${window.__heretic.t("checkboxSelected")})
                             </label>
                         </div>
                     </if>

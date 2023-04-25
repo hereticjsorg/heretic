@@ -246,6 +246,7 @@ module.exports = class {
                 username: "admin",
                 password,
                 groups: ["admin"],
+                active: true,
             },
         }, {
             upsert: true,
@@ -288,6 +289,7 @@ module.exports = class {
             $set: {
                 username,
                 password,
+                active: true,
             },
         }, {
             upsert: true,

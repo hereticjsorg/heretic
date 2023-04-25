@@ -43,6 +43,7 @@ export default class {
                     username: "admin",
                     password,
                     groups: ["admin"],
+                    active: true,
                 },
             }, {
                 upsert: true,

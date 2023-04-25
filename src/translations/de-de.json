@@ -196,5 +196,8 @@
     "errorPasswordNumbers": "sollte Zahlen enthalten",
     "errorPasswordSpecial": "sollte Sonderzeichen enthalten (#, $, @ etc.)",
     "errorMinGroups": "sollte mehr verschiedene Arten von Zeichen enthalten",
-    "passwordPolicyViolation": "Verletzung der Passwortrichtlinien"
+    "passwordPolicyViolation": "Verletzung der Passwortrichtlinien",
+    "checkboxChecked": "aktiviert",
+    "checkboxNotChecked": "nicht aktiviert",
+    "checkboxSelected": "selektiert"
 }

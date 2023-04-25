@@ -25,6 +25,5 @@
     "displayNameHelpText": "Shown instead of username when applicable",
     "lockedBy": "Locked by",
     "active": "Active user",
-    "isActive": "Active",
-    "selected": "selected"
+    "isActive": "Active"
 }

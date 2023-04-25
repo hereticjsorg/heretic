@@ -196,5 +196,8 @@
     "errorPasswordNumbers": "should contain numbers",
     "errorPasswordSpecial": "should contain special characters (#, $, @ etc.)",
     "errorMinGroups": "should contain more different types of characters",
-    "passwordPolicyViolation": "Password policy violation"
+    "passwordPolicyViolation": "Password policy violation",
+    "checkboxChecked": "checked",
+    "checkboxNotChecked": "not checked",
+    "checkboxSelected": "selected"
 }

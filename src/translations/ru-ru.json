@@ -195,5 +195,8 @@
     "errorPasswordNumbers": "должен содержать числа",
     "errorPasswordSpecial": "должен содержать специальные символы (#, $, @ etc.)",
     "errorMinGroups": "должны содержать больше различных типов символов",
-    "passwordPolicyViolation": "Нарушение политики паролей"
+    "passwordPolicyViolation": "Нарушение политики паролей",
+    "checkboxChecked": "активно",
+    "checkboxNotChecked": "неактивно",
+    "checkboxSelected": "отмечено"
 }
