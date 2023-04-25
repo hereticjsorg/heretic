@@ -113,6 +113,7 @@
     "dgte": "größer als oder gleich",
     "dlt": "kleiner als",
     "dlte": "kleiner als oder gleich",
+    "is": "ist",
     "htable_edit": "Bearbeiten",
     "hform_noAttachments": "Keine Dateien angehängt",
     "hform_noContent": "Kein Inhalt",

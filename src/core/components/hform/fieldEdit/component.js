@@ -84,6 +84,9 @@ module.exports = class {
                 element.addEventListener("keydown", debounce(this.onPasswordChange.bind(this), 50));
                 this.onPasswordChange();
                 break;
+            case "checkbox":
+                element.addEventListener("change", this.onCheckboxChangeListener.bind(this));
+                break;
             case "textarea":
                 element.addEventListener("change", this.onTextareaChangeListener.bind(this));
                 break;
@@ -95,7 +98,6 @@ module.exports = class {
                     parse: str => parse(str, window.__heretic.t("global.dateFormatShort"), new Date()),
                     lazy: false,
                 });
-                // element.addEventListener("change", this.onInputChangeListener.bind(this));
                 break;
             case "captcha":
                 this.maskedInput = new IMask(element, this.input.maskedOptions || {
@@ -120,6 +122,15 @@ module.exports = class {
             id: this.input.id,
             type: this.input.type,
             value: this.maskedInput.unmaskedValue,
+        });
+    }
+
+    onCheckboxChangeListener(e) {
+        this.setState("value", e.target.checked);
+        this.emit("value-change", {
+            id: this.input.id,
+            type: this.input.type,
+            value: e.target.checked,
         });
     }
 
@@ -198,6 +209,9 @@ module.exports = class {
         case "captcha":
             value = typeof this.state.value === "string" && this.state.value.length > 0 ? `${this.state.value}_${this.state.imageSecret}` : null;
             break;
+        case "checkbox":
+            value = !!this.state.value;
+            break;
         default:
             value = this.state.value;
         }
@@ -248,6 +262,11 @@ module.exports = class {
             await this.utils.waitForElement(`hr_hf_el_${this.input.formId}_${this.input.id}`);
             document.getElementById(`hr_hf_el_${this.input.formId}_${this.input.id}`).value = value;
             this.setState("value", value);
+            break;
+        case "checkbox":
+            await this.utils.waitForElement(`hr_hf_el_${this.input.formId}_${this.input.id}`);
+            document.getElementById(`hr_hf_el_${this.input.formId}_${this.input.id}`).checked = !!value;
+            this.setState("value", !!value);
             break;
         default:
             this.setState("value", value);

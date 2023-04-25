@@ -113,6 +113,7 @@
     "dgte": "greater than or equals",
     "dlt": "less than",
     "dlte": "less than or equals",
+    "is": "is",
     "htable_edit": "Edit",
     "hform_noAttachments": "No files attached",
     "hform_noContent": "No content",

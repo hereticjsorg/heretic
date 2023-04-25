@@ -47,7 +47,7 @@ module.exports = class {
             settingsColumns: [],
             settingColumnDrag: null,
             settingsItemsPerPage: 30,
-            settingsFilterTypes: ["text", "select", "date"],
+            settingsFilterTypes: ["text", "select", "date", "checkbox"],
             settingsFilters: [],
             settingsFilterUID: null,
             settingsFilterEditSelectedModes: [],
@@ -1139,6 +1139,9 @@ module.exports = class {
         case "date":
             modes = ["deq", "dgt", "dgte", "dlt", "dlte"];
             break;
+        case "checkbox":
+            modes = ["is"];
+            break;
         default:
             modes = [];
         }
@@ -1233,6 +1236,11 @@ module.exports = class {
     onSettingsFilterEditValueChange(e) {
         e.preventDefault();
         this.setState("settingsFilterEditSelectedValue", e.target.value);
+    }
+
+    onSettingsFilterEditCheckboxValueChange(e) {
+        e.preventDefault();
+        this.setState("settingsFilterEditSelectedValue", !!e.target.checked);
     }
 
     async saveFilter() {

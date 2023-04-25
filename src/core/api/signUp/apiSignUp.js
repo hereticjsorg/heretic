@@ -84,6 +84,10 @@ export default () => ({
                     policyErrors: check.errors,
                 });
             }
+            await this.mongo.db.collection(this.systemConfig.collections.users).insertOne({
+                code,
+                createdAt: new Date(),
+            });
             return rep.success({});
         } catch (e) {
             this.log.error(e);

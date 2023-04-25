@@ -23,5 +23,6 @@
     "usernameHelpText": "Lateinische Buchstaben, Zahlen, Unterstrich",
     "displayName": "Anzeigename",
     "displayNameHelpText": "Wird anstelle des Benutzernamens angezeigt, falls zutreffend",
-    "lockedBy": "Gesperrt von"
+    "lockedBy": "Gesperrt von",
+    "active": "Aktiver Benutzer"
 }

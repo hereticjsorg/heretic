@@ -592,6 +592,14 @@ import SettingsPagesForm from "./settingsPagesForm"
                             <hcalendar admin=input.admin key=`filterModal_ht_${input.id}_hcalendar`/>
                         </div>
                     </if>
+                    <if(state.columnData[state.settingsFilterEditSelectedId].type === "checkbox")>
+                        <div class="mt-2 is-fullwidth">
+                            <label class="label hr-hf-label">
+                                <input type="checkbox" checked=state.settingsFilterEditSelectedValue on-change("onSettingsFilterEditCheckboxValueChange")/>
+                                &nbsp;(${window.__heretic.t("selected")})
+                            </label>
+                        </div>
+                    </if>
                 </if>
             </form>
         </div>
