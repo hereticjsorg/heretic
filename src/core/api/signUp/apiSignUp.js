@@ -1,4 +1,7 @@
 import Ajv from "ajv";
+import {
+    v4 as uuid,
+} from "uuid";
 import Password from "../../lib/password";
 import SignUpForm from "./data/signUpForm";
 import Captcha from "../../lib/captcha";
@@ -84,9 +87,24 @@ export default () => ({
                     policyErrors: check.errors,
                 });
             }
-            await this.mongo.db.collection(this.systemConfig.collections.users).insertOne({
-                code,
-                createdAt: new Date(),
+            const passwordHash = await req.auth.createHash(`${password}${this.systemConfig.secret}`);
+            const insertResult = await this.mongo.db.collection(this.systemConfig.collections.users).insertOne({
+                username,
+                email,
+                password: passwordHash,
+                groups: null,
+                displayName: null,
+                active: false,
+                signUpAt: new Date(),
+            });
+            const {
+                insertedId,
+            } = insertResult;
+            const uid = uuid();
+            await this.mongo.db.collection(this.systemConfig.collections.activation).insertOne({
+                _id: uid,
+                type: "user",
+                userId: String(insertedId),
             });
             return rep.success({});
         } catch (e) {

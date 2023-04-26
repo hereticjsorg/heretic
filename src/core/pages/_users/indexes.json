@@ -7,8 +7,8 @@
         "asc": [],
         "desc":  [],
         "expire": {
-            "field": "createdAt",
-            "seconds": 3600
+            "field": "signUpAt",
+            "seconds": 86400
         }
     }
 }
