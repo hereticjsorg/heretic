@@ -32,6 +32,22 @@ export default () => ({
                         },
                     });
                     break;
+                case "user":
+                    await this.mongo.db.collection(this.systemConfig.collections.users).updateOne({
+                        _id: new ObjectId(activationDb.userId),
+                    }, {
+                        $set: {
+                            active: true,
+                        },
+                    });
+                    await this.mongo.db.collection(this.systemConfig.collections.users).updateOne({
+                        _id: new ObjectId(activationDb.userId),
+                    }, {
+                        $unset: {
+                            signUpAt: null,
+                        },
+                    });
+                    break;
                 }
                 await this.mongo.db.collection(this.systemConfig.collections.activation).deleteOne({
                     _id: id,

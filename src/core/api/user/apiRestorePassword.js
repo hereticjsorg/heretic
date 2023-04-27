@@ -3,7 +3,7 @@ import {
     v4 as uuid,
 } from "uuid";
 import Password from "../../lib/password";
-import SignUpForm from "./data/signUpForm";
+import SignUpForm from "./data/restorePasswordForm";
 import Captcha from "../../lib/captcha";
 import Email from "../../lib/email";
 import Utils from "../../lib/componentUtils";

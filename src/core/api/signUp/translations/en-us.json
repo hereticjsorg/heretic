@@ -1,0 +1,6 @@
+{
+    "signUp": "Sign Up Confirmation",
+    "signUpMailText": "You received this message because your email address was provided when registering on the web site.",
+    "signUpMailNotice": "If you did not complete the registration process and receive this message by mistake, please ignore it; no further action is required in this case.",
+    "signUpMailButton": "Confirm Sign-Up"
+}

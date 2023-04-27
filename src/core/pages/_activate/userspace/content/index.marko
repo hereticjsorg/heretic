@@ -23,6 +23,16 @@ import EmailForm from "../../../../api/user/data/emailForm.js"
                 <strong><t>newEmail</t>:</strong>&nbsp;${state.activationValue}
             </p>
         </if>
+        <if(state.activationType === "user")>
+            <p>
+                <t>activationSuccessUser</t>
+            </p>
+            <p class="mt-4">
+                <a class="button is-primary" role="button" on-click("onSignInButtonClick")>
+                    <t>signInButton</t>
+                </a>
+            </p>
+        </if>
     </if>
     <if(!state.ready && component.mongoEnabled && component.authOptions.signIn)>
         <hloading active=true/>

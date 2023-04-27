@@ -45,52 +45,52 @@ module.exports = class {
             return;
         }
         this.setState("ready", true);
-        await this.utils.waitForComponent("signUpForm");
-        const signUpForm = this.getComponent("signUpForm");
-        setTimeout(() => signUpForm.focus());
+        await this.utils.waitForComponent("restorePasswordForm");
+        const restorePasswordForm = this.getComponent("restorePasswordForm");
+        setTimeout(() => restorePasswordForm.focus());
     }
 
-    async onSignUpFormSubmit() {
-        this.utils.waitForComponent("signUpForm");
-        const signUpForm = this.getComponent("signUpForm");
-        signUpForm.setErrors(false);
-        const validationResult = signUpForm.validate(signUpForm.saveView());
+    async onRestorePasswordFormSubmit() {
+        this.utils.waitForComponent("restorePassword");
+        const restorePasswordForm = this.getComponent("restorePassword");
+        restorePasswordForm.setErrors(false);
+        const validationResult = restorePasswordForm.validate(restorePasswordForm.saveView());
         if (validationResult) {
-            return signUpForm.setErrors(signUpForm.getErrorData(validationResult));
+            return restorePasswordForm.setErrors(restorePasswordForm.getErrorData(validationResult));
         }
-        const data = signUpForm.serializeData();
-        signUpForm.setErrorMessage(null).setErrors(null).setLoading(true);
+        const data = restorePasswordForm.serializeData();
+        restorePasswordForm.setErrorMessage(null).setErrors(null).setLoading(true);
         try {
             await axios({
                 method: "post",
-                url: "/api/signUp",
+                url: "/api/user/password/restore",
                 data: {
                     ...data,
                     language: this.language,
                 },
                 headers: {},
             });
-            signUpForm.setLoading(false);
+            restorePasswordForm.setLoading(false);
             this.setState("success", true);
         } catch (e) {
             if (e && e.response && e.response.data) {
                 if (e.response.data.form) {
-                    const errorData = signUpForm.getErrorData(e.response.data.form);
-                    signUpForm.setErrors(errorData);
+                    const errorData = restorePasswordForm.getErrorData(e.response.data.form);
+                    restorePasswordForm.setErrors(errorData);
                 }
                 if (e.response.data.message) {
-                    signUpForm.setErrorMessage(this.t(e.response.data.message));
+                    restorePasswordForm.setErrorMessage(this.t(e.response.data.message));
                 } else {
-                    signUpForm.setErrorMessage(this.t("hform_error_general"));
+                    restorePasswordForm.setErrorMessage(this.t("hform_error_general"));
                 }
                 if (e.response.data.policyErrors) {
-                    signUpForm.setErrorMessage(`${this.t("passwordPolicyViolation")}: ${e.response.data.policyErrors.map(i => this.t(i)).join(", ")}`);
+                    restorePasswordForm.setErrorMessage(`${this.t("passwordPolicyViolation")}: ${e.response.data.policyErrors.map(i => this.t(i)).join(", ")}`);
                 }
-                signUpForm.loadCaptchaData("captcha");
+                restorePasswordForm.loadCaptchaData("captcha");
             } else {
-                signUpForm.setErrorMessage(this.t("hform_error_general"));
+                restorePasswordForm.setErrorMessage(this.t("hform_error_general"));
             }
-            signUpForm.setLoading(false);
+            restorePasswordForm.setLoading(false);
         }
     }
 };

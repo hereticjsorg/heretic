@@ -58,4 +58,8 @@ module.exports = class {
         }
         this.setState("ready", true);
     }
+
+    onSignInButtonClick() {
+        setTimeout(() => window.location.href = `${this.utils.getLocalizedURL(this.systemRoutes.signIn)}`);
+    }
 };
