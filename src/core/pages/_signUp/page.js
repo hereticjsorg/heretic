@@ -5,7 +5,7 @@ module.exports = {
     path: "/signUp",
     langSwitchComponent: false,
     api: {
-        activate: "/api/user/activate",
+        signUp: "/api/signUp",
     },
     ...meta.userspace,
 };

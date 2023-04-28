@@ -49,9 +49,11 @@ export default () => ({
                     });
                     break;
                 }
-                await this.mongo.db.collection(this.systemConfig.collections.activation).deleteOne({
-                    _id: id,
-                });
+                if (activationDb.type !== "password") {
+                    await this.mongo.db.collection(this.systemConfig.collections.activation).deleteOne({
+                        _id: id,
+                    });
+                }
             }
             return rep.success({
                 type: activationDb.type,

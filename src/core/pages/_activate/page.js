@@ -6,6 +6,7 @@ module.exports = {
     langSwitchComponent: false,
     api: {
         activate: "/api/user/activate",
+        setPassword: "/api/user/password/set",
     },
     ...meta.userspace,
 };

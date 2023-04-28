@@ -37,8 +37,8 @@ module.exports = class {
         await this.utils.loadLanguageData(pageConfig.id);
         this.t = window.__heretic.t;
         const query = new Query();
-        const id = query.get("id");
-        if (!id || typeof id !== "string" || !id.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/)) {
+        this.id = query.get("id");
+        if (!this.id || typeof this.id !== "string" || !this.id.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/)) {
             return this.setState("error", true);
         }
         try {
@@ -48,7 +48,7 @@ module.exports = class {
                 method: "post",
                 url: pageConfig.api.activate,
                 data: {
-                    id,
+                    id: this.id,
                 },
             });
             this.setState("activationType", data.type);
@@ -61,5 +61,50 @@ module.exports = class {
 
     onSignInButtonClick() {
         setTimeout(() => window.location.href = `${this.utils.getLocalizedURL(this.systemRoutes.signIn)}`);
+    }
+
+    async onSetPasswordFormSubmit() {
+        this.utils.waitForComponent("setPassword");
+        const setPasswordForm = this.getComponent("setPassword");
+        setPasswordForm.setErrors(false);
+        const validationResult = setPasswordForm.validate(setPasswordForm.saveView());
+        if (validationResult) {
+            return setPasswordForm.setErrors(setPasswordForm.getErrorData(validationResult));
+        }
+        const data = setPasswordForm.serializeData();
+        setPasswordForm.setErrorMessage(null).setErrors(null).setLoading(true);
+        try {
+            await axios({
+                method: "post",
+                url: pageConfig.api.setPassword,
+                data: {
+                    ...data,
+                    language: this.language,
+                    id: this.id,
+                },
+                headers: {},
+            });
+            setPasswordForm.setLoading(false);
+            this.setState("success", true);
+        } catch (e) {
+            if (e && e.response && e.response.data) {
+                if (e.response.data.form) {
+                    const errorData = setPasswordForm.getErrorData(e.response.data.form);
+                    setPasswordForm.setErrors(errorData);
+                }
+                if (e.response.data.message) {
+                    setPasswordForm.setErrorMessage(this.t(e.response.data.message));
+                } else {
+                    setPasswordForm.setErrorMessage(this.t("hform_error_general"));
+                }
+                if (e.response.data.policyErrors) {
+                    setPasswordForm.setErrorMessage(`${this.t("passwordPolicyViolation")}: ${e.response.data.policyErrors.map(i => this.t(i)).join(", ")}`);
+                }
+                setPasswordForm.loadCaptchaData("captcha");
+            } else {
+                setPasswordForm.setErrorMessage(this.t("hform_error_general"));
+            }
+            setPasswordForm.setLoading(false);
+        }
     }
 };

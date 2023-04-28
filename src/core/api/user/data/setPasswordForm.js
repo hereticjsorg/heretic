@@ -7,22 +7,21 @@ export default class {
             form: [{
                 fields: [
                     [{
-                        id: "email",
-                        type: "text",
-                        label: this.t("email"),
-                        helpText: this.t("emailHelpText"),
+                        id: "password",
+                        type: "password",
+                        label: this.t("password"),
+                        helpText: this.t("passwordHelpText"),
                         mandatory: true,
                         validation: {
-                            type: ["string", "null"],
-                            pattern: "(^(?:[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-])+@(?:[a-zA-Z0-9]|[^\\u0000-\\u007F])(?:(?:[a-zA-Z0-9-]|[^\\u0000-\\u007F]){0,61}(?:[a-zA-Z0-9]|[^\\u0000-\\u007F]))?(?:\\.(?:[a-zA-Z0-9]|[^\\u0000-\\u007F])(?:(?:[a-zA-Z0-9-]|[^\\u0000-\\u007F]){0,61}(?:[a-zA-Z0-9]|[^\\u0000-\\u007F]))?)*$)|^()$",
-                            maxLength: 254
+                            type: ["string"],
                         },
-                        sortable: true,
-                        searchable: true,
-                        css: "hr-hf-field-large",
-                        column: true,
-                        createIndex: true,
+                        sortable: false,
+                        searchable: false,
+                        column: false,
+                        createIndex: false,
+                        passwordPolicy: true,
                         autoFocus: true,
+                        css: "hr-hf-field-xxlarge",
                     }, {
                         id: "captcha",
                         type: "captcha",

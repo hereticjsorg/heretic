@@ -2,29 +2,28 @@ import Ajv from "ajv";
 import {
     v4 as uuid,
 } from "uuid";
-import Password from "../../lib/password";
-import SignUpForm from "./data/restorePasswordForm";
+import RestorePasswordForm from "./data/restorePasswordForm";
 import Captcha from "../../lib/captcha";
 import Email from "../../lib/email";
 import Utils from "../../lib/componentUtils";
-import emailChangeNotificationTemplate from "./email/signUpNotification.marko";
+import restorePasswordNotificationTemplate from "./email/restorePasswordNotification.marko";
 import languagesData from "../../../../etc/languages.json";
 
 const ajv = new Ajv({
     allErrors: true,
     strict: true,
 });
-const signUpForm = new SignUpForm();
-const signUpFormValidationSchema = signUpForm.getValidationSchema();
-const signUpFormValidation = ajv.compile(signUpFormValidationSchema);
+const restorePasswordForm = new RestorePasswordForm();
+const restorePasswordFormValidationSchema = restorePasswordForm.getValidationSchema();
+const restorePasswordFormValidation = ajv.compile(restorePasswordFormValidationSchema);
 
 export default () => ({
     async handler(req, rep) {
         try {
-            const validationResult = signUpFormValidation(req.body);
+            const validationResult = restorePasswordFormValidation(req.body);
             if (!validationResult) {
                 return rep.error({
-                    form: signUpFormValidation.errors,
+                    form: restorePasswordFormValidation.errors,
                 });
             }
             const formData = req.body.formTabs._default;
@@ -40,75 +39,18 @@ export default () => ({
                     }],
                 });
             }
-            const username = formData.username.toLowerCase();
             const email = formData.email.toLowerCase();
-            const userDb = await this.mongo.db.collection(this.systemConfig.collections.users).find({
-                $or: [{
-                        username
-                    },
-                    {
-                        email
-                    },
-                ]
-            }).toArray();
-            if (userDb) {
-                const form = [];
-                const duplicates = {};
-                for (const user of userDb) {
-                    if (user.username === username && !duplicates["username"]) {
-                        duplicates["username"] = 1;
-                        form.push({
-                            instancePath: "username",
-                            keyword: "duplicateUsername",
-                            tab: "_default",
-                        });
-                    }
-                    if (user.email === email && !duplicates["email"]) {
-                        duplicates["email"] = 1;
-                        form.push({
-                            instancePath: "email",
-                            keyword: "duplicateEmail",
-                            tab: "_default",
-                        });
-                    }
-                }
-                if (form.length) {
-                    return rep.error({
-                        form,
-                    });
-                }
-            }
-            const password = new Password(this.systemConfig.passwordPolicy);
-            const check = password.checkPolicy(formData.password);
-            if (check.errors.length) {
-                return rep.error({
-                    message: "passwordPolicyViolation",
-                    form: [{
-                        instancePath: "password",
-                        keyword: "invalidPassword",
-                        tab: "_default",
-                    }],
-                    policyErrors: check.errors,
-                });
-            }
-            const passwordHash = await req.auth.createHash(`${password}${this.systemConfig.secret}`);
-            const insertResult = await this.mongo.db.collection(this.systemConfig.collections.users).insertOne({
-                username,
+            const userDb = await this.mongo.db.collection(this.systemConfig.collections.users).findOne({
                 email,
-                password: passwordHash,
-                groups: null,
-                displayName: null,
-                active: false,
-                signUpAt: new Date(),
             });
-            const {
-                insertedId,
-            } = insertResult;
+            if (!userDb) {
+                return rep.success({});
+            }
             const uid = uuid();
             await this.mongo.db.collection(this.systemConfig.collections.activation).insertOne({
                 _id: uid,
-                type: "user",
-                userId: String(insertedId),
+                type: "password",
+                userId: String(userDb._id),
             });
             let {
                 language,
@@ -129,11 +71,11 @@ export default () => ({
                 t,
                 activationUrl: utils.getLocalizedFullURL(`${this.siteConfig.url}/activate?id=${uid}`),
             };
-            const renderPage = await emailChangeNotificationTemplate.render(input);
-            const renderText = (await import("./email/signUpNotification.js")).default(input);
+            const renderPage = await restorePasswordNotificationTemplate.render(input);
+            const renderText = (await import("./email/restorePasswordNotification.js")).default(input);
             const em = new Email(this);
             if (!this.systemConfig.demo) {
-                await em.send(email, t("signUp"), renderPage.toString(), renderText);
+                await em.send(email, t("restorePassword"), renderPage.toString(), renderText);
             }
             return rep.success({});
         } catch (e) {

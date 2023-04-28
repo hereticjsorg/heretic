@@ -2,5 +2,10 @@
     "changeEmail": "Change e-mail address",
     "changeEmailMailText": "You received this message because you or someone else has defined your email address as the primary email on the website.",
     "changeEmailMailNotice": "If you did not expect this change, you probably received this message by mistake. In that case, please just ignore this email. Otherwise please confirm.",
-    "changeEmailMailButton": "Confirm Address"
+    "changeEmailMailButton": "Confirm Address",
+    "restorePasswordEmail": "Restore Password",
+    "restorePasswordMailText": "You received this message because you or someone else has requested to change a password on the website.",
+    "restorePasswordMailNotice": "If you did not expect this change, you probably received this message by mistake. In that case, please just ignore this email. Otherwise please confirm.",
+    "restorePasswordMailButton": "Restore Password",
+    "invalidID": "Your link to change the password is not valid anymore, please request a new one"
 }

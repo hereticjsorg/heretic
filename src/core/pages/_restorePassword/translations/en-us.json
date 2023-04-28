@@ -1,14 +1,12 @@
 {
     "pageError": "Could not process the request",
     "restorePassword": "Restore Password",
-    "restorePasswordDescription": "Use the form below to restore a forgotten password. If the specified mailbox exists, a link will be sent to it to change the account password to the one you specified.",
+    "restorePasswordDescription": "Use the form below to restore a forgotten password. If the specified mailbox exists, a link will be sent to it to change the account password to the one you will specify.",
     "email": "E-mail",
     "emailHelpText": "Enter your e-mail address",
     "submit": "Submit",
     "captcha": "Captcha",
     "captchaHelpText": "Code from the picture",
     "hform_error_invalidCaptcha": "Invalid code",
-    "restorePasswordSuccess": "The procedure to change the password is successfully started. If you specified a valid mailbox, you will receive a link to confirm the password change to the one you specified.",
-    "password": "New password",
-    "passwordHelpText": "Enter a new password for the account, repeat twice for verification"
+    "restorePasswordSuccess": "The procedure to change the password is successfully started. If you specified a valid mailbox, you will receive a link to change the password."
 }

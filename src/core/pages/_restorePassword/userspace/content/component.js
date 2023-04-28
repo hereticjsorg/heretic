@@ -63,7 +63,7 @@ module.exports = class {
         try {
             await axios({
                 method: "post",
-                url: "/api/user/password/restore",
+                url: pageConfig.api.restorePassword,
                 data: {
                     ...data,
                     language: this.language,

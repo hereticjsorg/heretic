@@ -63,7 +63,7 @@ module.exports = class {
         try {
             await axios({
                 method: "post",
-                url: "/api/signUp",
+                url: pageConfig.api.signUp,
                 data: {
                     ...data,
                     language: this.language,

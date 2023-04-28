@@ -20,7 +20,7 @@ import RestorePasswordForm from "../../../../api/user/data/restorePasswordForm"
                 <t>restorePasswordDescription</t>
             </p>
             <div class="mt-4">
-                <hform key="restorePasswordForm" id="restorePasswordForm" data=(new RestorePasswordForm(process.browser && window.__heretic ? window.__heretic.t : out.global.t)) on-form-submit("onRestorePasswordFormSubmit")/>
+                <hform key="restorePassword" id="restorePassword" data=(new RestorePasswordForm(process.browser && window.__heretic ? window.__heretic.t : out.global.t)) on-form-submit("onRestorePasswordFormSubmit")/>
             </div>
         </else>
     </if>
