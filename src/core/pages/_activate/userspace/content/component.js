@@ -11,6 +11,7 @@ module.exports = class {
             error: null,
             activationType: null,
             activationValue: null,
+            success: false,
         };
         this.language = out.global.language;
         this.siteTitle = out.global.siteTitle;

@@ -35,12 +35,24 @@ import SetPasswordForm from "../../../../api/user/data/setPasswordForm.js"
             </p>
         </if>
         <if(state.activationType === "password")>
-            <p>
-                <t>passwordChange</t>
-            </p>
-            <div class="mt-4">
-                <hform key="setPassword" id="setPassword" data=(new SetPasswordForm(process.browser && window.__heretic ? window.__heretic.t : out.global.t)) on-form-submit("onSetPasswordFormSubmit")/>
-            </div>
+            <if(state.success)>
+                <p>
+                    <t>passwordChangeSuccess</t>
+                </p>
+                <p class="mt-4">
+                    <a class="button is-primary" role="button" on-click("onSignInButtonClick")>
+                        <t>signInButton</t>
+                    </a>
+                </p>
+            </if>
+            <else>
+                <p>
+                    <t>passwordChange</t>
+                </p>
+                <div class="mt-4">
+                    <hform key="setPassword" id="setPassword" data=(new SetPasswordForm(process.browser && window.__heretic ? window.__heretic.t : out.global.t)) on-form-submit("onSetPasswordFormSubmit")/>
+                </div>
+            </else>
         </if>
     </if>
     <if(!state.ready && component.mongoEnabled && component.authOptions.signIn)>

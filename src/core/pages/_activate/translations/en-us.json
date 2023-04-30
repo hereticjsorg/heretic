@@ -12,5 +12,6 @@
     "captchaHelpText": "Code on the picture",
     "submit": "Submit",
     "hform_error_invalidCaptcha": "Invalid code",
-    "hform_error_invalidPassword": "Invalid password"
+    "hform_error_invalidPassword": "Invalid password",
+    "passwordChangeSuccess": "The password change procedure has been successfully completed. You can log in to the site using your username and new password."
 }
