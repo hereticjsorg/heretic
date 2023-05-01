@@ -36,7 +36,7 @@ export default (route, languageData, language) => ({
                 siteTitle: this.siteConfig.title[language],
                 i18nNavigation: this.i18nNavigation.userspace[language],
                 description: translationData.description && translationData.description[language] ? translationData.description[language] : null,
-                t: id => languageData[language] && languageData[language][id] ? `${languageData[language][id]}` : id,
+                t: id => languageData[language] && languageData[language][id] ? typeof languageData[language][id] === "function" ? languageData[language][id]() : `${languageData[language][id]}` : id,
                 systemRoutes: this.systemConfig.routes,
                 siteId: this.systemConfig.id,
                 cookieOptions: this.systemConfig.cookieOptions,

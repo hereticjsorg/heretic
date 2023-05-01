@@ -79,7 +79,7 @@ module.exports = class {
                 this.maskedInput = new IMask(element, this.input.maskedOptions || {
                     mask: /^.+$/
                 });
-                this.password = new Password(this.passwordPolicy, window.__heretic.t);
+                this.password = new Password(this.passwordPolicy);
                 element.addEventListener("change", this.onInputChangeListener.bind(this));
                 element.addEventListener("keydown", debounce(this.onPasswordChange.bind(this), 50));
                 this.onPasswordChange();

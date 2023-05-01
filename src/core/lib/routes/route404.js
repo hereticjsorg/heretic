@@ -28,7 +28,7 @@ export default async (req, rep, languageData, language, siteConfig, systemConfig
             mongoEnabled: systemConfig.mongo.enabled,
             language,
             route: null,
-            title: languageData[language]["404"],
+            title: languageData[language]["404"](),
             siteTitle: siteConfig.title[language],
             i18nNavigation: i18nNavigation[language],
             username: authData ? authData.username : null,

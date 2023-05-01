@@ -199,5 +199,6 @@
     "passwordPolicyViolation": "Password policy violation",
     "checkboxChecked": "checked",
     "checkboxNotChecked": "not checked",
-    "checkboxSelected": "selected"
+    "checkboxSelected": "selected",
+    "signUp": "Sign Up"
 }

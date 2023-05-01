@@ -257,7 +257,7 @@ import { format } from "date-fns"
             <if(input.passwordPolicy && state.passwordPolicyData && state.passwordPolicyData.length)>
                 <div class="tags mt-2">
                     <for|item| of=state.passwordPolicyData>
-                        <span class=`tag is-light ${item.type}`>${item.label}</span>
+                        <span class=`tag is-light ${item.type}`>${process.browser && window.__heretic ? window.__heretic.t(item.label) : ""}${item.data !== null ? `: ${item.data}` : ""}</span>
                     </for>
                 </div>
             </if>

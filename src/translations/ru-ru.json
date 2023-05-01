@@ -198,5 +198,6 @@
     "passwordPolicyViolation": "Нарушение политики паролей",
     "checkboxChecked": "активно",
     "checkboxNotChecked": "неактивно",
-    "checkboxSelected": "отмечено"
+    "checkboxSelected": "отмечено",
+    "signUp": "Регистрация"
 }

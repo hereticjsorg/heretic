@@ -1,7 +1,7 @@
 export default class {
-    constructor(policy, t) {
+    constructor(policy) {
         this.policy = policy;
-        this.t = t;
+        // this.t = process.browser && window && window.__heretic && window.__heretic.t ? window.__heretic.t : id => id;
     }
 
     checkPolicy(password) {
@@ -38,39 +38,42 @@ export default class {
         };
     }
 
-    onPasswordChange(passwordPolicyFieldId, passwordFieldId) {
-        setTimeout(() => {
-            const passwordPolicyDiv = document.getElementById(passwordPolicyFieldId);
-            const password = document.getElementById(passwordFieldId).value.trim();
-            const check = this.checkPolicy(password);
-            const htmlArr = [`<span class="tag is-light ${(!password.length || check.errors.indexOf("errorPasswordLength")) !== -1 ? "is-danger" : "is-success"}">${this.t(`passwordLength`)}: ${password.length}</span>`];
-            for (const k of ["uppercase", "lowercase", "numbers", "special"]) {
-                if (this.policy.minGroups) {
-                    htmlArr.push(`<span class="tag ${(check.groups.length >= this.policy.minGroups ? (check.groups.indexOf(k) > -1 ? "is-success" : "") : (check.groups.indexOf(k) > -1 ? "is-success" : "is-danger"))} is-light">${this.t(`password_${k}`)}</span>`);
-                } else {
-                    htmlArr.push(`<span class="tag ${(check.groups.indexOf(k) > -1 ? "is-success" : "is-danger")} is-light">${this.t(`password_${k}`)}</span>`);
-                }
-            }
-            passwordPolicyDiv.innerHTML = `<div class="tags">${htmlArr.join("")}</div>`;
-        });
-    }
+    // onPasswordChange(passwordPolicyFieldId, passwordFieldId) {
+    //     setTimeout(() => {
+    //         const passwordPolicyDiv = document.getElementById(passwordPolicyFieldId);
+    //         const password = document.getElementById(passwordFieldId).value.trim();
+    //         const check = this.checkPolicy(password);
+    //         const htmlArr = [`<span class="tag is-light ${(!password.length || check.errors.indexOf("errorPasswordLength")) !== -1 ? "is-danger" : "is-success"}">${this.t(`passwordLength`)}: ${password.length}</span>`];
+    //         for (const k of ["uppercase", "lowercase", "numbers", "special"]) {
+    //             if (this.policy.minGroups) {
+    //                 htmlArr.push(`<span class="tag ${(check.groups.length >= this.policy.minGroups ? (check.groups.indexOf(k) > -1 ? "is-success" : "") : (check.groups.indexOf(k) > -1 ? "is-success" : "is-danger"))} is-light">${this.t(`password_${k}`)}</span>`);
+    //             } else {
+    //                 htmlArr.push(`<span class="tag ${(check.groups.indexOf(k) > -1 ? "is-success" : "is-danger")} is-light">${this.t(`password_${k}`)}</span>`);
+    //             }
+    //         }
+    //         passwordPolicyDiv.innerHTML = `<div class="tags">${htmlArr.join("")}</div>`;
+    //     });
+    // }
 
     getPasswordPolicyData(password) {
         const check = this.checkPolicy(password);
         const dataArr = [{
-            label: `${this.t(`passwordLength`)}: ${password.length}`,
+            label: "passwordLength",
+            data: password.length,
             type: (!password.length || check.errors.indexOf("errorPasswordLength") !== -1) ? "is-danger" : "is-success",
         }];
         for (const k of ["uppercase", "lowercase", "numbers", "special"]) {
             if (this.policy.minGroups) {
                 dataArr.push({
                     type: (check.groups.length >= this.policy.minGroups ? (check.groups.indexOf(k) > -1 ? "is-success" : "") : (check.groups.indexOf(k) > -1 ? "is-success" : "is-danger")),
-                    label: this.t(`password_${k}`),
+                    data: null,
+                    label: `password_${k}`,
                 });
             } else {
                 dataArr.push({
                     type: (check.groups.indexOf(k) > -1 ? "is-success" : "is-danger"),
-                    label: this.t(`password_${k}`),
+                    data: null,
+                    label: `password_${k}`,
                 });
             }
         }

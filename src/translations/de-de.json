@@ -199,5 +199,6 @@
     "passwordPolicyViolation": "Verletzung der Passwortrichtlinien",
     "checkboxChecked": "aktiviert",
     "checkboxNotChecked": "nicht aktiviert",
-    "checkboxSelected": "selektiert"
+    "checkboxSelected": "selektiert",
+    "signUp": "Anmelden"
 }

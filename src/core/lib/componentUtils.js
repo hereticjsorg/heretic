@@ -1,3 +1,4 @@
+const template = require("lodash.template");
 const languagesList = require("../../../etc/languages.json");
 
 export default class {
@@ -68,6 +69,7 @@ export default class {
                 ...window.__heretic.languageData,
                 ...await i18nLoader.loadLanguageFile(this.language)
             };
+            Object.keys(languageData).map(i => languageData[i] = typeof languageData[i] === "string" ? template(languageData[i]) : languageData[i]);
             window.__heretic.languageData = languageData;
         }
     }

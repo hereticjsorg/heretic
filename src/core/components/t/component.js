@@ -1,3 +1,4 @@
+const template = require("lodash.template");
 const routesData = require("../../../build/build.json");
 
 module.exports = class {
@@ -16,7 +17,9 @@ module.exports = class {
                     ...require(`../../../../site/pages/${page}/translations/${this.language}.json`),
                 };
             }
+            Object.keys(this.languageData).map(i => this.languageData[i] = template(this.languageData[i]));
         }
+        this.pluralRules = new Intl.PluralRules(this.language);
     }
 
     translate() {
@@ -26,6 +29,10 @@ module.exports = class {
             w: i => id = i,
             t: i => id = id || i,
         });
-        return this.input.arr && Array.isArray(data[id]) ? data[id][this.input.arr] : data[id] || id;
+        if (this.input.plural && String(this.input.plural).match(/^[0-9-.]+$/) && data[id]) {
+            const pluralSelect = this.pluralRules.select(parseInt(this.input.plural, 10));
+            id = `${id}${pluralSelect !== "other" ? `_${pluralSelect}` : ""}`;
+        }
+        return this.input.arr && Array.isArray(data[id]) ? data[id][this.input.arr] : typeof data[id] === "function" ? data[id](this.input.data || {}) : data[id] || id;
     }
 };

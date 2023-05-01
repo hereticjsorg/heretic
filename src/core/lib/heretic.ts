@@ -10,6 +10,7 @@ import {
 } from "uuid";
 import commandLineArgs from "command-line-args";
 
+import template from "lodash.template";
 import hereticRateLimit from "./rateLimit";
 import routePageUserspace from "./routes/routePageUserspace.js";
 import routeModuleUserspace from "./routes/routeModuleUserspace";
@@ -173,6 +174,7 @@ export default class {
                     ...await i18nLoader.loadLanguageFile(lang),
                 };
             }
+            Object.keys(this.languageData[lang]).map((i: any) => this.languageData[lang][i] = template(this.languageData[lang][i]));
         }
         this.fastify.decorate("languageData", this.languageData);
     }
