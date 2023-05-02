@@ -35,6 +35,11 @@ import { mdiAccountCircleOutline } from "@mdi/js"
             </a>
         </if>
         <else>
+            <if(out.global.authOptions.signUp)>
+                <a class="navbar-item hr-navbar-item" href=component.utils.getLocalizedURL(out.global.systemRoutes.signUp)>
+                    <t>signUp</t>
+                </a>
+            </if>
             <a class="navbar-item hr-navbar-item" href=component.utils.getLocalizedURL(out.global.systemRoutes.signIn)>
                 <t>signIn</t>
             </a>

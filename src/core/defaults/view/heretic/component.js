@@ -4,6 +4,7 @@ const {
     hideAll,
 } = require("tippy.js");
 const debounce = require("lodash.debounce");
+const template = require("lodash.template");
 const Cookies = require("../../../src/core/lib/cookiesBrowser").default;
 const i18nLoader = require("../../../src/build/loaders/i18n-loader-core");
 const pagesLoader = require("../../../src/build/loaders/page-loader-userspace");
@@ -16,6 +17,7 @@ module.exports = class {
             window.__heretic = window.__heretic || {};
             if (!window.__heretic.languageData) {
                 window.__heretic.languageData = await i18nLoader.loadLanguageFile(this.language);
+                Object.keys(window.__heretic.languageData).map(i => window.__heretic.languageData[i] = typeof window.__heretic.languageData[i] === "string" ? template(window.__heretic.languageData[i]) : window.__heretic.languageData[i]);
             }
             window.__heretic.t = id => window.__heretic.languageData[id] ? typeof window.__heretic.languageData[id] === "function" ? window.__heretic.languageData[id]() : window.__heretic.languageData[id] : id;
             window.__heretic.translationsLoaded = {};
