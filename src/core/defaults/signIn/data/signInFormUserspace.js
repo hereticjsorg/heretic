@@ -29,7 +29,7 @@ export default class {
                             type: ["string"]
                         },
                         css: "hr-hf-field-large"
-                    }], {
+                    }], [{
                         id: "buttons",
                         type: "buttons",
                         items: [{
@@ -37,8 +37,13 @@ export default class {
                             type: "submit",
                             label: this.t("submit"),
                             css: "button is-primary mt-3"
+                        }, {
+                            id: "btnForgotPassword",
+                            type: "button",
+                            label: this.t("forgotPassword"),
+                            css: "button is-ghost mt-3"
                         }]
-                    }
+                    }],
                 ],
             }],
         };

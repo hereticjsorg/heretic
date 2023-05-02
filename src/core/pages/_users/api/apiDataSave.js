@@ -38,7 +38,7 @@ export default () => ({
             }
             const language = translation[multipartData.fields.language] ? multipartData.fields.language : Object.keys(languages)[0];
             // eslint-disable-next-line no-unused-vars
-            const t = id => translation[language] || id;
+            const t = (id, d = {}) => typeof translation[language] === "function" ? translation[language](d) : translation[language] || id;
             const collection = this.mongo.db.collection(moduleConfig.collections.main);
             const result = {};
             data._default.email = data._default.email ? data._default.email.toLowerCase() : null;

@@ -12,7 +12,7 @@ module.exports = class {
             if (!window.__heretic.languageData) {
                 window.__heretic.languageData = await i18nLoader.loadLanguageFile(this.language);
             }
-            window.__heretic.t = id => window.__heretic.languageData[id] ? typeof window.__heretic.languageData[id] === "function" ? window.__heretic.languageData[id]() : window.__heretic.languageData[id] : id;
+            window.__heretic.t = id => window.__heretic.languageData[id] || id;
             window.__heretic.translationsLoaded = {};
             this.setState("languageLoaded", true);
         }

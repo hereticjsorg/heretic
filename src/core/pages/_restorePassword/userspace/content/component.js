@@ -45,8 +45,8 @@ module.exports = class {
             return;
         }
         this.setState("ready", true);
-        await this.utils.waitForComponent("restorePasswordForm");
-        const restorePasswordForm = this.getComponent("restorePasswordForm");
+        await this.utils.waitForComponent("restorePassword");
+        const restorePasswordForm = this.getComponent("restorePassword");
         setTimeout(() => restorePasswordForm.focus());
     }
 

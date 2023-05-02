@@ -46,9 +46,8 @@ export default class {
                         id: "btnSubmit",
                         type: "submit",
                         label: this.t("submit"),
-                        css: "button is-primary is-fullwidth mt-3"
+                        css: "button is-primary mt-3"
                     }],
-                    css: "hr-hf-field-small",
                 }]
             }]
         };

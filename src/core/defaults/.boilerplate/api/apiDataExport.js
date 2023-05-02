@@ -1,4 +1,4 @@
-import xlsx from "node-xlsx";
+
 import {
     ObjectId,
 } from "mongodb";
@@ -11,6 +11,7 @@ import {
     add,
     formatISO,
 } from "date-fns";
+import xlsx from "../../../lib/node-xlsx/index.ts";
 import FormData from "../data/form";
 import languages from "../../../../etc/languages.json";
 import moduleConfig from "../module.js";
@@ -57,7 +58,7 @@ export default () => ({
                     message: "validation_error"
                 });
             }
-            const t = id => translation[req.body.language][id] || id;
+            const t = (id, d = {}) => typeof translation[req.body.language][id] === "function" ? translation[req.body.language][id](d) : translation[req.body.language][id] || id;
             const formData = new FormData(t);
             const columnsFormData = Object.keys(formData.getTableColumns());
             for (const column of req.body.columns) {

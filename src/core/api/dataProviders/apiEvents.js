@@ -27,7 +27,7 @@ export default () => ({
             for (const p of Object.keys(this.dataProviders)) {
                 const dataProvider = this.dataProviders[p];
                 if (dataProvider.getEvents) {
-                    dataProvider.setTranslations(id => typeof this.languageData[req.query.language][id] === "function" ? this.languageData[req.query.language][id]() : this.languageData[req.query.language][id] || id);
+                    dataProvider.setTranslations((id, d = {}) => typeof this.languageData[req.query.language][id] === "function" ? this.languageData[req.query.language][id](d) : this.languageData[req.query.language][id] || id);
                     const eventsData = dataProvider.getEvents();
                     if (eventsData) {
                         for (const event of eventsData) {
