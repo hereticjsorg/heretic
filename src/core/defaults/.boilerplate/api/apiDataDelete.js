@@ -48,11 +48,10 @@ export default () => ({
                 return rep.code(200).send({
                     count: deleteResult.deletedCount,
                 });
-            } else {
-                return rep.code(200).send({
-                    count: 0,
-                });
             }
+            return rep.code(200).send({
+                count: 0,
+            });
         } catch (e) {
             this.log.error(e);
             return Promise.reject(e);
