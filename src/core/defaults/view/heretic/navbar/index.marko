@@ -36,7 +36,7 @@ $ const i18nNavigation = out.global.i18nNavigation;
                 <navbar-dark on-dark-mode("onDarkMode")/>
             </if>
             <navbar-lang/>
-            <if(out.global.authOptions.signIn)>
+            <if(out.global.authOptions.signIn || out.global.authOptions.signUp)>
                 <navbar-auth/>
             </if>
         </div>

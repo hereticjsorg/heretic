@@ -3,6 +3,7 @@
         "home": "home",
         "routes": [
             "home",
+            "boilerplate.list",
             "license"
         ]
     },

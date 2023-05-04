@@ -2,6 +2,9 @@
     "from": "../core/defaults/home",
     "to": "../../site/pages/home"
 }, {
+    "from": "../core/defaults/.boilerplate",
+    "to": "../../site/modules/boilerplate"
+}, {
     "from": "../core/defaults/email",
     "to": "../../site/email"
 }, {

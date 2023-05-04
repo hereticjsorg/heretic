@@ -91,7 +91,7 @@ export default () => ({
                     policyErrors: check.errors,
                 });
             }
-            const passwordHash = await req.auth.createHash(`${password}${this.systemConfig.secret}`);
+            const passwordHash = await req.auth.createHash(`${formData.password}${this.systemConfig.secret}`);
             const insertResult = await this.mongo.db.collection(this.systemConfig.collections.users).insertOne({
                 username,
                 email,
@@ -124,7 +124,7 @@ export default () => ({
                 ...languageData[language],
                 ...(await import(`./translations/${language}.json`)).default,
             };
-            const t = id => languageData[language] && languageData[language][id] ? languageData[language][id] : id;
+            const t = (id, d = {}) => languageData[language] && typeof languageData[language][id] === "function" ? languageData[language][id](d) : languageData[language] ? languageData[language][id] : id;
             const input = {
                 t,
                 activationUrl: utils.getLocalizedFullURL(`${this.siteConfig.url}/activate?id=${uid}`),

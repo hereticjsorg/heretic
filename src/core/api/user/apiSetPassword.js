@@ -1,4 +1,7 @@
 import Ajv from "ajv";
+import {
+    ObjectId
+} from "mongodb";
 import Captcha from "../../lib/captcha";
 import Password from "../../lib/password";
 import SetPasswordForm from "./data/setPasswordForm";
@@ -64,7 +67,7 @@ export default () => ({
             const newPasswordHash = await req.auth.createHash(`${formData.password}${this.systemConfig.secret}`);
             if (!this.systemConfig.demo) {
                 await this.mongo.db.collection(this.systemConfig.collections.users).updateOne({
-                    _id: activationDb.userId,
+                    _id: new ObjectId(activationDb.userId),
                 }, {
                     $set: {
                         password: newPasswordHash,

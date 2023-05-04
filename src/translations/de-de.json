@@ -57,7 +57,7 @@
     "hform_error_passwordsDoNotMatch": "Passwörter stimmen nicht überein",
     "hform_error_general": "Fehler bei der Verarbeitung des Formulars",
     "signOut": "Abmeldung",
-    "signIn": "Anmeldung",
+    "signIn": "Anmelden",
     "htable_actions": "Aktionen",
     "htable_lockedBy": "Gesperrt von",
     "htable_noRecords": "Keine Datensätze",
@@ -200,5 +200,5 @@
     "checkboxChecked": "aktiviert",
     "checkboxNotChecked": "nicht aktiviert",
     "checkboxSelected": "selektiert",
-    "signUp": "Anmelden"
+    "signUp": "Konto erstellen"
 }
