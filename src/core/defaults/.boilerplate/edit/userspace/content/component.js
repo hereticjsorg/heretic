@@ -92,7 +92,6 @@ module.exports = class {
         } else {
             editForm.setTitle(window.__heretic.t("newRecord"));
         }
-        setTimeout(() => this.setHayGradeData());
     }
 
     async onMount() {
