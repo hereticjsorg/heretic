@@ -46,35 +46,35 @@ export default () => ({
             if (!userDb) {
                 return rep.success({});
             }
-            const uid = uuid();
-            await this.mongo.db.collection(this.systemConfig.collections.activation).insertOne({
-                _id: uid,
-                type: "password",
-                userId: String(userDb._id),
-            });
-            let {
-                language,
-            } = req.body;
-            if (!language || typeof language !== "string" || !Object.keys(languagesData).find(i => language === i)) {
-                [language] = Object.keys(languagesData);
-            }
-            const utils = new Utils(null, language);
-            const languageData = {
-                ...this.languageData,
-            };
-            languageData[language] = {
-                ...languageData[language],
-                ...(await import(`./translations/${language}.json`)).default,
-            };
-            const t = (id, d = {}) => languageData[language] && typeof languageData[language][id] === "function" ? languageData[language][id](d) : languageData[language] ? languageData[language][id] : id;
-            const input = {
-                t,
-                activationUrl: utils.getLocalizedFullURL(`${this.siteConfig.url}/activate?id=${uid}`),
-            };
-            const renderPage = await restorePasswordNotificationTemplate.render(input);
-            const renderText = (await import("./email/restorePasswordNotification.js")).default(input);
-            const em = new Email(this);
             if (!this.systemConfig.demo) {
+                const uid = uuid();
+                await this.mongo.db.collection(this.systemConfig.collections.activation).insertOne({
+                    _id: uid,
+                    type: "password",
+                    userId: String(userDb._id),
+                });
+                let {
+                    language,
+                } = req.body;
+                if (!language || typeof language !== "string" || !Object.keys(languagesData).find(i => language === i)) {
+                    [language] = Object.keys(languagesData);
+                }
+                const utils = new Utils(null, language);
+                const languageData = {
+                    ...this.languageData,
+                };
+                languageData[language] = {
+                    ...languageData[language],
+                    ...(await import(`./translations/${language}.json`)).default,
+                };
+                const t = (id, d = {}) => languageData[language] && typeof languageData[language][id] === "function" ? languageData[language][id](d) : languageData[language] ? languageData[language][id] : id;
+                const input = {
+                    t,
+                    activationUrl: utils.getLocalizedFullURL(`${this.siteConfig.url}/activate?id=${uid}`),
+                };
+                const renderPage = await restorePasswordNotificationTemplate.render(input);
+                const renderText = (await import("./email/restorePasswordNotification.js")).default(input);
+                const em = new Email(this);
                 await em.send(email, t("restorePassword"), renderPage.toString(), renderText);
             }
             return rep.success({});

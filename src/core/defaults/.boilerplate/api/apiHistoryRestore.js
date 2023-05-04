@@ -25,13 +25,15 @@ export default () => ({
                     message: "not_found",
                 }, 404);
             }
-            await this.mongo.db.collection(moduleConfig.collections.main).updateOne({
-                _id: new ObjectId(item.recordId),
-            }, {
-                $set: item.data,
-            }, {
-                upsert: false,
-            });
+            if (!this.systemConfig.demo) {
+                await this.mongo.db.collection(moduleConfig.collections.main).updateOne({
+                    _id: new ObjectId(item.recordId),
+                }, {
+                    $set: item.data,
+                }, {
+                    upsert: false,
+                });
+            }
             return rep.code(200).send({});
         } catch (e) {
             this.log.error(e);

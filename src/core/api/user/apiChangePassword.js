@@ -58,8 +58,8 @@ export default () => ({
                     policyErrors: check.errors,
                 });
             }
-            const newPasswordHash = await req.auth.createHash(`${req.body.password}${this.systemConfig.secret}`);
             if (!this.systemConfig.demo) {
+                const newPasswordHash = await req.auth.createHash(`${req.body.password}${this.systemConfig.secret}`);
                 await this.mongo.db.collection(this.systemConfig.collections.users).updateOne({
                     _id: authData._id,
                 }, {

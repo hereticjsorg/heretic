@@ -91,48 +91,48 @@ export default () => ({
                     policyErrors: check.errors,
                 });
             }
-            const passwordHash = await req.auth.createHash(`${formData.password}${this.systemConfig.secret}`);
-            const insertResult = await this.mongo.db.collection(this.systemConfig.collections.users).insertOne({
-                username,
-                email,
-                password: passwordHash,
-                groups: null,
-                displayName: null,
-                active: false,
-                signUpAt: new Date(),
-            });
-            const {
-                insertedId,
-            } = insertResult;
-            const uid = uuid();
-            await this.mongo.db.collection(this.systemConfig.collections.activation).insertOne({
-                _id: uid,
-                type: "user",
-                userId: String(insertedId),
-            });
-            let {
-                language,
-            } = req.body;
-            if (!language || typeof language !== "string" || !Object.keys(languagesData).find(i => language === i)) {
-                [language] = Object.keys(languagesData);
-            }
-            const utils = new Utils(null, language);
-            const languageData = {
-                ...this.languageData,
-            };
-            languageData[language] = {
-                ...languageData[language],
-                ...(await import(`./translations/${language}.json`)).default,
-            };
-            const t = (id, d = {}) => languageData[language] && typeof languageData[language][id] === "function" ? languageData[language][id](d) : languageData[language] ? languageData[language][id] : id;
-            const input = {
-                t,
-                activationUrl: utils.getLocalizedFullURL(`${this.siteConfig.url}/activate?id=${uid}`),
-            };
-            const renderPage = await emailChangeNotificationTemplate.render(input);
-            const renderText = (await import("./email/signUpNotification.js")).default(input);
-            const em = new Email(this);
             if (!this.systemConfig.demo) {
+                const passwordHash = await req.auth.createHash(`${formData.password}${this.systemConfig.secret}`);
+                const insertResult = await this.mongo.db.collection(this.systemConfig.collections.users).insertOne({
+                    username,
+                    email,
+                    password: passwordHash,
+                    groups: null,
+                    displayName: null,
+                    active: false,
+                    signUpAt: new Date(),
+                });
+                const {
+                    insertedId,
+                } = insertResult;
+                const uid = uuid();
+                await this.mongo.db.collection(this.systemConfig.collections.activation).insertOne({
+                    _id: uid,
+                    type: "user",
+                    userId: String(insertedId),
+                });
+                let {
+                    language,
+                } = req.body;
+                if (!language || typeof language !== "string" || !Object.keys(languagesData).find(i => language === i)) {
+                    [language] = Object.keys(languagesData);
+                }
+                const utils = new Utils(null, language);
+                const languageData = {
+                    ...this.languageData,
+                };
+                languageData[language] = {
+                    ...languageData[language],
+                    ...(await import(`./translations/${language}.json`)).default,
+                };
+                const t = (id, d = {}) => languageData[language] && typeof languageData[language][id] === "function" ? languageData[language][id](d) : languageData[language] ? languageData[language][id] : id;
+                const input = {
+                    t,
+                    activationUrl: utils.getLocalizedFullURL(`${this.siteConfig.url}/activate?id=${uid}`),
+                };
+                const renderPage = await emailChangeNotificationTemplate.render(input);
+                const renderText = (await import("./email/signUpNotification.js")).default(input);
+                const em = new Email(this);
                 await em.send(email, t("signUp"), renderPage.toString(), renderText);
             }
             return rep.success({});

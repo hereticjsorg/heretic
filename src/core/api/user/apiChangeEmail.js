@@ -52,35 +52,33 @@ export default () => ({
                     }],
                 });
             }
-            const uid = uuid();
             if (!this.systemConfig.demo) {
+                const uid = uuid();
                 await this.mongo.db.collection(this.systemConfig.collections.activation).insertOne({
                     _id: uid,
                     type: "email",
                     userId: String(authData._id),
                     value,
                 });
-            }
-            const {
-                language,
-            } = req.body;
-            const utils = new Utils(null, language);
-            const languageData = {
-                ...this.languageData,
-            };
-            languageData[language] = {
-                ...languageData[language],
-                ...(await import(`./translations/${language}.json`)).default,
-            };
-            const t = (id, d = {}) => languageData[language] && typeof languageData[language][id] === "function" ? languageData[language][id](d) : languageData[language] ? languageData[language][id] : id;
-            const input = {
-                t,
-                activationUrl: utils.getLocalizedFullURL(`${this.siteConfig.url}/activate?id=${uid}`),
-            };
-            const renderPage = await emailChangeNotificationTemplate.render(input);
-            const renderText = (await import("./email/emailChangeNotification.js")).default(input);
-            const email = new Email(this);
-            if (!this.systemConfig.demo) {
+                const {
+                    language,
+                } = req.body;
+                const utils = new Utils(null, language);
+                const languageData = {
+                    ...this.languageData,
+                };
+                languageData[language] = {
+                    ...languageData[language],
+                    ...(await import(`./translations/${language}.json`)).default,
+                };
+                const t = (id, d = {}) => languageData[language] && typeof languageData[language][id] === "function" ? languageData[language][id](d) : languageData[language] ? languageData[language][id] : id;
+                const input = {
+                    t,
+                    activationUrl: utils.getLocalizedFullURL(`${this.siteConfig.url}/activate?id=${uid}`),
+                };
+                const renderPage = await emailChangeNotificationTemplate.render(input);
+                const renderText = (await import("./email/emailChangeNotification.js")).default(input);
+                const email = new Email(this);
                 await email.send(value, t("changeEmail"), renderPage.toString(), renderText);
             }
             return rep.success({});

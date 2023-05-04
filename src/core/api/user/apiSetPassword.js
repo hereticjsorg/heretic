@@ -64,8 +64,8 @@ export default () => ({
                     policyErrors: check.errors,
                 });
             }
-            const newPasswordHash = await req.auth.createHash(`${formData.password}${this.systemConfig.secret}`);
             if (!this.systemConfig.demo) {
+                const newPasswordHash = await req.auth.createHash(`${formData.password}${this.systemConfig.secret}`);
                 await this.mongo.db.collection(this.systemConfig.collections.users).updateOne({
                     _id: new ObjectId(activationDb.userId),
                 }, {
@@ -73,10 +73,10 @@ export default () => ({
                         password: newPasswordHash,
                     },
                 });
+                await this.mongo.db.collection(this.systemConfig.collections.activation).deleteOne({
+                    _id: id,
+                });
             }
-            await this.mongo.db.collection(this.systemConfig.collections.activation).deleteOne({
-                _id: id,
-            });
             return rep.success({});
         } catch (e) {
             this.log.error(e);
