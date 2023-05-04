@@ -4,7 +4,7 @@ import {
 } from "lodash";
 import {
     startOfDay,
-    endOfDay
+    endOfDay,
 } from "date-fns";
 import {
     ObjectId
@@ -138,6 +138,12 @@ export default {
                         qeqn[filter.id] = parseInt(filter.value, 10);
                         queryItem.$or.push(qeqn);
                     }
+                    break;
+                case "is":
+                    queryItem.$or = queryItem.$or || [];
+                    const qis = {};
+                    qis[filter.id] = Boolean(filter.value);
+                    queryItem.$or.push(qis);
                     break;
                 case "neq":
                     queryItem.$and = queryItem.$and || [];

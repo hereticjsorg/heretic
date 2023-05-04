@@ -11,6 +11,7 @@ const conf = {
     email: {},
     webSockets: {},
     token: {},
+    passwordPolicy: {},
     cookieOptions: {},
     log: {},
     rateLimit: {},
@@ -60,7 +61,6 @@ module.exports = {
         options: {
             useUnifiedTopology: true,
             connectTimeoutMS: 5000,
-            keepAlive: true,
             useNewUrlParser: true,
         },
         ...conf.mongo,
@@ -88,6 +88,15 @@ module.exports = {
         expiresIn: sessionTTL,
         ip: false,
         ...conf.token,
+    },
+    passwordPolicy: {
+        minLength: 8,
+        maxLength: null,
+        minGroups: 2,
+        uppercase: true,
+        lowercase: true,
+        numbers: true,
+        special: true,
     },
     cookieOptions: {
         expires: sessionTTL,
@@ -136,6 +145,8 @@ module.exports = {
         geoCities: "geoCities",
         version: "version",
         sessions: "sessions",
+        activation: "activation",
+        captcha: "captcha",
         ...conf.collections,
     },
     routes: {
@@ -144,6 +155,9 @@ module.exports = {
         signIn: "/signIn",
         signOutAdmin: "/admin/signOut",
         signOut: "/signOut",
+        account: "/account",
+        signUp: "/signUp",
+        restorePassword: "/restorePassword",
         ...conf.routes,
     },
     buildOptions: {

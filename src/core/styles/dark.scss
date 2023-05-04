@@ -158,6 +158,18 @@ html.heretic-dark .table.hr-is-bordered th:first-child {
     border-left: 1px solid lighten($heretic-dark-grey-dark, 10%);
 }
 
+// Tabs
+
+html.heretic-dark .tabs>ul>li>a {
+    color: $white;
+    border-bottom-color: $white !important;
+}
+
+html.heretic-dark .tabs>ul>li.is-active>a {
+    color: $blue;
+    border-bottom-color: $blue !important;
+}
+
 // Pagination
 
 html.heretic-dark .pagination-link,
@@ -259,6 +271,19 @@ html.heretic-dark .tag.is-white {
 html.heretic-dark .tag.is-light {
     background: $heretic-dark-grey-dark;
     color: $heretic-dark-text-color-light;
+}
+
+
+html.heretic-dark .tag.is-danger.is-light {
+    background: darken($red, 30%);
+}
+
+html.heretic-dark .tag.is-success.is-light {
+    background: darken($green, 30%);
+}
+
+html.heretic-dark .tag.is-warning.is-light {
+    background: darken($yellow, 30%);
 }
 
 // Card

@@ -51,7 +51,7 @@
                     },
                     "mode": {
                         "type": "string",
-                        "enum": ["eq", "neq", "rex", "nrex", "oof", "nof", "deq", "dgt", "dgte", "dlt", "dlte"]
+                        "enum": ["eq", "is", "neq", "rex", "nrex", "oof", "nof", "deq", "dgt", "dgte", "dlt", "dlte"]
                     },
                     "value": {
                         "oneOf": [{
@@ -63,6 +63,8 @@
                             "minimum": 1
                         }, {
                             "type": "null"
+                        }, {
+                            "type": "boolean"
                         }, {
                             "type": "array",
                             "items": {

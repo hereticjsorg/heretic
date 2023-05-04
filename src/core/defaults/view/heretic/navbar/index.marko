@@ -4,7 +4,7 @@ $ const i18nNavigation = out.global.i18nNavigation;
 <nav class="navbar hr-navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
         <hrouter-link route=navigation.userspace.home class="navbar-item">
-            <navbar-logo darkMode=state.darkMode/>
+            <navbar-logo darkMode=state.darkMode key="hereticLogo"/>
         </hrouter-link>
         <a id="hr_navbar_burger" onClick("onBurgerClick") role="button" class=`navbar-burger${state.navOpen ? " is-active" : ""}` data-target="navbar">
             <span aria-hidden="true"/>
@@ -36,7 +36,7 @@ $ const i18nNavigation = out.global.i18nNavigation;
                 <navbar-dark on-dark-mode("onDarkMode")/>
             </if>
             <navbar-lang/>
-            <if(out.global.authOptions.signIn)>
+            <if(out.global.authOptions.signIn || out.global.authOptions.signUp)>
                 <navbar-auth/>
             </if>
         </div>

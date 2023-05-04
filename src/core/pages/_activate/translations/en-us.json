@@ -1,0 +1,17 @@
+{
+    "activationError": "Error during the activation procedure. The action may have been performed previously, or the link is not valid due to expiration. Please try requesting the action again.",
+    "activation": "Activation",
+    "activationSuccessEmail": "The new email address has been successfully saved for your profile as your primary email address.",
+    "newEmail": "New e-mail",
+    "activationSuccessUser": "Your user account has been successfully activated. You can sign in to the site using the username and password you entered during registration.",
+    "signInButton": "Sign In",
+    "passwordChange": "Please fill out the form below to set a new password for your account.",
+    "password": "New password",
+    "passwordHelpText": "Repeat password to verify",
+    "captcha": "Captcha",
+    "captchaHelpText": "Code on the picture",
+    "submit": "Submit",
+    "hform_error_invalidCaptcha": "Invalid code",
+    "hform_error_invalidPassword": "Invalid password",
+    "passwordChangeSuccess": "The password change procedure has been successfully completed. You can log in to the site using your username and new password."
+}

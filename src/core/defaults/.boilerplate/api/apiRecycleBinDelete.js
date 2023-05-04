@@ -34,9 +34,14 @@ export default () => ({
                     message: "accessDenied",
                 }, 400);
             }
-            const deleteResult = await this.mongo.db.collection(moduleConfig.collections.main).deleteOne(query);
+            if (!this.systemConfig.demo) {
+                const deleteResult = await this.mongo.db.collection(moduleConfig.collections.main).deleteOne(query);
+                return rep.code(200).send({
+                    count: deleteResult.deletedCount,
+                });
+            }
             return rep.code(200).send({
-                count: deleteResult.deletedCount,
+                count: 0,
             });
         } catch (e) {
             this.log.error(e);

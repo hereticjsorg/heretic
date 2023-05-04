@@ -10,6 +10,7 @@ import {
 } from "uuid";
 import commandLineArgs from "command-line-args";
 
+import template from "lodash.template";
 import hereticRateLimit from "./rateLimit";
 import routePageUserspace from "./routes/routePageUserspace.js";
 import routeModuleUserspace from "./routes/routeModuleUserspace";
@@ -70,6 +71,15 @@ export default class {
         }
         this.systemConfig.versionHash = crypto.createHmac("sha256", this.systemConfig.secret).update(packageJson.version).digest("hex");
         this.systemConfig.secretInt = parseInt(crypto.createHash("md5").update(this.systemConfig.secret).digest("hex"), 16);
+        this.systemConfig.passwordPolicy = this.systemConfig.passwordPolicy || {
+            minLength: 8,
+            maxLength: null,
+            minGroups: 2,
+            uppercase: true,
+            lowercase: true,
+            numbers: true,
+            special: true,
+        };
         this.fastify = Fastify({
             logger: new Logger(this.systemConfig).getPino(),
             trustProxy: this.systemConfig.server.trustProxy,
@@ -164,6 +174,7 @@ export default class {
                     ...await i18nLoader.loadLanguageFile(lang),
                 };
             }
+            Object.keys(this.languageData[lang]).map((i: any) => this.languageData[lang][i] = template(this.languageData[lang][i]));
         }
         this.fastify.decorate("languageData", this.languageData);
     }
@@ -380,7 +391,6 @@ export default class {
             const mongoClient = new MongoClient(this.systemConfig.mongo.url, this.systemConfig.mongo.options || {
                 useUnifiedTopology: true,
                 connectTimeoutMS: 5000,
-                keepAlive: true,
                 useNewUrlParser: true
             });
             mongoClient.on("serverDescriptionChanged", e => {

@@ -55,6 +55,7 @@ test("Login", async () => {
         password,
         groups: ["admin"],
         test: true,
+        active: true
     });
     await helpers.initBrowser();
     const browser = helpers.getBrowser();

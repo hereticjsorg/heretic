@@ -25,16 +25,26 @@ import { mdiAccountCircleOutline } from "@mdi/js"
                 <a class="navbar-item hr-navbar-item" href=component.utils.getLocalizedURL(out.global.systemRoutes.admin)>
                     <t>adminPanel</t>
                 </a>
-                <hr class="dropdown-divider"/>
             </if>
+            <a class="navbar-item hr-navbar-item" href=component.utils.getLocalizedURL(out.global.systemRoutes.account)>
+                <t>userAccount</t>
+            </a>
+            <hr class="dropdown-divider"/> 
             <a class="navbar-item hr-navbar-item" href=component.utils.getLocalizedURL(out.global.systemRoutes.signOut)>
                 <t>signOut</t>
             </a>
         </if>
         <else>
-            <a class="navbar-item hr-navbar-item" href=component.utils.getLocalizedURL(out.global.systemRoutes.signIn)>
-                <t>signIn</t>
-            </a>
+            <if(out.global.authOptions.signUp)>
+                <a class="navbar-item hr-navbar-item" href=component.utils.getLocalizedURL(out.global.systemRoutes.signUp)>
+                    <t>signUp</t>
+                </a>
+            </if>
+            <if(out.global.authOptions.signIn)>
+                <a class="navbar-item hr-navbar-item" href=component.utils.getLocalizedURL(out.global.systemRoutes.signIn)>
+                    <t>signIn</t>
+                </a>
+            </if>
         </else>
     </div>
 </div>

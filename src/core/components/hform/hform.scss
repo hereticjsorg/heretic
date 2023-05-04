@@ -312,7 +312,12 @@ html.heretic-dark .hr-hf-view-input {
     vertical-align: middle;
 }
 
+.hr-hf-form-checkbox {
+    margin-right: 6px !important;
+}
+
 @media (max-width: 769px) {
+
     .hr-hf-field-xxlarge,
     .hr-hf-field-xlarge,
     .hr-hf-field-large,

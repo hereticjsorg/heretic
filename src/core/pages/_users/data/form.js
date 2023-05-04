@@ -3,9 +3,6 @@ import {
     mdiTrashCanOutline,
     mdiAccountPlusOutline,
 } from "@mdi/js";
-import {
-    format,
-} from "date-fns";
 
 import moduleConfig from "../admin.js";
 import utils from "../../../lib/formValidatorUtils";
@@ -16,96 +13,112 @@ export default class {
         this.data = {
             form: [{
                 fields: [{
-                    id: "username",
-                    type: "text",
-                    label: this.t("username"),
-                    mandatory: true,
-                    validation: {
-                        type: ["string"],
-                        pattern: "^[a-zA-Z][a-zA-Z0-9_]+$",
-                        minLength: 2,
-                        maxLength: 32,
-                    },
-                    sortable: true,
-                    searchable: true,
-                    css: "hr-hf-field-medium",
-                    column: true,
-                    helpText: this.t("usernameHelpText"),
-                    createIndex: true,
-                    autoFocus: true,
-                }, {
-                    id: "displayName",
-                    type: "text",
-                    label: this.t("displayName"),
-                    mandatory: false,
-                    validation: {
-                        type: ["string", "null"],
-                        maxLength: 128,
-                    },
-                    sortable: true,
-                    searchable: true,
-                    css: "hr-hf-field-medium",
-                    column: true,
-                    helpText: this.t("displayNameHelpText"),
-                    createIndex: true,
-                    autoFocus: false,
-                }, {
-                    id: "email",
-                    type: "text",
-                    label: this.t("email"),
-                    mandatory: false,
-                    validation: {
-                        type: ["string", "null"],
-                        pattern: "(^(?:[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-])+@(?:[a-zA-Z0-9]|[^\\u0000-\\u007F])(?:(?:[a-zA-Z0-9-]|[^\\u0000-\\u007F]){0,61}(?:[a-zA-Z0-9]|[^\\u0000-\\u007F]))?(?:\\.(?:[a-zA-Z0-9]|[^\\u0000-\\u007F])(?:(?:[a-zA-Z0-9-]|[^\\u0000-\\u007F]){0,61}(?:[a-zA-Z0-9]|[^\\u0000-\\u007F]))?)*$)|^()$",
-                        maxLength: 254
-                    },
-                    sortable: true,
-                    searchable: true,
-                    css: "hr-hf-field-large",
-                    column: true,
-                    createIndex: true,
-                }, {
-                    id: "password",
-                    type: "password",
-                    label: this.t("password"),
-                    helpText: this.t("passwordHelpText"),
-                    mandatory: true,
-                    validation: {
-                        type: ["string"],
-                    },
-                    sortable: false,
-                    searchable: false,
-                    column: false,
-                    createIndex: false,
-                }, {
-                    id: "groups",
-                    type: "tags",
-                    label: this.t("groups"),
-                    mandatory: false,
-                    validation: {
-                        type: ["array", "null"],
-                        items: {
-                            type: "string",
+                        id: "username",
+                        type: "text",
+                        label: this.t("username"),
+                        mandatory: true,
+                        validation: {
+                            type: ["string"],
+                            pattern: "^[a-zA-Z][a-zA-Z0-9_]+$",
                             minLength: 2,
                             maxLength: 32,
                         },
-                        minItems: 0,
-                        uniqueItems: true,
-                    },
-                    sortable: false,
-                    searchable: false,
-                    column: true,
-                    createIndex: false,
-                    enumValues: [],
-                    enumUnique: true,
-                    enumOnly: true,
-                    enumButton: true,
-                    enumDropdown: false,
-                }],
+                        sortable: true,
+                        searchable: true,
+                        css: "hr-hf-field-medium",
+                        column: true,
+                        helpText: this.t("usernameHelpText"),
+                        createIndex: true,
+                        autoFocus: true,
+                    }, {
+                        id: "active",
+                        type: "checkbox",
+                        label: this.t("active"),
+                        mandatory: false,
+                        validation: {
+                            type: ["boolean", "null"],
+                        },
+                        sortable: true,
+                        searchable: true,
+                        css: "hr-hf-field-medium",
+                        column: true,
+                        createIndex: true,
+                        autoFocus: false,
+                        defaultValue: true,
+                    }, {
+                        id: "displayName",
+                        type: "text",
+                        label: this.t("displayName"),
+                        mandatory: false,
+                        validation: {
+                            type: ["string", "null"],
+                            maxLength: 128,
+                        },
+                        sortable: true,
+                        searchable: true,
+                        css: "hr-hf-field-medium",
+                        column: true,
+                        helpText: this.t("displayNameHelpText"),
+                        createIndex: true,
+                        autoFocus: false,
+                    }, {
+                        id: "email",
+                        type: "text",
+                        label: this.t("email"),
+                        mandatory: false,
+                        validation: {
+                            type: ["string", "null"],
+                            pattern: "(^(?:[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-])+@(?:[a-zA-Z0-9]|[^\\u0000-\\u007F])(?:(?:[a-zA-Z0-9-]|[^\\u0000-\\u007F]){0,61}(?:[a-zA-Z0-9]|[^\\u0000-\\u007F]))?(?:\\.(?:[a-zA-Z0-9]|[^\\u0000-\\u007F])(?:(?:[a-zA-Z0-9-]|[^\\u0000-\\u007F]){0,61}(?:[a-zA-Z0-9]|[^\\u0000-\\u007F]))?)*$)|^()$",
+                            maxLength: 254
+                        },
+                        sortable: true,
+                        searchable: true,
+                        css: "hr-hf-field-large",
+                        column: true,
+                        createIndex: true,
+                    }, {
+                        id: "password",
+                        type: "password",
+                        label: this.t("password"),
+                        helpText: this.t("passwordHelpText"),
+                        mandatory: true,
+                        validation: {
+                            type: ["string"],
+                        },
+                        sortable: false,
+                        searchable: false,
+                        column: false,
+                        createIndex: false,
+                    }, {
+                        id: "groups",
+                        type: "tags",
+                        label: this.t("groups"),
+                        mandatory: false,
+                        validation: {
+                            type: ["array", "null"],
+                            items: {
+                                type: "string",
+                                minLength: 2,
+                                maxLength: 32,
+                            },
+                            minItems: 0,
+                            uniqueItems: true,
+                        },
+                        sortable: false,
+                        searchable: false,
+                        column: true,
+                        createIndex: false,
+                        enumValues: [],
+                        enumUnique: true,
+                        enumOnly: true,
+                        enumButton: true,
+                        enumDropdown: false,
+                    }
+                ],
             }],
         };
         this.validationData = utils.getValidationData(this.data.form);
-        this.columnTypes = ["text", "select", "column", "date"];
+        this.columnTypes = ["text", "select", "column", "date", "checkbox"];
         this.defaultSortColumn = "username";
         this.defaultSortDirection = "asc";
         this.actionColumn = true;
@@ -214,37 +227,8 @@ export default class {
 
     processTableCell(id, row) {
         switch (id) {
-        case "position":
-            return row[id] || "—";
-        case "countryOfBirth":
-        case "passportCountry":
-        case "sex":
-            return String(row[id]) === "1" ? this.t("sexMale") : this.t("sexFemale");
-        case "maritalStatus":
-            return String(row[id]) === "1" ? this.t("maritalStatusSingle") : this.t("maritalStatusMarried");
-        case "familyRelationship":
-            return String(row[id]) === "2" ? this.t("relationshipHusband") : String(row[id]) === "3" ? this.t("relationshipChild") : this.t("relationshipEmployee");
-        case "phone":
-            if (row[id]) {
-                const match = row[id].match(/^(\d{2})(\d{3})(\d{3})(\d{2})(\d{2})$/);
-                if (match) {
-                    return `+${match[1]} ${match[2]} ${match[3]}-${match[4]}-${match[5]}`;
-                }
-            }
-            return row[id] ? `+${row[id]}` : "—";
-        case "emea":
-            return row[id] ? row[id].toUpperCase() : "—";
-        case "birthDate":
-        case "passportIssue":
-        case "passportExpiry":
-        case "hireDate":
-            try {
-                return row[id] ? format(new Date(row[id] * 1000), this.t("global.dateFormatShort")) : "";
-            } catch {
-                return row[id];
-            }
-            // eslint-disable-next-line no-unreachable
-            break;
+        case "active":
+            return row[id] ? this.t("isActive") : "";
         default:
             return row[id];
         }

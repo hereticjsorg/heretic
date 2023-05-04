@@ -9,5 +9,13 @@
         "expire": {
             "field": "updated"
         }
+    },
+    "captcha": {
+        "asc": [],
+        "desc":  [],
+        "expire": {
+            "field": "createdAt",
+            "seconds": 300
+        }
     }
 }

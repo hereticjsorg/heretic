@@ -1,9 +1,10 @@
 {
     "username": "Имя пользователя",
     "password": "Пароль",
-    "signIn": "Войти",
+    "signIn": "Авторизация",
     "error_invalid_credentials": "Неправильное имя пользователя или пароль",
     "loginSuccess": "Успешный вход",
     "loginFail": "Ошибка авторизации",
-    "submit": "Submit"
+    "submit": "Войти",
+    "forgotPassword": "Забыли пароль?"
 }

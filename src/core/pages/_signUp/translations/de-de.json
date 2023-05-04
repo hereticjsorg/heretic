@@ -1,0 +1,18 @@
+{
+    "pageError": "Die Anfrage konnte nicht bearbeitet werden",
+    "signUp": "Konto erstellen",
+    "email": "E-mail",
+    "emailHelpText": "Gültige E-Mail Adresse",
+    "password": "Passwort",
+    "passwordHelpText": "Wiederholen Sie zweimal, um es zu überprüfen",
+    "submit": "Senden",
+    "captcha": "Captcha",
+    "captchaHelpText": "Code aus dem Bild",
+    "username": "Benutzername",
+    "usernameHelpText": "Lateinische Zeichen, Zahlen, \"-\", \"_\", Lange: 3-40",
+    "hform_error_invalidCaptcha": "Ungültiger Code",
+    "hform_error_duplicateUsername": "Bereits registriert",
+    "hform_error_duplicateEmail": "Bereits registriert",
+    "hform_error_invalidPassword": "Ungültiges Passwort",
+    "signUpSuccess": "Der Prozess der Kontoregistrierung wurde erfolgreich gestartet. Um die Registrierung abzuschließen, klicken Sie bitte auf den Link, der an die angegebene E-Mail-Adresse gesendet wurde. Bitte beachten Sie, dass der Link zur Aktivierung des Kontos 24 Stunden lang gültig ist, danach müssen Sie sich erneut anmelden."
+}

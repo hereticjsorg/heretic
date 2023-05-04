@@ -4,7 +4,7 @@ import SignInForm from "../../data/signInFormUserspace.js"
     <h1 class="title is-3 has-text-weight-light">
         <t>signIn</t>
     </h1>
-    <hform key="signInForm" id="signInForm" data=(new SignInForm(process.browser && window.__heretic ? window.__heretic.t : out.global.t)) on-form-submit("onFormSubmit")/>
+    <hform key="signInForm" id="signInForm" data=(new SignInForm(process.browser && window.__heretic ? window.__heretic.t : out.global.t)) on-form-submit("onFormSubmit") on-button-click("onFormButtonClick")/>
 </if>
 <if(!state.ready && component.mongoEnabled && component.authOptions.signIn)>
     <hloading active=true/>

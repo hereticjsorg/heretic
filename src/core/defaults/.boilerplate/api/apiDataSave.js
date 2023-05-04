@@ -23,7 +23,7 @@ export default () => ({
                     form: validationResult,
                 });
             }
-            if (!utils.isSaveAllowed(authData, data._default)) {
+            if (!utils.isSaveAllowed(authData, data._default) || this.systemConfig.demo) {
                 return rep.error({
                     message: "accessDenied",
                 }, 403);

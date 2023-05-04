@@ -200,3 +200,39 @@ import { format } from "date-fns"
     </div>
 </if>
 <!-- Div: End -->
+<!-- Message: Start -->
+<if(input.type === "message")>
+    <div>
+        <div class="field">
+            <div class=`control ${input.messageClass || ""}` id=`hr_hf_el_${input.formId}_${input.id}`>
+                ${input.content}
+            </div>
+        </div>
+    </div>
+</if>
+<!-- Message: End -->
+<!-- Checkbox: Start -->
+<if(input.type === "checkbox")>
+    <div>
+        <div class="field">
+            <div class="control" no-update>
+                <label class="checkbox">
+                    <input id=`hr_hf_el_${input.formId}_${input.id}` class="hr-hf-form-checkbox" type="checkbox" disabled/>
+                    ${input.label || ""}
+                    <if(input.mandatory)>
+                        &nbsp;<span class="hr-hf-label-mandatory">✱</span>
+                    </if>
+                </label>
+            </div>
+            <if(state.error)>
+                <div class="hr-hf-error-wrap">
+                    <p class="tag is-danger hr-hf-error-tag">${state.error}</p>
+                </div>
+            </if>
+            <if(input.helpText)>
+                <p class="help">${input.helpText}</p>
+            </if>
+        </div>
+    </div>
+</if>
+<!-- Checkbox: End -->

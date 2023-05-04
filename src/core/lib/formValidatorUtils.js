@@ -76,7 +76,7 @@ module.exports = {
                 errorCode = "hform_error_passwordsDoNotMatch";
                 break;
             default:
-                errorCode = "hform_error_generic";
+                errorCode = `hform_error_${item.keyword || "generic"}`;
             }
             errorData.push({
                 id,

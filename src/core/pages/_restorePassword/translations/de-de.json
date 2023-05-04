@@ -1,0 +1,12 @@
+{
+    "pageError": "Die Anfrage konnte nicht bearbeitet werden",
+    "restorePassword": "Passwort wiederherstellen",
+    "restorePasswordDescription": "Verwenden Sie das untenstehende Formular, um ein vergessenes Passwort wiederherzustellen. Wenn das angegebene Postfach existiert, wird ein Link dorthin gesendet, um das Passwort des Kontos zu ändern.",
+    "email": "E-mail",
+    "emailHelpText": "Geben Sie E-Mail-Adresse ein",
+    "submit": "Senden",
+    "captcha": "Captcha",
+    "captchaHelpText": "Code aus dem Bild",
+    "hform_error_invalidCaptcha": "Ungültiger Code",
+    "restorePasswordSuccess": "Der Vorgang zum Ändern des Passworts wird erfolgreich gestartet. Wenn Sie ein gültiges Postfach angegeben haben, erhalten Sie einen Link zum Ändern des Passworts."
+}

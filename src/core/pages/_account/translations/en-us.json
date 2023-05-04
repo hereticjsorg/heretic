@@ -1,0 +1,23 @@
+{
+    "account": "Account",
+    "dataLoadingError": "Error while loading data from server",
+    "accountFormHelp": "To change your account information, use the form below. Please note that when you change your email address, you will be sent a link to activate your new address. If you enter a new password, you will need to log in to your account again.",
+    "displayName": "Display name",
+    "displayNameHelpText": "Shown instead of username when applicable",
+    "email": "E-mail",
+    "password": "New password",
+    "passwordHelpText": "Repeat your password twice to verify",
+    "passwordCurrent": "Current password",
+    "submit": "Save changes",
+    "tabProfile": "Profile",
+    "tabPassword": "Password",
+    "tabEmail": "E-Mail",
+    "couldNotSaveData": "Could not save data",
+    "hform_error_invalidPassword": "Invalid password",
+    "saveSuccess": "Changes successfully saved",
+    "changeEmailModalTitle": "Change E-mail",
+    "changeEmailModalClose": "Close",
+    "changeEmailModalText": "The e-mail address change request has been successfully registered. To complete the procedure, please follow the instructions sent to the specified email address. Please note that the link in the email is valid for one hour.",
+    "hform_error_emailNotChanged": "No changes",
+    "hform_error_passwordNotChanged": "Identical to the old one"
+}

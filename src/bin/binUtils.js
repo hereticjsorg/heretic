@@ -109,7 +109,6 @@ module.exports = class {
             this.mongoClient = new MongoClient(this.config.mongo.url, this.config.mongo.options || {
                 useUnifiedTopology: true,
                 connectTimeoutMS: 5000,
-                keepAlive: true,
                 useNewUrlParser: true
             });
             await this.mongoClient.connect();
@@ -146,7 +145,7 @@ module.exports = class {
                 continue;
             }
             const from = path.resolve(__dirname, item.from);
-            this.log(`Copying: "${item.to.replace(/\.\.\//gm, "")}...`);
+            this.log(`Copying: "${item.to.replace(/\.\.\//gm, "")}"...`);
             fs.copySync(from, to);
         }
     }
@@ -247,6 +246,7 @@ module.exports = class {
                 username: "admin",
                 password,
                 groups: ["admin"],
+                active: true,
             },
         }, {
             upsert: true,
@@ -289,6 +289,7 @@ module.exports = class {
             $set: {
                 username,
                 password,
+                active: true,
             },
         }, {
             upsert: true,

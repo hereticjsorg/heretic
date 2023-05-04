@@ -15,6 +15,7 @@ module.exports = class {
         this.cookieOptions = out.global.cookieOptions;
         this.authOptions = out.global.authOptions;
         this.mongoEnabled = out.global.mongoEnabled;
+        this.systemRoutes = out.global.systemRoutes;
         if (process.browser && window.__heretic && window.__heretic.t) {
             this.authOptions = this.authOptions || window.__heretic.outGlobal.authOptions;
             this.mongoEnabled = this.mongoEnabled || window.__heretic.outGlobal.mongoEnabled;
@@ -22,6 +23,7 @@ module.exports = class {
             this.siteTitle = out.global.siteTitle || window.__heretic.outGlobal.siteTitle;
             this.siteId = out.global.siteId || window.__heretic.outGlobal.siteId;
             this.cookieOptions = out.global.cookieOptions || window.__heretic.outGlobal.cookieOptions;
+            this.systemRoutes = out.global.systemRoutes || window.__heretic.outGlobal.systemRoutes;
             document.title = `${config.title[this.language]} – ${this.siteTitle}`;
         }
         this.utils = new Utils(this, this.language);
@@ -82,6 +84,16 @@ module.exports = class {
                 signInForm.setErrorMessage(this.t("hform_error_general"));
             }
             signInForm.setLoading(false);
+        }
+    }
+
+    onFormButtonClick(btn) {
+        // eslint-disable-next-line no-console
+        console.log(btn);
+        switch (btn.id) {
+        case "btnForgotPassword":
+            setTimeout(() => window.location.href = `${this.utils.getLocalizedURL(this.systemRoutes.restorePassword)}`);
+            break;
         }
     }
 };

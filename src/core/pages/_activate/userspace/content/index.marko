@@ -1,0 +1,66 @@
+import ProfileForm from "../../../../api/user/data/profileForm.js"
+import PasswordForm from "../../../../api/user/data/passwordForm.js"
+import EmailForm from "../../../../api/user/data/emailForm.js"
+import SetPasswordForm from "../../../../api/user/data/setPasswordForm.js"
+
+<if(state.error)>
+    <h1 class="title is-3 has-text-weight-light">
+        <t>activation</t>
+    </h1>
+    <div class="notification is-warning">
+        <t>activationError</t>
+    </div>
+</if>
+<else>
+    <if(state.ready && component.mongoEnabled && component.authOptions.signIn)>
+        <h1 class="title is-3 has-text-weight-light">
+            <t>activation</t>
+        </h1>
+        <if(state.activationType === "email")>
+            <p>
+                <t>activationSuccessEmail</t>
+            </p>
+            <p class="mt-2">
+                <strong><t>newEmail</t>:</strong>&nbsp;${state.activationValue}
+            </p>
+        </if>
+        <if(state.activationType === "user")>
+            <p>
+                <t>activationSuccessUser</t>
+            </p>
+            <p class="mt-4">
+                <a class="button is-primary" role="button" on-click("onSignInButtonClick")>
+                    <t>signInButton</t>
+                </a>
+            </p>
+        </if>
+        <if(state.activationType === "password")>
+            <if(state.success)>
+                <p>
+                    <t>passwordChangeSuccess</t>
+                </p>
+                <p class="mt-4">
+                    <a class="button is-primary" role="button" on-click("onSignInButtonClick")>
+                        <t>signInButton</t>
+                    </a>
+                </p>
+            </if>
+            <else>
+                <p>
+                    <t>passwordChange</t>
+                </p>
+                <div class="mt-4">
+                    <hform key="setPassword" id="setPassword" data=(new SetPasswordForm(process.browser && window.__heretic ? window.__heretic.t : out.global.t)) on-form-submit("onSetPasswordFormSubmit")/>
+                </div>
+            </else>
+        </if>
+    </if>
+    <if(!state.ready && component.mongoEnabled && component.authOptions.signIn)>
+        <hloading active=true/>
+    </if>
+    <if(!component.mongoEnabled || !component.authOptions.signIn)>
+        <div class="notification is-warning">
+            <t>requestedFeatureDisabled</t>
+        </div>
+    </if>
+</else>

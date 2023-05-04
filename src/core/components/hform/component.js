@@ -249,6 +249,13 @@ module.exports = class {
         }
     }
 
+    async loadCaptchaData(id) {
+        const fieldComponent = this.getComponent(`hr_hf_f_${id}_${this.state.mode}`);
+        if (fieldComponent && fieldComponent.loadCaptchaData) {
+            await fieldComponent.loadCaptchaData();
+        }
+    }
+
     getValue(id) {
         const fieldComponent = this.getComponent(`hr_hf_f_${id}_${this.state.mode}`);
         if (fieldComponent) {

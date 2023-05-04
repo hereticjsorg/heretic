@@ -34,13 +34,18 @@ export default () => ({
                     message: "accessDenied",
                 }, 400);
             }
-            const updateResult = await this.mongo.db.collection(moduleConfig.collections.main).updateOne(query, {
-                $unset: {
-                    deleted: null,
-                }
-            });
+            if (!this.systemConfig.demo) {
+                const updateResult = await this.mongo.db.collection(moduleConfig.collections.main).updateOne(query, {
+                    $unset: {
+                        deleted: null,
+                    }
+                });
+                return rep.code(200).send({
+                    count: updateResult.modifiedCount,
+                });
+            }
             return rep.code(200).send({
-                count: updateResult.modifiedCount,
+                count: 0,
             });
         } catch (e) {
             this.log.error(e);

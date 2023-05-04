@@ -1,0 +1,90 @@
+import ProfileForm from "../../../../api/user/data/profileForm.js"
+import PasswordForm from "../../../../api/user/data/passwordForm.js"
+import EmailForm from "../../../../api/user/data/emailForm.js"
+
+<if(state.error)>
+    <div class="notification is-danger">
+        <t>dataLoadingError</t>
+    </div>
+</if>
+<else>
+    <if(state.ready && component.mongoEnabled && component.authOptions.signIn)>
+        <h1 class="title is-3 has-text-weight-light">
+            <t>account</t>: ${state.userData._default.username}
+        </h1>
+        <p>
+            <t>accountFormHelp</t>
+        </p>
+        <div class="mt-4">
+            <div class="tabs">
+                <ul>
+                    <li class=(state.currentAccountTab === "profile" ? "is-active" : "") data-id="profile" on-click("onAccountTabsClick")>
+                        <a>
+                            <t>tabProfile</t>
+                        </a>
+                    </li>
+                    <li class=(state.currentAccountTab === "password" ? "is-active" : "") data-id="password" on-click("onAccountTabsClick")>
+                        <a>
+                            <t>tabPassword</t>
+                        </a>
+                    </li>
+                    <li class=(state.currentAccountTab === "email" ? "is-active" : "") data-id="email" on-click("onAccountTabsClick")>
+                        <a>
+                            <t>tabEmail</t>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="mt-4">
+            <div style={
+                position: state.currentAccountTab === "profile" ? "unset" : "absolute",
+                clip: state.currentAccountTab === "profile" ? "unset" : "rect(0 0 0 0)"
+            }>
+                <hform key="profileForm" id="profileForm" data=(new ProfileForm(process.browser && window.__heretic ? window.__heretic.t : out.global.t)) on-form-submit("onProfileFormSubmit")/>
+            </div>
+            <div style={
+                position: state.currentAccountTab === "password" ? "unset" : "absolute",
+                clip: state.currentAccountTab === "password" ? "unset" : "rect(0 0 0 0)"
+            }>
+                <hform key="passwordForm" id="passwordForm" data=(new PasswordForm(process.browser && window.__heretic ? window.__heretic.t : out.global.t)) on-form-submit("onPasswordFormSubmit")/>
+            </div>
+            <div style={
+                position: state.currentAccountTab === "email" ? "unset" : "absolute",
+                clip: state.currentAccountTab === "email" ? "unset" : "rect(0 0 0 0)"
+            }>
+                <hform key="emailForm" id="emailForm" data=(new EmailForm(process.browser && window.__heretic ? window.__heretic.t : out.global.t)) on-form-submit("onEmailFormSubmit")/>
+            </div>
+        </div>
+        <hnotify key="notify"/>
+        <hmodal
+            key="changeEmailModal"
+            id="changeEmailModal"
+            close=true
+            title="changeEmailModalTitle"
+            actions=[
+                {
+                    id: "close",
+                    label: "changeEmailModalClose",
+                    class: "button is-light",
+                    close: true
+                }
+            ]>
+            <section
+                class="modal-card-body"
+                style={
+                    order: "2"
+                }>
+                <t>changeEmailModalText</t>
+            </section>
+        </hmodal>
+    </if>
+    <if(!state.ready && component.mongoEnabled && component.authOptions.signIn)>
+        <hloading active=true/>
+    </if>
+    <if(!component.mongoEnabled || !component.authOptions.signIn)>
+        <div class="notification is-warning">
+            <t>requestedFeatureDisabled</t>
+        </div>
+    </if>
+</else>

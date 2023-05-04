@@ -9,8 +9,8 @@ export default async (err, rep, languageData, language, siteConfig) => {
         message = languageData[language].rateLimitErrorMessage;
         break;
     default:
-        title = languageData[language].internalServerErrorTitle;
-        message = languageData[language].internalServerErrorMessage;
+        title = languageData[language].internalServerErrorTitle();
+        message = languageData[language].internalServerErrorMessage();
     }
     const renderPage = await error500.render({
         siteTitle: siteConfig.title[language],

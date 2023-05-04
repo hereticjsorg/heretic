@@ -3,6 +3,7 @@ const {
     v4: uuidv4
 } = require("uuid");
 const axios = require("axios").default;
+const debounce = require("lodash.debounce");
 const cloneDeep = require("lodash.clonedeep");
 const {
     format,
@@ -10,9 +11,14 @@ const {
     isValid,
 } = require("date-fns");
 const Utils = require("../../../lib/componentUtils").default;
+const Password = require("../../../lib/password").default;
 
 module.exports = class {
-    onCreate(input) {
+    onCreate(input, out) {
+        this.passwordPolicy = out.global.passwordPolicy;
+        if (process.browser && window.__heretic && window.__heretic.t) {
+            this.passwordPolicy = out.global.passwordPolicy || window.__heretic.outGlobal.passwordPolicy;
+        }
         this.state = {
             error: null,
             value: input.value || null,
@@ -20,6 +26,7 @@ module.exports = class {
             imageSecret: null,
             calendarVisible: false,
             enumList: [],
+            passwordPolicyData: [],
         };
         this.maskedInput = null;
     }
@@ -32,11 +39,13 @@ module.exports = class {
             const {
                 data
             } = await axios({
-                method: "post",
+                method: "get",
                 url: "/api/captcha",
             });
             captchaImageWrap.innerHTML = data.imageData;
             this.setState("imageSecret", data.imageSecret);
+            this.setState("value", "");
+            this.maskedInput.unmaskedValue = "";
         } catch {
             this.emit("notify", {
                 message: "hform_error_captchaLoading",
@@ -53,6 +62,13 @@ module.exports = class {
         }
     }
 
+    onPasswordChange() {
+        if (this.input.type === "password" && this.input.passwordPolicy) {
+            const testArr = this.password.getPasswordPolicyData(this.maskedInput.unmaskedValue);
+            this.setState("passwordPolicyData", testArr);
+        }
+    }
+
     async onMount() {
         this.utils = new Utils(this);
         const element = document.getElementById(`hr_hf_el_${this.input.formId}_${this.input.id}`);
@@ -63,7 +79,13 @@ module.exports = class {
                 this.maskedInput = new IMask(element, this.input.maskedOptions || {
                     mask: /^.+$/
                 });
+                this.password = new Password(this.passwordPolicy);
                 element.addEventListener("change", this.onInputChangeListener.bind(this));
+                element.addEventListener("keydown", debounce(this.onPasswordChange.bind(this), 50));
+                this.onPasswordChange();
+                break;
+            case "checkbox":
+                element.addEventListener("change", this.onCheckboxChangeListener.bind(this));
                 break;
             case "textarea":
                 element.addEventListener("change", this.onTextareaChangeListener.bind(this));
@@ -76,7 +98,6 @@ module.exports = class {
                     parse: str => parse(str, window.__heretic.t("global.dateFormatShort"), new Date()),
                     lazy: false,
                 });
-                // element.addEventListener("change", this.onInputChangeListener.bind(this));
                 break;
             case "captcha":
                 this.maskedInput = new IMask(element, this.input.maskedOptions || {
@@ -100,7 +121,16 @@ module.exports = class {
         this.emit("value-change", {
             id: this.input.id,
             type: this.input.type,
-            value: this.maskedInput.unmaskedValue
+            value: this.maskedInput.unmaskedValue,
+        });
+    }
+
+    onCheckboxChangeListener(e) {
+        this.setState("value", e.target.checked);
+        this.emit("value-change", {
+            id: this.input.id,
+            type: this.input.type,
+            value: e.target.checked,
         });
     }
 
@@ -179,6 +209,9 @@ module.exports = class {
         case "captcha":
             value = typeof this.state.value === "string" && this.state.value.length > 0 ? `${this.state.value}_${this.state.imageSecret}` : null;
             break;
+        case "checkbox":
+            value = !!this.state.value;
+            break;
         default:
             value = this.state.value;
         }
@@ -229,6 +262,11 @@ module.exports = class {
             await this.utils.waitForElement(`hr_hf_el_${this.input.formId}_${this.input.id}`);
             document.getElementById(`hr_hf_el_${this.input.formId}_${this.input.id}`).value = value;
             this.setState("value", value);
+            break;
+        case "checkbox":
+            await this.utils.waitForElement(`hr_hf_el_${this.input.formId}_${this.input.id}`);
+            document.getElementById(`hr_hf_el_${this.input.formId}_${this.input.id}`).checked = !!value;
+            this.setState("value", !!value);
             break;
         default:
             this.setState("value", value);

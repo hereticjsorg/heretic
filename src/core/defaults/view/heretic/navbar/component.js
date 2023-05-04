@@ -45,7 +45,9 @@ module.exports = class {
         this.setState("navItemOpen", id);
     }
 
-    onDarkMode(flag) {
+    async onDarkMode(flag) {
         this.setState("darkMode", flag);
+        await this.utils.waitForComponent("hereticLogo");
+        this.getComponent("hereticLogo").setDarkMode(flag);
     }
 };
