@@ -179,7 +179,7 @@ export default class {
     async verifyCaptcha(imageSecret, code) {
         let codeDb;
         if (this.fastify.redis) {
-            codeDb = await this.redis.get(`${this.fastify.siteConfig.id}_captcha_${imageSecret}}`);
+            codeDb = await this.fastify.redis.get(`${this.fastify.siteConfig.id}_captcha_${imageSecret}}`);
             await this.fastify.redis.del(`${this.fastify.siteConfig.id}_captcha_${imageSecret}}`);
         } else {
             const dbData = await this.fastify.mongo.db.collection(this.fastify.systemConfig.collections.captcha).findOne({
