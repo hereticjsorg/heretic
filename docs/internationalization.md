@@ -123,7 +123,7 @@ Hello Medved!
 
 ## Pluralization
 
-Heretic i18n engine hash pluralization support out-of-the-box. It uses [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/PluralRules](Intl.PluralRules) under the hood in order to display different strings for different pluralization rules.
+Heretic i18n engine hash pluralization support out-of-the-box. It uses [Intl.PluralRules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/PluralRules) under the hood in order to display different strings for different pluralization rules.
 
 Example:
 

@@ -33,6 +33,6 @@ module.exports = class {
             const pluralSelect = this.pluralRules.select(parseInt(this.input.plural, 10));
             id = `${id}${pluralSelect !== "other" ? `_${pluralSelect}` : ""}`;
         }
-        return this.input.arr && Array.isArray(data[id]) ? data[id][this.input.arr] : typeof data[id] === "function" ? data[id](this.input.data || {}) : data[id] || id;
+        return (data && data[id]) ? (this.input.arr && Array.isArray(data[id]) ? data[id][this.input.arr] : typeof data[id] === "function" ? data[id](this.input.data || {}) : data[id] || id) : id;
     }
 };

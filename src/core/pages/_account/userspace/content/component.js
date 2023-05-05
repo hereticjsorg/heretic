@@ -25,6 +25,7 @@ module.exports = class {
         this.mongoEnabled = out.global.mongoEnabled;
         this.systemRoutes = out.global.systemRoutes;
         this.passwordPolicy = out.global.passwordPolicy;
+        this.demo = out.global.demo;
         if (process.browser && window.__heretic && window.__heretic.t) {
             this.authOptions = this.authOptions || window.__heretic.outGlobal.authOptions;
             this.mongoEnabled = this.mongoEnabled || window.__heretic.outGlobal.mongoEnabled;
@@ -34,6 +35,7 @@ module.exports = class {
             this.cookieOptions = out.global.cookieOptions || window.__heretic.outGlobal.cookieOptions;
             this.systemRoutes = out.global.systemRoutes || window.__heretic.outGlobal.systemRoutes;
             this.passwordPolicy = out.global.passwordPolicy || window.__heretic.outGlobal.passwordPolicy;
+            this.demo = out.global.demo || window.__heretic.outGlobal.demo;
             document.title = `${config.title[this.language]} – ${this.siteTitle}`;
         }
         this.utils = new Utils(this, this.language);
