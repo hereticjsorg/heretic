@@ -12,6 +12,11 @@ import EmailForm from "../../../../api/user/data/emailForm.js"
         <h1 class="title is-3 has-text-weight-light">
             <t>account</t>: ${state.userData._default.username}
         </h1>
+        <if(out.global.demo)>
+            <div class="notification is-warning">
+                <t>noAccountChangesDemoMode</t>
+            </div>
+        </if>
         <p>
             <t>accountFormHelp</t>
         </p>
