@@ -98,3 +98,54 @@ In order to translate a string (*mitLicense* for example), you may use the follo
 ```
 
 When rendering, it will replaced to *Licensed under MIT License* for *en-us* language.
+
+## Template Support
+
+Under the hood, every string from the translation dictionaries (JSON files) is being considered as a template and is being processed by [Lodash Template Engine](https://lodash.com/docs/4.17.15#template). This allows you to use all the features of the template engine, e.g. variables.
+
+Example:
+
+```json
+{
+    "greeting": "Hello ${user}!"
+}
+```
+
+```html
+<t data={user: "Medved"}>greeting</t>
+```
+
+Result:
+
+```html
+Hello Medved!
+```
+
+## Pluralization
+
+Heretic i18n engine hash pluralization support out-of-the-box. It uses [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/PluralRules](Intl.PluralRules) under the hood in order to display different strings for different pluralization rules.
+
+Example:
+
+```json
+{
+    "online": "${count} users online",
+    "online_one": "${count} user online"
+}
+```
+
+```html
+<div>
+    <t data={count: 1} plural=1>online</t>
+</div>
+<div>
+    <t data={count: 2} plural=2>online</t>
+</div>
+```
+
+Result:
+
+```html
+1 user online
+2 users online
+```

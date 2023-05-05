@@ -8,18 +8,18 @@ The goal is to focus on optimization and speed. You decide what will be included
 
 Please read the docs before you get started:
 
-* [Introduction](manual/introduction.md)
-* [Getting Started with Heretic](manual/gettingStarted.md)
-* [Configuration Files](manual/configurationFiles.md)
-* [Rate Limits](manual/rateLimit.md)
-* [Creating Pages](manual/pages.md)
-* [Components](manual/components.md)
-* [Internationalization](manual/internationalization.md)
-* [API Modules](manual/api.md)
-* [Libraries and Helpers](manual/libraries.md)
-* [Console Client](manual/cli.md)
-* [Build Process](manual/build.md)
-* [Using Docker](manual/docker.md)
-* [Deploy on Server](manual/deploy.md)
+* [Introduction](docs/introduction.md)
+* [Getting Started with Heretic](docs/gettingStarted.md)
+* [Configuration Files](docs/configurationFiles.md)
+* [Rate Limits](docs/rateLimit.md)
+* [Creating Pages](docs/pages.md)
+* [Components](docs/components.md)
+* [Internationalization](docs/internationalization.md)
+* [API Modules](docs/api.md)
+* [Libraries and Helpers](docs/libraries.md)
+* [Console Client](docs/cli.md)
+* [Build Process](docs/build.md)
+* [Using Docker](docs/docker.md)
+* [Deploy on Server](docs/deploy.md)
 
 Check out the [Demo](https://demo.hereticjs.org) - sample website build on Heretic. It's automatically updated every time a new release is being pushed to the *master* branch of Heretic repository.

@@ -180,6 +180,7 @@
     "htable_selected": "выбрано",
     "htable_searchPlaceholder": "Поиск",
     "noChangesSavedDemoMode": "В демо-режиме изменения не сохраняются",
+    "noAccountChangesDemoMode": "Сайт запущен в демонстрационном режиме. Вы не сможете регистрировать новые аккаунты и менять данные существующего профиля.",
     "couldNotLoadData": "Ошибка во время загрузки данных",
     "userAccount": "Личный кабинет",
     "passwordMinLength": "Мин. длина",

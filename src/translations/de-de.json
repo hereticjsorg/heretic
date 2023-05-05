@@ -181,6 +181,7 @@
     "htable_selected": "ausgewählt",
     "htable_searchPlaceholder": "Suche",
     "noChangesSavedDemoMode": "Demo-Modus, Änderungen werden nicht gespeichert",
+    "noAccountChangesDemoMode": "Die Website befindet sich im Demo-Modus. Sie werden keine Möglichkeit haben, Benutzerkonto zu bearbeiten ( Anmeldung, Profiländerung, Änderung der Zugangsdaten, usw.)",
     "couldNotLoadData": "Daten konnten nicht geladen werden",
     "userAccount": "Benutzerkonto",
     "passwordMinLength": "Minimale Länge",
