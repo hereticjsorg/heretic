@@ -88,8 +88,6 @@ module.exports = class {
     }
 
     onFormButtonClick(btn) {
-        // eslint-disable-next-line no-console
-        console.log(btn);
         switch (btn.id) {
         case "btnForgotPassword":
             setTimeout(() => window.location.href = `${this.utils.getLocalizedURL(this.systemRoutes.restorePassword)}`);

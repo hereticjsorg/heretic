@@ -13,7 +13,7 @@ module.exports = class {
     }
 
     onMount() {
-        const router = new Router(routesData.routes.userspace, Object.keys(languages), navigation.home);
+        const router = new Router([...routesData.routes.userspace, ...routesData.routes.core], Object.keys(languages), navigation.home);
         router.setOnRouteChangeHandler(this.onRouteChangeHandler.bind(this));
         this.emit("route-change", router);
         window.__heretic = window.__heretic || {};

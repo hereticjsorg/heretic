@@ -44,7 +44,9 @@ module.exports = class {
 ${routesData.routes.userspace.filter(i => i.module).map(r => `        case "${r.id}":
             return import(/* webpackChunkName: "module.${r.id}" */ "../../../site/modules/${r.prefix}/${r.dir}/userspace/index.marko");
 `).join("")}${routesData.routes.userspace.filter(i => !i.module).map(r => `        case "${r.id}":
-            return import(/* webpackChunkName: "page.${r.id}" */ "../../../site/pages/${r.dir}/userspace/index.marko");
+            return import(/* webpackChunkName: "page.${r.id}" */ "${r.core ? "../../core" : "../../../site"}/pages/${r.dir}/userspace/index.marko");
+`).join("")}${routesData.routes.core.map(r => `        case "${r.id}":
+            return import(/* webpackChunkName: "page.${r.id}" */ "${r.core ? "../../core" : "../../../site"}/pages/${r.dir}/userspace/index.marko");
 `).join("")}        default:
             return import(/* webpackChunkName: "page.404" */ "../../core/errors/404/index.marko");
         }
@@ -144,9 +146,9 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
         // End processing modules
         fs.readdirSync(path.resolve(__dirname, "src", "core", "pages")).filter(p => !p.match(/^\./)).map(p => {
             try {
-                const configAdmin = require(path.resolve(__dirname, "src", "core", "pages", p, "admin.js"));
-                pagesAdminConfig.push({
-                    ...configAdmin,
+                const configCore = require(path.resolve(__dirname, "src", "core", "pages", p, "page.js"));
+                pagesCoreConfig.push({
+                    ...configCore,
                     dir: p,
                     core: true,
                     module: false,
@@ -154,12 +156,10 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
             } catch {
                 // Ignore
             }
-        });
-        fs.readdirSync(path.resolve(__dirname, "src", "core", "pages")).filter(p => !p.match(/^\./)).map(p => {
             try {
-                const configCore = require(path.resolve(__dirname, "src", "core", "pages", p, "page.js"));
-                pagesCoreConfig.push({
-                    ...configCore,
+                const configAdmin = require(path.resolve(__dirname, "src", "core", "pages", p, "admin.js"));
+                pagesAdminConfig.push({
+                    ...configAdmin,
                     dir: p,
                     core: true,
                     module: false,
