@@ -911,11 +911,23 @@ module.exports = class {
     onSearchInputChange(e) {
         const value = e.target.value.trim();
         this.setState("searchText", value);
-        this.loadDataDebounced({
-            searchText: value,
+    }
+
+    async onSearchInputFormSubmitHandler() {
+        await this.loadData({
+            searchText: this.state.searchText,
             currentPage: 1,
             focusOnSearch: true,
         });
+        setTimeout(async () => {
+            await this.utils.waitForElement(`hr_ht_table_search_${this.input.id}`);
+            document.getElementById(`hr_ht_table_search_${this.input.id}`).focus();
+        }, 10);
+    }
+
+    async onSearchInputFormSubmit(e) {
+        e.preventDefault();
+        this.onSearchInputFormSubmitHandler();
     }
 
     async onSettingsClick(e) {
@@ -1827,7 +1839,7 @@ module.exports = class {
         e.preventDefault();
         if (this.state.searchText && this.state.searchText.length) {
             this.setState("searchText", "");
-            this.loadDataDebounced({
+            this.loadData({
                 searchText: "",
                 currentPage: 1,
                 focusOnSearch: true,
