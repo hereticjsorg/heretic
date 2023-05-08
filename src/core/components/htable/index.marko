@@ -104,7 +104,9 @@ import SettingsPagesForm from "./settingsPagesForm"
         <div class="column is-narrow">
             <div class="field has-addons has-addons-centered">
                 <div class="control hr-ht-search-control">
-                    <input class="input hr-ht-search-field" type="text" value=state.searchText on-input("onSearchInputChange") placeholder=(process.browser ? window.__heretic.t("htable_searchPlaceholder") : "") disabled=(!state.init || state.loading) id=`hr_ht_table_search_${input.id}`/>
+                    <form on-submit("onSearchInputFormSubmit")>
+                        <input class="input hr-ht-search-field" type="text" value=state.searchText on-input("onSearchInputChange") placeholder=(process.browser ? window.__heretic.t("htable_searchPlaceholder") : "") disabled=(!state.init || state.loading) id=`hr_ht_table_search_${input.id}`/>
+                    </form>
                 </div>
                 <p class="control">
                     <a class="button hr-ht-search-button" on-click("onSearchButtonClearClick") disabled=(!state.init || state.loading)>
