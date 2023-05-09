@@ -60,7 +60,7 @@ export default class {
                 const userDb = await this.fastify.mongo.db.collection(this.fastify.systemConfig.collections.users).findOne({
                     username: username.toLowerCase(),
                 });
-                if (!userDb) {
+                if (!userDb || !userDb.active) {
                     return null;
                 }
                 const passwordHashDb = userDb.password;
