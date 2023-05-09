@@ -92,8 +92,12 @@ const saveBackupArchive = (dirPath, destPath) => new Promise((resolve, reject) =
             await binUtils.connectDatabase();
             const collections = (await binUtils.db.listCollections().toArray()).map(i => i.name);
             binUtils.disconnectDatabase();
+            const {
+                host,
+                port,
+            } = new URL(config.mongo.url);
             for (const collection of collections.filter(i => ["geoNetworks", "geoCountries", "geoCities"].indexOf(i) === -1)) {
-                await binUtils.executeCommand(`mongodump --db ${config.mongo.dbName} --collection ${collection} --out "${path.join(dirPath, "dump")}"`);
+                await binUtils.executeCommand(`mongodump --host=${host} --port=${port} --db ${config.mongo.dbName} --collection ${collection} --out "${path.join(dirPath, "dump")}"`);
             }
         }
         const archiveFilePath = path.resolve(dirPath, `${uuidv4()}.zip`);
