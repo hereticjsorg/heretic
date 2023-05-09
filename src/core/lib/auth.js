@@ -134,7 +134,7 @@ export default class {
                 const userDb = await this.fastify.mongo.db.collection(this.fastify.systemConfig.collections.users).findOne({
                     _id: new ObjectId(tokenData.uid),
                 });
-                if (!userDb) {
+                if (!userDb || !userDb.active) {
                     return null;
                 }
                 if (userDb.groups && Array.isArray(userDb.groups) && userDb.groups.length) {
