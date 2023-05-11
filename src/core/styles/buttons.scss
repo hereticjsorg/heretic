@@ -234,3 +234,15 @@ html.heretic-dark .button.is-danger:focus:enabled {
     background: darken($red, 15%) !important;
     box-shadow: 0 2px 0 0 darken($red, 30%), 1px 10px 16px -16px $black !important;
 }
+
+html.heretic-dark .button.is-ghost {
+    border: unset !important;
+    background: transparent !important;
+    color: $grey-light;
+}
+
+html.heretic-dark .button.is-ghost:hover,
+html.heretic-dark .button.is-ghost:active,
+html.heretic-dark .button.is-ghost:focus {
+    color: $grey-lightest !important;
+}
