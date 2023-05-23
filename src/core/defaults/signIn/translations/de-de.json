@@ -6,5 +6,6 @@
     "loginSuccess": "Anmeldung erfolgreich",
     "loginFail": "Anmeldung fehlgeschlagen",
     "submit": "Senden",
-    "forgotPassword": "Haben Sie Ihr Passwort vergessen?"
+    "forgotPassword": "Forgot your password?",
+    "oauth2": "Sie können sich auch über einen der folgenden Dienste anmelden oder registrieren lassen:"
 }

@@ -33,6 +33,19 @@ module.exports = class {
         return this.utils.getLocalizedURL(url);
     }
 
+    receiveMessage(event) {
+        if (event.origin !== window.location.origin) {
+            return;
+        }
+        if (event && event.data && event.data.token) {
+            const {
+                token,
+            } = event.data;
+            this.cookies.set(`${this.siteId}.authToken`, token);
+            window.location.href = this.utils.getLocalizedURL("/");
+        }
+    }
+
     async onMount() {
         await this.utils.waitForLanguageData();
         await this.utils.loadLanguageData("signIn");
@@ -47,6 +60,7 @@ module.exports = class {
             setTimeout(() => window.location.href = `${this.utils.getLocalizedURL("/").url || "/"}`, 100);
             return;
         }
+        window.addEventListener("message", this.receiveMessage.bind(this), false);
         this.setState("ready", true);
     }
 
@@ -88,10 +102,20 @@ module.exports = class {
     }
 
     onFormButtonClick(btn) {
+        // eslint-disable-next-line no-console
+        console.log(btn);
         switch (btn.id) {
         case "btnForgotPassword":
             setTimeout(() => window.location.href = `${this.utils.getLocalizedURL(this.systemRoutes.restorePassword)}`);
             break;
         }
+    }
+
+    onOAuthButtonClick(e) {
+        e.preventDefault();
+        const {
+            path,
+        } = e.target.closest("[data-path]").dataset;
+        this.utils.showOAuthPopup(path);
     }
 };

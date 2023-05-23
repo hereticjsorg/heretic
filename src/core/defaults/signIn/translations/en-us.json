@@ -6,5 +6,6 @@
     "loginSuccess": "Login successful",
     "loginFail": "Login failed",
     "submit": "Submit",
-    "forgotPassword": "Forgot your password?"
+    "forgotPassword": "Forgot your password?",
+    "oauth2": "You can also sign up or sign in using one of the following services:"
 }

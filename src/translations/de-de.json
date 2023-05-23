@@ -201,5 +201,6 @@
     "checkboxChecked": "aktiviert",
     "checkboxNotChecked": "nicht aktiviert",
     "checkboxSelected": "selektiert",
-    "signUp": "Konto erstellen"
+    "signUp": "Konto erstellen",
+    "oa2google": "Google"
 }

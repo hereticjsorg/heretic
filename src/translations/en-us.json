@@ -201,5 +201,6 @@
     "checkboxChecked": "checked",
     "checkboxNotChecked": "not checked",
     "checkboxSelected": "selected",
-    "signUp": "Sign Up"
+    "signUp": "Sign Up",
+    "oa2google": "Google"
 }

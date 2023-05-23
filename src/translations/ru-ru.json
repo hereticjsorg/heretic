@@ -200,5 +200,6 @@
     "checkboxChecked": "активно",
     "checkboxNotChecked": "неактивно",
     "checkboxSelected": "отмечено",
-    "signUp": "Регистрация"
+    "signUp": "Регистрация",
+    "oa2google": "Google"
 }

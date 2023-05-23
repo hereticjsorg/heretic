@@ -25,6 +25,7 @@ import Heretic from "./core/lib/heretic.ts";
         heretic.registerRouteErrors();
         await heretic.registerRouteAPI();
         await heretic.registerRouteWebSockets();
+        await heretic.registerOauth2();
         heretic.listen();
     } catch (e) {
         heretic.getFastifyInstance().log.error(e.message);
