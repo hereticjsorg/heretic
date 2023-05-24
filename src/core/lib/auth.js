@@ -54,18 +54,27 @@ export default class {
         });
     }
 
-    async authorize(username, password) {
+    async authorize(username, password = null) {
         if (this.fastify.systemConfig.mongo.enabled) {
             try {
-                const userDb = await this.fastify.mongo.db.collection(this.fastify.systemConfig.collections.users).findOne({
-                    username: username.toLowerCase(),
-                });
+                let userDb;
+                if (username.match(/@/)) {
+                    userDb = await this.fastify.mongo.db.collection(this.fastify.systemConfig.collections.users).findOne({
+                        email: username.toLowerCase(),
+                    });
+                } else {
+                    userDb = await this.fastify.mongo.db.collection(this.fastify.systemConfig.collections.users).findOne({
+                        username: username.toLowerCase(),
+                    });
+                }
                 if (!userDb || !userDb.active) {
                     return null;
                 }
-                const passwordHashDb = userDb.password;
-                if (!await this.verifyHash(`${password}${this.fastify.systemConfig.secret}`, passwordHashDb)) {
-                    return null;
+                if (password !== null) {
+                    const passwordHashDb = userDb.password;
+                    if (!await this.verifyHash(`${password}${this.fastify.systemConfig.secret}`, passwordHashDb)) {
+                        return null;
+                    }
                 }
                 const sid = crypto.randomUUID();
                 const clientIp = this.ipTools.getClientIp(this.req) || null;

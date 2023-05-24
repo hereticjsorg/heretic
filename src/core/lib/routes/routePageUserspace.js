@@ -25,7 +25,13 @@ export default (route, languageData, language) => ({
                     demo: true,
                     darkModeEnabled: true,
                     passwordPolicy: true,
+                    oa2: true,
                 },
+                oa2: this.systemConfig.oauth2 && Array.isArray(this.systemConfig.oauth2) ? this.systemConfig.oauth2.map(i => ({
+                    name: i.name,
+                    icon: i.icon,
+                    path: i.startRedirectPath,
+                })) : [],
                 passwordPolicy: this.systemConfig.passwordPolicy,
                 authOptions: this.systemConfig.auth,
                 darkModeEnabled: this.systemConfig.darkModeEnabled,

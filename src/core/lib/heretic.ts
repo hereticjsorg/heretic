@@ -8,6 +8,7 @@ import {
 import {
     v4 as uuid,
 } from "uuid";
+import oauthPlugin from "@fastify/oauth2";
 import commandLineArgs from "command-line-args";
 
 import template from "lodash.template";
@@ -249,6 +250,27 @@ export default class {
                 if (lang !== this.defaultLanguage) {
                     this.fastify.get(`/${lang}${route.path}`, routePageCore(route, this.languageData, lang));
                 }
+            }
+        }
+    }
+
+    /*
+     * Register core routes for all pages
+     */
+    async registerOauth2() {
+        if (!this.systemConfig.oauth2 || !Array.isArray(this.systemConfig.oauth2)) {
+            return;
+        }
+        for (const route of this.systemConfig.oauth2) {
+            if (!route.enabled) {
+                continue;
+            }
+            try {
+                this.fastify.register(oauthPlugin, route);
+                const oa2 = (await import(`../oauth2/${route.name.replace(/^oa2/, "")}.js`)).default;
+                this.fastify.get(route.callbackPath, oa2());
+            } catch {
+                // Ignore
             }
         }
     }
