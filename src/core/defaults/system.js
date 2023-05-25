@@ -11,6 +11,7 @@ const conf = {
     email: {},
     webSockets: {},
     token: {},
+    oauth2: {},
     passwordPolicy: {},
     cookieOptions: {},
     log: {},

@@ -31,6 +31,7 @@ export default (route, languageData, language) => ({
                     name: i.name,
                     icon: i.icon,
                     path: i.startRedirectPath,
+                    enabled: i.enabled,
                 })) : [],
                 passwordPolicy: this.systemConfig.passwordPolicy,
                 authOptions: this.systemConfig.auth,

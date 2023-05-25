@@ -116,14 +116,13 @@ export default class {
 
     showOAuthPopup(path) {
         const features = {
-            popup: "no",
+            popup: "yes",
             width: 600,
             height: 700,
             top: "auto",
             left: "auto",
-            toolbar: "yes",
-            menubar: "yes",
-            location: "yes",
+            toolbar: "no",
+            menubar: "no",
         };
         const strWindowsFeatures = Object.entries(features)
             .reduce((str, [key, value]) => {
