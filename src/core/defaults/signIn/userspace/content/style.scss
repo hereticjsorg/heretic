@@ -1,3 +1,5 @@
+@import "../../../../view/variables.scss";
+
 .hr-sin-oa2-icon {
     display: inline-flex;
     align-self: center;
@@ -9,4 +11,18 @@
     top: 0px;
     left: 0;
     position: relative;
+}
+
+.hr-sin-oa2-button {
+    border: 0 !important;
+    border-radius: 50% !important;
+    background: $grey-lighter !important;
+}
+
+html.heretic-dark .hr-sin-oa2-button {
+    background: $grey-dark !important;
+}
+
+html.heretic-dark .hr-sin-oa2-icon svg>path {
+    fill: $grey-light !important;
 }

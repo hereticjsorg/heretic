@@ -5,20 +5,21 @@ import SignInForm from "../../data/signInFormUserspace.js"
         <t>signIn</t>
     </h1>
     <hform key="signInForm" id="signInForm" data=(new SignInForm(process.browser && window.__heretic ? window.__heretic.t : out.global.t)) on-form-submit("onFormSubmit") on-button-click("onFormButtonClick")/>
-    <if(out.global.oa2 && Array.isArray(out.global.oa2))>
+    <if(out.global.oa2 && Array.isArray(out.global.oa2) && out.global.oa2.find(i => i.enabled))>
         <div class="mt-3 is-size-7">
             <t>oauth2</t>
         </div>
         <div class="buttons mt-3">
             <for|i| of=out.global.oa2>
-                <button class="button is-small is-rounded is-light" on-click("onOAuthButtonClick") data-path=i.path>
-                    <span class="icon hr-sin-oa2-icon">
-                        <svg viewBox="0 0 512 512" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                            <path d=i.icon/>
-                        </svg>
-                    </span>
-                    <span>${process.browser ? window.__heretic.t(i.name) : out.global.t(i.name)}</span>
-                </button>
+                <if(i.enabled)>
+                    <button class="button hr-sin-oa2-button" on-click("onOAuthButtonClick") data-path=i.path data-tippy-content=(process.browser && window.__heretic ? window.__heretic.t(i.name) : null)>
+                        <span class="icon hr-sin-oa2-icon">
+                            <svg viewBox="0 0 512 512" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                <path d=i.icon/>
+                            </svg>
+                        </span>
+                    </button>
+                </if>
             </for>
         </div>
     </if>
