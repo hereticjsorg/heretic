@@ -32,6 +32,13 @@ if (!process.browser) {
         } catch {
             // Ignore
         }
+        if (!conf[k]) {
+            try {
+                conf[k] = require(`${__dirname}/conf.d/${k}.js`);
+            } catch {
+                // Ignore
+            }
+        }
     }
 }
 

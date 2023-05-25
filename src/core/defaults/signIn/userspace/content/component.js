@@ -62,6 +62,9 @@ module.exports = class {
         }
         window.addEventListener("message", this.receiveMessage.bind(this), false);
         this.setState("ready", true);
+        if (window.__heretic && window.__heretic.setTippy) {
+            window.__heretic.setTippy();
+        }
     }
 
     async onFormSubmit() {
