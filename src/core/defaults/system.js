@@ -11,7 +11,7 @@ const conf = {
     email: {},
     webSockets: {},
     token: {},
-    oauth2: {},
+    oauth2: [],
     passwordPolicy: {},
     cookieOptions: {},
     log: {},
@@ -32,7 +32,7 @@ if (!process.browser) {
         } catch {
             // Ignore
         }
-        if (!conf[k]) {
+        if (!conf[k] || (Array.isArray(conf[k]) && !conf[k].length)) {
             try {
                 conf[k] = require(`${__dirname}/conf.d/${k}.js`);
             } catch {
