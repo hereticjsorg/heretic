@@ -52,8 +52,15 @@ export default class {
     }
 
     async renderPage(rep, token = null) {
+        const messages = {};
+        for (const lang of Object.keys(this.fastify.languages)) {
+            messages[lang] = this.fastify.languageData[lang].oauthError ? this.fastify.languageData[lang].oauthError() : "";
+        }
         const out = await modal.render({
             token,
+            id: this.fastify.systemConfig.id,
+            messages: JSON.stringify(messages),
+            defaultLanguage: Object.keys(this.fastify.languages)[0],
         });
         rep.type("text/html");
         return out.toString();

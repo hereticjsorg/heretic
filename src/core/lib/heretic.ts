@@ -57,6 +57,8 @@ export default class {
 
     languageData: any;
 
+    languages: string[];
+
     constructor() {
         this.utils = new Utils(Object.keys(languages));
         // Read configuration files
@@ -87,6 +89,7 @@ export default class {
             ignoreTrailingSlash: this.systemConfig.server.ignoreTrailingSlash,
         });
         [this.defaultLanguage] = Object.keys(languages);
+        this.languages = Object.keys(languages);
         this.fastify.register(require("@fastify/formbody"));
         this.fastify.register(require("@fastify/jwt"), {
             secret: this.systemConfig.secret,

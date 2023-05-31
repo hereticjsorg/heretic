@@ -202,5 +202,6 @@
     "checkboxNotChecked": "not checked",
     "checkboxSelected": "selected",
     "signUp": "Sign Up",
-    "oa2google": "Google"
+    "oa2google": "Google",
+    "oauthError": "Could not complete the authorization flow. Please try again."
 }

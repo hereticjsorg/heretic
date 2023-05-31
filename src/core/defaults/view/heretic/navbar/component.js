@@ -49,5 +49,6 @@ module.exports = class {
         this.setState("darkMode", flag);
         await this.utils.waitForComponent("hereticLogo");
         this.getComponent("hereticLogo").setDarkMode(flag);
+        this.emit("dark-mode", flag);
     }
 };

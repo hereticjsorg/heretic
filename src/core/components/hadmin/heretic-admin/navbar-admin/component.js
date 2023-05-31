@@ -73,6 +73,7 @@ module.exports = class {
         const darkMode = !this.state.darkMode;
         this.store.set("darkMode", darkMode);
         this.setState("darkMode", darkMode);
+        this.emit("dark-mode", darkMode);
         document.documentElement.classList[darkMode ? "add" : "remove"]("heretic-dark");
     }
 };

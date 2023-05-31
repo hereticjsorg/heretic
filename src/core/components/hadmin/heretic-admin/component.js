@@ -133,8 +133,8 @@ module.exports = class {
         await this.utils.waitForComponent("menu");
         await this.utils.waitForComponent("navbar");
         window.addEventListener("scroll", this.sideMenuToggle.bind());
+        this.cookies = new Cookies(this.cookieOptions);
         if (!this.userData || !this.userData.id) {
-            this.cookies = new Cookies(this.cookieOptions);
             this.cookies.delete(`${this.siteId}.authToken`);
         }
         try {
@@ -146,6 +146,8 @@ module.exports = class {
         const darkMode = !!this.store.get("darkMode");
         document.documentElement.classList[darkMode ? "add" : "remove"]("heretic-dark");
         document.documentElement.style.transition = "all 0.6s ease";
+        this.cookies.set(`${this.siteId}.language`, this.language);
+        this.cookies.set(`${this.siteId}.darkMode`, darkMode);
         this.setState("mounted", true);
         window.dispatchEvent(new CustomEvent("scroll"));
     }
@@ -225,5 +227,9 @@ module.exports = class {
             clearInterval(this.socketPingInterval);
         }
         this.disconnectWebSocket();
+    }
+
+    onDarkMode(flag) {
+        this.cookies.set(`${this.siteId}.darkMode`, flag);
     }
 };
