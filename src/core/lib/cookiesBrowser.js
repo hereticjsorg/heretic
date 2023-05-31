@@ -24,7 +24,7 @@ export default class {
         if (!name) {
             return;
         }
-        const { options } = this;
+        const options = cloneDeep(this.options);
         if (optionsData && typeof optionsData === "object") {
             if (optionsData.expires !== undefined && optionsData.expires !== null) {
                 optionsData.expires = typeof optionsData.expires === "string" ? new Date(optionsData.expires) : new Date(new Date().getTime() + optionsData.expires * 1000);
@@ -33,7 +33,7 @@ export default class {
             }
             Object.keys(optionsData).map(o => options[o] = optionsData[o]);
         }
-        if (options.expires) {
+        if (options.expires && typeof options.expires.toUTCString === "function") {
             options.expires = options.expires.toUTCString();
         }
         if (value instanceof Object) {

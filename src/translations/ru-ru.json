@@ -201,5 +201,6 @@
     "checkboxNotChecked": "неактивно",
     "checkboxSelected": "отмечено",
     "signUp": "Регистрация",
-    "oa2google": "Google"
+    "oa2google": "Google",
+    "oauthError": "Не удалось завершить процесс авторизации. Пожалуйста, попробуйте еще раз."
 }

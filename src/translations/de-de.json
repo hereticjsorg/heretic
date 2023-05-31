@@ -202,5 +202,6 @@
     "checkboxNotChecked": "nicht aktiviert",
     "checkboxSelected": "selektiert",
     "signUp": "Konto erstellen",
-    "oa2google": "Google"
+    "oa2google": "Google",
+    "oauthError": "Der Autorisierungsvorgang konnte nicht abgeschlossen werden. Bitte versuchen Sie es erneut."
 }

@@ -125,14 +125,16 @@ module.exports = class {
         } catch {
             // Ignore
         }
+        this.cookies = new Cookies(this.cookieOptions);
         if (!this.username) {
-            this.cookies = new Cookies(this.cookieOptions);
             this.cookies.delete(`${this.siteId}.authToken`);
         }
         this.store = store.namespace(`heretic_${this.siteId}`);
         const darkMode = this.store.get("darkMode") || false;
         document.documentElement.classList[darkMode ? "add" : "remove"]("heretic-dark");
         document.documentElement.style.transition = "all 0.6s ease";
+        this.cookies.set(`${this.siteId}.language`, this.language);
+        this.cookies.set(`${this.siteId}.darkMode`, darkMode);
         this.setState("mounted", true);
     }
 
@@ -212,5 +214,9 @@ module.exports = class {
             clearInterval(this.socketPingInterval);
         }
         this.disconnectWebSocket();
+    }
+
+    onDarkMode(flag) {
+        this.cookies.set(`${this.siteId}.darkMode`, flag);
     }
 };
