@@ -95,4 +95,12 @@ module.exports = class {
             signUpForm.setLoading(false);
         }
     }
+
+    onOAuthButtonClick(e) {
+        e.preventDefault();
+        const {
+            path,
+        } = e.target.closest("[data-path]").dataset;
+        this.utils.showOAuthPopup(path);
+    }
 };

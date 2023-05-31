@@ -203,5 +203,6 @@
     "checkboxSelected": "selected",
     "signUp": "Sign Up",
     "oa2google": "Google",
-    "oauthError": "Could not complete the authorization flow. Please try again."
+    "oauthError": "Could not complete the authorization flow. Please try again.",
+    "oauth2": "You can also sign up or sign in using one of the following services:"
 }
