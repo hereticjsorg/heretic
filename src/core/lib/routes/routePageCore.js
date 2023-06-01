@@ -1,10 +1,10 @@
-const routesData = require("../../../build/build.json");
+const routesData = require("#build/build.json");
 
 export default (route, languageData, language) => ({
     async handler(req, rep) {
         const authData = await req.auth.getData(req.auth.methods.COOKIE);
         const translationData = routesData.translations.core.find(i => i.id === route.id);
-        const page = (await import(`../../pages/${route.dir}/userspace/server.marko`)).default;
+        const page = (await import(`#core/pages/${route.dir}/userspace/server.marko`)).default;
         const renderPage = await page.render({
             $global: {
                 serializedGlobals: {
@@ -24,7 +24,14 @@ export default (route, languageData, language) => ({
                     demo: true,
                     darkModeEnabled: true,
                     passwordPolicy: true,
+                    oa2: true,
                 },
+                oa2: this.systemConfig.oauth2 && Array.isArray(this.systemConfig.oauth2) ? this.systemConfig.oauth2.map(i => ({
+                    name: i.name,
+                    icon: i.icon,
+                    path: i.startRedirectPath,
+                    enabled: i.enabled,
+                })) : [],
                 passwordPolicy: this.systemConfig.passwordPolicy,
                 darkModeEnabled: this.systemConfig.darkModeEnabled,
                 authOptions: this.systemConfig.auth,

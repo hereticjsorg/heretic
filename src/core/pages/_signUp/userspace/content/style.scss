@@ -1,0 +1,20 @@
+@import "../../../../../../site/view/variables.scss";
+
+.hr-sin-oa2-icon {
+    display: inline-flex;
+    align-self: center;
+}
+
+.hr-sin-oa2-icon svg {
+    height: 20px;
+    width: 20px;
+    top: 0px;
+    left: 0;
+    position: relative;
+}
+
+.hr-sin-oa2-button {
+    border: 0 !important;
+    border-radius: 50% !important;
+    background: $grey-lighter !important;
+}

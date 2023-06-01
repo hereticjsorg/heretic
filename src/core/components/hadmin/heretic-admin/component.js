@@ -5,11 +5,11 @@ const {
 } = require("tippy.js");
 const debounce = require("lodash.debounce");
 const template = require("lodash.template");
-const Cookies = require("../../../lib/cookiesBrowser").default;
-const Utils = require("../../../lib/componentUtils").default;
-const i18nLoader = require("../../../../build/loaders/i18n-loader-core");
-const pagesLoader = require("../../../../build/loaders/page-loader-admin");
-const routesData = require("../../../../build/build.json");
+const Cookies = require("#lib/cookiesBrowser").default;
+const Utils = require("#lib/componentUtils").default;
+const i18nLoader = require("#build/loaders/i18n-loader-core");
+const pagesLoader = require("#build/loaders/page-loader-admin");
+const routesData = require("#build/build.json");
 
 module.exports = class {
     async loadLanguageData() {

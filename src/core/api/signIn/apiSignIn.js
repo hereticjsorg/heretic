@@ -1,5 +1,5 @@
-import SignInForm from "../../../../site/pages/signIn/data/signInForm";
-import FormValidator from "../../lib/formValidatorServer";
+import SignInForm from "#site/pages/signIn/data/signInForm";
+import FormValidator from "#lib/formValidatorServer";
 
 export default () => ({
     async handler(req, rep) {

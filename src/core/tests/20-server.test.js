@@ -7,8 +7,8 @@ import {
 import os from "os";
 import axios from "axios";
 import axiosRetry from "axios-retry";
-import Helpers from "../lib/testHelpers";
-import systemConfig from "../../../etc/system.js";
+import Helpers from "#lib/testHelpers";
+import systemConfig from "#etc/system.js";
 
 axiosRetry(axios, {
     retryDelay: axiosRetry.exponentialDelay,

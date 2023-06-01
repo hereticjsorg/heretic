@@ -3,8 +3,8 @@ import {
     v4 as uuid,
 } from "uuid";
 import EmailForm from "./data/emailForm";
-import Email from "../../lib/email";
-import Utils from "../../lib/componentUtils";
+import Email from "#lib/email";
+import Utils from "#lib/componentUtils";
 import emailChangeNotificationTemplate from "./email/emailChangeNotification.marko";
 
 const ajv = new Ajv({

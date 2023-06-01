@@ -3,10 +3,10 @@ const {
     v4: uuidv4,
 } = require("uuid");
 const serializableTypes = require("./serializableTypes.json");
-const FormValidator = require("../../lib/formValidatorBrowser").default;
-const formValidatorUtils = require("../../lib/formValidatorUtils");
-const Query = require("../../lib/queryBrowser").default;
-const Utils = require("../../lib/componentUtils").default;
+const FormValidator = require("#lib/formValidatorBrowser").default;
+const formValidatorUtils = require("#lib/formValidatorUtils");
+const Query = require("#lib/queryBrowser").default;
+const Utils = require("#lib/componentUtils").default;
 
 module.exports = class {
     initValidation(input = this.input) {

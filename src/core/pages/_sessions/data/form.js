@@ -7,7 +7,7 @@ import {
 } from "date-fns";
 
 import moduleConfig from "../admin.js";
-import utils from "../../../lib/formValidatorUtils";
+import utils from "#lib/formValidatorUtils";
 
 export default class {
     constructor(t) {

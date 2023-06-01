@@ -1,5 +1,5 @@
 const template = require("lodash.template");
-const languagesList = require("../../../etc/languages.json");
+const languagesList = require("#etc/languages.json");
 
 export default class {
     constructor(component, language) {
@@ -63,7 +63,7 @@ export default class {
 
     async loadLanguageData(page) {
         if (process.browser && window.__heretic && window.__heretic.languageData) { // && !window.__heretic.translationsLoaded[page]
-            const i18nLoader = require(`../../build/loaders/i18n-loader-${page}`);
+            const i18nLoader = require(`#build/loaders/i18n-loader-${page}`);
             window.__heretic.translationsLoaded[page] = true;
             const languageData = {
                 ...window.__heretic.languageData,

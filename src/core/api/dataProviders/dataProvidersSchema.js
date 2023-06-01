@@ -1,4 +1,4 @@
-const languages = Object.keys(require("../../../../etc/languages.json"));
+const languages = Object.keys(require("#etc/languages.json"));
 
 module.exports = {
     type: "object",

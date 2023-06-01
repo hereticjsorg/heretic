@@ -1,5 +1,5 @@
-const languages = Object.keys(require("../../../../etc/languages.json"));
-const routesData = require("../../../build/build.json");
+const languages = Object.keys(require("#etc/languages.json"));
+const routesData = require("#build/build.json");
 
 export default (route, languageData, language) => ({
     async handler(req, rep) {
@@ -11,7 +11,7 @@ export default (route, languageData, language) => ({
             return rep.code(302).redirect(languages[0] === language ? `${this.systemConfig.routes.signInAdmin}?r=${route.path}` : `/${language}${this.systemConfig.routes.signInAdmin}?r=/${language}${route.path}`);
         }
         const translationData = routesData.translations.admin.find(i => i.id === route.id);
-        const module = (await import(`../../../../site/modules/${route.prefix}/${route.dir}/admin/server.marko`)).default;
+        const module = (await import(`#site/modules/${route.prefix}/${route.dir}/admin/server.marko`)).default;
         const renderModule = await module.render({
             $global: {
                 serializedGlobals: {
@@ -30,7 +30,14 @@ export default (route, languageData, language) => ({
                     demo: true,
                     darkModeEnabled: true,
                     passwordPolicy: true,
+                    oa2: true,
                 },
+                oa2: this.systemConfig.oauth2 && Array.isArray(this.systemConfig.oauth2) ? this.systemConfig.oauth2.map(i => ({
+                    name: i.name,
+                    icon: i.icon,
+                    path: i.startRedirectPath,
+                    enabled: i.enabled,
+                })) : [],
                 passwordPolicy: this.systemConfig.passwordPolicy,
                 darkModeEnabled: this.systemConfig.darkModeEnabled,
                 authOptions: this.systemConfig.auth,

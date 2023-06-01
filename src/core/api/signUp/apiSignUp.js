@@ -2,13 +2,13 @@ import Ajv from "ajv";
 import {
     v4 as uuid,
 } from "uuid";
-import Password from "../../lib/password";
+import Password from "#lib/password";
 import SignUpForm from "./data/signUpForm";
-import Captcha from "../../lib/captcha";
-import Email from "../../lib/email";
-import Utils from "../../lib/componentUtils";
+import Captcha from "#lib/captcha";
+import Email from "#lib/email";
+import Utils from "#lib/componentUtils";
 import emailChangeNotificationTemplate from "./email/signUpNotification.marko";
-import languagesData from "../../../../etc/languages.json";
+import languagesData from "#etc/languages.json";
 
 const ajv = new Ajv({
     allErrors: true,

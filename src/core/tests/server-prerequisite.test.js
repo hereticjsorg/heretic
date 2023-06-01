@@ -5,7 +5,7 @@ import {
 } from "@jest/globals";
 import fs from "fs-extra";
 import path from "path";
-import Helpers from "../lib/testHelpers";
+import Helpers from "#lib/testHelpers";
 
 jest.setTimeout(120000);
 const routeId = "test3wEGNDiB";

@@ -1,6 +1,6 @@
 const axios = require("axios").default;
-const Utils = require("../../../../lib/componentUtils").default;
-const Cookies = require("../../../../lib/cookiesBrowser").default;
+const Utils = require("#lib/componentUtils").default;
+const Cookies = require("#lib/cookiesBrowser").default;
 const pageConfig = require("../../page");
 
 module.exports = class {
@@ -94,5 +94,13 @@ module.exports = class {
             }
             signUpForm.setLoading(false);
         }
+    }
+
+    onOAuthButtonClick(e) {
+        e.preventDefault();
+        const {
+            path,
+        } = e.target.closest("[data-path]").dataset;
+        this.utils.showOAuthPopup(path);
     }
 };

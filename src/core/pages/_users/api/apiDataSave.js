@@ -1,7 +1,7 @@
 import FormData from "../data/form";
-import FormValidator from "../../../lib/formValidatorServer";
+import FormValidator from "#lib/formValidatorServer";
 import moduleConfig from "../admin.js";
-import languages from "../../../../../etc/languages.json";
+import languages from "#etc/languages.json";
 
 const uniqueFields = ["username", "email"];
 const translation = {};

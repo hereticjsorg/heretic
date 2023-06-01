@@ -1,4 +1,4 @@
-import error404 from "../../errors/404/server.marko";
+import error404 from "#core/errors/404/server.marko";
 
 export default async (req, rep, languageData, language, siteConfig, systemConfig, i18nNavigation) => {
     const authData = await req.auth.getData(req.auth.methods.COOKIE);

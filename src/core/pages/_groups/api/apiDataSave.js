@@ -1,5 +1,5 @@
 import FormData from "../data/form";
-import FormValidator from "../../../lib/formValidatorServer";
+import FormValidator from "#lib/formValidatorServer";
 import moduleConfig from "../admin.js";
 
 const uniqueFields = ["group"];

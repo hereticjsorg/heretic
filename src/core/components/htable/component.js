@@ -5,8 +5,8 @@ const debounce = require("lodash.debounce");
 const {
     v4: uuidv4
 } = require("uuid");
-const Utils = require("../../lib/componentUtils").default;
-const Query = require("../../lib/queryBrowser").default;
+const Utils = require("#lib/componentUtils").default;
+const Query = require("#lib/queryBrowser").default;
 
 module.exports = class {
     async onCreate(input, out) {

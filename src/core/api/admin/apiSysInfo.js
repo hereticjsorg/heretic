@@ -3,8 +3,8 @@ import {
 } from "mongodb";
 
 const os = require("os");
-const packageJson = require("../../../../package.json");
-const buildConfig = require("../../../build/build.json");
+const packageJson = require("#root/package.json");
+const buildConfig = require("#build/build.json");
 
 export default () => ({
     async handler(req, rep) {

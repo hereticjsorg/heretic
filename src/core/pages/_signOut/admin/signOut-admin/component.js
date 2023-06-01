@@ -1,8 +1,8 @@
 const axios = require("axios").default;
-const Utils = require("../../../../lib/componentUtils").default;
-const Cookies = require("../../../../lib/cookiesBrowser").default;
-const i18nLoader = require("../../../../../build/loaders/i18n-loader-core");
-const languages = Object.keys(require("../../../../../../etc/languages.json"));
+const Utils = require("#lib/componentUtils").default;
+const Cookies = require("#lib/cookiesBrowser").default;
+const i18nLoader = require("#build/loaders/i18n-loader-core");
+const languages = Object.keys(require("#etc/languages.json"));
 const moduleConfig = require("../../admin.js");
 
 module.exports = class {
@@ -50,7 +50,7 @@ module.exports = class {
             this.systemRoutes = out.global.systemRoutes || window.__heretic.outGlobal.systemRoutes;
             document.title = `${moduleConfig.title[this.language]} – ${this.siteTitle}`;
         }
-        await import(/* webpackChunkName: "bulma-admin" */ "../../../../components/hadmin/heretic-admin/bulma-admin.scss");
+        await import(/* webpackChunkName: "bulma-admin" */ "#core/components/hadmin/heretic-admin/bulma-admin.scss");
         this.setGlobalVariables(out);
     }
 

@@ -10,6 +10,16 @@
         "resolveJsonModule": true,
         "types": [
             "node", "webpack-env"
-        ]
+        ],
+        "paths": {
+            "#core/*": ["./src/core/*"],
+            "#components/*": ["./src/core/components/*"],
+            "#build/*": ["./src/build/*"],
+            "#lib/*": ["./src/core/lib/*"],
+            "#site/*": ["./site/*"],
+            "#etc/*": ["./etc/*"],
+            "#src/*": ["./src/*"],
+            "#root/*": ["./*"]
+        }
     }
 }
