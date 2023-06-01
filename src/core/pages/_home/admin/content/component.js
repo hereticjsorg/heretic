@@ -1,6 +1,6 @@
 const axios = require("axios").default;
-const Utils = require("../../../../lib/componentUtils").default;
-const Cookies = require("../../../../lib/cookiesBrowser").default;
+const Utils = require("#lib/componentUtils").default;
+const Cookies = require("#lib/cookiesBrowser").default;
 const config = require("../../admin.js");
 const moduleConfig = require("../../admin.js");
 

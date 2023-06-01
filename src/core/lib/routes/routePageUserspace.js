@@ -1,10 +1,10 @@
-const routesData = require("../../../build/build.json");
+const routesData = require("#build/build.json");
 
 export default (route, languageData, language) => ({
     async handler(req, rep) {
         const authData = await req.auth.getData(req.auth.methods.COOKIE);
         const translationData = routesData.translations.userspace.find(i => i.id === route.id);
-        const page = (await import(`../../../../site/pages/${route.dir}/userspace/server.marko`)).default;
+        const page = (await import(`#site/pages/${route.dir}/userspace/server.marko`)).default;
         const renderPage = await page.render({
             $global: {
                 serializedGlobals: {

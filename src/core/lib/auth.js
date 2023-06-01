@@ -22,7 +22,7 @@ export default class {
     async createHash(data) {
         if (!this.fastify) {
             this.fastify = {
-                systemConfig: require("../../../etc/system.js"),
+                systemConfig: require("#etc/system.js"),
             };
         }
         if (this.fastify.systemConfig.hashMethod === "argon2") {

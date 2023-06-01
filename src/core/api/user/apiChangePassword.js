@@ -1,5 +1,5 @@
 import Ajv from "ajv";
-import Password from "../../lib/password";
+import Password from "#lib/password";
 import PasswordForm from "./data/passwordForm";
 
 const ajv = new Ajv({

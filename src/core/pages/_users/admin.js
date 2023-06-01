@@ -1,7 +1,7 @@
 const meta = require("./meta.json");
 
 const id = "_users";
-const siteConfig = require("../../../../etc/system.js");
+const siteConfig = require("#etc/system.js");
 
 module.exports = {
     id,

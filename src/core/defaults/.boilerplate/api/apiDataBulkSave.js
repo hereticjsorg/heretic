@@ -1,4 +1,4 @@
-import FormValidator from "../../../../src/core/lib/formValidatorServer";
+import FormValidator from "#lib/formValidatorServer";
 import FormData from "../data/form";
 import moduleConfig from "../module.js";
 import utils from "./utils";

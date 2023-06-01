@@ -3,11 +3,11 @@ import {
     v4 as uuid,
 } from "uuid";
 import RestorePasswordForm from "./data/restorePasswordForm";
-import Captcha from "../../lib/captcha";
-import Email from "../../lib/email";
-import Utils from "../../lib/componentUtils";
+import Captcha from "#lib/captcha";
+import Email from "#lib/email";
+import Utils from "#lib/componentUtils";
 import restorePasswordNotificationTemplate from "./email/restorePasswordNotification.marko";
-import languagesData from "../../../../etc/languages.json";
+import languagesData from "#etc/languages.json";
 
 const ajv = new Ajv({
     allErrors: true,

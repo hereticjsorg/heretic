@@ -1,4 +1,4 @@
-const Utils = require("../../../lib/componentUtils").default;
+const Utils = require("#lib/componentUtils").default;
 
 module.exports = class {
     onCreate(input) {

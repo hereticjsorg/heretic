@@ -2,9 +2,9 @@ const axios = require("axios").default;
 const {
     format,
 } = require("date-fns");
-const Utils = require("../../../../lib/componentUtils").default;
-const Query = require("../../../../lib/queryBrowser").default;
-const Cookies = require("../../../../lib/cookiesBrowser").default;
+const Utils = require("#lib/componentUtils").default;
+const Query = require("#lib/queryBrowser").default;
+const Cookies = require("#lib/cookiesBrowser").default;
 const moduleConfig = require("../../admin.js");
 
 module.exports = class {

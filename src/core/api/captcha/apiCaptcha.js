@@ -1,7 +1,7 @@
 import {
     v4 as uuid,
 } from "uuid";
-import Captcha from "../../lib/captcha";
+import Captcha from "#lib/captcha";
 
 const captcha = new Captcha();
 

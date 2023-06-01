@@ -1,5 +1,5 @@
 const config = require("../../page.js");
-const Utils = require("../../../../core/lib/componentUtils").default;
+const Utils = require("#lib/componentUtils").default;
 
 module.exports = class {
     onCreate(input, out) {

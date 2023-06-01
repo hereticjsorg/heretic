@@ -1,5 +1,5 @@
 const store = require("store2");
-const Utils = require("../../../../../src/core/lib/componentUtils").default;
+const Utils = require("#lib/componentUtils").default;
 
 module.exports = class {
     async onCreate(input, out) {

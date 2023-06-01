@@ -6,7 +6,7 @@ import {
 import moduleConfig from "../module.js";
 import utils from "./utils";
 
-const languages = Object.keys(require("../../../../etc/languages.json"));
+const languages = Object.keys(require("#etc/languages.json"));
 
 export default () => ({
     async handler(req, rep) {

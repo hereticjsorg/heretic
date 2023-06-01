@@ -19,6 +19,9 @@ module.exports = {
         es2020: true
     },
     rules: {
+        "import/no-unresolved": [2, {
+            ignore: ["^#"]
+        }],
         quotes: ["error", "double",
             {
                 allowTemplateLiterals: true

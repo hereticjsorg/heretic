@@ -10,8 +10,8 @@ const {
     parse,
     isValid,
 } = require("date-fns");
-const Utils = require("../../../lib/componentUtils").default;
-const Password = require("../../../lib/password").default;
+const Utils = require("#lib/componentUtils").default;
+const Password = require("#lib/password").default;
 
 module.exports = class {
     onCreate(input, out) {

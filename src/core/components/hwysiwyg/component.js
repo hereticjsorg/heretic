@@ -1,4 +1,4 @@
-const Utils = require("../../lib/componentUtils").default;
+const Utils = require("#lib/componentUtils").default;
 const icons = require("./icons.json");
 
 module.exports = class {

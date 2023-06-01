@@ -8,10 +8,10 @@ import os from "os";
 import crypto from "crypto";
 import axios from "axios";
 import axiosRetry from "axios-retry";
-import Helpers from "../lib/testHelpers";
-import Auth from "../lib/auth";
-import systemConfig from "../../../etc/system.js";
-import websiteConfig from "../../../etc/website";
+import Helpers from "#lib/testHelpers";
+import Auth from "#lib/auth";
+import systemConfig from "#etc/system.js";
+import websiteConfig from "#etc/website";
 
 axiosRetry(axios, {
     retryDelay: axiosRetry.exponentialDelay,

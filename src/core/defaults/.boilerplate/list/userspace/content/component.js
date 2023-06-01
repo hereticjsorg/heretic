@@ -1,7 +1,7 @@
 const axios = require("axios").default;
-const Utils = require("../../../../../../src/core/lib/componentUtils").default;
-const Query = require("../../../../../../src/core/lib/queryBrowser").default;
-const Cookies = require("../../../../../../src/core/lib/cookiesBrowser").default;
+const Utils = require("#lib/componentUtils").default;
+const Query = require("#lib/queryBrowser").default;
+const Cookies = require("#lib/cookiesBrowser").default;
 const meta = require("../../page.js");
 const moduleConfig = require("../../../module");
 
