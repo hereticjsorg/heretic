@@ -622,4 +622,33 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
             spaces: "  ",
         });
     }
+
+    async* walkDir(dir) {
+        for await (const d of await fs.promises.opendir(dir)) {
+            const entry = path.join(dir, d.name);
+            if (d.isDirectory()) {
+                yield* await this.walkDir(entry);
+            } else if (d.isFile()) {
+                yield entry;
+            }
+        }
+    }
+
+    processMarkoJsonFile(p) {
+        const filename = path.basename(p);
+        const dirname = path.dirname(p);
+        if (filename === "marko.src.json") {
+            // fs.copySync(p, path.resolve(`${dirname}/marko.json`));
+            fs.removeSync(path.resolve(`${dirname}/marko.json`));
+        }
+    }
+
+    async processMarkoJson() {
+        for await (const p of this.walkDir(path.join(__dirname, "site"))) {
+            this.processMarkoJsonFile(p);
+        }
+        for await (const p of this.walkDir(path.join(__dirname, "src"))) {
+            this.processMarkoJsonFile(p);
+        }
+    }
 };
