@@ -638,8 +638,7 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
         const filename = path.basename(p);
         const dirname = path.dirname(p);
         if (filename === "marko.src.json") {
-            // fs.copySync(p, path.resolve(`${dirname}/marko.json`));
-            fs.removeSync(path.resolve(`${dirname}/marko.json`));
+            fs.copySync(p, path.resolve(`${dirname}/marko.json`));
         }
     }
 
