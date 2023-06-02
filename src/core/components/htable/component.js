@@ -698,7 +698,9 @@ module.exports = class {
                         this.emit("unauthorized");
                         resolve();
                     }
-                    this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_loadingError"), "is-danger");
+                    if (this.getComponent(`notify_ht_${this.input.id}`)) {
+                        this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_loadingError"), "is-danger");
+                    }
                     this.setState("data", []);
                     this.setState("pagination", []);
                     setTimeout(() => this.setTableDimensionsDebounced(), 10);
@@ -807,7 +809,9 @@ module.exports = class {
             this.setState("deleteItems", deleteItems);
             deleteConfirmation.setActive(true).setCloseAllowed(true).setLoading(false);
         } else if (id === "delete" && this.state.deleteConfig && !this.state.checkboxes.length) {
-            this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_nothingSelected"), "is-warning");
+            if (this.getComponent(`notify_ht_${this.input.id}`)) {
+                this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_nothingSelected"), "is-warning");
+            }
         }
     }
 
@@ -890,9 +894,13 @@ module.exports = class {
                     currentPage: 1,
                 });
                 deleteConfirmation.setCloseAllowed(true).setLoading(false).setActive(false);
-                this.getComponent(`notify_ht_${this.input.id}`).show(`${window.__heretic.t("htable_deleteSuccess")}: ${deleteResult.data.count}`, "is-success");
+                if (this.getComponent(`notify_ht_${this.input.id}`)) {
+                    this.getComponent(`notify_ht_${this.input.id}`).show(`${window.__heretic.t("htable_deleteSuccess")}: ${deleteResult.data.count}`, "is-success");
+                }
             } catch {
-                this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_deleteError"), "is-danger");
+                if (this.getComponent(`notify_ht_${this.input.id}`)) {
+                    this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_deleteError"), "is-danger");
+                }
                 deleteConfirmation.setCloseAllowed(true).setLoading(false);
             }
             break;
@@ -961,7 +969,9 @@ module.exports = class {
         }
         if (!count) {
             this.setState("settingsTab", "columns");
-            this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_noColumnsSelected"), "is-warning");
+            if (this.getComponent(`notify_ht_${this.input.id}`)) {
+                this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_noColumnsSelected"), "is-warning");
+            }
             return;
         }
         this.setState("columns", cloneDeep(this.state.settingsColumns));
@@ -1382,7 +1392,9 @@ module.exports = class {
             const bulkModal = this.getComponent(`bulkUpdateModal_ht_${this.input.id}`);
             if (!this.state.bulkItems.length) {
                 bulkModal.setActive(false);
-                this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_nothingToDo"), "is-warning");
+                if (this.getComponent(`notify_ht_${this.input.id}`)) {
+                    this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_nothingToDo"), "is-warning");
+                }
                 return;
             }
             const bulkItems = cloneDeep(this.state.bulkItems).map(item => ({
@@ -1409,7 +1421,9 @@ module.exports = class {
                 if (e && e.response && e.response.status === 403) {
                     this.emit("unauthorized");
                 }
-                this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_loadingError"), "is-danger");
+                if (this.getComponent(`notify_ht_${this.input.id}`)) {
+                    this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_loadingError"), "is-danger");
+                }
             } finally {
                 bulkModal.setLoading(false).setCloseAllowed(true);
             }
@@ -1452,7 +1466,9 @@ module.exports = class {
                 for (const tab of tabs) {
                     if (item.tabs.indexOf(tab) > -1) {
                         await this.utils.waitForComponent(`notify_ht_${this.input.id}`);
-                        this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_duplicateBulkItem"), "is-warning");
+                        if (this.getComponent(`notify_ht_${this.input.id}`)) {
+                            this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_duplicateBulkItem"), "is-warning");
+                        }
                         return;
                     }
                 }
@@ -1542,7 +1558,9 @@ module.exports = class {
         e.preventDefault();
         if (!this.state.checkboxes.length) {
             this.setState("dataOpen", false);
-            this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_exportNoneSelectedError"), "is-warning");
+            if (this.getComponent(`notify_ht_${this.input.id}`)) {
+                this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_exportNoneSelectedError"), "is-warning");
+            }
             return;
         }
         await this.utils.waitForComponent(`exportModal_ht_${this.input.id}`);
@@ -1582,7 +1600,9 @@ module.exports = class {
                 if (e && e.response && e.response.status === 403) {
                     this.emit("unauthorized");
                 }
-                this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_exportError"), "is-danger");
+                if (this.getComponent(`notify_ht_${this.input.id}`)) {
+                    this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_exportError"), "is-danger");
+                }
             }
             break;
         }
@@ -1714,7 +1734,9 @@ module.exports = class {
                 this.emit("unauthorized");
                 return;
             }
-            this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_loadingError"), "is-danger");
+            if (this.getComponent(`notify_ht_${this.input.id}`)) {
+                this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_loadingError"), "is-danger");
+            }
             this.setState("recycleBinList", []);
         } finally {
             recycleBinModal.setLoading(false).setCloseAllowed(true);
@@ -1759,13 +1781,17 @@ module.exports = class {
                 page: 1
             });
             await this.loadData();
-            this.getComponent(`notify_ht_${this.input.id}`).show(`${window.__heretic.t("htable_restoreSuccess")}: ${restoreResult.data.count}`, "is-success");
+            if (this.getComponent(`notify_ht_${this.input.id}`)) {
+                this.getComponent(`notify_ht_${this.input.id}`).show(`${window.__heretic.t("htable_restoreSuccess")}: ${restoreResult.data.count}`, "is-success");
+            }
         } catch (e) {
             if (e && e.response && e.response.status === 403) {
                 this.emit("unauthorized");
                 return;
             }
-            this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_loadingError"), "is-danger");
+            if (this.getComponent(`notify_ht_${this.input.id}`)) {
+                this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_loadingError"), "is-danger");
+            }
         } finally {
             recycleBinModal.setLoading(false).setCloseAllowed(true);
         }
@@ -1808,13 +1834,17 @@ module.exports = class {
                 });
                 await this.loadData();
                 deleteConfirmation.setActive(false);
-                this.getComponent(`notify_ht_${this.input.id}`).show(`${window.__heretic.t("htable_deleteSuccess")}: ${deleteResult.data.count}`, "is-success");
+                if (this.getComponent(`notify_ht_${this.input.id}`)) {
+                    this.getComponent(`notify_ht_${this.input.id}`).show(`${window.__heretic.t("htable_deleteSuccess")}: ${deleteResult.data.count}`, "is-success");
+                }
             } catch (e) {
                 if (e && e.response && e.response.status === 403) {
                     this.emit("unauthorized");
                     return;
                 }
-                this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_loadingError"), "is-danger");
+                if (this.getComponent(`notify_ht_${this.input.id}`)) {
+                    this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_loadingError"), "is-danger");
+                }
             } finally {
                 deleteConfirmation.setLoading(false).setCloseAllowed(true);
             }
