@@ -34,7 +34,5 @@ dist.new/
 dist.backup/
 ./docker-compose.yml
 temp/
-site/marko.json
-site/**/marko.json
 src/marko.json
 src/**/marko.json

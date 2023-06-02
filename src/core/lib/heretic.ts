@@ -22,7 +22,7 @@ import route404 from "./routes/route404";
 import route500 from "./routes/route500";
 import apiRoute404 from "./routes/route404-api";
 import apiRoute500 from "./routes/route500-api";
-import routesData from "../../build/build.json";
+import routesData from "#build/build.json";
 import Logger from "./logger";
 import Utils from "./utils";
 import Auth from "./auth";
@@ -31,10 +31,10 @@ import replyDecorators from "./replyDecorators";
 import requestDecorators from "./requestDecorators";
 import fastifyURLData from "./urlData";
 import fastifyMultipart from "./multipart";
-import i18nCore from "../../build/loaders/i18n-loader-core.js";
-import languages from "../../../etc/languages.json";
-import navigation from "../../../etc/navigation.json";
-import packageJson from "../../../package.json";
+import i18nCore from "#build/loaders/i18n-loader-core.js";
+import languages from "#etc/languages.json";
+import navigation from "#etc/navigation.json";
+import packageJson from "#root/package.json";
 
 /*
  * Main Heretic class used to load configs,
@@ -172,7 +172,7 @@ export default class {
         for (const lang of languagesList) {
             (this.languageData as Record<string, object>)[lang] = await i18nCore.loadLanguageFile(lang);
             for (const page of [...routesData.translatedPages.core, ...routesData.translatedPages.user, ...routesData.translatedPages.module]) {
-                const i18nLoader = await import(`../../build/loaders/i18n-loader-${page}.js`);
+                const i18nLoader = await import(`#build/loaders/i18n-loader-${page}.js`);
                 (this.languageData as Record<string, object>)[lang] = {
                     ...(this.languageData as Record<string, object>)[lang],
                     ...await i18nLoader.loadLanguageFile(lang),
@@ -306,7 +306,7 @@ export default class {
             api.default(this.fastify);
         }
         for (const page of routesData.api.userspace) {
-            const api = await import(`../../../site/pages/${page}/api/index.js`);
+            const api = await import(`#site/pages/${page}/api/index.js`);
             api.default(this.fastify);
         }
         for (const page of routesData.api.core) {
@@ -314,7 +314,7 @@ export default class {
             api.default(this.fastify);
         }
         for (const module of routesData.api.modules) {
-            const api = await import(`../../../site/modules/${module}/api/index.js`);
+            const api = await import(`#site/modules/${module}/api/index.js`);
             api.default(this.fastify);
         }
     }
@@ -331,7 +331,7 @@ export default class {
             this.wsHandlers.push(new Ws(this.fastify));
         }
         for (const page of routesData.ws.userspace) {
-            const Ws = (await import(`../../../site/pages/${page}/ws/index.js`)).default;
+            const Ws = (await import(`#site/pages/${page}/ws/index.js`)).default;
             this.wsHandlers.push(new Ws(this.fastify));
         }
         for (const page of routesData.ws.core) {
@@ -339,7 +339,7 @@ export default class {
             this.wsHandlers.push(new Ws(this.fastify));
         }
         for (const module of routesData.ws.modules) {
-            const Ws = (await import(`../../../site/modules/${module}/ws/index.js`)).default;
+            const Ws = (await import(`#site/modules/${module}/ws/index.js`)).default;
             this.wsHandlers.push(new Ws(this.fastify));
         }
         this.fastify.register(async (fastify: { get: (arg0: string, arg1: { websocket: boolean; }, arg2: (connection: any, req: any) => Promise<void>) => void; redis: { set: (arg0: string, arg1: number, arg2: string, arg3: number) => any; del: (arg0: string) => any; }; siteConfig: { id: any; }; }) => {
@@ -489,7 +489,7 @@ export default class {
         }
         for (const module of routesData.directories.modules) {
             try {
-                const Provider = (await import(`../../../site/modules/${module}/data/provider`)).default;
+                const Provider = (await import(`#site/modules/${module}/data/provider`)).default;
                 const provider = new Provider();
                 (dataProviders as Record<typeof module, typeof provider>)[module] = provider;
             } catch {
@@ -498,7 +498,7 @@ export default class {
         }
         for (const page of routesData.directories.pages) {
             try {
-                const Provider = (await import(`../../../site/pages/${page}/data/provider`)).default;
+                const Provider = (await import(`#site/pages/${page}/data/provider`)).default;
                 const provider = new Provider();
                 (dataProviders as Record<typeof page, typeof provider>)[page] = provider;
             } catch {
@@ -590,7 +590,7 @@ export default class {
             if (!installedVersions[page] || options.setup) {
                 let Setup;
                 try {
-                    Setup = (await import(`../../../site/pages/${page}/setup.js`)).default;
+                    Setup = (await import(`#site/pages/${page}/setup.js`)).default;
                 } catch {
                     // Ignore
                 }
@@ -628,7 +628,7 @@ export default class {
             if (!installedVersions[module] || options.setup) {
                 let Setup;
                 try {
-                    Setup = (await import(`../../../site/modules/${module}/setup.js`)).default;
+                    Setup = (await import(`#site/modules/${module}/setup.js`)).default;
                 } catch {
                     // Ignore
                 }

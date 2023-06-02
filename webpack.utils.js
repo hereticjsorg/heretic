@@ -8,8 +8,6 @@ const BinUtils = require("./src/bin/binUtils");
 module.exports = class {
     constructor(production) {
         this.config = require(path.resolve(__dirname, "etc", "system.js"));
-        // fs.removeSync(path.resolve(__dirname, "dist/public/heretic"));
-        // fs.removeSync(path.resolve(__dirname, "dist/server.js"));
         fs.ensureDirSync(path.resolve(__dirname, "dist/public/heretic"));
         fs.ensureDirSync(path.resolve(__dirname, "src", "build"));
         fs.removeSync(path.resolve(__dirname, "src", "build"));
@@ -30,6 +28,12 @@ module.exports = class {
         this.systemConfig = require(path.resolve(__dirname, "etc", "website.js"));
         this.production = production;
         this.binUtils = new BinUtils({});
+        this.dirAliases = {};
+        for (const i of Object.keys(packageJson.imports)) {
+            const [key] = i.split(/\//);
+            const [dir] = packageJson.imports[i].split(/\/\*/);
+            this.dirAliases[key] = path.resolve(dir);
+        }
     }
 
     initCorePages() {
@@ -638,7 +642,16 @@ ${routesData.routes.core.map(r => `        case "${r.id}":
         const filename = path.basename(p);
         const dirname = path.dirname(p);
         if (filename === "marko.src.json") {
-            fs.copySync(p, path.resolve(`${dirname}/marko.json`));
+            const data = fs.readJSONSync(p);
+            if (data["tags-dir"]) {
+                data["tags-dir"].forEach((t, i) => {
+                    for (const k of Object.keys(this.dirAliases)) {
+                        t = t.replace(new RegExp(`^${k}`, "i"), this.dirAliases[k]);
+                    }
+                    data["tags-dir"][i] = t;
+                });
+            }
+            fs.writeJSONSync(path.resolve(`${dirname}/marko.json`), data);
         }
     }
 

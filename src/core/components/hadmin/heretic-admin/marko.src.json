@@ -1,3 +1,3 @@
 {
-    "tags-dir": ["./", "../", "../../../errors"]
+    "tags-dir": ["./", "../", "#core/errors"]
 }

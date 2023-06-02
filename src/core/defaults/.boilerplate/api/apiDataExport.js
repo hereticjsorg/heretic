@@ -10,7 +10,7 @@ import {
     add,
     formatISO,
 } from "date-fns";
-import xlsx from "#lib/node-xlsx/index.ts";
+import xlsx from "#lib/3rdparty/node-xlsx/index.ts";
 import FormData from "../data/form";
 import languages from "#etc/languages.json";
 import moduleConfig from "../module.js";
