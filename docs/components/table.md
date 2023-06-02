@@ -29,7 +29,7 @@ const {
     mdiAccountPlusOutline,
 } = require("@mdi/js");
 // Require form validator utilities library
-const utils = require("../../../core/lib/formValidatorUtils");
+const utils = require("#lib/formValidatorUtils");
 
 export default class {
     // Pass translation function to the constructor

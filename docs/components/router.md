@@ -20,8 +20,8 @@ Usage:
 Then, load the content which is appropriate to the current route:
 
 ```javascript
-const pagesLoader = require("../../build/loaders/page-loader-userspace");
-const routesData = require("../../build/build.json");
+const pagesLoader = require("#build/loaders/page-loader-userspace");
+const routesData = require("#build/build.json");
 
 async onCreate(input, out) {
     this.state = {
