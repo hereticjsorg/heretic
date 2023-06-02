@@ -15,7 +15,7 @@ const systemConfig = require("./etc/system.js");
 // A dirty one-liner hack for webpack error during Fastify build
 fs.writeFileSync(path.resolve(__dirname, "node_modules", "fastify", "lib", "error-serializer.js"), fs.readFileSync(path.resolve(__dirname, "node_modules", "fastify", "lib", "error-serializer.js"), "utf8").replace(/return \$main/, ""));
 
-module.exports = (env, argv) => {
+module.exports = async (env, argv) => {
     const markoPlugin = new MarkoPlugin();
     const webpackUtils = new WebpackUtils(argv.mode === "production");
     webpackUtils.generateBuildConfigs();
@@ -27,6 +27,7 @@ module.exports = (env, argv) => {
     webpackUtils.generateManifest();
     webpackUtils.initCorePages();
     webpackUtils.initVersionFile();
+    await webpackUtils.processMarkoJson();
     return ([{
             context: path.resolve(`${__dirname}`),
             performance: {
@@ -181,6 +182,9 @@ module.exports = (env, argv) => {
                 alias: {
                     fonts: path.join(__dirname, "src/core/fonts"),
                     siteFonts: path.join(__dirname, "site/fonts"),
+                    styles: path.join(__dirname, "src/core/styles"),
+                    view: path.join(__dirname, "site/view"),
+                    bulma: path.join(__dirname, "node_modules/bulma/sass"),
                 },
                 extensions: [".tsx", ".ts", ".js"],
             }

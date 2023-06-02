@@ -4,8 +4,8 @@ The following SASS files are required in order Bulma to work:
 
 */
 
-@import "../../../node_modules/bulma/sass/utilities/_all.sass";
-@import "../../../node_modules/bulma/sass/base/_all.sass";
+@import "~bulma/utilities/_all.sass";
+@import "~bulma/base/_all.sass";
 
 /*
 
@@ -13,12 +13,12 @@ Load every SASS module for Bulma...
 
 */
 
-@import "../../../node_modules/bulma/sass/elements/_all.sass";
-@import "../../../node_modules/bulma/sass/components/_all.sass";
-@import "../../../node_modules/bulma/sass/form/_all.sass";
-@import "../../../node_modules/bulma/sass/grid/_all.sass";
-@import "../../../node_modules/bulma/sass/helpers/_all.sass";
-@import "../../../node_modules/bulma/sass/layout/_all.sass";
+@import "~bulma/elements/_all.sass";
+@import "~bulma/components/_all.sass";
+@import "~bulma/form/_all.sass";
+@import "~bulma/grid/_all.sass";
+@import "~bulma/helpers/_all.sass";
+@import "~bulma/layout/_all.sass";
 
 /*
 
@@ -28,62 +28,62 @@ Load every SASS module for Bulma...
 
 /* Elements */
 
-// @import "../../../node_modules/bulma/sass/elements/box.sass";
-// @import "../../../node_modules/bulma/sass/elements/button.sass";
-// @import "../../../node_modules/bulma/sass/elements/container.sass";
-// @import "../../../node_modules/bulma/sass/elements/content.sass";
-// @import "../../../node_modules/bulma/sass/elements/icon.sass";
-// @import "../../../node_modules/bulma/sass/elements/image.sass";
-// @import "../../../node_modules/bulma/sass/elements/notification.sass";
-// @import "../../../node_modules/bulma/sass/elements/progress.sass";
-// @import "../../../node_modules/bulma/sass/elements/table.sass";
-// @import "../../../node_modules/bulma/sass/elements/tag.sass";
-// @import "../../../node_modules/bulma/sass/elements/title.sass";
-// @import "../../../node_modules/bulma/sass/elements/other.sass";
+// @import "~bulma/elements/box.sass";
+// @import "~bulma/elements/button.sass";
+// @import "~bulma/elements/container.sass";
+// @import "~bulma/elements/content.sass";
+// @import "~bulma/elements/icon.sass";
+// @import "~bulma/elements/image.sass";
+// @import "~bulma/elements/notification.sass";
+// @import "~bulma/elements/progress.sass";
+// @import "~bulma/elements/table.sass";
+// @import "~bulma/elements/tag.sass";
+// @import "~bulma/elements/title.sass";
+// @import "~bulma/elements/other.sass";
 
 /* Components */
 
-// @import "../../../node_modules/bulma/sass/components/breadcrumb.sass";
-// @import "../../../node_modules/bulma/sass/components/card.sass";
-// @import "../../../node_modules/bulma/sass/components/dropdown.sass";
-// @import "../../../node_modules/bulma/sass/components/level.sass";
-// @import "../../../node_modules/bulma/sass/components/media.sass";
-// @import "../../../node_modules/bulma/sass/components/menu.sass";
-// @import "../../../node_modules/bulma/sass/components/message.sass";
-// @import "../../../node_modules/bulma/sass/components/modal.sass";
-// @import "../../../node_modules/bulma/sass/components/navbar.sass";
-// @import "../../../node_modules/bulma/sass/components/pagination.sass";
-// @import "../../../node_modules/bulma/sass/components/panel.sass";
-// @import "../../../node_modules/bulma/sass/components/tabs.sass";
+// @import "~bulma/components/breadcrumb.sass";
+// @import "~bulma/components/card.sass";
+// @import "~bulma/components/dropdown.sass";
+// @import "~bulma/components/level.sass";
+// @import "~bulma/components/media.sass";
+// @import "~bulma/components/menu.sass";
+// @import "~bulma/components/message.sass";
+// @import "~bulma/components/modal.sass";
+// @import "~bulma/components/navbar.sass";
+// @import "~bulma/components/pagination.sass";
+// @import "~bulma/components/panel.sass";
+// @import "~bulma/components/tabs.sass";
 
 /* Forms */
 
-// @import "../../../node_modules/bulma/sass/form/shared.sass";
-// @import "../../../node_modules/bulma/sass/form/input-textarea.sass";
-// @import "../../../node_modules/bulma/sass/form/checkbox-radio.sass";
-// @import "../../../node_modules/bulma/sass/form/select.sass";
-// @import "../../../node_modules/bulma/sass/form/file.sass";
-// @import "../../../node_modules/bulma/sass/form/tools.sass";
+// @import "~bulma/form/shared.sass";
+// @import "~bulma/form/input-textarea.sass";
+// @import "~bulma/form/checkbox-radio.sass";
+// @import "~bulma/form/select.sass";
+// @import "~bulma/form/file.sass";
+// @import "~bulma/form/tools.sass";
 
 /* Grid */
 
-// @import "../../../node_modules/bulma/sass/grid/columns.sass";
-// @import "../../../node_modules/bulma/sass/grid/tiles.sass";
+// @import "~bulma/grid/columns.sass";
+// @import "~bulma/grid/tiles.sass";
 
 /* Helpers */
 
-// @import "../../../node_modules/bulma/sass/helpers/color.sass";
-// @import "../../../node_modules/bulma/sass/helpers/flexbox.sass";
-// @import "../../../node_modules/bulma/sass/helpers/float.sass";
-// @import "../../../node_modules/bulma/sass/helpers/other.sass";
-// @import "../../../node_modules/bulma/sass/helpers/overflow.sass";
-// @import "../../../node_modules/bulma/sass/helpers/position.sass";
-// @import "../../../node_modules/bulma/sass/helpers/spacing.sass";
-// @import "../../../node_modules/bulma/sass/helpers/typography.sass";
-// @import "../../../node_modules/bulma/sass/helpers/visibility.sass";
+// @import "~bulma/helpers/color.sass";
+// @import "~bulma/helpers/flexbox.sass";
+// @import "~bulma/helpers/float.sass";
+// @import "~bulma/helpers/other.sass";
+// @import "~bulma/helpers/overflow.sass";
+// @import "~bulma/helpers/position.sass";
+// @import "~bulma/helpers/spacing.sass";
+// @import "~bulma/helpers/typography.sass";
+// @import "~bulma/helpers/visibility.sass";
 
 /* Layout */
 
-// @import "../../../node_modules/bulma/sass/layout/hero.sass";
-// @import "../../../node_modules/bulma/sass/layout/section.sass";
-// @import "../../../node_modules/bulma/sass/layout/footer.sass";
+// @import "~bulma/layout/hero.sass";
+// @import "~bulma/layout/section.sass";
+// @import "~bulma/layout/footer.sass";

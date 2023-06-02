@@ -217,6 +217,8 @@ module.exports = class {
     }
 
     onDarkMode(flag) {
-        this.cookies.set(`${this.siteId}.darkMode`, flag);
+        if (this.cookies) {
+            this.cookies.set(`${this.siteId}.darkMode`, flag);
+        }
     }
 };
