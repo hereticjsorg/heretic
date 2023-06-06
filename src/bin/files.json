@@ -14,6 +14,15 @@
     "from": "../core/defaults/signIn",
     "to": "../../site/pages/signIn"
 }, {
+    "from": "../core/defaults/signUp",
+    "to": "../../site/pages/signUp"
+}, {
+    "from": "../core/defaults/restorePassword",
+    "to": "../../site/pages/restorePassword"
+}, {
+    "from": "../core/defaults/account",
+    "to": "../../site/pages/account"
+}, {
     "from": "../core/defaults/view",
     "to": "../../site/view"
 }, {

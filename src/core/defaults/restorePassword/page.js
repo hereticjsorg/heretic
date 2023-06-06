@@ -1,7 +1,7 @@
 const meta = require("./meta.json");
 
 module.exports = {
-    id: "_restorePassword",
+    id: "restorePassword",
     path: "/restorePassword",
     langSwitchComponent: false,
     api: {

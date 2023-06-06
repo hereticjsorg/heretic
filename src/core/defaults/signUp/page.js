@@ -1,11 +1,11 @@
 const meta = require("./meta.json");
 
 module.exports = {
-    id: "_account",
-    path: "/account",
+    id: "signUp",
+    path: "/signUp",
     langSwitchComponent: false,
     api: {
-        getData: "/api/user/getData",
+        signUp: "/api/signUp",
     },
     ...meta.userspace,
 };
