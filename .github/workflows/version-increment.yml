@@ -15,4 +15,5 @@ jobs:
       - run: git config --global user.name 'Mikhail Matveev'
       - run: git config --global user.email 'xtreme@rh1.ru'
       - run: npm version patch
+      - run: npm install
       - run: git push
