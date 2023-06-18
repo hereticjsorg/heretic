@@ -14,7 +14,5 @@ jobs:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
       - run: git config --global user.name 'Mikhail Matveev'
       - run: git config --global user.email 'xtreme@rh1.ru'
-      - run: npm version patch
-      - run: npm install
-      - run: git commit -m '[skip actions]'
+      - run: npm version patch -m '[skip actions]'
       - run: git push
