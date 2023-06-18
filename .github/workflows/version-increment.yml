@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          token: ${{ github.token }}
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
       - run: git config --global user.name 'Mikhail Matveev'
       - run: git config --global user.email 'xtreme@rh1.ru'
       - run: npm version patch
