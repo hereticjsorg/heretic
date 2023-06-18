@@ -1,11 +1,18 @@
 name: Version Increment
-run-name: ${{ github.actor }} is updating version number in master
+
 on:
-    push:
-      branches:
-        - master
+  push:
+    branches:
+      - master
+
 jobs:
-  Explore-GitHub-Actions:
+  version:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+      - run: git config --global user.name 'Mikhail Matveev'
+      - run: git config --global user.email 'xtreme@rh1.ru'
       - run: npm version patch
+      - run: git push
