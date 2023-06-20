@@ -10,9 +10,9 @@ module.exports = {
         exec_mode: "cluster",
         instances: 1,
         time: false,
-        error_file: path.resolve(__dirname, "logs", `${systemConfig.id}_error.log`),
-        out_file: path.resolve(__dirname, "logs", `${systemConfig.id}_out.log`),
-        log_file: false,
+        error_file: false,
+        out_file: false,
+        log_file: path.resolve(__dirname, "logs", `${systemConfig.id}.log`),
         merge_logs: true,
     }]
 };
