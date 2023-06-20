@@ -1,4 +1,4 @@
-import { mdiWeb } from "@mdi/js"
+import { mdiWeb, mdiChevronDown } from "@mdi/js"
 import languages from "#etc/languages.json"
 
 <if(Object.keys(languages).length > 1)>
@@ -13,7 +13,11 @@ import languages from "#etc/languages.json"
                     <path d=mdiWeb/>
                 </svg>
             </span>
-            <span class="is-hidden-touch">&nbsp;&nbsp;▾</span>
+            <span class="icon hr-navbar-icon is-hidden-touch">
+                <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                    <path d=mdiChevronDown/>
+                </svg>
+            </span>
             <span class="is-hidden-desktop">&nbsp;&nbsp;Language</span>
         </a>
         <div class="navbar-dropdown is-right hr-navbar-dropdown">

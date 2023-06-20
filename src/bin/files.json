@@ -2,7 +2,7 @@
     "from": "../core/defaults/home",
     "to": "../../site/pages/home"
 }, {
-    "from": "../core/defaults/.boilerplate",
+    "from": "../core/defaults/boilerplate",
     "to": "../../site/modules/boilerplate"
 }, {
     "from": "../core/defaults/email",
@@ -29,7 +29,7 @@
     "from": "../core/defaults/static",
     "to": "../../site/static"
 }, {
-    "from": "../core/defaults/.blank",
+    "from": "../core/defaults/blank",
     "to": "../../site/pages/.blank"
 }, {
     "from": "../core/defaults/meta.json",
