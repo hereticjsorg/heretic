@@ -1,4 +1,4 @@
-import { mdiAccountCircleOutline } from "@mdi/js"
+import { mdiAccountCircleOutline, mdiChevronDown } from "@mdi/js"
 
 <div
     class=`navbar-item has-dropdown${state.authOpen ? " is-active" : ""}`
@@ -17,7 +17,11 @@ import { mdiAccountCircleOutline } from "@mdi/js"
                 &nbsp;&nbsp;<t>authorization</t>
             </span>
         </else>
-        <span class="is-hidden-touch">&nbsp;&nbsp;▾</span>
+        <span class="icon hr-navbar-icon is-hidden-touch">
+            <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                <path d=mdiChevronDown/>
+            </svg>
+        </span>
     </a>
     <div class="navbar-dropdown is-right hr-navbar-dropdown">
         <if(out.global.username)>
@@ -35,14 +39,15 @@ import { mdiAccountCircleOutline } from "@mdi/js"
             </a>
         </if>
         <else>
-            <if(out.global.authOptions.signUp)>
-                <a class="navbar-item hr-navbar-item" href=component.utils.getLocalizedURL(out.global.systemRoutes.signUp)>
-                    <t>signUp</t>
-                </a>
-            </if>
             <if(out.global.authOptions.signIn)>
                 <a class="navbar-item hr-navbar-item" href=component.utils.getLocalizedURL(out.global.systemRoutes.signIn)>
                     <t>signIn</t>
+                </a>
+            </if>
+            <hr class="dropdown-divider"/> 
+            <if(out.global.authOptions.signUp)>
+                <a class="navbar-item hr-navbar-item" href=component.utils.getLocalizedURL(out.global.systemRoutes.signUp)>
+                    <t>signUp</t>
                 </a>
             </if>
         </else>

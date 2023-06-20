@@ -6,7 +6,7 @@ export default () => ({
     async handler(req, rep) {
         try {
             const authData = await req.auth.getData(req.auth.methods.HEADERS);
-            if (!authData || !authData.groupData || !authData.groups) {
+            if (!authData) {
                 return rep.error({}, 403);
             }
             const formData = new FormData();

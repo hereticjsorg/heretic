@@ -4,7 +4,7 @@ In order to create a page, you will need to create a sub-directory under the *./
 
 ## Using Page Template
 
-You will need to copy the *./src/core/defaults/.blank* directory to the *./site/pages* directory. Then:
+You will need to copy the *./src/core/defaults/blank* directory to the *./site/pages* directory. Then:
 
 * Rename the *./site/pages/.blank* directory to match its contents (e.g. "test", *./site/pages/test*)
 * Set page configuration in a *./site/pages/test/page.js* (it's mandatory to set the unique page ID and route path)
