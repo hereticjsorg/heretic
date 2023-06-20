@@ -3,7 +3,7 @@ import moduleConfig from "../module.js";
 export default {
     filter: (query, authData) => {
         query.$or = query.$or || [];
-        for (const group of authData.groups) {
+        for (const group of (authData.groups || [])) {
             const chapters = authData.groupData.filter(i => i.id === "chapter" && i.group === group).map(i => i.value);
             if (chapters && chapters.length) {
                 if (chapters.length > 1) {
@@ -72,7 +72,7 @@ export default {
     isSaveAllowed: (authData, data) => {
         let allowed = false;
         let chaptersFound = false;
-        for (const group of authData.groups) {
+        for (const group of (authData.groups || [])) {
             const chapters = authData.groupData.filter(i => i.id === "chapter" && i.group === group).map(i => i.value);
             if (chapters && chapters.length) {
                 chaptersFound = true;
