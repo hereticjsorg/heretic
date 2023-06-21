@@ -1,0 +1,9 @@
+{
+    "admin": {
+        "title": {
+            "ru-ru": "Журнал",
+            "en-us": "Logs",
+            "de-de": "Protokolle"
+        }
+    }
+}
