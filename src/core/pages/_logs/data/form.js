@@ -1,5 +1,4 @@
 import {
-    mdiTrashCanOutline,
     mdiTextBoxSearchOutline,
 } from "@mdi/js";
 import {
@@ -24,11 +23,11 @@ export default class {
                     sortable: true,
                     searchable: true,
                     column: true,
-                    createIndex: true,
+                    createIndex: false,
                 }, {
                     id: "date",
                     type: "date",
-                    label: this.t("eventDate"),
+                    label: this.t("date"),
                     validation: {
                         type: ["integer", "null"]
                     },
@@ -36,42 +35,81 @@ export default class {
                     sortable: true,
                     searchable: false,
                     column: true,
-                    createIndex: true,
+                    createIndex: false,
                 }, {
-                    id: "ip",
+                    id: "pid",
                     type: "text",
-                    label: this.t("eventIP"),
-                    validation: {
-                        type: ["string", "null"]
-                    },
+                    label: this.t("pid"),
+                    validation: {},
                     sortable: true,
-                    searchable: true,
-                    column: true,
-                    createIndex: true,
-                }, {
-                    id: "location",
-                    type: "text",
-                    label: this.t("eventLocation"),
-                    validation: {
-                        type: ["string", "null"]
-                    },
-                    sortable: false,
                     searchable: false,
                     column: true,
                     createIndex: false,
-                    noFilter: true,
+                    hidden: true,
                 }, {
-                    id: "username",
+                    id: "type",
                     type: "text",
-                    label: this.t("eventUsername"),
-                    validation: {
-                        type: ["string", "null"]
-                    },
+                    label: this.t("type"),
+                    validation: {},
                     sortable: true,
-                    searchable: true,
+                    searchable: false,
                     column: true,
-                    createIndex: true,
-                }],
+                    createIndex: false,
+                }, {
+                    id: "code",
+                    type: "text",
+                    label: this.t("code"),
+                    validation: {},
+                    sortable: true,
+                    searchable: false,
+                    column: true,
+                    createIndex: false,
+                }, {
+                    id: "resTime",
+                    type: "text",
+                    label: this.t("resTime"),
+                    validation: {},
+                    sortable: true,
+                    searchable: false,
+                    column: true,
+                    createIndex: false,
+                }, {
+                    id: "method",
+                    type: "text",
+                    label: this.t("method"),
+                    validation: {},
+                    sortable: true,
+                    searchable: false,
+                    column: true,
+                    createIndex: false,
+                }, {
+                    id: "url",
+                    type: "text",
+                    label: this.t("url"),
+                    validation: {},
+                    sortable: true,
+                    searchable: false,
+                    column: true,
+                    createIndex: false,
+                }, {
+                    id: "ip",
+                    type: "text",
+                    label: this.t("ip"),
+                    validation: {},
+                    sortable: true,
+                    searchable: false,
+                    column: true,
+                    createIndex: false,
+                }, {
+                    id: "message",
+                    type: "text",
+                    label: this.t("message"),
+                    validation: {},
+                    sortable: true,
+                    searchable: false,
+                    column: true,
+                    createIndex: false,
+                },],
             }],
         };
         this.validationData = utils.getValidationData(this.data.form);
@@ -84,10 +122,7 @@ export default class {
         this.tableLoadConfig = {
             url: `/api/${moduleConfig.id}/list`,
         };
-        this.tableDeleteConfig = {
-            url: `/api/${moduleConfig.id}/delete`,
-            titleId: "ip",
-        };
+        this.tableDeleteConfig = false;
         this.tableBulkUpdateConfig = null;
         this.tableExportConfig = {
             url: `/api/${moduleConfig.id}/export`,
@@ -141,21 +176,11 @@ export default class {
             id: "view",
             label: this.t("view"),
             icon: mdiTextBoxSearchOutline,
-        }, {
-            id: "delete",
-            label: this.t("delete"),
-            icon: mdiTrashCanOutline,
-            danger: true,
         }];
     }
 
     getTopButtons() {
-        return [{
-            id: "delete",
-            label: this.t("deleteSelected"),
-            icon: mdiTrashCanOutline,
-            danger: true,
-        }];
+        return [];
     }
 
     getTableLoadConfig() {
