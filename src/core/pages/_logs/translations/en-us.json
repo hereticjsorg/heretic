@@ -1,0 +1,17 @@
+{
+    "moduleTitleLogs": "Logs",
+    "loadingError": "Could not load the requested item",
+    "level": "Level",
+    "date": "Date",
+    "type": "Type",
+    "code": "Code",
+    "resTime": "ms",
+    "method": "Method",
+    "url": "URL",
+    "ip": "IP",
+    "message": "Message",
+    "id": "ID",
+    "req": "REQ",
+    "res": "RES",
+    "pid": "PID"
+}

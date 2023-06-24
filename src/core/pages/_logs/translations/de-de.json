@@ -1,0 +1,17 @@
+{
+    "moduleTitleLogs": "Protokolle",
+    "loadingError": "Fehler beim Herunterladen des angeforderten Eintrags",
+    "level": "Level",
+    "date": "Datum",
+    "type": "Typ",
+    "code": "Code",
+    "resTime": "Antwortzeit",
+    "method": "Methode",
+    "url": "URL",
+    "ip": "IP",
+    "message": "Meldung",
+    "id": "ID",
+    "req": "REQ",
+    "res": "RES",
+    "pid": "PID"
+}

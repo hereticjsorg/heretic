@@ -34,7 +34,7 @@ const ipTools = new IpTools();
 /* eslint-disable func-names */
 export default {
     list: function () {
-        return ["validateTableList", "validateDataLoad", "validateDataDelete", "validateDataBulk", "validateDataExport", "validateRecycleBinList", "validateHistoryList", "generateQuery", "bulkUpdateQuery", "processFormData", "processDataList", "findUpdates", "addEvent"];
+        return ["validateTableList", "validateDataLoad", "validateDataDelete", "validateDataBulk", "validateDataExport", "validateRecycleBinList", "validateHistoryList", "generateQuery", "getFilterData", "bulkUpdateQuery", "processFormData", "processDataList", "findUpdates", "addEvent"];
     },
     validateTableList: function (formData) {
         const columns = Object.keys(formData.getTableColumns());
@@ -310,6 +310,131 @@ export default {
             delete query.$or;
         }
         return query;
+    },
+    getFilterData: function (formData, data) {
+        let result = String(this.body.searchText).trim().length === 0;
+        if (this.body.searchText && this.body.searchText.length > 1) {
+            for (const k of Object.keys(formData.getFieldsFlat())) {
+                const field = formData.getFieldsFlat()[k];
+                if (field.searchable && String(data[k]).match(this.body.searchText)) {
+                    result = true;
+                }
+            }
+        }
+        if (!result) {
+            return false;
+        }
+        result = false;
+        /* */
+        if (this.body.filters && Array.isArray(this.body.filters) && this.body.filters.length) {
+            for (const filter of this.body.filters) {
+                switch (filter.mode) {
+                case "eq":
+                    result = String(data[filter.id]) === filter.value;
+                    break;
+                case "is":
+                    result = data[filter.id] === Boolean(filter.value);
+                    break;
+                case "neq":
+                    result = String(data[filter.id]) !== filter.value;
+                    break;
+                case "rex":
+                    result = !!String(data[filter.id]).match(new RegExp(`(.*)?${filter.value}(.*)?`), "i");
+                    break;
+                case "nrex":
+                    result = !(String(data[filter.id]).match(new RegExp(`(.*)?${filter.value}(.*)?`), "i"));
+                    break;
+                case "oof":
+                    if (Array.isArray(filter.value)) {
+                        for (const item of filter.value) {
+                            if (item === String(data[filter.id])) {
+                                result = true;
+                                break;
+                            }
+                        }
+                    }
+                    break;
+                case "nof":
+                    if (Array.isArray(filter.value)) {
+                        result = true;
+                        for (const item of filter.value) {
+                            if (item === String(data[filter.id])) {
+                                result = false;
+                                break;
+                            }
+                        }
+                    }
+                    break;
+                case "deq":
+                    if (filter.value) {
+                        if (!data[filter.id]) {
+                            result = false;
+                            break;
+                        }
+                        const dateValue = new Date(data[filter.id] * 1000).getTime();
+                        const deqDate = new Date(filter.value * 1000).getTime();
+                        const deqDateStart = startOfDay(deqDate).getTime();
+                        const deqDateEnd = endOfDay(deqDate).getTime();
+                        result = dateValue >= deqDateStart && dateValue <= deqDateEnd;
+                    } else {
+                        result = !filter.value;
+                    }
+                    break;
+                case "dlt":
+                    if (filter.value) {
+                        if (!data[filter.id]) {
+                            result = false;
+                            break;
+                        }
+                        const dateValue = new Date(data[filter.id] * 1000).getTime();
+                        const deqDate = new Date(filter.value * 1000).getTime();
+                        const deqDateStart = startOfDay(deqDate).getTime();
+                        result = dateValue < deqDateStart;
+                    }
+                    break;
+                case "dlte":
+                    if (filter.value) {
+                        if (!data[filter.id]) {
+                            result = false;
+                            break;
+                        }
+                        const dateValue = new Date(data[filter.id] * 1000).getTime();
+                        const deqDate = new Date(filter.value * 1000).getTime();
+                        const deqDateEnd = endOfDay(deqDate).getTime();
+                        result = dateValue <= deqDateEnd;
+                    }
+                    break;
+                case "dgt":
+                    if (filter.value) {
+                        if (!data[filter.id]) {
+                            result = false;
+                            break;
+                        }
+                        const dateValue = new Date(data[filter.id] * 1000).getTime();
+                        const deqDate = new Date(filter.value * 1000).getTime();
+                        const deqDateEnd = endOfDay(deqDate).getTime();
+                        result = dateValue >= deqDateEnd;
+                    }
+                    break;
+                case "dgte":
+                    if (filter.value) {
+                        if (!data[filter.id]) {
+                            result = false;
+                            break;
+                        }
+                        const dateValue = new Date(data[filter.id] * 1000).getTime();
+                        const deqDate = new Date(filter.value * 1000).getTime();
+                        const deqDateStart = startOfDay(deqDate).getTime();
+                        result = dateValue >= deqDateStart;
+                    }
+                    break;
+                }
+            }
+        } else {
+            result = true;
+        }
+        /* */
+        return result;
     },
     processFormData: function (data, fields, tabs = [{
         id: "_default",
