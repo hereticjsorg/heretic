@@ -7,5 +7,12 @@
             "license"
         ]
     },
-    "admin": ["_home", "_users", "_groups", "_events", "_sessions"]
+    "admin": [
+        "_home",
+        "_users",
+        "_groups",
+        "_events",
+        "_sessions",
+        "_logs"
+    ]
 }

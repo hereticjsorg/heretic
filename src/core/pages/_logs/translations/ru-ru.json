@@ -1,4 +1,17 @@
 {
-    "moduleTitleGroups": "Журнал",
-    "loadingError": "Ошибка во время загрузки запрошенной записи"
+    "moduleTitleLogs": "Журнал",
+    "loadingError": "Ошибка во время загрузки запрошенной записи",
+    "level": "Уровень",
+    "date": "Дата",
+    "type": "Тип",
+    "code": "Код",
+    "resTime": "Отклик",
+    "method": "Метод",
+    "url": "URL",
+    "ip": "IP",
+    "message": "Сообщение",
+    "id": "ID",
+    "req": "REQ",
+    "res": "RES",
+    "pid": "PID"
 }

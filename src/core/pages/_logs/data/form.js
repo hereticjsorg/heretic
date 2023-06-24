@@ -1,7 +1,4 @@
 import {
-    mdiTextBoxSearchOutline,
-} from "@mdi/js";
-import {
     format,
 } from "date-fns";
 
@@ -14,17 +11,6 @@ export default class {
         this.data = {
             form: [{
                 fields: [{
-                    id: "level",
-                    type: "text",
-                    label: this.t("level"),
-                    validation: {},
-                    options: [],
-                    defaultValue: "",
-                    sortable: true,
-                    searchable: true,
-                    column: true,
-                    createIndex: false,
-                }, {
                     id: "date",
                     type: "date",
                     label: this.t("date"),
@@ -37,12 +23,34 @@ export default class {
                     column: true,
                     createIndex: false,
                 }, {
+                    id: "id",
+                    type: "text",
+                    label: this.t("id"),
+                    validation: {},
+                    options: [],
+                    defaultValue: "",
+                    sortable: true,
+                    searchable: true,
+                    column: true,
+                    createIndex: false,
+                }, {
+                    id: "level",
+                    type: "text",
+                    label: this.t("level"),
+                    validation: {},
+                    options: [],
+                    defaultValue: "",
+                    sortable: true,
+                    searchable: true,
+                    column: true,
+                    createIndex: false,
+                }, {
                     id: "pid",
                     type: "text",
                     label: this.t("pid"),
                     validation: {},
                     sortable: true,
-                    searchable: false,
+                    searchable: true,
                     column: true,
                     createIndex: false,
                     hidden: true,
@@ -52,7 +60,7 @@ export default class {
                     label: this.t("type"),
                     validation: {},
                     sortable: true,
-                    searchable: false,
+                    searchable: true,
                     column: true,
                     createIndex: false,
                 }, {
@@ -61,7 +69,7 @@ export default class {
                     label: this.t("code"),
                     validation: {},
                     sortable: true,
-                    searchable: false,
+                    searchable: true,
                     column: true,
                     createIndex: false,
                 }, {
@@ -70,7 +78,7 @@ export default class {
                     label: this.t("resTime"),
                     validation: {},
                     sortable: true,
-                    searchable: false,
+                    searchable: true,
                     column: true,
                     createIndex: false,
                 }, {
@@ -79,7 +87,7 @@ export default class {
                     label: this.t("method"),
                     validation: {},
                     sortable: true,
-                    searchable: false,
+                    searchable: true,
                     column: true,
                     createIndex: false,
                 }, {
@@ -88,7 +96,7 @@ export default class {
                     label: this.t("url"),
                     validation: {},
                     sortable: true,
-                    searchable: false,
+                    searchable: true,
                     column: true,
                     createIndex: false,
                 }, {
@@ -97,7 +105,7 @@ export default class {
                     label: this.t("ip"),
                     validation: {},
                     sortable: true,
-                    searchable: false,
+                    searchable: true,
                     column: true,
                     createIndex: false,
                 }, {
@@ -106,7 +114,7 @@ export default class {
                     label: this.t("message"),
                     validation: {},
                     sortable: true,
-                    searchable: false,
+                    searchable: true,
                     column: true,
                     createIndex: false,
                 },],
@@ -116,18 +124,15 @@ export default class {
         this.columnTypes = ["text", "select", "column", "date"];
         this.defaultSortColumn = "date";
         this.defaultSortDirection = "desc";
-        this.actionColumn = true;
-        this.checkboxColumn = true;
+        this.actionColumn = false;
+        this.checkboxColumn = false;
         this.modeChangeAllowed = false;
         this.tableLoadConfig = {
             url: `/api/${moduleConfig.id}/list`,
         };
         this.tableDeleteConfig = false;
         this.tableBulkUpdateConfig = null;
-        this.tableExportConfig = {
-            url: `/api/${moduleConfig.id}/export`,
-            download: `/api/${moduleConfig.id}/download`,
-        };
+        this.tableExportConfig = false;
         this.tableRecycleBinConfig = {
             enabled: false,
         };
@@ -172,11 +177,7 @@ export default class {
     }
 
     getActions() {
-        return [{
-            id: "view",
-            label: this.t("view"),
-            icon: mdiTextBoxSearchOutline,
-        }];
+        return [];
     }
 
     getTopButtons() {
@@ -205,11 +206,6 @@ export default class {
 
     processTableCell(id, row) {
         switch (id) {
-        case "event":
-            if (!this.providerDataEvents) {
-                return;
-            }
-            return this.providerDataEvents[row[id]] && this.providerDataEvents[row[id]].title ? this.providerDataEvents[row[id]].title : row[id];
         case "date":
             try {
                 return row[id] ? format(new Date(row[id] * 1000), `${this.t("global.dateFormatShort")} ${this.t("global.timeFormatShort")}`) : "";
@@ -218,10 +214,8 @@ export default class {
             }
             // eslint-disable-next-line no-unreachable
             break;
-        case "location":
-            return row[id] || "—";
-        case "username":
-            return row[id] || "—";
+        case "type":
+            return this.t(row[id]) || "—";
         default:
             return row[id];
         }
