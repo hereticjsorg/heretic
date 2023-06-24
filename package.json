@@ -82,7 +82,7 @@
         "lodash.clonedeep": "^4.5.0",
         "lodash.debounce": "^4.0.8",
         "lodash.template": "^4.5.0",
-        "marko": "^5.26.4",
+        "marko": "^5.26.5",
         "mini-css-extract-plugin": "^2.7.6",
         "postcss-csso": "^6.0.1",
         "postcss-loader": "^7.3.3",
@@ -98,7 +98,7 @@
         "webpack-cli": "^5.1.4"
     },
     "dependencies": {
-        "@dword-design/eslint-plugin-import-alias": "^4.0.7",
+        "@dword-design/eslint-plugin-import-alias": "^4.0.8",
         "@fastify/cookie": "^8.3.0",
         "@fastify/formbody": "^7.4.0",
         "@fastify/jwt": "^7.0.0",
@@ -113,7 +113,7 @@
         "cli-progress": "^3.12.0",
         "date-fns": "^2.30.0",
         "fastify": "^4.18.0",
-        "imask": "^7.0.0",
+        "imask": "^7.0.1",
         "inquirer": "^9.2.7",
         "ioredis": "^5.3.2",
         "ip-num": "^1.5.1",

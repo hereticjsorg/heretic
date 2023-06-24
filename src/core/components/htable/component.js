@@ -670,7 +670,7 @@ module.exports = class {
                     }
                     for (const k of Object.keys(input)) {
                         this.setState(k, input[k]);
-                        if (this.input.queryString) {
+                        if (this.input.queryString && this.queryStringShorthands[k]) {
                             this.query.set(this.queryStringShorthands[k], input[k]);
                         }
                     }
@@ -996,6 +996,7 @@ module.exports = class {
             mode: item.mode,
             value: item.value,
         }));
+        this.setState("currentPage", 1);
         this.setState("filters", filters);
         this.store.set("filters", this.state.settingsFilters);
         this.setState("filtersEnabledCount", this.state.filters.reduce((a, c) => a += c.enabled ? 1 : 0, 0));

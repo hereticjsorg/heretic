@@ -302,10 +302,13 @@ import SettingsPagesForm from "./settingsPagesForm"
                 </if>
             </else>
             <div
+                state.actionColumn
                 class=`hr-ht-td p-2 m-0 hr-ht-action-cell-control hr-ht-thead-label`
                 id=`hr_ht_action_cell_control_${input.id}`
                 style={
-                    opacity: 0
+                    opacity: 0,
+                    position: state.actionColumn ? "unset" : "absolute",
+                    clip: state.actionColumn ? "unset": "rect(0 0 0 0)",
                 }>
                 <t>htable_actions</t>
             </div>
