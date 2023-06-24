@@ -1,6 +1,6 @@
 {
     "name": "heretic",
-    "version": "1.0.257",
+    "version": "1.0.258",
     "description": "Heretic",
     "main": "index.js",
     "imports": {
