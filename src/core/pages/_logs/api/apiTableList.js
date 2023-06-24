@@ -5,8 +5,11 @@ import {
 import {
     sortBy
 } from "lodash";
+import {
+    destr,
+} from "destr";
 import FormData from "../data/form";
-import ReadLastLines from "#lib/3rdparty/readLastLines";
+import ServerUtils from "#lib/serverUtils";
 
 // eslint-disable-next-line no-eval
 const ecosystem = eval("require")(path.resolve(__dirname, "../ecosystem.config.js"));
@@ -27,14 +30,14 @@ export default () => ({
                     message: "validation_error"
                 });
             }
-            const readLastLines = new ReadLastLines();
             let itemsAll = [];
             let items = [];
             try {
-                itemsAll = (await readLastLines.read(path.resolve(__dirname, `../logs/${ecosystem.logFileName}`), 2000)).split(/\n/).map(i => {
+                itemsAll = (await ServerUtils.readLastStringsFromFile(path.resolve(__dirname, `../logs/${ecosystem.logFileName}`), 50000))
+                    .map(i => {
                         let item = null;
                         try {
-                            item = JSON.parse(i);
+                            item = destr(i);
                         } catch {
                             // Ignore
                         }
