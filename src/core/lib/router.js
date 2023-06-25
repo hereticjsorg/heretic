@@ -44,6 +44,7 @@ module.exports = class {
             return;
         }
         this.route = this.getLocationData();
+        window.history.scrollRestoration = "manual";
         let historyState = window.history.state;
         if (historyState && historyState.hRouter) {
             historyState = historyState.state;
@@ -173,8 +174,5 @@ module.exports = class {
         if (this.routeChangeHandler) {
             this.routeChangeHandler(this, extra);
         }
-        setTimeout(() => window.scrollTo({
-            top: 0,
-          }));
     }
 };

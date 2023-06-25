@@ -157,16 +157,23 @@ module.exports = class {
         if ((route.id !== this.serverRoute || this.state.routed) && !!routeData) {
             const timer = this.getAnimationTimer();
             try {
+                document.documentElement.scrollTo({
+                    top: 0,
+                    left: 0,
+                    behavior: "instant",
+                });
                 component = await pagesLoader.loadComponent(route.id);
                 const renderedComponent = await component.default.render();
                 this.setState("routed", true);
                 await this.utils.waitForElement("hr_content_render_wrap");
                 const contentRenderWrap = document.getElementById("hr_content_render_wrap");
+                contentRenderWrap.style.display = "none";
                 renderedComponent.replaceChildrenOf(contentRenderWrap);
                 this.componentsLoaded[route.id] = true;
                 await this.utils.waitForComponent("navbar");
                 const navbarComponent = this.getComponent("navbar");
                 navbarComponent.setRoute();
+                contentRenderWrap.style.display = "block";
             } catch (e) {
                 this.clearAnimationTimer(timer);
                 this.panicMode(e);
