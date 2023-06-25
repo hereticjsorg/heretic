@@ -173,5 +173,8 @@ module.exports = class {
         if (this.routeChangeHandler) {
             this.routeChangeHandler(this, extra);
         }
+        setTimeout(() => window.scrollTo({
+            top: 0,
+          }));
     }
 };
