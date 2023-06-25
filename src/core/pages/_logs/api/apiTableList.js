@@ -37,13 +37,13 @@ export default () => ({
                     .map(i => {
                         let item = null;
                         try {
-                            item = destr(i);
+                            item = i ? destr(i) : null;
                         } catch {
                             // Ignore
                         }
                         return item;
                     })
-                    .filter(i => i !== null)
+                    .filter(i => i)
                     .map(i => ({
                         _id: uuid(),
                         level: i.level,
