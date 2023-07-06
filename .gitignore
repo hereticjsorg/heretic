@@ -23,11 +23,10 @@ typings/
 /dist
 /src/build
 /etc
-/site
+!/site
 /logs
 .DS_Store
 src/modules
-src/core/pages/*/meta.json
 src/bin/csv
 backup/
 dist.new/

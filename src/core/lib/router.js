@@ -151,10 +151,10 @@ module.exports = class {
     }
 
     navigate(routeId, language = this.languages[0], params = {}, extra = {}) {
-        const routeItem = this.routes.find(r => r.id === routeId);
-        if (!routeItem) {
-            return;
-        }
+        const routeItem = this.routes.find(r => r.id === routeId) || {
+            id: "404",
+            path: "/404",
+        };
         const lang = language === this.languages[0] ? "" : language;
         if (routeItem.id === this.home) {
             routeItem.path = "";

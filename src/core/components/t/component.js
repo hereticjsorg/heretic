@@ -1,5 +1,5 @@
 const template = require("lodash.template");
-const routesData = require("#build/build.json");
+// const routesData = require("#build/build.json");
 
 module.exports = class {
     async onCreate(input, out) {
@@ -11,12 +11,12 @@ module.exports = class {
                 ...require(`#src/translations/${this.language}.json`),
                 ...require(`#site/translations/${this.language}.json`)
             };
-            for (const page of routesData.translatedPages.user) {
-                this.languageData = {
-                    ...this.languageData,
-                    ...require(`#site/pages/${page}/translations/${this.language}.json`),
-                };
-            }
+            // for (const page of routesData.translatedPages.user) {
+            //     this.languageData = {
+            //         ...this.languageData,
+            //         ...require(`#site/pages/${page}/translations/${this.language}.json`),
+            //     };
+            // }
             Object.keys(this.languageData).map(i => this.languageData[i] = template(this.languageData[i]));
         }
         this.pluralRules = new Intl.PluralRules(this.language);

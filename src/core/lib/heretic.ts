@@ -14,15 +14,12 @@ import commandLineArgs from "command-line-args";
 import template from "lodash.template";
 import hereticRateLimit from "./rateLimit";
 import routePageUserspace from "./routes/routePageUserspace.js";
-import routeModuleUserspace from "./routes/routeModuleUserspace";
-import routePageAdmin from "./routes/routePageAdmin";
-import routeModuleAdmin from "./routes/routeModuleAdmin";
-import routePageCore from "./routes/routePageCore";
+// import routePageAdmin from "./routes/routePageAdmin";
 import route404 from "./routes/route404";
 import route500 from "./routes/route500";
 import apiRoute404 from "./routes/route404-api";
 import apiRoute500 from "./routes/route500-api";
-import routesData from "#build/build.json";
+import buildData from "#build/build.json";
 import Logger from "./logger";
 import Utils from "./utils";
 import Auth from "./auth";
@@ -35,6 +32,7 @@ import i18nCore from "#build/loaders/i18n-loader-core.js";
 import languages from "#etc/languages.json";
 import navigation from "#etc/navigation.json";
 import packageJson from "#root/package.json";
+import routePageAdmin from "./routes/routePageAdmin";
 
 /*
  * Main Heretic class used to load configs,
@@ -103,10 +101,7 @@ export default class {
         this.wsHandlers = [];
         this.fastify.register(fastifyMultipart);
         this.fastify.register(fastifyURLData);
-        this.fastify.decorate("i18nNavigation", {
-            userspace: routesData.i18nNavigation.userspace,
-            admin: routesData.i18nNavigation.admin,
-        });
+        this.fastify.decorate("i18nNavigation", buildData.i18nNavigation);
         this.fastify.decorate("siteConfig", this.siteConfig);
         this.fastify.decorate("systemConfig", this.systemConfig);
         this.fastify.decorate("languages", languages);
@@ -171,12 +166,16 @@ export default class {
         const languagesList = Object.keys(languages);
         for (const lang of languagesList) {
             (this.languageData as Record<string, object>)[lang] = await i18nCore.loadLanguageFile(lang);
-            for (const page of [...routesData.translatedPages.core, ...routesData.translatedPages.user, ...routesData.translatedPages.module]) {
-                const i18nLoader = await import(`#build/loaders/i18n-loader-${page}.js`);
+            for (const m of buildData.modules) {
+                try {
+                const i18nLoader = await import(`#build/loaders/i18n-loader-${m.id}.js`);
                 (this.languageData as Record<string, object>)[lang] = {
                     ...(this.languageData as Record<string, object>)[lang],
                     ...await i18nLoader.loadLanguageFile(lang),
                 };
+                } catch {
+                    // Ignore
+                }
             }
             Object.keys(this.languageData[lang]).map((i: any) => this.languageData[lang][i] = template(this.languageData[lang][i]));
         }
@@ -197,20 +196,23 @@ export default class {
     /*
      * Register routes for all pages
      */
-    registerRoutePagesUserspace() {
-        for (const route of routesData.routes.userspace) {
-            if (route.module) {
-                this.fastify.get(route.path || "/", routeModuleUserspace(route, this.languageData, this.defaultLanguage));
-                for (const lang of Object.keys(languages)) {
-                    if (lang !== this.defaultLanguage) {
-                        this.fastify.get(`/${lang}${route.path}`, routeModuleUserspace(route, this.languageData, lang));
+    registerModules() {
+        for (const m of buildData.modules) {
+            for (const p of m.pages) {
+                if (p.type === "userspace") {
+                    this.fastify.get(p.routePath || "/", routePageUserspace(m, p, this.languageData, this.defaultLanguage));
+                    for (const lang of Object.keys(languages)) {
+                        if (lang !== this.defaultLanguage) {
+                            this.fastify.get(`/${lang}${p.routePath || "/"}`, routePageUserspace(m, p, this.languageData, lang));
+                        }
                     }
                 }
-            } else {
-                this.fastify.get(route.path || "/", routePageUserspace(route, this.languageData, this.defaultLanguage));
-                for (const lang of Object.keys(languages)) {
-                    if (lang !== this.defaultLanguage) {
-                        this.fastify.get(`/${lang}${route.path}`, routePageUserspace(route, this.languageData, lang));
+                if (p.type === "admin") {
+                    this.fastify.get(p.routePath, routePageAdmin(m, p, this.languageData, this.defaultLanguage));
+                    for (const lang of Object.keys(languages)) {
+                        if (lang !== this.defaultLanguage) {
+                            this.fastify.get(`/${lang}${p.routePath}`, routePageAdmin(m, p, this.languageData, lang));
+                        }
                     }
                 }
             }
@@ -221,44 +223,30 @@ export default class {
      * Register admin routes for all pages
      */
     registerRoutePagesAdmin() {
-        if (!this.systemConfig.auth.admin) {
-            return;
-        }
-        for (const route of routesData.routes.admin) {
-            if (route.module) {
-                this.fastify.get(route.path, routeModuleAdmin(route, this.languageData, this.defaultLanguage));
-                for (const lang of Object.keys(languages)) {
-                    if (lang !== this.defaultLanguage) {
-                        this.fastify.get(`/${lang}${route.path}`, routeModuleAdmin(route, this.languageData, lang));
-                    }
-                }
-            } else {
-                this.fastify.get(route.path, routePageAdmin(route, this.languageData, this.defaultLanguage));
-                for (const lang of Object.keys(languages)) {
-                    if (lang !== this.defaultLanguage) {
-                        this.fastify.get(`/${lang}${route.path}`, routePageAdmin(route, this.languageData, lang));
-                    }
-                }
-            }
-        }
+        // if (!this.systemConfig.auth.admin) {
+        //     return;
+        // }
+        // for (const route of buildData.routes.admin) {
+        //     if (route.module) {
+        //         this.fastify.get(route.path, routeModuleAdmin(route, this.languageData, this.defaultLanguage));
+        //         for (const lang of Object.keys(languages)) {
+        //             if (lang !== this.defaultLanguage) {
+        //                 this.fastify.get(`/${lang}${route.path}`, routeModuleAdmin(route, this.languageData, lang));
+        //             }
+        //         }
+        //     } else {
+        //         this.fastify.get(route.path, routePageAdmin(route, this.languageData, this.defaultLanguage));
+        //         for (const lang of Object.keys(languages)) {
+        //             if (lang !== this.defaultLanguage) {
+        //                 this.fastify.get(`/${lang}${route.path}`, routePageAdmin(route, this.languageData, lang));
+        //             }
+        //         }
+        //     }
+        // }
     }
 
     /*
-     * Register core routes for all pages
-     */
-    registerRoutePagesCore() {
-        for (const route of routesData.routes.core) {
-            this.fastify.get(route.path, routePageCore(route, this.languageData, this.defaultLanguage));
-            for (const lang of Object.keys(languages)) {
-                if (lang !== this.defaultLanguage) {
-                    this.fastify.get(`/${lang}${route.path}`, routePageCore(route, this.languageData, lang));
-                }
-            }
-        }
-    }
-
-    /*
-     * Register core routes for all pages
+     * Register OAuth2 routes for all pages
      */
     async registerOauth2() {
         if (!this.systemConfig.oauth2 || !Array.isArray(this.systemConfig.oauth2)) {
@@ -284,7 +272,7 @@ export default class {
     registerRouteErrors() {
         this.fastify.setNotFoundHandler(async (req: { url: any; urlData: (arg0: null, arg1: any) => { (): any; new(): any; path: string; }; }, rep: { code: (arg0: number) => void; send: (arg0: string | { error: number; errorMessage: any; }) => void; }) => {
             const language = this.utils.getLanguageFromUrl(req.url);
-            const output = req.urlData(null, req).path.match(/^\/api\//) ? apiRoute404(rep, this.languageData, language) : await route404(req, rep, this.languageData, language, this.siteConfig, this.systemConfig, routesData.i18nNavigation.userspace);
+            const output = req.urlData(null, req).path.match(/^\/api\//) ? apiRoute404(rep, this.languageData, language) : await route404(req, rep, this.languageData, language, this.siteConfig, this.systemConfig, buildData.i18nNavigation);
             rep.code(404);
             rep.send(output);
         });
@@ -301,20 +289,8 @@ export default class {
      * Register API routes
      */
     async registerRouteAPI() {
-        for (const page of routesData.api.root) {
-            const api = await import(`../api/${page}/index.js`);
-            api.default(this.fastify);
-        }
-        for (const page of routesData.api.userspace) {
-            const api = await import(`#site/pages/${page}/api/index.js`);
-            api.default(this.fastify);
-        }
-        for (const page of routesData.api.core) {
-            const api = await import(`../pages/${page}/api/index.js`);
-            api.default(this.fastify);
-        }
-        for (const module of routesData.api.modules) {
-            const api = await import(`#site/modules/${module}/api/index.js`);
+        for (const m of buildData.modules.filter(i => i.api)) {
+            const api = await import(`#site/../${m.path}/api/index.js`);
             api.default(this.fastify);
         }
     }
@@ -326,21 +302,17 @@ export default class {
         if (!this.systemConfig.webSockets || !this.systemConfig.webSockets.enabled) {
             return;
         }
-        for (const file of routesData.ws.root) {
-            const Ws = (await import(`../ws/${file}`)).default;
-            this.wsHandlers.push(new Ws(this.fastify));
-        }
-        for (const page of routesData.ws.userspace) {
-            const Ws = (await import(`#site/pages/${page}/ws/index.js`)).default;
-            this.wsHandlers.push(new Ws(this.fastify));
-        }
-        for (const page of routesData.ws.core) {
-            const Ws = (await import(`../pages/${page}/ws/index.js`)).default;
-            this.wsHandlers.push(new Ws(this.fastify));
-        }
-        for (const module of routesData.ws.modules) {
-            const Ws = (await import(`#site/modules/${module}/ws/index.js`)).default;
-            this.wsHandlers.push(new Ws(this.fastify));
+        for (const m of buildData.modules) {
+            if (m.ws) {
+                const Ws = (await import(`#site/../${m.path}/ws/index.js`)).default;
+                this.wsHandlers.push(new Ws(this.fastify));
+            }
+            for (const p of m.pages) {
+                if (p.ws) {
+                    const Wsp = (await import(`#site/../${m.path}/${p.id}/ws.js`)).default;
+                    this.wsHandlers.push(new Wsp(this.fastify));
+                }
+            }
         }
         this.fastify.register(async (fastify: { get: (arg0: string, arg1: { websocket: boolean; }, arg2: (connection: any, req: any) => Promise<void>) => void; redis: { set: (arg0: string, arg1: number, arg2: string, arg3: number) => any; del: (arg0: string) => any; }; siteConfig: { id: any; }; }) => {
             fastify.get("/ws", {
@@ -478,29 +450,20 @@ export default class {
      */
     async initDataProviders() {
         const dataProviders = {};
-        for (const page of routesData.directories.pagesCore) {
+        for (const m of buildData.modules) {
             try {
-                const Provider = (await import(`../pages/${page}/data/provider`)).default;
-                const provider = new Provider();
-                (dataProviders as Record<typeof page, typeof provider>)[page] = provider;
-            } catch {
-                // Ignore
-            }
-        }
-        for (const module of routesData.directories.modules) {
-            try {
-                const Provider = (await import(`#site/modules/${module}/data/provider`)).default;
-                const provider = new Provider();
-                (dataProviders as Record<typeof module, typeof provider>)[module] = provider;
-            } catch {
-                // Ignore
-            }
-        }
-        for (const page of routesData.directories.pages) {
-            try {
-                const Provider = (await import(`#site/pages/${page}/data/provider`)).default;
-                const provider = new Provider();
-                (dataProviders as Record<typeof page, typeof provider>)[page] = provider;
+                if (m.provider) {
+                    const Provider = (await import(`#site/../${m.path}/data/provider`)).default;
+                    const provider = new Provider();
+                    (dataProviders as Record<typeof m.id, typeof provider>)[m.id] = provider;
+                }
+                for (const p of m.pages) {
+                    if (p.provider) {
+                        const ProviderPage = (await import(`#site/../${m.path}/${p.id}/provider`)).default;
+                        const providerPage = new ProviderPage();
+                        (dataProviders as Record<typeof m.id, typeof providerPage>)[`${m.id}_${p.id}`] = providerPage;
+                    }
+                }
             } catch {
                 // Ignore
             }
@@ -566,7 +529,7 @@ export default class {
 
     async setup(installedVersions: { [x: string]: any; core?: any; }, options: commandLineArgs.CommandLineOptions) {
         if (!installedVersions.core || options.setup) {
-            for (const file of routesData.coreSetupFiles) {
+            for (const file of buildData.coreSetupFiles) {
                 let Setup;
                 try {
                     Setup = (await import(`../setup/${file}`)).default;
@@ -586,63 +549,63 @@ export default class {
                 }
             }
         }
-        for (const page of routesData.directories.pages) {
-            if (!installedVersions[page] || options.setup) {
-                let Setup;
-                try {
-                    Setup = (await import(`#site/pages/${page}/setup.js`)).default;
-                } catch {
-                    // Ignore
-                }
-                if (Setup) {
-                    this.fastify.log.info(`Executing installation script for page: ${page}...`);
-                    const setup = new Setup(page, this.fastify, {
-                        createIndex: this.createIndex.bind(this),
-                        createExpireIndex: this.createExpireIndex.bind(this),
-                    }, installedVersions);
-                    await setup.process();
-                    await this.updateSetupVersion(page);
-                }
-            }
-        }
-        for (const page of routesData.directories.pagesCore) {
-            if (!installedVersions[page] || options.setup) {
-                let Setup;
-                try {
-                    Setup = (await import(`../pages/${page}/setup.js`)).default;
-                } catch {
-                    // Ignore
-                }
-                if (Setup) {
-                    this.fastify.log.info(`Executing installation script for core page: ${page}...`);
-                    const setup = new Setup(page, this.fastify, {
-                        createIndex: this.createIndex.bind(this),
-                        createExpireIndex: this.createExpireIndex.bind(this),
-                    }, installedVersions);
-                    await setup.process();
-                    await this.updateSetupVersion(page);
-                }
-            }
-        }
-        for (const module of routesData.directories.modules) {
-            if (!installedVersions[module] || options.setup) {
-                let Setup;
-                try {
-                    Setup = (await import(`#site/modules/${module}/setup.js`)).default;
-                } catch {
-                    // Ignore
-                }
-                if (Setup) {
-                    this.fastify.log.info(`Executing installation script for module: ${module}...`);
-                    const setup = new Setup(module, this.fastify, {
-                        createIndex: this.createIndex.bind(this),
-                        createExpireIndex: this.createExpireIndex.bind(this),
-                    }, installedVersions);
-                    await setup.process();
-                    await this.updateSetupVersion(module);
-                }
-            }
-        }
+        // for (const page of buildData.directories.pages) {
+        //     if (!installedVersions[page] || options.setup) {
+        //         let Setup;
+        //         try {
+        //             Setup = (await import(`#site/pages/${page}/setup.js`)).default;
+        //         } catch {
+        //             // Ignore
+        //         }
+        //         if (Setup) {
+        //             this.fastify.log.info(`Executing installation script for page: ${page}...`);
+        //             const setup = new Setup(page, this.fastify, {
+        //                 createIndex: this.createIndex.bind(this),
+        //                 createExpireIndex: this.createExpireIndex.bind(this),
+        //             }, installedVersions);
+        //             await setup.process();
+        //             await this.updateSetupVersion(page);
+        //         }
+        //     }
+        // }
+        // for (const page of buildData.directories.pagesCore) {
+        //     if (!installedVersions[page] || options.setup) {
+        //         let Setup;
+        //         try {
+        //             Setup = (await import(`../pages/${page}/setup.js`)).default;
+        //         } catch {
+        //             // Ignore
+        //         }
+        //         if (Setup) {
+        //             this.fastify.log.info(`Executing installation script for core page: ${page}...`);
+        //             const setup = new Setup(page, this.fastify, {
+        //                 createIndex: this.createIndex.bind(this),
+        //                 createExpireIndex: this.createExpireIndex.bind(this),
+        //             }, installedVersions);
+        //             await setup.process();
+        //             await this.updateSetupVersion(page);
+        //         }
+        //     }
+        // }
+        // for (const module of buildData.directories.modules) {
+        //     if (!installedVersions[module] || options.setup) {
+        //         let Setup;
+        //         try {
+        //             Setup = (await import(`#site/modules/${module}/setup.js`)).default;
+        //         } catch {
+        //             // Ignore
+        //         }
+        //         if (Setup) {
+        //             this.fastify.log.info(`Executing installation script for module: ${module}...`);
+        //             const setup = new Setup(module, this.fastify, {
+        //                 createIndex: this.createIndex.bind(this),
+        //                 createExpireIndex: this.createExpireIndex.bind(this),
+        //             }, installedVersions);
+        //             await setup.process();
+        //             await this.updateSetupVersion(module);
+        //         }
+        //     }
+        // }
     }
 
     async installedDbVersions() {

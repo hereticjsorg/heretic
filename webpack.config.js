@@ -18,15 +18,13 @@ fs.writeFileSync(path.resolve(__dirname, "node_modules", "fastify", "lib", "erro
 module.exports = async (env, argv) => {
     const markoPlugin = new MarkoPlugin();
     const webpackUtils = new WebpackUtils(argv.mode === "production");
-    webpackUtils.generateBuildConfigs();
+    webpackUtils.initDirectories();
+    webpackUtils.generateConfig();
     webpackUtils.generateLoaders();
-    webpackUtils.generateAdminIconsLoader();
-    webpackUtils.generateLangSwitchComponents();
-    webpackUtils.copyDataDir();
+    webpackUtils.generateAdminIconsComponent();
     webpackUtils.generateSitemap();
     webpackUtils.generateManifest();
-    webpackUtils.initCorePages();
-    webpackUtils.initVersionFile();
+    webpackUtils.generateLangSwitchComponents();
     await webpackUtils.processMarkoJson();
     return ([{
             context: path.resolve(`${__dirname}`),

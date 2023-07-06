@@ -1,11 +1,11 @@
-const routesData = require("#build/build.json");
+const buildData = require("#build/build.json");
 
-export default (route, languageData, language) => ({
+export default (m, page, languageData, language) => ({
     async handler(req, rep) {
         const authData = await req.auth.getData(req.auth.methods.COOKIE);
-        const translationData = routesData.translations.userspace.find(i => i.id === route.id);
-        const page = (await import(`#site/pages/${route.dir}/userspace/server.marko`)).default;
-        const renderPage = await page.render({
+        const translationData = buildData.modules.find(i => i.id === m.id).pages.find(i => i.id === page.id).metaData;
+        const pageData = (await import(`#src/../${m.path}/${page.id}/server.marko`)).default;
+        const renderPage = await pageData.render({
             $global: {
                 serializedGlobals: {
                     language: true,
@@ -38,10 +38,10 @@ export default (route, languageData, language) => ({
                 darkModeEnabled: this.systemConfig.darkModeEnabled,
                 mongoEnabled: this.systemConfig.mongo.enabled,
                 language,
-                route: route.id,
+                route: `${m.id}_${page.id}`,
                 title: translationData.title[language],
                 siteTitle: this.siteConfig.title[language],
-                i18nNavigation: this.i18nNavigation.userspace[language],
+                i18nNavigation: this.i18nNavigation[language],
                 description: translationData.description && translationData.description[language] ? translationData.description[language] : null,
                 t: id => languageData[language] && languageData[language][id] ? typeof languageData[language][id] === "function" ? languageData[language][id]() : `${languageData[language][id]}` : id,
                 systemRoutes: this.systemConfig.routes,

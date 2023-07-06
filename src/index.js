@@ -19,9 +19,7 @@ import Heretic from "./core/lib/heretic.ts";
             }
         }
         await heretic.initDataProviders();
-        heretic.registerRoutePagesUserspace();
-        heretic.registerRoutePagesAdmin();
-        heretic.registerRoutePagesCore();
+        heretic.registerModules();
         heretic.registerRouteErrors();
         await heretic.registerRouteAPI();
         await heretic.registerRouteWebSockets();
