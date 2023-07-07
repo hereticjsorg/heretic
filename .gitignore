@@ -23,7 +23,7 @@ typings/
 /dist
 /src/build
 /etc
-!/site
+/site
 /logs
 .DS_Store
 src/bin/csv
