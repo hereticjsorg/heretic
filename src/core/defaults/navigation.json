@@ -1,18 +1,17 @@
 {
     "userspace": {
-        "home": "home",
+        "home": "sample_home",
         "routes": [
-            "home",
-            "boilerplate.list",
-            "license"
+            "sample_home",
+            "sample_license"
         ]
     },
     "admin": [
-        "_home",
-        "_users",
-        "_groups",
-        "_events",
-        "_sessions",
-        "_logs"
+        "base_home",
+        "users_users",
+        "users_groups",
+        "events_events",
+        "sessions_sessions",
+        "logs_logs"
     ]
 }

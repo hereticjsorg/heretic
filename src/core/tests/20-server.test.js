@@ -63,7 +63,6 @@ test("Server availability (404)", async () => {
         });
     } catch (e) {
         expect(e && e.response ? e.response.status : 0).toBe(404);
-        // Ignore
     }
     helpers.killProcess(childProcess.pid);
     serverPid = serverPid.filter(i => i !== childProcess.pid);
@@ -81,7 +80,7 @@ test("Test Page", async () => {
                 url: `http://${systemConfig.server.ip}:${systemConfig.server.port}/${language === helpers.getLanguagesList()[0] ? "" : `${language}/`}${routeId}`,
                 timeout: 30000,
             });
-        } catch {
+        } catch (e) {
             // Ignore
         }
         expect(response ? response.status : 0).toBe(200);
@@ -101,7 +100,7 @@ afterAll(async () => {
             // Ignore
         }
     }
-    if (await helpers.fileExists(`site/pages/${routeId}`)) {
-        await helpers.removeFile(`site/pages/${routeId}`);
+    if (await helpers.fileExists(`site/modules/${routeId}`)) {
+        await helpers.removeFile(`site/modules/${routeId}`);
     }
 });
