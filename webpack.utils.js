@@ -74,6 +74,7 @@ module.exports = class {
                         path: `${modulePath}/${module}`,
                         pages: [],
                         translations: fs.existsSync(path.resolve(__dirname, modulePath, module, "translations")),
+                        setup: fs.existsSync(path.resolve(__dirname, modulePath, module, "setup.js")),
                     };
                     if (moduleData.translations) {
                         const tp = {};

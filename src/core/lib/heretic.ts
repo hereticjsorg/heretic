@@ -220,32 +220,6 @@ export default class {
     }
 
     /*
-     * Register admin routes for all pages
-     */
-    registerRoutePagesAdmin() {
-        // if (!this.systemConfig.auth.admin) {
-        //     return;
-        // }
-        // for (const route of buildData.routes.admin) {
-        //     if (route.module) {
-        //         this.fastify.get(route.path, routeModuleAdmin(route, this.languageData, this.defaultLanguage));
-        //         for (const lang of Object.keys(languages)) {
-        //             if (lang !== this.defaultLanguage) {
-        //                 this.fastify.get(`/${lang}${route.path}`, routeModuleAdmin(route, this.languageData, lang));
-        //             }
-        //         }
-        //     } else {
-        //         this.fastify.get(route.path, routePageAdmin(route, this.languageData, this.defaultLanguage));
-        //         for (const lang of Object.keys(languages)) {
-        //             if (lang !== this.defaultLanguage) {
-        //                 this.fastify.get(`/${lang}${route.path}`, routePageAdmin(route, this.languageData, lang));
-        //             }
-        //         }
-        //     }
-        // }
-    }
-
-    /*
      * Register OAuth2 routes for all pages
      */
     async registerOauth2() {
@@ -528,84 +502,25 @@ export default class {
     }
 
     async setup(installedVersions: { [x: string]: any; core?: any; }, options: commandLineArgs.CommandLineOptions) {
-        if (!installedVersions.core || options.setup) {
-            for (const file of buildData.coreSetupFiles) {
+        for (const m of buildData.modules.filter(i => i.setup)) {
+            if (!installedVersions[m.id] || options.setup) {
                 let Setup;
                 try {
-                    Setup = (await import(`../setup/${file}`)).default;
+                    Setup = (await import(`#site/../${m.path}/setup.js`)).default;
                 } catch {
                     // Ignore
                 }
                 if (Setup) {
-                    this.fastify.log.info(`Executing installation script: ${file}...`);
-                    const setup = new Setup(file, this.fastify, {
+                    this.fastify.log.info(`Executing installation script for module: ${m.id}...`);
+                    const setup = new Setup(m.id, this.fastify, {
                         createIndex: this.createIndex.bind(this),
                         createExpireIndex: this.createExpireIndex.bind(this),
                     }, installedVersions);
                     await setup.process();
-                    await this.updateSetupVersion("core");
-                } else {
-                    this.fastify.log.info(`Could not load installation script: ${file}`);
+                    await this.updateSetupVersion(m.id);
                 }
             }
         }
-        // for (const page of buildData.directories.pages) {
-        //     if (!installedVersions[page] || options.setup) {
-        //         let Setup;
-        //         try {
-        //             Setup = (await import(`#site/pages/${page}/setup.js`)).default;
-        //         } catch {
-        //             // Ignore
-        //         }
-        //         if (Setup) {
-        //             this.fastify.log.info(`Executing installation script for page: ${page}...`);
-        //             const setup = new Setup(page, this.fastify, {
-        //                 createIndex: this.createIndex.bind(this),
-        //                 createExpireIndex: this.createExpireIndex.bind(this),
-        //             }, installedVersions);
-        //             await setup.process();
-        //             await this.updateSetupVersion(page);
-        //         }
-        //     }
-        // }
-        // for (const page of buildData.directories.pagesCore) {
-        //     if (!installedVersions[page] || options.setup) {
-        //         let Setup;
-        //         try {
-        //             Setup = (await import(`../pages/${page}/setup.js`)).default;
-        //         } catch {
-        //             // Ignore
-        //         }
-        //         if (Setup) {
-        //             this.fastify.log.info(`Executing installation script for core page: ${page}...`);
-        //             const setup = new Setup(page, this.fastify, {
-        //                 createIndex: this.createIndex.bind(this),
-        //                 createExpireIndex: this.createExpireIndex.bind(this),
-        //             }, installedVersions);
-        //             await setup.process();
-        //             await this.updateSetupVersion(page);
-        //         }
-        //     }
-        // }
-        // for (const module of buildData.directories.modules) {
-        //     if (!installedVersions[module] || options.setup) {
-        //         let Setup;
-        //         try {
-        //             Setup = (await import(`#site/modules/${module}/setup.js`)).default;
-        //         } catch {
-        //             // Ignore
-        //         }
-        //         if (Setup) {
-        //             this.fastify.log.info(`Executing installation script for module: ${module}...`);
-        //             const setup = new Setup(module, this.fastify, {
-        //                 createIndex: this.createIndex.bind(this),
-        //                 createExpireIndex: this.createExpireIndex.bind(this),
-        //             }, installedVersions);
-        //             await setup.process();
-        //             await this.updateSetupVersion(module);
-        //         }
-        //     }
-        // }
     }
 
     async installedDbVersions() {

@@ -26,7 +26,6 @@ typings/
 !/site
 /logs
 .DS_Store
-src/modules
 src/bin/csv
 backup/
 dist.new/
@@ -35,3 +34,5 @@ dist.backup/
 temp/
 src/marko.json
 src/**/marko.json
+site/**/lang-swtich
+src/**/lang-swtich
