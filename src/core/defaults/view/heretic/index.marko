@@ -1,0 +1,44 @@
+import languages from "#etc/languages.json"
+
+<div style={
+    position: state.mounted ? "unset" : "absolute",
+    clip: state.mounted ? "unset" : "rect(0 0 0 0)"
+}>
+    <hloading key="loading"/>
+    <div
+        class="container hr-wrap"
+        style={
+            position: !process.browser || !state.mounted ? "absolute" : "unset",
+            clip: !process.browser || !state.mounted ? "rect(0 0 0 0)" : "unset"
+        }>
+        <div>
+            <div class="hr-navbar-wrap">
+                <navbar key="navbar" on-dark-mode("onDarkMode")/>
+            </div>
+        </div>
+        <div class="hr-content">
+            <div class="pl-3 pr-3">
+                <div id="heretic_content">
+                    <if(!state.routed)>
+                        <${input.renderBody}/>
+                    </if>
+                    <if(process.browser)>
+                        <hrouter on-route-change("onRouteChange")/>
+                        <if(state.routed)>
+                            <div id="hr_content_render_wrap"/>
+                        </if>
+                    </if>
+                </div>
+            </div>
+        </div>
+        <div class="hr-footer">
+            <div class="pl-3 pr-3 pt-5 pb-5">
+                <t>poweredByHeretic</t>&nbsp;<a href="https://hereticjs.org" target="_blank" class="is-underlined">Heretic</a>&nbsp;&copy;&nbsp;2021-${new Date().getFullYear()}&nbsp;<t>mMatveev</t>.
+                <t>mitLicense</t>&nbsp;<a href="https://opensource.org/licenses/MIT" target="_blank" class="is-underlined">
+                    MIT License
+                </a>.
+            </div>
+        </div>
+    </div>
+</div>
+<browserError key="hr_browserError"/>

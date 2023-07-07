@@ -1,0 +1,108 @@
+// Import variables and fonts
+
+@import "./fonts.scss";
+@import "./variables.scss";
+@import "~styles/buttons.scss";
+@import "~styles/tippy.scss";
+@import "~styles/checkboxes.scss";
+@import "~styles/dark.scss";
+
+// Template-related styles
+
+.hr-wrap {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+.hr-navbar {
+    background: transparent !important;
+}
+
+.hr-content {
+    flex: 1
+}
+
+.hr-footer {
+    color: $grey-dark;
+    font-size: 80%;
+}
+
+.hr-navbar-wrap {
+    padding-top: 30px;
+    padding-bottom: 20px;
+    user-select: none;
+}
+
+.icon>svg path {
+    fill: $grey-darker;
+}
+
+html.heretic-dark .navbar-link>.icon>svg>path,
+html.heretic-dark .navbar-item>.icon>svg>path {
+    fill: $heretic-dark-text-color !important;
+}
+
+// Begin: hack to make round corners for table
+
+.table.hr-is-bordered {
+    border-collapse: separate !important;
+}
+
+.table.hr-is-bordered td,
+.table.hr-is-bordered th {
+    border-bottom-width: 1px;
+    border-right: 1px solid $grey-lighter;
+}
+
+.table.hr-is-bordered tr:last-child td,
+.table.hr-is-bordered tr:last-child th {
+    border-bottom-width: 1px;
+}
+
+.table.hr-is-bordered thead td,
+.table.hr-is-bordered thead th {
+    border-bottom-width: 1px;
+    border-top: 1px solid $grey-lighter;
+}
+
+.table.hr-is-bordered td:first-child,
+.table.hr-is-bordered th:first-child {
+    border-left: 1px solid $grey-lighter;
+}
+
+.table.hr-is-bordered th:first-child {
+    border-top-left-radius: $radius;
+}
+
+.table.hr-is-bordered th:last-child {
+    border-top-right-radius: $radius;
+}
+
+.table.hr-is-bordered tr:last-child td:first-child {
+    border-bottom-left-radius: $radius;
+}
+
+.table.hr-is-bordered tr:last-child td:last-child {
+    border-bottom-right-radius: $radius;
+}
+
+// End: hack to make round corners for table
+
+@media (max-width: 1023px) {
+
+    .hr-navbar-wrap {
+        padding-top: unset;
+        padding-bottom: 10px;
+    }
+
+    .hr-navbar {
+        background: $grey-lightest;
+        margin-bottom: 15px;
+    }
+
+    .navbar-menu {
+        padding: 10px;
+    }
+
+}

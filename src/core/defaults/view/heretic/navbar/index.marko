@@ -1,0 +1,44 @@
+import navigation from "#etc/navigation.json"
+
+$ const i18nNavigation = out.global.i18nNavigation;
+<nav class="navbar hr-navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+        <hrouter-link route=navigation.userspace.home class="navbar-item">
+            <navbar-logo darkMode=state.darkMode key="hereticLogo"/>
+        </hrouter-link>
+        <a id="hr_navbar_burger" onClick("onBurgerClick") role="button" class=`navbar-burger${state.navOpen ? " is-active" : ""}` data-target="navbar">
+            <span aria-hidden="true"/>
+            <span aria-hidden="true"/>
+            <span aria-hidden="true"/>
+        </a>
+    </div>
+    <div id="navbar" class=`navbar-menu${state.navOpen ? " is-active" : ""}`>
+        <div class="navbar-start">
+            <for|item| of=navigation.userspace.routes>
+                <if(typeof item === "string")>
+                    <hrouter-link route=item class=`navbar-item hr-navbar-item${state.route === item ? " hr-navbar-item-active" : ""}`>${i18nNavigation[item]}</hrouter-link>
+                </if>
+                <else>
+                    <div class=`navbar-item has-dropdown${state.navItemOpen === item.id ? " is-active" : ""}`>
+                        <a class=`navbar-link hr-navbar-item${state.navItemOpen === item.id ? " hr-navbar-item-open" : ""}` on-click("onNavbarItemClick") id=`hr_navbar_item_${item.id}`>${i18nNavigation[item.id]}</a>
+                        <div class="navbar-dropdown hr-navbar-dropdown">
+                            <for|subItem| of=item.routes>
+                                <hrouter-link route=subItem class=`navbar-item hr-navbar-item${state.route === subItem ? " hr-navbar-item-active" : ""}`>${i18nNavigation[subItem]}</hrouter-link>
+                            </for>
+                        </div>
+                    </div>
+                </else>
+            </for>
+        </div>
+        <div class="navbar-end">
+            <navbar-github/>
+            <if(out.global.darkModeEnabled)>
+                <navbar-dark on-dark-mode("onDarkMode")/>
+            </if>
+            <navbar-lang/>
+            <if(out.global.authOptions.signIn || out.global.authOptions.signUp)>
+                <navbar-auth/>
+            </if>
+        </div>
+    </div>
+</nav>
