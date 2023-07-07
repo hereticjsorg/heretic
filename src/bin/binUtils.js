@@ -177,7 +177,7 @@ module.exports = class {
             return;
         }
         const configNavigation = fs.readJSONSync(path.resolve(__dirname, "../core/defaults/navigation.json"));
-        if (!fs.existsSync(path.resolve(__dirname, "../../site/pages/home")) || !fs.existsSync(path.resolve(__dirname, "../../site/pages/license"))) {
+        if (!fs.existsSync(path.resolve(__dirname, "../../site/modules/sample"))) {
             configNavigation.routes = [];
         }
         this.log(`Writing "etc/navigation.json"...`, {
@@ -304,36 +304,36 @@ module.exports = class {
     }
 
     addPage(id, addNavigationConfig = false) {
-        this.log(`Creating page: "${id}"...`, {
+        this.log(`Creating module: "${id}"...`, {
             header: true,
         });
         if (!id || !id.match(/^[a-z0-9_-]+$/i)) {
-            this.log("Invalid page ID, use latin characters, numbers and '-', '_' chars only", {
+            this.log("Invalid module ID, use latin characters, numbers and '-', '_' chars only", {
                 warning: true,
             });
             return;
         }
-        if (fs.existsSync(path.resolve(__dirname, `../../site/pages/${id}`))) {
-            this.log(`Page "${id}" already exists`, {
+        if (fs.existsSync(path.resolve(__dirname, `../../site/modules/${id}`))) {
+            this.log(`Module "${id}" already exists`, {
                 warning: true,
             });
             return;
         }
-        fs.copySync(path.resolve(__dirname, "../../site/pages/.blank"), path.resolve(__dirname, `../../site/pages/${id}`));
-        const pageMetaPath = path.resolve(__dirname, `../../site/pages/${id}/meta.json`);
-        const pageMeta = fs.readJSONSync(pageMetaPath);
-        pageMeta.id = id;
-        fs.writeJSONSync(pageMetaPath, pageMeta, {
+        fs.copySync(path.resolve(__dirname, "../../site/modules/.blank"), path.resolve(__dirname, `../../site/modules/${id}`));
+        const moduleConfigPath = path.resolve(__dirname, `../../site/modules/${id}/module.json`);
+        const moduleConfig = fs.readJSONSync(moduleConfigPath);
+        moduleConfig.id = id;
+        fs.writeJSONSync(moduleConfigPath, moduleConfig, {
             spaces: "  ",
         });
         if (addNavigationConfig) {
             const navJSONPath = path.resolve(__dirname, "../../etc/navigation.json");
             const navJSON = fs.readJSONSync(navJSONPath);
             if (navJSON.userspace.routes.indexOf(id) === -1) {
-                this.log(`Adding navbar item: ${id}...`);
-                navJSON.userspace.routes.push(id);
+                this.log(`Adding navbar item: ${id}_page...`);
+                navJSON.userspace.routes.push(`${id}_page`);
                 if (!navJSON.userspace.home) {
-                    navJSON.userspace.home = id;
+                    navJSON.userspace.home = `${id}_page`;
                 }
                 fs.writeJSONSync(navJSONPath, navJSON, {
                     spaces: "  ",
@@ -579,16 +579,6 @@ module.exports = class {
         if (fs.existsSync(userLangPath)) {
             fs.removeSync(userLangPath);
         }
-    }
-
-    initCorePagesMeta() {
-        fs.readdirSync(path.resolve(__dirname, "../core/pages")).filter(p => !p.match(/^\./)).map(p => {
-            const metaPath = path.resolve(__dirname, `../core/pages/${p}/meta.json`);
-            const metaDistPath = path.resolve(__dirname, `../core/pages/${p}/meta-dist.json`);
-            if (!fs.existsSync(metaPath) && fs.existsSync(metaDistPath)) {
-                fs.copySync(metaDistPath, metaPath);
-            }
-        });
     }
 
     async geoCleanUp() {

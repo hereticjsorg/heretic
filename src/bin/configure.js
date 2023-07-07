@@ -18,7 +18,6 @@ binUtils.copyFiles();
 binUtils.generateSecureConfig();
 binUtils.writeNavigationConfig();
 binUtils.writeUserTranslationData();
-binUtils.initCorePagesMeta();
 binUtils.log("All done.", {
     success: true,
 });

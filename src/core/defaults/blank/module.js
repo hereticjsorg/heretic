@@ -1,4 +1,8 @@
-const id = "blank";
+const path = require("path");
+
+const {
+    id,
+} = require(path.resolve(__dirname, "module.json"));
 
 module.exports = {
     id,
