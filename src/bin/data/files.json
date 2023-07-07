@@ -8,9 +8,6 @@
     "from": "../core/defaults/email",
     "to": "../../site/email"
 }, {
-    "from": "../core/defaults/blank",
-    "to": "../../site/modules/blank"
-}, {
     "from": "../core/defaults/boilerplate",
     "to": "../../site/modules/boilerplate"
 }, {

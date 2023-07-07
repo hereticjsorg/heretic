@@ -21,7 +21,7 @@ const {
 const Color = require("../core/lib/color");
 const filesData = require("./data/files.json");
 const directoriesData = require("./data/directories.json");
-const cleanupData = require("./cleanup.json");
+const cleanupData = require("./data/cleanup.json");
 
 module.exports = class {
     constructor(options) {
