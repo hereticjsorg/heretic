@@ -1,1 +1,1 @@
-["../../site/pages/home", "../../site/pages/license", "../../site/view", "../../site/static", "../../site/pages/.blank", "../../etc/secure.json", "../../etc/website.js", "../../etc/system.js", "../build", "../../site/translations"]
+["../../site/modules/sample", "../../site/view", "../../site/static", "../../site/modules/.blank", "../../etc/secure.json", "../../etc/website.js", "../../etc/system.js", "../build", "../../site/translations"]

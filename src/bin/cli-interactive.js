@@ -27,8 +27,8 @@ const binUtils = new BinUtils(options);
                 name: "action",
                 message: "What do you want to do?",
                 choices: [
-                    "Add page",
-                    "Remove page",
+                    "Add module",
+                    "Remove module",
                     new inquirer.Separator(),
                     "Add language",
                     "Remove language",
@@ -46,10 +46,10 @@ const binUtils = new BinUtils(options);
             noDate: true,
         });
         switch (answers.action) {
-        case "Remove page":
-            const pagesList = fs.readdirSync(path.resolve(__dirname, "../../site/pages")).filter(p => !p.match(/^\./));
-            if (!pagesList.length) {
-                binUtils.log("No pages to remove", {
+        case "Remove module":
+            const modulesList = fs.readdirSync(path.resolve(__dirname, "../../site/modules")).filter(p => !p.match(/^\./));
+            if (!modulesList.length) {
+                binUtils.log("No modules to remove", {
                     error: true,
                     noDate: true,
                 });
@@ -58,24 +58,24 @@ const binUtils = new BinUtils(options);
             const removePageAnswers = await inquirer.prompt([{
                 type: "list",
                 name: "id",
-                message: "Which page to remove?",
-                choices: pagesList,
+                message: "Which module to remove?",
+                choices: modulesList,
             }]);
             binUtils.log("", {
                 noDate: true,
             });
             binUtils.removePage(removePageAnswers.id);
             break;
-        case "Add page":
+        case "Add module":
             const addPageAnswers = await inquirer.prompt([{
                 type: "input",
                 name: "id",
-                message: "Enter page ID:",
+                message: "Enter module ID:",
                 validate(value) {
                     if (value.match(/^[a-zA-Z][a-zA-Z0-9_]+$/i)) {
                         return true;
                     }
-                    return "Please enter a valid page ID";
+                    return "Please enter a valid module ID";
                 },
             }]);
             binUtils.log("", {
