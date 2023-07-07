@@ -19,6 +19,7 @@ const {
     format,
 } = require("date-fns");
 const Color = require("../core/lib/color");
+const buildJson = require("../build/build.json");
 const filesData = require("./data/files.json");
 const directoriesData = require("./data/directories.json");
 const cleanupData = require("./data/cleanup.json");
@@ -54,6 +55,17 @@ module.exports = class {
 
     setInteractive(flag) {
         this.interactive = flag;
+    }
+
+    async* walkDir(dir) {
+        for await (const d of await fs.promises.opendir(dir)) {
+            const entry = path.join(dir, d.name);
+            if (d.isDirectory()) {
+                yield* await this.walkDir(entry);
+            } else if (d.isFile()) {
+                yield entry;
+            }
+        }
     }
 
     log(message, options = {}) {
@@ -303,7 +315,7 @@ module.exports = class {
         }
     }
 
-    addPage(id, addNavigationConfig = false) {
+    addModule(id, addNavigationConfig = false) {
         this.log(`Creating module: "${id}"...`, {
             header: true,
         });
@@ -319,7 +331,7 @@ module.exports = class {
             });
             return;
         }
-        fs.copySync(path.resolve(__dirname, "../../site/modules/.blank"), path.resolve(__dirname, `../../site/modules/${id}`));
+        fs.copySync(path.resolve(__dirname, "../core/defaults/blank"), path.resolve(__dirname, `../../site/modules/${id}`));
         const moduleConfigPath = path.resolve(__dirname, `../../site/modules/${id}/module.json`);
         const moduleConfig = fs.readJSONSync(moduleConfigPath);
         moduleConfig.id = id;
@@ -342,28 +354,28 @@ module.exports = class {
         }
     }
 
-    removePage(id) {
-        this.log(`Removing page: ${id}...`, {
+    removeModule(id) {
+        this.log(`Removing module: ${id}...`, {
             header: true,
         });
         if (!id || !id.match(/^[a-z0-9_-]+$/i)) {
-            this.log("Invalid page ID, use latin characters, numbers and '-', '_' chars only");
+            this.log("Invalid module ID, use latin characters, numbers and '-', '_' chars only");
             return;
         }
-        const pagePath = path.resolve(__dirname, "..", "..", "site", "pages", id);
-        if (!fs.existsSync(pagePath)) {
-            this.log(`Page '${id}' doesn't exists`, {
+        const modulePath = path.resolve(__dirname, "../../site/modules", id);
+        if (!fs.existsSync(modulePath)) {
+            this.log(`Module '${id}' doesn't exists`, {
                 warning: true,
             });
             return;
         }
-        fs.removeSync(pagePath);
+        fs.removeSync(modulePath);
         const navJSONPath = path.resolve(__dirname, "../../etc/navigation.json");
         const navJSON = fs.readJSONSync(navJSONPath);
-        if (navJSON.userspace.routes.indexOf(id) >= 0) {
+        if (navJSON.userspace.routes.indexOf(`${id}_page`) >= 0) {
             this.log("Removing page from navbar...");
-            navJSON.userspace.routes = navJSON.userspace.routes.filter(r => r !== id);
-            navJSON.userspace.home = navJSON.home === id ? "" : navJSON.home;
+            navJSON.userspace.routes = navJSON.userspace.routes.filter(r => r !== `${id}_page`);
+            navJSON.userspace.home = navJSON.home === `${id}_page` ? "" : navJSON.home;
             fs.writeJSONSync(navJSONPath, navJSON, {
                 spaces: "  ",
             });
@@ -396,81 +408,37 @@ module.exports = class {
         this.log(`Modifying etc/meta.json...`);
         const mainMetaJSONPath = path.resolve(__dirname, "../../etc/meta.json");
         const mainMetaJSON = fs.readJSONSync(mainMetaJSONPath);
-        mainMetaJSON.title[id] = "";
-        mainMetaJSON.shortTitle[id] = "";
-        mainMetaJSON.description[id] = "";
+        mainMetaJSON.title[id] = mainMetaJSON.title[Object.keys(languageJSON)[0]];
+        mainMetaJSON.shortTitle[id] = mainMetaJSON.shortTitle[Object.keys(languageJSON)[0]];
+        mainMetaJSON.description[id] = mainMetaJSON.description[Object.keys(languageJSON)[0]];
         fs.writeJSONSync(mainMetaJSONPath, mainMetaJSON, {
             spaces: "  ",
         });
-        this.log("Modifying existing pages...");
-        for (const area of ["../../site/pages", "../core/pages"]) {
-            for (const p of fs.readdirSync(path.resolve(__dirname, area)).filter(page => !page.match(/^\./))) {
-                const pageConfigPath = path.resolve(__dirname, area, `${p}/page.js`);
-                let directories = [""];
-                if (fs.existsSync(pageConfigPath)) {
-                    const pageConfig = require(pageConfigPath);
-                    if (Array.isArray(pageConfig)) {
-                        directories = pageConfig;
-                    } else {
-                        directories = [""];
-                    }
-                }
-                for (const dir of directories) {
-                    for (const prefix of ["", "-dist"]) {
-                        const pageUserspaceJSONPath = path.resolve(__dirname, area, dir, p, `meta${prefix}.json`);
-                        if (fs.existsSync(pageUserspaceJSONPath)) {
-                            const pageJSON = fs.readJSONSync(pageUserspaceJSONPath);
-                            if (pageJSON.userspace) {
-                                pageJSON.userspace.title[id] = pageJSON.userspace.title[id] || "";
-                                if (pageJSON.userspace.description) {
-                                    pageJSON.userspace.description[id] = pageJSON.userspace.description[id] || "";
-                                }
-                            }
-                            if (pageJSON.admin) {
-                                pageJSON.admin.title[id] = pageJSON.admin.title[id] || "";
-                                if (pageJSON.admin.description) {
-                                    pageJSON.admin.description[id] = pageJSON.admin.description[id] || "";
-                                }
-                            }
-                            fs.writeJSONSync(pageUserspaceJSONPath, pageJSON, {
-                                spaces: "  ",
-                            });
-                        }
-                    }
-                    if (fs.existsSync(path.resolve(__dirname, area, dir, `${p}/userspace/content/lang-switch`))) {
-                        fs.ensureDirSync(path.resolve(__dirname, area, dir, `${p}/userspace/content/lang-${id}`));
-                        fs.writeFileSync(path.resolve(__dirname, area, dir, `${p}/userspace/content/lang-${id}/index.marko`), `<div>${name}</div>`, "utf8");
-                    }
-                    if (fs.existsSync(path.resolve(__dirname, area, dir, `${p}/translations/${Object.keys(languageJSON)[0]}.json`))) {
-                        const transCoreJSON = fs.readJSONSync(path.resolve(__dirname, area, dir, `${p}/translations/${Object.keys(languageJSON)[0]}.json`));
-                        fs.writeJSONSync(path.resolve(__dirname, area, dir, `${p}/translations/${id}.json`), transCoreJSON, {
-                            spaces: "  "
-                        });
-                    }
-                }
-            }
-        }
         this.log("Modifying existing modules...");
-        for (const m of fs.readdirSync(path.resolve(__dirname, "../../site/modules")).filter(page => !page.match(/^\./))) {
-            const moduleConfig = require(path.resolve(__dirname, `../../site/modules/${m}/module.js`));
-            const directories = Object.keys(moduleConfig.routes);
-            for (const dir of directories) {
-                const moduleMetaJSONPath = path.resolve(__dirname, `../../site/modules/${m}/${dir}/meta.json`);
-                if (fs.existsSync(moduleMetaJSONPath)) {
-                    const moduleJSON = fs.readJSONSync(moduleMetaJSONPath);
-                    moduleJSON.title[id] = moduleJSON.title[id] || "";
-                    if (moduleJSON.description) {
-                        moduleJSON.description[id] = moduleJSON.description[id] || "";
-                    }
-                    fs.writeJSONSync(moduleMetaJSONPath, moduleJSON, {
-                        spaces: "  ",
-                    });
+        for (const m of buildJson.modules) {
+            if (m.translations) {
+                const translationDataDefault = fs.readJSONSync(path.resolve(`${m.path}/translations/${Object.keys(languageJSON)[0]}.json`));
+                fs.writeJSONSync(path.resolve(`${m.path}/translations/${id}.json`), translationDataDefault, {
+                    spaces: "  ",
+                });
+            }
+            for (const p of m.pages) {
+                if (!fs.existsSync(path.resolve(`${m.path}/${p.id}/meta.json`))) {
+                    continue;
                 }
-                if (fs.existsSync(path.resolve(__dirname, `../../site/modules/${m}/translations/${Object.keys(languageJSON)[0]}.json`))) {
-                    const transCoreJSON = fs.readJSONSync(path.resolve(__dirname, `../../site/modules/${m}/translations/${Object.keys(languageJSON)[0]}.json`));
-                    fs.writeJSONSync(path.resolve(__dirname, `../../site/modules/${m}/translations/${id}.json`), transCoreJSON, {
-                        spaces: "  "
-                    });
+                const pageMetaJson = fs.readJSONSync(path.resolve(`${m.path}/${p.id}/meta.json`));
+                if (pageMetaJson.title) {
+                    pageMetaJson.title[id] = pageMetaJson.title[Object.keys(languageJSON)[0]];
+                }
+                if (pageMetaJson.description) {
+                    pageMetaJson.description[id] = pageMetaJson.description[Object.keys(languageJSON)[0]];
+                }
+                fs.writeJSONSync(path.resolve(`${m.path}/${p.id}/meta.json`), pageMetaJson, {
+                    spaces: "  ",
+                });
+                if (p.langSwitchComponent && !fs.existsSync(path.resolve(`${m.path}/${p.id}/content/lang-${id}`))) {
+                    fs.ensureDirSync(path.resolve(`${m.path}/${p.id}/content/lang-${id}`));
+                    fs.writeFileSync(path.resolve(`${m.path}/${p.id}/content/lang-${id}/index.marko`), `<div>${name}</div>`);
                 }
             }
         }
@@ -480,7 +448,7 @@ module.exports = class {
             spaces: "  "
         });
         if (fs.existsSync(path.resolve(__dirname, "../../site/translations"))) {
-            this.log("Modifying user translation files...");
+            this.log("Modifying site translation files...");
             const transUserJSON = fs.readJSONSync(path.resolve(__dirname, `../../site/translations/${Object.keys(languageJSON)[0]}.json`));
             fs.writeJSONSync(path.resolve(__dirname, `../../site/translations/${id}.json`), transUserJSON, {
                 spaces: "  "
@@ -513,60 +481,27 @@ module.exports = class {
         fs.writeJSONSync(mainMetaJSONPath, mainMetaJSON, {
             spaces: "  ",
         });
-        this.log("Modifying existing pages...");
-        for (const area of ["../../site/pages", "../core/pages"]) {
-            for (const p of fs.readdirSync(path.resolve(__dirname, area)).filter(page => !page.match(/^\./))) {
-                const pageConfigPath = path.resolve(__dirname, area, `${p}/page.js`);
-                let directories = [""];
-                if (fs.existsSync(pageConfigPath)) {
-                    const pageConfig = require(pageConfigPath);
-                    if (Array.isArray(pageConfig)) {
-                        directories = pageConfig;
-                    } else {
-                        directories = [""];
-                    }
-                }
-                for (const dir of directories) {
-                    const pageUserspaceJSONPath = path.resolve(__dirname, area, dir, p, "meta.json");
-                    if (fs.existsSync(pageUserspaceJSONPath)) {
-                        const pageJSON = fs.readJSONSync(pageUserspaceJSONPath);
-                        if (pageJSON.userspace) {
-                            delete pageJSON.userspace.title[id];
-                            if (pageJSON.userspace.description) {
-                                delete pageJSON.userspace.description[id];
-                            }
-                        }
-                        if (pageJSON.admin) {
-                            delete pageJSON.admin.title[id];
-                            if (pageJSON.admin.description) {
-                                delete pageJSON.admin.description[id];
-                            }
-                        }
-                        fs.writeJSONSync(pageUserspaceJSONPath, pageJSON, {
-                            spaces: "  ",
-                        });
-                    }
-                    if (fs.existsSync(path.resolve(__dirname, area, dir, `${p}/userspace/content/lang-${id}`))) {
-                        fs.removeSync(path.resolve(__dirname, area, dir, `${p}/userspace/content/lang-${id}`));
-                    }
-                }
-            }
-        }
         this.log("Modifying existing modules...");
-        for (const m of fs.readdirSync(path.resolve(__dirname, "../../site/modules")).filter(page => !page.match(/^\./))) {
-            const moduleConfig = require(path.resolve(__dirname, `../../site/modules/${m}/module.js`));
-            const directories = Object.keys(moduleConfig.routes);
-            for (const dir of directories) {
-                const moduleMetaJSONPath = path.resolve(__dirname, `../../site/modules/${m}/${dir}/meta.json`);
-                if (fs.existsSync(moduleMetaJSONPath)) {
-                    const moduleJSON = fs.readJSONSync(moduleMetaJSONPath);
-                    delete moduleJSON.title[id];
-                    if (moduleJSON.description) {
-                        delete moduleJSON.description[id];
-                    }
-                    fs.writeJSONSync(moduleMetaJSONPath, moduleJSON, {
-                        spaces: "  ",
-                    });
+        for (const m of buildJson.modules) {
+            if (m.translations && fs.existsSync(path.resolve(`${m.path}/translations/${id}.json`))) {
+                fs.removeSync(path.resolve(`${m.path}/translations/${id}.json`));
+            }
+            for (const p of m.pages) {
+                if (!fs.existsSync(path.resolve(`${m.path}/${p.id}/meta.json`))) {
+                    continue;
+                }
+                const pageMetaJson = fs.readJSONSync(path.resolve(`${m.path}/${p.id}/meta.json`));
+                if (pageMetaJson.title) {
+                    delete pageMetaJson.title[id];
+                }
+                if (pageMetaJson.description) {
+                    delete pageMetaJson.description[id];
+                }
+                fs.writeJSONSync(path.resolve(`${m.path}/${p.id}/meta.json`), pageMetaJson, {
+                    spaces: "  ",
+                });
+                if (fs.existsSync(path.resolve(`${m.path}/${p.id}/content/lang-${id}`))) {
+                    fs.removeSync(path.resolve(`${m.path}/${p.id}/content/lang-${id}`));
                 }
             }
         }
@@ -935,10 +870,10 @@ module.exports = class {
 
     getCliCommandLineArgs() {
         return [{
-            name: "addPage",
+            name: "addModule",
             type: String,
         }, {
-            name: "removePage",
+            name: "removeModule",
             type: String,
         }, {
             name: "addLanguage",

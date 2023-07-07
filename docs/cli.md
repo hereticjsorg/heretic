@@ -10,8 +10,8 @@ npm run cli --
 
 ## Parameters Available
 
-* *--addPage &lt;id&gt; [--navigation]*: create a new page (optionally add to navbar)
-* *--removePage &lt;id&gt;*: delete existing page
+* *--addModule &lt;id&gt; [--navigation]*: create a new page (optionally add to navbar)
+* *--removeModule &lt;id&gt;*: delete existing page
 * *--addLanguage &lt;id:name&gt;*: add new language (example: de-de:Deutsch)
 * *--removeLanguage &lt;id&gt;*: delete existing language
 * *--importGeoData*: import geo database (requires MongoDB to be enabled)
@@ -23,13 +23,13 @@ npm run cli --
 Add a new page with ID *test*, route */test* and include it into the navbar:
 
 ```
-npm run cli -- --addPage test --navigation
+npm run cli -- --addModule test --navigation
 ```
 
 Remove a page with ID *test* (also removes the corresponding entries in the navbar):
 
 ```
-npm run cli -- --removePage test
+npm run cli -- --removeModule test
 ```
 
 Add a new language (with ISO code *de-de* and name *Deutsch*):
