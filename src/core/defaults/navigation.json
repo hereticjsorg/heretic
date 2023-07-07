@@ -3,7 +3,8 @@
         "home": "sample_home",
         "routes": [
             "sample_home",
-            "sample_license"
+            "sample_license",
+            "boilerplate_list"
         ]
     },
     "admin": [
