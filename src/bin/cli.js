@@ -18,8 +18,8 @@ binUtils.printLogo();
 
 (async () => {
     if (!Object.keys(options).length || (Object.keys(options).length === 1 && options["no-color"])) {
-        binUtils.log(`Usage:\n\nnpm run cli -- --addPage <id> [--addNavigation] - create a new page [add navigation]
-               --removePage <id> - delete existing page
+        binUtils.log(`Usage:\n\nnpm run cli -- --addModule <id> [--addNavigation] - create a new page [add navigation]
+               --removeModule <id> - delete existing page
                --addLanguage <id:name> - add new language (example: de-de:Deutsch)
                --removeLanguage <id> - delete existing language
                --importGeoData - import geo database
@@ -32,12 +32,12 @@ binUtils.printLogo();
 
     binUtils.readConfig();
 
-    if (options.addPage !== undefined) {
-        binUtils.addPage(options.addPage, options.addNavigation);
+    if (options.addModule !== undefined) {
+        binUtils.addModule(options.addModule, options.addNavigation);
     }
 
-    if (options.removePage !== undefined) {
-        binUtils.removePage(options.removePage);
+    if (options.removeModule !== undefined) {
+        binUtils.removeModule(options.removeModule);
     }
 
     if (options.addLanguage !== undefined) {

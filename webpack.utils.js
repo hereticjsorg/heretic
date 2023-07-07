@@ -69,11 +69,12 @@ module.exports = class {
             for (const module of modulesList) {
                 try {
                     const moduleConfig = require(path.resolve(__dirname, `${modulePath}/${module}/module.js`));
+                    console.log(path.resolve(__dirname, `${modulePath}/${module}/translations`));
                     const moduleData = {
                         id: moduleConfig.id,
                         path: `${modulePath}/${module}`,
                         pages: [],
-                        translations: fs.existsSync(path.resolve(__dirname, modulePath, module, "translations")),
+                        translations: fs.existsSync(path.resolve(__dirname, `${modulePath}/${module}/translations`)),
                         setup: fs.existsSync(path.resolve(__dirname, modulePath, module, "setup.js")),
                     };
                     if (moduleData.translations) {
@@ -362,6 +363,23 @@ ${Object.keys(this.languages).map(l => `        case "${l}":
         }
         for await (const p of this.walkDir(path.join(__dirname, "src"))) {
             this.processMarkoJsonFile(p);
+        }
+    }
+
+    processMetaJsonFile(p) {
+        const filename = path.basename(p);
+        const dirname = path.dirname(p);
+        if (filename === "meta.src.json" && !fs.existsSync(path.resolve(`${dirname}/meta.json`))) {
+            fs.copySync(path.resolve(`${dirname}/meta.src.json`), path.resolve(`${dirname}/meta.json`));
+        }
+    }
+
+    async processMetaJson() {
+        for await (const p of this.walkDir(path.join(__dirname, "site"))) {
+            this.processMetaJsonFile(p);
+        }
+        for await (const p of this.walkDir(path.join(__dirname, "src"))) {
+            this.processMetaJsonFile(p);
         }
     }
 };

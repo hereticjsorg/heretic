@@ -55,7 +55,7 @@ const binUtils = new BinUtils(options);
                 });
                 break;
             }
-            const removePageAnswers = await inquirer.prompt([{
+            const removeModuleAnswers = await inquirer.prompt([{
                 type: "list",
                 name: "id",
                 message: "Which module to remove?",
@@ -64,10 +64,10 @@ const binUtils = new BinUtils(options);
             binUtils.log("", {
                 noDate: true,
             });
-            binUtils.removePage(removePageAnswers.id);
+            binUtils.removeModule(removeModuleAnswers.id);
             break;
         case "Add module":
-            const addPageAnswers = await inquirer.prompt([{
+            const addModuleAnswers = await inquirer.prompt([{
                 type: "input",
                 name: "id",
                 message: "Enter module ID:",
@@ -81,7 +81,7 @@ const binUtils = new BinUtils(options);
             binUtils.log("", {
                 noDate: true,
             });
-            await binUtils.addPage(addPageAnswers.id);
+            await binUtils.addModule(addModuleAnswers.id);
             break;
         case "Add language":
             const addLanguageAnswers = await inquirer.prompt([{

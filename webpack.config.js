@@ -26,6 +26,7 @@ module.exports = async (env, argv) => {
     webpackUtils.generateManifest();
     webpackUtils.generateLangSwitchComponents();
     await webpackUtils.processMarkoJson();
+    await webpackUtils.processMetaJson();
     return ([{
             context: path.resolve(`${__dirname}`),
             performance: {

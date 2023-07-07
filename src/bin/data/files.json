@@ -17,9 +17,6 @@
     "from": "../core/defaults/static",
     "to": "../../site/static"
 }, {
-    "from": "../core/defaults/blank",
-    "to": "../../site/modules/.blank"
-}, {
     "from": "../core/defaults/meta.json",
     "to": "../../etc/meta.json"
 }, {
