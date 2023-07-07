@@ -17,7 +17,7 @@
     "from": "../core/defaults/static",
     "to": "../../site/static"
 }, {
-    "from": "../core/defaults/meta.json",
+    "from": "../core/defaults/meta.src.json",
     "to": "../../etc/meta.json"
 }, {
     "from": "../core/defaults/website.js",
