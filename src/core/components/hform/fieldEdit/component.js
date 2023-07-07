@@ -16,7 +16,9 @@ const Password = require("#lib/password").default;
 module.exports = class {
     onCreate(input, out) {
         this.passwordPolicy = out.global.passwordPolicy;
-        if (process.browser && window.__heretic && window.__heretic.t) {
+        if (process.browser) {
+            window.__heretic = window.__heretic || {};
+            window.__heretic.outGlobal = window.__heretic.outGlobal || out.global;
             this.passwordPolicy = out.global.passwordPolicy || window.__heretic.outGlobal.passwordPolicy;
         }
         this.state = {

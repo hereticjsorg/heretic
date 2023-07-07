@@ -87,7 +87,9 @@ module.exports = class {
         // Collect field IDs
         this.initValidation(input);
         this.language = out.global.language;
-        if (process.browser && window.__heretic && window.__heretic.t) {
+        if (process.browser) {
+            window.__heretic = window.__heretic || {};
+            window.__heretic.outGlobal = window.__heretic.outGlobal || out.global;
             this.language = this.language || window.__heretic.outGlobal.language;
         }
         if (input.admin) {

@@ -1,25 +1,26 @@
 const languages = Object.keys(require("#etc/languages.json"));
-const routesData = require("#build/build.json");
+const buildData = require("#build/build.json");
 
-export default (route, languageData, language) => ({
+export default (m, page, languageData, language) => ({
     async handler(req, rep) {
         const authData = await req.auth.getData(req.auth.methods.COOKIE);
-        if (route.dir === "signIn" && authData) {
+
+        if (page.routePath === "/admin/signIn" && authData) {
             return rep.code(302).redirect(languages[0] === language ? this.systemConfig.routes.admin : `/${language}${this.systemConfig.routes.admin}`);
         }
-        if (route.dir !== "signIn" && !authData) {
-            return rep.code(302).redirect(languages[0] === language ? `${this.systemConfig.routes.signInAdmin}?r=${route.path}` : `/${language}${this.systemConfig.routes.signInAdmin}?r=/${language}${route.path}`);
+        if (page.routePath !== "/admin/signIn" && !authData) {
+            return rep.code(302).redirect(languages[0] === language ? `${this.systemConfig.routes.signInAdmin}?r=${page.routePath}` : `/${language}${this.systemConfig.routes.signInAdmin}?r=/${language}${page.routePath}`);
         }
-        if (route.dir !== "signIn" && (!authData || !authData.groupData || !authData.groupData.find(i => i.id === "admin" && i.value === true))) {
+        if (page.routePath !== "/admin/signIn" && (!authData || !authData.groupData || !authData.groupData.find(i => i.id === "admin" && i.value === true))) {
             return rep.code(302).redirect(languages[0] === language ? "/" : `/${language}`);
         }
-        const translationData = routesData.translations.admin.find(i => i.id === route.id);
-        const page = route.core ? (await import(`#core/pages/${route.dir}/admin/server.marko`)).default : (await import(`#site/pages/${route.dir}/admin/server.marko`)).default;
-        const renderPage = await page.render({
+        const translationData = buildData.modules.find(i => i.id === m.id).pages.find(i => i.id === page.id).metaData;
+        const pageData = (await import(`#src/../${m.path}/${page.id}/server.marko`)).default;
+        const renderPage = await pageData.render({
             $global: {
                 serializedGlobals: {
                     language: true,
-                    route: true,
+                    page: true,
                     title: true,
                     siteTitle: true,
                     i18nNavigation: true,
@@ -33,6 +34,7 @@ export default (route, languageData, language) => ({
                     demo: true,
                     darkModeEnabled: true,
                     passwordPolicy: true,
+                    route: true,
                     oa2: true,
                 },
                 oa2: this.systemConfig.oauth2 && Array.isArray(this.systemConfig.oauth2) ? this.systemConfig.oauth2.map(i => ({
@@ -46,10 +48,10 @@ export default (route, languageData, language) => ({
                 authOptions: this.systemConfig.auth,
                 mongoEnabled: this.systemConfig.mongo.enabled,
                 language,
-                route: route.id,
+                page: page.id,
                 title: translationData.title[language],
                 siteTitle: this.siteConfig.title[language],
-                i18nNavigation: this.i18nNavigation.admin[language],
+                i18nNavigation: this.i18nNavigation[language],
                 siteId: this.systemConfig.id,
                 cookieOptions: this.systemConfig.cookieOptions,
                 t: id => languageData[language] && languageData[language][id] ? `${languageData[language][id]}` : id,
@@ -60,6 +62,7 @@ export default (route, languageData, language) => ({
                 systemRoutes: this.systemConfig.routes,
                 webSockets: this.systemConfig.webSockets || {},
                 demo: this.systemConfig.demo,
+                route: `${m.id}_${page.id}`,
             },
         });
         rep.type("text/html");

@@ -40,7 +40,7 @@ module.exports = class {
     setGlobalVariables(out) {
         if (process.browser) {
             window.__heretic = window.__heretic || {};
-            window.__heretic.outGlobal = out.global;
+            window.__heretic.outGlobal = window.__heretic.outGlobal || out.global;
         }
     }
 
@@ -168,7 +168,7 @@ module.exports = class {
         let component = null;
         const route = router.getRoute();
         const routeData = routesData.routes.admin.find(r => r.id === route.id);
-        if ((route.id !== this.serverRoute || this.state.routed) && routeData) {
+        if (route.id !== this.serverRoute || this.state.routed) {
             const timer = this.getAnimationTimer();
             try {
                 component = await pagesLoader.loadComponent(route.id);

@@ -12,7 +12,7 @@ Please read the docs before you get started:
 * [Getting Started with Heretic](docs/gettingStarted.md)
 * [Configuration Files](docs/configurationFiles.md)
 * [Rate Limits](docs/rateLimit.md)
-* [Creating Pages](docs/pages.md)
+* [Creating Modules](docs/modules.md)
 * [Components](docs/components.md)
 * [Internationalization](docs/internationalization.md)
 * [API Modules](docs/api.md)

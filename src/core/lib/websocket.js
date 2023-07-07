@@ -24,7 +24,7 @@ function fastifyWebsocket(fastify, opts, next) {
     function noHandle(connection, rawRequest) {
         this.log.info({
             path: rawRequest.url,
-        }, "closed incoming websocket connection for path with no websocket handler");
+        }, "Closing incoming websocket connection for path with no WebSocket handler");
         connection.socket.close();
     }
     function defaultErrorHandler(error, conn, request) {
@@ -108,7 +108,7 @@ function fastifyWebsocket(fastify, opts, next) {
     fastify.addHook("onRoute", routeOptions => {
         let isWebsocketRoute = false;
         let {
-            wsHandler
+            wsHandler,
         } = routeOptions;
         let {
             handler
@@ -128,7 +128,6 @@ function fastifyWebsocket(fastify, opts, next) {
                     reply.code(404).send();
                 };
             }
-
             if (typeof wsHandler !== "function") {
                 throw new Error("invalid wsHandler function");
             }
@@ -164,7 +163,7 @@ function fastifyWebsocket(fastify, opts, next) {
     fastify.addHook("onClose", close);
     // Fastify is missing a pre-close event, or the ability to
     // add a hook before the server.close call. We need to resort
-    // to monkeypatching for now.
+    // to monkey patching for now.
     const oldClose = fastify.server.close;
     // eslint-disable-next-line func-names
     fastify.server.close = function (cb) {
@@ -173,7 +172,9 @@ function fastifyWebsocket(fastify, opts, next) {
         // server.clients list will be up to date when we start closing below.
         oldClose.call(this, cb);
         const server = fastify.websocketServer;
-        if (!server.clients) return;
+        if (!server.clients) {
+            return;
+        }
         for (const client of server.clients) {
             client.close();
         }

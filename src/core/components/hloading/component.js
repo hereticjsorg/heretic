@@ -6,7 +6,9 @@ module.exports = class {
             isActive: !!input.active,
         };
         this.siteId = out.global.siteId;
-        if (process.browser && window.__heretic && window.__heretic.t) {
+        if (process.browser) {
+            window.__heretic = window.__heretic || {};
+            window.__heretic.outGlobal = window.__heretic.outGlobal || out.global;
             this.siteId = out.global.siteId || window.__heretic.outGlobal.siteId;
         }
         if (input.admin) {

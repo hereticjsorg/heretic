@@ -55,7 +55,7 @@ module.exports = {
         "consistent-return": "off",
         "no-await-in-loop": "off",
         "no-restricted-syntax": "off",
-        "no-continue": "off"
+        "no-continue": "off",
     },
     overrides: [{
         files: ["**/*.ts", "**/*.tsx"],

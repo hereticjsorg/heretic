@@ -19,9 +19,9 @@ const {
     format,
 } = require("date-fns");
 const Color = require("../core/lib/color");
-const filesData = require("./files.json");
-const directoriesData = require("./directories.json");
-const cleanupData = require("./cleanup.json");
+const filesData = require("./data/files.json");
+const directoriesData = require("./data/directories.json");
+const cleanupData = require("./data/cleanup.json");
 
 module.exports = class {
     constructor(options) {

@@ -153,8 +153,8 @@ module.exports = class {
     async onRouteChange(router) {
         let component = null;
         const route = router.getRoute();
-        const routeData = routesData.routes.userspace.find(r => r.id === route.id) || routesData.routes.core.find(r => r.id === route.id) || null;
-        if ((route.id !== this.serverRoute || this.state.routed) && !!routeData) {
+        const routeData = routesData.routes.userspace.find(r => r.id === route.id) || null;
+        if (route.id !== this.serverRoute || this.state.routed) {
             const timer = this.getAnimationTimer();
             try {
                 document.documentElement.scrollTo({
