@@ -30,7 +30,7 @@ test("Create test page", async () => {
         await helpers.removeFile(`site/modules/${routeId}`);
     }
     await helpers.copy("src/core/defaults/test", `site/modules/${routeId}`);
-    const testMeta = await helpers.readJSON(`site/modules/${routeId}/page/meta.json`);
+    const testMeta = await helpers.readJSON(`site/modules/${routeId}/page/meta.src.json`);
     testMeta.id = routeId;
     for (const language of helpers.getLanguagesList()) {
         testMeta.title[language] = `site-title-${language}`;
