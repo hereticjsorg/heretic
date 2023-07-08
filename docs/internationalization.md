@@ -46,7 +46,7 @@ After you've defined all the languages you need, it's time to change the main me
 
 You will need to set *title*, *shortTitle* and *description* to set website title, a shorter version of title and general description, correspondingly. These values are used to display in the browser window title and to generate sitemap for you.
 
-Each page has *page.json* file where you must define *title* and *description* of each page according to your language list.
+Each page of a module has *meta.src.json* file where you must define *title* and *description* of each page according to your language list.
 
 ## Localized Pages Versions
 

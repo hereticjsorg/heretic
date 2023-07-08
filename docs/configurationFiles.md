@@ -76,7 +76,7 @@ This configuration file describes the meta data of your website which is used sy
 
 Returns the object which should include data from meta.json (see below).
 
-## etc/meta.json
+## etc/meta.src.json
 
 This configuration file describes the meta data of your website which is used system-wide.
 
@@ -120,13 +120,13 @@ Normally, *routes* options contains an array of strings (each strings indicates 
 
 ```json
 {
-	"home": "home",
+	"home": "sample_home",
 	"routes": [
-		"home",
-		"license",
+		"sample_home",
+		"sample_license",
 		{
-			"id": "parentRouteName",
-			"routes": ["childRouteId1", "childRouteId2", "childRouteId3"]
+			"id": "parentRouteName_page",
+			"routes": ["childRouteId1_page", "childRouteId2_page", "childRouteId3_page"]
 		}
 	]
 }
