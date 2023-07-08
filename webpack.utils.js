@@ -69,7 +69,6 @@ module.exports = class {
             for (const module of modulesList) {
                 try {
                     const moduleConfig = require(path.resolve(__dirname, `${modulePath}/${module}/module.js`));
-                    console.log(path.resolve(__dirname, `${modulePath}/${module}/translations`));
                     const moduleData = {
                         id: moduleConfig.id,
                         path: `${modulePath}/${module}`,

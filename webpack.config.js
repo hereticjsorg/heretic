@@ -19,6 +19,7 @@ module.exports = async (env, argv) => {
     const markoPlugin = new MarkoPlugin();
     const webpackUtils = new WebpackUtils(argv.mode === "production");
     webpackUtils.initDirectories();
+    await webpackUtils.processMetaJson();
     webpackUtils.generateConfig();
     webpackUtils.generateLoaders();
     webpackUtils.generateAdminIconsComponent();
@@ -26,7 +27,6 @@ module.exports = async (env, argv) => {
     webpackUtils.generateManifest();
     webpackUtils.generateLangSwitchComponents();
     await webpackUtils.processMarkoJson();
-    await webpackUtils.processMetaJson();
     return ([{
             context: path.resolve(`${__dirname}`),
             performance: {

@@ -36,18 +36,12 @@ module.exports = class {
     }
 
     async onMount() {
-        // eslint-disable-next-line no-console
-        console.log("0");
         await this.utils.waitForLanguageData();
         await this.utils.loadLanguageData(moduleConfig.id);
-        // eslint-disable-next-line no-console
-        console.log("0-1");
         this.t = window.__heretic.t;
         const query = new Query();
         this.id = query.get("id");
         if (!this.id || typeof this.id !== "string" || !this.id.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/)) {
-            // eslint-disable-next-line no-console
-            console.log("1");
             return this.setState("error", true);
         }
         try {
@@ -63,12 +57,8 @@ module.exports = class {
             this.setState("activationType", data.type);
             this.setState("activationValue", data.value);
         } catch {
-            // eslint-disable-next-line no-console
-            console.log("2");
             return this.setState("error", true);
         }
-        // eslint-disable-next-line no-console
-        console.log("3");
         this.setState("ready", true);
     }
 
