@@ -27,7 +27,7 @@
         "build-dev": "webpack --mode development",
         "build-production": "webpack --mode production",
         "test": "jest --runInBand",
-        "doc": "documentation build src/core/*.js -f md -o docs/core.md",
+        "doc": "documentation build src/core/*.ts -f md -o docs/core.md",
         "docker-compose": "node src/bin/docker-compose"
     },
     "keywords": [
