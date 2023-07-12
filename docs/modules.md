@@ -24,6 +24,7 @@ Each module is being configured using *module.js* file which located in module d
 To change locale-specific options, you will need to edit the *meta.src.json* file located in every page's directory:
 
 | Option | Description |
+| ------ | ----------- |
 | title | Object containing page title for each language |
 | description | Object containing page description for each language |
 
