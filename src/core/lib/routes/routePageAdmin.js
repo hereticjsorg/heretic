@@ -44,7 +44,7 @@ export default (m, page, languageData, language) => ({
                     enabled: i.enabled,
                 })) : [],
                 passwordPolicy: this.systemConfig.passwordPolicy,
-                darkModeEnabled: this.systemConfig.darkModeEnabled,
+                darkModeEnabled: this.systemConfig.darkModeEnabled || this.systemConfig.heretic.darkModeEnabled,
                 authOptions: this.systemConfig.auth,
                 mongoEnabled: this.systemConfig.mongo.enabled,
                 language,
