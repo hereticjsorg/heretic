@@ -48,7 +48,7 @@ Define the options to run the build-in Web server based on Fastify:
 
 Example:
 
-```json
+```js
 server: {
     ip: "0.0.0.0",
     port: 3001,
@@ -68,7 +68,7 @@ Set different options related to the authentication process:
 
 Example:
 
-```json
+```js
 auth: {
     admin: true,
     signIn: true,
@@ -87,7 +87,7 @@ Heretic has an option to use MongoDB as a database backend. The options are as f
 
 Example:
 
-```json
+```js
 mongo: {
     enabled: true,
     url: "mongodb://0.0.0.0:27017",
@@ -110,7 +110,7 @@ Heretic has an option to use Redis for internal purposes. The options are as fol
 
 Example:
 
-```json
+```js
 redis: {
     enabled: false,
     host: "127.0.0.1",
@@ -130,7 +130,7 @@ Configuration options:
 
 Example:
 
-```json
+```js
 email: {
     enabled: false,
     from: "noreply@hereticjs.org",
@@ -156,7 +156,7 @@ Configuration for internal web sockets transport.
 
 Example:
 
-```json
+```js
 webSockets: {
     enabled: true,
     url: "ws://127.0.0.1:3001/ws",
@@ -202,7 +202,7 @@ Options:
 
 Example:
 
-```json
+```js
 passwordPolicy: {
     minLength: 8,
     maxLength: null,
@@ -465,7 +465,7 @@ This configuration file describes the meta data of your website which is used sy
 
 This configuration file contains a list of languages in the following format:
 
-```json
+```js
 {
     "en-us": "English",
     "ru-ru": "Русский"
@@ -493,7 +493,7 @@ For each area, "userspace" and "admin", you may define a separate list of routes
 
 Normally, *routes* options contains an array of strings (each strings indicates a corresponding route ID). If you want to use dropdown menus for routes, you can use the following syntax:
 
-```json
+```js
 {
 	"home": "sample_home",
 	"routes": [
