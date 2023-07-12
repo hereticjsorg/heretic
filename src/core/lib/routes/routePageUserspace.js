@@ -35,7 +35,7 @@ export default (m, page, languageData, language) => ({
                 })) : [],
                 passwordPolicy: this.systemConfig.passwordPolicy,
                 authOptions: this.systemConfig.auth,
-                darkModeEnabled: this.systemConfig.darkModeEnabled,
+                darkModeEnabled: this.systemConfig.darkModeEnabled || this.systemConfig.heretic.darkModeEnabled,
                 mongoEnabled: this.systemConfig.mongo.enabled,
                 language,
                 route: `${m.id}_${page.id}`,

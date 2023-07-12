@@ -23,7 +23,7 @@ export default async (req, rep, languageData, language, siteConfig, systemConfig
                 passwordPolicy: true,
             },
             passwordPolicy: systemConfig.passwordPolicy,
-            darkModeEnabled: systemConfig.darkModeEnabled,
+            darkModeEnabled: systemConfig.darkModeEnabled || systemConfig.heretic.darkModeEnabled,
             authOptions: systemConfig.auth,
             mongoEnabled: systemConfig.mongo.enabled,
             language,
