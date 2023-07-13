@@ -1,7 +1,7 @@
-const store = require("store2");
-const Utils = require("#lib/componentUtils").default;
+import store from "store2";
+import Utils from "#lib/componentUtils";
 
-module.exports = class {
+export default class {
     async onCreate(input, out) {
         const state = {
             route: null,
@@ -76,4 +76,4 @@ module.exports = class {
         this.emit("dark-mode", darkMode);
         document.documentElement.classList[darkMode ? "add" : "remove"]("heretic-dark");
     }
-};
+}

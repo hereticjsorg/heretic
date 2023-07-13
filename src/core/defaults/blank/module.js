@@ -1,10 +1,8 @@
-const path = require("path");
-
-const {
+import {
     id,
-} = require(path.resolve(__dirname, "module.json"));
+} from "./module.json";
 
-module.exports = {
+export default {
     id,
     routes: {
         userspace: {

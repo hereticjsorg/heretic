@@ -1,4 +1,4 @@
-const cloneDeep = require("lodash.clonedeep");
+import cloneDeep from "lodash.clonedeep";
 
 export default class {
     constructor(optionsConfig = {}) {

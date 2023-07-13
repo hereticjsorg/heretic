@@ -1,19 +1,19 @@
-const IMask = require("imask").default;
-const {
-    v4: uuidv4
-} = require("uuid");
-const axios = require("axios").default;
-const debounce = require("lodash.debounce");
-const cloneDeep = require("lodash.clonedeep");
-const {
+import IMask from "imask";
+import {
+    v4 as uuid
+} from "uuid";
+import axios from "axios";
+import debounce from "lodash.debounce";
+import cloneDeep from "lodash.clonedeep";
+import {
     format,
     parse,
     isValid,
-} = require("date-fns");
-const Utils = require("#lib/componentUtils").default;
-const Password = require("#lib/password").default;
+} from "date-fns";
+import Utils from "#lib/componentUtils";
+import Password from "#lib/password";
 
-module.exports = class {
+export default class {
     onCreate(input, out) {
         this.passwordPolicy = out.global.passwordPolicy;
         if (process.browser) {
@@ -78,7 +78,7 @@ module.exports = class {
             switch (this.input.type) {
             case "text":
             case "password":
-                this.maskedInput = new IMask(element, this.input.maskedOptions || {
+                this.maskedInput = IMask(element, this.input.maskedOptions || {
                     mask: /^.+$/
                 });
                 this.password = new Password(this.passwordPolicy);
@@ -93,7 +93,7 @@ module.exports = class {
                 element.addEventListener("change", this.onTextareaChangeListener.bind(this));
                 break;
             case "date":
-                this.maskedInput = new IMask(element, {
+                this.maskedInput = IMask(element, {
                     mask: Date,
                     pattern: window.__heretic.t("global.dateMask.pattern"),
                     format: date => format(date, window.__heretic.t("global.dateFormatShort")),
@@ -102,7 +102,7 @@ module.exports = class {
                 });
                 break;
             case "captcha":
-                this.maskedInput = new IMask(element, this.input.maskedOptions || {
+                this.maskedInput = IMask(element, this.input.maskedOptions || {
                     mask: /^(\d){1,4}$/
                 });
                 element.addEventListener("change", this.onInputChangeListener.bind(this));
@@ -301,7 +301,7 @@ module.exports = class {
         for (let i = 0; i < files.length; i += 1) {
             value.push({
                 name: files[i].name,
-                uid: uuidv4(),
+                uid: uuid(),
                 data: e.target.files[i],
             });
         }
@@ -594,4 +594,4 @@ module.exports = class {
             defaultOption: this.input.defaultOption,
         });
     }
-};
+}

@@ -1,14 +1,14 @@
-const cloneDeep = require("lodash.clonedeep");
-const {
-    v4: uuidv4,
-} = require("uuid");
-const serializableTypes = require("./serializableTypes.json");
-const FormValidator = require("#lib/formValidatorBrowser").default;
-const formValidatorUtils = require("#lib/formValidatorUtils");
-const Query = require("#lib/queryBrowser").default;
-const Utils = require("#lib/componentUtils").default;
+import cloneDeep from "lodash.clonedeep";
+import {
+    v4 as uuidv4
+} from "uuid";
+import serializableTypes from "./serializableTypes.json";
+import FormValidator from "#lib/formValidatorBrowser";
+import formValidatorUtils from "#lib/formValidatorUtils";
+import Query from "#lib/queryBrowser";
+import Utils from "#lib/componentUtils";
 
-module.exports = class {
+export default class {
     initValidation(input = this.input) {
         for (const area of input.data.getData().form) {
             for (const item of area.fields) {
@@ -983,4 +983,4 @@ module.exports = class {
     onFieldEditValueChange(data) {
         this.emit("value-change", data);
     }
-};
+}

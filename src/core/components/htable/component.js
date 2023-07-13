@@ -1,14 +1,14 @@
-const store = require("store2");
-const axios = require("axios").default;
-const cloneDeep = require("lodash.clonedeep");
-const debounce = require("lodash.debounce");
-const {
-    v4: uuidv4
-} = require("uuid");
-const Utils = require("#lib/componentUtils").default;
-const Query = require("#lib/queryBrowser").default;
+import store from "store2";
+import axios from "axios";
+import cloneDeep from "lodash.clonedeep";
+import debounce from "lodash.debounce";
+import {
+    v4 as uuidv4,
+} from "uuid";
+import Utils from "#lib/componentUtils";
+import Query from "#lib/queryBrowser";
 
-module.exports = class {
+export default class {
     async onCreate(input, out) {
         this.defaultSortData = input.formData.getTableDefaultSortColumn ? input.formData.getTableDefaultSortColumn() : {};
         this.state = {
@@ -1877,4 +1877,4 @@ module.exports = class {
             });
         }
     }
-};
+}

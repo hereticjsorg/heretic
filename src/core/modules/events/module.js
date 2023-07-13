@@ -1,7 +1,8 @@
-const id = "events";
-const siteConfig = require("#etc/system.js");
+import siteConfig from "#etc/system.js";
 
-module.exports = {
+const id = "events";
+
+export default {
     id,
     routes: {
         userspace: {},

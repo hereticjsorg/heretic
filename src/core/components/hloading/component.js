@@ -1,6 +1,6 @@
-const store = require("store2");
+import store from "store2";
 
-module.exports = class {
+export default class {
     async onCreate(input, out) {
         this.state = {
             isActive: !!input.active,
@@ -28,4 +28,4 @@ module.exports = class {
     setActive(flag) {
         this.setState("isActive", flag);
     }
-};
+}

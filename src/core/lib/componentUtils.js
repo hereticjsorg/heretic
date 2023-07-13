@@ -1,5 +1,5 @@
-const template = require("lodash.template");
-const languagesList = require("#etc/languages.json");
+import template from "lodash.template";
+import languagesList from "#etc/languages.json";
 
 export default class {
     constructor(component, language) {

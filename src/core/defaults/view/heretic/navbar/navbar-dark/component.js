@@ -1,7 +1,7 @@
-const store = require("store2");
-const Utils = require("#lib/componentUtils").default;
+import store from "store2";
+import Utils from "#lib/componentUtils";
 
-module.exports = class {
+export default class {
     async onCreate(input, out) {
         this.state = {
             darkMode: false,
@@ -26,4 +26,4 @@ module.exports = class {
         document.documentElement.classList[darkMode ? "add" : "remove"]("heretic-dark");
         this.emit("dark-mode", darkMode);
     }
-};
+}

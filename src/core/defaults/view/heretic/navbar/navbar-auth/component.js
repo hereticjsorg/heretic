@@ -1,6 +1,6 @@
-const Utils = require("#lib/componentUtils").default;
+import Utils from "#lib/componentUtils";
 
-module.exports = class {
+export default class {
     async onCreate(input, out) {
         this.state = {
             authOpen: false,
@@ -22,4 +22,4 @@ module.exports = class {
         e.preventDefault();
         this.setState("authOpen", !this.state.authOpen);
     }
-};
+}

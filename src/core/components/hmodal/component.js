@@ -1,6 +1,6 @@
-const Utils = require("#lib/componentUtils").default;
+import Utils from "#lib/componentUtils";
 
-module.exports = class {
+export default class {
     async onCreate(input) {
         this.state = {
             active: input.active,
@@ -93,4 +93,4 @@ module.exports = class {
     setTitle(title) {
         this.setState("title", title);
     }
-};
+}

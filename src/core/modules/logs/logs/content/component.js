@@ -1,14 +1,14 @@
-const axios = require("axios").default;
-const {
+import axios from "axios";
+import {
     format,
-} = require("date-fns");
-const Utils = require("#lib/componentUtils").default;
-const Query = require("#lib/queryBrowser").default;
-const Cookies = require("#lib/cookiesBrowser").default;
-const moduleConfig = require("../../module.js");
-const pageConfig = require("../page.js");
+} from "date-fns";
+import Utils from "#lib/componentUtils";
+import Query from "#lib/queryBrowser";
+import Cookies from "#lib/cookiesBrowser";
+import moduleConfig from "../../module.js";
+import pageConfig from "../page.js";
 
-module.exports = class {
+export default class {
     onCreate(input, out) {
         this.state = {
             ready: !process.browser,
@@ -142,4 +142,4 @@ module.exports = class {
             break;
         }
     }
-};
+}

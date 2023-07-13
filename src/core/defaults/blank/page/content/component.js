@@ -1,7 +1,7 @@
-const pageConfig = require("../page.js");
-const Utils = require("#lib/componentUtils").default;
+import pageConfig from "../page.js";
+import Utils from "#lib/componentUtils";
 
-module.exports = class {
+export default class {
     onCreate(input, out) {
         this.state = {
             ready: !process.browser,
@@ -22,4 +22,4 @@ module.exports = class {
         await this.utils.waitForLanguageData();
         this.setState("ready", true);
     }
-};
+}

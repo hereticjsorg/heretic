@@ -1,4 +1,4 @@
-const utils = require("#lib/formValidatorUtils");
+import utils from "#lib/formValidatorUtils";
 
 export default class {
     constructor(t) {

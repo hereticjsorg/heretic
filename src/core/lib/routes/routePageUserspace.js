@@ -1,4 +1,4 @@
-const buildData = require("#build/build.json");
+import buildData from "#build/build.json";
 
 export default (m, page, languageData, language) => ({
     async handler(req, rep) {

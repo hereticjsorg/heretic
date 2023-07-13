@@ -1,12 +1,12 @@
-const {
+import {
     addDays,
     startOfWeek,
     format,
     getDay,
     isBefore,
-} = require("date-fns");
+} from "date-fns";
 
-module.exports = class {
+export default class {
     async onCreate(input) {
         this.state = {
             year: new Date().getFullYear(),
@@ -144,4 +144,4 @@ module.exports = class {
             this.setDate(new Date(timestamp));
         }
     }
-};
+}

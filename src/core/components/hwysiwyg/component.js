@@ -1,7 +1,7 @@
-const Utils = require("#lib/componentUtils").default;
-const icons = require("./icons.json");
+import Utils from "#lib/componentUtils";
+import icons from "./icons.json";
 
-module.exports = class {
+export default class {
     async onCreate(input) {
         this.state = {};
         this.maskedInput = null;
@@ -185,4 +185,4 @@ module.exports = class {
     getValue() {
         return this.editor.innerHTML;
     }
-};
+}

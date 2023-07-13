@@ -1,6 +1,6 @@
-const Utils = require("#lib/componentUtils").default;
+import Utils from "#lib/componentUtils";
 
-module.exports = class {
+export default class {
     onCreate(input) {
         this.state = {
             error: null,
@@ -59,4 +59,4 @@ module.exports = class {
             this.setState("value", value);
         }
     }
-};
+}
