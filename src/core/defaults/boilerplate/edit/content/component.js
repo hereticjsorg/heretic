@@ -1,11 +1,11 @@
-const axios = require("axios").default;
-const Utils = require("#lib/componentUtils").default;
-const Query = require("#lib/queryBrowser").default;
-const Cookies = require("#lib/cookiesBrowser").default;
-const pageConfig = require("../page.js");
-const moduleConfig = require("../../module.js");
+import axios from "axios";
+import Utils from "#lib/componentUtils";
+import Query from "#lib/queryBrowser";
+import Cookies from "#lib/cookiesBrowser";
+import pageConfig from "../page.js";
+import moduleConfig from "../../module.js";
 
-module.exports = class {
+export default class {
     async onCreate(input, out) {
         this.state = {
             ready: !process.browser,
@@ -348,4 +348,4 @@ module.exports = class {
     onFormValueChange() {
         // You may wish to handle this event
     }
-};
+}

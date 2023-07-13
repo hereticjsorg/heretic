@@ -1,6 +1,6 @@
-const Utils = require("#lib/componentUtils").default;
+import Utils from "#lib/componentUtils";
 
-module.exports = class {
+export default class {
     async onCreate(input, out) {
         this.state = {
             route: null,
@@ -51,4 +51,4 @@ module.exports = class {
         this.getComponent("hereticLogo").setDarkMode(flag);
         this.emit("dark-mode", flag);
     }
-};
+}

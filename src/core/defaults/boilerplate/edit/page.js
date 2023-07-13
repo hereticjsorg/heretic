@@ -1,3 +1,3 @@
-const meta = require("./meta.json");
+import meta from "./meta.json";
 
-module.exports = meta;
+export default meta;

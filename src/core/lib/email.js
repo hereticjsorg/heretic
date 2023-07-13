@@ -1,5 +1,5 @@
-const nodemailer = require("nodemailer");
-const path = require("path");
+import nodemailer from "nodemailer";
+import path from "path";
 
 export default class {
     constructor(fastify) {

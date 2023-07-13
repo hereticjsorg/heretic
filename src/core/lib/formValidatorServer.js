@@ -3,8 +3,7 @@ import {
 } from "mongodb";
 import path from "path";
 import fs from "fs-extra";
-
-const Ajv = require("ajv");
+import Ajv from "ajv";
 
 export default class {
     constructor(schema, fields, fastify) {

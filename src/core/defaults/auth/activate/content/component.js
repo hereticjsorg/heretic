@@ -1,10 +1,10 @@
-const axios = require("axios");
-const Utils = require("#lib/componentUtils").default;
-const Query = require("#lib/queryBrowser").default;
-const pageConfig = require("../page.js");
-const moduleConfig = require("../../module.js");
+import axios from "axios";
+import Utils from "#lib/componentUtils";
+import Query from "#lib/queryBrowser";
+import pageConfig from "../page.js";
+import moduleConfig from "../../module.js";
 
-module.exports = class {
+export default class {
     onCreate(input, out) {
         this.state = {
             ready: false,
@@ -110,4 +110,4 @@ module.exports = class {
             setPasswordForm.setLoading(false);
         }
     }
-};
+}

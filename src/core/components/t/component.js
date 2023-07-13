@@ -1,7 +1,6 @@
-const template = require("lodash.template");
-// const routesData = require("#build/build.json");
+import template from "lodash.template";
 
-module.exports = class {
+export default class {
     async onCreate(input, out) {
         this.language = out.global.language;
         this.languageData = {};
@@ -29,4 +28,4 @@ module.exports = class {
         }
         return (data && data[id]) ? (this.input.arr && Array.isArray(data[id]) ? data[id][this.input.arr] : typeof data[id] === "function" ? data[id](this.input.data || {}) : data[id] || id) : id;
     }
-};
+}

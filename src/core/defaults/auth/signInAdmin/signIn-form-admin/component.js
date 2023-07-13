@@ -1,13 +1,13 @@
-const axios = require("axios").default;
-const store = require("store2");
-const template = require("lodash.template");
-const i18nLoader = require("#build/loaders/i18n-loader-core");
-const Utils = require("#lib/componentUtils").default;
-const Cookies = require("#lib/cookiesBrowser").default;
-const Query = require("#lib/queryBrowser").default;
-const moduleConfig = require("../../module.js");
+import axios from "axios";
+import store from "store2";
+import template from "lodash.template";
+import i18nLoader from "#build/loaders/i18n-loader-core";
+import Utils from "#lib/componentUtils";
+import Cookies from "#lib/cookiesBrowser";
+import Query from "#lib/queryBrowser";
+import moduleConfig from "../../module.js";
 
-module.exports = class {
+export default class {
     async loadLanguageData() {
         if (process.browser && (!window.__heretic || !window.__heretic.languageData)) {
             window.__heretic = window.__heretic || {};
@@ -115,4 +115,4 @@ module.exports = class {
             signInForm.setLoading(false);
         }
     }
-};
+}

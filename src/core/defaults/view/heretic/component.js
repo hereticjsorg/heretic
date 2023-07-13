@@ -1,17 +1,16 @@
-const store = require("store2");
-const tippy = require("tippy.js").default;
-const {
+import store from "store2";
+import tippy, {
     hideAll,
-} = require("tippy.js");
-const debounce = require("lodash.debounce");
-const template = require("lodash.template");
-const Cookies = require("#lib/cookiesBrowser").default;
-const i18nLoader = require("#build/loaders/i18n-loader-core");
-const pagesLoader = require("#build/loaders/page-loader-userspace");
-const Utils = require("#lib/componentUtils").default;
-const routesData = require("#build/build.json");
+} from "tippy.js";
+import debounce from "lodash.debounce";
+import template from "lodash.template";
+import Cookies from "#lib/cookiesBrowser";
+import i18nLoader from "#build/loaders/i18n-loader-core";
+import pagesLoader from "#build/loaders/page-loader-userspace";
+import Utils from "#lib/componentUtils";
+import routesData from "#build/build.json";
 
-module.exports = class {
+export default class {
     async loadLanguageData() {
         if (process.browser && (!window.__heretic || !window.__heretic.languageData)) {
             window.__heretic = window.__heretic || {};
@@ -228,4 +227,4 @@ module.exports = class {
             this.cookies.set(`${this.siteId}.darkMode`, flag);
         }
     }
-};
+}

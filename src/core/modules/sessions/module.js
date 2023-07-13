@@ -1,7 +1,8 @@
-const id = "sessions";
-const siteConfig = require("#etc/system.js");
+import siteConfig from "#etc/system.js";
 
-module.exports = {
+const id = "sessions";
+
+export default {
     id,
     routes: {
         userspace: {},

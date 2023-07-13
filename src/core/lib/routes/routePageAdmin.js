@@ -1,5 +1,6 @@
+import buildData from "#build/build.json";
+
 const languages = Object.keys(require("#etc/languages.json"));
-const buildData = require("#build/build.json");
 
 export default (m, page, languageData, language) => ({
     async handler(req, rep) {

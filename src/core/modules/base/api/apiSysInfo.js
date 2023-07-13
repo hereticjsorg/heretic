@@ -1,9 +1,8 @@
 import {
     ObjectId
 } from "mongodb";
-
-const os = require("os");
-const packageJson = require("#root/package.json");
+import os from "os";
+import packageJson from "#root/package.json";
 
 export default () => ({
     async handler(req, rep) {

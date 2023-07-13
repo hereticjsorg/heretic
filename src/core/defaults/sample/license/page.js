@@ -1,6 +1,6 @@
-const meta = require("./meta.json");
+import meta from "./meta.json";
 
-module.exports = {
+export default {
     id: "license",
     langSwitchComponent: true,
     ...meta,

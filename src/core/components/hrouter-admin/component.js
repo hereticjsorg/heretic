@@ -1,8 +1,8 @@
-const Router = require("#lib/router");
-const languages = require("#etc/languages.json");
-const routesData = require("#build/build.json");
+import Router from "#lib/router";
+import languages from "#etc/languages.json";
+import routesData from "#build/build.json";
 
-module.exports = class {
+export default class {
     onCreate() {
         const state = {
             route: null,
@@ -22,4 +22,4 @@ module.exports = class {
     onRouteChangeHandler(router) {
         this.emit("route-change", router);
     }
-};
+}

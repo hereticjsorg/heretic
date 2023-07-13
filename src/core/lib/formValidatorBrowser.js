@@ -1,4 +1,4 @@
-const Ajv = require("ajv");
+import Ajv from "ajv";
 
 export default class {
     constructor(schema, fields) {

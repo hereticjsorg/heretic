@@ -1,9 +1,9 @@
-const cloneDeep = require("lodash.clonedeep");
-const {
-    v4: uuidv4
-} = require("uuid");
+import cloneDeep from "lodash.clonedeep";
+import {
+    v4 as uuidv4,
+} from "uuid";
 
-module.exports = class {
+export default class {
     async onCreate(input) {
         const state = {
             notificationQueue: []
@@ -104,4 +104,4 @@ module.exports = class {
         });
         this.setState("notificationQueue", queue);
     }
-};
+}

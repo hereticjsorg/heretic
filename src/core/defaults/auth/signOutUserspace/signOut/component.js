@@ -1,12 +1,13 @@
-const axios = require("axios").default;
-const Utils = require("#lib/componentUtils").default;
-const Cookies = require("#lib/cookiesBrowser").default;
-const i18nLoader = require("#build/loaders/i18n-loader-auth");
-const languages = Object.keys(require("#etc/languages.json"));
-const moduleConfig = require("../../module.js");
-const pageConfig = require("../page.js");
+import axios from "axios";
+import Utils from "#lib/componentUtils";
+import Cookies from "#lib/cookiesBrowser";
+import i18nLoader from "#build/loaders/i18n-loader-auth";
+import moduleConfig from "../../module.js";
+import pageConfig from "../page.js";
 
-module.exports = class {
+const languages = Object.keys(require("#etc/languages.json"));
+
+export default class {
     async loadLanguageData() {
         if (process.browser && (!window.__heretic || !window.__heretic.languageData)) {
             window.__heretic = window.__heretic || {};
@@ -82,4 +83,4 @@ module.exports = class {
         }
         setTimeout(() => window.location.href = languages[0] === this.language ? "/" : `/${this.language}`, 1000);
     }
-};
+}
