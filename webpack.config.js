@@ -12,9 +12,6 @@ const babelConfig = require("./babel.config");
 const WebpackUtils = require("./webpack.utils");
 const systemConfig = require("./etc/system.js");
 
-// A dirty one-liner hack for webpack error during Fastify build
-fs.writeFileSync(path.resolve(__dirname, "node_modules", "fastify", "lib", "error-serializer.js"), fs.readFileSync(path.resolve(__dirname, "node_modules", "fastify", "lib", "error-serializer.js"), "utf8").replace(/return \$main/, ""));
-
 module.exports = async (env, argv) => {
     const markoPlugin = new MarkoPlugin();
     const webpackUtils = new WebpackUtils(argv.mode === "production");
@@ -88,6 +85,7 @@ module.exports = async (env, argv) => {
                     {
                         test: /\.js$/,
                         loader: "babel-loader",
+                        exclude: /node_modules/,
                         options: {
                             cacheDirectory: true,
                             ...babelConfig()
