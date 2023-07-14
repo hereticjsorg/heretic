@@ -8,8 +8,8 @@ const CompressionPlugin = require("compression-webpack-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const MarkoPlugin = require("@marko/webpack/plugin").default;
+const WebpackUtils = require("./webpack.utils.js");
 const babelConfig = require("./babel.config");
-const WebpackUtils = require("./webpack.utils");
 const systemConfig = require("./etc/system.js");
 
 module.exports = async (env, argv) => {
@@ -17,7 +17,7 @@ module.exports = async (env, argv) => {
     const webpackUtils = new WebpackUtils(argv.mode === "production");
     webpackUtils.initDirectories();
     await webpackUtils.processMetaJson();
-    webpackUtils.generateConfig();
+    await webpackUtils.generateConfig();
     webpackUtils.generateLoaders();
     webpackUtils.generateAdminIconsComponent();
     webpackUtils.generateSitemap();

@@ -8,6 +8,7 @@ module.exports = api => {
             "@babel/plugin-proposal-class-properties",
             "@babel/plugin-proposal-object-rest-spread",
             "@babel/plugin-transform-async-to-generator",
+            "@babel/plugin-syntax-import-assertions",
             ["@babel/transform-runtime", {
                 regenerator: true,
                 useESModules: true,

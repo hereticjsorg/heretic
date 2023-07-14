@@ -48,7 +48,7 @@ module.exports = class {
         fs.copySync(path.resolve(__dirname, "site/static/data"), path.resolve(__dirname, "dist.new/data"));
     }
 
-    generateConfig() {
+    async generateConfig() {
         const buildData = {
             modules: [],
             i18nNavigation: {},
@@ -132,6 +132,7 @@ module.exports = class {
                     }
                     buildData.modules.push(moduleData);
                 } catch {
+                    console.log(e);
                     // Ignore
                 }
             }
