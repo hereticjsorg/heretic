@@ -1,5 +1,5 @@
-import TestSequencer from "@jest/test-sequencer";
-import path from "path";
+const TestSequencer = require("@jest/test-sequencer").default;
+const path = require("path");
 
 class HereticTestSequencer extends TestSequencer {
     sort(tests) {
@@ -23,4 +23,4 @@ class HereticTestSequencer extends TestSequencer {
     }
 }
 
-export default HereticTestSequencer;
+module.exports = HereticTestSequencer;
