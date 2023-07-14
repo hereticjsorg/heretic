@@ -1,8 +1,6 @@
-import {
-    id,
-} from "./module.json";
+const id = require("./module.json");
 
-export default {
+module.exports = {
     id,
     routes: {
         userspace: {

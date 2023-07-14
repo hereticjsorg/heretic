@@ -1,6 +1,6 @@
-import meta from "./meta.json";
+const meta = require("./meta.json");
 
-export default {
+module.exports = {
     id: "groups",
     icon: "mdiFormatListChecks",
     ...meta,
