@@ -33,7 +33,7 @@ export default () => ({
             let itemsAll = [];
             let items = [];
             try {
-                itemsAll = (await ServerUtils.readLastStringsFromFile(path.resolve(__dirname, `../logs/${ecosystem.logFileName}`), 50000))
+                itemsAll = (await ServerUtils.readLastStringsFromFile(path.resolve(__dirname, `../logs/${ecosystem.logFileName}`), 100000))
                     .map(i => {
                         let item = null;
                         try {
