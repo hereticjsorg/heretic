@@ -33,6 +33,7 @@ export default class {
                     searchable: true,
                     column: true,
                     createIndex: false,
+                    hidden: true,
                 }, {
                     id: "level",
                     type: "text",
@@ -81,6 +82,7 @@ export default class {
                     searchable: true,
                     column: true,
                     createIndex: false,
+                    hidden: true,
                 }, {
                     id: "method",
                     type: "text",
@@ -108,6 +110,7 @@ export default class {
                     searchable: true,
                     column: true,
                     createIndex: false,
+                    hidden: true,
                 }, {
                     id: "message",
                     type: "text",
@@ -117,6 +120,7 @@ export default class {
                     searchable: true,
                     column: true,
                     createIndex: false,
+                    hidden: true,
                 },],
             }],
         };

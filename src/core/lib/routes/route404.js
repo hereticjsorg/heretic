@@ -1,4 +1,5 @@
 import error404 from "#core/errors/404/server.marko";
+import packageJson from "#root/package.json";
 
 export default async (req, rep, languageData, language, siteConfig, systemConfig, i18nNavigation) => {
     const authData = await req.auth.getData(req.auth.methods.COOKIE);
@@ -39,7 +40,7 @@ export default async (req, rep, languageData, language, siteConfig, systemConfig
             cookieOptions: systemConfig.cookieOptions,
             webSockets: systemConfig.webSockets || {},
             demo: systemConfig.demo,
-            packageJson: this.packageJson,
+            packageJson,
         },
     });
     rep.type("text/html");
