@@ -132,7 +132,6 @@ module.exports = class {
                     }
                     buildData.modules.push(moduleData);
                 } catch {
-                    console.log(e);
                     // Ignore
                 }
             }

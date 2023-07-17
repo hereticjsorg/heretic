@@ -72,7 +72,7 @@
         "copy-webpack-plugin": "^11.0.0",
         "css-loader": "^6.8.1",
         "css-minimizer-webpack-plugin": "^5.0.1",
-        "eslint": "^8.44.0",
+        "eslint": "^8.45.0",
         "eslint-config-airbnb-base": "^15.0.0",
         "eslint-webpack-plugin": "^4.0.1",
         "fastify-plugin": "^4.5.0",
