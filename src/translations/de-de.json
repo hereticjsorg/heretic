@@ -204,5 +204,6 @@
     "signUp": "Konto erstellen",
     "oa2google": "Google",
     "oauthError": "Der Autorisierungsvorgang konnte nicht abgeschlossen werden. Bitte versuchen Sie es erneut.",
-    "oauth2": "Sie können sich auch über einen der folgenden Dienste anmelden oder registrieren lassen:"
+    "oauth2": "Sie können sich auch über einen der folgenden Dienste anmelden oder registrieren lassen:",
+    "hereticVersion": "Version"
 }

@@ -26,7 +26,7 @@ const cleanupData = require("./data/cleanup.json");
 module.exports = class {
     constructor(options) {
         this.options = options;
-        this.languages = Object.keys(fs.readJSONSync(fs.existsSync(path.resolve(__dirname, "../../etc/languages.json")) ? path.resolve(__dirname, "../../etc/languages.json") : path.resolve(__dirname, "../core/defaults/languages.json")));
+        this.languages = Object.keys(fs.readJSONSync(fs.existsSync(path.resolve(__dirname, "../../etc/languages.json")) ? path.resolve(__dirname, "../../etc/languages.json") : path.resolve(__dirname, "../core/defaults/config/languages.json")));
         this.color = new Color();
         this.logEnabled = true;
         this.logColor = !options || !options["no-color"];
@@ -187,7 +187,7 @@ module.exports = class {
             });
             return;
         }
-        const configNavigation = fs.readJSONSync(path.resolve(__dirname, "../core/defaults/navigation.json"));
+        const configNavigation = fs.readJSONSync(path.resolve(__dirname, "../core/defaults/config/navigation.json"));
         if (!fs.existsSync(path.resolve(__dirname, "../../site/modules/sample"))) {
             configNavigation.routes = [];
         }
@@ -330,7 +330,7 @@ module.exports = class {
             });
             return;
         }
-        fs.copySync(path.resolve(__dirname, "../core/defaults/blank"), path.resolve(__dirname, `../../site/modules/${id}`));
+        fs.copySync(path.resolve(__dirname, "../core/defaults/modules/blank"), path.resolve(__dirname, `../../site/modules/${id}`));
         const moduleConfigPath = path.resolve(__dirname, `../../site/modules/${id}/module.json`);
         const moduleConfig = fs.readJSONSync(moduleConfigPath);
         moduleConfig.id = id;
