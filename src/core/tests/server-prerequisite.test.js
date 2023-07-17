@@ -29,7 +29,7 @@ test("Create test page", async () => {
     if (await helpers.fileExists(`site/modules/${routeId}`)) {
         await helpers.removeFile(`site/modules/${routeId}`);
     }
-    await helpers.copy("src/core/defaults/test", `site/modules/${routeId}`);
+    await helpers.copy("src/core/defaults/modules/test", `site/modules/${routeId}`);
     const testMeta = await helpers.readJSON(`site/modules/${routeId}/page/meta.src.json`);
     testMeta.id = routeId;
     for (const language of helpers.getLanguagesList()) {

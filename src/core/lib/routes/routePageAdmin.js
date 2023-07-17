@@ -37,6 +37,7 @@ export default (m, page, languageData, language) => ({
                     passwordPolicy: true,
                     route: true,
                     oa2: true,
+                    packageJson: true,
                 },
                 oa2: this.systemConfig.oauth2 && Array.isArray(this.systemConfig.oauth2) ? this.systemConfig.oauth2.map(i => ({
                     name: i.name,
@@ -64,6 +65,7 @@ export default (m, page, languageData, language) => ({
                 webSockets: this.systemConfig.webSockets || {},
                 demo: this.systemConfig.demo,
                 route: `${m.id}_${page.id}`,
+                packageJson: this.packageJson,
             },
         });
         rep.type("text/html");

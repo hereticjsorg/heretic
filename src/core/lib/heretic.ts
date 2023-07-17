@@ -106,6 +106,7 @@ export default class {
         this.fastify.decorate("systemConfig", this.systemConfig);
         this.fastify.decorate("languages", languages);
         this.fastify.decorate("navigation", navigation);
+        this.fastify.decorate("packageJson", packageJson);
         const fastifyDecoratorsList = fastifyDecorators.list();
         for (const decorateItem of fastifyDecoratorsList) {
             this.fastify.decorate(decorateItem, fastifyDecorators[decorateItem as keyof typeof fastifyDecorators]);
