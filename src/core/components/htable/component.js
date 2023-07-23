@@ -5,6 +5,11 @@ import debounce from "lodash.debounce";
 import {
     v4 as uuidv4,
 } from "uuid";
+import {
+    parse,
+    isValid,
+} from "date-fns";
+import xlsx from "xlsx";
 import Utils from "#lib/componentUtils";
 import Query from "#lib/queryBrowser";
 
@@ -28,6 +33,7 @@ export default class {
             loadConfig: input.formData.getTableLoadConfig(),
             bulkUpdateConfig: input.formData.getTableBulkUpdateConfig(),
             exportConfig: input.formData.getTableExportConfig(),
+            importConfig: input.formData.getTableImportConfig ? input.formData.getTableImportConfig() : null,
             recycleBin: input.formData.getRecycleBinConfig(),
             data: [],
             firstLoadFlag: false,
@@ -74,6 +80,9 @@ export default class {
             total: 0,
             grandTotal: 0,
             selected: 0,
+            importColumns: [],
+            importColumnsData: {},
+            importWorksheet: null,
         };
         this.queryStringShorthands = {
             currentPage: "p",
@@ -82,9 +91,9 @@ export default class {
             searchText: "s",
         };
         if (input.admin) {
-            await import(/* webpackChunkName: "htable-admin" */ "./style-admin.scss");
+            await import( /* webpackChunkName: "htable-admin" */ "./style-admin.scss");
         } else {
-            await import(/* webpackChunkName: "htable-frontend" */ "./style-frontend.scss");
+            await import( /* webpackChunkName: "htable-frontend" */ "./style-frontend.scss");
         }
         this.language = process.browser ? window.__heretic.outGlobal.language : out.global.language;
         this.stickyElementsUpdate = 0;
@@ -698,9 +707,7 @@ export default class {
                         this.emit("unauthorized");
                         resolve();
                     }
-                    if (this.getComponent(`notify_ht_${this.input.id}`)) {
-                        this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_loadingError"), "is-danger");
-                    }
+                    this.notify("htable_loadingError", "is-danger");
                     this.setState("data", []);
                     this.setState("pagination", []);
                     setTimeout(() => this.setTableDimensionsDebounced(), 10);
@@ -809,9 +816,7 @@ export default class {
             this.setState("deleteItems", deleteItems);
             deleteConfirmation.setActive(true).setCloseAllowed(true).setLoading(false);
         } else if (id === "delete" && this.state.deleteConfig && !this.state.checkboxes.length) {
-            if (this.getComponent(`notify_ht_${this.input.id}`)) {
-                this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_nothingSelected"), "is-warning");
-            }
+            this.notify("htable_nothingSelected", "is-warning");
         }
     }
 
@@ -894,13 +899,9 @@ export default class {
                     currentPage: 1,
                 });
                 deleteConfirmation.setCloseAllowed(true).setLoading(false).setActive(false);
-                if (this.getComponent(`notify_ht_${this.input.id}`)) {
-                    this.getComponent(`notify_ht_${this.input.id}`).show(`${window.__heretic.t("htable_deleteSuccess")}: ${deleteResult.data.count}`, "is-success");
-                }
+                this.notify(`${window.__heretic.t("htable_deleteSuccess")}: ${deleteResult.data.count}`);
             } catch {
-                if (this.getComponent(`notify_ht_${this.input.id}`)) {
-                    this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_deleteError"), "is-danger");
-                }
+                this.notify("htable_deleteError", "is-danger");
                 deleteConfirmation.setCloseAllowed(true).setLoading(false);
             }
             break;
@@ -969,9 +970,7 @@ export default class {
         }
         if (!count) {
             this.setState("settingsTab", "columns");
-            if (this.getComponent(`notify_ht_${this.input.id}`)) {
-                this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_noColumnsSelected"), "is-warning");
-            }
+            this.notify("htable_noColumnsSelected", "is-warning");
             return;
         }
         this.setState("columns", cloneDeep(this.state.settingsColumns));
@@ -1266,6 +1265,13 @@ export default class {
         this.setState("settingsFilterEditSelectedValue", !!e.target.checked);
     }
 
+    async notify(message, className = "is-success") {
+        await this.utils.waitForComponent(`notify_ht_${this.input.id}`);
+        if (this.getComponent(`notify_ht_${this.input.id}`)) {
+            this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t(message), className);
+        }
+    }
+
     async saveFilter() {
         const id = this.state.settingsFilterEditSelectedId;
         const mode = this.state.settingsFilterEditSelectedMode;
@@ -1393,9 +1399,7 @@ export default class {
             const bulkModal = this.getComponent(`bulkUpdateModal_ht_${this.input.id}`);
             if (!this.state.bulkItems.length) {
                 bulkModal.setActive(false);
-                if (this.getComponent(`notify_ht_${this.input.id}`)) {
-                    this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_nothingToDo"), "is-warning");
-                }
+                await this.notify("htable_nothingToDo", "is-warning");
                 return;
             }
             const bulkItems = cloneDeep(this.state.bulkItems).map(item => ({
@@ -1422,9 +1426,7 @@ export default class {
                 if (e && e.response && e.response.status === 403) {
                     this.emit("unauthorized");
                 }
-                if (this.getComponent(`notify_ht_${this.input.id}`)) {
-                    this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_loadingError"), "is-danger");
-                }
+                await this.notify("htable_loadingError", "is-danger");
             } finally {
                 bulkModal.setLoading(false).setCloseAllowed(true);
             }
@@ -1466,10 +1468,7 @@ export default class {
             if (this.state.bulkItemUID !== item.uid && item.id === id) {
                 for (const tab of tabs) {
                     if (item.tabs.indexOf(tab) > -1) {
-                        await this.utils.waitForComponent(`notify_ht_${this.input.id}`);
-                        if (this.getComponent(`notify_ht_${this.input.id}`)) {
-                            this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_duplicateBulkItem"), "is-warning");
-                        }
+                        await this.notify("htable_duplicateBulkItem", "is-warning");
                         return;
                     }
                 }
@@ -1559,9 +1558,7 @@ export default class {
         e.preventDefault();
         if (!this.state.checkboxes.length) {
             this.setState("dataOpen", false);
-            if (this.getComponent(`notify_ht_${this.input.id}`)) {
-                this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_exportNoneSelectedError"), "is-warning");
-            }
+            await this.notify("htable_exportNoneSelectedError", "is-warning");
             return;
         }
         await this.utils.waitForComponent(`exportModal_ht_${this.input.id}`);
@@ -1569,6 +1566,17 @@ export default class {
         this.setState("dataExportUID", null);
         this.setState("dataExportColumns", cloneDeep(this.state.columns));
         exportModal.setActive(true).setCloseAllowed(true).setBackgroundCloseAllowed(true).setLoading(false);
+    }
+
+    async onImportClick(e) {
+        e.preventDefault();
+        this.setState("dataOpen", false);
+        await this.utils.waitForComponent(`importModal_ht_${this.input.id}`);
+        const exportModal = this.getComponent(`importModal_ht_${this.input.id}`);
+        exportModal.setActive(true).setCloseAllowed(true).setBackgroundCloseAllowed(true).setLoading(false);
+        this.setState("importColumns", []);
+        this.setState("importColumnsData", {});
+        this.setState("importWorksheet", null);
     }
 
     async onExportButtonClick(button) {
@@ -1601,9 +1609,7 @@ export default class {
                 if (e && e.response && e.response.status === 403) {
                     this.emit("unauthorized");
                 }
-                if (this.getComponent(`notify_ht_${this.input.id}`)) {
-                    this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_exportError"), "is-danger");
-                }
+                await this.notify("htable_exportError", "is-danger");
             }
             break;
         }
@@ -1735,9 +1741,7 @@ export default class {
                 this.emit("unauthorized");
                 return;
             }
-            if (this.getComponent(`notify_ht_${this.input.id}`)) {
-                this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_loadingError"), "is-danger");
-            }
+            await this.notify("htable_loadingError", "is-danger");
             this.setState("recycleBinList", []);
         } finally {
             recycleBinModal.setLoading(false).setCloseAllowed(true);
@@ -1782,17 +1786,13 @@ export default class {
                 page: 1
             });
             await this.loadData();
-            if (this.getComponent(`notify_ht_${this.input.id}`)) {
-                this.getComponent(`notify_ht_${this.input.id}`).show(`${window.__heretic.t("htable_restoreSuccess")}: ${restoreResult.data.count}`, "is-success");
-            }
+            await this.notify(`${window.__heretic.t("htable_restoreSuccess")}: ${restoreResult.data.count}`, "is-success");
         } catch (e) {
             if (e && e.response && e.response.status === 403) {
                 this.emit("unauthorized");
                 return;
             }
-            if (this.getComponent(`notify_ht_${this.input.id}`)) {
-                this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_loadingError"), "is-danger");
-            }
+            await this.notify("htable_loadingError", "is-danger");
         } finally {
             recycleBinModal.setLoading(false).setCloseAllowed(true);
         }
@@ -1835,17 +1835,13 @@ export default class {
                 });
                 await this.loadData();
                 deleteConfirmation.setActive(false);
-                if (this.getComponent(`notify_ht_${this.input.id}`)) {
-                    this.getComponent(`notify_ht_${this.input.id}`).show(`${window.__heretic.t("htable_deleteSuccess")}: ${deleteResult.data.count}`, "is-success");
-                }
+                await this.notify(`${window.__heretic.t("htable_deleteSuccess")}: ${deleteResult.data.count}`);
             } catch (e) {
                 if (e && e.response && e.response.status === 403) {
                     this.emit("unauthorized");
                     return;
                 }
-                if (this.getComponent(`notify_ht_${this.input.id}`)) {
-                    this.getComponent(`notify_ht_${this.input.id}`).show(window.__heretic.t("htable_loadingError"), "is-danger");
-                }
+                await this.notify("htable_loadingError", "is-danger");
             } finally {
                 deleteConfirmation.setLoading(false).setCloseAllowed(true);
             }
@@ -1875,6 +1871,165 @@ export default class {
                 currentPage: 1,
                 focusOnSearch: true,
             });
+        }
+    }
+
+    getCellValue(worksheet, c, r, type = null) {
+        const data = worksheet[xlsx.utils.encode_cell({
+            c,
+            r,
+        })];
+        let value = data && data.w ? data.w : null;
+        if (value !== null && type) {
+            switch (type) {
+            case "text":
+                value = String(value).replace(/\r/gm, "").replace(/\n/gm, "<br/>");
+                break;
+            case "integer":
+                value = parseInt(value, 10) || null;
+                break;
+            case "boolean":
+                value = value === "" ? null : value === "yes";
+                break;
+            case "date":
+                let dateValue = value === "" ? null : parse(value, "M/d/yy", new Date()) || null;
+                if (!isValid(dateValue)) {
+                    dateValue = value === "" ? null : parse(value, "dd.MM.yyyy", new Date()) || null;
+                }
+                if (!isValid(dateValue)) {
+                    dateValue = value === "" ? null : parse(value, "yyyy-MM-dd", new Date()) || null;
+                }
+                if (!isValid(dateValue)) {
+                    dateValue = value === "" ? null : parse(value, "dd/MM/yyyy", new Date()) || null;
+                }
+                value = isValid(dateValue) ? dateValue : null;
+                break;
+            }
+        }
+        return value;
+    }
+
+    async onImportFileInputChange(e) {
+        e.preventDefault();
+        if (!Array.from(e.target.files).length) {
+            return;
+        }
+        const data = e.target.files[0];
+        const workbook = xlsx.read(await data.arrayBuffer());
+        const sheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[sheetName];
+        const range = xlsx.utils.decode_range(worksheet["!ref"]);
+        // range.s.r = 1;
+        const columnsData = {};
+        const columns = [];
+        for (let c = 0; c < range.e.c; c += 1) {
+            const column = this.getCellValue(worksheet, c, 0);
+            columns.push(column);
+            columnsData[column] = {};
+        }
+        this.setState("importColumns", columns);
+        this.setState("importColumnsData", columnsData);
+        this.setState("importWorksheet", worksheet);
+    }
+
+    onImportColumnChange(e) {
+        e.preventDefault();
+        const {
+            column,
+        } = e.target.closest("[data-column]").dataset;
+        const {
+            value,
+        } = e.target;
+        const importColumnsData = cloneDeep(this.state.importColumnsData);
+        importColumnsData[column] = importColumnsData[column] || {};
+        importColumnsData[column].targetColumn = value;
+        this.setState("importColumnsData", importColumnsData);
+    }
+
+    onImportTypeChange(e) {
+        e.preventDefault();
+        const {
+            column,
+        } = e.target.closest("[data-column]").dataset;
+        const {
+            value,
+        } = e.target;
+        const importColumnsData = cloneDeep(this.state.importColumnsData);
+        importColumnsData[column] = importColumnsData[column] || {};
+        importColumnsData[column].type = value || "text";
+        this.setState("importColumnsData", importColumnsData);
+    }
+
+    onImportUpdateCheckboxChange(e) {
+        e.preventDefault();
+        const {
+            column,
+        } = e.target.closest("[data-column]").dataset;
+        const {
+            checked,
+        } = e.target;
+        const importColumnsData = cloneDeep(this.state.importColumnsData);
+        importColumnsData[column] = importColumnsData[column] || {};
+        importColumnsData[column].update = checked;
+        this.setState("importColumnsData", importColumnsData);
+    }
+
+    async onImportButtonClick(button) {
+        switch (button) {
+        case "save":
+            if (!this.state.importWorksheet) {
+                await this.notify("htable_nothingToImport", "is-warning");
+                break;
+            }
+            const data = [];
+            const update = [];
+            for (const c of Object.keys(this.state.importColumnsData)) {
+                if (this.state.importColumnsData[c].targetColumn) {
+                    data.push({
+                        column: c,
+                        targetColumn: this.state.importColumnsData[c].targetColumn,
+                        type: this.state.importColumnsData[c].type || "text",
+                    });
+                    if (this.state.importColumnsData[c].update) {
+                        update.push(this.state.importColumnsData[c].targetColumn);
+                    }
+                }
+            }
+            if (!data.length) {
+                await this.notify("htable_nothingToImport", "is-warning");
+                break;
+            }
+            const importData = [];
+            const range = xlsx.utils.decode_range(this.state.importWorksheet["!ref"]);
+            for (let row = 1; row <= range.e.r; row += 1) {
+                const item = {};
+                for (let col = 0; col < range.e.c; col += 1) {
+                    const columnTitle = this.state.importColumns.find((_, i) => i === col);
+                    if (columnTitle && this.state.importColumnsData[columnTitle] && this.state.importColumnsData[columnTitle].targetColumn) {
+                        item[this.state.importColumnsData[columnTitle].targetColumn] = this.getCellValue(this.state.importWorksheet, col, row, this.state.importColumnsData[columnTitle].type);
+                    }
+                }
+                importData.push(item);
+            }
+            if (!importData.length) {
+                await this.notify("htable_nothingToImport", "is-warning");
+                break;
+            }
+            try {
+                await axios({
+                    method: "post",
+                    url: this.state.importConfig.url,
+                    data: {
+                        items: importData,
+                        update,
+                    },
+                    headers: this.input.headers || {},
+                });
+            } catch (e) {
+                // eslint-disable-next-line no-console
+                console.log(e);
+            }
+            break;
         }
     }
 }

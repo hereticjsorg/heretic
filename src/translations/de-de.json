@@ -81,6 +81,7 @@
     "htable_save": "Speichern",
     "htable_bulkUpdate": "Massenaktualisierung",
     "htable_export": "Exportieren in Datei",
+    "htable_import": "Aus Excel importieren",
     "htable_exportCount": "Zu exportierende Einträge",
     "htable_exportNoneSelectedError": "Zu exportierende Datensätze auswählen",
     "htable_exportError": "Daten konnten nicht exportiert werden",
@@ -205,5 +206,6 @@
     "oa2google": "Google",
     "oauthError": "Der Autorisierungsvorgang konnte nicht abgeschlossen werden. Bitte versuchen Sie es erneut.",
     "oauth2": "Sie können sich auch über einen der folgenden Dienste anmelden oder registrieren lassen:",
-    "hereticVersion": "Version"
+    "hereticVersion": "Version",
+    "htable_nothingToImport": "Nichts zu importieren"
 }

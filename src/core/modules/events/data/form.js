@@ -78,6 +78,7 @@ export default class {
             }],
         };
         this.validationData = utils.getValidationData(this.data.form);
+        this.validationRequired = [];
         this.columnTypes = ["text", "select", "column", "date"];
         this.defaultSortColumn = "date";
         this.defaultSortDirection = "desc";
@@ -122,6 +123,7 @@ export default class {
         return {
             type: "object",
             properties: this.validationData.validationSchema,
+            required: this.validationRequired,
         };
     }
 

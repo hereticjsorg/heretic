@@ -118,6 +118,7 @@ export default class {
                 ],
             }],
         };
+        this.validationRequired = ["username", "password"];
         this.validationData = utils.getValidationData(this.data.form);
         this.columnTypes = ["text", "select", "column", "date", "checkbox"];
         this.defaultSortColumn = "username";
@@ -153,6 +154,7 @@ export default class {
         return {
             type: "object",
             properties: this.validationData.validationSchema,
+            required: this.validationRequired,
         };
     }
 

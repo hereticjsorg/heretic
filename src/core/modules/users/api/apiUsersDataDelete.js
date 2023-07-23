@@ -26,7 +26,7 @@ export default () => ({
                 });
             }
             if (moduleConfig.recycleBin && moduleConfig.recycleBin.enabled && !this.systemConfig.demo) {
-                const updateResult = await this.mongo.db.collection(moduleConfig.collections.main).updateMany(query, {
+                const updateResult = await this.mongo.db.collection(moduleConfig.collections.users).updateMany(query, {
                     $set: {
                         deleted: {
                             date: new Date(),
@@ -41,7 +41,7 @@ export default () => ({
 
             const deleteResult = this.systemConfig.demo ? {
                 deletedCount: 0,
-            } : await this.mongo.db.collection(moduleConfig.collections.main).deleteMany(query);
+            } : await this.mongo.db.collection(moduleConfig.collections.users).deleteMany(query);
             return rep.code(200).send({
                 count: deleteResult.deletedCount,
             });

@@ -224,6 +224,7 @@ export default class {
         this.restrictedFields = [];
         this.restrictedAreas = ["miscInfo"];
         this.magicStringAccessDenied = "WP0eX1QaOvhNWEgYa8Nx1X2f";
+        this.validationRequired = ["firstName", "lastName"];
     }
 
     getData() {
@@ -234,6 +235,7 @@ export default class {
         return {
             type: "object",
             properties: this.validationData.validationSchema,
+            required: this.validationRequired,
         };
     }
 

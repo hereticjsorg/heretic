@@ -48,6 +48,7 @@ export default class {
             }]
         };
         this.validationData = utils.getValidationData(this.data.form);
+        this.validationRequired = ["password", "passwordCurrent"];
     }
 
     getData() {
@@ -58,6 +59,7 @@ export default class {
         return {
             type: "object",
             properties: this.validationData.validationSchema,
+            required: this.validationRequired,
         };
     }
 
