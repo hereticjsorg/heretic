@@ -1572,8 +1572,8 @@ export default class {
         e.preventDefault();
         this.setState("dataOpen", false);
         await this.utils.waitForComponent(`importModal_ht_${this.input.id}`);
-        const exportModal = this.getComponent(`importModal_ht_${this.input.id}`);
-        exportModal.setActive(true).setCloseAllowed(true).setBackgroundCloseAllowed(true).setLoading(false);
+        const importModal = this.getComponent(`importModal_ht_${this.input.id}`);
+        importModal.setActive(true).setCloseAllowed(true).setBackgroundCloseAllowed(false).setLoading(false);
         this.setState("importColumns", []);
         this.setState("importColumnsData", {});
         this.setState("importWorksheet", null);
@@ -1981,11 +1981,11 @@ export default class {
                 await this.notify("htable_nothingToImport", "is-warning");
                 break;
             }
-            const data = [];
+            const importDataExcel = [];
             const update = [];
             for (const c of Object.keys(this.state.importColumnsData)) {
                 if (this.state.importColumnsData[c].targetColumn) {
-                    data.push({
+                    importDataExcel.push({
                         column: c,
                         targetColumn: this.state.importColumnsData[c].targetColumn,
                         type: this.state.importColumnsData[c].type || "text",
@@ -1995,7 +1995,7 @@ export default class {
                     }
                 }
             }
-            if (!data.length) {
+            if (!importDataExcel.length) {
                 await this.notify("htable_nothingToImport", "is-warning");
                 break;
             }
@@ -2015,8 +2015,12 @@ export default class {
                 await this.notify("htable_nothingToImport", "is-warning");
                 break;
             }
+            const importModal = this.getComponent(`importModal_ht_${this.input.id}`);
             try {
-                await axios({
+                importModal.setCloseAllowed(false).setBackgroundCloseAllowed(false).setLoading(true);
+                const {
+                    data,
+                } = await axios({
                     method: "post",
                     url: this.state.importConfig.url,
                     data: {
@@ -2025,9 +2029,12 @@ export default class {
                     },
                     headers: this.input.headers || {},
                 });
-            } catch (e) {
-                // eslint-disable-next-line no-console
-                console.log(e);
+                importModal.setActive(false);
+                await this.notify(`${window.__heretic.t("htable_importSuccess")}: ${data.successCount}<br/>${window.__heretic.t("htable_importFailed")}: ${data.failCount}`);
+                await this.loadData();
+                importModal.setCloseAllowed(true).setBackgroundCloseAllowed(true).setLoading(false);
+            } catch {
+                await this.notify("htable_importError", "is-danger");
             }
             break;
         }

@@ -215,5 +215,8 @@
     "htable_nothingToImport": "Nothing to import",
     "htable_checkboxToUpdate": "Set checkbox in order to activate the update mode for selected fields. In this mode Heretic will search any matching records with corresponding values and update them instead of inserting new fields.",
     "htable_hint": "Hint",
-    "htable_importButton": "Import"
+    "htable_importButton": "Import",
+    "htable_importError": "Could not import data",
+    "htable_importSuccess": "Successfully imported",
+    "htable_importFailed": "Missing records"
 }

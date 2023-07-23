@@ -207,5 +207,11 @@
     "oauthError": "Der Autorisierungsvorgang konnte nicht abgeschlossen werden. Bitte versuchen Sie es erneut.",
     "oauth2": "Sie können sich auch über einen der folgenden Dienste anmelden oder registrieren lassen:",
     "hereticVersion": "Version",
-    "htable_nothingToImport": "Nichts zu importieren"
+    "htable_nothingToImport": "Nichts zu importieren",
+    "htable_checkboxToUpdate": "Aktivieren Sie das Kontrollkästchen, um den Aktualisierungsmodus für ausgewählte Felder zu aktivieren. In diesem Modus sucht Heretic alle übereinstimmenden Datensätze mit den entsprechenden Werten und aktualisiert sie, anstatt neue Felder einzufügen.",
+    "htable_hint": "Hinweis",
+    "htable_importButton": "Importieren",
+    "htable_importError": "Daten können nicht importiert werden",
+    "htable_importSuccess": "Erfolgreich importiert",
+    "htable_importFailed": "Fehlende Datensätze"
 }
