@@ -207,6 +207,9 @@ export default class {
             url: `/api/${moduleConfig.id}/export`,
             download: `/api/${moduleConfig.id}/download`,
         };
+        this.tableImportConfig = {
+            url: `/api/${moduleConfig.id}/import`,
+        };
         this.tableRecycleBinConfig = {
             enabled: true,
             title: "position",
@@ -300,6 +303,10 @@ export default class {
 
     getTableExportConfig() {
         return this.tableExportConfig;
+    }
+
+    getTableImportConfig() {
+        return this.tableImportConfig;
     }
 
     getRecycleBinConfig() {

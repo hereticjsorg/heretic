@@ -56,6 +56,7 @@ module.exports = {
         "no-await-in-loop": "off",
         "no-restricted-syntax": "off",
         "no-continue": "off",
+        "space-in-parens": "off",
     },
     overrides: [{
         files: ["**/*.ts", "**/*.tsx"],

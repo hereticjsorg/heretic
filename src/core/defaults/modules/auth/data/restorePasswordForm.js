@@ -53,6 +53,7 @@ export default class {
             }]
         };
         this.validationData = utils.getValidationData(this.data.form);
+        this.validationRequired = ["captcha"];
     }
 
     getData() {
@@ -63,6 +64,7 @@ export default class {
         return {
             type: "object",
             properties: this.validationData.validationSchema,
+            required: this.validationRequired,
         };
     }
 

@@ -128,16 +128,25 @@ export default class {
             for (const tab of this.tabs) {
                 if (this.data[tab]) {
                     for (const k of Object.keys(this.data[tab])) {
-                        // switch (this.fields[k].type) {
-                        // case "date":
-                        //     this.data[tab][k] = this.data[tab][k] && parseInt(this.data[tab][k], 10) ? new Date(this.data[tab][k] * 1000) : null;
-                        // }
                         this.data[tab][k] = this.processValue(this.fields[k].type, this.data[tab][k]);
                     }
                 }
             }
         }
         return resultArr.length ? resultArr : null;
+    }
+
+    validateImport(data) {
+        const resultArr = [];
+        const result = this.validateSchema(data);
+        if (!result) {
+            for (const item of this.validateSchema.errors) {
+                resultArr.push({
+                    ...item,
+                });
+            }
+        }
+        return resultArr;
     }
 
     async saveFiles(page = null, refId = null) {

@@ -81,6 +81,7 @@
     "htable_save": "Save",
     "htable_bulkUpdate": "Bulk Update",
     "htable_export": "Export to File",
+    "htable_import": "Import from Excel",
     "htable_exportCount": "Records to export",
     "htable_exportNoneSelectedError": "Select items to export",
     "htable_exportError": "Could not export data",
@@ -205,5 +206,17 @@
     "oa2google": "Google",
     "oauthError": "Could not complete the authorization flow. Please try again.",
     "oauth2": "You can also sign up or sign in using one of the following services:",
-    "hereticVersion": "Version"
+    "hereticVersion": "Version",
+    "hform_import_type_text": "Text",
+    "hform_import_type_integer": "Integer",
+    "hform_import_type_boolean": "Boolean",
+    "hform_import_type_date": "Date",
+    "hform_import_selectFile": "Select File",
+    "htable_nothingToImport": "Nothing to import",
+    "htable_checkboxToUpdate": "Set checkbox in order to activate the update mode for selected fields. In this mode Heretic will search any matching records with corresponding values and update them instead of inserting new fields.",
+    "htable_hint": "Hint",
+    "htable_importButton": "Import",
+    "htable_importError": "Could not import data",
+    "htable_importSuccess": "Successfully imported",
+    "htable_importFailed": "Missing records"
 }
