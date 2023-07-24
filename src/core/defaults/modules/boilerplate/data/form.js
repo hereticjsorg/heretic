@@ -207,6 +207,9 @@ export default class {
             url: `/api/${moduleConfig.id}/export`,
             download: `/api/${moduleConfig.id}/download`,
         };
+        this.tableImportConfig = {
+            url: `/api/${moduleConfig.id}/import`,
+        };
         this.tableRecycleBinConfig = {
             enabled: true,
             title: "position",
@@ -224,7 +227,6 @@ export default class {
         this.restrictedFields = [];
         this.restrictedAreas = ["miscInfo"];
         this.magicStringAccessDenied = "WP0eX1QaOvhNWEgYa8Nx1X2f";
-        this.validationRequired = ["firstName", "lastName"];
     }
 
     getData() {
@@ -235,7 +237,6 @@ export default class {
         return {
             type: "object",
             properties: this.validationData.validationSchema,
-            required: this.validationRequired,
         };
     }
 
@@ -302,6 +303,10 @@ export default class {
 
     getTableExportConfig() {
         return this.tableExportConfig;
+    }
+
+    getTableImportConfig() {
+        return this.tableImportConfig;
     }
 
     getRecycleBinConfig() {

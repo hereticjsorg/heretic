@@ -14,6 +14,7 @@ import apiHistoryDelete from "./apiHistoryDelete.js";
 import apiHistoryRestore from "./apiHistoryRestore.js";
 import apiLockCheck from "./apiLockCheck.js";
 import apiLockList from "./apiLockList.js";
+import apiDataImport from "./apiDataImport.js";
 
 export default fastify => {
     fastify.post(`/api/${moduleConfig.id}/list`, apiTableList());
@@ -31,4 +32,5 @@ export default fastify => {
     fastify.post(`/api/${moduleConfig.id}/history/restore`, apiHistoryRestore());
     fastify.post(`/api/${moduleConfig.id}/lock/check`, apiLockCheck());
     fastify.get(`/api/${moduleConfig.id}/lock/list`, apiLockList());
+    fastify.post(`/api/${moduleConfig.id}/import`, apiDataImport());
 };
