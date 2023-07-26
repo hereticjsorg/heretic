@@ -1,3 +1,19 @@
+import {
+    format,
+} from "date-fns"
+import {
+    mdiCalendarClock,
+    mdiDesktopClassic,
+    mdiConsole,
+    mdiHarddisk,
+    mdiServerNetwork,
+    mdiCogOutline,
+} from "@mdi/js"
+
+$ const sizes = ["", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+$ const shorten = (s, max) => (s.length > max ? s.substring(0, max / 2 - 1) + "…" + s.substring(s.length - max / 2 + 2, s.length) : s);
+$ const formatSize = s => `${parseFloat((s / 1024 ** Math.floor(Math.log(s) / Math.log(1024))).toFixed(0))} ${sizes[Math.floor(Math.log(s) / Math.log(1024))]}`;
+$ const capitalizeFirst = s => s.charAt(0).toUpperCase() + s.slice(1);
 <if(state.ready)>
     <hadmin-title admin=true title=(process.browser && window.__heretic ? window.__heretic.t("moduleTitleAdmin") : null)/>
     <if(state.info)>
@@ -17,7 +33,7 @@
                             <p class="heading">
                                 <t>operatingSystem</t>
                             </p>
-                            <p class="title">${window.__heretic.t(state.info.osType)}</p>
+                            <p class="title">${window.__heretic.t(state.info.siOSInfo.platform)}</p>
                         </div>
                     </div>
                     <div class="level-item has-text-centered">
@@ -25,14 +41,388 @@
                             <p class="heading">
                                 <t>ram</t>
                             </p>
-                            <p class="title">${state.info.osTotalMem}</p>
+                            <p class="title">${formatSize(state.info.siMem.total)}</p>
                         </div>
                     </div>
                 </nav>
             </div>
         </div>
-        <if(state.info.onlineUsers && Object.keys(state.info.onlineUsers).length)/>
+        <div class="mt-3">
+            <p class="hr-icon-admin-wrap hr-menu-icon">
+                <svg class="hr-icon-admin-wrap" viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                    <path d=mdiCogOutline/>
+                </svg>
+                &nbsp;
+                <t>systemInfo_hereticSettings</t>
+            </p>
+            <table class="table is-fullwidth hr-ah-systemInfo-table">
+                <tbody>
+                    <tr>
+                        <td class="is-narrow hr-ah-systemInfo-td-par">
+                            <t>systemInfo_hereticVersion</t>
+                        </td>
+                        <td>${state.info.hereticVersion}</td>
+                    </tr>
+                    <tr>
+                        <td class="is-narrow hr-ah-systemInfo-td-par">
+                            <t>systemInfo_listenIP</t>
+                        </td>
+                        <td>${state.info.systemConfig.server.ip}</td>
+                    </tr>
+                    <tr>
+                        <td class="is-narrow hr-ah-systemInfo-td-par">
+                            <t>systemInfo_listenPort</t>
+                        </td>
+                        <td>${state.info.systemConfig.server.port}</td>
+                    </tr>
+                    <tr>
+                        <td class="is-narrow hr-ah-systemInfo-td-par">
+                            <t>systemInfo_hereticServeStatic</t>
+                        </td>
+                        <td>${state.info.systemConfig.server.static ? window.__heretic.t("systemInfo_yes") : window.__heretic.t("systemInfo_no")}</td>
+                    </tr>
+                    <tr>
+                        <td class="is-narrow hr-ah-systemInfo-td-par">
+                            <t>systemInfo_hereticProduction</t>
+                        </td>
+                        <td>${state.info.productionMode ? window.__heretic.t("systemInfo_yes") : window.__heretic.t("systemInfo_no")}</td>
+                    </tr>
+                    <tr>
+                        <td class="is-narrow hr-ah-systemInfo-td-par">
+                            <t>systemInfo_featuresEnabled</t>
+                        </td>
+                        <td>
+                            <div class="field is-grouped is-grouped-multiline">
+                                <if(state.info.systemConfig.mongo)>
+                                    <div class="control mr-2">
+                                        <div class="tags">
+                                            <t class="tag is-dark">systemInfo_featureMongo</t>
+                                        </div>
+                                    </div>
+                                </if>
+                                <if(state.info.systemConfig.redis)>
+                                    <div class="control mr-2">
+                                        <div class="tags">
+                                            <t class="tag is-dark">systemInfo_featureRedis</t>
+                                        </div>
+                                    </div>
+                                </if>
+                                <if(state.info.systemConfig.webSockets)>
+                                    <div class="control mr-2">
+                                        <div class="tags">
+                                            <t class="tag is-dark">systemInfo_featureWebsockets</t>
+                                        </div>
+                                    </div>
+                                </if>
+                                <if(state.info.systemConfig.email)>
+                                    <div class="control mr-2">
+                                        <div class="tags">
+                                            <t class="tag is-dark">systemInfo_featureEmail</t>
+                                        </div>
+                                    </div>
+                                </if>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="is-narrow hr-ah-systemInfo-td-par">
+                            <t>systemInfo_oauth2</t>
+                        </td>
+                        <td>
+                            <if(state.info.systemConfig.oauth2.length)>
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <for|i| of=state.info.systemConfig.oauth2>
+                                        <div class="control mr-2">
+                                            <div class="tags">
+                                                <t class="tag is-dark">${i}</t>
+                                            </div>
+                                        </div>
+                                    </for>
+                                </div>
+                            </if>
+                            <else>
+                                <span>—</span>
+                            </else>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="is-narrow hr-ah-systemInfo-td-par">
+                            <t>systemInfo_rateLimiting</t>
+                        </td>
+                        <td>${state.info.systemConfig.rateLimit ? window.__heretic.t("systemInfo_yes") : window.__heretic.t("systemInfo_no")}</td>
+                    </tr>
+                    <tr>
+                        <td class="is-narrow hr-ah-systemInfo-td-par">
+                            <t>systemInfo_logLevel</t>
+                        </td>
+                        <td>${state.info.systemConfig.logLevel}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="mt-5">
+            <p class="hr-icon-admin-wrap hr-menu-icon">
+                <svg class="hr-icon-admin-wrap" viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                    <path d=mdiCalendarClock/>
+                </svg>
+                &nbsp;
+                <t>systemInfo_timeSettings</t>
+            </p>
+            <table class="table is-fullwidth hr-ah-systemInfo-table">
+                <tbody>
+                    <tr>
+                        <td class="is-narrow hr-ah-systemInfo-td-par">
+                            <t>systemInfo_currentTime</t>
+                        </td>
+                        <td>${format(state.info.siTime.current, `${window.__heretic.t("global.dateFormatShort")} ${window.__heretic.t("global.timeFormatShort")}`)}</td>
+                    </tr>
+                    <tr>
+                        <td class="is-narrow hr-ah-systemInfo-td-par">
+                            <t>systemInfo_timeZone</t>
+                        </td>
+                        <td>${state.info.siTime.timezoneName} (${state.info.siTime.timezone})</td>
+                    </tr>
+                    <tr>
+                        <td class="is-narrow hr-ah-systemInfo-td-par">
+                            <t>systemInfo_uptime</t>
+                        </td>
+                        <td>${parseInt(state.info.siTime.uptime / 86400, 10)}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="mt-5">
+            <p class="hr-icon-admin-wrap hr-menu-icon">
+                <svg class="hr-icon-admin-wrap" viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                    <path d=mdiDesktopClassic/>
+                </svg>
+                &nbsp;
+                <t>systemInfo_systemSettings</t>
+            </p>
+            <table class="table is-fullwidth hr-ah-systemInfo-table">
+                <tbody>
+                    <tr>
+                        <td class="is-narrow hr-ah-systemInfo-td-par">
+                            <t>systemInfo_manufacturerModel</t>
+                        </td>
+                        <td>${state.info.siSystem.manufacturer} ${state.info.siSystem.model}</td>
+                    </tr>
+                    <tr>
+                        <td class="is-narrow hr-ah-systemInfo-td-par">
+                            <t>systemInfo_serialNumber</t>
+                        </td>
+                        <td>${state.info.siSystem.serial || "—"}</td>
+                    </tr>
+                    <tr>
+                        <td class="is-narrow hr-ah-systemInfo-td-par">
+                            <t>systemInfo_isVirtual</t>
+                        </td>
+                        <td>${state.info.siSystem.virtual ? window.__heretic.t("systemInfo_yes") : window.__heretic.t("systemInfo_no")}</td>
+                    </tr>
+                    <tr>
+                        <td class="is-narrow hr-ah-systemInfo-td-par">
+                            <t>systemInfo_CPU</t>
+                        </td>
+                        <td>${state.info.siCPU.manufacturer} ${state.info.siCPU.brand}</td>
+                    </tr>
+                    <tr>
+                        <td class="is-narrow hr-ah-systemInfo-td-par">
+                            <t>systemInfo_CPUCores</t>
+                        </td>
+                        <td>${state.info.siCPU.cores}</td>
+                    </tr>
+                    <tr>
+                        <td class="is-narrow hr-ah-systemInfo-td-par">
+                            <t>systemInfo_memoryTotal</t>
+                        </td>
+                        <td>${formatSize(state.info.siMem.total)}</td>
+                    </tr>
+                    <tr>
+                        <td class="is-narrow hr-ah-systemInfo-td-par">
+                            <t>systemInfo_memoryUsed</t>
+                        </td>
+                        <td>${formatSize(state.info.siMem.used)}</td>
+                    </tr>
+                    <tr>
+                        <td class="is-narrow hr-ah-systemInfo-td-par">
+                            <t>systemInfo_memoryFree</t>
+                        </td>
+                        <td>${formatSize(state.info.siMem.free)}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="mt-5">
+            <p class="hr-icon-admin-wrap hr-menu-icon">
+                <svg class="hr-icon-admin-wrap" viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                    <path d=mdiConsole/>
+                </svg>
+                &nbsp;
+                <t>systemInfo_operatingSystemSettings</t>
+            </p>
+            <table class="table is-fullwidth hr-ah-systemInfo-table">
+                <tbody>
+                    <tr>
+                        <td class="is-narrow hr-ah-systemInfo-td-par">
+                            <t>systemInfo_operatingSystem</t>
+                        </td>
+                        <td>${window.__heretic.t(state.info.siOSInfo.platform)} (${state.info.siOSInfo.platform})</td>
+                    </tr>
+                    <tr>
+                        <td class="is-narrow hr-ah-systemInfo-td-par">
+                            <t>systemInfo_distro</t>
+                        </td>
+                        <td>${state.info.siOSInfo.distro || "—"}</td>
+                    </tr>
+                    <tr>
+                        <td class="is-narrow hr-ah-systemInfo-td-par">
+                            <t>systemInfo_release</t>
+                        </td>
+                        <td>${state.info.siOSInfo.release || "—"}</td>
+                    </tr>
+                    <tr>
+                        <td class="is-narrow hr-ah-systemInfo-td-par">
+                            <t>systemInfo_codename</t>
+                        </td>
+                        <td>${state.info.siOSInfo.codename || "—"}</td>
+                    </tr>
+                    <tr>
+                        <td class="is-narrow hr-ah-systemInfo-td-par">
+                            <t>systemInfo_kernel</t>
+                        </td>
+                        <td>${state.info.siOSInfo.kernel || "—"}</td>
+                    </tr>
+                    <tr>
+                        <td class="is-narrow hr-ah-systemInfo-td-par">
+                            <t>systemInfo_arch</t>
+                        </td>
+                        <td>${state.info.siOSInfo.arch || "—"}</td>
+                    </tr>
+                    <tr>
+                        <td class="is-narrow hr-ah-systemInfo-td-par">
+                            <t>systemInfo_avgLoad</t>
+                        </td>
+                        <td>${state.info.siCurrentLoad.avgLoad || "—"}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="mt-5">
+            <p class="hr-icon-admin-wrap hr-menu-icon">
+                <svg class="hr-icon-admin-wrap" viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                    <path d=mdiHarddisk/>
+                </svg>
+                &nbsp;
+                <t>systemInfo_fileSystemSettings</t>
+            </p>
+            <table class="table is-fullwidth hr-ah-systemInfo-table">
+                <tbody>
+                    <for|i| of=state.info.siFsSize>
+                        <tr>
+                            <td class="is-narrow hr-ah-systemInfo-td-par">${shorten(i.mount, 25)}</td>
+                            <td>
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control mr-2">
+                                        <div class="tags">
+                                            <span class="tag is-dark">${i.fs}</span>
+                                        </div>
+                                    </div>
+                                    <div class="control mr-2">
+                                        <div class="tags">
+                                            <span class="tag is-dark">${i.type}</span>
+                                        </div>
+                                    </div>
+                                    <div class="control mr-2">
+                                        <div class="tags has-addons">
+                                            <t class="tag is-light">systemInfo_diskUsed</t>
+                                            <span class="tag is-dark">${formatSize(i.used)} / ${formatSize(i.size)}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </for>
+                </tbody>
+            </table>
+        </div>
+        <div class="mt-5">
+            <p class="hr-icon-admin-wrap hr-menu-icon">
+                <svg class="hr-icon-admin-wrap" viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                    <path d=mdiServerNetwork/>
+                </svg>
+                &nbsp;
+                <t>systemInfo_networkSettings</t>
+            </p>
+            <table class="table is-fullwidth hr-ah-systemInfo-table">
+                <tbody>
+                    <for|i| of=state.info.siNetworkInterfaces>
+                        <tr>
+                            <td class="is-narrow hr-ah-systemInfo-td-par">${i.iface}</td>
+                            <td>
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <if(i.type)>
+                                        <div class="control mr-2">
+                                            <div class="tags">
+                                                <span class="tag is-dark">${capitalizeFirst(i.type)}</span>
+                                            </div>
+                                        </div>
+                                    </if>
+                                    <if(i.mac)>
+                                        <div class="control mr-2">
+                                            <div class="tags has-addons">
+                                                <t class="tag is-light">systemInfo_mac</t>
+                                                <span class="tag is-dark">${i.mac}</span>
+                                            </div>
+                                        </div>
+                                    </if>
+                                    <if(i.ip4)>
+                                        <div class="control mr-2">
+                                            <div class="tags has-addons">
+                                                <t class="tag is-light">systemInfo_ip4</t>
+                                                <span class="tag is-dark">${i.ip4}</span>
+                                            </div>
+                                        </div>
+                                    </if>
+                                    <if(i.ip6)>
+                                        <div class="control mr-2">
+                                            <div class="tags has-addons">
+                                                <t class="tag is-light">systemInfo_ip6</t>
+                                                <span class="tag is-dark">${i.ip6}</span>
+                                            </div>
+                                        </div>
+                                    </if>
+                                    <if(i.internal)>
+                                        <div class="control mr-2">
+                                            <div class="tags">
+                                                <t class="tag is-dark">systemInfo_internal</t>
+                                            </div>
+                                        </div>
+                                    </if>
+                                    <if(i.virtual)>
+                                        <div class="control mr-2">
+                                            <div class="tags">
+                                                <t class="tag is-dark">systemInfo_virtual</t>
+                                            </div>
+                                        </div>
+                                    </if>
+                                    <if(i.default)>
+                                        <div class="control mr-2">
+                                            <div class="tags">
+                                                <t class="tag is-dark">systemInfo_defaultInterface</t>
+                                            </div>
+                                        </div>
+                                    </if>
+                                </div>
+                            </td>
+                        </tr>
+                    </for>
+                </tbody>
+            </table>
+        </div>
     </if>
+    <else>
+        <progress class="progress is-large is-info" max="100"/>
+    </else>
 </if>
 <if(!state.ready && !state.failed)>
     <!-- <hloading active=true/> -->

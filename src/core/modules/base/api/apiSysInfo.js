@@ -1,8 +1,9 @@
 import {
     ObjectId
 } from "mongodb";
-import os from "os";
+import systemInformation from "systeminformation";
 import packageJson from "#root/package.json";
+import buildJson from "#build/build.json";
 
 export default () => ({
     async handler(req, rep) {
@@ -49,17 +50,30 @@ export default () => ({
                     // Ignore
                 }
             }
-            const osTotalMem = os.totalmem();
-            const sizes = ["", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
             return rep.success({
                 hereticVersion: packageJson.version,
-                osType: os.type(),
-                osRelease: os.release(),
-                osPlatform: os.platform(),
-                osFreeMem: os.freemem(),
-                osTotalMem: `${parseFloat((osTotalMem / 1024 ** Math.floor(Math.log(osTotalMem) / Math.log(1024))).toFixed(0))} ${sizes[Math.floor(Math.log(osTotalMem) / Math.log(1024))]}`,
                 onlineUsers,
                 connections,
+                productionMode: buildJson.production,
+                systemConfig: {
+                    server: this.systemConfig.server,
+                    auth: this.systemConfig.server,
+                    oauth2: this.systemConfig.oauth2.filter(i => i.enabled).map(i => i.name),
+                    mongo: this.systemConfig.mongo.enabled,
+                    redis: this.systemConfig.redis.enabled,
+                    email: this.systemConfig.email.enabled,
+                    webSockets: this.systemConfig.webSockets.enabled,
+                    rateLimit: this.systemConfig.rateLimit.enabled,
+                    logLevel: this.systemConfig.log.level,
+                },
+                siTime: systemInformation.time(),
+                siSystem: await systemInformation.system(),
+                siCPU: await systemInformation.cpu(),
+                siMem: await systemInformation.mem(),
+                siOSInfo: await systemInformation.osInfo(),
+                siCurrentLoad: await systemInformation.currentLoad(),
+                siFsSize: await systemInformation.fsSize(),
+                siNetworkInterfaces: await systemInformation.networkInterfaces(),
             });
         } catch (e) {
             this.log.error(e);

@@ -1,5 +1,45 @@
+@import "~styles/variables.scss";
+
 .hr-ah-blink {
     animation: hr-ah-blink-animation 1s steps(5, start) infinite;
+}
+
+.hr-ah-systemInfo-table {
+    border-collapse: separate;
+    border-radius: $radius;
+    border-spacing: 0;
+    border: 1px solid $grey-lighter;
+}
+
+html.heretic-dark .hr-ah-systemInfo-table {
+    border: 1px solid lighten($grey-dark, 10%);
+}
+
+.hr-ah-systemInfo-table>tbody>tr:hover {
+    background-color: $white-ter;
+}
+
+html.heretic-dark .hr-ah-systemInfo-table>tbody>tr:hover {
+    background-color: $grey-dark;
+}
+
+.hr-ah-systemInfo-td-par {
+    border-right: 1px solid $grey-lighter !important;
+    background: $grey-lighter;
+    text-align: right !important;
+}
+
+html.heretic-dark .hr-ah-systemInfo-td-par {
+    border-right: 1px solid $grey-dark !important;
+    background: $grey-dark;
+}
+
+.hr-ah-systemInfo-table>tbody:first-child tr:first-child td:first-child {
+    border-radius: $radius 0 0 0;
+}
+
+.hr-ah-systemInfo-table>tbody:last-child tr:last-child td:first-child {
+    border-radius: 0 0 0 $radius;
 }
 
 @keyframes hr-ah-blink-animation {
