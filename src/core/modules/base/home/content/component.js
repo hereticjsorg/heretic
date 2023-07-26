@@ -43,6 +43,7 @@ export default class {
             setTimeout(() => window.location.href = `${this.utils.getLocalizedURL(this.systemRoutes.signInAdmin)}`, 100);
             return;
         }
+        this.setState("ready", true);
         try {
             const response = await axios({
                 method: "get",
@@ -55,9 +56,8 @@ export default class {
             });
             this.setState("info", response.data);
         } catch (e) {
+            this.setState("ready", false);
             this.setState("failed", true);
-            return;
         }
-        this.setState("ready", true);
     }
 }
