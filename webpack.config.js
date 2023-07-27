@@ -71,7 +71,7 @@ module.exports = async (env, argv) => {
                             {
                                 loader: "sass-loader"
                             },
-                        ].filter(i => i !== null)
+                        ].filter(i => i !== null),
                     },
                     {
                         test: /\.marko$/,
