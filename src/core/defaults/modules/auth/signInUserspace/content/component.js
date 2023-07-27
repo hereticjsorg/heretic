@@ -36,11 +36,13 @@ export default class {
         return this.utils.getLocalizedURL(url);
     }
 
-    receiveMessage(event) {
+    async receiveMessage(event) {
         if (event.origin !== window.location.origin) {
             return;
         }
         if (event && event.data && event.data.token) {
+            await this.utils.waitForComponent("loadingAuth");
+            this.getComponent("loadingAuth").setActive(true);
             const {
                 token,
             } = event.data;

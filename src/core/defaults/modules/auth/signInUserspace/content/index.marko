@@ -23,6 +23,7 @@ import SignInForm from "../../data/signInFormUserspace.js"
             </for>
         </div>
     </if>
+    <hloading key="loadingAuth"/>
 </if>
 <if(!state.ready && component.mongoEnabled && component.authOptions.signIn)>
     <hloading active=true/>
