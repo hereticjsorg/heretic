@@ -1,15 +1,20 @@
-name: Changelog
-
 on:
   pull_request:
-    types:
-      - closed
-
+    types: [closed]
+    branches:
+      - master
+  
 jobs:
-  changelog:
-    if: github.event.pull_request.merged == true
+  update_changelog:
     runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
     steps:
-    - run: |
-        echo "JSON:"
-        echo "${{toJSON(github.event)}}"
+    - name: Checkout code
+      uses: actions/checkout@v3
+      with:
+        ref: master
+    - name: Update Changelog
+      uses: AntonioGally/ag-changelogger@v0.1.1
+      with:
+        changelogPath: ./CHANGELOG.md
+        githubToken: ${{ secrets.REPO_ACCESS_TOKEN }}
