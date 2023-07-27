@@ -12,7 +12,7 @@ There is a PM2 configuration file (*ecosystem.config.js*) which allows to run yo
 pm2 start
 ```
 
-Please refer to the [PM2 docs](https://pm2.keymetrics.io/docs/usage/quick-start/) to learn some tips and tricks.
+Please refer to the [PM2 docs](https://pm2.keymetrics.io/docs/usage/quick-start/) to learn some tips and tricks on how to implement additional PM2 features.
 
 ## Proxy Web Server Configuration
 
