@@ -1,18 +1,14 @@
 name: Changelog
 
 on:
-  push:
-    branches:
-    - master
+  pull_request:
+    types:
+      - closed
 
 jobs:
   changelog:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-      with:
-        token: ${{ secrets.REPO_ACCESS_TOKEN }}
-    - run: echo "Hello world"
-    - run: echo ${{ github.event_name }}
-    - run: echo ${{ github.event.action }}
-    - run: echo ${{ github.event.pull_request.merged }}
+    - run: |
+        echo The PR was merged
