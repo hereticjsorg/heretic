@@ -20,3 +20,5 @@ jobs:
       with:
         changelogPath: ./CHANGELOG.md
         githubToken: ${{ secrets.REPO_ACCESS_TOKEN }}
+        commitEmail: ${{ secrets.EMAIL }}
+        commitUserName: ${{ secrets.USERNAME }}
