@@ -11,4 +11,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - run: |
-        echo The PR was merged
+        echo "${{toJSON(github.event)}}"
