@@ -252,7 +252,7 @@ module.exports = async (env, argv) => {
                     "typeof window": "'undefined'",
                 }),
                 new webpack.optimize.LimitChunkCountPlugin({
-                    maxChunks: 1
+                    maxChunks: 1,
                 }),
                 markoPlugin.server,
                 new ESLintPlugin({
