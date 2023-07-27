@@ -3,16 +3,17 @@ name: Version Increment
 on:
   push:
     branches:
-      - master
+    - master
 
 jobs:
   version:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-        with:
-          token: ${{ secrets.REPO_ACCESS_TOKEN }}
-      - run: git config --global user.name 'Mikhail Matveev'
-      - run: git config --global user.email 'xtreme@rh1.ru'
-      - run: npm version patch -m '[skip actions]'
-      - run: git push
+    - uses: actions/checkout@v2
+      with:
+        token: ${{ secrets.REPO_ACCESS_TOKEN }}
+    - run: env GIT_TERMINAL_PROMPT=1
+    - run: git config --global user.name 'Mikhail Matveev'
+    - run: git config --global user.email 'xtreme@rh1.ru'
+    - run: npm version patch -m '[skip actions]'
+    - run: git push
