@@ -81,7 +81,9 @@ export default class {
             return signInForm.setErrors(signInForm.getErrorData(validationResult));
         }
         const data = signInForm.getFormDataObject(signInForm.serializeData());
-        signInForm.setErrorMessage(null).setErrors(null).setLoading(true);
+        signInForm.setErrorMessage(null).setErrors(null);
+        await this.utils.waitForComponent("loadingAuth");
+        this.getComponent("loadingAuth").setActive(true);
         try {
             const res = await axios({
                 method: "post",
@@ -106,6 +108,8 @@ export default class {
                 signInForm.setErrorMessage(this.t("hform_error_general"));
             }
             signInForm.setLoading(false);
+            await this.utils.waitForComponent("loadingAuth");
+            this.getComponent("loadingAuth").setActive(false);
         }
     }
 
