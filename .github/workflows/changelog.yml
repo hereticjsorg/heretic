@@ -28,5 +28,6 @@ jobs:
     - name: node
       uses: actions/setup-node@v3
     - run: |
+        ls -al
         node changelog.js --id=${{ github.event.number }} --username=hereticjsorg --repo=heretic --name="${{ secrets.USERNAME }}" --email="${{ secrets.EMAIL }}"     
 
