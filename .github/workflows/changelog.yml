@@ -7,27 +7,14 @@ on:
      - master
 
 jobs:
-  checkout:
+  changelog:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
       with:
         token: ${{ secrets.REPO_ACCESS_TOKEN }}  
-  wget:
-    needs: checkout
-    runs-on: ubuntu-latest
-    steps:
-    - name: wget
-      uses: wei/wget@v1
-      with:
-        args: -O changelog.js https://raw.githubusercontent.com/hereticjsorg/heretic/master/src/bin/changelog.js
-  changelog:
-    needs: wget
-    runs-on: ubuntu-latest
-    steps:
-    - name: node
-      uses: actions/setup-node@v3
     - run: |
-        ls -al
-        node changelog.js --id=${{ github.event.number }} --username=hereticjsorg --repo=heretic --name="${{ secrets.USERNAME }}" --email="${{ secrets.EMAIL }}"     
-
+        curl -fsSL https://deb.nodesource.com/setup_20.x | bash - &&\
+        apt-get install -y nodejs
+        wget -O changelog.js https://raw.githubusercontent.com/hereticjsorg/heretic/master/src/bin/changelog.js
+        node changelog.js --id=${{ github.event.number }} --username=hereticjsorg --repo=heretic --name="${{ secrets.USERNAME }}" --email="${{ secrets.EMAIL }}"         
