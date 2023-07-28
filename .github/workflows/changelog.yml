@@ -19,4 +19,4 @@ jobs:
         wget -O changelog.js https://raw.githubusercontent.com/hereticjsorg/heretic/master/src/bin/changelog.js
     - run: node changelog.js --id=${{ github.event.number }} --username=hereticjsorg --repo=heretic --name="${{ secrets.USERNAME }}" --email="${{ secrets.EMAIL }}"
     - run: npm version patch -m 'Version Update [skip actions]'
-    - run: git push
+    - run: git push origin master
