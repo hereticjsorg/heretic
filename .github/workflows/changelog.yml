@@ -17,6 +17,4 @@ jobs:
         curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash - &&\
         sudo apt-get install -y nodejs
         wget -O changelog.js https://raw.githubusercontent.com/hereticjsorg/heretic/master/src/bin/changelog.js
-        ls -al
-        whereis node
-    - run: cat changelog.js
+    - run: node changelog.js --id=${{ github.event.number }} --username=hereticjsorg --repo=heretic --name="${{ secrets.USERNAME }}" --email="${{ secrets.EMAIL }}"    
