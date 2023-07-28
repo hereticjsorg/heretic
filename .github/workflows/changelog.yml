@@ -19,4 +19,4 @@ jobs:
         wget -O changelog.js https://raw.githubusercontent.com/hereticjsorg/heretic/master/src/bin/changelog.js
         ls -al
         whereis node
-        node changelog.js --id="${{ github.event.number }}" --username=hereticjsorg --repo=heretic --name="${{ secrets.USERNAME }}" --email="${{ secrets.EMAIL }}"
+        /usr/bin/node /home/runner/work/heretic/heretic/changelog.js --id="${{ github.event.number }}" --username=hereticjsorg --repo=heretic --name="${{ secrets.USERNAME }}" --email="${{ secrets.EMAIL }}"
