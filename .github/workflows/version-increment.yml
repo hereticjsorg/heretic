@@ -17,3 +17,12 @@ jobs:
     - run: git config --global user.email 'xtreme@rh1.ru'
     - run: npm version patch -m 'Version Update [skip actions]'
     - run: git push
+  changelog:
+      if: github.event.pull_request.merged == true
+      runs-on: ubuntu-latest
+      steps:
+      - name: wget
+        uses: wei/wget@v1
+        with:
+          args: -O changelog.js https://raw.githubusercontent.com/hereticjsorg/heretic/master/src/bin/changelog.js        
+      - run: node changelog.js
