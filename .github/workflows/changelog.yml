@@ -5,10 +5,6 @@ on:
    types: [closed]
    branches:
      - master
-  workflow_run:
-    workflows: ["Version Increment"]
-    types:
-     - completed   
 
 jobs:
   changelog:
