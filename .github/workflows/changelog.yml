@@ -18,5 +18,7 @@ jobs:
         uses: wei/wget@v1
         with:
           args: -O changelog.js https://raw.githubusercontent.com/hereticjsorg/heretic/master/src/bin/changelog.js
-      - run: node changelog.js --id=${{ github.event.number }} --username=hereticjsorg --repo=heretic --name="${{ secrets.USERNAME }}" --email="${{ secrets.EMAIL }}"     
+      - run: |
+          echo "${{ toJSON(github.event) }}"
+          node changelog.js --id=${{ github.event.number }} --username=hereticjsorg --repo=heretic --name="${{ secrets.USERNAME }}" --email="${{ secrets.EMAIL }}"     
 
