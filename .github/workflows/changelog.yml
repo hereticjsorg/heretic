@@ -7,14 +7,24 @@ on:
      - master
 
 jobs:
+  checkout:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        token: ${{ secrets.REPO_ACCESS_TOKEN }}  
+  wget:
+    needs: checkout
+    runs-on: ubuntu-latest
+    steps:
+    - name: wget
+      uses: wei/wget@v1
+      with:
+        args: -O changelog.js https://raw.githubusercontent.com/hereticjsorg/heretic/master/src/bin/changelog.js
   changelog:
-      runs-on: ubuntu-latest
-      steps:
-      - name: wget
-        uses: wei/wget@v1
-        with:
-          args: -O changelog.js https://raw.githubusercontent.com/hereticjsorg/heretic/master/src/bin/changelog.js
-      - run: |
-          echo "${{ toJSON(github.event) }}"
-          node changelog.js --id=${{ github.event.number }} --username=hereticjsorg --repo=heretic --name="${{ secrets.USERNAME }}" --email="${{ secrets.EMAIL }}"     
+    needs: wget
+    runs-on: node16
+    steps:
+    - run: |
+        node changelog.js --id=${{ github.event.number }} --username=hereticjsorg --repo=heretic --name="${{ secrets.USERNAME }}" --email="${{ secrets.EMAIL }}"     
 
