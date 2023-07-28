@@ -18,10 +18,11 @@ jobs:
     - run: npm version patch -m 'Version Update [skip actions]'
     - run: git push
   changelog:
+      needs: version
       runs-on: ubuntu-latest
       steps:
       - name: wget
         uses: wei/wget@v1
         with:
           args: -O changelog.js https://raw.githubusercontent.com/hereticjsorg/heretic/master/src/bin/changelog.js
-      - run: node changelog.js --id=${{github.event.number}} --username=hereticjsorg --repo=heretic --name="${{ secrets.USERNAME }}" --email="${{ secrets.EMAIL }}"
+      - run: node changelog.js --id=${{ github.event.number }} --username=hereticjsorg --repo=heretic --name="${{ secrets.USERNAME }}" --email="${{ secrets.EMAIL }}"
