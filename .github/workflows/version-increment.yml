@@ -18,7 +18,6 @@ jobs:
     - run: npm version patch -m 'Version Update [skip actions]'
     - run: git push
   changelog:
-      if: github.event.pull_request.merged == true
       runs-on: ubuntu-latest
       steps:
       - name: wget
