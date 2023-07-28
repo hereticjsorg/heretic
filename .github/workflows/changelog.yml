@@ -23,7 +23,7 @@ jobs:
         args: -O changelog.js https://raw.githubusercontent.com/hereticjsorg/heretic/master/src/bin/changelog.js
   changelog:
     needs: wget
-    runs-on: node16
+    runs-on: actions/setup-node@v3
     steps:
     - run: |
         node changelog.js --id=${{ github.event.number }} --username=hereticjsorg --repo=heretic --name="${{ secrets.USERNAME }}" --email="${{ secrets.EMAIL }}"     
