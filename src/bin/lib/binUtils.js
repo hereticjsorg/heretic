@@ -26,7 +26,7 @@ const cleanupData = require("../data/cleanup.json");
 module.exports = class {
     constructor(options) {
         this.options = options;
-        this.languages = Object.keys(fs.readJSONSync(fs.existsSync(path.resolve(__dirname, "../../etc/languages.json")) ? path.resolve(__dirname, "../../etc/languages.json") : path.resolve(__dirname, "../core/defaults/config/languages.json")));
+        this.languages = Object.keys(fs.readJSONSync(fs.existsSync(path.resolve(__dirname, "../../../etc/languages.json")) ? path.resolve(__dirname, "../../../etc/languages.json") : path.resolve(__dirname, "../../core/defaults/config/languages.json")));
         this.color = new Color();
         this.logEnabled = true;
         this.logColor = !options || !options["no-color"];
@@ -112,7 +112,7 @@ module.exports = class {
     }
 
     readConfig() {
-        this.config = require(path.resolve(`${__dirname}/../../etc/system.js`));
+        this.config = require(path.resolve(`${__dirname}/../../../etc/system.js`));
     }
 
     async connectDatabase() {
@@ -162,7 +162,7 @@ module.exports = class {
     }
 
     generateSecureConfig() {
-        const configPath = path.resolve(__dirname, "../../etc/secure.json");
+        const configPath = path.resolve(__dirname, "../../../etc/secure.json");
         if (fs.existsSync(configPath) && !this.options.force) {
             this.log(`Skipping: "etc/secure.json"`, {
                 warning: true,
@@ -180,15 +180,15 @@ module.exports = class {
     }
 
     writeNavigationConfig() {
-        const configDest = path.resolve(__dirname, "../../etc/navigation.json");
+        const configDest = path.resolve(__dirname, "../../../etc/navigation.json");
         if (fs.existsSync(configDest)) {
             this.log(`Skipping: "etc/navigation.json"`, {
                 warning: true,
             });
             return;
         }
-        const configNavigation = fs.readJSONSync(path.resolve(__dirname, "../core/defaults/config/navigation.json"));
-        if (!fs.existsSync(path.resolve(__dirname, "../../site/modules/sample"))) {
+        const configNavigation = fs.readJSONSync(path.resolve(__dirname, "../../core/defaults/config/navigation.json"));
+        if (!fs.existsSync(path.resolve(__dirname, "../../../site/modules/sample"))) {
             configNavigation.routes = [];
         }
         this.log(`Writing "etc/navigation.json"...`, {
@@ -201,7 +201,7 @@ module.exports = class {
 
     writeUserTranslationData() {
         for (const lang of this.languages) {
-            const filePath = path.resolve(__dirname, `../../site/translations/${lang}.json`);
+            const filePath = path.resolve(__dirname, `../../../site/translations/${lang}.json`);
             if (fs.existsSync(filePath)) {
                 this.log(`Skipping: "translations/${lang}.json"`, {
                     warning: true,
@@ -324,21 +324,21 @@ module.exports = class {
             });
             return;
         }
-        if (fs.existsSync(path.resolve(__dirname, `../../site/modules/${id}`))) {
+        if (fs.existsSync(path.resolve(__dirname, `../../../site/modules/${id}`))) {
             this.log(`Module "${id}" already exists`, {
                 warning: true,
             });
             return;
         }
-        fs.copySync(path.resolve(__dirname, "../core/defaults/modules/blank"), path.resolve(__dirname, `../../site/modules/${id}`));
-        const moduleConfigPath = path.resolve(__dirname, `../../site/modules/${id}/module.json`);
+        fs.copySync(path.resolve(__dirname, "../../core/defaults/modules/blank"), path.resolve(__dirname, `../../../site/modules/${id}`));
+        const moduleConfigPath = path.resolve(__dirname, `../../../site/modules/${id}/module.json`);
         const moduleConfig = fs.readJSONSync(moduleConfigPath);
         moduleConfig.id = id;
         fs.writeJSONSync(moduleConfigPath, moduleConfig, {
             spaces: "  ",
         });
         if (addNavigationConfig) {
-            const navJSONPath = path.resolve(__dirname, "../../etc/navigation.json");
+            const navJSONPath = path.resolve(__dirname, "../../../etc/navigation.json");
             const navJSON = fs.readJSONSync(navJSONPath);
             if (navJSON.userspace.routes.indexOf(id) === -1) {
                 this.log(`Adding navbar item: ${id}_page...`);
@@ -361,7 +361,7 @@ module.exports = class {
             this.log("Invalid module ID, use latin characters, numbers and '-', '_' chars only");
             return;
         }
-        const modulePath = path.resolve(__dirname, "../../site/modules", id);
+        const modulePath = path.resolve(__dirname, "../../../site/modules", id);
         if (!fs.existsSync(modulePath)) {
             this.log(`Module '${id}' doesn't exists`, {
                 warning: true,
@@ -369,7 +369,7 @@ module.exports = class {
             return;
         }
         fs.removeSync(modulePath);
-        const navJSONPath = path.resolve(__dirname, "../../etc/navigation.json");
+        const navJSONPath = path.resolve(__dirname, "../../../etc/navigation.json");
         const navJSON = fs.readJSONSync(navJSONPath);
         if (navJSON.userspace.routes.indexOf(`${id}_page`) >= 0) {
             this.log("Removing page from navbar...");
@@ -391,7 +391,7 @@ module.exports = class {
             });
             return;
         }
-        const languageJSONPath = path.resolve(__dirname, "../../etc/languages.json");
+        const languageJSONPath = path.resolve(__dirname, "../../../etc/languages.json");
         const languageJSON = fs.readJSONSync(languageJSONPath);
         if (Object.keys(languageJSON).indexOf(id) >= 0) {
             this.log(`Language '${id}' already exists`, {
@@ -405,7 +405,7 @@ module.exports = class {
             spaces: "  ",
         });
         this.log(`Modifying etc/meta.json...`);
-        const mainMetaJSONPath = path.resolve(__dirname, "../../etc/meta.json");
+        const mainMetaJSONPath = path.resolve(__dirname, "../../../etc/meta.json");
         const mainMetaJSON = fs.readJSONSync(mainMetaJSONPath);
         mainMetaJSON.title[id] = mainMetaJSON.title[Object.keys(languageJSON)[0]];
         mainMetaJSON.shortTitle[id] = mainMetaJSON.shortTitle[Object.keys(languageJSON)[0]];
@@ -414,7 +414,7 @@ module.exports = class {
             spaces: "  ",
         });
         this.log("Modifying existing modules...");
-        const buildJson = require("../../build/build.json");
+        const buildJson = require("../../../build/build.json");
         for (const m of buildJson.modules) {
             if (m.translations) {
                 const translationDataDefault = fs.readJSONSync(path.resolve(`${m.path}/translations/${Object.keys(languageJSON)[0]}.json`));
@@ -443,14 +443,14 @@ module.exports = class {
             }
         }
         this.log("Modifying core translation files...");
-        const transCoreJSON = fs.readJSONSync(path.resolve(__dirname, `../translations/${Object.keys(languageJSON)[0]}.json`));
-        fs.writeJSONSync(path.resolve(__dirname, `../translations/${id}.json`), transCoreJSON, {
+        const transCoreJSON = fs.readJSONSync(path.resolve(__dirname, `../../translations/${Object.keys(languageJSON)[0]}.json`));
+        fs.writeJSONSync(path.resolve(__dirname, `../../translations/${id}.json`), transCoreJSON, {
             spaces: "  "
         });
-        if (fs.existsSync(path.resolve(__dirname, "../../site/translations"))) {
+        if (fs.existsSync(path.resolve(__dirname, "../../../site/translations"))) {
             this.log("Modifying site translation files...");
-            const transUserJSON = fs.readJSONSync(path.resolve(__dirname, `../../site/translations/${Object.keys(languageJSON)[0]}.json`));
-            fs.writeJSONSync(path.resolve(__dirname, `../../site/translations/${id}.json`), transUserJSON, {
+            const transUserJSON = fs.readJSONSync(path.resolve(__dirname, `../../../site/translations/${Object.keys(languageJSON)[0]}.json`));
+            fs.writeJSONSync(path.resolve(__dirname, `../../../site/translations/${id}.json`), transUserJSON, {
                 spaces: "  "
             });
         }
@@ -466,14 +466,14 @@ module.exports = class {
             });
             return;
         }
-        const languageJSONPath = path.resolve(__dirname, "../../etc/languages.json");
+        const languageJSONPath = path.resolve(__dirname, "../../../etc/languages.json");
         const languageJSON = fs.readJSONSync(languageJSONPath);
         delete languageJSON[id];
         fs.writeJSONSync(languageJSONPath, languageJSON, {
             spaces: "  ",
         });
         this.log(`Modifying etc/meta.json...`);
-        const mainMetaJSONPath = path.resolve(__dirname, "../../etc/meta.json");
+        const mainMetaJSONPath = path.resolve(__dirname, "../../../etc/meta.json");
         const mainMetaJSON = fs.readJSONSync(mainMetaJSONPath);
         delete mainMetaJSON.title[id];
         delete mainMetaJSON.shortTitle[id];
@@ -482,7 +482,7 @@ module.exports = class {
             spaces: "  ",
         });
         this.log("Modifying existing modules...");
-        const buildJson = require("../../build/build.json");
+        const buildJson = require("../../../build/build.json");
         for (const m of buildJson.modules) {
             if (m.translations && fs.existsSync(path.resolve(`${m.path}/translations/${id}.json`))) {
                 fs.removeSync(path.resolve(`${m.path}/translations/${id}.json`));
@@ -507,11 +507,11 @@ module.exports = class {
             }
         }
         this.log("Modifying core translation files...");
-        const coreLangPath = path.resolve(__dirname, `../translations/${id}.json`);
+        const coreLangPath = path.resolve(__dirname, `../../translations/${id}.json`);
         if (fs.existsSync(coreLangPath)) {
             fs.removeSync(coreLangPath);
         }
-        const userLangPath = path.resolve(__dirname, `../../site/translations/${id}.json`);
+        const userLangPath = path.resolve(__dirname, `../../../site/translations/${id}.json`);
         if (fs.existsSync(userLangPath)) {
             fs.removeSync(userLangPath);
         }
@@ -1020,7 +1020,7 @@ module.exports = class {
     }
 
     async patchPackageJson(dirPath) {
-        const oldPackageJson = await fs.readJSON(path.join(__dirname, "../../package.json"));
+        const oldPackageJson = await fs.readJSON(path.join(__dirname, "../../../package.json"));
         const newPackageJson = await fs.readJSON(path.join(dirPath, "root/package.json"));
         for (const k of Object.keys(newPackageJson.devDependencies)) {
             if (!oldPackageJson.devDependencies[k] || oldPackageJson.devDependencies[k] !== newPackageJson.devDependencies[k]) {
@@ -1038,7 +1038,7 @@ module.exports = class {
             }
         }
         oldPackageJson.version = newPackageJson.version;
-        await fs.writeJson(path.join(__dirname, "../../package.json"), oldPackageJson, {
+        await fs.writeJson(path.join(__dirname, "../../../package.json"), oldPackageJson, {
             spaces: "    ",
         });
     }
