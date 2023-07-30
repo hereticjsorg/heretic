@@ -3,7 +3,7 @@ const fs = require("fs-extra");
 const path = require("path");
 const crypto = require("crypto");
 
-const BinUtils = require("./src/bin/binUtils");
+const BinUtils = require("./src/bin/lib/binUtils");
 
 const languages = require(path.resolve(__dirname, "etc/languages.json"));
 const systemConfig = require(path.resolve(__dirname, "etc/system.js"));

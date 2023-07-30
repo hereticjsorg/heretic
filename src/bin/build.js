@@ -3,7 +3,7 @@ const fs = require("fs-extra");
 const os = require("os");
 const path = require("path");
 const commandLineArgs = require("command-line-args");
-const BinUtils = require("./binUtils");
+const BinUtils = require("./lib/binUtils");
 
 (async () => {
     const binUtils = new BinUtils();
