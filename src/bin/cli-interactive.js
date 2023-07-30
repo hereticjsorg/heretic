@@ -1,7 +1,7 @@
 const fs = require("fs-extra");
 const path = require("path");
 const commandLineArgs = require("command-line-args");
-const BinUtils = require("./binUtils");
+const BinUtils = require("./lib/binUtils");
 
 const options = commandLineArgs([{
     name: "no-color",

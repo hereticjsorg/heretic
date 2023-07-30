@@ -18,10 +18,10 @@ const {
 const {
     format,
 } = require("date-fns");
-const Color = require("../core/lib/color");
-const filesData = require("./data/files.json");
-const directoriesData = require("./data/directories.json");
-const cleanupData = require("./data/cleanup.json");
+const Color = require("../../core/lib/color");
+const filesData = require("../data/files.json");
+const directoriesData = require("../data/directories.json");
+const cleanupData = require("../data/cleanup.json");
 
 module.exports = class {
     constructor(options) {
@@ -414,7 +414,7 @@ module.exports = class {
             spaces: "  ",
         });
         this.log("Modifying existing modules...");
-        const buildJson = require("../build/build.json");
+        const buildJson = require("../../build/build.json");
         for (const m of buildJson.modules) {
             if (m.translations) {
                 const translationDataDefault = fs.readJSONSync(path.resolve(`${m.path}/translations/${Object.keys(languageJSON)[0]}.json`));
@@ -482,7 +482,7 @@ module.exports = class {
             spaces: "  ",
         });
         this.log("Modifying existing modules...");
-        const buildJson = require("../build/build.json");
+        const buildJson = require("../../build/build.json");
         for (const m of buildJson.modules) {
             if (m.translations && fs.existsSync(path.resolve(`${m.path}/translations/${id}.json`))) {
                 fs.removeSync(path.resolve(`${m.path}/translations/${id}.json`));

@@ -1,4 +1,4 @@
-const BinUtils = require("./binUtils");
+const BinUtils = require("./lib/binUtils");
 
 const binUtils = new BinUtils({});
 binUtils.printLogo();
