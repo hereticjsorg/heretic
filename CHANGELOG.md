@@ -1,3 +1,15 @@
+## v1.1.61
+
+**Update binUtils.js** (2023-07-30)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-07-30 | Update binUtils.js<br/>Fixed directory locators |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-07-30 | Update files.json |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-07-30 | Update directories.json |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-07-30 | Update files.json |
+
+
 ## v1.1.60
 
 **Bugixes, code refactoring** (2023-07-30)
