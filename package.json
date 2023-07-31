@@ -127,6 +127,7 @@
         "puppeteer-core": "^20.9.0",
         "store2": "^2.14.2",
         "systeminformation": "^5.18.10",
+        "time2fa": "^1.2.2",
         "tippy.js": "^6.3.7",
         "unzip-stream": "^0.3.1",
         "uri-js": "^4.4.1",
