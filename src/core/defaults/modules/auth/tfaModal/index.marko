@@ -1,0 +1,63 @@
+import OtpForm from "../data/otpForm.js"
+import RecoveryForm from "../data/recoveryForm.js"
+
+<hmodal
+    key="tfaModal"
+    id="tfaModal"
+    close=true
+    title="tfaModalTitle"
+    on-button-click("onTfaButtonClick")
+    actions=[
+        {
+            id: "save",
+            label: "tfaModalSubmit",
+            class: "button is-primary"
+        },
+        {
+            id: "close",
+            label: "tfaModalCancel",
+            class: "button is-light",
+            close: true
+        }
+    ]>
+    <section
+        class="modal-card-body"
+        style={
+            order: "2"
+        }>
+        <div style={
+            position: state.view === "2fa" ? "unset" : "absolute",
+            left: state.settingsTab === "2fa" ? "unset" : "-999999px",
+            clip: state.settingsTab === "2fa" ? "unset" : "rect(0 0 0 0)"
+        }>
+            <p>
+                <t>tfaNotice</t>
+            </p>
+            <div class="mt-2">
+                <hform key="tfaOtpForm" id="tfaOtpForm" data=(new OtpForm(process.browser && window.__heretic ? window.__heretic.t : out.global.t)) on-form-submit("onOtpFormSubmit")/>
+            </div>
+            <div class="mt-2">
+                <a class="is-underlined" on-click("onTfaNoAppClick")>
+                    <t>tfaNoApp</t>
+                </a>
+            </div>
+        </div>
+        <div style={
+            position: state.view === "recovery" ? "unset" : "absolute",
+            left: state.settingsTab === "recovery" ? "unset" : "-999999px",
+            clip: state.settingsTab === "recovery" ? "unset" : "rect(0 0 0 0)"
+        }>
+            <p>
+                <t>tfaRecoveryNotice</t>
+            </p>
+            <div class="mt-2">
+                <hform key="tfaRecoveryForm" id="tfaRecoveryForm" data=(new RecoveryForm(process.browser && window.__heretic ? window.__heretic.t : out.global.t)) on-form-submit("onRecoveryFormSubmit")/>
+            </div>
+            <div class="mt-2">
+                <a class="is-underlined" on-click("onTfaGotAppClick")>
+                    <t>tfaGotApp</t>
+                </a>
+            </div>
+        </div>
+    </section>
+</hmodal>

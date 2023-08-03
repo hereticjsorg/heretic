@@ -9,6 +9,8 @@ import apiChangeEmail from "./apiChangeEmail";
 import apiRestorePassword from "./apiRestorePassword";
 import apiSetPassword from "./apiSetPassword";
 import apiActivate from "./apiActivate";
+import apiGetData2FA from "./apiGetData2FA";
+import apiSetData2FA from "./apiSetData2FA";
 
 export default fastify => {
     if (fastify.systemConfig.auth.signIn) {
@@ -27,4 +29,6 @@ export default fastify => {
     fastify.post(moduleConfig.api.restorePassword, apiRestorePassword());
     fastify.post(moduleConfig.api.setPassword, apiSetPassword());
     fastify.post(moduleConfig.api.activate, apiActivate());
+    fastify.get(moduleConfig.api.getData2FA, apiGetData2FA());
+    fastify.post(moduleConfig.api.setData2FA, apiSetData2FA());
 };

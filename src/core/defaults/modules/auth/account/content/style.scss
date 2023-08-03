@@ -1,0 +1,19 @@
+@import "~styles/variables.scss";
+
+.heretic2faImageWrap {
+    margin-top: 7px;
+}
+
+.heretic2faImageWrap>svg {
+    width: 120px;
+    height: 120px;
+}
+
+.heretic2faSecretWrap {
+    padding: 10px;
+    border: 1px solid $grey-lightest;
+    background: $white-ter;
+    border-radius: $radius;
+    user-select: all;
+    font-family: monospace, monospace;
+}

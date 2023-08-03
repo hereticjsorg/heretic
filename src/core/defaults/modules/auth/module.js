@@ -38,5 +38,7 @@ module.exports = {
         activate: "/api/user/activate",
         setPassword: "/api/user/password/set",
         getData: "/api/user/getData",
+        getData2FA: "/api/user/getData2FA",
+        setData2FA: "/api/user/setData2FA",
     },
 };
