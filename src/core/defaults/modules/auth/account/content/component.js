@@ -19,7 +19,7 @@ export default class {
             currentAccountTab: "profile",
             qrCode: "",
             secret: "",
-            rescueCode: "",
+            recoveryCode: "",
             tfaConfigured: false,
         };
         this.language = out.global.language;
@@ -276,9 +276,9 @@ export default class {
             this.getComponent("notify").show(this.t("setup2faSuccess"), "is-success");
             this.getComponent("setup2faModal").setActive(false);
             this.setState("tfaConfigured", true);
-            this.setState("rescueCode", data.rescueCode);
-            await this.utils.waitForComponent("rescueCodeModal");
-            this.getComponent("rescueCodeModal").setActive(true).setCloseAllowed(true).setLoading(false);
+            this.setState("recoveryCode", data.recoveryCode);
+            await this.utils.waitForComponent("recoveryCodeModal");
+            this.getComponent("recoveryCodeModal").setActive(true).setCloseAllowed(true).setLoading(false);
         } catch (err) {
             let errorMessage = "setup2faError";
             if (err && err.response && err.response.data && err.response.data.reason) {
@@ -312,7 +312,51 @@ export default class {
     async disable2FA(e) {
         e.preventDefault();
         await this.utils.waitForComponent("tfaModal");
-        (await this.getComponent("tfaModal").getModalInstance()).setActive(true);
-        await this.getComponent("tfaModal").onTfaGotAppClick(e);
+        const tfaModal = await this.getComponent("tfaModal").getModalInstance();
+        tfaModal.setCloseAllowed(true).setLoading(false).setActive(true);
+        this.getComponent("tfaModal").onTfaGotAppClick();
+    }
+
+    async on2faDisable(code) {
+        await this.utils.waitForComponent("tfaModal");
+        const tfaModal = await this.getComponent("tfaModal").getModalInstance();
+        tfaModal.setCloseAllowed(false).setLoading(true);
+        try {
+            await axios({
+                method: "post",
+                url: moduleConfig.api.disable2FA,
+                data: {
+                    code,
+                },
+                headers: {
+                    Authorization: `Bearer ${this.currentToken}`,
+                },
+            });
+            tfaModal.setCloseAllowed(true).setLoading(false).setActive(false);
+            this.getComponent("notify").show(this.t("remove2faSuccess"), "is-success");
+            this.setState("tfaConfigured", false);
+        } catch (err) {
+            let errorMessage = "setup2faError";
+            if (err && err.response && err.response.data && err.response.data.reason) {
+                switch (err.response.data.reason) {
+                case 1:
+                    errorMessage = "setup2faErrorUnset";
+                    break;
+                case 2:
+                    errorMessage = "setup2faErrorInvalidCode";
+                    break;
+                }
+            }
+            this.getComponent("notify").show(this.t(errorMessage), "is-danger");
+            tfaModal.setCloseAllowed(true).setLoading(false).setActive(false);
+        }
+    }
+
+    async on2faDisableRecovery() {
+        await this.utils.waitForComponent("tfaModal");
+        const tfaModal = await this.getComponent("tfaModal").getModalInstance();
+        tfaModal.setCloseAllowed(true).setLoading(false).setActive(false);
+        this.getComponent("notify").show(this.t("remove2faSuccess"), "is-success");
+        this.setState("tfaConfigured", false);
     }
 }

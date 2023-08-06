@@ -2,18 +2,15 @@ import Ajv from "ajv";
 import {
     Totp,
 } from "time2fa";
-import {
-    v4 as uuid,
-} from "uuid";
-import Save2FaForm from "../data/save2FaForm.js";
+import OtpForm from "../data/otpForm.js";
 
 const ajv = new Ajv({
     allErrors: true,
     strict: true,
 });
-const save2FaForm = new Save2FaForm();
-const save2FaFormValidationSchema = save2FaForm.getValidationSchema();
-const save2FaFormValidation = ajv.compile(save2FaFormValidationSchema);
+const otpForm = new OtpForm();
+const otpFormValidationSchema = otpForm.getValidationSchema();
+const otpFormValidation = ajv.compile(otpFormValidationSchema);
 
 export default () => ({
     async handler(req, rep) {
@@ -23,41 +20,35 @@ export default () => ({
                 message: "Access Denied",
             }, 403);
         }
-        const validationResult = save2FaFormValidation(req.body);
+        const validationResult = otpFormValidation(req.body);
         if (!validationResult) {
             return rep.error({
-                form: save2FaFormValidation.errors,
+                form: otpFormValidation.errors,
             });
         }
         const userDb = await this.mongo.db.collection(this.systemConfig.collections.users).findOne({
             _id: authData._id,
         });
-        if (userDb.config2Fa) {
+        if (!userDb.tfaConfig) {
             return rep.error({
                 reason: 1,
             });
         }
         if (!Totp.validate({
                 passcode: req.body.code,
-                secret: req.body.secret,
+                secret: userDb.tfaConfig.secret,
             })) {
             return rep.error({
                 reason: 2,
             });
         }
-        const recoveryCode = uuid().toUpperCase();
         await this.mongo.db.collection(this.systemConfig.collections.users).updateOne({
             _id: authData._id,
         }, {
-            $set: {
-                tfaConfig: {
-                    secret: req.body.secret,
-                    recoveryCode: await req.auth.createHash(recoveryCode),
-                },
+            $unset: {
+                tfaConfig: null,
             },
         });
-        return rep.success({
-            recoveryCode,
-        });
+        return rep.success({});
     }
 });

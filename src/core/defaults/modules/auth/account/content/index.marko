@@ -158,14 +158,14 @@ import OtpForm from "../../data/otpForm.js"
             </section>
         </hmodal>
         <hmodal
-            key="rescueCodeModal"
-            id="rescueCodeModal"
+            key="recoveryCodeModal"
+            id="recoveryCodeModal"
             close=true
-            title="rescueCodeModalTitle"
+            title="recoveryCodeModalTitle"
             actions=[
                 {
                     id: "close",
-                    label: "rescueCodeModalClose",
+                    label: "recoveryCodeModalClose",
                     class: "button is-light",
                     close: true
                 }
@@ -176,12 +176,12 @@ import OtpForm from "../../data/otpForm.js"
                     order: "2"
                 }>
                 <p>
-                    <t>rescueCodeModalText</t>
+                    <t>recoveryCodeModalText</t>
                 </p>
-                <div class="heretic2faSecretWrap mt-2">${state.rescueCode}</div>
+                <div class="heretic2faSecretWrap mt-2">${state.recoveryCode}</div>
             </section>
         </hmodal>
-        <tfaModal key="tfaModal"/>
+        <tfaModal key="tfaModal" on-code("on2faDisable") on-recovery-code("on2faDisableRecovery")/>
     </if>
     <if(!state.ready && component.mongoEnabled && component.authOptions.signIn)>
         <hloading active=true/>

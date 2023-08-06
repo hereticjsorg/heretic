@@ -58,9 +58,9 @@
     "setup2faErrorAlreadySet": "Two-factor is already configured",
     "setup2faErrorInvalidCode": "Security code is invalid",
     "setup2faSuccess": "Two-factor authorization is configured",
-    "rescueCodeModalTitle": "Rescue Code",
-    "rescueCodeModalClose": "Close",
-    "rescueCodeModalText": "Please write down the code below in a safe place. You can use it to disable the two-factor authorization system in case you lose access to your device. This code is only displayed once, you will not be able to see it later.",
+    "recoveryCodeModalTitle": "Recovery Code",
+    "recoveryCodeModalClose": "Close",
+    "recoveryCodeModalText": "Please write down the code below in a safe place. You can use it to disable the two-factor authorization system in case you lose access to your device. This code is only displayed once, you will not be able to see it later.",
     "tfaConfigured": "Two-factor authorization has been successfully enabled for your account. Each time you authorize on the site, you will need to enter an additional code from the application.",
     "disable2faButton": "Disable 2FA",
     "tfaModalTitle": "One-Time Password",
@@ -70,5 +70,8 @@
     "tfaNoApp": "You don't have access to the app?",
     "tfaGotApp": "Got one-time password?",
     "tfaRecoveryNotice": "In case you don't currently have access to an app where you can get a two-factor authorization code, you can enter a disaster recovery code that will help temporarily disable the two-factor authorization system for your account.",
-    "recovery2faCode": "Recovery code"
+    "recovery2faCode": "Recovery code",
+    "setup2faErrorUnset": "Two-factor authentication is not configured",
+    "remove2faSuccess": "Two-factor authentication is disabled",
+    "remove2faInvalidRescueCode": "Invalid rescue code"
 }

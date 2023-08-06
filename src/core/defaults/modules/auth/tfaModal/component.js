@@ -1,3 +1,4 @@
+import axios from "axios";
 import Utils from "#lib/componentUtils";
 import Cookies from "#lib/cookiesBrowser";
 import moduleConfig from "../module.js";
@@ -57,18 +58,104 @@ export default class {
     }
 
     async onTfaGotAppClick(e) {
-        e.preventDefault();
+        if (e && e.preventDefault) {
+            e.preventDefault();
+        }
         this.setState("view", "2fa");
         await this.utils.waitForComponent("tfaOtpForm");
         setTimeout(() => this.getComponent("tfaOtpForm").focus());
     }
 
-    onRecoveryFormSubmit() {
-        // OK
+    async onRecoveryFormSubmit() {
+        await this.utils.waitForComponent("tfaRecoveryForm");
+        const recoveryForm = this.getComponent("tfaRecoveryForm");
+        const validationResult = recoveryForm.validate(recoveryForm.saveView());
+        if (validationResult) {
+            return recoveryForm.setErrors(recoveryForm.getErrorData(validationResult));
+        }
+        const formData = recoveryForm.serializeData();
+        const {
+            recoveryCode,
+        } = formData.formTabs._default;
+        this.getComponent("tfaModal").setCloseAllowed(false).setLoading(true);
+        try {
+            await axios({
+                method: "post",
+                url: moduleConfig.api.disable2FARecovery,
+                data: {
+                    recoveryCode: recoveryCode.toUpperCase(),
+                },
+                headers: {
+                    Authorization: `Bearer ${this.currentToken}`,
+                },
+            });
+            this.emit("recovery-code", recoveryCode);
+        } catch (err) {
+            let errorMessage = "setup2faError";
+            if (err && err.response && err.response.data && err.response.data.reason) {
+                switch (err.response.data.reason) {
+                case 1:
+                    errorMessage = "setup2faErrorUnset";
+                    break;
+                case 2:
+                    recoveryForm.setErrors([{
+                        id: "recoveryCode",
+                        tab: "_default",
+                    }]);
+                    setTimeout(() => recoveryForm.clearValues());
+                    errorMessage = "remove2faInvalidRescueCode";
+                    break;
+                }
+            }
+            this.getComponent("notify").show(this.t(errorMessage), "is-danger");
+            this.getComponent("tfaModal").setCloseAllowed(true).setLoading(false);
+        }
     }
 
-    onOtpFormSubmit() {
-        // OK
+    async onOtpFormSubmit() {
+        await this.utils.waitForComponent("tfaOtpForm");
+        const otpForm = this.getComponent("tfaOtpForm");
+        const validationResult = otpForm.validate(otpForm.saveView());
+        if (validationResult) {
+            return otpForm.setErrors(otpForm.getErrorData(validationResult));
+        }
+        const formData = otpForm.serializeData();
+        const {
+            code,
+        } = formData.formTabs._default;
+        this.getComponent("tfaModal").setCloseAllowed(false).setLoading(true);
+        try {
+            await axios({
+                method: "post",
+                url: moduleConfig.api.checkOTP,
+                data: {
+                    code,
+                },
+                headers: {
+                    Authorization: `Bearer ${this.currentToken}`,
+                },
+            });
+            this.emit("code", code);
+        } catch (err) {
+            let errorMessage = "setup2faError";
+            if (err && err.response && err.response.data && err.response.data.reason) {
+                switch (err.response.data.reason) {
+                case 1:
+                    errorMessage = "setup2faErrorUnset";
+                    break;
+                case 2:
+                    otpForm.setErrors([{
+                        id: "code",
+                        tab: "_default",
+                    }]);
+                    setTimeout(() => otpForm.clearValues());
+                    errorMessage = "setup2faErrorInvalidCode";
+                    break;
+                }
+            }
+            this.getComponent("notify").show(this.t(errorMessage), "is-danger");
+            this.getComponent("tfaModal").setCloseAllowed(true).setLoading(false);
+        }
     }
 
     onTfaButtonClick(id) {
