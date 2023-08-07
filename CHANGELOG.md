@@ -1,3 +1,14 @@
+## v1.1.63
+
+**Bugfixes** (2023-08-07)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-08-07 | Two-factor authentication fixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-08-07 | NPM Modules Upgrade |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-08-07 | Update package-lock.json |
+
+
 ## v1.1.62
 
 **Bugfixes & New Features** (2023-08-07)
