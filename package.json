@@ -82,7 +82,7 @@
         "lodash.clonedeep": "^4.5.0",
         "lodash.debounce": "^4.0.8",
         "lodash.template": "^4.5.0",
-        "marko": "^5.29.2",
+        "marko": "^5.30.1",
         "mini-css-extract-plugin": "^2.7.6",
         "postcss-csso": "^6.0.1",
         "postcss-loader": "^7.3.3",

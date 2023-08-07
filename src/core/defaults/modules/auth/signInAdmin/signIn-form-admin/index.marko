@@ -45,6 +45,7 @@ import SignInForm from "../../data/signInFormAdmin"
             </div>
         </div>
     </div>
+    <tfaModal key="tfaModal" on-code("on2faCode") on-recovery-code("on2faRecovery")/>
 </div>
 <if(!component.mongoEnabled)>
     <div class="notification is-warning">

@@ -45,13 +45,15 @@ export default () => ({
                 reason: 2,
             });
         }
-        await this.mongo.db.collection(this.systemConfig.collections.users).updateOne({
-            _id: userDb._id,
-        }, {
-            $unset: {
-                tfaConfig: null,
-            },
-        });
+        if (!this.systemConfig.demo) {
+            await this.mongo.db.collection(this.systemConfig.collections.users).updateOne({
+                _id: userDb._id,
+            }, {
+                $unset: {
+                    tfaConfig: null,
+                },
+            });
+        }
         return rep.success({});
     }
 });

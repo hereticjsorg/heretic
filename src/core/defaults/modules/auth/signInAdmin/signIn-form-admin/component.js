@@ -46,8 +46,8 @@ export default class {
             this.systemRoutes = out.global.systemRoutes || window.__heretic.outGlobal.systemRoutes;
         }
         this.utils = new Utils(this, this.language);
-        await import(/* webpackChunkName: "bulma" */ "#site/view/bulma.scss");
-        await import(/* webpackChunkName: "heretic-signIn-admin" */ "./heretic-signIn-admin.scss");
+        await import( /* webpackChunkName: "bulma" */ "#site/view/bulma.scss");
+        await import( /* webpackChunkName: "heretic-signIn-admin" */ "./heretic-signIn-admin.scss");
         await this.loadLanguageData();
     }
 
@@ -78,6 +78,20 @@ export default class {
         this.setState("langOpen", true);
     }
 
+    authErrorHandler(signInForm, e) {
+        if (e && e.response && e.response.data) {
+            if (e.response.data.form) {
+                signInForm.setErrors(signInForm.getErrorData(e.response.data.form));
+            }
+            if (e.response.data.message) {
+                signInForm.setErrorMessage(this.t(e.response.data.message));
+            }
+        } else {
+            signInForm.setErrorMessage(this.t("hform_error_general"));
+        }
+        signInForm.setLoading(false);
+    }
+
     async onFormSubmit() {
         const signInForm = this.getComponent("signInForm");
         signInForm.setErrors(false);
@@ -85,7 +99,8 @@ export default class {
         if (validationResult) {
             return signInForm.setErrors(signInForm.getErrorData(validationResult));
         }
-        const data = signInForm.getFormDataObject(signInForm.serializeData());
+        const serializedData = signInForm.serializeData();
+        const data = signInForm.getFormDataObject(serializedData);
         signInForm.setErrorMessage(null);
         signInForm.setErrors(null);
         signInForm.setLoading(true);
@@ -97,22 +112,52 @@ export default class {
                 headers: {},
             });
             const {
-                token
+                token,
+                needCode,
+            } = res.data;
+            if (needCode) {
+                signInForm.setLoading(false);
+                await this.utils.waitForComponent("tfaModal");
+                const tfaModal = await this.getComponent("tfaModal").getModalInstance();
+                tfaModal.setCloseAllowed(true).setLoading(false).setActive(true);
+                this.getComponent("tfaModal").setCredentials(serializedData.formTabs._default.username, serializedData.formTabs._default.password);
+                this.getComponent("tfaModal").onTfaGotAppClick();
+            } else {
+                this.cookies.set(`${this.siteId}.authToken`, token);
+                window.location.href = `${this.query.get("r") || this.utils.getLocalizedURL(this.systemRoutes.admin) || "/"}`;
+            }
+        } catch (e) {
+            this.authErrorHandler(signInForm, e);
+        }
+    }
+
+    async on2faCode(code) {
+        this.utils.waitForComponent("signInForm");
+        const signInForm = this.getComponent("signInForm");
+        signInForm.setValue("code", code);
+        signInForm.setLoading(true);
+        const data = signInForm.getFormDataObject(signInForm.serializeData());
+        try {
+            const res = await axios({
+                method: "post",
+                url: "/api/signIn",
+                data,
+                headers: {},
+            });
+            const {
+                token,
             } = res.data;
             this.cookies.set(`${this.siteId}.authToken`, token);
-            window.location.href = `${this.query.get("r") || this.utils.getLocalizedURL(this.systemRoutes.admin) || "/"}`;
+            window.location.href = `${this.query.get("r") || this.utils.getLocalizedURL("/") || "/"}`;
         } catch (e) {
-            if (e && e.response && e.response.data) {
-                if (e.response.data.form) {
-                    signInForm.setErrors(signInForm.getErrorData(e.response.data.form));
-                }
-                if (e.response.data.message) {
-                    signInForm.setErrorMessage(this.t(e.response.data.message));
-                }
-            } else {
-                signInForm.setErrorMessage(this.t("hform_error_general"));
-            }
-            signInForm.setLoading(false);
+            this.authErrorHandler(signInForm, e);
         }
+    }
+
+    async on2faRecovery() {
+        await this.utils.waitForComponent("tfaModal");
+        const tfaModal = await this.getComponent("tfaModal").getModalInstance();
+        tfaModal.setCloseAllowed(true).setLoading(false).setActive(false);
+        this.onFormSubmit();
     }
 }

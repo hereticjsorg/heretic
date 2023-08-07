@@ -35,6 +35,16 @@ export default class {
                         label: this.t("submit"),
                         css: "button is-primary is-medium is-fullwidth mt-3"
                     }]
+                }, {
+                    id: "code",
+                    type: "text",
+                    noRender: true,
+                    validation: {
+                        type: ["string", "null"],
+                        pattern: "^[0-9]+$",
+                        minLength: 6,
+                        maxLength: 6,
+                    },
                 }],
             }],
         };
