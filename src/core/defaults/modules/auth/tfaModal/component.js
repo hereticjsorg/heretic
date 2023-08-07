@@ -7,6 +7,8 @@ export default class {
     onCreate(input, out) {
         this.state = {
             view: "2fa",
+            username: null,
+            password: null,
         };
         this.language = out.global.language;
         this.siteTitle = out.global.siteTitle;
@@ -84,6 +86,8 @@ export default class {
                 url: moduleConfig.api.disable2FARecovery,
                 data: {
                     recoveryCode: recoveryCode.toUpperCase(),
+                    username: this.state.username,
+                    password: this.state.password,
                 },
                 headers: {
                     Authorization: `Bearer ${this.currentToken}`,
@@ -103,13 +107,18 @@ export default class {
                         tab: "_default",
                     }]);
                     setTimeout(() => recoveryForm.clearValues());
-                    errorMessage = "remove2faInvalidRescueCode";
+                    errorMessage = "remove2faInvalidRecoveryCode";
                     break;
                 }
             }
             this.getComponent("notify").show(this.t(errorMessage), "is-danger");
             this.getComponent("tfaModal").setCloseAllowed(true).setLoading(false);
         }
+    }
+
+    setCredentials(username, password) {
+        this.setState("username", username);
+        this.setState("password", password);
     }
 
     async onOtpFormSubmit() {
@@ -130,6 +139,8 @@ export default class {
                 url: moduleConfig.api.checkOTP,
                 data: {
                     code,
+                    username: this.state.username,
+                    password: this.state.password,
                 },
                 headers: {
                     Authorization: `Bearer ${this.currentToken}`,

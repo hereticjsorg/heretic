@@ -72,8 +72,7 @@ export default class {
                 }
             }
         }
-
-        const filesFields = Object.keys(this.fields).find(k => this.fields[k].type === "files");
+        const filesFields = Object.keys(this.fields).find(k => this.fields[k] && this.fields[k].type === "files");
         for (const ff of (Array.isArray(filesFields) ? filesFields : [filesFields])) {
             const filesSchema = this.schema.properties[ff];
             for (const tab of this.tabs) {
@@ -128,7 +127,9 @@ export default class {
             for (const tab of this.tabs) {
                 if (this.data[tab]) {
                     for (const k of Object.keys(this.data[tab])) {
-                        this.data[tab][k] = this.processValue(this.fields[k].type, this.data[tab][k]);
+                        if (this.fields[k]) {
+                            this.data[tab][k] = this.processValue(this.fields[k].type, this.data[tab][k]);
+                        }
                     }
                 }
             }

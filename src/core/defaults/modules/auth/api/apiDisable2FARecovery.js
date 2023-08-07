@@ -12,20 +12,29 @@ const recoveryFormValidation = ajv.compile(recoveryFormValidationSchema);
 export default () => ({
     async handler(req, rep) {
         const authData = await req.auth.getData(req.auth.methods.COOKIE);
-        if (!authData) {
-            return rep.error({
-                message: "Access Denied",
-            }, 403);
-        }
         const validationResult = recoveryFormValidation(req.body);
         if (!validationResult) {
             return rep.error({
                 form: recoveryFormValidation.errors,
             });
         }
-        const userDb = await this.mongo.db.collection(this.systemConfig.collections.users).findOne({
-            _id: authData._id,
-        });
+        let userDb;
+        if (!authData) {
+            userDb = req.body.username && req.body.password ? await req.auth.authorize(req.body.username, req.body.password) : null;
+            if (!userDb) {
+                await req.addEvent("loginFail", {}, {
+                    username: req.body.username,
+                    password: req.body.password,
+                });
+                return rep.error({
+                    message: "error_invalid_credentials"
+                }, 403);
+            }
+        } else {
+            userDb = await this.mongo.db.collection(this.systemConfig.collections.users).findOne({
+                _id: authData._id,
+            });
+        }
         if (!userDb.tfaConfig) {
             return rep.error({
                 reason: 1,
@@ -37,7 +46,7 @@ export default () => ({
             });
         }
         await this.mongo.db.collection(this.systemConfig.collections.users).updateOne({
-            _id: authData._id,
+            _id: userDb._id,
         }, {
             $unset: {
                 tfaConfig: null,

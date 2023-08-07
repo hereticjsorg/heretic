@@ -1,514 +1,515 @@
 import { mdiReload, mdiPlus, mdiTrashCanOutline, mdiPencilOutline } from "@mdi/js"
 import { format } from "date-fns"
 
-<!-- Text Field: Start -->
-<if(input.type === "text")>
-    <div>
-        <div class="field">
-            <label class="label hr-hf-label">
-                ${input.label || ""}<span>:</span>
-                <if(input.mandatory)>
-                    &nbsp;<span class="hr-hf-label-mandatory">✱</span>
-                </if>
-            </label>
-            <div class="control" no-update>
-                <input id=`hr_hf_el_${input.formId}_${input.id}` class="input hr-hf-text-input" type=(input.fieldType || "text") placeholder=(input.placeholder || "")/>
-            </div>
-            <if(state.error)>
-                <div class="hr-hf-error-wrap">
-                    <p class="tag is-danger hr-hf-error-tag">${state.error}</p>
-                </div>
-            </if>
-            <if(input.helpText)>
-                <p class="help">${input.helpText}</p>
-            </if>
-        </div>
-    </div>
-</if>
-<!-- Text Field: End -->
-<!-- Textarea Field: Start -->
-<if(input.type === "textarea")>
-    <div>
-        <div class="field">
-            <label class=`label hr-hf-label${state.error ? " has-text-danger" : ""}`>
-                ${input.label || ""}<span>:</span>
-                <if(input.mandatory)>
-                    &nbsp;<span class="hr-hf-label-mandatory">✱</span>
-                </if>
-            </label>
-            <div class="control" no-update>
-                <textarea id=`hr_hf_el_${input.formId}_${input.id}` class=`input hr-hf-text-input ${input.elementStyle || ""}` placeholder=(input.placeholder || "")/>
-            </div>
-            <if(state.error)>
-                <div class="hr-hf-error-wrap">
-                    <p class="tag is-danger hr-hf-error-tag">${state.error}</p>
-                </div>
-            </if>
-            <if(input.helpText)>
-                <p class="help">${input.helpText}</p>
-            </if>
-        </div>
-    </div>
-</if>
-<!-- Textarea Field: End -->
-<!-- Buttons: Start -->
-<if(input.type === "buttons")>
-    <div class=`buttons ${input.css || ""}`>
-        <for|item| of=input.items>
-            <button id=`hr_hf_el_${input.formId}_${input.id}_${item.id}` class=(item.css || "") type=item.type data-type=item.type data-id=item.id on-click("onButtonClick")>${item.label}</button>
-        </for>
-    </div>
-</if>
-<!-- Buttons: End -->
-<!-- Select: Start -->
-<if(input.type === "select")>
-    <div>
-        <div class="field">
-            <label class="label hr-hf-label">
-                ${input.label || ""}<span>:</span>
-                <if(input.mandatory)>
-                    &nbsp;<span class="hr-hf-label-mandatory">✱</span>
-                </if>
-            </label>
-            <div class="control">
-                <div class="select is-fullwidth">
-                    <select id=`hr_hf_el_${input.formId}_${input.id}` on-change("onSelectChange") value=state.value>
-                        <for|o| of=input.options>
-                            <option value=o.value selected=(o.value === state.value)>${o.label}</option>
-                        </for>
-                    </select>
-                </div>
-            </div>
-            <if(state.error)>
-                <div class="hr-hf-error-wrap">
-                    <p class="tag is-danger hr-hf-error-tag">${state.error}</p>
-                </div>
-            </if>
-            <if(input.helpText)>
-                <p class="help">${input.helpText}</p>
-            </if>
-        </div>
-    </div>
-</if>
-<!-- Select: End -->
-<!-- Files: Start -->
-<if(input.type === "files")>
-    <div>
-        <div class="field">
-            <label class="label hr-hf-label">
-                ${input.label || ""}<span>:</span>
-                <if(input.mandatory)>
-                    &nbsp;<span class="hr-hf-label-mandatory">✱</span>
-                </if>
-            </label>
-            <div
-                class="control"
-                style={
-                    display: "inline-block"
-                }>
-                <label class="file-label">
-                    <input class="file-input" type="file" multiple=(input.multiple || false) data-id=input.id on-change("onFileInputChange")/>
-                    <a class="hr-hf-file-cta file-cta button is-light" tabindex="0">
-                        <span class="file-label">${input.buttonLabel}</span>
-                    </a>
-                </label>
-            </div>
-            <if(state.value && state.value.length)>
-                <div class="mt-2">
-                    <for|f| of=state.value>
-                        <div>
-                            <button class="delete is-small mt-1 mr-2" data-uid=f.uid on-click("onFileInputDeleteClick")/>
-                            <if(input.download && !f.data)>
-                                <a class="is-underlined" href=`${input.download}?id=${f.uid}&language=${out.global.language || window.__heretic.outGlobal.language}&_=${Math.floor(Date.now())}` target="_blank">${f.name}</a>
-                            </if>
-                            <else>${f.name}</else>
-                        </div>
-                    </for>
-                </div>
-            </if>
-            <if(state.error)>
-                <div class="hr-hf-error-wrap">
-                    <p class="tag is-danger mt-2">${state.error}</p>
-                </div>
-            </if>
-            <if(input.helpText)>
-                <p class="help">${input.helpText}</p>
-            </if>
-        </div>
-    </div>
-</if>
-<!-- Files: End -->
-<!-- Captcha Field: Start -->
-<if(input.type === "captcha")>
-    <div>
-        <div class="field">
-            <label class="label hr-hf-label">
-                ${input.label || ""}<span>:</span>
-                <if(input.mandatory)>
-                    &nbsp;<span class="hr-hf-label-mandatory">✱</span>
-                </if>
-            </label>
-            <div class="field has-addons mb-1">
-                <div class="control" no-update>
-                    <input id=`hr_hf_el_${input.formId}_${input.id}` class="input hr-hf-text-input hr-hf-captcha-input" type="text" placeholder=(input.placeholder || "")/>
-                </div>
-                <div class="hr-hf-captcha-image" on-click("onCaptchaImageClick") id=`hr_hf_ci_${input.formId}_${input.id}` no-update/>
-                <div class="hr-hf-captcha-image-reload" on-click("onCaptchaImageClick")>
-                    <svg viewBox="0 0 24 24" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
-                        <path d=mdiReload/>
-                    </svg>
-                </div>
-            </div>
-            <if(state.error)>
-                <div class="hr-hf-error-wrap-captcha">
-                    <p class="tag is-danger hr-hf-error-tag">${state.error}</p>
-                </div>
-            </if>
-            <if(input.helpText)>
-                <p class="help">${input.helpText}</p>
-            </if>
-        </div>
-    </div>
-</if>
-<!-- Captcha Field: End -->
-<!-- Date Picker Field: Start -->
-<if(input.type === "date")>
-    <div>
-        <div class="field">
-            <label class="label hr-hf-label">
-                ${input.label || ""}<span>:</span>
-                <if(input.mandatory)>
-                    &nbsp;<span class="hr-hf-label-mandatory">✱</span>
-                </if>
-            </label>
-            <div class="control" id=`hr_hf_el_${input.formId}_${input.id}_input_wrap` no-update>
-                <input on-focus("onDateInputFocus") id=`hr_hf_el_${input.formId}_${input.id}` class="input hr-hf-text-input input hr-hf-date-input" type="text" on-keypress("onCalendarInputKeypress") on-keydown("onCalendarInputKeydown")/>
-            </div>
-            <if(state.calendarVisible)>
-                <div class=`hr-hf-calendar-wrap ${input.calendarWrapClass || ""}` id=`hr_hf_el_${input.formId}_${input.id}_calendar_wrap`>
-                    <hcalendar admin=input.admin key=`hr_hf_el_${input.formId}_${input.id}_calendar` on-date-change("onCalendarDateChange")/>
-                </div>
-            </if>
-            <if(state.error)>
-                <div class="hr-hf-error-wrap">
-                    <p class="tag is-danger hr-hf-error-tag">${state.error}</p>
-                </div>
-            </if>
-            <if(input.helpText)>
-                <p class="help">${input.helpText}</p>
-            </if>
-        </div>
-    </div>
-</if>
-<!-- Date Picker Field: End -->
-<!-- WYSIWYG Field: Start -->
-<if(input.type === "wysiwyg")>
-    <div>
-        <div class="field">
-            <label class="label hr-hf-label">
-                ${input.label || ""}<span>:</span>
-                <if(input.mandatory)>
-                    &nbsp;<span class="hr-hf-label-mandatory">✱</span>
-                </if>
-            </label>
-            <div class="control">
-                <hwysiwyg admin=input.admin key=`hr_hf_el_${input.formId}_${input.id}_wysiwyg` on-value-change("onWYSIWYGValueChange") formId=input.formId id=input.id/>
-            </div>
-            <if(state.error)>
-                <div class="hr-hf-error-wrap">
-                    <p class="tag is-danger hr-hf-error-tag">${state.error}</p>
-                </div>
-            </if>
-            <if(input.helpText)>
-                <p class="help">${input.helpText}</p>
-            </if>
-        </div>
-    </div>
-</if>
-<!-- WYSIWYG Field: End -->
-<!-- Password Field: Start -->
-<if(input.type === "password")>
-    <div>
-        <div class="field">
-            <label class="label hr-hf-label">
-                ${input.label || ""}<span>:</span>
-                <if(input.mandatory)>
-                    &nbsp;<span class="hr-hf-label-mandatory">✱</span>
-                </if>
-            </label>
-            <div class="control">
-                <div class="columns is-variable is-1 is-mobile" no-update>
-                    <div class="column">
-                        <input id=`hr_hf_el_${input.formId}_${input.id}` class="input hr-hf-text-input" type="password"/>
-                    </div>
-                    <div class="column">
-                        <input id=`hr_hf_el_${input.formId}_${input.id}_repeat` class="input hr-hf-text-input" type="password"/>
-                    </div>
-                </div>
-                <if(state.error)>
-                    <div class="hr-hf-error-password-wrap">
-                        <p class="tag is-danger hr-hf-error-tag">${state.error}</p>
-                    </div>
-                </if>
-            </div>
-            <if(input.helpText)>
-                <p class="help">${input.helpText}</p>
-            </if>
-            <if(input.passwordPolicy && state.passwordPolicyData && state.passwordPolicyData.length)>
-                <div class="tags mt-2">
-                    <for|item| of=state.passwordPolicyData>
-                        <span class=`tag is-light ${item.type}`>${process.browser && window.__heretic ? window.__heretic.t(item.label) : ""}${item.data !== null ? `: ${item.data}` : ""}</span>
-                    </for>
-                </div>
-            </if>
-        </div>
-    </div>
-</if>
-<!-- Password Field: End -->
-<!-- Key-Value Field: Start -->
-<if(input.type === "keyValue")>
-    <div>
-        <div class="field">
-            <label class="label hr-hf-label">
-                ${input.label || ""}<span>:</span>
-                <if(input.mandatory)>
-                    &nbsp;<span class="hr-hf-label-mandatory">✱</span>
-                </if>
-            </label>
-            <div class="control">
-                <button on-click("onKeyValueAddClick") class="button is-small is-light">
-                    <span class="hr-hf-top-button-icon">
-                        <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                            <path d=mdiPlus/>
-                        </svg>
-                    </span>
-                    <span>
-                        <t>hform_keyValueAdd</t>
-                    </span>
-                </button>
-                <if(state.value && state.value.length)>
-                    <div class="mt-3 pt-3 mb-3">
-                        <for|item| of=state.value>
-                            <div class="columns is-variable is-1 is-mobile is-vcentered hr-hf-keyValue-row pl-1 pr-2">
-                                <div class="column is-auto">${item.title}</div>
-                                <div class="column is-narrow">
-                                    <span class="tag">${item.valueLabel}</span>
-                                </div>
-                                <div class="column is-narrow">
-                                    <button class="mr-1 button is-small hr-hf-action-button is-light" data-uid=item.uid on-click("onKeyValueItemEditClick") data-tippy-content=(process.browser && window.__heretic ? window.__heretic.t("hform_edit") : null)>
-                                        <span class="hr-hf-settings-icon icon">
-                                            <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                                                <path d=mdiPencilOutline/>
-                                            </svg>
-                                        </span>
-                                    </button>
-                                    <button class="button is-small hr-hf-action-button is-danger" data-uid=item.uid on-click("onKeyValueItemDeleteClick") data-tippy-content=(process.browser && window.__heretic ? window.__heretic.t("hform_delete") : null)>
-                                        <span class="hr-hf-settings-icon hr-hf-action-icon-danger icon">
-                                            <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                                                <path d=mdiTrashCanOutline/>
-                                            </svg>
-                                        </span>
-                                    </button>
-                                </div>
-                            </div>
-                        </for>
-                    </div>
-                </if>
-            </div>
-            <if(state.error)>
-                <div class="hr-hf-error-wrap">
-                    <p class="tag is-danger hr-hf-error-tag">${state.error}</p>
-                </div>
-            </if>
-            <if(input.helpText)>
-                <p class="help">${input.helpText}</p>
-            </if>
-        </div>
-    </div>
-</if>
-<!-- Key-Value Field: End -->
-<!-- Tags Field: Start -->
-<if(input.type === "tags")>
-    <div class="mb-4">
-        <div class="field">
-            <div class="label hr-hf-label columns is-vcentered p-0 m-0 is-variable is-1 is-mobile p-0 m-0">
-                <div class="column is-auto p-0 m-0">
-                    ${input.label || ""}<span>:</span>
-                    <if(input.mandatory)>
-                        &nbsp;<span class="hr-hf-label-mandatory">✱</span>
-                    </if>
-                </div>
-                <if(input.enumValues && input.enumValues.length && input.enumButton)>
-                    <div class="column is-narrow p-0 m-0">
-                        <button on-click("onTagAddClick") class="button is-small is-light hr-hf-label-button">
-                            <span>
-                                <t>hform_tagAdd</t>
-                            </span>
-                        </button>
-                    </div>
-                </if>
-            </div>
-            <div class="control">
-                <div class=`input columns is-vcentered is-multiline is-mobile hr-hf-tags-wrap mt-2 is-variable is-1${state.error ? " is-danger" : ""}` on-click("onTagsWrapClick") id=`hr_hf_el_${input.formId}_${input.id}_wrap` key=`hr_hf_el_${input.formId}_${input.id}_wrap`>
-                    <for|tag, index| of=(state.value || [])>
-                        <div class="column is-narrow hr-hf-tag-wrap p-0">
-                            <div class="tags has-addons">
-                                <span class="tag is-info mb-0">${tag}</span>
-                                <a class="tag is-delete mb-0 hr-hf-tag-delete" on-click("onTagCloseClick") data-index=index/>
-                            </div>
-                        </div>
-                    </for>
-                    <div class="column is-auto p-0">
-                        <input id=`hr_hf_el_${input.formId}_${input.id}` on-focus("onTagsInputFocus") on-blur("onTagsInputBlur") on-keydown("onTagsInputKeyDown") on-keypress("onTagsInputKeyPress") class="input hr-hf-tags-input p-0" no-update/>
-                        <if(input.enumDropdown && state.enumList && state.enumList.length)>
-                            <div class="hr-hf-tags-enum-wrap">
-                                <div class="menu">
-                                    <ul class="menu-list">
-                                        <for|item| of=state.enumList>
-                                            <li on-click("onEnumItemClick")>
-                                                <a data-id=item.id>${item.label}</a>
-                                            </li>
-                                        </for>
-                                    </ul>
-                                </div>
-                            </div>
-                        </if>
-                    </div>
-                </div>
-            </div>
-            <if(state.error)>
-                <div class="hr-hf-error-tags-wrap">
-                    <p class="tag is-danger hr-hf-error-tag">${state.error}</p>
-                </div>
-            </if>
-            <if(input.helpText)>
-                <p class="help">${input.helpText}</p>
-            </if>
-        </div>
-    </div>
-</if>
-<!-- Tags Field: End -->
-<!-- Log: Start -->
-<if(input.type === "log")>
-    <div>
-        <div class="field">
-            <label class="label hr-hf-label">
-                ${input.label || ""}<span>:</span>
-                <if(input.mandatory)>
-                    &nbsp;<span class="hr-hf-label-mandatory">✱</span>
-                </if>
-            </label>
-            <div class="control">
-                <button on-click("onLogAddClick") class="button is-small is-light">
-                    <span class="hr-hf-top-button-icon">
-                        <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                            <path d=mdiPlus/>
-                        </svg>
-                    </span>
-                    <span>
-                        <t>hform_logAdd</t>
-                    </span>
-                </button>
-                <if(state.value && state.value.length)>
-                    <div class="mt-2 pt-3">
-                        <table class="table is-narrow is-striped hr-hf-log-values-table">
-                            <tbody>
-                                <for|item| of=state.value>
-                                    <tr>
-                                        <td class="is-narrow has-text-center">${item.logDate ? format(new Date(item.logDate * 1000), window.__heretic.t("global.dateFormatShort")) : "—"}</td>
-                                        <td class="is-narrow">${process.browser && window.__heretic ? window.__heretic.t(`logValue.${item.logStatus}`) || "—" : "—"}</td>
-                                        <td>${item.logValue || "—"}</td>
-                                        <td class="is-narrow">
-                                            <button class="mr-1 button is-small hr-hf-action-button is-light" data-uid=item.uid on-click("onLogItemEditClick") data-tippy-content=(process.browser && window.__heretic ? window.__heretic.t("hform_edit") : null)>
-                                                <span class="hr-hf-settings-icon icon">
-                                                    <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d=mdiPencilOutline/>
-                                                    </svg>
-                                                </span>
-                                            </button>
-                                            <button class="button is-small hr-hf-action-button is-danger" data-uid=item.uid on-click("onLogItemDeleteClick") data-tippy-content=(process.browser && window.__heretic ? window.__heretic.t("hform_delete") : null)>
-                                                <span class="hr-hf-settings-icon hr-hf-action-icon-danger icon">
-                                                    <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d=mdiTrashCanOutline/>
-                                                    </svg>
-                                                </span>
-                                            </button>
-                                        </td>
-                                    </tr> 
-                                </for>
-                            </tbody>
-                        </table>
-                    </div>
-                </if>
-            </div>
-            <if(state.error)>
-                <div class="hr-hf-error-wrap">
-                    <p class="tag is-danger hr-hf-error-tag">${state.error}</p>
-                </div>
-            </if>
-            <if(input.helpText)>
-                <p class="help">${input.helpText}</p>
-            </if>
-        </div>
-    </div>
-</if>
-<!-- Log: End -->
-<!-- Div: Start -->
-<if(input.type === "div")>
-    <div>
-        <div class="field">
-            <if(input.label)>
+<if(!input.noRender)>
+    <!-- Text Field: Start -->
+    <if(input.type === "text")>
+        <div>
+            <div class="field">
                 <label class="label hr-hf-label">
                     ${input.label || ""}<span>:</span>
                     <if(input.mandatory)>
                         &nbsp;<span class="hr-hf-label-mandatory">✱</span>
                     </if>
                 </label>
-            </if>
-            <div class=`control ${input.divClass || ""}` id=`hr_hf_el_${input.formId}_${input.id}` no-update/>
-            <if(state.error)>
-                <div class="hr-hf-error-wrap">
-                    <p class="tag is-danger hr-hf-error-tag">${state.error}</p>
+                <div class="control" no-update>
+                    <input id=`hr_hf_el_${input.formId}_${input.id}` class="input hr-hf-text-input" type=(input.fieldType || "text") placeholder=(input.placeholder || "")/>
                 </div>
-            </if>
-            <if(input.helpText)>
-                <p class="help">${input.helpText}</p>
-            </if>
+                <if(state.error)>
+                    <div class="hr-hf-error-wrap">
+                        <p class="tag is-danger hr-hf-error-tag">${state.error}</p>
+                    </div>
+                </if>
+                <if(input.helpText)>
+                    <p class="help">${input.helpText}</p>
+                </if>
+            </div>
         </div>
-    </div>
-</if>
-<!-- Div: End -->
-<!-- Message: Start -->
-<if(input.type === "message")>
-    <div>
-        <div class="field">
-            <div class=`control ${input.messageClass || ""}` id=`hr_hf_el_${input.formId}_${input.id}`>${input.content}</div>
-        </div>
-    </div>
-</if>
-<!-- Message: End -->
-<!-- Checkbox: Start -->
-<if(input.type === "checkbox")>
-    <div>
-        <div class="field">
-            <div class="control" no-update>
-                <label class="checkbox">
-                    <input id=`hr_hf_el_${input.formId}_${input.id}` class="hr-hf-form-checkbox" type="checkbox"/>
-                    ${input.label || ""}
+    </if>
+    <!-- Text Field: End -->
+    <!-- Textarea Field: Start -->
+    <if(input.type === "textarea")>
+        <div>
+            <div class="field">
+                <label class=`label hr-hf-label${state.error ? " has-text-danger" : ""}`>
+                    ${input.label || ""}<span>:</span>
                     <if(input.mandatory)>
                         &nbsp;<span class="hr-hf-label-mandatory">✱</span>
                     </if>
                 </label>
-            </div>
-            <if(state.error)>
-                <div class="hr-hf-error-wrap">
-                    <p class="tag is-danger hr-hf-error-tag">${state.error}</p>
+                <div class="control" no-update>
+                    <textarea id=`hr_hf_el_${input.formId}_${input.id}` class=`input hr-hf-text-input ${input.elementStyle || ""}` placeholder=(input.placeholder || "")/>
                 </div>
-            </if>
-            <if(input.helpText)>
-                <p class="help">${input.helpText}</p>
-            </if>
+                <if(state.error)>
+                    <div class="hr-hf-error-wrap">
+                        <p class="tag is-danger hr-hf-error-tag">${state.error}</p>
+                    </div>
+                </if>
+                <if(input.helpText)>
+                    <p class="help">${input.helpText}</p>
+                </if>
+            </div>
         </div>
-    </div>
+    </if>
+    <!-- Textarea Field: End -->
+    <!-- Buttons: Start -->
+    <if(input.type === "buttons")>
+        <div class=`buttons ${input.css || ""}`>
+            <for|item| of=input.items>
+                <button id=`hr_hf_el_${input.formId}_${input.id}_${item.id}` class=(item.css || "") type=item.type data-type=item.type data-id=item.id on-click("onButtonClick")>${item.label}</button>
+            </for>
+        </div>
+    </if>
+    <!-- Buttons: End -->
+    <!-- Select: Start -->
+    <if(input.type === "select")>
+        <div>
+            <div class="field">
+                <label class="label hr-hf-label">
+                    ${input.label || ""}<span>:</span>
+                    <if(input.mandatory)>
+                        &nbsp;<span class="hr-hf-label-mandatory">✱</span>
+                    </if>
+                </label>
+                <div class="control">
+                    <div class="select is-fullwidth">
+                        <select id=`hr_hf_el_${input.formId}_${input.id}` on-change("onSelectChange") value=state.value>
+                            <for|o| of=input.options>
+                                <option value=o.value selected=(o.value === state.value)>${o.label}</option>
+                            </for>
+                        </select>
+                    </div>
+                </div>
+                <if(state.error)>
+                    <div class="hr-hf-error-wrap">
+                        <p class="tag is-danger hr-hf-error-tag">${state.error}</p>
+                    </div>
+                </if>
+                <if(input.helpText)>
+                    <p class="help">${input.helpText}</p>
+                </if>
+            </div>
+        </div>
+    </if>
+    <!-- Select: End -->
+    <!-- Files: Start -->
+    <if(input.type === "files")>
+        <div>
+            <div class="field">
+                <label class="label hr-hf-label">
+                    ${input.label || ""}<span>:</span>
+                    <if(input.mandatory)>
+                        &nbsp;<span class="hr-hf-label-mandatory">✱</span>
+                    </if>
+                </label>
+                <div
+                    class="control"
+                    style={
+                        display: "inline-block"
+                    }>
+                    <label class="file-label">
+                        <input class="file-input" type="file" multiple=(input.multiple || false) data-id=input.id on-change("onFileInputChange")/>
+                        <a class="hr-hf-file-cta file-cta button is-light" tabindex="0">
+                            <span class="file-label">${input.buttonLabel}</span>
+                        </a>
+                    </label>
+                </div>
+                <if(state.value && state.value.length)>
+                    <div class="mt-2">
+                        <for|f| of=state.value>
+                            <div>
+                                <button class="delete is-small mt-1 mr-2" data-uid=f.uid on-click("onFileInputDeleteClick")/>
+                                <if(input.download && !f.data)>
+                                    <a class="is-underlined" href=`${input.download}?id=${f.uid}&language=${out.global.language || window.__heretic.outGlobal.language}&_=${Math.floor(Date.now())}` target="_blank">${f.name}</a>
+                                </if>
+                                <else>${f.name}</else>
+                            </div>
+                        </for>
+                    </div>
+                </if>
+                <if(state.error)>
+                    <div class="hr-hf-error-wrap">
+                        <p class="tag is-danger mt-2">${state.error}</p>
+                    </div>
+                </if>
+                <if(input.helpText)>
+                    <p class="help">${input.helpText}</p>
+                </if>
+            </div>
+        </div>
+    </if>
+    <!-- Files: End -->
+    <!-- Captcha Field: Start -->
+    <if(input.type === "captcha")>
+        <div>
+            <div class="field">
+                <label class="label hr-hf-label">
+                    ${input.label || ""}<span>:</span>
+                    <if(input.mandatory)>
+                        &nbsp;<span class="hr-hf-label-mandatory">✱</span>
+                    </if>
+                </label>
+                <div class="field has-addons mb-1">
+                    <div class="control" no-update>
+                        <input id=`hr_hf_el_${input.formId}_${input.id}` class="input hr-hf-text-input hr-hf-captcha-input" type="text" placeholder=(input.placeholder || "")/>
+                    </div>
+                    <div class="hr-hf-captcha-image" on-click("onCaptchaImageClick") id=`hr_hf_ci_${input.formId}_${input.id}` no-update/>
+                    <div class="hr-hf-captcha-image-reload" on-click("onCaptchaImageClick")>
+                        <svg viewBox="0 0 24 24" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
+                            <path d=mdiReload/>
+                        </svg>
+                    </div>
+                </div>
+                <if(state.error)>
+                    <div class="hr-hf-error-wrap-captcha">
+                        <p class="tag is-danger hr-hf-error-tag">${state.error}</p>
+                    </div>
+                </if>
+                <if(input.helpText)>
+                    <p class="help">${input.helpText}</p>
+                </if>
+            </div>
+        </div>
+    </if>
+    <!-- Captcha Field: End -->
+    <!-- Date Picker Field: Start -->
+    <if(input.type === "date")>
+        <div>
+            <div class="field">
+                <label class="label hr-hf-label">
+                    ${input.label || ""}<span>:</span>
+                    <if(input.mandatory)>
+                        &nbsp;<span class="hr-hf-label-mandatory">✱</span>
+                    </if>
+                </label>
+                <div class="control" id=`hr_hf_el_${input.formId}_${input.id}_input_wrap` no-update>
+                    <input on-focus("onDateInputFocus") id=`hr_hf_el_${input.formId}_${input.id}` class="input hr-hf-text-input input hr-hf-date-input" type="text" on-keypress("onCalendarInputKeypress") on-keydown("onCalendarInputKeydown")/>
+                </div>
+                <if(state.calendarVisible)>
+                    <div class=`hr-hf-calendar-wrap ${input.calendarWrapClass || ""}` id=`hr_hf_el_${input.formId}_${input.id}_calendar_wrap`>
+                        <hcalendar admin=input.admin key=`hr_hf_el_${input.formId}_${input.id}_calendar` on-date-change("onCalendarDateChange")/>
+                    </div>
+                </if>
+                <if(state.error)>
+                    <div class="hr-hf-error-wrap">
+                        <p class="tag is-danger hr-hf-error-tag">${state.error}</p>
+                    </div>
+                </if>
+                <if(input.helpText)>
+                    <p class="help">${input.helpText}</p>
+                </if>
+            </div>
+        </div>
+    </if>
+    <!-- Date Picker Field: End -->
+    <!-- WYSIWYG Field: Start -->
+    <if(input.type === "wysiwyg")>
+        <div>
+            <div class="field">
+                <label class="label hr-hf-label">
+                    ${input.label || ""}<span>:</span>
+                    <if(input.mandatory)>
+                        &nbsp;<span class="hr-hf-label-mandatory">✱</span>
+                    </if>
+                </label>
+                <div class="control">
+                    <hwysiwyg admin=input.admin key=`hr_hf_el_${input.formId}_${input.id}_wysiwyg` on-value-change("onWYSIWYGValueChange") formId=input.formId id=input.id/>
+                </div>
+                <if(state.error)>
+                    <div class="hr-hf-error-wrap">
+                        <p class="tag is-danger hr-hf-error-tag">${state.error}</p>
+                    </div>
+                </if>
+                <if(input.helpText)>
+                    <p class="help">${input.helpText}</p>
+                </if>
+            </div>
+        </div>
+    </if>
+    <!-- WYSIWYG Field: End -->
+    <!-- Password Field: Start -->
+    <if(input.type === "password")>
+        <div>
+            <div class="field">
+                <label class="label hr-hf-label">
+                    ${input.label || ""}<span>:</span>
+                    <if(input.mandatory)>
+                        &nbsp;<span class="hr-hf-label-mandatory">✱</span>
+                    </if>
+                </label>
+                <div class="control">
+                    <div class="columns is-variable is-1 is-mobile" no-update>
+                        <div class="column">
+                            <input id=`hr_hf_el_${input.formId}_${input.id}` class="input hr-hf-text-input" type="password"/>
+                        </div>
+                        <div class="column">
+                            <input id=`hr_hf_el_${input.formId}_${input.id}_repeat` class="input hr-hf-text-input" type="password"/>
+                        </div>
+                    </div>
+                    <if(state.error)>
+                        <div class="hr-hf-error-password-wrap">
+                            <p class="tag is-danger hr-hf-error-tag">${state.error}</p>
+                        </div>
+                    </if>
+                </div>
+                <if(input.helpText)>
+                    <p class="help">${input.helpText}</p>
+                </if>
+                <if(input.passwordPolicy && state.passwordPolicyData && state.passwordPolicyData.length)>
+                    <div class="tags mt-2">
+                        <for|item| of=state.passwordPolicyData>
+                            <span class=`tag is-light ${item.type}`>${process.browser && window.__heretic ? window.__heretic.t(item.label) : ""}${item.data !== null ? `: ${item.data}` : ""}</span>
+                        </for>
+                    </div>
+                </if>
+            </div>
+        </div>
+    </if>
+    <!-- Password Field: End -->
+    <!-- Key-Value Field: Start -->
+    <if(input.type === "keyValue")>
+        <div>
+            <div class="field">
+                <label class="label hr-hf-label">
+                    ${input.label || ""}<span>:</span>
+                    <if(input.mandatory)>
+                        &nbsp;<span class="hr-hf-label-mandatory">✱</span>
+                    </if>
+                </label>
+                <div class="control">
+                    <button on-click("onKeyValueAddClick") class="button is-small is-light">
+                        <span class="hr-hf-top-button-icon">
+                            <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                <path d=mdiPlus/>
+                            </svg>
+                        </span>
+                        <span>
+                            <t>hform_keyValueAdd</t>
+                        </span>
+                    </button>
+                    <if(state.value && state.value.length)>
+                        <div class="mt-3 pt-3 mb-3">
+                            <for|item| of=state.value>
+                                <div class="columns is-variable is-1 is-mobile is-vcentered hr-hf-keyValue-row pl-1 pr-2">
+                                    <div class="column is-auto">${item.title}</div>
+                                    <div class="column is-narrow">
+                                        <span class="tag">${item.valueLabel}</span>
+                                    </div>
+                                    <div class="column is-narrow">
+                                        <button class="mr-1 button is-small hr-hf-action-button is-light" data-uid=item.uid on-click("onKeyValueItemEditClick") data-tippy-content=(process.browser && window.__heretic ? window.__heretic.t("hform_edit") : null)>
+                                            <span class="hr-hf-settings-icon icon">
+                                                <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d=mdiPencilOutline/>
+                                                </svg>
+                                            </span>
+                                        </button>
+                                        <button class="button is-small hr-hf-action-button is-danger" data-uid=item.uid on-click("onKeyValueItemDeleteClick") data-tippy-content=(process.browser && window.__heretic ? window.__heretic.t("hform_delete") : null)>
+                                            <span class="hr-hf-settings-icon hr-hf-action-icon-danger icon">
+                                                <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d=mdiTrashCanOutline/>
+                                                </svg>
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </for>
+                        </div>
+                    </if>
+                </div>
+                <if(state.error)>
+                    <div class="hr-hf-error-wrap">
+                        <p class="tag is-danger hr-hf-error-tag">${state.error}</p>
+                    </div>
+                </if>
+                <if(input.helpText)>
+                    <p class="help">${input.helpText}</p>
+                </if>
+            </div>
+        </div>
+    </if>
+    <!-- Key-Value Field: End -->
+    <!-- Tags Field: Start -->
+    <if(input.type === "tags")>
+        <div class="mb-4">
+            <div class="field">
+                <div class="label hr-hf-label columns is-vcentered p-0 m-0 is-variable is-1 is-mobile p-0 m-0">
+                    <div class="column is-auto p-0 m-0">
+                        ${input.label || ""}<span>:</span>
+                        <if(input.mandatory)>
+                            &nbsp;<span class="hr-hf-label-mandatory">✱</span>
+                        </if>
+                    </div>
+                    <if(input.enumValues && input.enumValues.length && input.enumButton)>
+                        <div class="column is-narrow p-0 m-0">
+                            <button on-click("onTagAddClick") class="button is-small is-light hr-hf-label-button">
+                                <span>
+                                    <t>hform_tagAdd</t>
+                                </span>
+                            </button>
+                        </div>
+                    </if>
+                </div>
+                <div class="control">
+                    <div class=`input columns is-vcentered is-multiline is-mobile hr-hf-tags-wrap mt-2 is-variable is-1${state.error ? " is-danger" : ""}` on-click("onTagsWrapClick") id=`hr_hf_el_${input.formId}_${input.id}_wrap` key=`hr_hf_el_${input.formId}_${input.id}_wrap`>
+                        <for|tag, index| of=(state.value || [])>
+                            <div class="column is-narrow hr-hf-tag-wrap p-0">
+                                <div class="tags has-addons">
+                                    <span class="tag is-info mb-0">${tag}</span>
+                                    <a class="tag is-delete mb-0 hr-hf-tag-delete" on-click("onTagCloseClick") data-index=index/>
+                                </div>
+                            </div>
+                        </for>
+                        <div class="column is-auto p-0">
+                            <input id=`hr_hf_el_${input.formId}_${input.id}` on-focus("onTagsInputFocus") on-blur("onTagsInputBlur") on-keydown("onTagsInputKeyDown") on-keypress("onTagsInputKeyPress") class="input hr-hf-tags-input p-0" no-update/>
+                            <if(input.enumDropdown && state.enumList && state.enumList.length)>
+                                <div class="hr-hf-tags-enum-wrap">
+                                    <div class="menu">
+                                        <ul class="menu-list">
+                                            <for|item| of=state.enumList>
+                                                <li on-click("onEnumItemClick")>
+                                                    <a data-id=item.id>${item.label}</a>
+                                                </li>
+                                            </for>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </if>
+                        </div>
+                    </div>
+                </div>
+                <if(state.error)>
+                    <div class="hr-hf-error-tags-wrap">
+                        <p class="tag is-danger hr-hf-error-tag">${state.error}</p>
+                    </div>
+                </if>
+                <if(input.helpText)>
+                    <p class="help">${input.helpText}</p>
+                </if>
+            </div>
+        </div>
+    </if>
+    <!-- Tags Field: End -->
+    <!-- Log: Start -->
+    <if(input.type === "log")>
+        <div>
+            <div class="field">
+                <label class="label hr-hf-label">
+                    ${input.label || ""}<span>:</span>
+                    <if(input.mandatory)>
+                        &nbsp;<span class="hr-hf-label-mandatory">✱</span>
+                    </if>
+                </label>
+                <div class="control">
+                    <button on-click("onLogAddClick") class="button is-small is-light">
+                        <span class="hr-hf-top-button-icon">
+                            <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                <path d=mdiPlus/>
+                            </svg>
+                        </span>
+                        <span>
+                            <t>hform_logAdd</t>
+                        </span>
+                    </button>
+                    <if(state.value && state.value.length)>
+                        <div class="mt-2 pt-3">
+                            <table class="table is-narrow is-striped hr-hf-log-values-table">
+                                <tbody>
+                                    <for|item| of=state.value>
+                                        <tr>
+                                            <td class="is-narrow has-text-center">${item.logDate ? format(new Date(item.logDate * 1000), window.__heretic.t("global.dateFormatShort")) : "—"}</td>
+                                            <td class="is-narrow">${process.browser && window.__heretic ? window.__heretic.t(`logValue.${item.logStatus}`) || "—" : "—"}</td>
+                                            <td>${item.logValue || "—"}</td>
+                                            <td class="is-narrow">
+                                                <button class="mr-1 button is-small hr-hf-action-button is-light" data-uid=item.uid on-click("onLogItemEditClick") data-tippy-content=(process.browser && window.__heretic ? window.__heretic.t("hform_edit") : null)>
+                                                    <span class="hr-hf-settings-icon icon">
+                                                        <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d=mdiPencilOutline/>
+                                                        </svg>
+                                                    </span>
+                                                </button>
+                                                <button class="button is-small hr-hf-action-button is-danger" data-uid=item.uid on-click("onLogItemDeleteClick") data-tippy-content=(process.browser && window.__heretic ? window.__heretic.t("hform_delete") : null)>
+                                                    <span class="hr-hf-settings-icon hr-hf-action-icon-danger icon">
+                                                        <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d=mdiTrashCanOutline/>
+                                                        </svg>
+                                                    </span>
+                                                </button>
+                                            </td>
+                                        </tr> 
+                                    </for>
+                                </tbody>
+                            </table>
+                        </div>
+                    </if>
+                </div>
+                <if(state.error)>
+                    <div class="hr-hf-error-wrap">
+                        <p class="tag is-danger hr-hf-error-tag">${state.error}</p>
+                    </div>
+                </if>
+                <if(input.helpText)>
+                    <p class="help">${input.helpText}</p>
+                </if>
+            </div>
+        </div>
+    </if>
+    <!-- Log: End -->
+    <!-- Div: Start -->
+    <if(input.type === "div")>
+        <div>
+            <div class="field">
+                <if(input.label)>
+                    <label class="label hr-hf-label">
+                        ${input.label || ""}<span>:</span>
+                        <if(input.mandatory)>
+                            &nbsp;<span class="hr-hf-label-mandatory">✱</span>
+                        </if>
+                    </label>
+                </if>
+                <div class=`control ${input.divClass || ""}` id=`hr_hf_el_${input.formId}_${input.id}` no-update/>
+                <if(state.error)>
+                    <div class="hr-hf-error-wrap">
+                        <p class="tag is-danger hr-hf-error-tag">${state.error}</p>
+                    </div>
+                </if>
+                <if(input.helpText)>
+                    <p class="help">${input.helpText}</p>
+                </if>
+            </div>
+        </div>
+    </if>
+    <!-- Div: End -->
+    <!-- Message: Start -->
+    <if(input.type === "message")>
+        <div>
+            <div class="field">
+                <div class=`control ${input.messageClass || ""}` id=`hr_hf_el_${input.formId}_${input.id}`>${input.content}</div>
+            </div>
+        </div>
+    </if>
+    <!-- Message: End -->
+    <!-- Checkbox: Start -->
+    <if(input.type === "checkbox")>
+        <div>
+            <div class="field">
+                <div class="control" no-update>
+                    <label class="checkbox">
+                        <input id=`hr_hf_el_${input.formId}_${input.id}` class="hr-hf-form-checkbox" type="checkbox"/>
+                        ${input.label || ""}<if(input.mandatory)>
+                            &nbsp;<span class="hr-hf-label-mandatory">✱</span>
+                        </if>
+                    </label>
+                </div>
+                <if(state.error)>
+                    <div class="hr-hf-error-wrap">
+                        <p class="tag is-danger hr-hf-error-tag">${state.error}</p>
+                    </div>
+                </if>
+                <if(input.helpText)>
+                    <p class="help">${input.helpText}</p>
+                </if>
+            </div>
+        </div>
+    </if>
+    <!-- Checkbox: End -->
 </if>
-<!-- Checkbox: End -->

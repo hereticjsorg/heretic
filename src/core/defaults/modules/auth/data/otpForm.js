@@ -25,6 +25,24 @@ export default class {
                         maskedOptions: {
                             mask: "000000",
                         },
+                    }, {
+                        id: "username",
+                        type: "text",
+                        validation: {
+                            type: ["string", "null"],
+                            pattern: "^[a-zA-Z0-9_-]+$",
+                            minLength: 3,
+                            maxLength: 40,
+                        },
+                        noRender: true,
+                    }, {
+                        id: "password",
+                        type: "text",
+                        fieldType: "password",
+                        validation: {
+                            type: ["string", "null"]
+                        },
+                        noRender: true,
                     }],
                 ],
             }],

@@ -68,10 +68,10 @@
     "tfaModalCancel": "Cancel",
     "tfaNotice": "Please enter the two-factor authorization code received in your app. This code is updated once in a short period of time, please make sure to enter the code that is displayed.",
     "tfaNoApp": "You don't have access to the app?",
-    "tfaGotApp": "Got one-time password?",
+    "tfaGotApp": "Got one-time code?",
     "tfaRecoveryNotice": "In case you don't currently have access to an app where you can get a two-factor authorization code, you can enter a disaster recovery code that will help temporarily disable the two-factor authorization system for your account.",
     "recovery2faCode": "Recovery code",
     "setup2faErrorUnset": "Two-factor authentication is not configured",
     "remove2faSuccess": "Two-factor authentication is disabled",
-    "remove2faInvalidRescueCode": "Invalid rescue code"
+    "remove2faInvalidRecoveryCode": "Invalid recovery code"
 }
