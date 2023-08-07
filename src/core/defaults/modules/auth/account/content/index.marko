@@ -1,6 +1,7 @@
 import ProfileForm from "../../data/profileForm.js"
 import PasswordForm from "../../data/passwordForm.js"
 import EmailForm from "../../data/emailForm.js"
+import OtpForm from "../../data/otpForm.js"
 
 <if(state.error)>
     <div class="notification is-danger">
@@ -38,6 +39,11 @@ import EmailForm from "../../data/emailForm.js"
                             <t>tabEmail</t>
                         </a>
                     </li>
+                    <li class=(state.currentAccountTab === "2fa" ? "is-active" : "") data-id="2fa" on-click("onAccountTabsClick")>
+                        <a>
+                            <t>2fa</t>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -59,6 +65,31 @@ import EmailForm from "../../data/emailForm.js"
                 clip: state.currentAccountTab === "email" ? "unset" : "rect(0 0 0 0)"
             }>
                 <hform key="emailForm" id="emailForm" data=(new EmailForm(process.browser && window.__heretic ? window.__heretic.t : out.global.t)) on-form-submit("onEmailFormSubmit")/>
+            </div>
+            <div style={
+                position: state.currentAccountTab === "2fa" ? "unset" : "absolute",
+                clip: state.currentAccountTab === "2fa" ? "unset" : "rect(0 0 0 0)"
+            }>
+                <if(state.tfaConfigured)>
+                    <p>
+                        <t>tfaConfigured</t>.
+                    </p>
+                    <div class="mt-3">
+                        <button class="button is-danger" type="button" on-click("disable2FA")>
+                            <t>disable2faButton</t>
+                        </button>
+                    </div>
+                </if>
+                <else>
+                    <div>
+                        <t>notice2fa</t>
+                    </div>
+                    <div class="mt-3">
+                        <button class="button is-light" type="button" on-click("setup2FA")>
+                            <t>setup2faButton</t>
+                        </button>
+                    </div>
+                </else>
             </div>
         </div>
         <hnotify key="notify"/>
@@ -83,6 +114,74 @@ import EmailForm from "../../data/emailForm.js"
                 <t>changeEmailModalText</t>
             </section>
         </hmodal>
+        <hmodal
+            key="setup2faModal"
+            id="setup2faModal"
+            close=true
+            title="setup2faModalTitle"
+            on-button-click("onSetup2FAButtonClick")
+            actions=[
+                {
+                    id: "save",
+                    label: "setup2faModalSave",
+                    class: "button is-primary"
+                },
+                {
+                    id: "close",
+                    label: "setup2faModalClose",
+                    class: "button is-light",
+                    close: true
+                }
+            ]>
+            <section
+                class="modal-card-body"
+                style={
+                    order: "2"
+                }>
+                <div class="columns is-gapless is-mobile mt-2">
+                    <div class="column is-narrow mr-5">
+                        <div id="heretic_2fa_image_wrap" class="heretic2faImageWrap">$!{state.qrCode}</div>
+                    </div>
+                    <div>
+                        <p>
+                            <t>setup2faStep1Notice</t>
+                        </p>
+                        <div class="heretic2faSecretWrap mt-2">${state.secret}</div>
+                        <p class="mt-4">
+                            <t>setup2faStep2Notice</t>
+                        </p>
+                        <div class="mt-2">
+                            <hform key="otpForm" id="otpForm" data=(new OtpForm(process.browser && window.__heretic ? window.__heretic.t : out.global.t)) on-form-submit("onOtpFormSubmit")/>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </hmodal>
+        <hmodal
+            key="recoveryCodeModal"
+            id="recoveryCodeModal"
+            close=true
+            title="recoveryCodeModalTitle"
+            actions=[
+                {
+                    id: "close",
+                    label: "recoveryCodeModalClose",
+                    class: "button is-light",
+                    close: true
+                }
+            ]>
+            <section
+                class="modal-card-body"
+                style={
+                    order: "2"
+                }>
+                <p>
+                    <t>recoveryCodeModalText</t>
+                </p>
+                <div class="heretic2faSecretWrap mt-2">${state.recoveryCode}</div>
+            </section>
+        </hmodal>
+        <tfaModal key="tfaModal" on-code("on2faDisable") on-recovery-code("on2faDisableRecovery")/>
     </if>
     <if(!state.ready && component.mongoEnabled && component.authOptions.signIn)>
         <hloading active=true/>

@@ -169,26 +169,30 @@ export default class {
     }
 
     setLoading(flag) {
-        switch (this.input.type) {
-        case "text":
-        case "textarea":
-            const element = document.getElementById(`hr_hf_el_${this.input.formId}_${this.input.id}`);
-            if (flag) {
-                element.setAttribute("disabled", "");
-            } else {
-                element.removeAttribute("disabled");
-            }
-            break;
-        case "buttons":
-            for (const buttonItem of this.input.items) {
-                const buttonElement = document.getElementById(`hr_hf_el_${this.input.formId}_${this.input.id}_${buttonItem.id}`);
+        try {
+            switch (this.input.type) {
+            case "text":
+            case "textarea":
+                const element = document.getElementById(`hr_hf_el_${this.input.formId}_${this.input.id}`);
                 if (flag) {
-                    buttonElement.setAttribute("disabled", "");
+                    element.setAttribute("disabled", "");
                 } else {
-                    buttonElement.removeAttribute("disabled");
+                    element.removeAttribute("disabled");
                 }
+                break;
+            case "buttons":
+                for (const buttonItem of this.input.items) {
+                    const buttonElement = document.getElementById(`hr_hf_el_${this.input.formId}_${this.input.id}_${buttonItem.id}`);
+                    if (flag) {
+                        buttonElement.setAttribute("disabled", "");
+                    } else {
+                        buttonElement.removeAttribute("disabled");
+                    }
+                }
+                break;
             }
-            break;
+        } catch {
+            // Ignore
         }
     }
 

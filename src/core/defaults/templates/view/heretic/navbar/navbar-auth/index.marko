@@ -43,6 +43,8 @@ import { mdiAccountCircleOutline, mdiChevronDown } from "@mdi/js"
                 <a class="navbar-item hr-navbar-item" href=component.utils.getLocalizedURL(out.global.systemRoutes.signIn)>
                     <t>signIn</t>
                 </a>
+            </if>
+            <if(out.global.authOptions.signUp && out.global.authOptions.signIn)>
                 <hr class="dropdown-divider"/> 
             </if>
             <if(out.global.authOptions.signUp)>

@@ -29,7 +29,18 @@ export default class {
                             type: ["string"]
                         },
                         css: "hr-hf-field-large"
-                    }], [{
+                    }, {
+                        id: "code",
+                        type: "text",
+                        noRender: true,
+                        validation: {
+                            type: ["string", "null"],
+                            pattern: "^[0-9]+$",
+                            minLength: 6,
+                            maxLength: 6,
+                        },
+                    }],
+                    [{
                         id: "buttons",
                         type: "buttons",
                         items: [{

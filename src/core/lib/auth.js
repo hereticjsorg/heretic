@@ -169,6 +169,7 @@ export default class {
                     userDb.groups = groups;
                 }
                 userDb.session = sessionDb;
+                userDb.tfaConfigured = !!userDb.tfaConfig;
                 return userDb;
             } catch {
                 return null;

@@ -72,6 +72,22 @@ export default class {
         }
     }
 
+    async authErrorHandler(signInForm, e) {
+        if (e && e.response && e.response.data) {
+            if (e.response.data.form) {
+                signInForm.setErrors(signInForm.getErrorData(e.response.data.form));
+            }
+            if (e.response.data.message) {
+                signInForm.setErrorMessage(this.t(e.response.data.message));
+            }
+        } else {
+            signInForm.setErrorMessage(this.t("hform_error_general"));
+        }
+        signInForm.setLoading(false);
+        await this.utils.waitForComponent("loadingAuth");
+        this.getComponent("loadingAuth").setActive(false);
+    }
+
     async onFormSubmit() {
         this.utils.waitForComponent("signInForm");
         const signInForm = this.getComponent("signInForm");
@@ -80,7 +96,8 @@ export default class {
         if (validationResult) {
             return signInForm.setErrors(signInForm.getErrorData(validationResult));
         }
-        const data = signInForm.getFormDataObject(signInForm.serializeData());
+        const serializedData = signInForm.serializeData();
+        const data = signInForm.getFormDataObject(serializedData);
         signInForm.setErrorMessage(null).setErrors(null);
         await this.utils.waitForComponent("loadingAuth");
         this.getComponent("loadingAuth").setActive(true);
@@ -93,23 +110,23 @@ export default class {
             });
             const {
                 token,
+                needCode,
             } = res.data;
-            this.cookies.set(`${this.siteId}.authToken`, token);
-            window.location.href = `${this.query.get("r") || this.utils.getLocalizedURL("/") || "/"}`;
-        } catch (e) {
-            if (e && e.response && e.response.data) {
-                if (e.response.data.form) {
-                    signInForm.setErrors(signInForm.getErrorData(e.response.data.form));
-                }
-                if (e.response.data.message) {
-                    signInForm.setErrorMessage(this.t(e.response.data.message));
-                }
+            if (needCode) {
+                signInForm.setLoading(false);
+                await this.utils.waitForComponent("loadingAuth");
+                this.getComponent("loadingAuth").setActive(false);
+                await this.utils.waitForComponent("tfaModal");
+                const tfaModal = await this.getComponent("tfaModal").getModalInstance();
+                tfaModal.setCloseAllowed(true).setLoading(false).setActive(true);
+                this.getComponent("tfaModal").setCredentials(serializedData.formTabs._default.username, serializedData.formTabs._default.password);
+                this.getComponent("tfaModal").onTfaGotAppClick();
             } else {
-                signInForm.setErrorMessage(this.t("hform_error_general"));
+                this.cookies.set(`${this.siteId}.authToken`, token);
+                window.location.href = `${this.query.get("r") || this.utils.getLocalizedURL("/") || "/"}`;
             }
-            signInForm.setLoading(false);
-            await this.utils.waitForComponent("loadingAuth");
-            this.getComponent("loadingAuth").setActive(false);
+        } catch (e) {
+            this.authErrorHandler(signInForm, e);
         }
     }
 
@@ -127,5 +144,36 @@ export default class {
             path,
         } = e.target.closest("[data-path]").dataset;
         this.utils.showOAuthPopup(path);
+    }
+
+    async on2faCode(code) {
+        this.utils.waitForComponent("signInForm");
+        const signInForm = this.getComponent("signInForm");
+        signInForm.setValue("code", code);
+        const data = signInForm.getFormDataObject(signInForm.serializeData());
+        await this.utils.waitForComponent("loadingAuth");
+        this.getComponent("loadingAuth").setActive(true);
+        try {
+            const res = await axios({
+                method: "post",
+                url: "/api/signIn",
+                data,
+                headers: {},
+            });
+            const {
+                token,
+            } = res.data;
+            this.cookies.set(`${this.siteId}.authToken`, token);
+            window.location.href = `${this.query.get("r") || this.utils.getLocalizedURL("/") || "/"}`;
+        } catch (e) {
+            this.authErrorHandler(signInForm, e);
+        }
+    }
+
+    async on2faRecovery() {
+        await this.utils.waitForComponent("tfaModal");
+        const tfaModal = await this.getComponent("tfaModal").getModalInstance();
+        tfaModal.setCloseAllowed(true).setLoading(false).setActive(false);
+        this.onFormSubmit();
     }
 }

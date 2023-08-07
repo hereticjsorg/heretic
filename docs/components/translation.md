@@ -7,4 +7,5 @@ Usage:
 ```html
 <t>translationKey</t>
 ```
+
 You may use any attributes which could be applied to *<span\/>* tag like class etc.

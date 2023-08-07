@@ -158,7 +158,6 @@ export default class {
 
     serializeView() {
         const data = {};
-        // Get data for each field
         for (const id of this.fieldIds) {
             if (serializableTypes.indexOf(this.fieldsFlat[id].type) > -1) {
                 const fieldComponent = this.getComponent(`hr_hf_f_${id}_${this.state.mode}`);

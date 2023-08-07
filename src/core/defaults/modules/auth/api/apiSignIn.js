@@ -1,3 +1,6 @@
+import {
+    Totp,
+} from "time2fa";
 import SignInForm from "../data/signInFormAdmin";
 import FormValidator from "#lib/formValidatorServer";
 
@@ -25,6 +28,22 @@ export default () => ({
                 return rep.error({
                     message: "error_invalid_credentials"
                 }, 403);
+            }
+            if (userDb.tfaConfig) {
+                if (!data._default.code) {
+                    return rep.success({
+                        token: null,
+                        needCode: true,
+                    });
+                }
+                if (!Totp.validate({
+                        passcode: data._default.code,
+                        secret: userDb.tfaConfig.secret,
+                    })) {
+                    return rep.error({
+                        reason: 2,
+                    });
+                }
             }
             const token = req.auth.generateToken(String(userDb._id), userDb.sid);
             await req.addEvent("loginSuccess", userDb);
