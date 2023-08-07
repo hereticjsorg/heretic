@@ -46,16 +46,18 @@ export default () => ({
             });
         }
         const recoveryCode = uuid().toUpperCase();
-        await this.mongo.db.collection(this.systemConfig.collections.users).updateOne({
-            _id: authData._id,
-        }, {
-            $set: {
-                tfaConfig: {
-                    secret: req.body.secret,
-                    recoveryCode: await req.auth.createHash(recoveryCode),
+        if (!this.systemConfig.demo) {
+            await this.mongo.db.collection(this.systemConfig.collections.users).updateOne({
+                _id: authData._id,
+            }, {
+                $set: {
+                    tfaConfig: {
+                        secret: req.body.secret,
+                        recoveryCode: await req.auth.createHash(recoveryCode),
+                    },
                 },
-            },
-        });
+            });
+        }
         return rep.success({
             recoveryCode,
         });
