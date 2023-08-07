@@ -1,3 +1,18 @@
+## v1.1.62
+
+**Bugfixes & New Features** (2023-08-07)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-07-31 | Added time2fa dependency |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-07-31 | navbar-auth: Show a divider only if both signUp and signIn options are active |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-07-31 | Typo fixed |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-08-03 | 2FA work-in-progress |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-08-06 | Auth module: two-factor authentication |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-08-06 | NPM Modules upgrade |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-08-07 | Two-Factor Authentication Implemented |
+
+
 ## v1.1.61
 
 **Update binUtils.js** (2023-07-30)
