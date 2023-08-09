@@ -2,6 +2,7 @@ import ProfileForm from "../../data/profileForm.js"
 import PasswordForm from "../../data/passwordForm.js"
 import EmailForm from "../../data/emailForm.js"
 import OtpForm from "../../data/otpForm.js"
+import { mdiContentCopy } from "@mdi/js"
 
 <if(state.error)>
     <div class="notification is-danger">
@@ -146,7 +147,20 @@ import OtpForm from "../../data/otpForm.js"
                         <p>
                             <t>setup2faStep1Notice</t>
                         </p>
-                        <div class="heretic2faSecretWrap mt-2">${state.secret}</div>
+                        <div class="field has-addons mt-3" data-secret=state.secret>
+                            <div class="control">
+                                <div class="input heretic2faSecretWrap" type="text">${state.secret}</div>
+                            </div>
+                            <div class="control">
+                                <a class="button" on-click("onSecretCopyClick")>
+                                    <span class="icon hr-copy-icon">
+                                        <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d=mdiContentCopy/>
+                                        </svg>
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
                         <p class="mt-4">
                             <t>setup2faStep2Notice</t>
                         </p>
@@ -178,7 +192,20 @@ import OtpForm from "../../data/otpForm.js"
                 <p>
                     <t>recoveryCodeModalText</t>
                 </p>
-                <div class="heretic2faSecretWrap mt-2">${state.recoveryCode}</div>
+                <div class="field has-addons mt-3" data-secret=state.recoveryCode>
+                    <div class="control">
+                        <div class="input heretic2faSecretWrap" type="text">${state.recoveryCode}</div>
+                    </div>
+                    <div class="control">
+                        <a class="button" on-click("onSecretCopyClick")>
+                            <span class="icon hr-copy-icon">
+                                <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d=mdiContentCopy/>
+                                </svg>
+                            </span>
+                        </a>
+                    </div>
+                </div>
             </section>
         </hmodal>
         <tfaModal key="tfaModal" on-code("on2faDisable") on-recovery-code("on2faDisableRecovery")/>

@@ -52,7 +52,7 @@
     "setup2faModalSave": "Aktvieren",
     "setup2faModalClose": "Schließen",
     "setup2faError": "Konnte 2FA-Daten nicht initialisieren",
-    "setup2faStep1Notice": "1. Scannen Sie den QR-Code auf der linken Seite mit einer Zwei-Faktor-Autorisierungsanwendung (z. B. Google Authenticator), oder geben Sie den folgenden Sicherheitscode manuell ein:",
+    "setup2faStep1Notice": "1. Scannen Sie den QR-Code auf der linken Seite mit einer Zwei-Faktor-Autorisierungsapp (z. B. Google Authenticator), oder geben Sie den folgenden Sicherheitscode manuell ein:",
     "setup2faStep2Notice": "2. Geben Sie den in der App erhaltenen Code ein.",
     "setup2faCode": "Code",
     "setup2faErrorAlreadySet": "Zwei-Faktor ist bereits konfiguriert",
@@ -73,5 +73,7 @@
     "recovery2faCode": "Verwertungscode",
     "setup2faErrorUnset": "Zwei-Faktor-Authentifizierung ist nicht konfiguriert",
     "remove2faSuccess": "Zwei-Faktor-Authentifizierung ist deaktiviert",
-    "remove2faInvalidRecoveryCode": "Ungültiger Wiederherstellungscode"
+    "remove2faInvalidRecoveryCode": "Ungültiger Wiederherstellungscode",
+    "couldNotCopy": "Kann nicht kopieren",
+    "copied": "In die Zwischenablage kopiert"
 }

@@ -73,5 +73,7 @@
     "recovery2faCode": "Код восстановления",
     "setup2faErrorUnset": "Двухфакторная аутентификация не настроена",
     "remove2faSuccess": "Двухфакторная аутентификация отключена",
-    "remove2faInvalidRecoveryCode": "Неверный код восстановления"
+    "remove2faInvalidRecoveryCode": "Неверный код восстановления",
+    "couldNotCopy": "Ошибка во время копирования",
+    "copied": "Скопировано в буфер обмена"
 }
