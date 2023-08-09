@@ -10,10 +10,37 @@
 }
 
 .heretic2faSecretWrap {
-    padding: 10px;
-    border: 1px solid $grey-lightest;
-    background: $white-ter;
-    border-radius: $radius;
-    user-select: all;
+    // padding: 10px;
+    // border: 1px solid $grey-lightest;
+    // background: $white-ter;
+    // border-radius: $radius;
+    user-select: text;
     font-family: monospace, monospace;
+}
+
+.heretic2faSecretWrap:hover {
+    box-shadow: unset !important;
+    border-color: $grey-lighter !important;
+}
+
+html.heretic-dark .heretic2faSecretWrap {
+    background-color: $black-ter;
+    border-color: $grey !important;
+    color: $grey-lighter;
+}
+
+.hr-copy-icon>svg>path {
+    fill: $grey !important;
+}
+
+.hr-copy-icon {
+    display: inline-flex;
+    align-self: center;
+}
+
+.hr-copy-icon svg {
+    height: 16px;
+    width: 16px;
+    top: 0px;
+    position: relative;
 }

@@ -359,4 +359,17 @@ export default class {
         this.getComponent("notify").show(this.t("remove2faSuccess"), "is-success");
         this.setState("tfaConfigured", false);
     }
+
+    async onSecretCopyClick(e) {
+        e.preventDefault();
+        try {
+            const {
+                secret,
+            } = e.target.closest("[data-secret]").dataset;
+            await navigator.clipboard.writeText(secret);
+            this.getComponent("notify").show(this.t("copied"), "is-success");
+        } catch {
+            this.getComponent("notify").show(this.t("couldNotCopy"), "is-danger");
+        }
+    }
 }

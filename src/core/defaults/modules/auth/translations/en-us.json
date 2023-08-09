@@ -53,7 +53,7 @@
     "setup2faModalClose": "Close",
     "setup2faError": "Could not initialize 2FA data",
     "setup2faStep1Notice": "1. Scan the QR code on the left using a two-factor authorization application (such as Google Authenticator), or enter the following security code manually:",
-    "setup2faStep2Notice": "2. Enter the code received in the application.",
+    "setup2faStep2Notice": "2. Enter the code received in the application:",
     "setup2faCode": "Code",
     "setup2faErrorAlreadySet": "Two-factor is already configured",
     "setup2faErrorInvalidCode": "Security code is invalid",
@@ -69,9 +69,11 @@
     "tfaNotice": "Please enter the two-factor authorization code received in your app. This code is updated once in a short period of time, please make sure to enter the code that is displayed.",
     "tfaNoApp": "You don't have access to the app?",
     "tfaGotApp": "Got one-time code?",
-    "tfaRecoveryNotice": "In case you don't currently have access to an app where you can get a two-factor authorization code, you can enter a disaster recovery code that will help temporarily disable the two-factor authorization system for your account.",
+    "tfaRecoveryNotice": "In case you don't currently have access to an app where you can get a two-factor authorization code, you can enter a Recovery Code that will help temporarily disable the two-factor authorization system for your account.",
     "recovery2faCode": "Recovery code",
     "setup2faErrorUnset": "Two-factor authentication is not configured",
     "remove2faSuccess": "Two-factor authentication is disabled",
-    "remove2faInvalidRecoveryCode": "Invalid recovery code"
+    "remove2faInvalidRecoveryCode": "Invalid recovery code",
+    "couldNotCopy": "Could not copy",
+    "copied": "Copied to clipboard"
 }
