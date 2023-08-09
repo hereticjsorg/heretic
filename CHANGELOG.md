@@ -1,3 +1,14 @@
+## v1.1.64
+
+**Bugfixes & 2FA Improvements** (2023-08-09)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-08-08 | NPM modules upgrade |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-08-09 | Smaller 2FA-related fixes<br/>- Typos fixed<br/>- Ability to copy secret/keys data to clibboard |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-08-09 | NPM Modules Upgrade |
+
+
 ## v1.1.63
 
 **Bugfixes** (2023-08-07)
