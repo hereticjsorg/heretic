@@ -72,7 +72,7 @@ export default class {
         }
         const out = await modal.render({
             token,
-            tfa: !!tfaConfig,
+            tfa: !!tfaConfig || "",
             id: this.fastify.systemConfig.id,
             messages: JSON.stringify(messages),
             defaultLanguage: Object.keys(this.fastify.languages)[0],
