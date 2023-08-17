@@ -1,3 +1,12 @@
+## v1.1.72
+
+**Update google.js** (2023-08-17)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-08-17 | Update google.js |
+
+
 ## v1.1.71
 
 **Marko version downgrade** (2023-08-17)
