@@ -1,3 +1,13 @@
+## v1.1.65
+
+**Implemented two-factor authentication workflow for OAuth2 providers** (2023-08-17)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-08-10 | NPM Modules upgrade |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-08-17 | Two-factor authentication for OAuth2<br/>Implemented Two-factor authentication for OAuth2 (user will need to enter the code when authenticating via an OAauth provider) |
+
+
 ## v1.1.64
 
 **Bugfixes & 2FA Improvements** (2023-08-09)
