@@ -149,10 +149,9 @@ export default class {
 
     onOAuthButtonClick(e) {
         e.preventDefault();
-        // const {
-        //     path,
-        // } = e.target.closest("[data-path]").dataset;
-        const path = "http://127.0.0.1:3001/oauth2/google/callback";
+        const {
+            path,
+        } = e.target.closest("[data-path]").dataset;
         this.utils.showOAuthPopup(path);
     }
 
