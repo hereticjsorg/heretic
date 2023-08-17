@@ -167,7 +167,7 @@
                     if (tfa) {
                         message.tfa = true;
                     }
-                    window.opener.postMessage();
+                    window.opener.postMessage(message);
                     window.close();
                     return;
                 }
