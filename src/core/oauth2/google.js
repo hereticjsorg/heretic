@@ -30,11 +30,14 @@ export default () => ({
             if (!data || !data.email || !data.verified_email) {
                 return await utils.renderPage(rep);
             }
-            const userDb = (await this.mongo.db.collection(this.systemConfig.collections.users).findOne({
+            let userDb = (await this.mongo.db.collection(this.systemConfig.collections.users).findOne({
                 email: data.email,
-            })) || {};
+            }));
             if (!userDb) {
                 await utils.signUp(data.email, data.name || null);
+                userDb = (await this.mongo.db.collection(this.systemConfig.collections.users).findOne({
+                    email: data.email,
+                }));
             }
             const token = userDb.tfaConfig ? await utils.signIn2FA(data.email) : await utils.signIn(data.email);
             return await utils.renderPage(rep, token, userDb.tfaConfig);
