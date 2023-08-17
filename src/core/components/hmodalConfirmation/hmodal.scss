@@ -1,0 +1,54 @@
+.hr-hm-modal-card {
+    position: relative;
+    padding: 3px;
+}
+
+.hr-hm-loader-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba($white, 0.6);
+    z-index: 40;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: $radius;
+}
+
+.hr-hm-modal-card-head {
+    order: 1;
+}
+
+.hr-hm-modal-card-foot {
+    background: $white-bis !important;
+    position: relative;
+    order: 100;
+}
+
+.hr-hmodal {
+    user-select: none;
+}
+
+.hr-hm-background-40 {
+    background-color: rgba(10,10,10,.40) !important;
+}
+
+.hr-hm-background-60 {
+    background-color: rgba(10,10,10,.60) !important;
+}
+
+html.heretic-dark .hr-hm-tabs-wrap {
+    background: $heretic-dark-grey-dark !important;
+}
+
+html.heretic-dark .hr-hm-tabs>ul>li.is-active>a {
+    background: lighten($heretic-dark-grey-dark, 6%) !important;
+    color: $heretic-dark-text-color !important;
+    border-color: darken($heretic-dark-grey-dark, 20%) !important;
+}
+
+html.heretic-dark .hr-hm-tabs>ul>li>a {
+    color: $heretic-dark-text-color !important;
+}

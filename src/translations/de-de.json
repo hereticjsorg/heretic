@@ -213,5 +213,6 @@
     "htable_importButton": "Importieren",
     "htable_importError": "Daten können nicht importiert werden",
     "htable_importSuccess": "Erfolgreich importiert",
-    "htable_importFailed": "Fehlende Datensätze"
+    "htable_importFailed": "Fehlende Datensätze",
+    "userIsActive": "Benutzer ist aktiviert"
 }

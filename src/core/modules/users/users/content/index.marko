@@ -29,6 +29,13 @@ $ {
                 class: "button is-light",
                 close: true
             }
+        ]
+        actionsRight=[
+            {
+                id: "disable2fa",
+                label: "disable2fa",
+                class: "button is-danger"
+            },
         ]>
         <section
             class="modal-card-body editModal-card-body"
@@ -38,6 +45,12 @@ $ {
             <hform admin=true key=`${moduleConfig.id}Form` id=`${moduleConfig.id}Form` data=formData on-button-click("onFormButtonClick") on-form-submit("onFormSubmit") on-mount-complete("onFormMountComplete")/>
         </section>
     </hmodal>
+    <hmodalConfirmation
+        admin=true
+        key=`${moduleConfig.id}2faConfirmationModal`
+        id=`${moduleConfig.id}2faConfirmationModal`
+        on-confirm("on2faDisableConfirm")
+        message=(process.browser && window.__heretic ? window.__heretic.t("disable2faConfirmation") : null)/>
 </if>
 <if(!state.ready && !state.failed && component.mongoEnabled)>
     <!-- <hloading admin=true active=true/> -->

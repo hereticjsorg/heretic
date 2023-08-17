@@ -1,4 +1,7 @@
 import Ajv from "ajv";
+import {
+    ObjectId,
+} from "mongodb";
 import RecoveryForm from "../data/recoveryForm.js";
 
 const ajv = new Ajv({
@@ -19,7 +22,19 @@ export default () => ({
             });
         }
         let userDb;
-        if (!authData) {
+        if (req.body.token) {
+            let tokenData;
+            try {
+                tokenData = this.jwt.verify(req.body.token);
+            } catch (e) {
+                return rep.error({
+                    message: "error_invalid_token"
+                }, 403);
+            }
+            userDb = await this.mongo.db.collection(this.systemConfig.collections.users).findOne({
+                _id: new ObjectId(tokenData.uid),
+            });
+        } else if (!authData) {
             userDb = req.body.username && req.body.password ? await req.auth.authorize(req.body.username, req.body.password) : null;
             if (!userDb) {
                 await req.addEvent("loginFail", {}, {

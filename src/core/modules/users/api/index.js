@@ -6,6 +6,7 @@ import apiUsersDownload from "./apiUsersDownload";
 import apiUsersDataExport from "./apiUsersDataExport";
 import apiUsersLockCheck from "./apiUsersLockCheck.js";
 import apiUsersLockList from "./apiUsersLockList.js";
+import apiUsersDisable2FA from "./apiUsersDisable2FA";
 import apiGroupsTableList from "./apiGroupsTableList";
 import apiGroupsDataLoad from "./apiGroupsDataLoad";
 import apiGroupsDataSave from "./apiGroupsDataSave";
@@ -25,6 +26,7 @@ export default fastify => {
         fastify.get(`/api/users/download`, apiUsersDownload());
         fastify.post(`/api/users/lock/check`, apiUsersLockCheck());
         fastify.get(`/api/users/lock/list`, apiUsersLockList());
+        fastify.post(`/api/users/disable2FA`, apiUsersDisable2FA());
         fastify.post(`/api/groups/list`, apiGroupsTableList());
         fastify.post(`/api/groups/load`, apiGroupsDataLoad());
         fastify.post(`/api/groups/save`, apiGroupsDataSave());

@@ -34,7 +34,7 @@ export default class {
                     }, {
                         id: "active",
                         type: "checkbox",
-                        label: this.t("active"),
+                        label: this.t("userIsActive"),
                         mandatory: false,
                         validation: {
                             type: ["boolean", "null"],

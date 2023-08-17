@@ -3,6 +3,7 @@
     "password": "Пароль",
     "signIn": "Авторизация",
     "error_invalid_credentials": "Неправильное имя пользователя или пароль",
+    "error_invalid_token": "Неверный токен",
     "loginSuccess": "Успешный вход",
     "loginFail": "Ошибка авторизации",
     "forgotPassword": "Забыли пароль?",

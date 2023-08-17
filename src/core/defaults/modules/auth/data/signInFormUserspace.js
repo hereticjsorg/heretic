@@ -39,6 +39,14 @@ export default class {
                             minLength: 6,
                             maxLength: 6,
                         },
+                    }, {
+                        id: "token",
+                        type: "text",
+                        fieldType: "text",
+                        validation: {
+                            type: ["string", "null"]
+                        },
+                        noRender: true,
                     }],
                     [{
                         id: "buttons",

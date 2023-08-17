@@ -197,6 +197,9 @@ export default class {
             await this.utils.waitForComponent(`${pageConfig.id}Form`);
             const form = this.getComponent(`${pageConfig.id}Form`);
             await form.deserializeView(responseData._default);
+            await this.utils.waitForElement("usersEditModal_disable2fa");
+            const disable2faButton = document.getElementById("usersEditModal_disable2fa");
+            disable2faButton.style.display = responseData.tfa ? "inline-flex" : "none";
             this.sendLockAction("lock");
             this.startLockMessaging();
             break;
@@ -245,6 +248,13 @@ export default class {
         switch (button) {
         case "save":
             await this.formSave();
+            break;
+        case "disable2fa":
+            if (document.getElementById("usersEditModal_disable2fa").style.display === "none") {
+                break;
+            }
+            await this.utils.waitForComponent(`${pageConfig.id}2faConfirmationModal`);
+            this.getComponent(`${pageConfig.id}2faConfirmationModal`).setActive(true);
             break;
         }
     }
@@ -311,6 +321,27 @@ export default class {
     onEditModalClose() {
         if (this.state.currentId) {
             this.sendLockAction("unlock");
+        }
+    }
+
+    async on2faDisableConfirm() {
+        await this.utils.waitForComponent(`${pageConfig.id}EditModal`);
+        const editModal = this.getComponent(`${pageConfig.id}EditModal`);
+        editModal.setLoading(true).setCloseAllowed(false);
+        try {
+            await axios({
+                method: "post",
+                url: `/api/${pageConfig.id}/disable2FA`,
+                data: {},
+                headers: this.state.headers,
+                onUploadProgress: () => {}
+            });
+            this.getComponent(`notify_${pageConfig.id}List`).show(window.__heretic.t("disable2faSuccess"), "is-success");
+            setTimeout(() => document.getElementById("usersEditModal_disable2fa").style.display = "none");
+        } catch {
+            this.getComponent(`notify_${pageConfig.id}List`).show(window.__heretic.t("disable2faError"), "is-danger");
+        } finally {
+            editModal.setLoading(false).setCloseAllowed(true);
         }
     }
 }

@@ -213,5 +213,6 @@
     "htable_importButton": "Импортировать",
     "htable_importError": "Не удалось импортировать данные",
     "htable_importSuccess": "Успешно импортировано",
-    "htable_importFailed": "Отсутствующие записи"
+    "htable_importFailed": "Отсутствующие записи",
+    "userIsActive": "Пользователь активен"
 }

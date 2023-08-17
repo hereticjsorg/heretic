@@ -24,7 +24,7 @@ import SignInForm from "../../data/signInFormUserspace.js"
         </div>
     </if>
     <hloading key="loadingAuth"/>
-    <tfaModal key="tfaModal" on-code("on2faCode") on-recovery-code("on2faRecovery")/>
+    <tfaModal key="tfaModal" on-code("on2faCode") on-code-token("on2faCodeToken") on-recovery-code("on2faRecovery") on-recovery-code-token("on2faRecoveryToken")/>
 </if>
 <if(!state.ready && component.mongoEnabled && component.authOptions.signIn)>
     <hloading active=true/>

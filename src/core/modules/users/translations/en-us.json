@@ -60,5 +60,9 @@
     "submit": "Submit",
     "hform_error_invalidCaptcha": "Invalid code",
     "hform_error_invalidPassword": "Invalid password",
-    "passwordChangeSuccess": "The password change procedure has been successfully completed. You can log in to the site using your username and new password."
+    "passwordChangeSuccess": "The password change procedure has been successfully completed. You can log in to the site using your username and new password.",
+    "disable2fa": "Disable 2FA",
+    "disable2faConfirmation": "Two-factor authentication will be disabled for the account.",
+    "disable2faSuccess": "Two-factor authentication disabled",
+    "disable2faError": "Could not disable two-factor authentication"
 }
