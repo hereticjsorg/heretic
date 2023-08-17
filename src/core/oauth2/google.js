@@ -30,9 +30,9 @@ export default () => ({
             if (!data || !data.email || !data.verified_email) {
                 return await utils.renderPage(rep);
             }
-            const userDb = await this.mongo.db.collection(this.systemConfig.collections.users).findOne({
+            const userDb = (await this.mongo.db.collection(this.systemConfig.collections.users).findOne({
                 email: data.email,
-            });
+            })) || {};
             if (!userDb) {
                 await utils.signUp(data.email, data.name || null);
             }

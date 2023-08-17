@@ -33,8 +33,6 @@ export default () => ({
                     }, 403);
                 }
                 userDb = await req.auth.authorize(null, null, tokenData.uid);
-                // eslint-disable-next-line no-console
-                console.log(userDb);
             } else {
                 userDb = await req.auth.authorize(data._default.username, data._default.password);
             }
