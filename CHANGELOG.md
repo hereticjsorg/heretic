@@ -1,3 +1,12 @@
+## v1.1.70
+
+**Bugfixes** (2023-08-17)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-08-17 | Bugfixes |
+
+
 ## v1.1.69
 
 **NPM Modules Upgrade** (2023-08-17)
