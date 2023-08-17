@@ -1,3 +1,12 @@
+## v1.1.71
+
+**Marko version downgrade** (2023-08-17)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-08-17 | Marko version downgrade<br/>Issue: https://github.com/marko-js/marko/issues/2022 |
+
+
 ## v1.1.70
 
 **Bugfixes** (2023-08-17)
