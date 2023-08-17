@@ -163,7 +163,11 @@
                 const token = "${input.token}" || null;
                 const tfa = "${input.tfa}" || null;
                 if (token && window.opener && window.opener.postMessage) {
-                    window.opener.postMessage({ token, tfa: !!tfa });
+                    const message = { token };
+                    if (tfa) {
+                        message.tfa = true;
+                    }
+                    window.opener.postMessage();
                     window.close();
                     return;
                 }
