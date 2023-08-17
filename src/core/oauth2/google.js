@@ -36,8 +36,8 @@ export default () => ({
             if (!userDb) {
                 await utils.signUp(data.email, data.name || null);
             }
-            const token = await utils.signIn(data.email);
-            return await utils.renderPage(rep, token);
+            const token = userDb.tfaConfig ? await utils.signIn2FA(data.email) : await utils.signIn(data.email);
+            return await utils.renderPage(rep, token, userDb.tfaConfig);
         } catch (e) {
             this.log.error(e);
             return Promise.reject(e);

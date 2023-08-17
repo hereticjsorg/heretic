@@ -51,13 +51,28 @@ export default class {
         return token;
     }
 
-    async renderPage(rep, token = null) {
+    async signIn2FA(email) {
+        const userDb = await this.req.auth.authorize(email);
+        if (!userDb) {
+            await this.req.addEvent("loginFail", {}, {
+                username: email,
+            });
+            return this.rep.error({
+                message: "error_invalid_credentials",
+            }, 403);
+        }
+        const token = this.req.auth.generateToken(String(userDb._id), null);
+        return token;
+    }
+
+    async renderPage(rep, token = null, tfaConfig = null) {
         const messages = {};
         for (const lang of Object.keys(this.fastify.languages)) {
             messages[lang] = this.fastify.languageData[lang].oauthError ? this.fastify.languageData[lang].oauthError() : "";
         }
         const out = await modal.render({
             token,
+            tfa: !!tfaConfig,
             id: this.fastify.systemConfig.id,
             messages: JSON.stringify(messages),
             defaultLanguage: Object.keys(this.fastify.languages)[0],

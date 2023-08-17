@@ -1,6 +1,9 @@
 import {
     Totp,
 } from "time2fa";
+// import {
+//     ObjectId,
+// } from "mongodb";
 import SignInForm from "../data/signInFormAdmin";
 import FormValidator from "#lib/formValidatorServer";
 
@@ -19,7 +22,22 @@ export default () => ({
                     form: validationResult,
                 });
             }
-            const userDb = await req.auth.authorize(data._default.username, data._default.password);
+            let userDb;
+            if (data._default.token) {
+                let tokenData;
+                try {
+                    tokenData = this.jwt.verify(data._default.token);
+                } catch (e) {
+                    return rep.error({
+                        message: "error_invalid_token"
+                    }, 403);
+                }
+                userDb = await req.auth.authorize(null, null, tokenData.uid);
+                // eslint-disable-next-line no-console
+                console.log(userDb);
+            } else {
+                userDb = await req.auth.authorize(data._default.username, data._default.password);
+            }
             if (!userDb) {
                 await req.addEvent("loginFail", {}, {
                     username: data._default.username,

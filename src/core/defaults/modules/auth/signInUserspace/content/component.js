@@ -41,13 +41,21 @@ export default class {
             return;
         }
         if (event && event.data && event.data.token) {
-            await this.utils.waitForComponent("loadingAuth");
-            this.getComponent("loadingAuth").setActive(true);
-            const {
-                token,
-            } = event.data;
-            this.cookies.set(`${this.siteId}.authToken`, token);
-            window.location.href = this.utils.getLocalizedURL("/");
+            if (event.data.tfa) {
+                await this.utils.waitForComponent("tfaModal");
+                const tfaModal = await this.getComponent("tfaModal").getModalInstance();
+                tfaModal.setCloseAllowed(true).setLoading(false).setActive(true);
+                this.getComponent("tfaModal").setToken(event.data.token);
+                this.getComponent("tfaModal").onTfaGotAppClick();
+            } else {
+                await this.utils.waitForComponent("loadingAuth");
+                this.getComponent("loadingAuth").setActive(true);
+                const {
+                    token,
+                } = event.data;
+                this.cookies.set(`${this.siteId}.authToken`, token);
+                window.location.href = this.utils.getLocalizedURL("/");
+            }
         }
     }
 
@@ -119,6 +127,7 @@ export default class {
                 await this.utils.waitForComponent("tfaModal");
                 const tfaModal = await this.getComponent("tfaModal").getModalInstance();
                 tfaModal.setCloseAllowed(true).setLoading(false).setActive(true);
+                this.getComponent("tfaModal").setToken(null);
                 this.getComponent("tfaModal").setCredentials(serializedData.formTabs._default.username, serializedData.formTabs._default.password);
                 this.getComponent("tfaModal").onTfaGotAppClick();
             } else {
@@ -140,9 +149,10 @@ export default class {
 
     onOAuthButtonClick(e) {
         e.preventDefault();
-        const {
-            path,
-        } = e.target.closest("[data-path]").dataset;
+        // const {
+        //     path,
+        // } = e.target.closest("[data-path]").dataset;
+        const path = "http://127.0.0.1:3001/oauth2/google/callback";
         this.utils.showOAuthPopup(path);
     }
 
@@ -152,6 +162,7 @@ export default class {
         signInForm.setValue("code", code);
         const data = signInForm.getFormDataObject(signInForm.serializeData());
         await this.utils.waitForComponent("loadingAuth");
+        await this.utils.waitForComponent("tfaModal");
         this.getComponent("loadingAuth").setActive(true);
         try {
             const res = await axios({
@@ -167,6 +178,43 @@ export default class {
             window.location.href = `${this.query.get("r") || this.utils.getLocalizedURL("/") || "/"}`;
         } catch (e) {
             this.authErrorHandler(signInForm, e);
+            this.getComponent("loadingAuth").setActive(false);
+        } finally {
+            const tfaModal = await this.getComponent("tfaModal").getModalInstance();
+            tfaModal.setCloseAllowed(true).setLoading(false).setActive(false);
+        }
+    }
+
+    async on2faCodeToken(tfaData) {
+        this.utils.waitForComponent("signInForm");
+        const signInForm = this.getComponent("signInForm");
+        const data = new FormData();
+        data.append("formTabs", `{"_default":{"username":"username","password":"password","code":"${tfaData.code}","token":"${tfaData.token}"}}`);
+        data.append("formShared", "{}");
+        data.append("tabs", `["_default"]`);
+        await this.utils.waitForComponent("loadingAuth");
+        this.getComponent("loadingAuth").setActive(true);
+        try {
+            const res = await axios({
+                method: "post",
+                url: "/api/signIn",
+                data,
+                headers: {},
+            });
+            const {
+                token,
+            } = res.data;
+            await this.utils.waitForComponent("tfaModal");
+            const tfaModal = await this.getComponent("tfaModal").getModalInstance();
+            tfaModal.setCloseAllowed(true).setLoading(false).setActive(false);
+            this.cookies.set(`${this.siteId}.authToken`, token);
+            window.location.href = `${this.query.get("r") || this.utils.getLocalizedURL("/") || "/"}`;
+        } catch (e) {
+            await this.utils.waitForComponent("tfaModal");
+            const tfaModal = await this.getComponent("tfaModal").getModalInstance();
+            tfaModal.setCloseAllowed(true).setLoading(false).setActive(false);
+            this.getComponent("loadingAuth").setActive(false);
+            this.authErrorHandler(signInForm, e);
         }
     }
 
@@ -175,5 +223,38 @@ export default class {
         const tfaModal = await this.getComponent("tfaModal").getModalInstance();
         tfaModal.setCloseAllowed(true).setLoading(false).setActive(false);
         this.onFormSubmit();
+    }
+
+    async on2faRecoveryToken(tfaData) {
+        this.utils.waitForComponent("signInForm");
+        const signInForm = this.getComponent("signInForm");
+        await this.utils.waitForComponent("tfaModal");
+        const tfaModal = await this.getComponent("tfaModal").getModalInstance();
+        tfaModal.setCloseAllowed(true).setLoading(false).setActive(false);
+        const data = new FormData();
+        data.append("formTabs", `{"_default":{"username":"username","password":"password","code":null,"token":"${tfaData.token}"}}`);
+        data.append("formShared", "{}");
+        data.append("tabs", `["_default"]`);
+        await this.utils.waitForComponent("loadingAuth");
+        this.getComponent("loadingAuth").setActive(true);
+        try {
+            const res = await axios({
+                method: "post",
+                url: "/api/signIn",
+                data,
+                headers: {},
+            });
+            const {
+                token,
+            } = res.data;
+            tfaModal.setCloseAllowed(true).setLoading(false).setActive(false);
+            this.cookies.set(`${this.siteId}.authToken`, token);
+            window.location.href = `${this.query.get("r") || this.utils.getLocalizedURL("/") || "/"}`;
+        } catch (e) {
+            this.getComponent("loadingAuth").setActive(false);
+            this.authErrorHandler(signInForm, e);
+        } finally {
+            tfaModal.setCloseAllowed(true).setLoading(false).setActive(false);
+        }
     }
 }

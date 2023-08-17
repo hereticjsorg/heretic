@@ -24,6 +24,7 @@ export default () => ({
             });
             const data = req.processFormData({
                 _default: item,
+                tfa: !!item.tfaConfig,
             }, formData.getFieldsFlat(), [{
                 id: "_default",
             }]);

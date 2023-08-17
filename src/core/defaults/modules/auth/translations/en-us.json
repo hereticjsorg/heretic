@@ -3,6 +3,7 @@
     "password": "Password",
     "signIn": "Sign In",
     "error_invalid_credentials": "Invalid credentials",
+    "error_invalid_token": "Invalid token",
     "loginSuccess": "Login successful",
     "loginFail": "Login failed",
     "submit": "Submit",

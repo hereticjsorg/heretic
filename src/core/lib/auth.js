@@ -54,11 +54,15 @@ export default class {
         });
     }
 
-    async authorize(username, password = null) {
+    async authorize(username, password = null, uid = null) {
         if (this.fastify.systemConfig.mongo.enabled) {
             try {
                 let userDb;
-                if (username.match(/@/)) {
+                if (uid) {
+                    userDb = await this.fastify.mongo.db.collection(this.fastify.systemConfig.collections.users).findOne({
+                        _id: new ObjectId(uid),
+                    });
+                } else if (username.match(/@/)) {
                     userDb = await this.fastify.mongo.db.collection(this.fastify.systemConfig.collections.users).findOne({
                         email: username.toLowerCase(),
                     });
@@ -97,10 +101,11 @@ export default class {
         return null;
     }
 
-    generateToken(uid, sid) {
+    generateToken(uid, sid, extraData = {}) {
         const signData = {
             uid,
             sid,
+            ...extraData,
         };
         const clientIp = this.ipTools.getClientIp(this.req) || null;
         if (clientIp) {

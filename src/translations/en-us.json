@@ -218,5 +218,9 @@
     "htable_importButton": "Import",
     "htable_importError": "Could not import data",
     "htable_importSuccess": "Successfully imported",
-    "htable_importFailed": "Missing records"
+    "htable_importFailed": "Missing records",
+    "userIsActive": "User is active",
+    "confirmationModalTitle": "Confirmation",
+    "confirmationModalButtonConfirm": "Confirm",
+    "confirmationModalButtonCancel": "Cancel"
 }

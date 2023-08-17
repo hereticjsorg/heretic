@@ -3,6 +3,7 @@
     "password": "Kennwort",
     "signIn": "Anmelden",
     "error_invalid_credentials": "Ungültige Zugangsdaten",
+    "error_invalid_token": "Ungültiges Token",
     "loginSuccess": "Anmeldung erfolgreich",
     "loginFail": "Anmeldung fehlgeschlagen",
     "submit": "Senden",

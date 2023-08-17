@@ -161,8 +161,9 @@
                 const defaultLanguage = "${input.defaultLanguage}";
                 const errorMessage = messages[language] || messages[defaultLanguage] || "-";
                 const token = "${input.token}" || null;
+                const tfa = "${input.tfa}" || null;
                 if (token && window.opener && window.opener.postMessage) {
-                    window.opener.postMessage({ token });
+                    window.opener.postMessage({ token, tfa: !!tfa });
                     window.close();
                     return;
                 }

@@ -9,6 +9,7 @@ export default class {
             view: "2fa",
             username: null,
             password: null,
+            token: null,
         };
         this.language = out.global.language;
         this.siteTitle = out.global.siteTitle;
@@ -88,12 +89,20 @@ export default class {
                     recoveryCode: recoveryCode.toUpperCase(),
                     username: this.state.username,
                     password: this.state.password,
+                    token: this.state.token,
                 },
                 headers: {
                     Authorization: `Bearer ${this.currentToken}`,
                 },
             });
-            this.emit("recovery-code", recoveryCode);
+            if (this.state.token) {
+                this.emit("recovery-code-token", {
+                    recoveryCode,
+                    token: this.state.token,
+                });
+            } else {
+                this.emit("recovery-code", recoveryCode);
+            }
         } catch (err) {
             let errorMessage = "setup2faError";
             if (err && err.response && err.response.data && err.response.data.reason) {
@@ -121,6 +130,10 @@ export default class {
         this.setState("password", password);
     }
 
+    setToken(token) {
+        this.setState("token", token);
+    }
+
     async onOtpFormSubmit() {
         await this.utils.waitForComponent("tfaOtpForm");
         const otpForm = this.getComponent("tfaOtpForm");
@@ -141,12 +154,20 @@ export default class {
                     code,
                     username: this.state.username,
                     password: this.state.password,
+                    token: this.state.token,
                 },
                 headers: {
                     Authorization: `Bearer ${this.currentToken}`,
                 },
             });
-            this.emit("code", code);
+            if (this.state.token) {
+                this.emit("code-token", {
+                    code,
+                    token: this.state.token,
+                });
+            } else {
+                this.emit("code", code);
+            }
         } catch (err) {
             let errorMessage = "setup2faError";
             if (err && err.response && err.response.data && err.response.data.reason) {

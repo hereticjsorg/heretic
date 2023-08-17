@@ -43,6 +43,14 @@ export default class {
                             type: ["string", "null"]
                         },
                         noRender: true,
+                    }, {
+                        id: "token",
+                        type: "text",
+                        fieldType: "text",
+                        validation: {
+                            type: ["string", "null"]
+                        },
+                        noRender: true,
                     }],
                 ],
             }],
