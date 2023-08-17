@@ -1,3 +1,12 @@
+## v1.1.68
+
+**Update modal.marko** (2023-08-17)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-08-17 | Update modal.marko |
+
+
 ## v1.1.67
 
 **Bugfixes** (2023-08-17)
