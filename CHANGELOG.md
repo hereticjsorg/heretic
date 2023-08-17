@@ -1,3 +1,12 @@
+## v1.1.69
+
+**NPM Modules Upgrade** (2023-08-17)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-08-17 | NPM Modules Upgrade |
+
+
 ## v1.1.68
 
 **Update modal.marko** (2023-08-17)
