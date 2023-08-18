@@ -12,6 +12,8 @@ const WebpackUtils = require("./webpack.utils.js");
 const babelConfig = require("./babel.config");
 const systemConfig = require("./etc/system.js");
 
+const threadPoolConfig = {};
+
 module.exports = async (env, argv) => {
     const markoPlugin = new MarkoPlugin();
     const webpackUtils = new WebpackUtils(argv.mode === "production");
@@ -40,8 +42,17 @@ module.exports = async (env, argv) => {
             module: {
                 rules: [{
                         test: /\.tsx?$/,
-                        use: "ts-loader",
-                        exclude: /node_modules/,
+                        use: [{
+                                loader: "thread-loader",
+                                options: threadPoolConfig,
+                            },
+                            {
+                                loader: "ts-loader",
+                                options: {
+                                    exclude: /node_modules/,
+                                }
+                            }
+                        ],
                     }, {
                         test: /\.(woff(2)?|ttf|eot|otf|png|jpg|svg)(\?v=\d+\.\d+\.\d+)?$/,
                         type: "asset/resource",
@@ -75,21 +86,28 @@ module.exports = async (env, argv) => {
                     },
                     {
                         test: /\.marko$/,
-                        loader: "@marko/webpack/loader",
-                        options: {
-                            babelConfig: {
-                                ...babelConfig(),
-                            }
-                        }
+                        use: [{
+                            loader: "@marko/webpack/loader",
+                            options: {
+                                babelConfig: {
+                                    ...babelConfig(),
+                                }
+                            },
+                        }],
                     },
                     {
                         test: /\.js$/,
-                        loader: "babel-loader",
                         exclude: /node_modules/,
-                        options: {
-                            cacheDirectory: true,
-                            ...babelConfig()
-                        }
+                        use: [{
+                            loader: "thread-loader",
+                            options: threadPoolConfig,
+                        }, {
+                            loader: "babel-loader",
+                            options: {
+                                cacheDirectory: true,
+                                ...babelConfig(),
+                            }
+                        }],
                     }
                 ]
             },
@@ -184,7 +202,12 @@ module.exports = async (env, argv) => {
                     bulma: path.join(__dirname, "node_modules/bulma/sass"),
                 },
                 extensions: [".tsx", ".ts", ".js"],
-            }
+            },
+            // cache: {
+            //     type: "filesystem",
+            //     allowCollectingMemory: true,
+            //     cacheDirectory: path.resolve(__dirname, ".cache"),
+            // },
         },
         {
             name: "Backend",
@@ -199,14 +222,20 @@ module.exports = async (env, argv) => {
                     type: "asset/source",
                 }, {
                     test: /\.tsx?$/,
-                    use: "ts-loader",
+                    use: [{
+                        loader: "ts-loader",
+                    }],
                     exclude: /node_modules/,
                 }, {
                     test: /\.s?css$/,
-                    loader: "ignore-loader"
+                    use: [{
+                        loader: "ignore-loader",
+                    }],
                 }, {
                     test: /\.marko$/,
-                    loader: "@marko/webpack/loader"
+                    use: [{
+                        loader: "@marko/webpack/loader",
+                    }],
                 }, {
                     test: /\.(png|jpg|svg)(\?v=\d+\.\d+\.\d+)?$/,
                     type: "asset/resource",
@@ -214,7 +243,7 @@ module.exports = async (env, argv) => {
                         filename: "asset.[contenthash:8][ext]",
                         publicPath: "/heretic/",
                         outputPath: "public/heretic/",
-                    }
+                    },
                 }, {
                     test: /\.(ttf)(\?v=\d+\.\d+\.\d+)?$/,
                     type: "asset/inline",
@@ -262,7 +291,12 @@ module.exports = async (env, argv) => {
             ],
             node: {
                 __dirname: false,
-            }
+            },
+            // cache: {
+            //     type: "filesystem",
+            //     allowCollectingMemory: true,
+            //     cacheDirectory: path.resolve(__dirname, ".cache"),
+            // },
         }
     ]);
 };
