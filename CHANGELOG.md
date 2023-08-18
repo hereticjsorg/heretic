@@ -1,3 +1,20 @@
+## v1.1.73
+
+**Bugfixes & Improvements** (2023-08-18)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-08-18 | Update settings.json |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-08-18 | NPM Modules Upgrade |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-08-18 | Merge branch 'dev1' of https://github.com/hereticjsorg/heretic into dev1 |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-08-18 | Replacing "+" by spaces in query string |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-08-18 | Added .cache dir |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-08-18 | Run tests from everywhere, not only from "src/core/tests" |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-08-18 | NPM Modules upgrade |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-08-18 | Show build time in seconds |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-08-18 | Multi-thread optimizations |
+
+
 ## v1.1.72
 
 **Update google.js** (2023-08-17)
