@@ -40,3 +40,4 @@ src/meta.json
 src/**/meta.json
 site/meta.json
 site/**/meta.json
+.cache

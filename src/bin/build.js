@@ -25,6 +25,7 @@ const BinUtils = require("./lib/binUtils");
     }
     binUtils.printLogo();
     try {
+        const startTime = new Date().getTime();
         binUtils.log(`Building Heretic in ${options.dev ? "development" : "production"} mode${options.dev ? "" : " (may take a long time!)"}...`);
         const data = await binUtils.executeCommand(`npm${os.platform() === "win32" ? ".cmd" : ""} run build-${options.dev ? "dev" : "production"} -- --no-color`);
         const buildResultMatch = data && data.exitCode === 0 && typeof data.stdout === "string" ? data.stdout.match(/compiled successfully/gm) : [];
@@ -46,7 +47,8 @@ const BinUtils = require("./lib/binUtils");
             await fs.remove(path.join(__dirname, "../../dist/server.js"));
             await fs.copy(path.join(__dirname, "../../dist.new/server.js"), path.join(__dirname, "../../dist/server.js"));
             await fs.remove(path.join(__dirname, "../../dist.new"));
-            binUtils.log("All done.", {
+            const buildTime = parseInt((new Date().getTime() - startTime) / 1000, 10);
+            binUtils.log(`All done. Build time: ${buildTime} second(s).`, {
                 success: true,
             });
             process.exit(0);

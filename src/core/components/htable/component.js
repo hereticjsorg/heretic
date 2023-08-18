@@ -410,7 +410,7 @@ export default class {
             const currentPage = this.query.get(this.queryStringShorthands["currentPage"]);
             const sortField = this.query.get(this.queryStringShorthands["sortField"]);
             const sortDirection = this.query.get(this.queryStringShorthands["sortDirection"]);
-            const searchText = this.query.get(this.queryStringShorthands["searchText"]);
+            const searchText = this.query.get(this.queryStringShorthands["searchText"]).replace(/\+/gm, " ");
             if (currentPage && typeof currentPage === "string" && currentPage.match(/^[0-9]{1,99999}$/)) {
                 loadInput.currentPage = parseInt(currentPage, 10);
             }
