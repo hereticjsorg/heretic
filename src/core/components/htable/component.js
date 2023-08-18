@@ -410,7 +410,7 @@ export default class {
             const currentPage = this.query.get(this.queryStringShorthands["currentPage"]);
             const sortField = this.query.get(this.queryStringShorthands["sortField"]);
             const sortDirection = this.query.get(this.queryStringShorthands["sortDirection"]);
-            const searchText = this.query.get(this.queryStringShorthands["searchText"]).replace(/\+/gm, " ");
+            const searchText = this.query.get(this.queryStringShorthands["searchText"]);
             if (currentPage && typeof currentPage === "string" && currentPage.match(/^[0-9]{1,99999}$/)) {
                 loadInput.currentPage = parseInt(currentPage, 10);
             }
@@ -423,7 +423,7 @@ export default class {
                 loadInput.sortDirection = sortDirection;
             }
             if (searchText && typeof searchText === "string" && searchText.length < 64) {
-                loadInput.searchText = searchText;
+                loadInput.searchText = searchText.replace(/\+/gm, " ");
             }
         }
         this.loadDataDebounced = debounce(this.loadData, 500);
