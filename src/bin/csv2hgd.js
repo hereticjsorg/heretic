@@ -21,6 +21,25 @@ const geoLocales = {
 const CHUNK_SIZE_V4 = 1080000;
 const CHUNK_SIZE_V6 = 2400000;
 
+const getCountryBlocksDataV4 = () => {
+    const fileNameCountryBlocks4 = "csv/GeoLite2-Country-Blocks-IPv4.csv";
+    const pathCountryBlocks4 = path.join(__dirname, fileNameCountryBlocks4);
+    if (!fs.existsSync(pathCountryBlocks4)) {
+        throw new Error(`File is missing: ${fileNameCountryBlocks4}`);
+    }
+    const csvCountryBlocks4 = fs.readFileSync(pathCountryBlocks4, "utf8").split(/\n/);
+    const data = {};
+    for (const line of csvCountryBlocks4) {
+        const [netmask, geoNameIdCountry] = line.split(/,/);
+        if (!netmask || netmask === "network" || !geoNameIdCountry) {
+            continue;
+        }
+        const ipRange = IPv4CidrRange.fromCidr(netmask);
+        data[parseInt(ipRange.getLast().value, 10)] = parseInt(geoNameIdCountry, 10);
+    }
+    return data;
+};
+
 const generateCityBlocksBinaryV4 = () => {
     const fileNameCityBlocks4 = "csv/GeoLite2-City-Blocks-IPv4.csv";
     const pathCityBlocks4 = path.join(__dirname, fileNameCityBlocks4);
@@ -31,17 +50,20 @@ const generateCityBlocksBinaryV4 = () => {
     const data = [];
     let buf = Buffer.alloc(CHUNK_SIZE_V4);
     let pos = 0;
+    const countryBlockData = getCountryBlocksDataV4();
     for (const line of csvCityBlocks4) {
-        const [netmask, geoNameIdCity, geoNameIdCountry] = line.split(/,/);
-        if (!netmask || netmask === "network" || (!geoNameIdCity && !geoNameIdCountry)) {
+        const [netmask, geoNameIdCity] = line.split(/,/);
+        if (!netmask || netmask === "network" || !geoNameIdCity) {
             continue;
         }
         const ipRange = IPv4CidrRange.fromCidr(netmask);
+        const blockEnd = parseInt(ipRange.getLast().value, 10);
+        const geoNameIdCountry = parseInt(countryBlockData[blockEnd], 10);
         buf.writeUInt32BE(parseInt(geoNameIdCity, 10), pos);
         pos += 4;
         buf.writeUInt32BE(parseInt(geoNameIdCountry, 10), pos);
         pos += 4;
-        buf.writeUInt32BE(parseInt(ipRange.getLast().value, 10), pos);
+        buf.writeUInt32BE(blockEnd, pos);
         pos += 4;
         if (pos > CHUNK_SIZE_V4 - 12) {
             const headBuf = Buffer.alloc(4);
@@ -65,6 +87,25 @@ const generateCityBlocksBinaryV4 = () => {
     fs.writeFileSync(path.join(__dirname, "/data/geoNetworksV4.hgd"), Buffer.concat([headBuf, ...data]));
 };
 
+const getCountryBlocksDataV6 = () => {
+    const fileNameCountryBlocks6 = "csv/GeoLite2-Country-Blocks-IPv6.csv";
+    const pathCountryBlocks6 = path.join(__dirname, fileNameCountryBlocks6);
+    if (!fs.existsSync(pathCountryBlocks6)) {
+        throw new Error(`File is missing: ${fileNameCountryBlocks6}`);
+    }
+    const csvCountryBlocks6 = fs.readFileSync(pathCountryBlocks6, "utf8").split(/\n/);
+    const data = {};
+    for (const line of csvCountryBlocks6) {
+        const [netmask, geoNameIdCountry] = line.split(/,/);
+        if (!netmask || netmask === "network" || !geoNameIdCountry) {
+            continue;
+        }
+        const ipRange = IPv6CidrRange.fromCidr(netmask);
+        data[String(ipRange.getLast().value)] = parseInt(geoNameIdCountry, 10);
+    }
+    return data;
+};
+
 const generateCityBlocksBinaryV6 = () => {
     const fileNameCityBlocks6 = "csv/GeoLite2-City-Blocks-IPv6.csv";
     const pathCityBlocks6 = path.join(__dirname, fileNameCityBlocks6);
@@ -75,15 +116,17 @@ const generateCityBlocksBinaryV6 = () => {
     const data = [];
     let buf = Buffer.alloc(CHUNK_SIZE_V6);
     let pos = 0;
+    const countryBlockData = getCountryBlocksDataV6();
     for (const line of csvCityBlocks6) {
-        const [netmask, geoNameIdCity, geoNameIdCountry] = line.split(/,/);
-        if (!netmask || netmask === "network" || (!geoNameIdCity && !geoNameIdCountry)) {
+        const [netmask, geoNameIdCity] = line.split(/,/);
+        if (!netmask || netmask === "network" || !geoNameIdCity) {
             continue;
         }
         const ipRange = IPv6CidrRange.fromCidr(netmask);
+        const lastPartString = String(ipRange.getLast().value);
+        const geoNameIdCountry = countryBlockData[lastPartString];
         buf.writeUInt32BE(parseInt(geoNameIdCity, 10), pos);
         buf.writeUInt32BE(parseInt(geoNameIdCountry, 10), pos + 4);
-        const lastPartString = String(ipRange.getLast().value);
         const partOne = lastPartString.slice(0, lastPartString.length / 2);
         const partTwo = lastPartString.slice(lastPartString.length / 2, lastPartString.length);
         buf.writeBigUint64BE(BigInt(partOne), pos + 8);

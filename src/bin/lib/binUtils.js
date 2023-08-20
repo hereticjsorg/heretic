@@ -533,8 +533,8 @@ module.exports = class {
         }
         const {
             size: fileSize,
-        } = fs.statSync(`${__dirname}/data/geoNetworksV4.hgd`);
-        const fd = fs.openSync(`${__dirname}/data/geoNetworksV4.hgd`);
+        } = fs.statSync(`${__dirname}/../data/geoNetworksV4.hgd`);
+        const fd = fs.openSync(`${__dirname}/../data/geoNetworksV4.hgd`);
         let globalOffset = 0;
         const mainBufHead = Buffer.alloc(4);
         fs.readSync(fd, mainBufHead, 0, 4, globalOffset);
@@ -599,8 +599,8 @@ module.exports = class {
         }
         const {
             size: fileSize,
-        } = fs.statSync(`${__dirname}/data/geoNetworksV6.hgd`);
-        const fd = fs.openSync(`${__dirname}/data/geoNetworksV6.hgd`);
+        } = fs.statSync(`${__dirname}/../data/geoNetworksV6.hgd`);
+        const fd = fs.openSync(`${__dirname}/../data/geoNetworksV6.hgd`);
         let globalOffset = 0;
         const mainBufHead = Buffer.alloc(4);
         fs.readSync(fd, mainBufHead, 0, 4, globalOffset);
@@ -665,8 +665,8 @@ module.exports = class {
         }
         const {
             size: fileSize,
-        } = fs.statSync(`${__dirname}/data/geoCountries.hgd`);
-        const fd = fs.openSync(`${__dirname}/data/geoCountries.hgd`);
+        } = fs.statSync(`${__dirname}/../data/geoCountries.hgd`);
+        const fd = fs.openSync(`${__dirname}/../data/geoCountries.hgd`);
         let globalOffset = 0;
         const mainBufHead = Buffer.alloc(4);
         fs.readSync(fd, mainBufHead, 0, 4, globalOffset);
@@ -747,8 +747,8 @@ module.exports = class {
         }
         const {
             size: fileSize,
-        } = fs.statSync(`${__dirname}/data/geoCities.hgd`);
-        const fd = fs.openSync(`${__dirname}/data/geoCities.hgd`);
+        } = fs.statSync(`${__dirname}/../data/geoCities.hgd`);
+        const fd = fs.openSync(`${__dirname}/../data/geoCities.hgd`);
         let globalOffset = 0;
         const mainBufHead = Buffer.alloc(4);
         fs.readSync(fd, mainBufHead, 0, 4, globalOffset);
