@@ -1,3 +1,16 @@
+## v1.1.75
+
+**Bugfixes** (2023-08-20)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-08-19 | NPM Modules Upgrade |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-08-20 | Bugfixes<br/>Geo data was not properly imported to HGD files due to a bug in CSV import mechanism. |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-08-20 | Fixed invalid directories path |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-08-20 | Automatically import geo data during initial configuration |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-08-20 | Updated geo data |
+
+
 ## v1.1.74
 
 **Bugfixes** (2023-08-18)
