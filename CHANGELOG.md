@@ -1,3 +1,12 @@
+## v1.1.77
+
+**Geolocation-related bugfixes** (2023-08-21)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-08-21 | Geolocation-related bugfixes |
+
+
 ## v1.1.76
 
 **Fixed country display** (2023-08-21)
