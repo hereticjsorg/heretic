@@ -1,3 +1,12 @@
+## v1.1.76
+
+**Fixed country display** (2023-08-21)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-08-21 | Fixed country display |
+
+
 ## v1.1.75
 
 **Bugfixes** (2023-08-20)
