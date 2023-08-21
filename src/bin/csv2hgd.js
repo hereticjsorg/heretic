@@ -21,26 +21,37 @@ const geoLocales = {
 const CHUNK_SIZE_V4 = 1080000;
 const CHUNK_SIZE_V6 = 2400000;
 
-const getCountryBlocksDataV4 = () => {
-    const fileNameCountryBlocks4 = "csv/GeoLite2-Country-Blocks-IPv4.csv";
-    const pathCountryBlocks4 = path.join(__dirname, fileNameCountryBlocks4);
-    if (!fs.existsSync(pathCountryBlocks4)) {
-        throw new Error(`File is missing: ${fileNameCountryBlocks4}`);
+const getCountryData = () => {
+    const fileNameLocationsCountry = "csv/GeoLite2-Country-Locations-en.csv";
+    const pathLocationsCountry = path.join(__dirname, fileNameLocationsCountry);
+    if (!fs.existsSync(pathLocationsCountry)) {
+        throw new Error(`File is missing: ${pathLocationsCountry}`);
     }
-    const csvCountryBlocks4 = fs.readFileSync(pathCountryBlocks4, "utf8").split(/\n/);
-    const data = [];
-    for (const line of csvCountryBlocks4) {
-        const [netmask, geoNameIdCountry] = line.split(/,/);
-        if (!netmask || netmask === "network" || !geoNameIdCountry) {
+    const csvLocationsCountry = fs.readFileSync(pathLocationsCountry, "utf8").split(/\n/);
+    const countryData = {};
+    for (const line of csvLocationsCountry) {
+        const [geonameId, , , , countryISOCode] = line.split(/,/);
+        if (!geonameId || geonameId === "geoname_id") {
             continue;
         }
-        const ipRange = IPv4CidrRange.fromCidr(netmask);
-        data.push({
-            first: parseInt(ipRange.getFirst().value, 10),
-            country: parseInt(geoNameIdCountry, 10),
-        });
+        countryData[countryISOCode] = parseInt(geonameId, 10);
     }
-    return data.sort((p1, p2) => (p1.first > p2.first) ? 1 : (p1.first < p2.first) ? -1 : 0);
+    const fileNameLocations = "csv/GeoLite2-City-Locations-en.csv";
+    const pathLocations = path.join(__dirname, fileNameLocations);
+    if (!fs.existsSync(pathLocations)) {
+        throw new Error(`File is missing: ${pathLocations}`);
+    }
+    const csvLocations = fs.readFileSync(pathLocations, "utf8").split(/\n/);
+    const data = {};
+    for (const line of csvLocations) {
+        const [geonameId, , , , countryISOCode] = line.split(/,/);
+        if (!geonameId || geonameId === "geoname_id" || !countryISOCode) {
+            continue;
+        }
+        const geonameIdInt = parseInt(geonameId, 10);
+        data[geonameIdInt] = countryData[countryISOCode];
+    }
+    return data;
 };
 
 const generateCityBlocksBinaryV4 = () => {
@@ -53,21 +64,17 @@ const generateCityBlocksBinaryV4 = () => {
     const data = [];
     let buf = Buffer.alloc(CHUNK_SIZE_V4);
     let pos = 0;
-    const countryBlockData = getCountryBlocksDataV4();
+    const countryData = getCountryData();
     for (const line of csvCityBlocks4) {
         const [netmask, geoNameIdCity] = line.split(/,/);
         if (!netmask || netmask === "network" || !geoNameIdCity) {
             continue;
         }
         const ipRange = IPv4CidrRange.fromCidr(netmask);
-        const ipRangeFirst = parseInt(ipRange.getFirst().value, 10);
         const blockEnd = parseInt(ipRange.getLast().value, 10);
-        const geoNameIdCountryItem = countryBlockData.find(i => i.first >= ipRangeFirst);
-        const geoNameIdCountry = geoNameIdCountryItem ? geoNameIdCountryItem.country || null : null;
-        if (!geoNameIdCountry) {
-            console.log(`Empty: ${geoNameIdCountry} ${netmask}`);
-        }
-        buf.writeUInt32BE(parseInt(geoNameIdCity, 10), pos);
+        const geoNameIdCityInt = parseInt(geoNameIdCity, 10);
+        const geoNameIdCountry = countryData[geoNameIdCityInt] || null;
+        buf.writeUInt32BE(geoNameIdCityInt, pos);
         pos += 4;
         buf.writeUInt32BE(parseInt(geoNameIdCountry, 10), pos);
         pos += 4;
@@ -95,28 +102,6 @@ const generateCityBlocksBinaryV4 = () => {
     fs.writeFileSync(path.join(__dirname, "/data/geoNetworksV4.hgd"), Buffer.concat([headBuf, ...data]));
 };
 
-const getCountryBlocksDataV6 = () => {
-    const fileNameCountryBlocks6 = "csv/GeoLite2-Country-Blocks-IPv6.csv";
-    const pathCountryBlocks6 = path.join(__dirname, fileNameCountryBlocks6);
-    if (!fs.existsSync(pathCountryBlocks6)) {
-        throw new Error(`File is missing: ${fileNameCountryBlocks6}`);
-    }
-    const csvCountryBlocks6 = fs.readFileSync(pathCountryBlocks6, "utf8").split(/\n/);
-    const data = [];
-    for (const line of csvCountryBlocks6) {
-        const [netmask, geoNameIdCountry] = line.split(/,/);
-        if (!netmask || netmask === "network" || !geoNameIdCountry) {
-            continue;
-        }
-        const ipRange = IPv6CidrRange.fromCidr(netmask);
-        data.push({
-            first: parseInt(ipRange.getFirst().value, 10),
-            country: parseInt(geoNameIdCountry, 10),
-        });
-    }
-    return data.sort((p1, p2) => (p1.first > p2.first) ? 1 : (p1.first < p2.first) ? -1 : 0);
-};
-
 const generateCityBlocksBinaryV6 = () => {
     const fileNameCityBlocks6 = "csv/GeoLite2-City-Blocks-IPv6.csv";
     const pathCityBlocks6 = path.join(__dirname, fileNameCityBlocks6);
@@ -127,20 +112,16 @@ const generateCityBlocksBinaryV6 = () => {
     const data = [];
     let buf = Buffer.alloc(CHUNK_SIZE_V6);
     let pos = 0;
-    const countryBlockData = getCountryBlocksDataV6();
+    const countryData = getCountryData();
     for (const line of csvCityBlocks6) {
         const [netmask, geoNameIdCity] = line.split(/,/);
         if (!netmask || netmask === "network" || !geoNameIdCity) {
             continue;
         }
         const ipRange = IPv6CidrRange.fromCidr(netmask);
-        const ipRangeFirst = parseInt(ipRange.getFirst().value, 10);
         const lastPartString = String(ipRange.getLast().value);
-        const geoNameIdCountryItem = countryBlockData.find(i => i.first >= ipRangeFirst);
-        const geoNameIdCountry = geoNameIdCountryItem ? geoNameIdCountryItem.country || null : null;
-        if (!geoNameIdCountry) {
-            console.log(`Empty: ${geoNameIdCountry} ${netmask}`);
-        }
+        const geoNameIdCityInt = parseInt(geoNameIdCity, 10);
+        const geoNameIdCountry = countryData[geoNameIdCityInt] || null;
         buf.writeUInt32BE(parseInt(geoNameIdCity, 10), pos);
         buf.writeUInt32BE(parseInt(geoNameIdCountry, 10), pos + 4);
         const partOne = lastPartString.slice(0, lastPartString.length / 2);
@@ -171,7 +152,6 @@ const generateCityBlocksBinaryV6 = () => {
 };
 
 const generateCityDataBinary = () => {
-    // const geoPairs = {};
     const cities = {};
     for (const lang of Object.keys(geoLocales)) {
         const fileNameCityData = `csv/GeoLite2-City-Locations-${lang}.csv`;
@@ -194,11 +174,6 @@ const generateCityDataBinary = () => {
                 city = city.replace(/"/gm, "");
                 cities[geoNameId][geoLocales[lang]] = city;
             }
-            // if (lang === "en") {
-            //     const cityHash = crypto.createHash("md5").update(`${continentCode}.${countryCode}.${city}`).digest("hex");
-            //     cities[geoNameId].hash = cityHash;
-            //     geoPairs[geoNameId] = cityHash;
-            // }
         }
     }
     const citiesBufArr = [];
