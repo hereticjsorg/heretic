@@ -9,4 +9,8 @@ module.exports = class {
             await import(/* webpackChunkName: "havatar-frontend" */ "./style-frontend.scss");
         }
     }
+
+    async show() {
+
+    }
 };
