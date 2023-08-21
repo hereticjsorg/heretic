@@ -1,4 +1,6 @@
-module.exports = class {
+import Utils from "#lib/componentUtils";
+
+export default class {
     async onCreate(input) {
         this.state = {
             active: false,
@@ -10,7 +12,13 @@ module.exports = class {
         }
     }
 
-    async show() {
-
+    onMount() {
+        this.utils = new Utils(this);
     }
-};
+
+    async show() {
+        this.setState("active", true);
+        await this.utils.waitForComponent("avatarEditor");
+        this.getComponent("avatarEditor").setActive(true);
+    }
+}
