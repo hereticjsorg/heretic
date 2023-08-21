@@ -222,5 +222,6 @@
     "userIsActive": "User is active",
     "confirmationModalTitle": "Confirmation",
     "confirmationModalButtonConfirm": "Confirm",
-    "confirmationModalButtonCancel": "Cancel"
+    "confirmationModalButtonCancel": "Cancel",
+    "avatarEditorModalTitle": "Profile Picture"
 }
