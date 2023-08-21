@@ -28,16 +28,19 @@ const getCountryBlocksDataV4 = () => {
         throw new Error(`File is missing: ${fileNameCountryBlocks4}`);
     }
     const csvCountryBlocks4 = fs.readFileSync(pathCountryBlocks4, "utf8").split(/\n/);
-    const data = {};
+    const data = [];
     for (const line of csvCountryBlocks4) {
         const [netmask, geoNameIdCountry] = line.split(/,/);
         if (!netmask || netmask === "network" || !geoNameIdCountry) {
             continue;
         }
         const ipRange = IPv4CidrRange.fromCidr(netmask);
-        data[parseInt(ipRange.getLast().value, 10)] = parseInt(geoNameIdCountry, 10);
+        data.push({
+            first: parseInt(ipRange.getFirst().value, 10),
+            country: parseInt(geoNameIdCountry, 10),
+        });
     }
-    return data;
+    return data.sort((p1, p2) => (p1.first > p2.first) ? 1 : (p1.first < p2.first) ? -1 : 0);
 };
 
 const generateCityBlocksBinaryV4 = () => {
@@ -57,8 +60,13 @@ const generateCityBlocksBinaryV4 = () => {
             continue;
         }
         const ipRange = IPv4CidrRange.fromCidr(netmask);
+        const ipRangeFirst = parseInt(ipRange.getFirst().value, 10);
         const blockEnd = parseInt(ipRange.getLast().value, 10);
-        const geoNameIdCountry = parseInt(countryBlockData[blockEnd], 10);
+        const geoNameIdCountryItem = countryBlockData.find(i => i.first >= ipRangeFirst);
+        const geoNameIdCountry = geoNameIdCountryItem ? geoNameIdCountryItem.country || null : null;
+        if (!geoNameIdCountry) {
+            console.log(`Empty: ${geoNameIdCountry} ${netmask}`);
+        }
         buf.writeUInt32BE(parseInt(geoNameIdCity, 10), pos);
         pos += 4;
         buf.writeUInt32BE(parseInt(geoNameIdCountry, 10), pos);
@@ -94,16 +102,19 @@ const getCountryBlocksDataV6 = () => {
         throw new Error(`File is missing: ${fileNameCountryBlocks6}`);
     }
     const csvCountryBlocks6 = fs.readFileSync(pathCountryBlocks6, "utf8").split(/\n/);
-    const data = {};
+    const data = [];
     for (const line of csvCountryBlocks6) {
         const [netmask, geoNameIdCountry] = line.split(/,/);
         if (!netmask || netmask === "network" || !geoNameIdCountry) {
             continue;
         }
         const ipRange = IPv6CidrRange.fromCidr(netmask);
-        data[String(ipRange.getLast().value)] = parseInt(geoNameIdCountry, 10);
+        data.push({
+            first: parseInt(ipRange.getFirst().value, 10),
+            country: parseInt(geoNameIdCountry, 10),
+        });
     }
-    return data;
+    return data.sort((p1, p2) => (p1.first > p2.first) ? 1 : (p1.first < p2.first) ? -1 : 0);
 };
 
 const generateCityBlocksBinaryV6 = () => {
@@ -123,8 +134,13 @@ const generateCityBlocksBinaryV6 = () => {
             continue;
         }
         const ipRange = IPv6CidrRange.fromCidr(netmask);
+        const ipRangeFirst = parseInt(ipRange.getFirst().value, 10);
         const lastPartString = String(ipRange.getLast().value);
-        const geoNameIdCountry = countryBlockData[lastPartString];
+        const geoNameIdCountryItem = countryBlockData.find(i => i.first >= ipRangeFirst);
+        const geoNameIdCountry = geoNameIdCountryItem ? geoNameIdCountryItem.country || null : null;
+        if (!geoNameIdCountry) {
+            console.log(`Empty: ${geoNameIdCountry} ${netmask}`);
+        }
         buf.writeUInt32BE(parseInt(geoNameIdCity, 10), pos);
         buf.writeUInt32BE(parseInt(geoNameIdCountry, 10), pos + 4);
         const partOne = lastPartString.slice(0, lastPartString.length / 2);
