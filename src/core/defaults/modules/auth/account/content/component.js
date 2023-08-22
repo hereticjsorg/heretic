@@ -94,6 +94,7 @@ export default class {
         this.utils.waitForComponent("profileForm");
         const profileForm = this.getComponent("profileForm");
         setTimeout(() => profileForm.focus());
+        // this.getComponent("accountAvatarEditor").show();
     }
 
     async onProfileFormSubmit() {

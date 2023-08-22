@@ -1,5 +1,16 @@
+@import "./cropper.scss";
+
+.hr-avatar-modal-body {
+    padding: 0 !important;
+}
+
+#avatarCropper {
+    display: flex;
+    justify-content: center;
+}
+
 @media screen and (min-width: 769px) {
     .hr-avatar-modal-card {
-        width: 300px;
+        width: 400px;
     }
 }

@@ -18,7 +18,16 @@
             style={
                 order: "2"
             }>
-            OK
+            <div class="mt-3 mb-2 is-flex is-justify-content-center">
+                <label class="file-label">
+                    <input class="file-input" type="file" multiple=false on-change("onImportFileInputChange")/>
+                    <a class="hr-hf-file-cta file-cta button is-light is-small" tabindex="0">
+                        <t class="file-label">hform_import_selectFile</t>
+                    </a>
+                </label>
+            </div>
+            <div id="avatarCropper"/>
         </section>
     </hmodal>
+    <hnotify key="avatarNotify"/>
 </if>

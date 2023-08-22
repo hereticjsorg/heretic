@@ -223,5 +223,6 @@
     "confirmationModalTitle": "Confirmation",
     "confirmationModalButtonConfirm": "Confirm",
     "confirmationModalButtonCancel": "Cancel",
-    "avatarEditorModalTitle": "Profile Picture"
+    "avatarEditorModalTitle": "Profile Picture",
+    "avatarEditorLoadError": "Could not load image"
 }

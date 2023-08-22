@@ -1,0 +1,123 @@
+.slider[type='range'] {
+    -webkit-appearance: none;
+    margin: 9px 0;
+    width: 100%;
+}
+
+.slider[type='range']:focus {
+    outline: 0;
+}
+
+.slider[type='range']::-webkit-slider-runnable-track {
+    cursor: pointer;
+    height: 5px;
+    width: 100%;
+    background: #008ecc;
+    border: none;
+}
+
+.slider[type='range']::-webkit-slider-thumb {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 50%;
+    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+    height: 18px;
+    width: 18px;
+    -webkit-appearance: none;
+    margin-top: -6.5px;
+}
+
+.slider[type='range']::-moz-range-track {
+    cursor: pointer;
+    height: 5px;
+    width: 100%;
+    background: #008ecc;
+    border: none;
+}
+
+.slider[type='range']::-moz-range-thumb {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 50%;
+    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+    height: 18px;
+    width: 18px;
+}
+
+.slider[type='range']::-ms-track {
+    cursor: pointer;
+    height: 5px;
+    width: 100%;
+    background: transparent;
+    border-color: transparent;
+    border-width: 9px 0;
+    color: transparent;
+}
+
+.slider[type='range']::-ms-fill-lower {
+    background: #008ecc;
+    border: none;
+}
+
+.slider[type='range']::-ms-fill-upper {
+    background: #008ecc;
+    border: none
+}
+
+.slider[type='range']::-ms-thumb {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 50%;
+    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+    height: 18px;
+    width: 18px;
+    margin-top: 0;
+}
+
+
+.cropper {
+    display: inline-block;
+}
+
+.cropper canvas {
+    border-radius: 3px;
+}
+
+.cropper canvas:hover {
+    cursor: move;
+}
+
+.cropper-tools {
+    margin-top: 5px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.cropper-zoom {
+    display: inline-block;
+}
+
+.cropper-zoom .slider {
+    margin: 0 10px;
+    width: 225px;
+}
+
+.cropper-zoom .icon {
+    margin-top: 2px;
+    font-size: 18px;
+}
+
+.cropper-zoom .icon:last-child {
+    font-size: 24px;
+}
+
+.cropper .icon {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    fill: rgba(0, 0, 0, .54);
+    vertical-align: middle;
+}

@@ -209,6 +209,7 @@ import { mdiContentCopy } from "@mdi/js"
             </section>
         </hmodal>
         <tfaModal key="tfaModal" on-code("on2faDisable") on-recovery-code("on2faDisableRecovery")/>
+        <havatar key="accountAvatarEditor"/>
     </if>
     <if(!state.ready && component.mongoEnabled && component.authOptions.signIn)>
         <hloading active=true/>
