@@ -76,5 +76,7 @@
     "remove2faSuccess": "Two-factor authentication is disabled",
     "remove2faInvalidRecoveryCode": "Invalid recovery code",
     "couldNotCopy": "Could not copy",
-    "copied": "Copied to clipboard"
+    "copied": "Copied to clipboard",
+    "profilePictureClear": "Clear",
+    "profilePictureSaveNotice": "You have changed your profile picture. Please remember to click the \"Submit\" button to apply the changes."
 }

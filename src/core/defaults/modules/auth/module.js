@@ -44,4 +44,9 @@ module.exports = {
         disable2FA: "/api/user/disable2FA",
         disable2FARecovery: "/api/user/disable2FARecovery",
     },
+    profilePicture: {
+        width: 314,
+        height: 314,
+        directory: "profilePictures",
+    },
 };

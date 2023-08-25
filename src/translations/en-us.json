@@ -102,6 +102,7 @@
     "hform_mode_edit": "Edit",
     "hform_mode_view": "View",
     "hform_save": "Save",
+    "hform_set": "Set",
     "hform_close": "Close",
     "eq": "equals",
     "neq": "not equals",
@@ -222,5 +223,8 @@
     "userIsActive": "User is active",
     "confirmationModalTitle": "Confirmation",
     "confirmationModalButtonConfirm": "Confirm",
-    "confirmationModalButtonCancel": "Cancel"
+    "confirmationModalButtonCancel": "Cancel",
+    "profilePictureEditorModalTitle": "Profile Picture",
+    "profilePictureEditorLoadError": "Could not load image",
+    "profilePictureEditorNoImage": "No image selected"
 }

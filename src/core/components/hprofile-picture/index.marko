@@ -1,0 +1,41 @@
+<if(state.active)>
+    <hmodal
+        key="profilePictureEditor"
+        id="profilePictureEditor"
+        close=true
+        title="profilePictureEditorModalTitle"
+        cardClass="hr-profilePicture-modal-card"
+        on-button-click("onProfilePictureEditorButtonClick")
+        actions=[
+            {
+                id: "save",
+                label: "hform_set",
+                class: "button is-primary"
+            },
+            {
+                id: "close",
+                label: "hform_close",
+                class: "button is-light",
+                close: true
+            }
+        ]>
+        <section
+            class="hr-profilePicture-modal-body modal-card-body"
+            style={
+                order: "2"
+            }>
+            <div class="mt-3 mb-2 is-flex is-justify-content-center">
+                <label class="file-label">
+                    <input class="file-input" type="file" multiple=false on-change("onImportFileInputChange")/>
+                    <a class="hr-hf-file-cta file-cta button is-light is-small" tabindex="0">
+                        <t class="file-label">hform_import_selectFile</t>
+                    </a>
+                </label>
+            </div>
+            <div id="profilePictureCropperWrap">
+                <div id="profilePictureCropper" class="profilePictureCropper" no-update/>
+            </div>
+        </section>
+    </hmodal>
+    <hnotify key="profilePictureNotify"/>
+</if>

@@ -42,6 +42,15 @@ export default class {
                             label: this.t("submit"),
                             css: "button is-primary mt-3"
                         }],
+                    },
+                    {
+                        id: "profilePicture",
+                        type: "text",
+                        validation: {
+                            type: ["string", "null"],
+                            maxLength: 524288,
+                        },
+                        noRender: true,
                     }
                 ],
             }],

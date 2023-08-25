@@ -21,6 +21,9 @@ export default class {
             secret: "",
             recoveryCode: "",
             tfaConfigured: false,
+            profilePicture: null,
+            profilePictureLoaded: false,
+            profilePictureChanged: false,
         };
         this.language = out.global.language;
         this.siteTitle = out.global.siteTitle;
@@ -80,6 +83,7 @@ export default class {
             this.setState("userData", {
                 _default: data,
             });
+            this.profilePicturePath = data.profilePicturePath || null;
             this.setState("tfaConfigured", data.tfaConfigured);
         } catch (e) {
             this.setState("error", true);
@@ -94,6 +98,10 @@ export default class {
         this.utils.waitForComponent("profileForm");
         const profileForm = this.getComponent("profileForm");
         setTimeout(() => profileForm.focus());
+        if (this.profilePicturePath) {
+            this.setState("profilePictureLoaded", true);
+            document.getElementById("profilePictureWrap").style.backgroundImage = `url(${this.profilePicturePath})`;
+        }
     }
 
     async onProfileFormSubmit() {
@@ -107,6 +115,12 @@ export default class {
         }
         profileForm.setLoading(true);
         const formData = profileForm.serializeData();
+        if (this.state.profilePicture) {
+            formData.formTabs._default.profilePicture = this.state.profilePicture;
+        }
+        if (this.clearAvatarFlag) {
+            formData.formTabs._default.profilePicture = "clear";
+        }
         try {
             await axios({
                 method: "post",
@@ -116,6 +130,8 @@ export default class {
                     Authorization: `Bearer ${this.currentToken}`,
                 },
             });
+            this.clearAvatarFlag = false;
+            this.setState("profilePictureChanged", false);
             this.getComponent("notify").show(this.t("saveSuccess"), "is-success");
         } catch (e) {
             if (e && e.response && e.response.data && e.response.data.form) {
@@ -371,5 +387,35 @@ export default class {
         } catch {
             this.getComponent("notify").show(this.t("couldNotCopy"), "is-danger");
         }
+    }
+
+    async onProfilePictureChange(e) {
+        e.preventDefault();
+        await this.utils.waitForComponent("accountProfilePictureEditor");
+        this.getComponent("accountProfilePictureEditor").show();
+    }
+
+    async onProfilePictureImageData(data) {
+        await this.utils.waitForComponent("accountProfilePictureEditor");
+        document.getElementById("profilePictureWrap").style.backgroundImage = `url(${data})`;
+        this.clearAvatarFlag = false;
+        this.setState("profilePictureLoaded", true);
+        this.setState("profilePictureChanged", true);
+        this.getComponent("accountProfilePictureEditor").hide();
+        this.setState("profilePicture", data);
+    }
+
+    onProfilePictureClearClick(e) {
+        e.preventDefault();
+        this.clearAvatarFlag = true;
+        this.setState("profilePictureLoaded", false);
+        this.setState("profilePicture", null);
+        this.setState("profilePictureChanged", true);
+        document.getElementById("profilePictureWrap").style.backgroundImage = "unset";
+    }
+
+    onProfilePictureChangeNoticeClick(e) {
+        e.preventDefault();
+        this.setState("profilePictureChanged", false);
     }
 }

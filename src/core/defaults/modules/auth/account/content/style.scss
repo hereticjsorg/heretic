@@ -44,3 +44,35 @@ html.heretic-dark .heretic2faSecretWrap {
     top: 0px;
     position: relative;
 }
+
+.profilePictureWrap {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: $grey-lightest;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    overflow: hidden;
+    background-image: url(./profile.png);
+    background-size: contain;
+    background-position: bottom;
+    background-repeat: no-repeat;
+    margin-top: 10px;
+}
+
+.profilePictureWrapIcon {
+    width: 100%;
+    background-color: $grey-lighter;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: .8;
+    transition: opacity .5s;
+}
+
+.profilePictureWrapIcon:hover {
+    opacity: 1;
+}
