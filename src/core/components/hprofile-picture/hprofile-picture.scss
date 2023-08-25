@@ -1,16 +1,16 @@
 @import "./cropper.scss";
 
-.hr-avatar-modal-body {
+.hr-profilePicture-modal-body {
     padding: 0 !important;
 }
 
-#avatarCropper {
+.profilePictureCropper {
     display: flex;
     justify-content: center;
 }
 
 @media screen and (min-width: 769px) {
-    .hr-avatar-modal-card {
+    .hr-profilePicture-modal-card {
         width: 400px;
     }
 }

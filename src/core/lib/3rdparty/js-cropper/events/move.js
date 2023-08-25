@@ -108,4 +108,13 @@ export default class MoveEventListener {
         const y = event.clientY || event.touches[0].clientY;
         return this._convertCoordinates(new Point(x, y));
     }
+
+    destroy() {
+        this._parent.getNode().removeEventListener("mousemove", this._onMoveHandler, false);
+        this._parent.getNode().removeEventListener("touchmove", this._onMoveHandler, false);
+        this._element.getNode().removeEventListener("mousedown", this._onPressHandler, false);
+        this._element.getNode().removeEventListener("touchstart", this._onPressHandler, false);
+        this._parent.getNode().removeEventListener("mouseup", this._onReleaseHandler, false);
+        this._parent.getNode().removeEventListener("touchend", this._onReleaseHandler, false);
+    }
 }

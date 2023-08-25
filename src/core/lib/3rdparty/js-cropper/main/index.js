@@ -142,8 +142,7 @@ export default class Cropper {
         if (!file) {
             throw Error("Image data is not passed.");
         }
-
-        return this._image.loadData(file).then((image) => {
+        return this._image.loadData(file).then(image => {
             this._canvas.setImage(image);
             this._canvas.draw();
             this._slider.setValue(0);
@@ -203,5 +202,9 @@ export default class Cropper {
         const { zoom } = this._canvas.setData(data);
         this._slider.setValue(zoom * 100);
         return this;
+    }
+
+    destroy() {
+        this._canvas.destroy();
     }
 }

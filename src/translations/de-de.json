@@ -102,6 +102,7 @@
     "hform_mode_edit": "Bearbeiten",
     "hform_mode_view": "Ansicht",
     "hform_save": "Speichern",
+    "hform_set": "Einstellen",
     "hform_close": "Schließen",
     "eq": "ist gleich",
     "neq": "nicht gleich",
@@ -214,5 +215,11 @@
     "htable_importError": "Daten können nicht importiert werden",
     "htable_importSuccess": "Erfolgreich importiert",
     "htable_importFailed": "Fehlende Datensätze",
-    "userIsActive": "Benutzer ist aktiviert"
+    "userIsActive": "Benutzer ist aktiviert",
+    "confirmationModalTitle": "Bestätigung",
+    "confirmationModalButtonConfirm": "Bestätigen",
+    "confirmationModalButtonCancel": "Abbrechen",
+    "profilePictureEditorModalTitle": "Profilbild",
+    "profilePictureEditorLoadError": "Bild konnte nicht geladen werden",
+    "profilePictureEditorNoImage": "Kein Bild ausgewählt"
 }

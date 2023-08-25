@@ -1,11 +1,17 @@
 <if(state.active)>
     <hmodal
-        key="avatarEditor"
-        id="avatarEditor"
+        key="profilePictureEditor"
+        id="profilePictureEditor"
         close=true
-        title="avatarEditorModalTitle"
-        cardClass="hr-avatar-modal-card"
+        title="profilePictureEditorModalTitle"
+        cardClass="hr-profilePicture-modal-card"
+        on-button-click("onProfilePictureEditorButtonClick")
         actions=[
+            {
+                id: "save",
+                label: "hform_set",
+                class: "button is-primary"
+            },
             {
                 id: "close",
                 label: "hform_close",
@@ -14,7 +20,7 @@
             }
         ]>
         <section
-            class="hr-avatar-modal-body modal-card-body"
+            class="hr-profilePicture-modal-body modal-card-body"
             style={
                 order: "2"
             }>
@@ -26,8 +32,10 @@
                     </a>
                 </label>
             </div>
-            <div id="avatarCropper"/>
+            <div id="profilePictureCropperWrap">
+                <div id="profilePictureCropper" class="profilePictureCropper" no-update/>
+            </div>
         </section>
     </hmodal>
-    <hnotify key="avatarNotify"/>
+    <hnotify key="profilePictureNotify"/>
 </if>

@@ -54,5 +54,9 @@
     "submit": "Senden",
     "hform_error_invalidCaptcha": "Ungültiger Code",
     "hform_error_invalidPassword": "Ungültiges Passwort",
-    "passwordChangeSuccess": "Der Vorgang der Passwortänderung wurde erfolgreich abgeschlossen. Sie können sich mit Ihrem Benutzernamen und Ihrem neuen Passwort auf der Website anmelden."
+    "passwordChangeSuccess": "Der Vorgang der Passwortänderung wurde erfolgreich abgeschlossen. Sie können sich mit Ihrem Benutzernamen und Ihrem neuen Passwort auf der Website anmelden.",
+    "disable2fa": "2FA deaktivieren",
+    "disable2faConfirmation": "Die Zwei-Faktor-Authentifizierung wird für das Konto deaktiviert.",
+    "disable2faSuccess": "Zwei-Faktor-Authentifizierung deaktiviert",
+    "disable2faError": "Die Zwei-Faktor-Authentifizierung konnte nicht deaktiviert werden"
 }

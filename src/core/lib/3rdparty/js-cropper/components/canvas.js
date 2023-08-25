@@ -295,4 +295,8 @@ export default class Canvas extends Element {
         this._context.fill();
         return this;
     }
+
+    destroy() {
+        this._moveEventListener.destroy();
+    }
 }

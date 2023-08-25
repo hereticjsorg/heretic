@@ -1,5 +1,9 @@
 import Ajv from "ajv";
+import sharp from "sharp";
+import fs from "fs-extra";
+import path from "path";
 import ProfileForm from "../data/profileForm";
+import moduleConfig from "../module.js";
 
 const ajv = new Ajv({
     allErrors: true,
@@ -37,12 +41,34 @@ export default () => ({
                 }, 403);
             }
             if (!this.systemConfig.demo) {
+                const data = {
+                    displayName: req.body.displayName,
+                };
+                if (req.body.profilePicture) {
+                    const profilePicturePath = path.resolve(__dirname, "public", moduleConfig.profilePicture.directory, `profile_${String(authData._id)}.jpg`);
+                    try {
+                        if (req.body.profilePicture === "clear") {
+                            await fs.remove(profilePicturePath);
+                        } else {
+                            const [, profilePictureData] = req.body.profilePicture.split(/base64,/); // cut data:image/png;base64,
+                            const decodedBuffer = Buffer.from(profilePictureData, "base64");
+                            const profilePictureBuffer = await sharp(decodedBuffer)
+                                .resize(moduleConfig.profilePicture.width, moduleConfig.profilePicture.height)
+                                .jpeg({
+                                    mozjpeg: true,
+                                    quality: 70,
+                                })
+                                .toBuffer();
+                            await fs.writeFile(profilePicturePath, profilePictureBuffer);
+                        }
+                    } catch {
+                        // Ignore
+                    }
+                }
                 await this.mongo.db.collection(this.systemConfig.collections.users).updateOne({
                     _id: authData._id,
                 }, {
-                    $set: {
-                        displayName: req.body.displayName,
-                    },
+                    $set: data,
                 });
             }
             return rep.success({});
