@@ -1,3 +1,22 @@
+## v1.1.78
+
+**Profile picture feature added** (2023-08-25)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-08-21 | NPM Modules Upgrade |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-08-21 | Avatar editor: work-in-progress |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-08-21 | Update component.js |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-08-21 | Profile picture work-in-progress |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-08-22 | Added es6-promise module |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-08-22 | Added js-cropper library as a fork |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-08-22 | havatar component work-in-progress |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-08-25 | Profile picture editor implemented |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-08-25 | Added "sharp" as an external module |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-08-25 | Typos fixed |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-08-25 | NPM Modules update |
+
+
 ## v1.1.77
 
 **Geolocation-related bugfixes** (2023-08-21)
