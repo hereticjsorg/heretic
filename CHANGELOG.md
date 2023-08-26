@@ -1,3 +1,13 @@
+## v1.1.80
+
+**Bugfixes** (2023-08-26)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-08-26 | NPM Modules update |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-08-26 | Bugfixes<br/>Fixed profile image selector (the picture was not cleared in case when an user re-opens the dialog) |
+
+
 ## v1.1.79
 
 **Bugfixes** (2023-08-26)
