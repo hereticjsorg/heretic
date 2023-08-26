@@ -56,7 +56,7 @@ module.exports = class {
         this.interactive = flag;
     }
 
-    async* walkDir(dir) {
+    async *walkDir(dir) {
         for await (const d of await fs.promises.opendir(dir)) {
             const entry = path.join(dir, d.name);
             if (d.isDirectory()) {
@@ -855,7 +855,12 @@ module.exports = class {
                     reject(new Error("No command specified"));
                 }
                 const cmd = commandArr.shift();
-                const result = spawn(cmd, commandArr);
+                const result = spawn(cmd, commandArr, {
+                    env: {
+                        ...process.env,
+                        MARKO_DEBUG: false,
+                    }
+                });
                 result.stdout.on("data", data => res.stdout += data);
                 result.stderr.on("data", data => res.stderr += data);
                 result.on("close", code => resolve(({
