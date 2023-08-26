@@ -23,8 +23,7 @@ export default class {
         });
     }
 
-    onDestroy() {
-    }
+    onDestroy() {}
 
     async show() {
         this.setState("active", true);
@@ -33,7 +32,7 @@ export default class {
         this.getComponent("profilePictureEditor").setActive(true);
         await this.utils.waitForElement("profilePictureCropperWrap");
         this.cropper.render("#profilePictureCropper");
-        // this.cropper.destroy();
+        this.cropper.resetImage();
     }
 
     async hide() {
