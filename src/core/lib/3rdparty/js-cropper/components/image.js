@@ -64,6 +64,20 @@ export default class Image extends Element {
         });
     }
 
+    loadDataBase64(imageData) {
+        return new Promise(async (resolve, reject) => {
+            this.getNode().onload = () => {
+                this._checkFormat();
+                resolve(this);
+            };
+            this.getNode().onerror = () => {
+                reject(Error("Can't load an image."));
+            };
+            this.getNode().src = imageData;
+            this.getNode().crossOrigin = "Anonymous";
+        });
+    }
+
     /**
      * Method, which check image format is portrait.
      *
