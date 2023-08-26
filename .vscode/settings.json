@@ -100,5 +100,6 @@
         "zhistory",
         "zipball",
         "Каптча"
-    ]
+    ],
+    "git.ignoreLimitWarning": true
 }

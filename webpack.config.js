@@ -174,7 +174,7 @@ module.exports = async (env, argv) => {
             plugins: [
                 new webpack.DefinePlugin({
                     "typeof window": "'object'",
-                    "process.browser": true
+                    "process.browser": true,
                 }),
                 argv.mode === "production" ? new MiniCssExtractPlugin({
                     filename: "[name].[fullhash:8].css",

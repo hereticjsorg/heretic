@@ -80,6 +80,7 @@
 
 .cropper {
     display: inline-block;
+    touch-action: none;
 }
 
 .cropper canvas {

@@ -104,9 +104,11 @@ export default class MoveEventListener {
     }
 
     _getEventPoint(event) {
-        const x = event.clientX || event.touches[0].clientX;
-        const y = event.clientY || event.touches[0].clientY;
-        return this._convertCoordinates(new Point(x, y));
+        if (event && (event.clientX || (event.touches && event.touches[0]))) {
+            const x = event.clientX || event.touches[0].clientX;
+            const y = event.clientY || event.touches[0].clientY;
+            return this._convertCoordinates(new Point(x, y));
+        }
     }
 
     destroy() {
