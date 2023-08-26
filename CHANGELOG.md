@@ -1,3 +1,17 @@
+## v1.1.79
+
+**Bugfixes** (2023-08-26)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-08-25 | Typos fixed |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-08-26 | Added git.ignoreLimitWarning = true |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-08-26 | Added missing comma |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-08-26 | Explicitly setting MARKO_DEBUG = false |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-08-26 | Fixed touch device behaviour on image cropper |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-08-26 | NPM modules update |
+
+
 ## v1.1.78
 
 **Profile picture feature added** (2023-08-25)
