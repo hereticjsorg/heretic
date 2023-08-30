@@ -118,9 +118,7 @@ module.exports = class {
     async connectDatabase() {
         if (this.config.mongo.enabled) {
             this.mongoClient = new MongoClient(this.config.mongo.url, this.config.mongo.options || {
-                useUnifiedTopology: true,
                 connectTimeoutMS: 5000,
-                useNewUrlParser: true
             });
             await this.mongoClient.connect();
             this.db = this.mongoClient.db(this.config.mongo.dbName);

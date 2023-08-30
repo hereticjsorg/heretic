@@ -93,9 +93,7 @@ mongo: {
     url: "mongodb://0.0.0.0:27017",
     dbName: "heretic",
     options: {
-        useUnifiedTopology: true,
         connectTimeoutMS: 5000,
-        useNewUrlParser: true,
     }
 }
 ```

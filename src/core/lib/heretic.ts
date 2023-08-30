@@ -361,9 +361,7 @@ export default class {
         // Create MongoDB client and connect
         if (this.systemConfig.mongo.enabled) {
             const mongoClient = new MongoClient(this.systemConfig.mongo.url, this.systemConfig.mongo.options || {
-                useUnifiedTopology: true,
                 connectTimeoutMS: 5000,
-                useNewUrlParser: true
             });
             mongoClient.on("serverDescriptionChanged", e => {
                 if (e && e.newDescription && e.newDescription.error) {
