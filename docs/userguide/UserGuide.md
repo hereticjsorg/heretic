@@ -5,14 +5,14 @@
 There're two ways to get access to the admin panel: personal Heretic or Google account.
 
 Heretic account:
-1. Proceed to https://demo.hereticjs.org/.
+1. Proceed to http://127.0.0.1:3001.
 2. Choose "Sign in" option in the right upper corner by clicking the profile icon.
 3. Use the credentials below to log in:
 + Login: admin
 + Password: password
 
 To authorize via Google account you need:
-1. Proceed to https://demo.hereticjs.org/.
+1. Proceed to http://127.0.0.1:3001.
 2. Choose "Sign in" option in the right upper corner by clicking the profile icon.
 3. Click on the google icon under the "Submit" button.
 4. Enter your Google account login and password.
@@ -20,7 +20,10 @@ To authorize via Google account you need:
 
 After logging in, click "Admin tab" icon at the right upper corner to enter the tab.
 
-## Admin panel
+## Admin module
+
+---
+
 This page resembles the data regarding the service, hardware and software used for it's support and the left amount of resources used to run it.
 
 Current Version shows the version of Heretic being in use.
@@ -37,7 +40,8 @@ Time Configuration panel shows the time settings Heretic uses while running (Ser
 System configuration tab shows the hardware usedby Heretic: CPU, total RAM, the amount used and left.
 
 
-## Users tab
+## Users module
+---
 User tab functionality allows to get the list of users who're registered in the system and data regarding each entry.
 
 Admin can use his tab to create new user, delete or sort the existent entries by filtering, as well as export the search results to Excel file.
@@ -80,7 +84,7 @@ To perform this:
 
 ---
  
-## Groups tab
+## Groups module
 Groups tab allow the admin to manage user groups they belong to, create new groups or delete the existent ones. The groups define the clearance and accesses users have for proper sorting and control.
 
 To create a new group:
@@ -92,7 +96,7 @@ To create a new group:
 
 Your new created group should appear in the list. You can assign users to it at Users tab.
 
-## Events tab
+## Events module
 Events tab will allow admin to see the activity from users: from login attempts, to changes of tables' contents.
 
 To delete the chosen events, you should do the following:
@@ -105,10 +109,10 @@ Settings button's functional for events tab is similar for other tabs, except fo
 + Pages will give you an option to change how many list entries are seen within one page.
 + Filter tab will help you create the filters for user list and apply the existent ones, which were previously created and saved.
 
-## Sessions tab
+## Sessions module
 Session tab shows the list of active and ended sessions perfomed by users. Each entry is automatically created once the user logs in the system and ends once they log out or the connection to the service is interrupted.
 
 
-## Logs tab
+## Logs module
 Logs tab allow the admin to see the list of all activity made my any user; the main difference between Logs tab and Events tab is that Events track only the changes made to the tables or system, while the Logs track every admin's interaction with the service.
 
