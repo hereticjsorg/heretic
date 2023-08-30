@@ -1,3 +1,16 @@
+## v1.1.83
+
+**Bugfixes and improvements** (2023-08-30)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-08-30 | Re-designing error pages |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-08-30 | Updated error pages layout |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-08-30 | NPM Modules update |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-08-30 | Update package-lock.json |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-08-30 | Update routePageUserspace.js |
+
+
 ## v1.1.82
 
 **Bugfixes and updates** (2023-08-30)
