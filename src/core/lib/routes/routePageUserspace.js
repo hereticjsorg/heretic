@@ -56,6 +56,8 @@ export default (m, page, languageData, language) => ({
             },
         });
         rep.type("text/html");
+        throw new Error("OK");
+        // eslint-disable-next-line no-unreachable
         rep.send(renderPage.getOutput());
     }
 });

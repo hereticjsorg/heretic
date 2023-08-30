@@ -10,6 +10,14 @@ import { mdiRobotDead } from '@mdi/js'
             </div>
             <div class="column is-narrow hr-browserError-message">
                 <div class="hr-glitch" data-text=(process.browser ? window.__heretic.t("somethingWentWrong") : "")>${process.browser ? window.__heretic.t("somethingWentWrong") : ""}</div>
+                <div
+                    style={
+                        "margin-top": "-15px",
+                    }
+                    class="hr-glitch"
+                    data-text=(process.browser ? window.__heretic.t("tryToRefresh") : "")>
+                    ${process.browser ? window.__heretic.t("tryToRefresh") : ""}
+                </div>
             </div>
         </div>
     </div>
