@@ -1,3 +1,15 @@
+## v1.1.82
+
+**Bugfixes and updates** (2023-08-30)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-08-28 | More formats for static assets loader |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-08-28 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-08-30 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-08-30 | MongoDB driver related updates<br/>Removed useUnifiedTopology and useNewUrlParser as they are deprecated |
+
+
 ## v1.1.81
 
 **NPM Modules update** (2023-08-27)
