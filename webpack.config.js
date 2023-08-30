@@ -54,7 +54,7 @@ module.exports = async (env, argv) => {
                             }
                         ],
                     }, {
-                        test: /\.(woff(2)?|ttf|eot|otf|png|jpg|svg)(\?v=\d+\.\d+\.\d+)?$/,
+                        test: /\.(woff(2)?|ttf|eot|otf|png|jpg|jpeg|svg|mp4|webm)(\?v=\d+\.\d+\.\d+)?$/,
                         type: "asset/resource",
                         generator: {
                             filename: "asset.[contenthash:8][ext]"
@@ -237,7 +237,7 @@ module.exports = async (env, argv) => {
                         loader: "@marko/webpack/loader",
                     }],
                 }, {
-                    test: /\.(png|jpg|svg)(\?v=\d+\.\d+\.\d+)?$/,
+                    test: /\.(png|jpg|jpeg|svg|webm|mp4)(\?v=\d+\.\d+\.\d+)?$/,
                     type: "asset/resource",
                     generator: {
                         filename: "asset.[contenthash:8][ext]",
