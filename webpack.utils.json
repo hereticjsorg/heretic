@@ -14,8 +14,8 @@
         "dist.new/public/heretic",
         "src/build/components/hicon-admin"
     ],
-    "moduleDirectories": [
-        "site/modules",
-        "src/core/modules"
-    ]
+    "moduleDirectories": {
+        "site": "site/modules",
+        "core": "src/core/modules"
+    }
 }
