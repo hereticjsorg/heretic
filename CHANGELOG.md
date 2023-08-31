@@ -1,3 +1,12 @@
+## v1.1.86
+
+**Not running production-mode build in tests anymore** (2023-08-31)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-08-31 | Not running production-mode build in tests anymore |
+
+
 ## v1.1.85
 
 **Changed wrong binUtils path for some scripts** (2023-08-31)
