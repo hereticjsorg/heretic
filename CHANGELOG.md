@@ -1,3 +1,13 @@
+## v1.1.84
+
+**Bugfixes and improvements** (2023-08-31)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-08-31 | Structural changes<br/>Heretic now doesn't copy "auth" module to "site" directory by default from now on. If any of the core modules are copied to "site/modules" directory, they will be used instead of "core" ones. |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-08-31 | NPM Modules update |
+
+
 ## v1.1.83
 
 **Bugfixes and improvements** (2023-08-30)
