@@ -1,3 +1,12 @@
+## v1.1.85
+
+**Changed wrong binUtils path for some scripts** (2023-08-31)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-08-31 | Changed wrong binUtils path for some scripts |
+
+
 ## v1.1.84
 
 **Bugfixes and improvements** (2023-08-31)
