@@ -2,7 +2,7 @@ const path = require("path");
 const fs = require("fs-extra");
 const commandLineArgs = require("command-line-args");
 
-const BinUtils = require(path.resolve(`${__dirname}/binUtils`));
+const BinUtils = require(path.resolve(`${__dirname}/lib/binUtils`));
 
 const binUtils = new BinUtils({});
 let options;

@@ -7,7 +7,7 @@ const {
     v4: uuidv4
 } = require("uuid");
 
-const BinUtils = require(path.resolve(`${__dirname}/binUtils`));
+const BinUtils = require(path.resolve(`${__dirname}/lib/binUtils`));
 const config = require(path.resolve(`${__dirname}/../../etc/system`));
 
 const binUtils = new BinUtils({});
