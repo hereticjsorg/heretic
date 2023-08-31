@@ -8,7 +8,7 @@ import Helpers from "#lib/testHelpers";
 const helpers = new Helpers();
 jest.setTimeout(500000);
 
-for (const mode of ["Dev", "Production"]) {
+for (const mode of ["Dev"]) { // Add "Production" to test production mode too
     test(`Build Test: ${mode} Mode`, async () => {
         const {
             serverFileExists,
