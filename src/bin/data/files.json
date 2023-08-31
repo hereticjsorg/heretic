@@ -2,9 +2,6 @@
     "from": "../../core/defaults/modules/sample",
     "to": "../../../site/modules/sample"
 }, {
-    "from": "../../core/defaults/modules/auth",
-    "to": "../../../site/modules/auth"
-}, {
     "from": "../../core/defaults/templates/email",
     "to": "../../../site/email"
 }, {

@@ -64,9 +64,15 @@ module.exports = class {
                 buildData.i18nNavigation[lang][r] = "";
             }
         }
-        for (const modulePath of buildConfig.moduleDirectories) {
-            const modulesList = fs.readdirSync(path.resolve(__dirname, modulePath)).filter(p => !p.match(/^\./));
-            for (const module of modulesList) {
+        const siteModules = {
+            core: [],
+            site: [],
+        };
+        siteModules["site"] = fs.readdirSync(path.resolve(__dirname, buildConfig.moduleDirectories["site"])).filter(p => !p.match(/^\./));
+        siteModules["core"] = fs.readdirSync(path.resolve(__dirname, buildConfig.moduleDirectories["core"])).filter(p => !p.match(/^\./) && siteModules["site"].indexOf(p) === -1);
+        for (const mk of Object.keys(buildConfig.moduleDirectories)) {
+            const modulePath = buildConfig.moduleDirectories[mk];
+            for (const module of siteModules[mk]) {
                 try {
                     const moduleConfig = require(path.resolve(__dirname, `${modulePath}/${module}/module.js`));
                     const moduleData = {
