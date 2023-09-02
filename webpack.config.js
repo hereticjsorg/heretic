@@ -29,8 +29,8 @@ module.exports = async (env, argv) => {
     return ([{
             context: path.resolve(`${__dirname}`),
             performance: {
-                maxEntrypointSize: 10485760,
-                maxAssetSize: 5242880,
+                maxEntrypointSize: 10485760, // 10 MB
+                maxAssetSize: 52428800, // 50 MB
             },
             name: "Userspace",
             target: ["web", "es5"],
@@ -54,7 +54,7 @@ module.exports = async (env, argv) => {
                             }
                         ],
                     }, {
-                        test: /\.(woff(2)?|ttf|eot|otf|png|jpg|jpeg|svg|mp4|webm)(\?v=\d+\.\d+\.\d+)?$/,
+                        test: /\.(woff(2)?|ttf|eot|otf|png|jpg|jpeg|svg|mp4|webm|mp3)(\?v=\d+\.\d+\.\d+)?$/,
                         type: "asset/resource",
                         generator: {
                             filename: "asset.[contenthash:8][ext]"
@@ -227,7 +227,7 @@ module.exports = async (env, argv) => {
                     }],
                     exclude: /node_modules/,
                 }, {
-                    test: /\.s?css$/,
+                    test: /\.(s?css|mp3|webm|mp4)$/,
                     use: [{
                         loader: "ignore-loader",
                     }],
@@ -237,7 +237,7 @@ module.exports = async (env, argv) => {
                         loader: "@marko/webpack/loader",
                     }],
                 }, {
-                    test: /\.(png|jpg|jpeg|svg|webm|mp4)(\?v=\d+\.\d+\.\d+)?$/,
+                    test: /\.(png|jpg|jpeg|svg)(\?v=\d+\.\d+\.\d+)?$/,
                     type: "asset/resource",
                     generator: {
                         filename: "asset.[contenthash:8][ext]",
