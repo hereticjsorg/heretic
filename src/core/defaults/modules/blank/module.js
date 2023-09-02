@@ -1,4 +1,6 @@
-const id = require("./module.json");
+const {
+    id,
+} = require("./module.json");
 
 module.exports = {
     id,
