@@ -1,0 +1,28 @@
+.hr-hicon-white>svg>path {
+    fill: $white-ter !important;
+}
+
+.hr-hicon-black>svg>path {
+    fill: $black-ter !important;
+}
+
+.hr-hicon>svg {
+    margin-right: 5px;
+}
+
+.hr-hicon>svg>path {
+    fill: $black-ter;
+}
+
+html.heretic-dark .hr-hicon {
+    fill: $white-ter;
+}
+
+.hr-hicon {
+    display: inline-flex;
+    align-self: center;
+}
+
+.hr-icon-wrap {
+    display: flex;
+}
