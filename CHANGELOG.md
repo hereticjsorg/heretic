@@ -1,3 +1,18 @@
+## v1.1.87
+
+**Bugfixes & New Features** (2023-09-03)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-09-02 | NPM Modules update |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-09-02 | Fixes<br/>More file types are added to file assets list.<br/>Increased assets size. |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-09-02 | Fixed wrong module ID import |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-09-02 | NPM Modules update |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-09-03 | Typos |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-09-03 | hicon component added |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-09-03 | Social media icons added |
+
+
 ## v1.1.86
 
 **Not running production-mode build in tests anymore** (2023-08-31)
