@@ -1,5 +1,5 @@
-<${input.href ? "a" : "div"} href=input.href>
-    <div id=input.id key=input.id class="hr-icon-wrap">
+<${input.href ? "a" : "span"} target=input.target href=input.href>
+    <div id=input.id key=input.id class=`hr-icon-wrap ${input.styleWrap || ""}`>
         <span class=`hr-hicon icon ${input.styleIcon || ""}`>
             <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
                 <path d=input.iconPath/>
