@@ -1,3 +1,13 @@
+## v1.1.88
+
+**Bugfixes** (2023-09-04)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-09-04 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-09-04 | Mongo-related bugfixes<br/>New MongoDB river was returning a different data when upsert was set to "true". This has been fixed by processing data in a different format. |
+
+
 ## v1.1.87
 
 **Bugfixes & New Features** (2023-09-03)
