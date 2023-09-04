@@ -50,7 +50,7 @@ export default () => ({
                             returnNewDocument: true,
                             upsert: true,
                         });
-                        const seq = counterData && counterData.value && counterData.value.seq ? counterData.value.seq : 1;
+                        const seq = counterData && counterData.seq ? counterData.seq : 1;
                         await collection.insertOne({
                             ...item,
                             id: seq,
