@@ -24,5 +24,6 @@ html.heretic-dark .hr-hicon {
 }
 
 .hr-icon-wrap {
-    display: flex;
+    display: inline-flex;
+    align-items: center;
 }
