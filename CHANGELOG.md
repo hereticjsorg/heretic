@@ -1,3 +1,12 @@
+## v1.1.89
+
+**hicon component styling fixes** (2023-09-04)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-09-04 | hicon component styling fixes |
+
+
 ## v1.1.88
 
 **Bugfixes** (2023-09-04)
