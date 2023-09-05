@@ -6,7 +6,7 @@ The Heretic build process was successfully tested on Debian Linux 11, macOS and 
 
 Prerequisite steps to be taken before installing Heretic on the server:
 
-1. Install Node.js using [these instructions](https://github.com/nodesource/distributions/blob/master/README.md)
+1. Install Node.js using [this manual](https://github.com/nodesource/distributions/blob/master/README.md)
 2. Install the MongoDB database management system using [these instructions](https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-debian/) — optional
 3. Install Redis using *apt* package manager by running *apt install redis-server* command — optional
 
