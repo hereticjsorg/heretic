@@ -1,3 +1,12 @@
+## v1.1.91
+
+**Typo fixed** (2023-09-05)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-09-05 | Typo fixed |
+
+
 ## v1.1.90
 
 **Bugfixes & Code Improvements** (2023-09-05)
