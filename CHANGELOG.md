@@ -1,3 +1,13 @@
+## v1.1.90
+
+**Bugfixes & Code Improvements** (2023-09-05)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-09-05 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-09-05 | Test-related bugfixes |
+
+
 ## v1.1.89
 
 **hicon component styling fixes** (2023-09-04)
