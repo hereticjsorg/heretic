@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 const commandLineArgs = require("command-line-args");
-const BinUtils = require("./lib/binUtils");
+const BinUtils = require("#lib/binUtils.js");
 
 const options = commandLineArgs([{
     name: "force",

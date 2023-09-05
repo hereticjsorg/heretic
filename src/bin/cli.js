@@ -1,5 +1,5 @@
 const commandLineArgs = require("command-line-args");
-const BinUtils = require("./lib/binUtils");
+const BinUtils = require("#lib/binUtils.js");
 
 const binUtils = new BinUtils({});
 let options;

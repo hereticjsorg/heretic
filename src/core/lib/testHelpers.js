@@ -9,8 +9,12 @@ import {
     MongoClient,
 } from "mongodb";
 import puppeteer from "puppeteer-core";
+import BinUtils from "#lib/binUtils.js";
+
 import languages from "#etc/languages.json";
 import config from "#etc/system";
+
+const binUtils = new BinUtils({});
 
 export default class {
     /* istanbul ignore file */
@@ -77,28 +81,6 @@ export default class {
         return this.fileExists("dist/public");
     }
 
-    async executeCommand(command = "") {
-        return new Promise((resolve, reject) => {
-            const res = {
-                stdout: "",
-                stderr: "",
-                exitCode: 1,
-            };
-            const commandArr = command.split(/ /);
-            if (!commandArr.length) {
-                reject(new Error("No command specified"));
-            }
-            const cmd = commandArr.shift();
-            const result = spawn(cmd, commandArr);
-            result.stdout.on("data", data => res.stdout += data);
-            result.stderr.on("data", data => res.stderr += data);
-            result.on("close", code => resolve(({
-                ...res,
-                exitCode: code,
-            })));
-        });
-    }
-
     /* istanbul ignore file */
     runCommand(command = "") {
         const commandArr = command.split(/ /);
@@ -120,7 +102,9 @@ export default class {
 
     /* istanbul ignore file */
     async build(suffix) {
-        const data = await this.executeCommand(`npm${os.platform() === "win32" ? ".cmd" : ""} run build --${suffix === "dev" ? " --dev" : ""} --no-color`);
+        const data = await binUtils.executeCommand(`npm${os.platform() === "win32" ? ".cmd" : ""} run build --${suffix === "dev" ? " --dev" : ""} --no-color`, {
+            disableConsole: true,
+        });
         const serverFileExists = await this.doesServerFileExists();
         const publicDirExists = await this.doesPublicDirExists();
         const buildResultMatch = data && data.exitCode === 0 && typeof data.stdout === "string" ? data.stdout.match(/All done\./gm) : [];

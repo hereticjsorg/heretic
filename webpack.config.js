@@ -8,10 +8,12 @@ const CompressionPlugin = require("compression-webpack-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const MarkoPlugin = require("@marko/webpack/plugin").default;
+const os = require("os");
 const WebpackUtils = require("./webpack.utils.js");
 const babelConfig = require("./babel.config");
 const systemConfig = require("./etc/system.js");
 
+process.env.UV_THREADPOOL_SIZE = os.cpus().length;
 const threadPoolConfig = {};
 
 module.exports = async (env, argv) => {

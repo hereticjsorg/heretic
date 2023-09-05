@@ -18,10 +18,10 @@ const {
 const {
     format,
 } = require("date-fns");
-const Color = require("../../core/lib/color");
-const filesData = require("../data/files.json");
-const directoriesData = require("../data/directories.json");
-const cleanupData = require("../data/cleanup.json");
+const Color = require("./color");
+const filesData = require("../../bin/data/files.json");
+const directoriesData = require("../../bin/data/directories.json");
+const cleanupData = require("../../bin/data/cleanup.json");
 
 module.exports = class {
     constructor(options) {
@@ -56,6 +56,7 @@ module.exports = class {
         this.interactive = flag;
     }
 
+    // eslint-disable-next-line generator-star-spacing
     async *walkDir(dir) {
         for await (const d of await fs.promises.opendir(dir)) {
             const entry = path.join(dir, d.name);
@@ -840,12 +841,11 @@ module.exports = class {
         }
     }
 
-    async executeCommand(command = "") {
+    async executeCommand(command = "", options = {}) {
         return new Promise((resolve, reject) => {
             try {
                 const res = {
                     stdout: "",
-                    stderr: "",
                     exitCode: 1,
                 };
                 const commandArr = command.split(/ /);
@@ -859,8 +859,19 @@ module.exports = class {
                         MARKO_DEBUG: false,
                     }
                 });
-                result.stdout.on("data", data => res.stdout += data);
-                result.stderr.on("data", data => res.stderr += data);
+                result.stdout.on("data", data => {
+                    if (!options.disableConsole) {
+                        // eslint-disable-next-line no-console
+                        console.log(data.toString());
+                    }
+                    res.stdout += data.toString();
+                });
+                result.stderr.on("data", data => {
+                    if (!options.disableConsole) {
+                        // eslint-disable-next-line no-console
+                        console.log(data.toString());
+                    }
+                });
                 result.on("close", code => resolve(({
                     ...res,
                     exitCode: code,
