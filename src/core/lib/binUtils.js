@@ -19,9 +19,9 @@ const {
     format,
 } = require("date-fns");
 const Color = require("./color");
-const filesData = require("../../bin/data/files.json");
-const directoriesData = require("../../bin/data/directories.json");
-const cleanupData = require("../../bin/data/cleanup.json");
+const filesData = require("#bin/data/files.json");
+const directoriesData = require("#bin/data/directories.json");
+const cleanupData = require("#bin/data/cleanup.json");
 
 module.exports = class {
     constructor(options) {
@@ -532,8 +532,8 @@ module.exports = class {
         }
         const {
             size: fileSize,
-        } = fs.statSync(`${__dirname}/../data/geoNetworksV4.hgd`);
-        const fd = fs.openSync(`${__dirname}/../data/geoNetworksV4.hgd`);
+        } = fs.statSync(`${__dirname}/../geo/geoNetworksV4.hgd`);
+        const fd = fs.openSync(`${__dirname}/../geo/geoNetworksV4.hgd`);
         let globalOffset = 0;
         const mainBufHead = Buffer.alloc(4);
         fs.readSync(fd, mainBufHead, 0, 4, globalOffset);
@@ -598,8 +598,8 @@ module.exports = class {
         }
         const {
             size: fileSize,
-        } = fs.statSync(`${__dirname}/../data/geoNetworksV6.hgd`);
-        const fd = fs.openSync(`${__dirname}/../data/geoNetworksV6.hgd`);
+        } = fs.statSync(`${__dirname}/../geo/geoNetworksV6.hgd`);
+        const fd = fs.openSync(`${__dirname}/../geo/geoNetworksV6.hgd`);
         let globalOffset = 0;
         const mainBufHead = Buffer.alloc(4);
         fs.readSync(fd, mainBufHead, 0, 4, globalOffset);
@@ -664,8 +664,8 @@ module.exports = class {
         }
         const {
             size: fileSize,
-        } = fs.statSync(`${__dirname}/../data/geoCountries.hgd`);
-        const fd = fs.openSync(`${__dirname}/../data/geoCountries.hgd`);
+        } = fs.statSync(`${__dirname}/../geo/geoCountries.hgd`);
+        const fd = fs.openSync(`${__dirname}/../geo/geoCountries.hgd`);
         let globalOffset = 0;
         const mainBufHead = Buffer.alloc(4);
         fs.readSync(fd, mainBufHead, 0, 4, globalOffset);
@@ -746,8 +746,8 @@ module.exports = class {
         }
         const {
             size: fileSize,
-        } = fs.statSync(`${__dirname}/../data/geoCities.hgd`);
-        const fd = fs.openSync(`${__dirname}/../data/geoCities.hgd`);
+        } = fs.statSync(`${__dirname}/../geo/geoCities.hgd`);
+        const fd = fs.openSync(`${__dirname}/../geo/geoCities.hgd`);
         let globalOffset = 0;
         const mainBufHead = Buffer.alloc(4);
         fs.readSync(fd, mainBufHead, 0, 4, globalOffset);

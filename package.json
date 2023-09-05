@@ -1,6 +1,6 @@
 {
     "name": "heretic",
-    "version": "1.1.74",
+    "version": "1.1.88",
     "description": "Heretic",
     "main": "index.js",
     "imports": {
@@ -9,6 +9,7 @@
         "#components/*": "./src/core/components/*",
         "#build/*": "./src/build/*",
         "#lib/*": "./src/core/lib/*",
+        "#bin/*": "./src/bin/*",
         "#site/*": "./site/*",
         "#etc/*": "./etc/*",
         "#src/*": "./src/*"
