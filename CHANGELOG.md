@@ -1,3 +1,13 @@
+## v1.1.92
+
+**Bugfixes** (2023-09-05)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-09-05 | Bugfixes |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-09-05 | Merge branch 'master' into dev1 |
+
+
 ## v1.1.91
 
 **Typo fixed** (2023-09-05)
