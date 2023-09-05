@@ -9,6 +9,7 @@
         "#components/*": "./src/core/components/*",
         "#build/*": "./src/build/*",
         "#lib/*": "./src/core/lib/*",
+        "#bin/*": "./src/bin/*",
         "#site/*": "./site/*",
         "#etc/*": "./etc/*",
         "#src/*": "./src/*"
