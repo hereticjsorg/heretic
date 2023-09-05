@@ -8,7 +8,7 @@ const commandLineArgs = require("command-line-args");
 const {
     v4: uuidv4,
 } = require("uuid");
-const BinUtils = require("./lib/binUtils");
+const BinUtils = require("#lib/binUtils.js");
 
 const dirsArchive = ["dist", "etc", "src"];
 

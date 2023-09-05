@@ -9,7 +9,7 @@ const archiver = require("archiver");
 const {
     v4: uuidv4,
 } = require("uuid");
-const BinUtils = require("./lib/binUtils");
+const BinUtils = require("#lib/binUtils.js");
 
 const dirsArchive = ["dist", "src", "etc", "root", "dump"];
 const saveBackupArchive = (dirPath, destPath) => new Promise((resolve, reject) => {
