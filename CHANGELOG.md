@@ -1,3 +1,14 @@
+## v1.1.94
+
+**MongoDB-related fixes** (2023-09-06)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-09-06 | MongoDB-related fixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-09-06 | Removed thread-loader as dependency |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-09-06 | Removing THREADPOOL_SIZE option |
+
+
 ## v1.1.93
 
 **Bugfixes** (2023-09-06)
