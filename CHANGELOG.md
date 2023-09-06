@@ -1,3 +1,12 @@
+## v1.1.95
+
+**Typos fixed** (2023-09-06)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-09-06 | Typos fixed |
+
+
 ## v1.1.94
 
 **MongoDB-related fixes** (2023-09-06)
