@@ -1,3 +1,15 @@
+## v1.1.93
+
+**Bugfixes** (2023-09-06)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-09-06 | Fixed UV_THREADPOOL_SIZE value for tests |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-09-06 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-09-06 | Merge branch 'dev1' of https://github.com/hereticjsorg/heretic into dev1 |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-09-06 | Increasing threadpool size for performance reasons |
+
+
 ## v1.1.92
 
 **Bugfixes** (2023-09-05)
