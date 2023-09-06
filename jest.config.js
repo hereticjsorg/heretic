@@ -1,3 +1,5 @@
+process.env.UV_THREADPOOL_SIZE = require("os").cpus().length;
+
 module.exports = {
     verbose: true,
     displayName: "heretic",
