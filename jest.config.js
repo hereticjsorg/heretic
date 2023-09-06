@@ -1,4 +1,4 @@
-process.env.UV_THREADPOOL_SIZE = require("os").cpus().length;
+process.env.UV_THREADPOOL_SIZE = 64;
 
 module.exports = {
     verbose: true,
