@@ -63,7 +63,7 @@ export default class {
             }, {
                 upsert: true,
             });
-            if (resultUser.ok && resultGroup.ok) {
+            if (resultUser && resultUser._id && resultGroup && resultGroup._id) {
                 this.fastify.log.info("User 'admin' has been created/updated in the database");
             } else {
                 this.fastify.log.error("Could not create/update 'admin' user in the database");
