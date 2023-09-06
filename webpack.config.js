@@ -12,9 +12,6 @@ const WebpackUtils = require("./webpack.utils.js");
 const babelConfig = require("./babel.config");
 const systemConfig = require("./etc/system.js");
 
-process.env.UV_THREADPOOL_SIZE = 64;
-const threadPoolConfig = {};
-
 module.exports = async (env, argv) => {
     const markoPlugin = new MarkoPlugin();
     const webpackUtils = new WebpackUtils(argv.mode === "production");
@@ -44,10 +41,6 @@ module.exports = async (env, argv) => {
                 rules: [{
                         test: /\.tsx?$/,
                         use: [{
-                                loader: "thread-loader",
-                                options: threadPoolConfig,
-                            },
-                            {
                                 loader: "ts-loader",
                                 options: {
                                     exclude: /node_modules/,
@@ -100,9 +93,6 @@ module.exports = async (env, argv) => {
                         test: /\.js$/,
                         exclude: /node_modules/,
                         use: [{
-                            loader: "thread-loader",
-                            options: threadPoolConfig,
-                        }, {
                             loader: "babel-loader",
                             options: {
                                 cacheDirectory: true,
@@ -204,11 +194,11 @@ module.exports = async (env, argv) => {
                 },
                 extensions: [".tsx", ".ts", ".js"],
             },
-            // cache: {
-            //     type: "filesystem",
-            //     allowCollectingMemory: true,
-            //     cacheDirectory: path.resolve(__dirname, ".cache"),
-            // },
+            cache: {
+                type: "filesystem",
+                allowCollectingMemory: true,
+                cacheDirectory: path.resolve(__dirname, ".cache"),
+            },
         },
         {
             name: "Backend",
@@ -293,11 +283,11 @@ module.exports = async (env, argv) => {
             node: {
                 __dirname: false,
             },
-            // cache: {
-            //     type: "filesystem",
-            //     allowCollectingMemory: true,
-            //     cacheDirectory: path.resolve(__dirname, ".cache"),
-            // },
+            cache: {
+                type: "filesystem",
+                allowCollectingMemory: true,
+                cacheDirectory: path.resolve(__dirname, ".cache"),
+            },
         }
     ]);
 };

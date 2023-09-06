@@ -276,7 +276,7 @@ module.exports = class {
         }, {
             upsert: true,
         });
-        if (resultUser.ok && resultGroup.ok) {
+        if (resultUser && resultUser._id && resultGroup && resultGroup._id) {
             this.log(`User "admin" has been created/updated in the database`);
         } else {
             this.log(`Could not create or update "admin" user`, {
@@ -304,8 +304,8 @@ module.exports = class {
         }, {
             upsert: true,
         });
-        if (resultUser.ok) {
-            this.log(`User "${username}" has been created/updated in the database`);
+        if (resultUser && resultUser._id) {
+            this.log(`User "${username}" has been created/updated in the database. New password is: password`);
         } else {
             this.log(`Could not create or update "${username}" user`, {
                 warning: true,
