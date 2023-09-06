@@ -1,3 +1,5 @@
+process.env.UV_THREADPOOL_SIZE = 64;
+
 module.exports = {
     verbose: true,
     displayName: "heretic",
