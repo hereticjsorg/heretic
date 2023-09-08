@@ -1051,6 +1051,11 @@ module.exports = class {
                 oldPackageJson.scripts[k] = newPackageJson.scripts[k];
             }
         }
+        for (const k of Object.keys(newPackageJson.imports)) {
+            if (!oldPackageJson.imports[k] || oldPackageJson.imports[k] !== newPackageJson.imports[k]) {
+                oldPackageJson.imports[k] = newPackageJson.imports[k];
+            }
+        }
         oldPackageJson.version = newPackageJson.version;
         await fs.writeJson(path.join(__dirname, "../../../package.json"), oldPackageJson, {
             spaces: "    ",
