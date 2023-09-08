@@ -54,7 +54,7 @@
         "@babel/runtime": "^7.22.15",
         "@fastify/static": "^6.11.0",
         "@jest/globals": "^29.6.4",
-        "@marko/webpack": "^9.3.1",
+        "@marko/webpack": "^9.3.2",
         "@mdi/js": "^7.2.96",
         "@types/command-line-args": "^5.2.1",
         "@types/lodash.template": "^4.5.1",
@@ -137,7 +137,7 @@
         "uri-js": "^4.4.1",
         "utf-8-validate": "^6.0.3",
         "uuid": "^9.0.0",
-        "ws": "^8.13.0",
+        "ws": "^8.14.0",
         "xlsx": "https://cdn.sheetjs.com/xlsx-0.19.3/xlsx-0.19.3.tgz"
     }
 }
