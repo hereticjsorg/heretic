@@ -43,7 +43,7 @@
     "license": "MIT",
     "devDependencies": {
         "@babel/code-frame": "^7.22.13",
-        "@babel/core": "^7.22.15",
+        "@babel/core": "^7.22.17",
         "@babel/eslint-parser": "^7.22.15",
         "@babel/plugin-proposal-class-properties": "^7.18.6",
         "@babel/plugin-proposal-object-rest-spread": "^7.20.7",
@@ -58,7 +58,7 @@
         "@mdi/js": "^7.2.96",
         "@types/command-line-args": "^5.2.1",
         "@types/lodash.template": "^4.5.1",
-        "@types/node": "^20.5.9",
+        "@types/node": "^20.6.0",
         "@types/uuid": "^9.0.3",
         "@types/webpack-env": "^1.18.1",
         "@typescript-eslint/eslint-plugin": "^6.6.0",
@@ -74,7 +74,7 @@
         "css-loader": "^6.8.1",
         "css-minimizer-webpack-plugin": "^5.0.1",
         "es6-promise": "^4.2.8",
-        "eslint": "^8.48.0",
+        "eslint": "^8.49.0",
         "eslint-config-airbnb-base": "^15.0.0",
         "eslint-webpack-plugin": "^4.0.1",
         "fastify-plugin": "^4.5.1",
@@ -84,7 +84,7 @@
         "lodash.clonedeep": "^4.5.0",
         "lodash.debounce": "^4.0.8",
         "lodash.template": "^4.5.0",
-        "marko": "^5.31.6",
+        "marko": "^5.31.7",
         "mini-css-extract-plugin": "^2.7.6",
         "postcss-csso": "^6.0.1",
         "postcss-loader": "^7.3.3",
@@ -137,7 +137,7 @@
         "uri-js": "^4.4.1",
         "utf-8-validate": "^6.0.3",
         "uuid": "^9.0.0",
-        "ws": "^8.14.0",
+        "ws": "^8.14.1",
         "xlsx": "https://cdn.sheetjs.com/xlsx-0.19.3/xlsx-0.19.3.tgz"
     }
 }
