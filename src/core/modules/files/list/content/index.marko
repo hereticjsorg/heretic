@@ -1,0 +1,54 @@
+import { mdiFolderOutline, mdiFileOutline } from "@mdi/js"
+
+<if(state.ready)>
+    <hadmin-title admin=true title=(process.browser && window.__heretic ? window.__heretic.t("moduleTitleAdmin") : null)/>
+    <if(state.files)>
+        <div class="columns p-0 m-0 hr-fs-head">
+            <div class="column is-narrow p-2">
+                <label class="checkbox">
+                    <input type="checkbox"/> 
+                </label>
+            </div>
+            <div class="column pt-2 pb-2 pr-2 pl-0">
+                <t>fileName</t>
+            </div>
+            <div class="column is-narrow p-2">controls controls</div>
+        </div>
+        <if(state.files.length)>
+            <for|item, index| of=state.files>
+                <div class=`columns p-0 m-0${item.dir ? " hr-fs-dir" : " hr-fs-file"}${index === state.files.length - 1 ? " hr-fs-bottomItem" : ""}${item.dir && index % 2 === 0 ? " hr-fs-dir-odd" : ""}${!item.dir && index % 2 === 0 ? " hr-fs-file-odd" : ""}` data-id=item.name>
+                    <div class="column is-narrow p-2">
+                        <label class="checkbox">
+                            <input type="checkbox"/> 
+                        </label>
+                    </div>
+                    <div class="column is-narrow p-0 pr-2 is-flex is-align-items-center">
+                        <span class="icon hr-fs-file-icon">
+                            <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                <path d=item.dir ? mdiFolderOutline : mdiFileOutline/>
+                            </svg>
+                        </span>
+                    </div>
+                    <div class="column pt-2 pb-2 pr-2 pl-0">${item.name}</div>
+                    <div class="column is-narrow p-2">controls controls</div>
+                </div>
+            </for>
+        </if>
+        <else>
+            <div class=`columns p-0 m-0 hr-fs-file hr-fs-bottomItem`>
+                <div class="column p-2">
+                    <t>noFilesToDisplay</t>
+                </div>
+            </div>
+        </else>
+    </if>
+    <hnotify admin=true key="notify"/>
+</if>
+<if(!state.ready && !state.failed)>
+    <!-- <hloading active=true/> -->
+</if>
+<if(state.failed)>
+    <div class="notification is-danger">
+        <t>couldNotLoadData</t>
+    </div>
+</if>

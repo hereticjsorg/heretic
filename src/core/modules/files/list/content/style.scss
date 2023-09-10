@@ -1,0 +1,62 @@
+@import "~styles/variables.scss";
+
+.hr-fs-head {
+    background-color: $grey-lighter;
+    border-top-right-radius: $radius;
+    border-top-left-radius: $radius;
+    font-weight: bold;
+}
+
+html.heretic-dark .hr-fs-head {
+    background-color: $grey-darker;
+    color: $white;
+}
+
+.hr-fs-dir {
+    background-color: darken($yellow, 5%);
+}
+
+.hr-fs-dir-odd {
+    background-color: darken($yellow, 15%);
+}
+
+html.heretic-dark .hr-fs-dir {
+    background-color: darken($yellow, 30%);
+}
+
+html.heretic-dark .hr-fs-dir > .column {
+    color: $grey-lightest;
+}
+
+html.heretic-dark .hr-fs-dir-odd {
+    background-color: darken($yellow, 35%);
+}
+
+.hr-fs-dir>.column {
+    color: $black-ter;
+}
+
+.hr-fs-file {
+    background-color: $grey-lightest;
+}
+
+.hr-fs-file-odd {
+    background-color: $grey-lighter;
+}
+
+html.heretic-dark .hr-fs-file {
+    background-color: $grey-dark;
+}
+
+html.heretic-dark .hr-fs-file-odd {
+    background-color: $grey-darker;
+}
+
+.hr-fs-bottomItem {
+    border-bottom-right-radius: $radius;
+    border-bottom-left-radius: $radius;
+}
+
+html.heretic-dark .hr-fs-file-icon>svg>path {
+    fill: $white-ter;
+}
