@@ -19,11 +19,13 @@ html.heretic-dark .hr-hicon {
 }
 
 .hr-hicon {
-    display: inline-flex;
     align-self: center;
+    display: flex;
 }
 
-.hr-icon-wrap {
+.hr-icon-wrap,
+.hr-icon-text {
+    flex-direction: row;
     display: inline-flex;
     align-items: center;
 }
