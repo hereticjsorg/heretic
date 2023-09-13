@@ -1,238 +1,237 @@
 import { mdiReload } from '@mdi/js'
 import { format } from "date-fns"
 
-<!-- Text Field: Start -->
-<if(input.type === "text")>
-    <div>
-        <div class="field">
-            <label class="label hr-hf-label">
-                ${input.label || ""}<span>:</span>
-                <if(input.mandatory)>
-                    &nbsp;<span class="hr-hf-label-mandatory">✱</span>
-                </if>
-            </label>
-            <div class="hr-hf-view-input">
-                <if(input.formData.processTableCell)>
-                    $ const value = {};
-                    $ value[input.id] = state.value;
-                    ${input.formData.processTableCell(input.id, value)}
-                </if>
-                <else>${state.value}</else>
-            </div>
-            <if(input.helpText)>
-                <p class="help">${input.helpText}</p>
-            </if>
-        </div>
-    </div>
-</if>
-<!-- Text Field: End -->
-<!-- Buttons: Start -->
-<if(input.type === "buttons")>
-    <div class=`buttons ${input.css || ""}`>
-        <for|item| of=input.items>
-            <if(item.showInViewMode)>
-                <button id=`hr_hf_el_${input.formId}_${input.id}_${item.id}` class=(item.css || "") type=item.type data-type=item.type data-id=item.id on-click("onButtonClick")>${item.label}</button>
-            </if>
-        </for>
-    </div>
-</if>
-<!-- Buttons: End -->
-<!-- Select: Start -->
-<if(input.type === "select")>
-    <div>
-        <div class="field">
-            <label class="label hr-hf-label">
-                ${input.label || ""}<span>:</span>
-                <if(input.mandatory)>
-                    &nbsp;<span class="hr-hf-label-mandatory">✱</span>
-                </if>
-            </label>
-            <div class="control">
-                <div class="hr-hf-view-input">
-                    <for|o| of=input.options>${o.value === state.value ? o.label : ""}</for>
-                </div>
-            </div>
-            <if(input.helpText)>
-                <p class="help">${input.helpText}</p>
-            </if>
-        </div>
-    </div>
-</if>
-<!-- Select: End -->
-<!-- Files: Start -->
-<if(input.type === "files")>
-    <div>
-        <div class="field">
-            <label class="label hr-hf-label">
-                ${input.label || ""}<span>:</span>
-                <if(input.mandatory)>
-                    &nbsp;<span class="hr-hf-label-mandatory">✱</span>
-                </if>
-            </label>
-            <if(state.value && state.value.length)>
-                <div class="mt-2">
-                    <for|f| of=state.value>
-                        <div>
-                            <if(input.download && !f.data)>
-                                <a class="is-underlined" href=`${input.download}?id=${f.uid}&language=${out.global.language || window.__heretic.outGlobal.language}&_=${Math.floor(Date.now())}` target="_blank">${f.name}</a>
-                            </if>
-                            <else>${f.name}</else>
-                        </div>
-                    </for>
-                </div>
-            </if>
-            <else>
-                <div class="hr-hf-view-input">
-                    <t>hform_noAttachments</t>
-                </div>
-            </else>
-            <if(input.helpText)>
-                <p class="help">${input.helpText}</p>
-            </if>
-        </div>
-    </div>
-</if>
-<!-- Files: End -->
-<!-- Captcha Field: Start -->
-<!-- Captcha Field: End -->
-<!-- Date Picker Field: Start -->
-<if(input.type === "date")>
-    <div>
-        <div class="field">
-            <label class="label hr-hf-label">
-                ${input.label || ""}<span>:</span>
-                <if(input.mandatory)>
-                    &nbsp;<span class="hr-hf-label-mandatory">✱</span>
-                </if>
-            </label>
-            <div class="control" id=`hr_hf_el_${input.formId}_${input.id}_input_wrap`>
-                <div class="hr-hf-view-input hr-hf-date-input">${state.value ? format(new Date(state.value * 1000), window.__heretic.t("global.dateFormatShort")) : ""}</div>
-            </div>
-            <if(input.helpText)>
-                <p class="help">${input.helpText}</p>
-            </if>
-        </div>
-    </div>
-</if>
-<!-- Date Picker Field: End -->
-<!-- WYSIWYG Field: Start -->
-<if(input.type === "wysiwyg")>
-    <div>
-        <div class="field">
-            <label class="label hr-hf-label">
-                ${input.label || ""}<span>:</span>
-                <if(input.mandatory)>
-                    &nbsp;<span class="hr-hf-label-mandatory">✱</span>
-                </if>
-            </label>
-            <if(state.value)>
-                <div class="hr-hf-view-wysiwyg">$!{state.value}</div>
-            </if>
-            <else>
-                <div class="hr-hf-view-input">
-                    <t>hform_noContent</t>
-                </div>
-            </else>
-            <if(input.helpText)>
-                <p class="help">${input.helpText}</p>
-            </if>
-        </div>
-    </div>
-</if>
-<!-- WYSIWYG Field: End -->
-<!-- Log: Start -->
-<if(input.type === "log")>
-    <div>
-        <div class="field">
-            <label class="label hr-hf-label">
-                ${input.label || ""}<span>:</span>
-                <if(input.mandatory)>
-                    &nbsp;<span class="hr-hf-label-mandatory">✱</span>
-                </if>
-            </label>
-            <div class="control">
-                <if(state.value && state.value.length)>
-                    <div class="mt-2">
-                        <table class="table is-narrow is-striped hr-hf-log-values-table-view">
-                            <tbody>
-                                <for|item| of=state.value>
-                                    <tr>
-                                        <td class="is-narrow has-text-center">${item.logDate ? format(new Date(item.logDate * 1000), window.__heretic.t("global.dateFormatShort")) : "—"}</td>
-                                        <td class="is-narrow">${process.browser && window.__heretic ? window.__heretic.t(`logValue.${item.logStatus}`) || "—" : "—"}</td>
-                                        <td>${item.logValue || "—"}</td>
-                                    </tr> 
-                                </for>
-                            </tbody>
-                        </table>
-                    </div>
-                </if>
-                <else>
-                    <span>—</span>
-                </else>
-            </div>
-            <if(input.helpText)>
-                <p class="help">${input.helpText}</p>
-            </if>
-        </div>
-    </div>
-</if>
-<!-- Log: End -->
-<!-- Div: Start -->
-<if(input.type === "div")>
-    <div>
-        <div class="field">
-            <label class="label hr-hf-label">
-                ${input.label || ""}<span>:</span>
-                <if(input.mandatory)>
-                    &nbsp;<span class="hr-hf-label-mandatory">✱</span>
-                </if>
-            </label>
-            <div class="hr-hf-view-input" id=`hr_hf_el_${input.formId}_${input.id}` no-update/>
-            <if(state.error)>
-                <div class="hr-hf-error-wrap">
-                    <p class="tag is-danger hr-hf-error-tag">${state.error}</p>
-                </div>
-            </if>
-            <if(input.helpText)>
-                <p class="help">${input.helpText}</p>
-            </if>
-        </div>
-    </div>
-</if>
-<!-- Div: End -->
-<!-- Message: Start -->
-<if(input.type === "message")>
-    <div>
-        <div class="field">
-            <div class=`control ${input.messageClass || ""}` id=`hr_hf_el_${input.formId}_${input.id}`>
-                ${input.content}
-            </div>
-        </div>
-    </div>
-</if>
-<!-- Message: End -->
-<!-- Checkbox: Start -->
-<if(input.type === "checkbox")>
-    <div>
-        <div class="field">
-            <div class="control" no-update>
-                <label class="checkbox">
-                    <input id=`hr_hf_el_${input.formId}_${input.id}` class="hr-hf-form-checkbox" type="checkbox" disabled/>
-                    ${input.label || ""}
+<if(!input.noRender)>
+    <!-- Text Field: Start -->
+    <if(input.type === "text")>
+        <div>
+            <div class="field">
+                <label class="label hr-hf-label">
+                    ${input.label || ""}<span>:</span>
                     <if(input.mandatory)>
                         &nbsp;<span class="hr-hf-label-mandatory">✱</span>
                     </if>
                 </label>
-            </div>
-            <if(state.error)>
-                <div class="hr-hf-error-wrap">
-                    <p class="tag is-danger hr-hf-error-tag">${state.error}</p>
+                <div class="hr-hf-view-input">
+                    <if(input.formData.processTableCell)>
+                        $ const value = {};
+                        $ value[input.id] = state.value;
+                        ${input.formData.processTableCell(input.id, value)}
+                    </if>
+                    <else>${state.value}</else>
                 </div>
-            </if>
-            <if(input.helpText)>
-                <p class="help">${input.helpText}</p>
-            </if>
+                <if(input.helpText)>
+                    <p class="help">${input.helpText}</p>
+                </if>
+            </div>
         </div>
-    </div>
+    </if>
+    <!-- Text Field: End -->
+    <!-- Buttons: Start -->
+    <if(input.type === "buttons")>
+        <div class=`buttons ${input.css || ""}`>
+            <for|item| of=input.items>
+                <if(item.showInViewMode)>
+                    <button id=`hr_hf_el_${input.formId}_${input.id}_${item.id}` class=(item.css || "") type=item.type data-type=item.type data-id=item.id on-click("onButtonClick")>${item.label}</button>
+                </if>
+            </for>
+        </div>
+    </if>
+    <!-- Buttons: End -->
+    <!-- Select: Start -->
+    <if(input.type === "select")>
+        <div>
+            <div class="field">
+                <label class="label hr-hf-label">
+                    ${input.label || ""}<span>:</span>
+                    <if(input.mandatory)>
+                        &nbsp;<span class="hr-hf-label-mandatory">✱</span>
+                    </if>
+                </label>
+                <div class="control">
+                    <div class="hr-hf-view-input">
+                        <for|o| of=input.options>${o.value === state.value ? o.label : ""}</for>
+                    </div>
+                </div>
+                <if(input.helpText)>
+                    <p class="help">${input.helpText}</p>
+                </if>
+            </div>
+        </div>
+    </if>
+    <!-- Select: End -->
+    <!-- Files: Start -->
+    <if(input.type === "files")>
+        <div>
+            <div class="field">
+                <label class="label hr-hf-label">
+                    ${input.label || ""}<span>:</span>
+                    <if(input.mandatory)>
+                        &nbsp;<span class="hr-hf-label-mandatory">✱</span>
+                    </if>
+                </label>
+                <if(state.value && state.value.length)>
+                    <div class="mt-2">
+                        <for|f| of=state.value>
+                            <div>
+                                <if(input.download && !f.data)>
+                                    <a class="is-underlined" href=`${input.download}?id=${f.uid}&language=${out.global.language || window.__heretic.outGlobal.language}&_=${Math.floor(Date.now())}` target="_blank">${f.name}</a>
+                                </if>
+                                <else>${f.name}</else>
+                            </div>
+                        </for>
+                    </div>
+                </if>
+                <else>
+                    <div class="hr-hf-view-input">
+                        <t>hform_noAttachments</t>
+                    </div>
+                </else>
+                <if(input.helpText)>
+                    <p class="help">${input.helpText}</p>
+                </if>
+            </div>
+        </div>
+    </if>
+    <!-- Files: End -->
+    <!-- Captcha Field: Start -->
+    <!-- Captcha Field: End -->
+    <!-- Date Picker Field: Start -->
+    <if(input.type === "date")>
+        <div>
+            <div class="field">
+                <label class="label hr-hf-label">
+                    ${input.label || ""}<span>:</span>
+                    <if(input.mandatory)>
+                        &nbsp;<span class="hr-hf-label-mandatory">✱</span>
+                    </if>
+                </label>
+                <div class="control" id=`hr_hf_el_${input.formId}_${input.id}_input_wrap`>
+                    <div class="hr-hf-view-input hr-hf-date-input">${state.value ? format(new Date(state.value * 1000), window.__heretic.t("global.dateFormatShort")) : ""}</div>
+                </div>
+                <if(input.helpText)>
+                    <p class="help">${input.helpText}</p>
+                </if>
+            </div>
+        </div>
+    </if>
+    <!-- Date Picker Field: End -->
+    <!-- WYSIWYG Field: Start -->
+    <if(input.type === "wysiwyg")>
+        <div>
+            <div class="field">
+                <label class="label hr-hf-label">
+                    ${input.label || ""}<span>:</span>
+                    <if(input.mandatory)>
+                        &nbsp;<span class="hr-hf-label-mandatory">✱</span>
+                    </if>
+                </label>
+                <if(state.value)>
+                    <div class="hr-hf-view-wysiwyg">$!{state.value}</div>
+                </if>
+                <else>
+                    <div class="hr-hf-view-input">
+                        <t>hform_noContent</t>
+                    </div>
+                </else>
+                <if(input.helpText)>
+                    <p class="help">${input.helpText}</p>
+                </if>
+            </div>
+        </div>
+    </if>
+    <!-- WYSIWYG Field: End -->
+    <!-- Log: Start -->
+    <if(input.type === "log")>
+        <div>
+            <div class="field">
+                <label class="label hr-hf-label">
+                    ${input.label || ""}<span>:</span>
+                    <if(input.mandatory)>
+                        &nbsp;<span class="hr-hf-label-mandatory">✱</span>
+                    </if>
+                </label>
+                <div class="control">
+                    <if(state.value && state.value.length)>
+                        <div class="mt-2">
+                            <table class="table is-narrow is-striped hr-hf-log-values-table-view">
+                                <tbody>
+                                    <for|item| of=state.value>
+                                        <tr>
+                                            <td class="is-narrow has-text-center">${item.logDate ? format(new Date(item.logDate * 1000), window.__heretic.t("global.dateFormatShort")) : "—"}</td>
+                                            <td class="is-narrow">${process.browser && window.__heretic ? window.__heretic.t(`logValue.${item.logStatus}`) || "—" : "—"}</td>
+                                            <td>${item.logValue || "—"}</td>
+                                        </tr> 
+                                    </for>
+                                </tbody>
+                            </table>
+                        </div>
+                    </if>
+                    <else>
+                        <span>—</span>
+                    </else>
+                </div>
+                <if(input.helpText)>
+                    <p class="help">${input.helpText}</p>
+                </if>
+            </div>
+        </div>
+    </if>
+    <!-- Log: End -->
+    <!-- Div: Start -->
+    <if(input.type === "div")>
+        <div>
+            <div class="field">
+                <label class="label hr-hf-label">
+                    ${input.label || ""}<span>:</span>
+                    <if(input.mandatory)>
+                        &nbsp;<span class="hr-hf-label-mandatory">✱</span>
+                    </if>
+                </label>
+                <div class="hr-hf-view-input" id=`hr_hf_el_${input.formId}_${input.id}` no-update/>
+                <if(state.error)>
+                    <div class="hr-hf-error-wrap">
+                        <p class="tag is-danger hr-hf-error-tag">${state.error}</p>
+                    </div>
+                </if>
+                <if(input.helpText)>
+                    <p class="help">${input.helpText}</p>
+                </if>
+            </div>
+        </div>
+    </if>
+    <!-- Div: End -->
+    <!-- Message: Start -->
+    <if(input.type === "message")>
+        <div>
+            <div class="field">
+                <div class=`control ${input.messageClass || ""}` id=`hr_hf_el_${input.formId}_${input.id}`>${input.content}</div>
+            </div>
+        </div>
+    </if>
+    <!-- Message: End -->
+    <!-- Checkbox: Start -->
+    <if(input.type === "checkbox")>
+        <div>
+            <div class="field">
+                <div class="control" no-update>
+                    <label class="checkbox">
+                        <input id=`hr_hf_el_${input.formId}_${input.id}` class="hr-hf-form-checkbox" type="checkbox" disabled/>
+                        ${input.label || ""}<if(input.mandatory)>
+                            &nbsp;<span class="hr-hf-label-mandatory">✱</span>
+                        </if>
+                    </label>
+                </div>
+                <if(state.error)>
+                    <div class="hr-hf-error-wrap">
+                        <p class="tag is-danger hr-hf-error-tag">${state.error}</p>
+                    </div>
+                </if>
+                <if(input.helpText)>
+                    <p class="help">${input.helpText}</p>
+                </if>
+            </div>
+        </div>
+    </if>
+    <!-- Checkbox: End -->
 </if>
-<!-- Checkbox: End -->
