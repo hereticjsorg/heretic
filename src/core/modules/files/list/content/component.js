@@ -55,9 +55,9 @@ export default class {
         return files;
     }
 
-    async loadData() {
+    async loadData(dir) {
         const data = new FormData();
-        data.append("formTabs", `{"_default":{"dir":"${this.state.dir}"}}`);
+        data.append("formTabs", `{"_default":{"dir":"${dir || this.state.dir}"}}`);
         data.append("formShared", "{}");
         data.append("tabs", `["_default"]`);
         try {
@@ -70,6 +70,9 @@ export default class {
                 },
             });
             this.setState("files", this.sortFiles(res.data.files, "name"));
+            if (dir) {
+                this.setState("dir", dir);
+            }
         } catch (e) {
             // eslint-disable-next-line no-console
             console.log(e);
@@ -88,5 +91,19 @@ export default class {
         }
         this.setState("ready", true);
         this.loadData();
+    }
+
+    async onFileClick(e) {
+        if (!e.target.closest("[data-click]")) {
+            return;
+        }
+        e.preventDefault();
+        const {
+            id,
+        } = e.target.closest("[data-id]").dataset;
+        const file = this.state.files.find(f => f.name === id);
+        if (file.dir) {
+            await this.loadData(`${this.state.dir}/${file.name}`);
+        }
     }
 }

@@ -60,3 +60,7 @@ html.heretic-dark .hr-fs-file-odd {
 html.heretic-dark .hr-fs-file-icon>svg>path {
     fill: $white-ter;
 }
+
+.hr-fs-file-clickable-area {
+    cursor: pointer;
+}

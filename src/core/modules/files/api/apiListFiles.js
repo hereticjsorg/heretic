@@ -30,9 +30,11 @@ export default () => ({
                 });
             }
             const par = data._default;
+            // eslint-disable-next-line no-console
+            console.log(par);
             par.dir = par.dir.replace(/\.\./gm, "").replace(/~/gm, "");
             const root = path.resolve(`${__dirname}/../${moduleConfig.root}`).replace(/\\/gm, "/");
-            const dir = par.dir ? path.resolve(`${__dirname}/../${moduleConfig.root}/${req.body.dir}`).replace(/\\/gm, "/") : root;
+            const dir = par.dir ? path.resolve(`${__dirname}/../${moduleConfig.root}/${par.dir}`).replace(/\\/gm, "/") : root;
             if (dir.indexOf(root) !== 0) {
                 return rep.error({
                     message: "Invalid directory",
