@@ -30,8 +30,6 @@ export default () => ({
                 });
             }
             const par = data._default;
-            // eslint-disable-next-line no-console
-            console.log(par);
             par.dir = par.dir.replace(/\.\./gm, "").replace(/~/gm, "");
             const root = path.resolve(`${__dirname}/../${moduleConfig.root}`).replace(/\\/gm, "/");
             const dir = par.dir ? path.resolve(`${__dirname}/../${moduleConfig.root}/${par.dir}`).replace(/\\/gm, "/") : root;
@@ -49,6 +47,7 @@ export default () => ({
                 }
                 const item = {
                     name: f,
+                    ext: stats.isFile() ? path.extname(f).replace(/^\./, "") : null,
                     dir: stats.isDirectory(),
                     // eslint-disable-next-line no-bitwise
                     permissions: `0${(stats.mode & 0o777).toString(8)}`,

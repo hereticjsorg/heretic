@@ -24,7 +24,7 @@ html.heretic-dark .hr-fs-dir {
     background-color: darken($yellow, 30%);
 }
 
-html.heretic-dark .hr-fs-dir > .column {
+html.heretic-dark .hr-fs-dir>.column {
     color: $grey-lightest;
 }
 
@@ -63,4 +63,69 @@ html.heretic-dark .hr-fs-file-icon>svg>path {
 
 .hr-fs-file-clickable-area {
     cursor: pointer;
+}
+
+.hr-fs-files {
+    position: relative;
+}
+
+.hr-fs-files-loading {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: rgba($white, 0.5);
+    left: 0;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    padding-top: 10px;
+    border-radius: $radius;
+}
+
+.hr-fs-top-button-icon {
+    display: inline-flex;
+    align-self: center;
+}
+
+.hr-fs-top-button-icon svg {
+    height: 16px;
+    width: 16px;
+    top: 0px;
+    position: relative;
+}
+
+.hr-fs-top-button-icon svg>path {
+    fill: $grey-darker !important;
+}
+
+.hr-fs-col {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.hr-fs-col-type {
+    min-width: 90px;
+    max-width: 90px;
+    width: 90px;
+}
+
+.hr-fs-col-controls {
+    min-width: 120px;
+    max-width: 120px;
+    width: 120px;
+}
+
+@media (max-width: 1023px) {
+
+    .hr-fs-col-type,
+    .hr-fs-col-controls {
+        min-width: unset;
+        max-width: unset;
+        width: 100%;
+    }
+
+    .hr-fs-col-filename {
+        margin-left: 8px !important;
+    }
 }

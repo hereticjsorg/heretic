@@ -1,46 +1,73 @@
 import { mdiFolderOutline, mdiFileOutline } from "@mdi/js"
+import buttons from "./buttons.js"
 
 <if(state.ready)>
     <hadmin-title admin=true title=(process.browser && window.__heretic ? window.__heretic.t("moduleTitleAdmin") : null)/>
+    <div class="buttons mb-1" on-click("onTopButtonClick")>
+        <for|button| of=buttons>
+            <button data-tippy-content=(process.browser ? window.__heretic.t(button.label) : "") button.label data-id=button.id class="button is-light" disabled=(state.loading || state.disabled[button.id])>
+                <span class="hr-fs-top-button-icon icon">
+                    <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                        <path d=button.icon/>
+                    </svg>
+                </span>
+            </button>
+        </for>
+    </div>
     <if(state.files)>
-        <div class="columns p-0 m-0 hr-fs-head">
-            <div class="column is-narrow p-2">
-                <label class="checkbox">
-                    <input type="checkbox"/> 
-                </label>
+        <div class="hr-fs-files">
+            <if(state.loading)>
+                <div class="hr-fs-files-loading">
+                    <hloading-dots/>
+                </div>
+            </if>
+            <div class="columns p-0 m-0 hr-fs-head">
+                <div class="column is-narrow p-2">
+                    <label class="checkbox">
+                        <input type="checkbox"/> 
+                    </label>
+                </div>
+                <div class="column pt-2 pb-2 pr-2 pl-0 hr-fs-col hr-fs-col-filename">
+                    <t>fileName</t>
+                </div>
+                <div class="column is-narrow p-2 hr-fs-col hr-fs-col-type">
+                    <t>fileType</t>
+                </div>
+                <div class="column is-narrow p-2 hr-fs-col hr-fs-col-controls">
+                    <t>controls</t>
+                </div>
             </div>
-            <div class="column pt-2 pb-2 pr-2 pl-0">
-                <t>fileName</t>
-            </div>
-            <div class="column is-narrow p-2">controls controls</div>
+            <if(state.files.length)>
+                <div on-click("onFileClick") on-change("onCheckboxChange")>
+                    <for|item, index| of=state.files>
+                        <div class=`columns p-0 m-0${item.dir ? " hr-fs-dir" : " hr-fs-file"}${index === state.files.length - 1 ? " hr-fs-bottomItem" : ""}${item.dir && index % 2 === 0 ? " hr-fs-dir-odd" : ""}${!item.dir && index % 2 === 0 ? " hr-fs-file-odd" : ""}` data-id=item.name>
+                            <div class="column is-narrow p-2">
+                                <label class="checkbox">
+                                    <input data-checkbox-id=item.id type="checkbox" checked=(state.checked.indexOf(item.name) > -1)/> 
+                                </label>
+                            </div>
+                            <div class="column p-0 pr-2 is-flex is-align-items-center hr-fs-file-clickable-area hr-fs-col-filename" data-click=true>
+                                <span class="icon hr-fs-file-icon">
+                                    <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                        <path d=(item.dir ? mdiFolderOutline : mdiFileOutline)/>
+                                    </svg>
+                                </span>
+                                <span class="pl-1">${item.name}</span>
+                            </div>
+                            <div class="column is-narrow p-2 hr-fs-col hr-fs-col-type">${item.dir ? (process.browser ? window.__heretic.t("typeFolder") : "") : item.ext || "–"}</div>
+                            <div class="column is-narrow p-2 hr-fs-col hr-fs-col-controls">controls controls</div>
+                        </div>
+                    </for>
+                </div>
+            </if>
+            <else>
+                <div class=`columns p-0 m-0 hr-fs-file hr-fs-bottomItem`>
+                    <div class="column p-2">
+                        <t>noFilesToDisplay</t>
+                    </div>
+                </div>
+            </else>
         </div>
-        <if(state.files.length)>
-            <for|item, index| of=state.files>
-                <div class=`columns p-0 m-0${item.dir ? " hr-fs-dir" : " hr-fs-file"}${index === state.files.length - 1 ? " hr-fs-bottomItem" : ""}${item.dir && index % 2 === 0 ? " hr-fs-dir-odd" : ""}${!item.dir && index % 2 === 0 ? " hr-fs-file-odd" : ""}` data-id=item.name on-click("onFileClick")>
-                    <div class="column is-narrow p-2">
-                        <label class="checkbox">
-                            <input type="checkbox"/> 
-                        </label>
-                    </div>
-                    <div class="column is-narrow p-0 pr-2 is-flex is-align-items-center hr-fs-file-clickable-area" data-click=true>
-                        <span class="icon hr-fs-file-icon">
-                            <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                                <path d=(item.dir ? mdiFolderOutline : mdiFileOutline)/>
-                            </svg>
-                        </span>
-                    </div>
-                    <div class="column pt-2 pb-2 pr-2 pl-0 hr-fs-file-clickable-area" data-click=true>${item.name}</div>
-                    <div class="column is-narrow p-2">controls controls</div>
-                </div>
-            </for>
-        </if>
-        <else>
-            <div class=`columns p-0 m-0 hr-fs-file hr-fs-bottomItem`>
-                <div class="column p-2">
-                    <t>noFilesToDisplay</t>
-                </div>
-            </div>
-        </else>
     </if>
     <hnotify admin=true key="notify"/>
 </if>

@@ -1,3 +1,10 @@
 {
-    "moduleTitleAdmin": "File Manager"
+    "moduleTitleAdmin": "File Manager",
+    "dirUp": "Parent Directory",
+    "fileName": "Filename",
+    "noFilesToDisplay": "No files to display",
+    "fileType": "Type",
+    "controls": "Controls",
+    "typeFolder": "Folder",
+    "refresh": "Refresh"
 }

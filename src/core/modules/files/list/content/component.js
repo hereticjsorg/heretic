@@ -15,6 +15,10 @@ export default class {
             sort: "name",
             sortDir: "asc",
             files: [],
+            disabled: {
+                dirUp: true,
+            },
+            checked: [],
         };
         this.language = out.global.language;
         this.siteTitle = out.global.siteTitle;
@@ -55,11 +59,14 @@ export default class {
         return files;
     }
 
-    async loadData(dir) {
+    async loadData(dir = null) {
+        // eslint-disable-next-line no-console
+        console.log(dir);
         const data = new FormData();
-        data.append("formTabs", `{"_default":{"dir":"${dir || this.state.dir}"}}`);
+        data.append("formTabs", `{"_default":{"dir":"${dir !== null ? dir : this.state.dir}"}}`);
         data.append("formShared", "{}");
         data.append("tabs", `["_default"]`);
+        this.setState("loading", true);
         try {
             const res = await axios({
                 method: "post",
@@ -70,13 +77,22 @@ export default class {
                 },
             });
             this.setState("files", this.sortFiles(res.data.files, "name"));
-            if (dir) {
+            if (dir !== null) {
                 this.setState("dir", dir);
+                const disabled = cloneDeep(this.state.disabled);
+                disabled.dirUp = !dir.length;
+                this.setState("disabled", disabled);
             }
-        } catch (e) {
-            // eslint-disable-next-line no-console
-            console.log(e);
+        } catch {
             await this.showNotification("couldNotLoadData", "is-danger");
+        } finally {
+            this.setState("loading", false);
+        }
+    }
+
+    onUpdate() {
+        if (window.__heretic && window.__heretic.setTippy) {
+            window.__heretic.setTippy();
         }
     }
 
@@ -105,5 +121,51 @@ export default class {
         if (file.dir) {
             await this.loadData(`${this.state.dir}/${file.name}`);
         }
+    }
+
+    async funcDirUp() {
+        if (this.state.dir.length) {
+            const dirParts = this.state.dir.split(/\//);
+            dirParts.pop();
+            // eslint-disable-next-line no-console
+            console.log(dirParts.join("/"));
+            await this.loadData(dirParts.join("/"));
+        }
+    }
+
+    async onTopButtonClick(e) {
+        e.preventDefault(e);
+        if (!e.target.closest("[data-id]")) {
+            return;
+        }
+        const {
+            id,
+        } = e.target.closest("[data-id]").dataset;
+        if (this.state.disabled[id]) {
+            return;
+        }
+        switch (id) {
+        case "dirUp":
+            await this.funcDirUp();
+            break;
+        case "refresh":
+            await this.loadData();
+            break;
+        }
+    }
+
+    onCheckboxChange(e) {
+        e.preventDefault(e);
+        if (!e.target.closest("[data-id]")) {
+            return;
+        }
+        const {
+            id,
+        } = e.target.closest("[data-id]").dataset;
+        // eslint-disable-next-line no-console
+        console.log(`[data-checkbox-id="${id}"]`);
+        const checkbox = document.querySelector(`[data-checkbox-id="${id}"]`);
+        // eslint-disable-next-line no-console
+        console.log(checkbox);
     }
 }
