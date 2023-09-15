@@ -89,6 +89,7 @@
         "serializers",
         "servestaticcontent",
         "signIn",
+        "sortby",
         "systeminformation",
         "taskkill",
         "Totp",
