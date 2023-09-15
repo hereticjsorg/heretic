@@ -49,19 +49,17 @@ export default class {
         this.getComponent("notify").show(window.__heretic.t(message), css);
     }
 
-    sortFiles(data, field, dir = "asc") {
+    sortFiles(data, field, direction = "asc") {
         const files = cloneDeep(data).sort((a, b) => {
             if ((a.dir && !b.dir) || (b.dir && !a.dir)) {
                 return b.dir ? 1 : -1;
             }
-            return dir === "asc" ? a[field] - b[field] : b[field] - a[field];
+            return direction === "asc" ? ((a[field] > b[field]) ? 1 : ((a[field] < b[field]) ? -1 : 0)) : ((a[field] > b[field]) ? -1 : ((a[field] < b[field]) ? 1 : 0));
         });
         return files;
     }
 
     async loadData(dir = null) {
-        // eslint-disable-next-line no-console
-        console.log(dir);
         const data = new FormData();
         data.append("formTabs", `{"_default":{"dir":"${dir !== null ? dir : this.state.dir}"}}`);
         data.append("formShared", "{}");
@@ -77,6 +75,9 @@ export default class {
                 },
             });
             this.setState("files", this.sortFiles(res.data.files, "name"));
+            if (this.state.dir !== dir) {
+                this.setState("checked", []);
+            }
             if (dir !== null) {
                 this.setState("dir", dir);
                 const disabled = cloneDeep(this.state.disabled);
@@ -127,8 +128,6 @@ export default class {
         if (this.state.dir.length) {
             const dirParts = this.state.dir.split(/\//);
             dirParts.pop();
-            // eslint-disable-next-line no-console
-            console.log(dirParts.join("/"));
             await this.loadData(dirParts.join("/"));
         }
     }
@@ -162,10 +161,30 @@ export default class {
         const {
             id,
         } = e.target.closest("[data-id]").dataset;
-        // eslint-disable-next-line no-console
-        console.log(`[data-checkbox-id="${id}"]`);
         const checkbox = document.querySelector(`[data-checkbox-id="${id}"]`);
-        // eslint-disable-next-line no-console
-        console.log(checkbox);
+        const checkedData = checkbox.checked ? cloneDeep([...this.state.checked, id]) : cloneDeep(this.state.checked).filter(i => i !== id);
+        this.setState("checked", checkedData);
+    }
+
+    onCheckboxAllChange(e) {
+        e.preventDefault(e);
+        const { checked } = e.target;
+        const checkedData = checked ? this.state.files.map(f => f.name) : [];
+        this.setState("checked", checkedData);
+    }
+
+    updateFilesSort(e) {
+        if (!e.target.closest("[data-id]")) {
+            return;
+        }
+        e.preventDefault(e);
+        const {
+            id,
+        } = e.target.closest("[data-id]").dataset;
+
+        const sortDir = (id === this.state.sort) ? (this.state.sortDir === "asc" ? "desc" : "asc") : "asc";
+        this.setState("sort", id);
+        this.setState("sortDir", sortDir);
+        this.setState("files", this.sortFiles(this.state.files, id, sortDir));
     }
 }

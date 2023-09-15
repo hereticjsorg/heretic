@@ -6,5 +6,15 @@
     "fileType": "Type",
     "controls": "Controls",
     "typeFolder": "Folder",
-    "refresh": "Refresh"
+    "refresh": "Refresh",
+    "fileSize": "Size",
+    "Bytes": "B", 
+    "KB": "KB", 
+    "MB": "MB", 
+    "GB": "GB", 
+    "TB": "TB",
+    "filePermissions": "Permissions",
+    "copy": "Copy",
+    "cut": "Cut",
+    "delete": "Delete"
 }

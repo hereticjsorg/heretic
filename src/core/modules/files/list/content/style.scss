@@ -1,10 +1,14 @@
 @import "~styles/variables.scss";
 
+$folder: #F2DCB3;
+$folder-dark: #594D36;
+
 .hr-fs-head {
     background-color: $grey-lighter;
     border-top-right-radius: $radius;
     border-top-left-radius: $radius;
     font-weight: bold;
+    user-select: none;
 }
 
 html.heretic-dark .hr-fs-head {
@@ -13,23 +17,23 @@ html.heretic-dark .hr-fs-head {
 }
 
 .hr-fs-dir {
-    background-color: darken($yellow, 5%);
+    background-color: darken($folder, 5%);
 }
 
 .hr-fs-dir-odd {
-    background-color: darken($yellow, 15%);
+    background-color: $folder;
 }
 
 html.heretic-dark .hr-fs-dir {
-    background-color: darken($yellow, 30%);
+    background-color: darken($folder-dark, 5%);
+}
+
+html.heretic-dark .hr-fs-dir-odd {
+    background-color: $folder-dark;
 }
 
 html.heretic-dark .hr-fs-dir>.column {
     color: $grey-lightest;
-}
-
-html.heretic-dark .hr-fs-dir-odd {
-    background-color: darken($yellow, 35%);
 }
 
 .hr-fs-dir>.column {
@@ -98,16 +102,20 @@ html.heretic-dark .hr-fs-file-icon>svg>path {
     fill: $grey-darker !important;
 }
 
-.hr-fs-col {
+.hr-fs-col,
+.hr-fs-cell {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    width: 100%;
 }
 
-.hr-fs-col-type {
-    min-width: 90px;
-    max-width: 90px;
-    width: 90px;
+.hr-fs-col-ext,
+.hr-fs-col-permissions,
+.hr-fs-col-size {
+    min-width: 100px;
+    max-width: 100px;
+    width: 100px;
 }
 
 .hr-fs-col-controls {
@@ -116,9 +124,34 @@ html.heretic-dark .hr-fs-file-icon>svg>path {
     width: 120px;
 }
 
-@media (max-width: 1023px) {
+.hr-fs-col-ext,
+.hr-fs-col-size,
+.hr-fs-col-permissions,
+.hr-fs-col-filename {
+    cursor: pointer;
+}
 
-    .hr-fs-col-type,
+.hr-fs-file-button {
+    border-radius: 50% !important;
+    margin-right: 2px;
+}
+
+.hr-fs-action-danger svg>path {
+    fill: $white !important;
+}
+
+.hr-fs-cell-controls {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (max-width: 769px) {
+
+    .hr-fs-col-ext,
+    .hr-fs-col-size,
+    .hr-fs-col-permissions,
     .hr-fs-col-controls {
         min-width: unset;
         max-width: unset;
@@ -127,5 +160,9 @@ html.heretic-dark .hr-fs-file-icon>svg>path {
 
     .hr-fs-col-filename {
         margin-left: 8px !important;
+    }
+
+    .hr-fs-cell-controls {
+        justify-content: left;
     }
 }

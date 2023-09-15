@@ -1,11 +1,12 @@
-import { mdiFolderOutline, mdiFileOutline } from "@mdi/js"
+import { mdiFolderOutline, mdiFileOutline, mdiContentCopy } from "@mdi/js"
 import buttons from "./buttons.js"
+import actions from "./actions.js"
 
 <if(state.ready)>
     <hadmin-title admin=true title=(process.browser && window.__heretic ? window.__heretic.t("moduleTitleAdmin") : null)/>
     <div class="buttons mb-1" on-click("onTopButtonClick")>
         <for|button| of=buttons>
-            <button data-tippy-content=(process.browser ? window.__heretic.t(button.label) : "") button.label data-id=button.id class="button is-light" disabled=(state.loading || state.disabled[button.id])>
+            <button data-tippy-content=(process.browser ? window.__heretic.t(button.label) : "") data-id=button.id class="button is-light" disabled=(state.loading || state.disabled[button.id])>
                 <span class="hr-fs-top-button-icon icon">
                     <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
                         <path d=button.icon/>
@@ -21,20 +22,40 @@ import buttons from "./buttons.js"
                     <hloading-dots/>
                 </div>
             </if>
-            <div class="columns p-0 m-0 hr-fs-head">
+            <div class="columns p-0 m-0 hr-fs-head" on-click("updateFilesSort")>
                 <div class="column is-narrow p-2">
                     <label class="checkbox">
-                        <input type="checkbox"/> 
+                        <input type="checkbox" checked=(state.files.length && state.checked.length === state.files.length) disabled=!state.files.length on-change("onCheckboxAllChange")/> 
                     </label>
                 </div>
-                <div class="column pt-2 pb-2 pr-2 pl-0 hr-fs-col hr-fs-col-filename">
+                <div class="column pt-2 pb-2 pr-2 pl-0 hr-fs-col hr-fs-col-filename" data-id="name">
                     <t>fileName</t>
+                    <if(state.sort === "name")>
+                        <sortIcon sortDir=state.sortDir/>
+                    </if>
                 </div>
-                <div class="column is-narrow p-2 hr-fs-col hr-fs-col-type">
+                <div class="column is-narrow p-2 hr-fs-col hr-fs-col-ext" data-id="ext">
                     <t>fileType</t>
+                    <if(state.sort === "ext")>
+                        <sortIcon sortDir=state.sortDir/>
+                    </if>
+                </div>
+                <div class="column is-narrow p-2 hr-fs-col hr-fs-col-ext" data-id="size">
+                    <t>fileSize</t>
+                    <if(state.sort === "size")>
+                        <sortIcon sortDir=state.sortDir/>
+                    </if>
+                </div>
+                <div class="column is-narrow p-2 hr-fs-col hr-fs-col-permissions" data-id="permissions">
+                    <t>filePermissions</t>
+                    <if(state.sort === "permissions")>
+                        <sortIcon sortDir=state.sortDir/>
+                    </if>
                 </div>
                 <div class="column is-narrow p-2 hr-fs-col hr-fs-col-controls">
-                    <t>controls</t>
+                    <div class="hr-fs-cell-controls">
+                        <t>controls</t>
+                    </div>
                 </div>
             </div>
             <if(state.files.length)>
@@ -43,7 +64,7 @@ import buttons from "./buttons.js"
                         <div class=`columns p-0 m-0${item.dir ? " hr-fs-dir" : " hr-fs-file"}${index === state.files.length - 1 ? " hr-fs-bottomItem" : ""}${item.dir && index % 2 === 0 ? " hr-fs-dir-odd" : ""}${!item.dir && index % 2 === 0 ? " hr-fs-file-odd" : ""}` data-id=item.name>
                             <div class="column is-narrow p-2">
                                 <label class="checkbox">
-                                    <input data-checkbox-id=item.id type="checkbox" checked=(state.checked.indexOf(item.name) > -1)/> 
+                                    <input data-checkbox-id=item.name type="checkbox" checked=(state.checked.indexOf(item.name) > -1)/>
                                 </label>
                             </div>
                             <div class="column p-0 pr-2 is-flex is-align-items-center hr-fs-file-clickable-area hr-fs-col-filename" data-click=true>
@@ -52,10 +73,28 @@ import buttons from "./buttons.js"
                                         <path d=(item.dir ? mdiFolderOutline : mdiFileOutline)/>
                                     </svg>
                                 </span>
-                                <span class="pl-1">${item.name}</span>
+                                <div class="pl-1">${item.name.replace(/(.{31})..+/, "$1…")}</div>
                             </div>
-                            <div class="column is-narrow p-2 hr-fs-col hr-fs-col-type">${item.dir ? (process.browser ? window.__heretic.t("typeFolder") : "") : item.ext || "–"}</div>
-                            <div class="column is-narrow p-2 hr-fs-col hr-fs-col-controls">controls controls</div>
+                            <div class="column is-narrow p-2 hr-fs-col hr-fs-col-ext">
+                                <span class="tag">${item.dir ? (process.browser ? window.__heretic.t("typeFolder") : "") : item.ext.toUpperCase() || "–"}</span>
+                            </div>
+                            <div class="column is-narrow p-2 hr-fs-col hr-fs-col-size">${item.dir ? "–" : `${parseInt(item.size, 10)} ${process.browser ? window.__heretic.t(item.sizeUnit) : ""}`}</div>
+                            <div class="column is-narrow p-2 hr-fs-col hr-fs-col-size">
+                                <span class="tag">${item.permissions}</span>
+                            </div>
+                            <div class="column is-narrow p-2 hr-fs-col hr-fs-col-controls">
+                                <div class="hr-fs-cell-controls">
+                                    <for|action| of=actions>
+                                        <button data-tippy-content=(process.browser ? window.__heretic.t(action.label) : "") data-id=action.id class=`button is-small hr-fs-file-button${action.danger ? " is-danger hr-fs-action-danger" : " is-light"}` disabled=(state.loading || state.disabled[action.id])>
+                                            <span class="hr-fs-top-button-icon icon">
+                                                <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d=action.icon/>
+                                                </svg>
+                                            </span>
+                                        </button>
+                                    </for>
+                                </div>
+                            </div>
                         </div>
                     </for>
                 </div>

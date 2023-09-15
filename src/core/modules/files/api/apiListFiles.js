@@ -53,7 +53,9 @@ export default () => ({
                     permissions: `0${(stats.mode & 0o777).toString(8)}`,
                 };
                 if (stats.isFile()) {
-                    item.size = utils.formatBytes(stats.size);
+                    const size = utils.formatBytes(stats.size);
+                    item.size = size.size;
+                    item.sizeUnit = size.unit;
                     item.mime = f.indexOf(".") > 0 ? mime.lookup(f) || "application/octet-stream" : "application/octet-stream";
                     if ((f.indexOf(".") > 0 && utils.isBinary(f)) || stats.size > moduleConfig.maxFileEditSizeBytes) {
                         data.binary = true;
