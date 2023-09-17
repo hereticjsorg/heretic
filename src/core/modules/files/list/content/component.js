@@ -1,5 +1,6 @@
 import axios from "axios";
 import cloneDeep from "lodash.clonedeep";
+import debounce from "lodash.debounce";
 import Utils from "#lib/componentUtils";
 import Cookies from "#lib/cookiesBrowser";
 import pageConfig from "../page.js";
@@ -17,8 +18,13 @@ export default class {
             files: [],
             disabled: {
                 dirUp: true,
+                cut: true,
+                copy: true,
+                delete: true,
             },
             checked: [],
+            actionMenu: null,
+            mobile: false,
         };
         this.language = out.global.language;
         this.siteTitle = out.global.siteTitle;
@@ -78,12 +84,15 @@ export default class {
             if (this.state.dir !== dir) {
                 this.setState("checked", []);
             }
+            const disabled = cloneDeep(this.state.disabled);
+            disabled.copy = true;
+            disabled.cut = true;
+            disabled.delete = true;
             if (dir !== null) {
                 this.setState("dir", dir);
-                const disabled = cloneDeep(this.state.disabled);
                 disabled.dirUp = !dir.length;
-                this.setState("disabled", disabled);
             }
+            this.setState("disabled", disabled);
         } catch {
             await this.showNotification("couldNotLoadData", "is-danger");
         } finally {
@@ -107,20 +116,48 @@ export default class {
             return;
         }
         this.setState("ready", true);
+        window.addEventListener("click", e => {
+            if (!e.target.closest("[data-dropdown]")) {
+                this.setState("actionMenu", null);
+            }
+        });
+        window.addEventListener("resize", debounce(() => this.setState("mobile", window.innerWidth < 769), 500));
+        this.setState("mobile", window.innerWidth < 769);
         this.loadData();
     }
 
     async onFileClick(e) {
-        if (!e.target.closest("[data-click]")) {
+        if (e.target.closest("[data-dropdown]")) {
+            e.preventDefault();
+            const {
+                dropdown,
+            } = e.target.closest("[data-dropdown]").dataset;
+            this.setState("actionMenu", this.state.actionMenu === dropdown ? null : dropdown);
             return;
         }
-        e.preventDefault();
-        const {
-            id,
-        } = e.target.closest("[data-id]").dataset;
-        const file = this.state.files.find(f => f.name === id);
-        if (file.dir) {
-            await this.loadData(`${this.state.dir}/${file.name}`);
+        if (e.target.closest("[data-click]")) {
+            e.preventDefault();
+            const {
+                id,
+            } = e.target.closest("[data-id]").dataset;
+            const file = this.state.files.find(f => f.name === id);
+            if (file.dir) {
+                await this.loadData(`${this.state.dir}/${file.name}`);
+            }
+            return;
+        }
+        if (e.target.closest("[data-id]")) {
+            const {
+                id,
+            } = e.target.closest("[data-id]").dataset;
+            const {
+                filename,
+            } = e.target.closest("[data-filename]").dataset;
+            switch (id) {
+            case "rename":
+                await this.utils.waitForComponent("nameModal");
+                this.getComponent("nameModal").show(`${window.__heretic.t("rename")}: ${filename}`, filename, id);
+            }
         }
     }
 
@@ -150,6 +187,14 @@ export default class {
         case "refresh":
             await this.loadData();
             break;
+        case "newDir":
+            await this.utils.waitForComponent("nameModal");
+            this.getComponent("nameModal").show(window.__heretic.t("newDir"), "", "newDir");
+            break;
+        case "upload":
+            await this.utils.waitForComponent("uploadModal");
+            this.getComponent("uploadModal").show(this.state.dir);
+            break;
         }
     }
 
@@ -164,13 +209,25 @@ export default class {
         const checkbox = document.querySelector(`[data-checkbox-id="${id}"]`);
         const checkedData = checkbox.checked ? cloneDeep([...this.state.checked, id]) : cloneDeep(this.state.checked).filter(i => i !== id);
         this.setState("checked", checkedData);
+        const disabled = cloneDeep(this.state.disabled);
+        disabled.copy = !checkedData.length;
+        disabled.cut = !checkedData.length;
+        disabled.delete = !checkedData.length;
+        this.setState("disabled", disabled);
     }
 
     onCheckboxAllChange(e) {
         e.preventDefault(e);
-        const { checked } = e.target;
+        const {
+            checked
+        } = e.target;
         const checkedData = checked ? this.state.files.map(f => f.name) : [];
         this.setState("checked", checkedData);
+        const disabled = cloneDeep(this.state.disabled);
+        disabled.copy = !checkedData.length;
+        disabled.cut = !checkedData.length;
+        disabled.delete = !checkedData.length;
+        this.setState("disabled", disabled);
     }
 
     updateFilesSort(e) {
@@ -181,10 +238,18 @@ export default class {
         const {
             id,
         } = e.target.closest("[data-id]").dataset;
-
         const sortDir = (id === this.state.sort) ? (this.state.sortDir === "asc" ? "desc" : "asc") : "asc";
         this.setState("sort", id);
         this.setState("sortDir", sortDir);
         this.setState("files", this.sortFiles(this.state.files, id, sortDir));
+    }
+
+    // eslint-disable-next-line no-unused-vars
+    onNameModalData(data) {
+        // Ignore
+    }
+
+    onUploadDone() {
+        this.loadData();
     }
 }

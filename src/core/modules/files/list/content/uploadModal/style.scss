@@ -1,0 +1,21 @@
+@import "~styles/variables.scss";
+
+.hr-um-foot {
+    background: $white-bis !important;
+    position: relative;
+    order: 100;
+}
+
+.hr-um-modal {
+    user-select: none;
+}
+
+.hr-um-file-cta:hover {
+    border: 1px solid $grey-lightest !important;
+    border-bottom: unset !important;
+}
+
+html.heretic-dark .hr-um-file-cta:hover {
+    border: 1px solid $grey !important;
+    border-bottom: unset !important;
+}

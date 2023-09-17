@@ -1,5 +1,6 @@
 /* eslint-disable no-void */
 import path from "path";
+import fs from "fs-extra";
 
 const extensionsText = [
     "Makefile",
@@ -409,5 +410,14 @@ export default class {
             return null;
         }
         return !text;
+    }
+
+    async fileExists(filePath) {
+        try {
+            await fs.access(filePath, fs.F_OK);
+            return true;
+        } catch {
+            return false;
+        }
     }
 }

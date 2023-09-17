@@ -16,5 +16,17 @@
     "filePermissions": "Permissions",
     "copy": "Copy",
     "cut": "Cut",
-    "delete": "Delete"
+    "delete": "Delete",
+    "extras": "Actions",
+    "rename": "Rename",
+    "newDir": "New Folder",
+    "save": "Save",
+    "cancel": "Cancel",
+    "upload": "Upload",
+    "submit": "Submit",
+    "selectFiles": "Select File(s)",
+    "couldNotUpload": "Could not upload one or more files",
+    "duplicateFilename": "Duplicate filename",
+    "uploadingPleaseWait": "Uploading, please wait…",
+    "uploadSuccess": "Upload was successful"
 }

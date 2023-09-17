@@ -1,4 +1,12 @@
-import { mdiArrowUpThin, mdiRefresh } from "@mdi/js";
+import {
+    mdiArrowUpThin,
+    mdiRefresh,
+    mdiContentCopy,
+    mdiContentCut,
+    mdiTrashCanOutline,
+    mdiFolderPlusOutline,
+    mdiFileUploadOutline,
+} from "@mdi/js";
 
 export default [{
     id: "refresh",
@@ -8,4 +16,29 @@ export default [{
     id: "dirUp",
     label: "dirUp",
     icon: mdiArrowUpThin,
+}, {
+    separator: true,
+}, {
+    id: "copy",
+    label: "copy",
+    icon: mdiContentCopy,
+}, {
+    id: "cut",
+    label: "cut",
+    icon: mdiContentCut,
+}, {
+    id: "delete",
+    label: "delete",
+    icon: mdiTrashCanOutline,
+    danger: true,
+}, {
+    separator: true,
+}, {
+    id: "newDir",
+    label: "newDir",
+    icon: mdiFolderPlusOutline,
+}, {
+    id: "upload",
+    label: "upload",
+    icon: mdiFileUploadOutline,
 }];

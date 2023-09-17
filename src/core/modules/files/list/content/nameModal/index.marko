@@ -1,0 +1,24 @@
+<if(state.ready && state.active)>
+    <div class="modal is-active hr-nm-modal">
+        <div class="modal-background" on-click("hide")/>
+        <div class="modal-card">
+            <header class="modal-card-head p-3">
+                <p class="modal-card-title is-3 has-text-weight-light">${state.title}</p>
+            </header>
+            <section class="modal-card-body p-3">
+                <form on-submit("onSubmit")>
+                    <input class=`input${state.error ? " is-danger" : ""}` type="text" id="hr_nm_value" value=state.value on-change("onValueChange")/>
+                </form>
+            </section>
+            <footer class="modal-card-foot hr-nm-foot p-3">
+                <button class="button is-primary" on-click("onSubmit")>
+                    <t>save</t>
+                </button>
+                <button class="button is-light" on-click("hide")>
+                    <t>cancel</t>
+                </button>
+            </footer>
+        </div>
+    </div>
+    <hnotify admin=true key="notify"/>
+</if>

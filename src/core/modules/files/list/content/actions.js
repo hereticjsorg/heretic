@@ -1,4 +1,9 @@
-import { mdiContentCopy, mdiContentCut, mdiTrashCanOutline } from "@mdi/js";
+import {
+    mdiContentCopy,
+    mdiContentCut,
+    mdiTrashCanOutline,
+    mdiChevronDown,
+} from "@mdi/js";
 
 export default [{
     id: "copy",
@@ -13,4 +18,12 @@ export default [{
     label: "delete",
     icon: mdiTrashCanOutline,
     danger: true,
+}, {
+    id: "extras",
+    label: "extras",
+    icon: mdiChevronDown,
+    menu: [{
+        id: "rename",
+        label: "rename"
+    }]
 }];

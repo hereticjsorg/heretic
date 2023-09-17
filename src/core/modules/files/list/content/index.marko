@@ -6,13 +6,18 @@ import actions from "./actions.js"
     <hadmin-title admin=true title=(process.browser && window.__heretic ? window.__heretic.t("moduleTitleAdmin") : null)/>
     <div class="buttons mb-1" on-click("onTopButtonClick")>
         <for|button| of=buttons>
-            <button data-tippy-content=(process.browser ? window.__heretic.t(button.label) : "") data-id=button.id class="button is-light" disabled=(state.loading || state.disabled[button.id])>
-                <span class="hr-fs-top-button-icon icon">
-                    <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                        <path d=button.icon/>
-                    </svg>
-                </span>
-            </button>
+            <if(button.separator)>
+                <div class="hr-fs-button-separator"/>
+            </if>
+            <else>
+                <button data-tippy-content=(process.browser ? window.__heretic.t(button.label) : "") data-id=button.id class=`button${button.danger ? " is-danger hr-fs-button-danger" : " is-light"}` disabled=(state.loading || state.disabled[button.id])>
+                    <span class="hr-fs-top-button-icon icon">
+                        <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                            <path d=button.icon/>
+                        </svg>
+                    </span>
+                </button>
+            </else>
         </for>
     </div>
     <if(state.files)>
@@ -61,37 +66,48 @@ import actions from "./actions.js"
             <if(state.files.length)>
                 <div on-click("onFileClick") on-change("onCheckboxChange")>
                     <for|item, index| of=state.files>
-                        <div class=`columns p-0 m-0${item.dir ? " hr-fs-dir" : " hr-fs-file"}${index === state.files.length - 1 ? " hr-fs-bottomItem" : ""}${item.dir && index % 2 === 0 ? " hr-fs-dir-odd" : ""}${!item.dir && index % 2 === 0 ? " hr-fs-file-odd" : ""}` data-id=item.name>
-                            <div class="column is-narrow p-2">
+                        <div class=`columns p-0 m-0${item.dir ? " hr-fs-dir" : " hr-fs-file"}${index === state.files.length - 1 ? " hr-fs-bottomItem" : ""}${index % 2 !== 0 ? (item.dir ? " hr-fs-dir-odd" : " hr-fs-file-odd") : ""}` data-id=item.name data-filename=item.name>
+                            <div class="column is-narrow p-2 is-flex is-align-items-center">
                                 <label class="checkbox">
                                     <input data-checkbox-id=item.name type="checkbox" checked=(state.checked.indexOf(item.name) > -1)/>
                                 </label>
                             </div>
                             <div class="column p-0 pr-2 is-flex is-align-items-center hr-fs-file-clickable-area hr-fs-col-filename" data-click=true>
-                                <span class="icon hr-fs-file-icon">
+                                <span class="icon hr-fs-file-icon pr-1">
                                     <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
                                         <path d=(item.dir ? mdiFolderOutline : mdiFileOutline)/>
                                     </svg>
                                 </span>
-                                <div class="pl-1">${item.name.replace(/(.{31})..+/, "$1…")}</div>
+                                ${item.name}
                             </div>
-                            <div class="column is-narrow p-2 hr-fs-col hr-fs-col-ext">
+                            <div class="column is-narrow p-2 is-flex is-align-items-center hr-fs-col-ext">
                                 <span class="tag">${item.dir ? (process.browser ? window.__heretic.t("typeFolder") : "") : item.ext.toUpperCase() || "–"}</span>
                             </div>
-                            <div class="column is-narrow p-2 hr-fs-col hr-fs-col-size">${item.dir ? "–" : `${parseInt(item.size, 10)} ${process.browser ? window.__heretic.t(item.sizeUnit) : ""}`}</div>
-                            <div class="column is-narrow p-2 hr-fs-col hr-fs-col-size">
+                            <div class="column is-narrow p-2 is-flex is-align-items-center hr-fs-col-size">${item.dir ? "–" : `${parseInt(item.size, 10)} ${process.browser ? window.__heretic.t(item.sizeUnit) : ""}`}</div>
+                            <div class="column is-narrow p-2 is-flex is-align-items-center hr-fs-col-permissions">
                                 <span class="tag">${item.permissions}</span>
                             </div>
-                            <div class="column is-narrow p-2 hr-fs-col hr-fs-col-controls">
+                            <div class=`column is-narrow hr-fs-col-controls`>
                                 <div class="hr-fs-cell-controls">
                                     <for|action| of=actions>
-                                        <button data-tippy-content=(process.browser ? window.__heretic.t(action.label) : "") data-id=action.id class=`button is-small hr-fs-file-button${action.danger ? " is-danger hr-fs-action-danger" : " is-light"}` disabled=(state.loading || state.disabled[action.id])>
-                                            <span class="hr-fs-top-button-icon icon">
-                                                <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                                                    <path d=action.icon/>
-                                                </svg>
-                                            </span>
-                                        </button>
+                                        <div class=(action.menu ? `dropdown${state.mobile ? "" : " is-right"}${state.actionMenu === action.id + item.name ? " is-active" : ""}` : "")>
+                                            <div class=(action.menu ? "dropdown-trigger" : "")>
+                                                <button data-tippy-content=(process.browser ? window.__heretic.t(action.label) : "") data-id=action.id class=`button is-small hr-fs-file-button${action.danger ? " is-danger hr-fs-action-danger" : " is-light"}` disabled=state.loading aria-haspopup=(action.menu ? "true" : "false") aria-controls=`hr_fs_dropdown_${action.id}` data-dropdown=(action.menu ? action.id + item.name : null)>
+                                                    <span class="hr-fs-top-button-icon icon">
+                                                        <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d=action.icon/>
+                                                        </svg>
+                                                    </span>
+                                                </button>
+                                            </div>
+                                            <div class="dropdown-menu" id=`hr_fs_dropdown_${action.id + item.name}` role="menu">
+                                                <div class="dropdown-content">
+                                                    <for|item| of=action.menu>
+                                                        <a href="#" class="dropdown-item" data-id=item.id>${process.browser ? window.__heretic.t(item.label) : item.label}</a>
+                                                    </for>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </for>
                                 </div>
                             </div>
@@ -109,6 +125,8 @@ import actions from "./actions.js"
         </div>
     </if>
     <hnotify admin=true key="notify"/>
+    <nameModal key="nameModal" on-data("onNameModalData")/>
+    <uploadModal key="uploadModal" on-done("onUploadDone")/>
 </if>
 <if(!state.ready && !state.failed)>
     <!-- <hloading active=true/> -->
