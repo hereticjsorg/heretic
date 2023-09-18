@@ -27,6 +27,7 @@ export default class {
             actionMenu: null,
             mobile: false,
             init: false,
+            loading: false,
         };
         this.language = out.global.language;
         this.siteTitle = out.global.siteTitle;
@@ -68,6 +69,9 @@ export default class {
     }
 
     async loadData(dir = null) {
+        if (this.state.loading) {
+            return;
+        }
         const data = new FormData();
         data.append("formTabs", `{"_default":{"dir":"${dir !== null ? dir : this.state.dir}"}}`);
         data.append("formShared", "{}");
@@ -278,5 +282,15 @@ export default class {
 
     onUploadDone() {
         this.loadData();
+    }
+
+    onBreadcrumbClick(e) {
+        if (!e.target.closest("[data-path]")) {
+            return;
+        }
+        const {
+            path,
+        } = e.target.closest("[data-path]").dataset;
+        this.loadData(path);
     }
 }

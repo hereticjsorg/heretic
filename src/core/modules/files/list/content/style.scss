@@ -206,7 +206,15 @@ html.heretic-dark .hr-fs-panel * {
 }
 
 .hr-fs-dir-breadcrumb a {
-    padding: 0 5px;
+    padding: 0 5px !important;
+}
+
+.hr-fs-dir-breadcrumb a>span {
+    border-bottom: 1px dashed lighten($grey, 5%);
+}
+
+html.heretic-dark .hr-fs-dir-breadcrumb a>span {
+    border-bottom: 1px dashed $grey;
 }
 
 html.heretic-dark .hr-fs-tag {

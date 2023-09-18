@@ -26,24 +26,32 @@ import actions from "./actions.js"
         </div>
         <div class="column m-0 p-0">
             <if(state.dir)>
-                <nav class="breadcrumb hr-fs-dir-breadcrumb">
+                <nav class="breadcrumb hr-fs-dir-breadcrumb" on-click("onBreadcrumbClick")>
                     <ul>
+                        $ let dirPath = "";
                         <for|d| of=state.dir.split("/")>
-                            <li class="is-active">
-                                <a href="#">${d}</a>
-                            </li>
+                            <if(d)>
+                                $ dirPath += `/${d}`;
+                                <li>
+                                    <a href="#" data-path=dirPath><span>${d}</span></a>
+                                </li>
+                            </if>
+                            <else>
+                                <li>
+                                    <a href="#" data-path="">
+                                        <t class="hr-fs-root-dir">rootDir</t>
+                                    </a>
+                                </li>
+                            </else>
                         </for>
                     </ul>
                 </nav>
             </if>
             <else>
-                <nav class="breadcrumb hr-fs-dir-breadcrumb">
+                <nav class="breadcrumb hr-fs-dir-breadcrumb" on-click("onBreadcrumbClick")>
                     <ul>
-                        <li class="is-active">
-                            <a href="#"/>
-                        </li>
-                        <li class="is-active">
-                            <a href="#">
+                        <li>
+                            <a href="#" data-path="">
                                 <t class="hr-fs-root-dir">rootDir</t>
                             </a>
                         </li>
@@ -71,7 +79,7 @@ import actions from "./actions.js"
                     <t>fileName</t>
                 </div>
                 <div class="column is-narrow p-2 hr-fs-col hr-fs-col-sortable hr-fs-col-ext" data-id="ext">
-                   <sortIcon sortDir=(state.sort === "ext" ? state.sortDir : null)/>
+                    <sortIcon sortDir=(state.sort === "ext" ? state.sortDir : null)/>
                     <t>fileType</t>
                 </div>
                 <div class="column is-narrow p-2 hr-fs-col hr-fs-col-sortable hr-fs-col-ext" data-id="size">
