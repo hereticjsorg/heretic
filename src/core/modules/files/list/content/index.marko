@@ -44,7 +44,7 @@ import actions from "./actions.js"
                         </li>
                         <li class="is-active">
                             <a href="#">
-                                <t>rootDir</t>
+                                <t class="hr-fs-root-dir">rootDir</t>
                             </a>
                         </li>
                     </ul>
@@ -62,36 +62,28 @@ import actions from "./actions.js"
             </if>
             <div class="columns p-0 m-0 hr-fs-head" id="hr_fs_head_wrap" on-click("updateFilesSort")>
                 <div class="column is-narrow p-2">
-                    <label class="checkbox">
+                    <label class="checkbox hr-fs-head-checkbox">
                         <input type="checkbox" checked=(state.files.length && state.checked.length === state.files.length) disabled=!state.files.length on-change("onCheckboxAllChange")/> 
                     </label>
                 </div>
                 <div class="column pt-2 pb-2 pr-2 pl-0 hr-fs-col hr-fs-col-sortable hr-fs-col-filename" data-id="name">
-                    <if(state.sort === "name")>
-                        <sortIcon sortDir=state.sortDir/>
-                    </if>
+                    <sortIcon sortDir=(state.sort === "name" ? state.sortDir : null)/>
                     <t>fileName</t>
                 </div>
                 <div class="column is-narrow p-2 hr-fs-col hr-fs-col-sortable hr-fs-col-ext" data-id="ext">
-                    <if(state.sort === "ext")>
-                        <sortIcon sortDir=state.sortDir/>
-                    </if>
+                   <sortIcon sortDir=(state.sort === "ext" ? state.sortDir : null)/>
                     <t>fileType</t>
                 </div>
                 <div class="column is-narrow p-2 hr-fs-col hr-fs-col-sortable hr-fs-col-ext" data-id="size">
-                    <if(state.sort === "size")>
-                        <sortIcon sortDir=state.sortDir/>
-                    </if>
+                    <sortIcon sortDir=(state.sort === "size" ? state.sortDir : null)/>
                     <t>fileSize</t>
                 </div>
                 <div class="column is-narrow p-2 hr-fs-col hr-fs-col-sortable hr-fs-col-permissions" data-id="permissions">
-                    <if(state.sort === "permissions")>
-                        <sortIcon sortDir=state.sortDir/>
-                    </if>
+                    <sortIcon sortDir=(state.sort === "permissions" ? state.sortDir : null)/>
                     <t>filePermissions</t>
                 </div>
                 <div class="column is-narrow p-2 hr-fs-col hr-fs-col-controls">
-                    <div class="hr-fs-cell-controls">
+                    <div class="hr-fs-cell-controls hr-fs-head-cell-controls">
                         <t>controls</t>
                     </div>
                 </div>
@@ -115,11 +107,11 @@ import actions from "./actions.js"
                                     ${item.name}
                                 </div>
                                 <div class="column is-narrow p-2 is-flex is-align-items-center hr-fs-col-ext">
-                                    <span class="tag">${item.dir ? (process.browser ? window.__heretic.t("typeFolder") : "") : item.ext.toUpperCase() || "–"}</span>
+                                    <span class="tag hr-fs-tag">${item.dir ? (process.browser ? window.__heretic.t("typeFolder") : "") : item.ext.toUpperCase() || "–"}</span>
                                 </div>
                                 <div class="column is-narrow p-2 is-flex is-align-items-center hr-fs-col-size">${item.dir ? "–" : `${parseInt(item.size, 10)} ${process.browser ? window.__heretic.t(item.sizeUnit) : ""}`}</div>
                                 <div class="column is-narrow p-2 is-flex is-align-items-center hr-fs-col-permissions">
-                                    <span class="tag">${item.permissions}</span>
+                                    <span class="tag hr-fs-tag">${item.permissions}</span>
                                 </div>
                                 <div class=`column is-narrow hr-fs-col-controls`>
                                     <div class="hr-fs-cell-controls">

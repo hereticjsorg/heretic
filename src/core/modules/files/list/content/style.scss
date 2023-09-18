@@ -106,6 +106,10 @@ html.heretic-dark .hr-fs-file-icon>svg>path {
     border-radius: $radius;
 }
 
+html.heretic-dark .hr-fs-files-loading {
+    background-color: rgba($black, 0.5);
+}
+
 .hr-fs-top-button-icon {
     display: inline-flex;
     align-self: center;
@@ -193,11 +197,40 @@ html.heretic-dark .hr-fs-file-icon>svg>path {
     background-color: $grey-lightest;
 }
 
+html.heretic-dark .hr-fs-panel {
+    background-color: $grey-dark;
+}
+
+html.heretic-dark .hr-fs-panel * {
+    color: $grey-light;
+}
+
 .hr-fs-dir-breadcrumb a {
     padding: 0 5px;
 }
 
-@media (max-width: 769px) {
+html.heretic-dark .hr-fs-tag {
+    background-color: $grey;
+    color: $white-ter;
+}
+
+.hr-fs-root-dir {
+    color: $grey;
+}
+
+@media (min-width: 769px) {
+
+    .hr-fs-head-cell-controls {
+        margin-top: 2px;
+    }
+
+    .hr-fs-head-checkbox {
+        margin-top: 4px;
+    }
+
+}
+
+@media (max-width: 768px) {
 
     .hr-fs-col-ext,
     .hr-fs-col-size,
