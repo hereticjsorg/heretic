@@ -179,6 +179,24 @@ html.heretic-dark .hr-fs-file-icon>svg>path {
     justify-content: center;
 }
 
+.hr-fs-col-filename-clipped {
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.hr-fs-col-sortable {
+    cursor: pointer;
+}
+
+.hr-fs-panel {
+    border-radius: $radius;
+    background-color: $grey-lightest;
+}
+
+.hr-fs-dir-breadcrumb a {
+    padding: 0 5px;
+}
+
 @media (max-width: 769px) {
 
     .hr-fs-col-ext,

@@ -28,5 +28,7 @@
     "couldNotUpload": "Could not upload one or more files",
     "duplicateFilename": "Duplicate filename",
     "uploadingPleaseWait": "Uploading, please wait…",
-    "uploadSuccess": "Upload was successful"
+    "uploadSuccess": "Upload was successful",
+    "currentDir": "Current Folder",
+    "rootDir": "root"
 }

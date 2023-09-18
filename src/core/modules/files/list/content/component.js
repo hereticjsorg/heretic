@@ -1,6 +1,7 @@
 import axios from "axios";
 import cloneDeep from "lodash.clonedeep";
 import debounce from "lodash.debounce";
+import throttle from "lodash.throttle";
 import Utils from "#lib/componentUtils";
 import Cookies from "#lib/cookiesBrowser";
 import pageConfig from "../page.js";
@@ -25,6 +26,7 @@ export default class {
             checked: [],
             actionMenu: null,
             mobile: false,
+            init: false,
         };
         this.language = out.global.language;
         this.siteTitle = out.global.siteTitle;
@@ -93,6 +95,8 @@ export default class {
                 disabled.dirUp = !dir.length;
             }
             this.setState("disabled", disabled);
+            await this.utils.waitForElement("hr_fs_dummy");
+            this.setFilesWrapWidthDelayed();
         } catch {
             await this.showNotification("couldNotLoadData", "is-danger");
         } finally {
@@ -104,6 +108,26 @@ export default class {
         if (window.__heretic && window.__heretic.setTippy) {
             window.__heretic.setTippy();
         }
+    }
+
+    async setFilesWrapWidth() {
+        await this.utils.waitForElement("hr_fs_files_wrap");
+        if (!this.setFilesWrapWidthRun) {
+            if (document.getElementById("hr_admin_dummy").getBoundingClientRect().width !== document.body.getBoundingClientRect().width) {
+                setTimeout(() => this.setFilesWrapWidthDelayed());
+                return;
+            }
+            this.setFilesWrapWidthRun = true;
+        }
+        const filesWrap = document.getElementById("hr_fs_files_wrap");
+        filesWrap.style.display = "none";
+        await this.utils.waitForElement("hr_fs_dummy");
+        const dummy = document.getElementById("hr_fs_dummy");
+        const {
+            width,
+        } = dummy.getBoundingClientRect();
+        filesWrap.style.width = `${width}px`;
+        filesWrap.style.display = "block";
     }
 
     async onMount() {
@@ -121,9 +145,11 @@ export default class {
                 this.setState("actionMenu", null);
             }
         });
+        this.setFilesWrapWidthDelayed = throttle(this.setFilesWrapWidth, 200);
         window.addEventListener("resize", debounce(() => this.setState("mobile", window.innerWidth < 769), 500));
+        window.addEventListener("resize", () => this.setFilesWrapWidth());
         this.setState("mobile", window.innerWidth < 769);
-        this.loadData();
+        await this.loadData();
     }
 
     async onFileClick(e) {
@@ -147,6 +173,7 @@ export default class {
             return;
         }
         if (e.target.closest("[data-id]")) {
+            e.preventDefault();
             const {
                 id,
             } = e.target.closest("[data-id]").dataset;

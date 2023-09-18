@@ -20,6 +20,39 @@ import actions from "./actions.js"
             </else>
         </for>
     </div>
+    <div class="columns m-0 mb-3 p-2 hr-fs-panel is-mobile">
+        <div class="column m-0 p-0 is-narrow">
+            <t class="has-text-weight-semibold">currentDir</t>:
+        </div>
+        <div class="column m-0 p-0">
+            <if(state.dir)>
+                <nav class="breadcrumb hr-fs-dir-breadcrumb">
+                    <ul>
+                        <for|d| of=state.dir.split("/")>
+                            <li class="is-active">
+                                <a href="#">${d}</a>
+                            </li>
+                        </for>
+                    </ul>
+                </nav>
+            </if>
+            <else>
+                <nav class="breadcrumb hr-fs-dir-breadcrumb">
+                    <ul>
+                        <li class="is-active">
+                            <a href="#"/>
+                        </li>
+                        <li class="is-active">
+                            <a href="#">
+                                <t>rootDir</t>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </else>
+        </div>
+        <div class="column m-0 p-0 is-narrow">Copy</div>
+    </div>
     <if(state.files)>
         <div class="hr-fs-files">
             <if(state.loading)>
@@ -27,35 +60,35 @@ import actions from "./actions.js"
                     <hloading-dots/>
                 </div>
             </if>
-            <div class="columns p-0 m-0 hr-fs-head" on-click("updateFilesSort")>
+            <div class="columns p-0 m-0 hr-fs-head" id="hr_fs_head_wrap" on-click("updateFilesSort")>
                 <div class="column is-narrow p-2">
                     <label class="checkbox">
                         <input type="checkbox" checked=(state.files.length && state.checked.length === state.files.length) disabled=!state.files.length on-change("onCheckboxAllChange")/> 
                     </label>
                 </div>
-                <div class="column pt-2 pb-2 pr-2 pl-0 hr-fs-col hr-fs-col-filename" data-id="name">
-                    <t>fileName</t>
+                <div class="column pt-2 pb-2 pr-2 pl-0 hr-fs-col hr-fs-col-sortable hr-fs-col-filename" data-id="name">
                     <if(state.sort === "name")>
                         <sortIcon sortDir=state.sortDir/>
                     </if>
+                    <t>fileName</t>
                 </div>
-                <div class="column is-narrow p-2 hr-fs-col hr-fs-col-ext" data-id="ext">
-                    <t>fileType</t>
+                <div class="column is-narrow p-2 hr-fs-col hr-fs-col-sortable hr-fs-col-ext" data-id="ext">
                     <if(state.sort === "ext")>
                         <sortIcon sortDir=state.sortDir/>
                     </if>
+                    <t>fileType</t>
                 </div>
-                <div class="column is-narrow p-2 hr-fs-col hr-fs-col-ext" data-id="size">
-                    <t>fileSize</t>
+                <div class="column is-narrow p-2 hr-fs-col hr-fs-col-sortable hr-fs-col-ext" data-id="size">
                     <if(state.sort === "size")>
                         <sortIcon sortDir=state.sortDir/>
                     </if>
+                    <t>fileSize</t>
                 </div>
-                <div class="column is-narrow p-2 hr-fs-col hr-fs-col-permissions" data-id="permissions">
-                    <t>filePermissions</t>
+                <div class="column is-narrow p-2 hr-fs-col hr-fs-col-sortable hr-fs-col-permissions" data-id="permissions">
                     <if(state.sort === "permissions")>
                         <sortIcon sortDir=state.sortDir/>
                     </if>
+                    <t>filePermissions</t>
                 </div>
                 <div class="column is-narrow p-2 hr-fs-col hr-fs-col-controls">
                     <div class="hr-fs-cell-controls">
@@ -63,67 +96,70 @@ import actions from "./actions.js"
                     </div>
                 </div>
             </div>
-            <if(state.files.length)>
-                <div on-click("onFileClick") on-change("onCheckboxChange")>
-                    <for|item, index| of=state.files>
-                        <div class=`columns p-0 m-0${item.dir ? " hr-fs-dir" : " hr-fs-file"}${index === state.files.length - 1 ? " hr-fs-bottomItem" : ""}${index % 2 !== 0 ? (item.dir ? " hr-fs-dir-odd" : " hr-fs-file-odd") : ""}` data-id=item.name data-filename=item.name>
-                            <div class="column is-narrow p-2 is-flex is-align-items-center">
-                                <label class="checkbox">
-                                    <input data-checkbox-id=item.name type="checkbox" checked=(state.checked.indexOf(item.name) > -1)/>
-                                </label>
-                            </div>
-                            <div class="column p-0 pr-2 is-flex is-align-items-center hr-fs-file-clickable-area hr-fs-col-filename" data-click=true>
-                                <span class="icon hr-fs-file-icon pr-1">
-                                    <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                                        <path d=(item.dir ? mdiFolderOutline : mdiFileOutline)/>
-                                    </svg>
-                                </span>
-                                ${item.name}
-                            </div>
-                            <div class="column is-narrow p-2 is-flex is-align-items-center hr-fs-col-ext">
-                                <span class="tag">${item.dir ? (process.browser ? window.__heretic.t("typeFolder") : "") : item.ext.toUpperCase() || "–"}</span>
-                            </div>
-                            <div class="column is-narrow p-2 is-flex is-align-items-center hr-fs-col-size">${item.dir ? "–" : `${parseInt(item.size, 10)} ${process.browser ? window.__heretic.t(item.sizeUnit) : ""}`}</div>
-                            <div class="column is-narrow p-2 is-flex is-align-items-center hr-fs-col-permissions">
-                                <span class="tag">${item.permissions}</span>
-                            </div>
-                            <div class=`column is-narrow hr-fs-col-controls`>
-                                <div class="hr-fs-cell-controls">
-                                    <for|action| of=actions>
-                                        <div class=(action.menu ? `dropdown${state.mobile ? "" : " is-right"}${state.actionMenu === action.id + item.name ? " is-active" : ""}` : "")>
-                                            <div class=(action.menu ? "dropdown-trigger" : "")>
-                                                <button data-tippy-content=(process.browser ? window.__heretic.t(action.label) : "") data-id=action.id class=`button is-small hr-fs-file-button${action.danger ? " is-danger hr-fs-action-danger" : " is-light"}` disabled=state.loading aria-haspopup=(action.menu ? "true" : "false") aria-controls=`hr_fs_dropdown_${action.id}` data-dropdown=(action.menu ? action.id + item.name : null)>
-                                                    <span class="hr-fs-top-button-icon icon">
-                                                        <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                                                            <path d=action.icon/>
-                                                        </svg>
-                                                    </span>
-                                                </button>
-                                            </div>
-                                            <div class="dropdown-menu" id=`hr_fs_dropdown_${action.id + item.name}` role="menu">
-                                                <div class="dropdown-content">
-                                                    <for|item| of=action.menu>
-                                                        <a href="#" class="dropdown-item" data-id=item.id>${process.browser ? window.__heretic.t(item.label) : item.label}</a>
-                                                    </for>
+            <div id="hr_fs_files_wrap">
+                <if(state.files.length)>
+                    <div on-click("onFileClick") on-change("onCheckboxChange")>
+                        <for|item, index| of=state.files>
+                            <div class=`columns p-0 m-0${item.dir ? " hr-fs-dir" : " hr-fs-file"}${index === state.files.length - 1 ? " hr-fs-bottomItem" : ""}${index % 2 !== 0 ? (item.dir ? " hr-fs-dir-odd" : " hr-fs-file-odd") : ""}` data-id=item.name data-filename=item.name>
+                                <div class="column is-narrow p-2 is-flex is-align-items-center">
+                                    <label class="checkbox">
+                                        <input data-checkbox-id=item.name type="checkbox" checked=(state.checked.indexOf(item.name) > -1)/>
+                                    </label>
+                                </div>
+                                <div class="column p-0 pr-2 is-flex is-align-items-center hr-fs-file-clickable-area hr-fs-col-filename hr-fs-col-filename-clipped" data-click=true>
+                                    <span class="icon hr-fs-file-icon pr-1">
+                                        <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d=(item.dir ? mdiFolderOutline : mdiFileOutline)/>
+                                        </svg>
+                                    </span>
+                                    ${item.name}
+                                </div>
+                                <div class="column is-narrow p-2 is-flex is-align-items-center hr-fs-col-ext">
+                                    <span class="tag">${item.dir ? (process.browser ? window.__heretic.t("typeFolder") : "") : item.ext.toUpperCase() || "–"}</span>
+                                </div>
+                                <div class="column is-narrow p-2 is-flex is-align-items-center hr-fs-col-size">${item.dir ? "–" : `${parseInt(item.size, 10)} ${process.browser ? window.__heretic.t(item.sizeUnit) : ""}`}</div>
+                                <div class="column is-narrow p-2 is-flex is-align-items-center hr-fs-col-permissions">
+                                    <span class="tag">${item.permissions}</span>
+                                </div>
+                                <div class=`column is-narrow hr-fs-col-controls`>
+                                    <div class="hr-fs-cell-controls">
+                                        <for|action| of=actions>
+                                            <div class=(action.menu ? `dropdown${state.mobile ? "" : " is-right"}${state.actionMenu === action.id + item.name ? " is-active" : ""}` : "")>
+                                                <div class=(action.menu ? "dropdown-trigger" : "")>
+                                                    <button data-tippy-content=(process.browser ? window.__heretic.t(action.label) : "") data-id=action.id class=`button is-small hr-fs-file-button${action.danger ? " is-danger hr-fs-action-danger" : " is-light"}` disabled=state.loading aria-haspopup=(action.menu ? "true" : "false") aria-controls=`hr_fs_dropdown_${action.id}` data-dropdown=(action.menu ? action.id + item.name : null)>
+                                                        <span class="hr-fs-top-button-icon icon">
+                                                            <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                                                <path d=action.icon/>
+                                                            </svg>
+                                                        </span>
+                                                    </button>
+                                                </div>
+                                                <div class="dropdown-menu" id=`hr_fs_dropdown_${action.id + item.name}` role="menu">
+                                                    <div class="dropdown-content">
+                                                        <for|item| of=action.menu>
+                                                            <a href="#" class="dropdown-item" data-id=item.id>${process.browser ? window.__heretic.t(item.label) : item.label}</a>
+                                                        </for>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </for>
+                                        </for>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </for>
-                </div>
-            </if>
-            <else>
-                <div class=`columns p-0 m-0 hr-fs-file hr-fs-bottomItem`>
-                    <div class="column p-2">
-                        <t>noFilesToDisplay</t>
+                        </for>
                     </div>
-                </div>
-            </else>
+                </if>
+                <else>
+                    <div class=`columns p-0 m-0 hr-fs-file hr-fs-bottomItem`>
+                        <div class="column p-2">
+                            <t>noFilesToDisplay</t>
+                        </div>
+                    </div>
+                </else>
+            </div>
         </div>
     </if>
+    <div id="hr_fs_dummy"/>
     <hnotify admin=true key="notify"/>
     <nameModal key="nameModal" on-data("onNameModalData")/>
     <uploadModal key="uploadModal" on-done("onUploadDone")/>
