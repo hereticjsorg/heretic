@@ -6,6 +6,7 @@ import {
     mdiTrashCanOutline,
     mdiFolderPlusOutline,
     mdiFileUploadOutline,
+    mdiContentPaste,
 } from "@mdi/js";
 
 export default [{
@@ -26,6 +27,10 @@ export default [{
     id: "cut",
     label: "cut",
     icon: mdiContentCut,
+}, {
+    id: "paste",
+    label: "paste",
+    icon: mdiContentPaste,
 }, {
     id: "delete",
     label: "delete",

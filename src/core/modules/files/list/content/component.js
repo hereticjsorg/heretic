@@ -22,12 +22,14 @@ export default class {
                 cut: true,
                 copy: true,
                 delete: true,
+                paste: true,
             },
             checked: [],
             actionMenu: null,
             mobile: false,
             init: false,
             loading: false,
+            clipboard: null,
         };
         this.language = out.global.language;
         this.siteTitle = out.global.siteTitle;
@@ -98,10 +100,11 @@ export default class {
                 this.setState("dir", dir);
                 disabled.dirUp = !dir.length;
             }
+            disabled.paste = !this.state.clipboard || this.state.clipboard.src === this.state.dir;
             this.setState("disabled", disabled);
             await this.utils.waitForElement("hr_fs_dummy");
             this.setFilesWrapWidthDelayed();
-        } catch {
+        } catch (er) {
             await this.showNotification("couldNotLoadData", "is-danger");
         } finally {
             this.setState("loading", false);
@@ -157,6 +160,21 @@ export default class {
     }
 
     async onFileClick(e) {
+        if (e.target.closest("[data-checkboxid]")) {
+            e.preventDefault(e);
+            const {
+                checkboxid,
+            } = e.target.closest("[data-checkboxid]").dataset;
+            const checkbox = document.querySelector(`[data-checkboxid="${checkboxid}"]`);
+            const checkedData = checkbox.checked ? cloneDeep([...this.state.checked, checkboxid]) : cloneDeep(this.state.checked).filter(i => i !== checkboxid);
+            this.setState("checked", checkedData);
+            const disabled = cloneDeep(this.state.disabled);
+            disabled.copy = !checkedData.length;
+            disabled.cut = !checkedData.length;
+            disabled.delete = !checkedData.length;
+            this.setState("disabled", disabled);
+            return;
+        }
         if (e.target.closest("[data-dropdown]")) {
             e.preventDefault();
             const {
@@ -184,11 +202,24 @@ export default class {
             const {
                 filename,
             } = e.target.closest("[data-filename]").dataset;
+            const disabled = cloneDeep(this.state.disabled);
             switch (id) {
             case "rename":
                 await this.utils.waitForComponent("nameModal");
                 this.getComponent("nameModal").show(`${window.__heretic.t("rename")}: ${filename}`, filename, id);
+                break;
+            case "cut":
+            case "copy":
+                this.setState("clipboard", {
+                    mode: id,
+                    files: [filename],
+                    src: this.state.dir,
+                });
+                await this.showNotification("addedToClipboard", "is-info");
+                disabled.paste = true;
+                break;
             }
+            this.setState("disabled", disabled);
         }
     }
 
@@ -222,29 +253,59 @@ export default class {
             await this.utils.waitForComponent("nameModal");
             this.getComponent("nameModal").show(window.__heretic.t("newDir"), "", "newDir");
             break;
+        case "copy":
+        case "cut":
+            this.setState("clipboard", {
+                mode: id,
+                files: cloneDeep(this.state.checked),
+                src: this.state.dir,
+            });
+            await this.showNotification("addedToClipboard", "is-success");
+            const disabledCutCopy = cloneDeep(this.state.disabled);
+            disabledCutCopy.paste = true;
+            this.setState("disabled", disabledCutCopy);
+            break;
         case "upload":
             await this.utils.waitForComponent("uploadModal");
             this.getComponent("uploadModal").show(this.state.dir);
             break;
+        case "paste":
+            if (!this.state.clipboard || !this.state.clipboard.files.length) {
+                return;
+            }
+            this.setState("loading", true);
+            const formTabs = JSON.stringify({
+                _default: {
+                    srcDir: this.state.clipboard.src,
+                    destDir: this.state.dir,
+                    action: this.state.clipboard.mode,
+                    files: this.state.clipboard.files,
+                },
+            });
+            const data = new FormData();
+            data.append("formTabs", formTabs);
+            data.append("formShared", "{}");
+            data.append("tabs", `["_default"]`);
+            try {
+                await axios({
+                    method: "post",
+                    url: "/api/files/process",
+                    data,
+                    headers: {
+                        Authorization: `Bearer ${this.currentToken}`,
+                    },
+                });
+                this.setState("clipboard", null);
+                const disabledPaste = cloneDeep(this.state.disabled);
+                disabledPaste.paste = true;
+                this.setState("disabled", disabledPaste);
+            } catch (er) {
+                await this.showNotification("couldNotLoadData", "is-danger");
+            } finally {
+                this.setState("loading", false);
+            }
+            break;
         }
-    }
-
-    onCheckboxChange(e) {
-        e.preventDefault(e);
-        if (!e.target.closest("[data-id]")) {
-            return;
-        }
-        const {
-            id,
-        } = e.target.closest("[data-id]").dataset;
-        const checkbox = document.querySelector(`[data-checkbox-id="${id}"]`);
-        const checkedData = checkbox.checked ? cloneDeep([...this.state.checked, id]) : cloneDeep(this.state.checked).filter(i => i !== id);
-        this.setState("checked", checkedData);
-        const disabled = cloneDeep(this.state.disabled);
-        disabled.copy = !checkedData.length;
-        disabled.cut = !checkedData.length;
-        disabled.delete = !checkedData.length;
-        this.setState("disabled", disabled);
     }
 
     onCheckboxAllChange(e) {
@@ -292,5 +353,13 @@ export default class {
             path,
         } = e.target.closest("[data-path]").dataset;
         this.loadData(path);
+    }
+
+    onDropClipboard(e) {
+        e.preventDefault();
+        this.setState("clipboard", null);
+        const disabled = cloneDeep(this.state.disabled);
+        disabled.paste = true;
+        this.setState("disabled", disabled);
     }
 }

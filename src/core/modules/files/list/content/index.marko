@@ -21,10 +21,10 @@ import actions from "./actions.js"
         </for>
     </div>
     <div class="columns m-0 mb-3 p-2 hr-fs-panel is-mobile">
-        <div class="column m-0 p-0 is-narrow">
+        <div class="column m-0 p-0 is-narrow is-flex is-align-items-center">
             <t class="has-text-weight-semibold">currentDir</t>:
         </div>
-        <div class="column m-0 p-0">
+        <div class="column m-0 p-0 is-flex is-align-items-center">
             <if(state.dir)>
                 <nav class="breadcrumb hr-fs-dir-breadcrumb" on-click("onBreadcrumbClick")>
                     <ul>
@@ -33,7 +33,9 @@ import actions from "./actions.js"
                             <if(d)>
                                 $ dirPath += `/${d}`;
                                 <li>
-                                    <a href="#" data-path=dirPath><span>${d}</span></a>
+                                    <a href="#" data-path=dirPath>
+                                        <span>${d}</span>
+                                    </a>
                                 </li>
                             </if>
                             <else>
@@ -59,7 +61,48 @@ import actions from "./actions.js"
                 </nav>
             </else>
         </div>
-        <div class="column m-0 p-0 is-narrow">Copy</div>
+        <div class="column m-0 p-0 is-narrow">
+            <if(state.clipboard)>
+                <div class="control">
+                    <div class=`dropdown is-hoverable${state.mobile ? "" : " is-right"}`>
+                        <div class="dropdown-trigger">
+                            <div class="tags has-addons">
+                                <span class=`tag ${state.clipboard.mode === "copy" ? "is-success" : "is-danger"}`>${process.browser ? window.__heretic.t(state.clipboard.mode) : ""}</span>
+                                <span class="tag is-link">${state.clipboard.files.length}</span>
+                                <a class="tag is-delete" on-click("onDropClipboard")/>
+                            </div>
+                        </div>
+                        <div class="dropdown-menu">
+                            <div class="dropdown-content">
+                                <div class="dropdown-item">
+                                    <p>
+                                        <t class="has-text-weight-semibold">sourceDir</t>:&nbsp;${state.clipboard.src || "/"}
+                                    </p>
+                                    <p class="mt-2">
+                                        <t class="has-text-weight-semibold">clipboardContents</t>
+                                        <if(state.clipboard.files.length > 5)>&nbsp;(${state.clipboard.files.length})</if>:
+                                    </p>
+                                    <p class="mt-2">
+                                        <div class="content m-0">
+                                            <ul>
+                                                <for|f, i| of=state.clipboard.files>
+                                                    <if(i < 5)>
+                                                        <li>${f}</li>
+                                                    </if>
+                                                </for>
+                                            </ul>
+                                        </div>
+                                    </p>
+                                    <if(state.clipboard.files.length > 5)>
+                                        <p class="ml-3">...</p>
+                                    </if>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </if>
+        </div>
     </div>
     <if(state.files)>
         <div class="hr-fs-files">
@@ -90,64 +133,62 @@ import actions from "./actions.js"
                     <sortIcon sortDir=(state.sort === "permissions" ? state.sortDir : null)/>
                     <t>filePermissions</t>
                 </div>
-                <div class="column is-narrow p-2 hr-fs-col hr-fs-col-controls">
+                <div class="column is-narrow p-2 hr-fs-col hr-fs-col-controls is-flex is-justify-content-center">
                     <div class="hr-fs-cell-controls hr-fs-head-cell-controls">
                         <t>controls</t>
                     </div>
                 </div>
             </div>
-            <div id="hr_fs_files_wrap">
+            <div id="hr_fs_files_wrap" on-click("onFileClick")>
                 <if(state.files.length)>
-                    <div on-click("onFileClick") on-change("onCheckboxChange")>
-                        <for|item, index| of=state.files>
-                            <div class=`columns p-0 m-0${item.dir ? " hr-fs-dir" : " hr-fs-file"}${index === state.files.length - 1 ? " hr-fs-bottomItem" : ""}${index % 2 !== 0 ? (item.dir ? " hr-fs-dir-odd" : " hr-fs-file-odd") : ""}` data-id=item.name data-filename=item.name>
-                                <div class="column is-narrow p-2 is-flex is-align-items-center">
-                                    <label class="checkbox">
-                                        <input data-checkbox-id=item.name type="checkbox" checked=(state.checked.indexOf(item.name) > -1)/>
-                                    </label>
-                                </div>
-                                <div class="column p-0 pr-2 is-flex is-align-items-center hr-fs-file-clickable-area hr-fs-col-filename hr-fs-col-filename-clipped" data-click=true>
-                                    <span class="icon hr-fs-file-icon pr-1">
-                                        <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                                            <path d=(item.dir ? mdiFolderOutline : mdiFileOutline)/>
-                                        </svg>
-                                    </span>
-                                    ${item.name}
-                                </div>
-                                <div class="column is-narrow p-2 is-flex is-align-items-center hr-fs-col-ext">
-                                    <span class="tag hr-fs-tag">${item.dir ? (process.browser ? window.__heretic.t("typeFolder") : "") : item.ext.toUpperCase() || "–"}</span>
-                                </div>
-                                <div class="column is-narrow p-2 is-flex is-align-items-center hr-fs-col-size">${item.dir ? "–" : `${parseInt(item.size, 10)} ${process.browser ? window.__heretic.t(item.sizeUnit) : ""}`}</div>
-                                <div class="column is-narrow p-2 is-flex is-align-items-center hr-fs-col-permissions">
-                                    <span class="tag hr-fs-tag">${item.permissions}</span>
-                                </div>
-                                <div class=`column is-narrow hr-fs-col-controls`>
-                                    <div class="hr-fs-cell-controls">
-                                        <for|action| of=actions>
-                                            <div class=(action.menu ? `dropdown${state.mobile ? "" : " is-right"}${state.actionMenu === action.id + item.name ? " is-active" : ""}` : "")>
-                                                <div class=(action.menu ? "dropdown-trigger" : "")>
-                                                    <button data-tippy-content=(process.browser ? window.__heretic.t(action.label) : "") data-id=action.id class=`button is-small hr-fs-file-button${action.danger ? " is-danger hr-fs-action-danger" : " is-light"}` disabled=state.loading aria-haspopup=(action.menu ? "true" : "false") aria-controls=`hr_fs_dropdown_${action.id}` data-dropdown=(action.menu ? action.id + item.name : null)>
-                                                        <span class="hr-fs-top-button-icon icon">
-                                                            <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                                                                <path d=action.icon/>
-                                                            </svg>
-                                                        </span>
-                                                    </button>
-                                                </div>
-                                                <div class="dropdown-menu" id=`hr_fs_dropdown_${action.id + item.name}` role="menu">
-                                                    <div class="dropdown-content">
-                                                        <for|item| of=action.menu>
-                                                            <a href="#" class="dropdown-item" data-id=item.id>${process.browser ? window.__heretic.t(item.label) : item.label}</a>
-                                                        </for>
-                                                    </div>
+                    <for|item, index| of=state.files>
+                        <div class=`columns p-0 m-0${item.dir ? " hr-fs-dir" : " hr-fs-file"}${index === state.files.length - 1 ? " hr-fs-bottomItem" : ""}${index % 2 !== 0 ? (item.dir ? " hr-fs-dir-odd" : " hr-fs-file-odd") : ""}` data-id=item.name data-filename=item.name>
+                            <div class="column is-narrow p-2 is-flex is-align-items-center">
+                                <label class="checkbox">
+                                    <input data-checkboxid=item.name type="checkbox" checked=(state.checked.indexOf(item.name) > -1)/>
+                                </label>
+                            </div>
+                            <div class="column p-0 pr-2 is-flex is-align-items-center hr-fs-file-clickable-area hr-fs-col-filename hr-fs-col-filename-clipped" data-click=true>
+                                <span class="icon hr-fs-file-icon pr-1">
+                                    <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                        <path d=(item.dir ? mdiFolderOutline : mdiFileOutline)/>
+                                    </svg>
+                                </span>
+                                ${item.name}
+                            </div>
+                            <div class="column is-narrow p-2 is-flex is-align-items-center hr-fs-col-ext">
+                                <span class="tag hr-fs-tag">${item.dir ? (process.browser ? window.__heretic.t("typeFolder") : "") : item.ext.toUpperCase() || "–"}</span>
+                            </div>
+                            <div class="column is-narrow p-2 is-flex is-align-items-center hr-fs-col-size">${item.dir ? "–" : `${parseInt(item.size, 10)} ${process.browser ? window.__heretic.t(item.sizeUnit) : ""}`}</div>
+                            <div class="column is-narrow p-2 is-flex is-align-items-center hr-fs-col-permissions">
+                                <span class="tag hr-fs-tag">${item.permissions}</span>
+                            </div>
+                            <div class=`column is-narrow hr-fs-col-controls`>
+                                <div class="hr-fs-cell-controls">
+                                    <for|action| of=actions>
+                                        <div class=(action.menu ? `dropdown${state.mobile ? "" : " is-right"}${state.actionMenu === action.id + item.name ? " is-active" : ""}` : "")>
+                                            <div class=(action.menu ? "dropdown-trigger" : "")>
+                                                <button data-tippy-content=(process.browser ? window.__heretic.t(action.label) : "") data-id=action.id class=`button is-small hr-fs-file-button${action.danger ? " is-danger hr-fs-action-danger" : " is-light"}` disabled=state.loading aria-haspopup=(action.menu ? "true" : "false") aria-controls=`hr_fs_dropdown_${action.id}` data-dropdown=(action.menu ? action.id + item.name : null)>
+                                                    <span class="hr-fs-top-button-icon icon">
+                                                        <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d=action.icon/>
+                                                        </svg>
+                                                    </span>
+                                                </button>
+                                            </div>
+                                            <div class="dropdown-menu" id=`hr_fs_dropdown_${action.id + item.name}` role="menu">
+                                                <div class="dropdown-content">
+                                                    <for|item| of=action.menu>
+                                                        <a href="#" class="dropdown-item" data-id=item.id>${process.browser ? window.__heretic.t(item.label) : item.label}</a>
+                                                    </for>
                                                 </div>
                                             </div>
-                                        </for>
-                                    </div>
+                                        </div>
+                                    </for>
                                 </div>
                             </div>
-                        </for>
-                    </div>
+                        </div>
+                    </for>
                 </if>
                 <else>
                     <div class=`columns p-0 m-0 hr-fs-file hr-fs-bottomItem`>

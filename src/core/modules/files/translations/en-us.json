@@ -30,5 +30,9 @@
     "uploadingPleaseWait": "Uploading, please wait…",
     "uploadSuccess": "Upload was successful",
     "currentDir": "Current Folder",
-    "rootDir": "(root)"
+    "rootDir": "(root)",
+    "paste": "Paste",
+    "sourceDir": "Source Directory",
+    "clipboardContents": "Contents",
+    "addedToClipboard": "Added to clipboard"
 }
