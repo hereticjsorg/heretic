@@ -1,7 +1,10 @@
+import fs from "fs-extra";
 import FormData from "../data/process";
 import FormValidator from "#lib/formValidatorServer";
-// import moduleConfig from "../module.js";
-// import utils from "./utils";
+import moduleConfig from "../module.js";
+import Utils from "./utils";
+
+const utils = new Utils();
 
 export default () => ({
     async handler(req, rep) {
@@ -22,9 +25,92 @@ export default () => ({
                     form: validationResult,
                 });
             }
-            // eslint-disable-next-line no-console
-            console.log(data);
-            return rep.code(200).send({});
+            const requestData = data._default;
+            switch (requestData.action) {
+            case "copy":
+                const copySrcDirPath = utils.getPath(requestData.srcDir);
+                const copyDestDirPath = utils.getPath(requestData.destDir);
+                if (!(await utils.fileExists(copySrcDirPath)) || !(await utils.fileExists(copyDestDirPath))) {
+                    return rep.error({
+                        message: "Invalid directory",
+                    });
+                }
+                for (const copyFile of requestData.files) {
+                    if (!(await utils.fileExists(utils.getPath(`${requestData.srcDir}/${copyFile}`)))) {
+                        return rep.error({
+                            message: "File not found",
+                        });
+                    }
+                }
+                const queueItemCopy = await this.mongo.db.collection(this.systemConfig.collections.jobs).insertOne({
+                    updatedAt: new Date(),
+                    userId: authData._id,
+                    module: moduleConfig.id,
+                });
+                const jobIdCopy = queueItemCopy;
+                setTimeout(async () => {
+                    try {
+                        for (const copyFile of requestData.files) {
+                            const jobData = await this.mongo.db.collection(this.systemConfig.collections.jobs).findOneAndUpdate({
+                                _id: jobIdCopy,
+                            }, {
+                                $set: {
+                                    updatedAt: new Date(),
+                                },
+                            });
+                            if (!jobData || jobData.cancelled) {
+                                break;
+                            }
+                            let cancelled = false;
+                            await fs.copyFile(utils.getPath(`${requestData.srcDir}/${copyFile}`), utils.getPath(`${requestData.destDir}/${copyFile}`), {
+                                filter: async () => {
+                                    if (cancelled) {
+                                        return false;
+                                    }
+                                    const jobDataFile = await this.mongo.db.collection(this.systemConfig.collections.jobs).findOneAndUpdate({
+                                        _id: jobIdCopy,
+                                    }, {
+                                        $set: {
+                                            updatedAt: new Date(),
+                                        },
+                                    });
+                                    if (!jobDataFile || jobDataFile.cancelled) {
+                                        cancelled = true;
+                                    }
+                                    return true;
+                                },
+                            });
+                            await this.mongo.db.collection(this.systemConfig.collections.jobs).updateOne({
+                                _id: jobIdCopy,
+                            }, {
+                                $set: {
+                                    updatedAt: new Date(),
+                                    done: true,
+                                },
+                            });
+                        }
+                    } catch {
+                        await this.mongo.db.collection(this.systemConfig.collections.jobs).updateOne({
+                            _id: jobIdCopy,
+                        }, {
+                            $set: {
+                                updatedAt: new Date(),
+                                error: true,
+                            },
+                        });
+                    }
+                });
+                return rep.code(200).send({
+                    id: jobIdCopy.toString(),
+                });
+            case "move":
+                break;
+            case "delete":
+                break;
+            }
+            return rep.code(200).send({
+                message: "No errors, but nothing to do as well"
+            });
         } catch (e) {
             this.log.error(e);
             return Promise.reject(e);

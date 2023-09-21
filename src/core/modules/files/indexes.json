@@ -1,0 +1,10 @@
+{
+    "sessions": {
+        "asc": [],
+        "desc":  [],
+        "expire": {
+            "field": "createdAt",
+            "seconds": 604800
+        }
+    }
+}

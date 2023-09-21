@@ -1,6 +1,7 @@
 /* eslint-disable no-void */
 import path from "path";
 import fs from "fs-extra";
+import moduleConfig from "../module.js";
 
 const extensionsText = [
     "Makefile",
@@ -419,5 +420,12 @@ export default class {
         } catch {
             return false;
         }
+    }
+
+    getPath(d) {
+        const parDir = d.replace(/\.\./gm, "").replace(/~/gm, "");
+        const root = path.resolve(`${__dirname}/../${moduleConfig.root}`).replace(/\\/gm, "/");
+        const dir = parDir ? path.resolve(`${__dirname}/../${moduleConfig.root}/${parDir}`).replace(/\\/gm, "/") : root;
+        return dir.indexOf(root) !== 0 ? false : dir;
     }
 }

@@ -1,7 +1,7 @@
 import path from "path";
 import fs from "fs-extra";
 import Utils from "./utils";
-import moduleConfig from "../module.js";
+// import moduleConfig from "../module.js";
 
 const utils = new Utils();
 
@@ -22,9 +22,10 @@ export default () => ({
                     message: "Invalid directory",
                 });
             }
-            const dirQuery = multipartData.fields.dir.replace(/\.\./gm, "").replace(/~/gm, "");
-            const root = path.resolve(`${__dirname}/../${moduleConfig.root}`).replace(/\\/gm, "/");
-            const dir = dirQuery ? path.resolve(`${__dirname}/../${moduleConfig.root}/${dirQuery}`).replace(/\\/gm, "/") : root;
+            // const dirQuery = multipartData.fields.dir.replace(/\.\./gm, "").replace(/~/gm, "");
+            // const root = path.resolve(`${__dirname}/../${moduleConfig.root}`).replace(/\\/gm, "/");
+            // const dir = dirQuery ? path.resolve(`${__dirname}/../${moduleConfig.root}/${dirQuery}`).replace(/\\/gm, "/") : root;
+            const dir = utils.getPath(multipartData.fields.dir);
             if (!(await utils.fileExists(dir))) {
                 return rep.error({
                     message: "Directory doesn't exists",
