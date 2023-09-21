@@ -46,8 +46,10 @@ export default () => ({
                     updatedAt: new Date(),
                     userId: authData._id,
                     module: moduleConfig.id,
+                    mode: "copy",
+                    status: "new",
                 });
-                const jobIdCopy = queueItemCopy;
+                const jobIdCopy = queueItemCopy.insertedId;
                 setTimeout(async () => {
                     try {
                         for (const copyFile of requestData.files) {
@@ -56,14 +58,17 @@ export default () => ({
                             }, {
                                 $set: {
                                     updatedAt: new Date(),
+                                    status: "processing",
                                 },
                             });
-                            if (!jobData || jobData.cancelled) {
+                            if (!jobData || jobData.status === "cancelled") {
                                 break;
                             }
                             let cancelled = false;
-                            await fs.copyFile(utils.getPath(`${requestData.srcDir}/${copyFile}`), utils.getPath(`${requestData.destDir}/${copyFile}`), {
-                                filter: async () => {
+                            await fs.copy(utils.getPath(`${requestData.srcDir}/${copyFile}`), utils.getPath(`${requestData.destDir}/${copyFile}`), {
+                                filter: async file => {
+                                    // eslint-disable-next-line no-console
+                                    console.log(file);
                                     if (cancelled) {
                                         return false;
                                     }
@@ -74,7 +79,7 @@ export default () => ({
                                             updatedAt: new Date(),
                                         },
                                     });
-                                    if (!jobDataFile || jobDataFile.cancelled) {
+                                    if (!jobDataFile || jobDataFile.status === "cancelled") {
                                         cancelled = true;
                                     }
                                     return true;
@@ -85,17 +90,18 @@ export default () => ({
                             }, {
                                 $set: {
                                     updatedAt: new Date(),
-                                    done: true,
+                                    status: "complete",
                                 },
                             });
                         }
-                    } catch {
+                    } catch (e) {
                         await this.mongo.db.collection(this.systemConfig.collections.jobs).updateOne({
                             _id: jobIdCopy,
                         }, {
                             $set: {
                                 updatedAt: new Date(),
-                                error: true,
+                                status: "error",
+                                message: e.message,
                             },
                         });
                     }
