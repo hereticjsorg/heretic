@@ -27,6 +27,7 @@ export default () => ({
             }
             const requestData = data._default;
             switch (requestData.action) {
+            case "move":
             case "copy":
                 const copySrcDirPath = utils.getPath(requestData.srcDir);
                 const copyDestDirPath = utils.getPath(requestData.destDir);
@@ -46,7 +47,7 @@ export default () => ({
                     updatedAt: new Date(),
                     userId: authData._id,
                     module: moduleConfig.id,
-                    mode: "copy",
+                    mode: requestData.action,
                     status: "new",
                 });
                 const jobIdCopy = queueItemCopy.insertedId;
@@ -66,33 +67,39 @@ export default () => ({
                                 break;
                             }
                             let cancelled = false;
-                            await fs.copy(utils.getPath(`${requestData.srcDir}/${copyFile}`), utils.getPath(`${requestData.destDir}/${copyFile}`), {
-                                // eslint-disable-next-line no-loop-func
-                                filter: async () => {
-                                    count += 1;
-                                    if (cancelled) {
-                                        return false;
-                                    }
-                                    const jobDataFile = await this.mongo.db.collection(this.systemConfig.collections.jobs).findOneAndUpdate({
-                                        _id: jobIdCopy,
-                                    }, {
-                                        $set: {
-                                            updatedAt: new Date(),
-                                            count,
-                                        },
-                                    });
-                                    if (!jobDataFile || jobDataFile.status === "cancelled") {
-                                        cancelled = true;
-                                    }
-                                    return true;
-                                },
-                            });
+                            if (requestData.action === "copy") {
+                                await fs.copy(utils.getPath(`${requestData.srcDir}/${copyFile}`), utils.getPath(`${requestData.destDir}/${copyFile}`), {
+                                    // eslint-disable-next-line no-loop-func
+                                    filter: async () => {
+                                        count += 1;
+                                        if (cancelled) {
+                                            return false;
+                                        }
+                                        const jobDataFile = await this.mongo.db.collection(this.systemConfig.collections.jobs).findOneAndUpdate({
+                                            _id: jobIdCopy,
+                                        }, {
+                                            $set: {
+                                                updatedAt: new Date(),
+                                                count,
+                                            },
+                                        });
+                                        if (!jobDataFile || jobDataFile.status === "cancelled") {
+                                            cancelled = true;
+                                        }
+                                        return true;
+                                    },
+                                });
+                            } else {
+                                count += 1;
+                                await fs.move(utils.getPath(`${requestData.srcDir}/${copyFile}`), utils.getPath(`${requestData.destDir}/${copyFile}`));
+                            }
                             await this.mongo.db.collection(this.systemConfig.collections.jobs).updateOne({
                                 _id: jobIdCopy,
                             }, {
                                 $set: {
                                     updatedAt: new Date(),
                                     status: (cancelled || jobData.status === "cancelled") ? "cancelled" : "complete",
+                                    count,
                                 },
                             });
                         }
@@ -111,8 +118,6 @@ export default () => ({
                 return rep.code(200).send({
                     id: jobIdCopy.toString(),
                 });
-            case "move":
-                break;
             case "delete":
                 break;
             }

@@ -235,7 +235,7 @@ export default class {
             case "cut":
             case "copy":
                 this.setState("clipboard", {
-                    mode: id,
+                    mode: id === "cut" ? "move" : "copy",
                     files: [filename],
                     src: this.state.dir,
                 });
@@ -280,7 +280,7 @@ export default class {
         case "copy":
         case "cut":
             this.setState("clipboard", {
-                mode: id,
+                mode: id === "cut" ? "move" : "copy",
                 files: cloneDeep(this.state.checked),
                 src: this.state.dir,
             });
