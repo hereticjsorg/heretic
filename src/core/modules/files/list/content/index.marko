@@ -202,8 +202,9 @@ import actions from "./actions.js"
     </if>
     <div id="hr_fs_dummy"/>
     <hnotify admin=true key="notify"/>
-    <nameModal key="nameModal" on-data("onNameModalData")/>
-    <uploadModal key="uploadModal" on-done("onUploadDone")/>
+    <nameModal key="nameModal" on-data("onNameModalData") on-notification("onNotification")/>
+    <uploadModal key="uploadModal" on-done("onUploadDone") on-notification("onNotification")/>
+    <progressModal key="progressModal" on-close("onProgressClose") on-notification("onNotification")/>
 </if>
 <if(!state.ready && !state.failed)>
     <!-- <hloading active=true/> -->

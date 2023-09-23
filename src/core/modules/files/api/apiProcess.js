@@ -51,6 +51,7 @@ export default () => ({
                 });
                 const jobIdCopy = queueItemCopy.insertedId;
                 setTimeout(async () => {
+                    let count = 0;
                     try {
                         for (const copyFile of requestData.files) {
                             const jobData = await this.mongo.db.collection(this.systemConfig.collections.jobs).findOneAndUpdate({
@@ -66,9 +67,9 @@ export default () => ({
                             }
                             let cancelled = false;
                             await fs.copy(utils.getPath(`${requestData.srcDir}/${copyFile}`), utils.getPath(`${requestData.destDir}/${copyFile}`), {
-                                filter: async file => {
-                                    // eslint-disable-next-line no-console
-                                    console.log(file);
+                                // eslint-disable-next-line no-loop-func
+                                filter: async () => {
+                                    count += 1;
                                     if (cancelled) {
                                         return false;
                                     }
@@ -77,6 +78,7 @@ export default () => ({
                                     }, {
                                         $set: {
                                             updatedAt: new Date(),
+                                            count,
                                         },
                                     });
                                     if (!jobDataFile || jobDataFile.status === "cancelled") {
@@ -90,7 +92,7 @@ export default () => ({
                             }, {
                                 $set: {
                                     updatedAt: new Date(),
-                                    status: "complete",
+                                    status: (cancelled || jobData.status === "cancelled") ? "cancelled" : "complete",
                                 },
                             });
                         }

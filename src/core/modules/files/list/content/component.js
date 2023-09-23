@@ -146,6 +146,26 @@ export default class {
             setTimeout(() => window.location.href = `${this.utils.getLocalizedURL(this.systemRoutes.signInAdmin)}`, 100);
             return;
         }
+        let activeJobId = null;
+        try {
+            const formData = new FormData();
+            const {
+                data,
+            } = await axios({
+                method: "post",
+                url: `/api/files/status`,
+                data: formData,
+                headers: {
+                    Authorization: `Bearer ${this.currentToken}`,
+                },
+            });
+            if (data.status === "processing") {
+                activeJobId = data.id;
+            }
+        } catch {
+            this.setState("failed", true);
+            return;
+        }
         this.setState("ready", true);
         window.addEventListener("click", e => {
             if (!e.target.closest("[data-dropdown]")) {
@@ -157,6 +177,10 @@ export default class {
         window.addEventListener("resize", () => this.setFilesWrapWidth());
         this.setState("mobile", window.innerWidth < 769);
         await this.loadData();
+        if (activeJobId) {
+            await this.utils.waitForComponent("progressModal");
+            this.getComponent("progressModal").show(activeJobId);
+        }
     }
 
     async onFileClick(e) {
@@ -287,7 +311,9 @@ export default class {
             data.append("formShared", "{}");
             data.append("tabs", `["_default"]`);
             try {
-                await axios({
+                const {
+                    data: processData,
+                } = await axios({
                     method: "post",
                     url: "/api/files/process",
                     data,
@@ -299,6 +325,8 @@ export default class {
                 const disabledPaste = cloneDeep(this.state.disabled);
                 disabledPaste.paste = true;
                 this.setState("disabled", disabledPaste);
+                await this.utils.waitForComponent("progressModal");
+                this.getComponent("progressModal").show(processData.id);
             } catch (er) {
                 await this.showNotification("couldNotLoadData", "is-danger");
             } finally {
@@ -361,5 +389,13 @@ export default class {
         const disabled = cloneDeep(this.state.disabled);
         disabled.paste = true;
         this.setState("disabled", disabled);
+    }
+
+    onProgressClose() {
+        this.loadData();
+    }
+
+    onNotification(data) {
+        this.showNotification(data.message, data.css);
     }
 }

@@ -22,6 +22,7 @@
     "newDir": "New Folder",
     "save": "Save",
     "cancel": "Cancel",
+    "close": "Close",
     "upload": "Upload",
     "submit": "Submit",
     "selectFiles": "Select File(s)",
@@ -34,5 +35,19 @@
     "paste": "Paste",
     "sourceDir": "Source Directory",
     "clipboardContents": "Contents",
-    "addedToClipboard": "Added to clipboard"
+    "addedToClipboard": "Added to clipboard",
+    "processingFiles": "Processing Files",
+    "loadingData": "Loading data from server…",
+    "processProgress": "Operation in progress…",
+    "processSuccess": "The operation has been successfully completed",
+    "processError": "Error while processing one or more files or folders",
+    "processCancelled": "Operation has been cancelled",
+    "processMode": "Mode",
+    "processedCount": "Processed",
+    "state_copy": "file/folder copy",
+    "state_move": "file/folder move",
+    "clickCancelAgain": "Click \"Cancel\" again to cancel",
+    "unableToCancel": "Could not cancel the operation",
+    "cancellationRequestSent": "Cancellation request sent",
+    "couldNotGetOperationStatus": "Could not get operation status"
 }

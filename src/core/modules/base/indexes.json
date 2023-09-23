@@ -19,7 +19,7 @@
         }
     },
     "jobs": {
-        "asc": ["userId", "module"],
+        "asc": ["userId", "module", "status"],
         "desc":  [],
         "expire": {
             "field": "updatedAt",

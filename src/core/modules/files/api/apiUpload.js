@@ -15,16 +15,11 @@ export default () => ({
                 }, 403);
             }
             const multipartData = await req.processMultipart();
-            // eslint-disable-next-line no-console
-            console.log(multipartData);
             if (typeof multipartData.fields.dir !== "string") {
                 return rep.error({
                     message: "Invalid directory",
                 });
             }
-            // const dirQuery = multipartData.fields.dir.replace(/\.\./gm, "").replace(/~/gm, "");
-            // const root = path.resolve(`${__dirname}/../${moduleConfig.root}`).replace(/\\/gm, "/");
-            // const dir = dirQuery ? path.resolve(`${__dirname}/../${moduleConfig.root}/${dirQuery}`).replace(/\\/gm, "/") : root;
             const dir = utils.getPath(multipartData.fields.dir);
             if (!(await utils.fileExists(dir))) {
                 return rep.error({

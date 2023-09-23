@@ -25,8 +25,10 @@ export default class {
     }
 
     async showNotification(message, css = "is-success") {
-        await this.utils.waitForComponent("notify");
-        this.getComponent("notify").show(window.__heretic.t(message), css);
+        this.emit("notification", {
+            message,
+            css,
+        });
     }
 
     async onMount() {
