@@ -185,8 +185,8 @@ export default class {
     }
 
     async onFileClick(e) {
+        e.preventDefault(e);
         if (e.target.closest("[data-checkboxid]")) {
-            e.preventDefault(e);
             const {
                 checkboxid,
             } = e.target.closest("[data-checkboxid]").dataset;
@@ -201,7 +201,6 @@ export default class {
             return;
         }
         if (e.target.closest("[data-dropdown]")) {
-            e.preventDefault();
             const {
                 dropdown,
             } = e.target.closest("[data-dropdown]").dataset;
@@ -214,13 +213,11 @@ export default class {
             } = e.target.closest("[data-id]").dataset;
             const file = this.state.files.find(f => f.name === id);
             if (file.dir) {
-                e.preventDefault();
                 await this.loadData(`${this.state.dir}/${file.name}`);
             }
             return;
         }
         if (e.target.closest("[data-id]")) {
-            e.preventDefault();
             const {
                 id,
             } = e.target.closest("[data-id]").dataset;
