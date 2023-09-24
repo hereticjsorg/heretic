@@ -174,9 +174,11 @@ export default class {
             }
         });
         this.setFilesWrapWidthDelayed = throttle(this.setFilesWrapWidth, 200);
-        window.addEventListener("resize", debounce(() => this.setState("mobile", window.innerWidth < 769), 500));
-        window.addEventListener("resize", () => this.setFilesWrapWidth());
-        this.setState("mobile", window.innerWidth < 769);
+        this.setState("mobile", window.innerWidth <= 768);
+        window.addEventListener("resize", debounce(() => this.setState("mobile", window.innerWidth <= 768), 500));
+        if (window.innerWidth > 768) {
+            window.addEventListener("resize", () => this.setFilesWrapWidth());
+        }
         await this.loadData();
         if (activeJobId) {
             await this.utils.waitForComponent("progressModal");
