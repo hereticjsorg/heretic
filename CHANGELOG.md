@@ -1,3 +1,12 @@
+## v1.1.98
+
+**Update component.js** (2023-09-24)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-09-24 | Update component.js |
+
+
 ## v1.1.97
 
 **Files Manager implemented** (2023-09-24)
