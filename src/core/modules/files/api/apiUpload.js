@@ -26,10 +26,12 @@ export default () => ({
                     message: "Directory doesn't exists",
                 });
             }
-            for (const k of Object.keys(multipartData.files)) {
-                const item = multipartData.files[k];
-                if (!item.filename.match(/^(~|\.\.|con|prn|aux|nul|com[0-9]|lpt[0-9])$|([<>:"/\\|?*])|(\.|\s)$/igm)) {
-                    await fs.move(item.filePath, path.resolve(dir, item.filename));
+            if (!this.systemConfig.demo) {
+                for (const k of Object.keys(multipartData.files)) {
+                    const item = multipartData.files[k];
+                    if (!item.filename.match(/^(~|\.\.|con|prn|aux|nul|com[0-9]|lpt[0-9])$|([<>:"/\\|?*])|(\.|\s)$/igm)) {
+                        await fs.move(item.filePath, path.resolve(dir, item.filename));
+                    }
                 }
             }
             await req.removeMultipartTempFiles();

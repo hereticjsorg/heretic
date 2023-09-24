@@ -30,6 +30,7 @@ export default class {
             init: false,
             loading: false,
             clipboard: null,
+            deleteList: [],
         };
         this.language = out.global.language;
         this.siteTitle = out.global.siteTitle;
@@ -242,6 +243,11 @@ export default class {
                 await this.showNotification("addedToClipboard", "is-info");
                 disabled.paste = true;
                 break;
+            case "delete":
+                this.setState("deleteList", [filename]);
+                await this.utils.waitForComponent("deleteConfirmation");
+                this.getComponent("deleteConfirmation").setActive(true);
+                break;
             }
             this.setState("disabled", disabled);
         }
@@ -288,6 +294,11 @@ export default class {
             const disabledCutCopy = cloneDeep(this.state.disabled);
             disabledCutCopy.paste = true;
             this.setState("disabled", disabledCutCopy);
+            break;
+        case "delete":
+            this.setState("deleteList", cloneDeep(this.state.checked));
+            await this.utils.waitForComponent("deleteConfirmation");
+            this.getComponent("deleteConfirmation").setActive(true);
             break;
         case "upload":
             await this.utils.waitForComponent("uploadModal");
@@ -365,8 +376,38 @@ export default class {
     }
 
     // eslint-disable-next-line no-unused-vars
-    onNameModalData(data) {
-        // Ignore
+    async onNameModalData(d) {
+        const formTabs = JSON.stringify({
+            _default: {
+                srcDir: this.state.dir,
+                destDir: "",
+                action: d.action,
+                files: [],
+                srcFile: d.id,
+                destFile: d.value,
+            },
+        });
+        const data = new FormData();
+        data.append("formTabs", formTabs);
+        data.append("formShared", "{}");
+        data.append("tabs", `["_default"]`);
+        this.setState("loading", true);
+        try {
+            await axios({
+                method: "post",
+                url: "/api/files/process",
+                data,
+                headers: {
+                    Authorization: `Bearer ${this.currentToken}`,
+                },
+            });
+            await this.showNotification("processSuccess", "is-success");
+        } catch (er) {
+            await this.showNotification("createDirOrRenameError", "is-danger");
+        } finally {
+            this.setState("loading", false);
+            setTimeout(() => this.loadData(), 100);
+        }
     }
 
     onUploadDone() {
@@ -397,5 +438,45 @@ export default class {
 
     onNotification(data) {
         this.showNotification(data.message, data.css);
+    }
+
+    async onDeleteConfirmationButtonClick(id) {
+        switch (id) {
+        case "confirm":
+            await this.utils.waitForComponent("deleteConfirmation");
+            this.getComponent("deleteConfirmation").setActive(false);
+            const formTabs = JSON.stringify({
+                _default: {
+                    srcDir: this.state.dir,
+                    destDir: "",
+                    action: "delete",
+                    files: this.state.deleteList,
+                },
+            });
+            const data = new FormData();
+            data.append("formTabs", formTabs);
+            data.append("formShared", "{}");
+            data.append("tabs", `["_default"]`);
+            this.setState("loading", true);
+            try {
+                const {
+                    data: processData,
+                } = await axios({
+                    method: "post",
+                    url: "/api/files/process",
+                    data,
+                    headers: {
+                        Authorization: `Bearer ${this.currentToken}`,
+                    },
+                });
+                await this.utils.waitForComponent("progressModal");
+                this.getComponent("progressModal").show(processData.id);
+            } catch (er) {
+                await this.showNotification("couldNotLoadData", "is-danger");
+            } finally {
+                this.setState("loading", false);
+            }
+            break;
+        }
     }
 }

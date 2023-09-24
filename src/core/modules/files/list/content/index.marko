@@ -133,7 +133,7 @@ import actions from "./actions.js"
                     <sortIcon sortDir=(state.sort === "permissions" ? state.sortDir : null)/>
                     <t>filePermissions</t>
                 </div>
-                <div class="column is-narrow p-2 hr-fs-col hr-fs-col-controls is-flex is-justify-content-center">
+                <div class="column is-narrow p-2 hr-fs-col hr-fs-col-controls">
                     <div class="hr-fs-cell-controls hr-fs-head-cell-controls">
                         <t>controls</t>
                     </div>
@@ -205,6 +205,37 @@ import actions from "./actions.js"
     <nameModal key="nameModal" on-data("onNameModalData") on-notification("onNotification")/>
     <uploadModal key="uploadModal" on-done("onUploadDone") on-notification("onNotification")/>
     <progressModal key="progressModal" on-close("onProgressClose") on-notification("onNotification")/>
+    <hmodal
+        admin=input.admin
+        key="deleteConfirmation"
+        id="deleteConfirmation"
+        on-button-click("onDeleteConfirmationButtonClick")
+        close=true
+        title="deleteConfirmationTitle"
+        actions=[
+            {
+                id: "confirm",
+                label: "confirm",
+                class: "button is-danger"
+            },
+            {
+                id: "cancel",
+                label: "cancel",
+                class: "button is-light",
+                close: true
+            }
+        ]>
+        <section
+            class="modal-card-body"
+            style={
+                order: "2"
+            }>
+            <p>
+                <t>deleteConfirmationMessage</t>
+            </p>
+            <p class="mt-2 notification">${state.deleteList.join(", ")}</p>
+        </section>
+    </hmodal>
 </if>
 <if(!state.ready && !state.failed)>
     <!-- <hloading active=true/> -->

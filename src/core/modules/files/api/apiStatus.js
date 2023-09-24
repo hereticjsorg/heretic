@@ -24,8 +24,6 @@ export default () => ({
             if (!query._id) {
                 query.status = "processing";
             }
-            // eslint-disable-next-line no-console
-            console.log(query);
             const jobData = (await this.mongo.db.collection(this.systemConfig.collections.jobs).findOne(query));
             if (jobData) {
                 jobData.id = String(jobData._id);

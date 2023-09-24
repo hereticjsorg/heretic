@@ -10,7 +10,7 @@ export default class {
                         type: "text",
                         validation: {
                             type: ["string"],
-                            enum: ["copy", "move", "delete"]
+                            enum: ["copy", "move", "delete", "rename", "newDir"]
                         },
                     },
                     {
@@ -25,6 +25,20 @@ export default class {
                         type: "text",
                         validation: {
                             type: ["string"],
+                        },
+                    },
+                    {
+                        id: "srcFile",
+                        type: "text",
+                        validation: {
+                            type: ["string", "null"],
+                        },
+                    },
+                    {
+                        id: "destFile",
+                        type: "text",
+                        validation: {
+                            type: ["string", "null"],
                         },
                     },
                     {

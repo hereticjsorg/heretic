@@ -27,6 +27,29 @@ export default () => ({
             }
             const requestData = data._default;
             switch (requestData.action) {
+            case "newDir":
+                if (!requestData.destFile) {
+                    return rep.error({
+                        message: "Invalid parameters",
+                    });
+                }
+                const newDirPath = utils.getPath(`${requestData.srcDir}/${requestData.destFile}`);
+                if (!this.systemConfig.demo) {
+                    await fs.ensureDir(newDirPath);
+                }
+                return rep.code(200).send({});
+            case "rename":
+                if (!requestData.srcFile || !requestData.destFile) {
+                    return rep.error({
+                        message: "Invalid parameters",
+                    });
+                }
+                const renameSrcPath = utils.getPath(`${requestData.srcDir}/${requestData.srcFile}`);
+                const renameDestPath = utils.getPath(`${requestData.srcDir}/${requestData.destFile}`);
+                if (!this.systemConfig.demo) {
+                    await fs.rename(renameSrcPath, renameDestPath);
+                }
+                return rep.code(200).send({});
             case "move":
             case "copy":
                 const copySrcDirPath = utils.getPath(requestData.srcDir);
@@ -86,12 +109,14 @@ export default () => ({
                                         if (!jobDataFile || jobDataFile.status === "cancelled") {
                                             cancelled = true;
                                         }
-                                        return true;
+                                        return !this.systemConfig.demo;
                                     },
                                 });
                             } else {
                                 count += 1;
-                                await fs.move(utils.getPath(`${requestData.srcDir}/${copyFile}`), utils.getPath(`${requestData.destDir}/${copyFile}`));
+                                if (!this.systemConfig.demo) {
+                                    await fs.move(utils.getPath(`${requestData.srcDir}/${copyFile}`), utils.getPath(`${requestData.destDir}/${copyFile}`));
+                                }
                             }
                             await this.mongo.db.collection(this.systemConfig.collections.jobs).updateOne({
                                 _id: jobIdCopy,
@@ -119,7 +144,71 @@ export default () => ({
                     id: jobIdCopy.toString(),
                 });
             case "delete":
-                break;
+                const deleteSrcDirPath = utils.getPath(requestData.srcDir);
+                if (!(await utils.fileExists(deleteSrcDirPath))) {
+                    return rep.error({
+                        message: "Invalid directory",
+                    });
+                }
+                for (const deleteFile of requestData.files) {
+                    if (!(await utils.fileExists(utils.getPath(`${requestData.srcDir}/${deleteFile}`)))) {
+                        return rep.error({
+                            message: "File not found",
+                        });
+                    }
+                }
+                const queueItemDelete = await this.mongo.db.collection(this.systemConfig.collections.jobs).insertOne({
+                    updatedAt: new Date(),
+                    userId: authData._id,
+                    module: moduleConfig.id,
+                    mode: "delete",
+                    status: "new",
+                });
+                const jobIdDelete = queueItemDelete.insertedId;
+                setTimeout(async () => {
+                    let count = 0;
+                    try {
+                        for (const deleteFile of requestData.files) {
+                            const jobData = await this.mongo.db.collection(this.systemConfig.collections.jobs).findOneAndUpdate({
+                                _id: jobIdDelete,
+                            }, {
+                                $set: {
+                                    updatedAt: new Date(),
+                                    status: "processing",
+                                },
+                            });
+                            if (!jobData || jobData.status === "cancelled") {
+                                break;
+                            }
+                            count += 1;
+                            if (!this.systemConfig.demo) {
+                                await fs.remove(utils.getPath(`${requestData.srcDir}/${deleteFile}`));
+                            }
+                            await this.mongo.db.collection(this.systemConfig.collections.jobs).updateOne({
+                                _id: jobIdDelete,
+                            }, {
+                                $set: {
+                                    updatedAt: new Date(),
+                                    status: jobData.status === "cancelled" ? "cancelled" : "complete",
+                                    count,
+                                },
+                            });
+                        }
+                    } catch (e) {
+                        await this.mongo.db.collection(this.systemConfig.collections.jobs).updateOne({
+                            _id: jobIdDelete,
+                        }, {
+                            $set: {
+                                updatedAt: new Date(),
+                                status: "error",
+                                message: e.message,
+                            },
+                        });
+                    }
+                });
+                return rep.code(200).send({
+                    id: jobIdDelete.toString(),
+                });
             }
             return rep.code(200).send({
                 message: "No errors, but nothing to do as well"
