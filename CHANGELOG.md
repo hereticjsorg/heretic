@@ -1,3 +1,12 @@
+## v1.1.100
+
+**Fixing scrolling on mobile device** (2023-09-24)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-09-24 | Fixing scrolling on mobile device<br/>The scrolling was incorrect on mobile device due to onresize event handler |
+
+
 ## v1.1.99
 
 **Bugfixes** (2023-09-24)
