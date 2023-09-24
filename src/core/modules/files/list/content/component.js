@@ -209,12 +209,12 @@ export default class {
             return;
         }
         if (e.target.closest("[data-click]")) {
-            e.preventDefault();
             const {
                 id,
             } = e.target.closest("[data-id]").dataset;
             const file = this.state.files.find(f => f.name === id);
             if (file.dir) {
+                e.preventDefault();
                 await this.loadData(`${this.state.dir}/${file.name}`);
             }
             return;
