@@ -1,3 +1,39 @@
+## v1.1.97
+
+**Files Manager implemented** (2023-09-24)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-09-08 | Patching "import" section of package.json during update |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-09-09 | NPM Modules update |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-09-09 | Update setup.js |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-09-10 | Added mime-types module |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-09-10 | Files module work-in-progress |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-09-12 | Added CSV module to package.json |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-09-12 | Added system information to Webpack config |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-09-12 | Feat: more styling for icons |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-09-13 |  NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-09-13 |  Make htable respect noRender property everywhere |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-09-13 | Files module work-in-progress |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-09-14 | Files module work-in-progress |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-09-15 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-09-15 | Files module work-in-progress |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-09-17 | Files module work-in-progress |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-09-18 | Added lodash.throttle module |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-09-18 | File Manager work-in-progress |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-09-18 | NPM Modules update |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-09-18 | File Manager work-in-progress |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-09-18 | File Manager work-in-progress |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-09-20 | File Manager work-in-progress |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-09-20 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-09-21 | File Manager work-in-progress |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-09-21 | Update apiProcess.js |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-09-23 | NPM Modules update |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-09-23 | Files Module work-in-progress |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-09-23 | File Manager work-in-progress |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-09-24 | Files Module<br/>Implemented File Manager in order to provide the way on how to control files on server (copy, move, rename, upload etc.) |
+
+
 ## v1.1.96
 
 **NPM Modules Update** (2023-09-08)
