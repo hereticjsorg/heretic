@@ -17,5 +17,13 @@
             "field": "createdAt",
             "seconds": 300
         }
+    },
+    "jobs": {
+        "asc": ["userId", "module", "status"],
+        "desc":  [],
+        "expire": {
+            "field": "updatedAt",
+            "seconds": 60
+        }
     }
 }

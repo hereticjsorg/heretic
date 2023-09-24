@@ -433,40 +433,42 @@ import SettingsPagesForm from "./settingsPagesForm"
             }>
                 <for|k, index| of=Object.keys(state.settingsColumns)>
                     $ const column = state.columnData[k];
-                    <if(index > 0 && state.settingColumnDrag !== null)>
-                        <div data-id=k class="hr-ht-settings-columns-drop-area" on-dragover("onSettingsColumnDragOver") on-dragenter("onSettingsColumnDragEnter") on-dragleave("onSettingsColumnDragLeave") on-drop("onSettingsColumnDrop")/>
+                    <if(!column.noRender)>
+                        <if(index > 0 && state.settingColumnDrag !== null)>
+                            <div data-id=k class="hr-ht-settings-columns-drop-area" on-dragover("onSettingsColumnDragOver") on-dragenter("onSettingsColumnDragEnter") on-dragleave("onSettingsColumnDragLeave") on-drop("onSettingsColumnDrop")/>
+                        </if>
+                        <div class="hr-ht-settings-columns-row columns is-vcentered is-mobile is-gapless p-1 m-0" draggable="true" on-dragstart("onSettingsColumnDragStart") on-dragend("onSettingsColumnDragEnd") data-id=k>
+                            <div class="column is-narrow mr-2">
+                                <span class="hr-ht-drag-icon icon">
+                                    <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                        <path d=mdiDrag/>
+                                    </svg>
+                                </span>
+                            </div>
+                            <div class="column is-narrow mr-2">
+                                <input type="checkbox" class="hr-ht-settings-switch switch" checked=state.settingsColumns[k] on-change("onSettingsColumnCheckboxClick") data-id=k/>
+                            </div>
+                            <div class="column is-auto mr-2">${column.label}</div>
+                            <div class="column is-narrow mr-2">
+                                <button class="button is-small hr-ht-action-button is-light" data-id=column.id on-click("onSettingsColumnUpClick") disabled=(index === 0)>
+                                    <span class="hr-ht-settings-icon icon">
+                                        <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M7,15L12,10L17,15H7Z"/>
+                                        </svg>
+                                    </span>
+                                </button>
+                            </div>
+                            <div class="column is-narrow">
+                                <button class="button is-small hr-ht-action-button is-light" data-id=column.id on-click("onSettingsColumnDownClick") disabled=(index === Object.keys(state.settingsColumns).length - 1)>
+                                    <span class="hr-ht-settings-icon icon">
+                                        <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M7,10L12,15L17,10H7Z"/>
+                                        </svg>
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
                     </if>
-                    <div class="hr-ht-settings-columns-row columns is-vcentered is-mobile is-gapless p-1 m-0" draggable="true" on-dragstart("onSettingsColumnDragStart") on-dragend("onSettingsColumnDragEnd") data-id=k>
-                        <div class="column is-narrow mr-2">
-                            <span class="hr-ht-drag-icon icon">
-                                <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                                    <path d=mdiDrag/>
-                                </svg>
-                            </span>
-                        </div>
-                        <div class="column is-narrow mr-2">
-                            <input type="checkbox" class="hr-ht-settings-switch switch" checked=state.settingsColumns[k] on-change("onSettingsColumnCheckboxClick") data-id=k/>
-                        </div>
-                        <div class="column is-auto mr-2">${column.label}</div>
-                        <div class="column is-narrow mr-2">
-                            <button class="button is-small hr-ht-action-button is-light" data-id=column.id on-click("onSettingsColumnUpClick") disabled=(index === 0)>
-                                <span class="hr-ht-settings-icon icon">
-                                    <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M7,15L12,10L17,15H7Z"/>
-                                    </svg>
-                                </span>
-                            </button>
-                        </div>
-                        <div class="column is-narrow">
-                            <button class="button is-small hr-ht-action-button is-light" data-id=column.id on-click("onSettingsColumnDownClick") disabled=(index === Object.keys(state.settingsColumns).length - 1)>
-                                <span class="hr-ht-settings-icon icon">
-                                    <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M7,10L12,15L17,10H7Z"/>
-                                    </svg>
-                                </span>
-                            </button>
-                        </div>
-                    </div>
                 </for>
             </div>
             <div style={
@@ -1100,9 +1102,8 @@ import SettingsPagesForm from "./settingsPagesForm"
                         <div class="columns is-mobile" data-column=c>
                             <div class="column">
                                 <label class="checkbox">
-                                    <input type="checkbox" disabled=(!(!!state.importColumnsData[c].targetColumn)) checked=!!state.importColumnsData[c].update on-change("onImportUpdateCheckboxChange")/>
-                                    &nbsp;
-                                    ${c}
+                                    <input type="checkbox" disabled=!!!state.importColumnsData[c].targetColumn checked=!!state.importColumnsData[c].update on-change("onImportUpdateCheckboxChange")/>
+                                    &nbsp;${c}
                                 </label>
                             </div> 
                             <div class="column">

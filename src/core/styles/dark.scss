@@ -264,6 +264,10 @@ html.heretic-dark .delete:hover {
 
 // Tags
 
+html.heretic-dark .tag.is-delete {
+    background: $grey-dark;
+}
+
 html.heretic-dark .tag.is-white {
     background: $grey-dark;
 }

@@ -2,6 +2,7 @@
 const fs = require("fs-extra");
 const path = require("path");
 const crypto = require("crypto");
+const systemInformation = require("systeminformation");
 
 const BinUtils = require("#lib/binUtils.js");
 
@@ -50,9 +51,16 @@ module.exports = class {
 
     async generateConfig() {
         const buildData = {
+            production: this.production,
+            timestamp: new Date().getTime(),
+            version: packageJson.version,
+            system: {
+                os: await systemInformation.osInfo(),
+                cpu: await systemInformation.cpu(),
+                memory: await systemInformation.mem(),
+            },
             modules: [],
             i18nNavigation: {},
-            production: this.production,
             routes: {
                 userspace: [],
                 admin: [],

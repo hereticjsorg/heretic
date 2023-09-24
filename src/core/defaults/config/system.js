@@ -171,6 +171,7 @@ module.exports = {
         sessions: "sessions",
         activation: "activation",
         captcha: "captcha",
+        jobs: "jobs",
         ...conf.collections,
     },
     routes: {

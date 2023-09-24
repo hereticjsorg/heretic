@@ -11,6 +11,7 @@
         "base_home",
         "users_users",
         "users_groups",
+        "files_list",
         "events_events",
         "sessions_sessions",
         "logs_logs"

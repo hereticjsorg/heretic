@@ -36,7 +36,7 @@ export default class {
         });
         if (!this.installedVersion && !adminUser) {
             const password = await this.auth.createHash(`password${this.fastify.systemConfig.secret}`);
-            const resultUser = await db.collection(this.fastify.systemConfig.collections.users).findOneAndUpdate({
+            const resultUser = await db.collection(this.fastify.systemConfig.collections.users).updateOne({
                 username: "admin",
             }, {
                 $set: {
@@ -48,7 +48,7 @@ export default class {
             }, {
                 upsert: true,
             });
-            const resultGroup = await db.collection(this.fastify.systemConfig.collections.groups).findOneAndUpdate({
+            const resultGroup = await db.collection(this.fastify.systemConfig.collections.groups).updateOne({
                 group: "admin",
             }, {
                 $set: {
@@ -63,7 +63,7 @@ export default class {
             }, {
                 upsert: true,
             });
-            if (resultUser && resultUser._id && resultGroup && resultGroup._id) {
+            if (resultUser && resultUser.acknowledged && resultGroup && resultGroup.acknowledged) {
                 this.fastify.log.info("User 'admin' has been created/updated in the database");
             } else {
                 this.fastify.log.error("Could not create/update 'admin' user in the database");

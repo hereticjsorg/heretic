@@ -1,0 +1,11 @@
+@import "~styles/variables.scss";
+
+.hr-pr-foot {
+    background: $white-bis !important;
+    position: relative;
+    order: 100;
+}
+
+.hr-pr-modal {
+    user-select: none;
+}

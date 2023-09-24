@@ -1,0 +1,11 @@
+@import "~styles/variables.scss";
+
+.hr-nm-foot {
+    background: $white-bis !important;
+    position: relative;
+    order: 100;
+}
+
+.hr-nm-modal {
+    user-select: none;
+}
