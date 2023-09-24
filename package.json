@@ -58,7 +58,7 @@
         "@mdi/js": "^7.2.96",
         "@types/command-line-args": "^5.2.1",
         "@types/lodash.template": "^4.5.1",
-        "@types/node": "^20.6.3",
+        "@types/node": "^20.6.4",
         "@types/uuid": "^9.0.4",
         "@types/webpack-env": "^1.18.1",
         "@typescript-eslint/eslint-plugin": "^6.7.2",
