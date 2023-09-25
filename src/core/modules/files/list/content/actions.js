@@ -25,5 +25,8 @@ export default [{
     menu: [{
         id: "rename",
         label: "rename"
+    }, {
+        id: "edit",
+        label: "edit"
     }]
 }];

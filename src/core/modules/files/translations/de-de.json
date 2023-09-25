@@ -55,5 +55,6 @@
     "deleteConfirmationTitle": "Löschen Bestätigung",
     "deleteConfirmationMessage": "Bitte bestätigen Sie, dass Sie die folgenden Dateien löschen möchten. Hinweis: Dieser Vorgang ist nicht umkehrbar.",
     "confirm": "Bestätigen",
-    "createDirOrRenameError": "Operation fehlgeschlagen"
+    "createDirOrRenameError": "Operation fehlgeschlagen",
+    "filenameRules": ["Ein Dateiname kann bis zu 255 Zeichen lang sein und kann Buchstaben, Zahlen und Unterstriche enthalten", "Das Betriebssystem unterscheidet zwischen Groß- und Kleinbuchstaben in Dateinamen. Daher sind FILEA, FiLea und filea drei verschiedene Dateinamen, auch wenn sie sich im selben Verzeichnis befinden", "Verzeichnisse folgen den gleichen Namenskonventionen wie Dateien", "Bestimmte Zeichen haben für das Betriebssystem eine besondere Bedeutung. Vermeiden Sie die Verwendung dieser Zeichen, wenn Sie Dateien benennen. Zu diesen Zeichen gehören die folgenden: / \\ \" ' * ; - ? [ ] ( ) ~ ! $ { } &lt > # @ & | Leerzeichen Tabulator Zeilenumbruch"]
 }

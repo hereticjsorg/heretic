@@ -226,11 +226,47 @@ export default class {
             const {
                 filename,
             } = e.target.closest("[data-filename]").dataset;
+            const fileData = this.state.files.find(f => f.name === filename);
             const disabled = cloneDeep(this.state.disabled);
             switch (id) {
             case "rename":
                 await this.utils.waitForComponent("nameModal");
                 this.getComponent("nameModal").show(`${window.__heretic.t("rename")}: ${filename}`, filename, id);
+                break;
+            case "edit":
+                if (fileData.binary || fileData.dir) {
+                    await this.showNotification("fileIsNotEditable", "is-danger");
+                    break;
+                }
+                this.setState("loading", true);
+                const formTabsEdit = JSON.stringify({
+                    _default: {
+                        dir: this.state.dir,
+                        filename,
+                    },
+                });
+                const dataEdit = new FormData();
+                dataEdit.append("formTabs", formTabsEdit);
+                dataEdit.append("formShared", "{}");
+                dataEdit.append("tabs", `["_default"]`);
+                try {
+                    const {
+                        data: editData,
+                    } = await axios({
+                        method: "post",
+                        url: "/api/files/load",
+                        data: dataEdit,
+                        headers: {
+                            Authorization: `Bearer ${this.currentToken}`,
+                        },
+                    });
+                    await this.utils.waitForComponent("editorModal");
+                    this.getComponent("editorModal").show(filename, editData.content, fileData.mime);
+                } catch (er) {
+                    await this.showNotification("couldNotLoadData", "is-danger");
+                } finally {
+                    this.setState("loading", false);
+                }
                 break;
             case "cut":
             case "copy":
