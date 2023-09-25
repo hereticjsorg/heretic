@@ -1,6 +1,6 @@
 # Form Builder
 
-Form Builder component (*hform*) allows you to dynamically build and validate forms.
+Form Builder component (*hform*) allows you to dynamically build and validate your forms.
 
 Usage example:
 
