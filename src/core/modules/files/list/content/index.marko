@@ -236,6 +236,7 @@ import actions from "./actions.js"
             <p class="mt-2 notification">${state.deleteList.join(", ")}</p>
         </section>
     </hmodal>
+    <editorModal key="editorModal" on-save("onFileSave") on-hide("onEditorModalHide")/>
 </if>
 <if(!state.ready && !state.failed)>
     <!-- <hloading active=true/> -->

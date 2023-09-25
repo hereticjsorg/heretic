@@ -2,6 +2,7 @@ import axios from "axios";
 import cloneDeep from "lodash.clonedeep";
 import debounce from "lodash.debounce";
 import throttle from "lodash.throttle";
+import mime from "mime/lite";
 import Utils from "#lib/componentUtils";
 import Cookies from "#lib/cookiesBrowser";
 import pageConfig from "../page.js";
@@ -226,11 +227,47 @@ export default class {
             const {
                 filename,
             } = e.target.closest("[data-filename]").dataset;
+            const fileData = this.state.files.find(f => f.name === filename);
             const disabled = cloneDeep(this.state.disabled);
             switch (id) {
             case "rename":
                 await this.utils.waitForComponent("nameModal");
                 this.getComponent("nameModal").show(`${window.__heretic.t("rename")}: ${filename}`, filename, id);
+                break;
+            case "edit":
+                if (fileData.binary || fileData.dir) {
+                    await this.showNotification("fileIsNotEditable", "is-danger");
+                    break;
+                }
+                this.setState("loading", true);
+                const formTabsEdit = JSON.stringify({
+                    _default: {
+                        dir: this.state.dir,
+                        filename,
+                    },
+                });
+                const dataEdit = new FormData();
+                dataEdit.append("formTabs", formTabsEdit);
+                dataEdit.append("formShared", "{}");
+                dataEdit.append("tabs", `["_default"]`);
+                try {
+                    const {
+                        data: editData,
+                    } = await axios({
+                        method: "post",
+                        url: "/api/files/load",
+                        data: dataEdit,
+                        headers: {
+                            Authorization: `Bearer ${this.currentToken}`,
+                        },
+                    });
+                    await this.utils.waitForComponent("editorModal");
+                    this.getComponent("editorModal").show(filename, editData.content, fileData.mime);
+                } catch (er) {
+                    await this.showNotification("couldNotLoadData", "is-danger");
+                } finally {
+                    this.setState("loading", false);
+                }
                 break;
             case "cut":
             case "copy":
@@ -281,6 +318,10 @@ export default class {
         case "newDir":
             await this.utils.waitForComponent("nameModal");
             this.getComponent("nameModal").show(window.__heretic.t("newDir"), "", "newDir");
+            break;
+        case "newFile":
+            await this.utils.waitForComponent("nameModal");
+            this.getComponent("nameModal").show(window.__heretic.t("newFile"), "", "newFile");
             break;
         case "copy":
         case "cut":
@@ -376,36 +417,18 @@ export default class {
 
     // eslint-disable-next-line no-unused-vars
     async onNameModalData(d) {
-        const formTabs = JSON.stringify({
-            _default: {
-                srcDir: this.state.dir,
-                destDir: "",
-                action: d.action,
-                files: [],
-                srcFile: d.id,
-                destFile: d.value,
-            },
-        });
-        const data = new FormData();
-        data.append("formTabs", formTabs);
-        data.append("formShared", "{}");
-        data.append("tabs", `["_default"]`);
-        this.setState("loading", true);
-        try {
-            await axios({
-                method: "post",
-                url: "/api/files/process",
-                data,
-                headers: {
-                    Authorization: `Bearer ${this.currentToken}`,
-                },
-            });
-            await this.showNotification("processSuccess", "is-success");
-        } catch (er) {
-            await this.showNotification("createDirOrRenameError", "is-danger");
-        } finally {
-            this.setState("loading", false);
-            setTimeout(() => this.loadData(), 100);
+        switch (d.action) {
+        case "newDir":
+        case "rename":
+            break;
+        case "newFile":
+            if (this.state.files.find(f => f.name === d.value)) {
+                await this.showNotification("fileAlreadyExists", "is-danger");
+                break;
+            }
+            await this.utils.waitForComponent("editorModal");
+            this.getComponent("editorModal").show(d.value, "", mime.getType(d.value));
+            break;
         }
     }
 
@@ -476,6 +499,42 @@ export default class {
                 this.setState("loading", false);
             }
             break;
+        }
+    }
+
+    onEditorModalHide() {}
+
+    async onFileSave(d) {
+        this.setState("loading", true);
+        const formTabsEdit = JSON.stringify({
+            _default: {
+                dir: this.state.dir,
+                filename: d.filename,
+                content: d.content,
+            },
+        });
+        const dataEdit = new FormData();
+        dataEdit.append("formTabs", formTabsEdit);
+        dataEdit.append("formShared", "{}");
+        dataEdit.append("tabs", `["_default"]`);
+        try {
+            await axios({
+                method: "post",
+                url: "/api/files/save",
+                data: dataEdit,
+                headers: {
+                    Authorization: `Bearer ${this.currentToken}`,
+                },
+            });
+            await this.showNotification("saveFileSuccess", "is-success");
+            setTimeout(() => this.loadData(), 100);
+        } catch {
+            await this.showNotification("couldNotSaveData", "is-danger");
+            await this.utils.waitForComponent("editorModal");
+            const fileData = this.state.files.find(f => f.name === d.filename);
+            this.getComponent("editorModal").show(d.filename, d.content, fileData.mime);
+        } finally {
+            this.setState("loading", false);
         }
     }
 }

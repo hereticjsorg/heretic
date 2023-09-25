@@ -55,5 +55,13 @@
     "deleteConfirmationTitle": "Delete Confirmation",
     "deleteConfirmationMessage": "Please confirm that you want to delete the following files. Note: this operation is irreversible.",
     "confirm": "Confirm",
-    "createDirOrRenameError": "Operation failed"
+    "createDirOrRenameError": "Operation failed",
+    "filenameRules": ["A file name can be up to 255 characters long and can contain letters, numbers, and underscores", "The operating system is case-sensitive, which means it distinguishes between uppercase and lowercase letters in file names. Therefore, FILEA, FiLea, and filea are three distinct file names, even if they reside in the same folder", "Folders follow the same naming conventions as files", "Certain characters have special meaning to the operating system. Avoid using these characters when you are naming files. These characters include the following: / \\ \" ' * ; - ? [ ] ( ) ~ ! $ { } &lt > # @ & | space tab newline"],
+    "textEditor": "Text Editor",
+    "edit": "Edit as Text",
+    "fileIsNotEditable": "File is not editable",
+    "saveFileSuccess": "Saved successfully",
+    "couldNotSaveData": "Could not save data",
+    "newFile": "New File",
+    "fileAlreadyExists": "File already exists"
 }

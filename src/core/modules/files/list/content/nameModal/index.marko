@@ -9,6 +9,13 @@
                 <form on-submit("onSubmit")>
                     <input class=`input${state.error ? " is-danger" : ""}` type="text" id="hr_nm_value" value=state.value on-change("onValueChange")/>
                 </form>
+                <div class="mt-2">
+                    <if(process.browser)>
+                        <for|i| of=window.__heretic.t("filenameRules")>
+                            <div>- ${i}</div>
+                        </for>
+                    </if>
+                </div>
             </section>
             <footer class="modal-card-foot hr-nm-foot p-3">
                 <button class="button is-primary" on-click("onSubmit")>
