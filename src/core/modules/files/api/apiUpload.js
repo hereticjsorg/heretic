@@ -1,12 +1,10 @@
 import path from "path";
 import fs from "fs-extra";
 import Utils from "./utils";
-// import moduleConfig from "../module.js";
-
-const utils = new Utils();
 
 export default () => ({
     async handler(req, rep) {
+        const utils = new Utils(this);
         try {
             const authData = await req.auth.getData(req.auth.methods.HEADERS);
             if (!authData || !authData.groupData || !authData.groupData.find(i => i.id === "admin" && i.value === true)) {
