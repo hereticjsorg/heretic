@@ -66,6 +66,7 @@
         "Mobi",
         "mongodump",
         "mongorestore",
+        "noconflict",
         "noof",
         "nrex",
         "opentype",
