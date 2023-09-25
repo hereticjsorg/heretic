@@ -7,6 +7,7 @@ import {
     mdiFolderPlusOutline,
     mdiFileUploadOutline,
     mdiContentPaste,
+    mdiFileDocumentPlusOutline,
 } from "@mdi/js";
 
 export default [{
@@ -42,6 +43,10 @@ export default [{
     id: "newDir",
     label: "newDir",
     icon: mdiFolderPlusOutline,
+}, {
+    id: "newFile",
+    label: "newFile",
+    icon: mdiFileDocumentPlusOutline,
 }, {
     id: "upload",
     label: "upload",

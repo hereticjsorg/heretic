@@ -90,9 +90,14 @@ export default class {
         document.body.style.top = "";
         window.scrollTo(0, parseInt(scrollY || "0", 10) * -1);
         this.setState("active", false);
+        this.emit("hide");
     }
 
     onSubmit() {
-        //
+        this.emit("save", {
+            filename: this.state.filename,
+            content: this.editor.getValue(),
+        });
+        this.hide();
     }
 }
