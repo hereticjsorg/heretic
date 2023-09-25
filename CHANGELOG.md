@@ -1,3 +1,20 @@
+## v1.1.101
+
+**File Manager updates** (2023-09-25)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-09-25 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-09-25 | ace-builds and file-loader added |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-09-25 | Typos |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-09-25 | Ace Editor loader added as a library |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-09-25 | Files Module work-in-progress |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-09-25 | Added mime module to package.json |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-09-25 | NPM Modules update |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-09-25 | Files Module work-in-progress |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-09-25 | File Manager translations updated |
+
+
 ## v1.1.100
 
 **Fixing scrolling on mobile device** (2023-09-24)
