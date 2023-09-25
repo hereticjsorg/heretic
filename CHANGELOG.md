@@ -1,3 +1,13 @@
+## v1.1.102
+
+**Bugfixes** (2023-09-25)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-09-25 | Typos fixed |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-09-25 | Demo-related security fixes |
+
+
 ## v1.1.101
 
 **File Manager updates** (2023-09-25)
