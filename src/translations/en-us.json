@@ -183,7 +183,7 @@
     "htable_total": "Total",
     "htable_selected": "selected",
     "htable_searchPlaceholder": "Search",
-    "noChangesSavedDemoMode": "Database changes are not saved in demo mode",
+    "noChangesSavedDemoMode": "No changes are saved in demo mode",
     "noAccountChangesDemoMode": "The site is in demonstration mode. You will not be able to manipulate user accounts (registration, profile modification, change of registration data, etc.).",
     "couldNotLoadData": "Could not load data",
     "userAccount": "Account",
