@@ -312,6 +312,10 @@ const extensionsBinary = [
 ];
 
 export default class {
+    constructor(fastify) {
+        this.fastify = fastify;
+    }
+
     formatBytes(bytes, decimals = 2) {
         const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
         if (bytes === 0) {
@@ -426,7 +430,7 @@ export default class {
         const parDir = d.replace(/\.\./gm, "").replace(/~/gm, "");
         const root = path.resolve(`${__dirname}/../${moduleConfig.root}`).replace(/\\/gm, "/");
         const dir = parDir ? path.resolve(`${__dirname}/../${moduleConfig.root}/${parDir}`).replace(/\\/gm, "/") : root;
-        if (this.systemConfig.demo && dir.match(/\/conf\.d/)) {
+        if (this.fastify && this.fastify.systemConfig.demo && dir.match(/\/conf\.d/)) {
             return false;
         }
         return dir.indexOf(root) !== 0 ? false : dir;

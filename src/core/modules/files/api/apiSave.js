@@ -4,10 +4,9 @@ import FormValidator from "#lib/formValidatorServer";
 import moduleConfig from "../module.js";
 import Utils from "./utils";
 
-const utils = new Utils();
-
 export default () => ({
     async handler(req, rep) {
+        const utils = new Utils(this);
         const formData = new FormData();
         const formValidator = new FormValidator(formData.getValidationSchema(), formData.getFieldsFlat(), this);
         try {
