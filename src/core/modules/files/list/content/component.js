@@ -269,6 +269,44 @@ export default class {
                     this.setState("loading", false);
                 }
                 break;
+            case "unzip":
+                if (fileData.ext !== "zip") {
+                    await this.showNotification("fileIsNotZIP", "is-danger");
+                    break;
+                }
+                this.setState("loading", true);
+                const formTabsUnzip = JSON.stringify({
+                    _default: {
+                        srcDir: this.state.dir,
+                        destDir: "",
+                        action: "unzip",
+                        files: [],
+                        srcFile: filename,
+                    },
+                });
+                const dataUnzip = new FormData();
+                dataUnzip.append("formTabs", formTabsUnzip);
+                dataUnzip.append("formShared", "{}");
+                dataUnzip.append("tabs", `["_default"]`);
+                try {
+                    const {
+                        data: processUnzipData,
+                    } = await axios({
+                        method: "post",
+                        url: "/api/files/process",
+                        data: dataUnzip,
+                        headers: {
+                            Authorization: `Bearer ${this.currentToken}`,
+                        },
+                    });
+                    await this.utils.waitForComponent("progressModal");
+                    this.getComponent("progressModal").show(processUnzipData.id);
+                } catch (er) {
+                    await this.showNotification("couldNotLoadData", "is-danger");
+                } finally {
+                    this.setState("loading", false);
+                }
+                break;
             case "cut":
             case "copy":
                 this.setState("clipboard", {
@@ -415,11 +453,41 @@ export default class {
         this.setState("files", this.sortFiles(this.state.files, id, sortDir));
     }
 
-    // eslint-disable-next-line no-unused-vars
     async onNameModalData(d) {
         switch (d.action) {
         case "newDir":
         case "rename":
+            const formTabs = JSON.stringify({
+                _default: {
+                    srcDir: this.state.dir,
+                    destDir: "",
+                    action: d.action,
+                    files: [],
+                    srcFile: d.id,
+                    destFile: d.value,
+                },
+            });
+            const data = new FormData();
+            data.append("formTabs", formTabs);
+            data.append("formShared", "{}");
+            data.append("tabs", `["_default"]`);
+            this.setState("loading", true);
+            try {
+                await axios({
+                    method: "post",
+                    url: "/api/files/process",
+                    data,
+                    headers: {
+                        Authorization: `Bearer ${this.currentToken}`,
+                    },
+                });
+                await this.showNotification("processSuccess", "is-success");
+            } catch (er) {
+                await this.showNotification("createDirOrRenameError", "is-danger");
+            } finally {
+                this.setState("loading", false);
+                setTimeout(() => this.loadData(), 100);
+            }
             break;
         case "newFile":
             if (this.state.files.find(f => f.name === d.value)) {

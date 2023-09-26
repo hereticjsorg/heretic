@@ -64,5 +64,7 @@
     "couldNotSaveData": "Could not save data",
     "newFile": "New File",
     "fileAlreadyExists": "File already exists",
-    "unzip": "Extract archive"
+    "unzip": "Extract archive",
+    "fileIsNotZIP": "Not an archive",
+    "operationComplete": "Operation complete"
 }
