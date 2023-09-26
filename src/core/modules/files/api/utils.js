@@ -2,6 +2,9 @@
 import path from "path";
 import fs from "fs-extra";
 import moduleConfig from "../module.js";
+import {
+    isBinaryFile,
+} from "#core/lib/3rdparty/isBinaryFile.ts";
 
 const extensionsText = [
     "Makefile",
@@ -295,21 +298,11 @@ const extensionsText = [
     "zshrc",
 ];
 
-const extensionsBinary = [
-    "dds",
-    "eot",
-    "gif",
-    "ico",
-    "jar",
-    "jpeg",
-    "jpg",
-    "pdf",
-    "png",
-    "swf",
-    "tga",
-    "ttf",
-    "zip",
-];
+// const filenamesText = [
+//     "LICENSE",
+//     "CHANGELOG",
+//     "Dockerfile",
+// ];
 
 export default class {
     constructor(fastify) {
@@ -333,86 +326,26 @@ export default class {
         };
     }
 
-    getEncoding(buffer, opts) {
-        let _a;
-        let _b;
-        // Check
-        if (!buffer) return null;
-        // Prepare
-        const textEncoding = "utf8";
-        const binaryEncoding = "binary";
-        const chunkLength = (_a = opts === null || opts === void 0 ? void 0 : opts.chunkLength) !== null && _a !== void 0 ? _a : 24;
-        let chunkBegin = (_b = opts === null || opts === void 0 ? void 0 : opts.chunkBegin) !== null && _b !== void 0 ? _b : 0;
-        // Discover
-        if ((opts === null || opts === void 0 ? void 0 : opts.chunkBegin) == null) {
-            // Start
-            let encoding = this.getEncoding(buffer, {
-                chunkLength,
-                chunkBegin
-            });
-            if (encoding === textEncoding) {
-                // Middle
-                chunkBegin = Math.max(0, Math.floor(buffer.length / 2) - chunkLength);
-                encoding = this.getEncoding(buffer, {
-                    chunkLength,
-                    chunkBegin,
-                });
-                if (encoding === textEncoding) {
-                    // End
-                    chunkBegin = Math.max(0, buffer.length - chunkLength);
-                    encoding = this.getEncoding(buffer, {
-                        chunkLength,
-                        chunkBegin,
-                    });
-                }
-            }
-            // Return
-            return encoding;
-        }
-        // Extract
-        const chunkEnd = Math.min(buffer.length, chunkBegin + chunkLength);
-        const contentChunkUTF8 = buffer.toString(textEncoding, chunkBegin, chunkEnd);
-        // Detect encoding
-        for (let i = 0; i < contentChunkUTF8.length; i += 1) {
-            const charCode = contentChunkUTF8.charCodeAt(i);
-            if (charCode === 65533 || charCode <= 8) {
-                // 8 and below are control characters (e.g. backspace, null, eof, etc.)
-                // 65533 is the unknown character
-                // charCode, contentChunkUTF8[i]
-                return binaryEncoding;
-            }
-        }
-        // Return
-        return textEncoding;
-    }
-
-    isText(filename, buffer) {
-        // Test extensions
+    isText(filename) {
         if (filename) {
-            // Extract filename
-            const parts = path.basename(filename).split(".").reverse();
-            // Cycle extensions
-            for (const extension of parts) {
-                if (extensionsText.indexOf(extension) !== -1) {
-                    return true;
-                }
-                if (extensionsBinary.indexOf(extension) !== -1) {
-                    return false;
-                }
+            const ext = path.extname(filename).replace(/^\./, "");
+            if (!ext) {
+                return null;
             }
+            return extensionsText.indexOf(ext) !== -1;
         }
-        // Fallback to encoding if extension check was not enough
-        if (buffer) {
-            return this.getEncoding(buffer) === "utf8";
-        }
-        // No buffer was provided
         return null;
     }
 
-    isBinary(filename, buffer) {
-        const text = this.isText(filename, buffer);
+    async isBinary(filename) {
+        const text = this.isText(filename);
         if (text == null) {
-            return null;
+            try {
+                const bin = await isBinaryFile(filename);
+                return bin;
+            } catch {
+                return true;
+            }
         }
         return !text;
     }

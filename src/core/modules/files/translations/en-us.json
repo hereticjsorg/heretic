@@ -63,5 +63,6 @@
     "saveFileSuccess": "Saved successfully",
     "couldNotSaveData": "Could not save data",
     "newFile": "New File",
-    "fileAlreadyExists": "File already exists"
+    "fileAlreadyExists": "File already exists",
+    "unzip": "Extract archive"
 }

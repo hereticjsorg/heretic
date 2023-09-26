@@ -63,5 +63,6 @@
     "saveFileSuccess": "Сохранение прошло успешно",
     "couldNotSaveData": "Не удалось сохранить данные",
     "newFile": "Новый файл",
-    "fileAlreadyExists": "Файл уже существует"
+    "fileAlreadyExists": "Файл уже существует",
+    "unzip": "Распаковать архив"
 }

@@ -30,5 +30,9 @@ export default [{
         label: "edit",
         dir: false,
         binary: false,
+    }, {
+        id: "unzip",
+        label: "unzip",
+        ext: "zip",
     }]
 }];

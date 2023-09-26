@@ -40,13 +40,14 @@ export default () => ({
             const dirData = (await fs.readdir(dir)).filter(i => !i.match(/^\./));
             const files = [];
             for (const f of dirData) {
-                const stats = await fs.lstat(path.resolve(`${dir}/${f}`));
+                const filePath = path.resolve(`${dir}/${f}`);
+                const stats = await fs.lstat(filePath);
                 if (!stats.isFile() && !stats.isDirectory()) {
                     continue;
                 }
                 const item = {
                     name: f,
-                    ext: stats.isFile() ? path.extname(f).replace(/^\./, "") : null,
+                    ext: stats.isFile() ? path.extname(f).replace(/^\./, "").toLowerCase() : null,
                     dir: stats.isDirectory(),
                     // eslint-disable-next-line no-bitwise
                     permissions: `0${(stats.mode & 0o777).toString(8)}`,
@@ -56,8 +57,8 @@ export default () => ({
                     item.size = size.size;
                     item.sizeUnit = size.unit;
                     item.mime = f.indexOf(".") > 0 ? mime.lookup(f) || "application/octet-stream" : "application/octet-stream";
-                    if ((f.indexOf(".") > 0 && utils.isBinary(f)) || stats.size > moduleConfig.maxFileEditSizeBytes) {
-                        data.binary = true;
+                    if ((await utils.isBinary(filePath)) || stats.size > moduleConfig.maxFileEditSizeBytes) {
+                        item.binary = true;
                     }
                 }
                 files.push(item);
