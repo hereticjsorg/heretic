@@ -24,9 +24,11 @@ export default [{
     icon: mdiChevronDown,
     menu: [{
         id: "rename",
-        label: "rename"
+        label: "rename",
     }, {
         id: "edit",
-        label: "edit"
+        label: "edit",
+        dir: false,
+        binary: false,
     }]
 }];
