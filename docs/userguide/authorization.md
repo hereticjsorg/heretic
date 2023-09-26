@@ -8,7 +8,7 @@ Heretic account:
 3. Use the credentials below to log in:
 + Login: admin
 + Password: password
-
+![Alt text](image-1.png)
 To authorize via Google account you need:
 1. Proceed to http://127.0.0.1:3001.
 2. Choose "Sign in" option in the right upper corner by clicking the profile icon.

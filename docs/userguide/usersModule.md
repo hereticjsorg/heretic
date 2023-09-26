@@ -3,7 +3,7 @@
 User tab functionality allows to get the list of users who're registered in the system and data regarding each entry.
 
 Admin can use his tab to create new user, delete or sort the existent entries by filtering, as well as export the search results to Excel file.
-
+![Alt text](image.png)
 Creating new user:
 1. Click "Add user" button in the upper side of the screen.
 2. Fill up the data in each field accordingly: username (their name in the system), user's active status (switched by pressing the check icon, binary), displayed name(the name which will get shown instead of username where aplicable), Email of the new user, password, and choosing the group (by clicking "add" button).
