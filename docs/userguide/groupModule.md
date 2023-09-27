@@ -4,8 +4,10 @@ Groups tab allow the admin to manage user groups they belong to, create new grou
 
 To create a new group:
 1. Click "Add Group" button.
+![Alt text](image-8.png)
 2. Enter the new group's name in the field.
 3. Click "+Add" button to adjust the group type: Personal Data Access, Site Administrator, Comment.
+![Alt text](image-7.png)
 4. Choose the value (boolean, true or false).
 5. Click "Save" button to apply changes.
 
@@ -14,6 +16,7 @@ Your new created group should appear in the list. You can assign users to it at 
 To delete the group, you should perform the steps below:
 1. Choose the one or several entries you want to delete.
 2. Click "Delete" button in the upper side of the page.
+![Alt text](deleteConfirmationWindow.JPG)
 3. Click "Yes" on the confirmation window.
 
 The button "Reload" on User tab will allow you to refresh te page to see the changes made to the list.
