@@ -1,3 +1,14 @@
+## v1.1.104
+
+**fileMaster tab + screenshots + basic functional desc** (2023-09-27)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| iliaasokolov<br/>142392887+iliaasokolov@users.noreply.github.com | 2023-08-25 | Create UserGuide.md |
+| iliaasokolov<br/>142392887+iliaasokolov@users.noreply.github.com | 2023-08-30 | structure+content fix |
+| iliaasokolov<br/>142392887+iliaasokolov@users.noreply.github.com | 2023-09-26 | fileManager instruction + pictures |
+
+
 ## v1.1.103
 
 **Bugfixes** (2023-09-25)
