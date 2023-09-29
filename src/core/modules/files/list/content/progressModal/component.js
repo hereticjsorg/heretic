@@ -73,7 +73,10 @@ export default class {
 
     async show(id) {
         this.setState("id", id);
+        this.setState("status", null);
         this.setState("active", true);
+        this.setState("mode", null);
+        this.setState("count", null);
         this.setState("cancelClickCount", 0);
         this.getData();
     }

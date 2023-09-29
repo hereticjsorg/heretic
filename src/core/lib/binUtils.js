@@ -2,7 +2,6 @@ const fs = require("fs-extra");
 const path = require("path");
 const crypto = require("crypto");
 const cliProgress = require("cli-progress");
-const unzip = require("unzip-stream");
 const zlib = require("zlib");
 const argon2 = require("argon2");
 const {
@@ -18,6 +17,7 @@ const {
 const {
     format,
 } = require("date-fns");
+const unzip = require("#lib/3rdparty/unzip-stream/unzip.js");
 const Color = require("./color");
 const filesData = require("#bin/data/files.json");
 const directoriesData = require("#bin/data/directories.json");

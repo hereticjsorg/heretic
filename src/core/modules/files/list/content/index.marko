@@ -178,8 +178,10 @@ import actions from "./actions.js"
                                             </div>
                                             <div class="dropdown-menu" id=`hr_fs_dropdown_${action.id + item.name}` role="menu">
                                                 <div class="dropdown-content">
-                                                    <for|item| of=action.menu>
-                                                        <a href="#" class="dropdown-item" data-id=item.id>${process.browser ? window.__heretic.t(item.label) : item.label}</a>
+                                                    <for|actionMenuItem| of=action.menu>
+                                                        <if((actionMenuItem.dir !== false || (actionMenuItem.dir === false && !item.dir)) && (actionMenuItem.binary !== false || (actionMenuItem.binary === false && !item.binary)) && (!actionMenuItem.ext || actionMenuItem.ext === item.ext))>
+                                                            <a href="#" class="dropdown-item" data-id=actionMenuItem.id>${process.browser ? window.__heretic.t(actionMenuItem.label) : actionMenuItem.label}</a>
+                                                        </if>
                                                     </for>
                                                 </div>
                                             </div>
