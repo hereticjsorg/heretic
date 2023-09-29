@@ -1,3 +1,13 @@
+## v1.1.106
+
+**Bugfixes** (2023-09-29)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-09-29 | Fixed binary file detection |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-09-29 | Rename "UserGuide.md" |
+
+
 ## v1.1.105
 
 **File Manager work-in-progress, bugfixes** (2023-09-29)
