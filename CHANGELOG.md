@@ -1,3 +1,22 @@
+## v1.1.105
+
+**File Manager work-in-progress, bugfixes** (2023-09-29)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-09-25 | Update form.md |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-09-26 |  File Manager work-in-progress |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-09-26 | Added isBinaryFile library |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-09-26 | Files Module work-in-progress |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-09-26 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-09-29 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-09-29 | Typos fixed |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-09-29 | Added unzip-stream as 3rd-party library |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-09-29 | Files Module work-in-progress |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-09-29 | Added binary module |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-09-29 | Update binUtils.js |
+
+
 ## v1.1.104
 
 **fileMaster tab + screenshots + basic functional desc** (2023-09-27)
