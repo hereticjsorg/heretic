@@ -239,6 +239,7 @@ import actions from "./actions.js"
         </section>
     </hmodal>
     <editorModal key="editorModal" on-save("onFileSave") on-hide("onEditorModalHide")/>
+    <archiveModal key="archiveModal" on-data("onArchiveModalData") on-notification("onNotification")/>
 </if>
 <if(!state.ready && !state.failed)>
     <!-- <hloading active=true/> -->

@@ -1,0 +1,71 @@
+<if(state.ready && state.active)>
+    <div class="modal is-active hr-am-modal">
+        <div class="modal-background" on-click("hide")/>
+        <div class="modal-card">
+            <header class="modal-card-head p-3">
+                <t class="modal-card-title is-3 has-text-weight-light">archive</t>
+            </header>
+            <section class="modal-card-body p-3">
+                <form on-submit("onSubmit")>
+                    <div class="columns p-0 m-0">
+                        <div class="column m-0 p-0 is-narrow pr-2">
+                            <div class="field">
+                                <label class="label hr-am-label">
+                                    <t>format</t>:
+                                </label>
+                                <div class="control">
+                                    <div class="select">
+                                        <select on-change("onFormatChange")>
+                                            <option selected=(state.format === "zip") value="zip">ZIP</option>
+                                            <option selected=(state.format === "tar") value="tar">TAR</option>
+                                            <option selected=(state.format === "gzip") value="gzip">GZIP</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <if(state.format === "zip" || state.format === "gzip")>
+                            <div class="column m-0 p-0 is-narrow pr-2">
+                                <div class="field">
+                                    <label class="label hr-am-label">
+                                        <t>compressionLevel</t>:
+                                    </label>
+                                    <div class="control">
+                                        <div class="select">
+                                            <select on-change("onCompressionLevelChange")>
+                                                <for|level| of=[...Array.from(Array(10), (_, x) => x)]>
+                                                    <option selected=(state.compressionLevel === level) value=level>${level}${level === 0 ? (process.browser ? ` (${window.__heretic.t("compressionLowest")})` : "") : ""}${level === 9 ? (process.browser ? ` (${window.__heretic.t("compressionHighest")})` : "") : ""}</option>
+                                                </for>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </if>
+                        <div class="column m-0 p-0">
+                            <div class="field">
+                                <label class="label hr-am-label">
+                                    <t>filename</t>:<span class="hr-am-label-mandatory">✱</span>
+                                </label>
+                                <div class="control">
+                                    <input class=`input${state.error ? " is-danger" : ""}` type="text" id="hr_nm_value" value=state.value on-change("onValueChange")/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <t class="has-text-weight-semibold">filesToArchive</t>:&nbsp;${state.files.slice(0, 19).join(", ")}${state.files.length > 20 ? ` … (${state.files.length})` : ""}
+                    </div>
+                </form> 
+            </section>
+            <footer class="modal-card-foot hr-am-foot p-3">
+                <button class="button is-primary" on-click("onSubmit")>
+                    <t>create</t>
+                </button>
+                <button class="button is-light" on-click("hide")>
+                    <t>cancel</t>
+                </button>
+            </footer>
+        </div>
+    </div>
+</if>

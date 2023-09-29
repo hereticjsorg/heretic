@@ -23,6 +23,7 @@ export default class {
                 cut: true,
                 copy: true,
                 delete: true,
+                archive: true,
                 paste: true,
             },
             checked: [],
@@ -98,6 +99,7 @@ export default class {
             disabled.copy = true;
             disabled.cut = true;
             disabled.delete = true;
+            disabled.archive = true;
             if (dir !== null) {
                 this.setState("dir", dir);
                 disabled.dirUp = !dir.length;
@@ -200,6 +202,7 @@ export default class {
             disabled.copy = !checkedData.length;
             disabled.cut = !checkedData.length;
             disabled.delete = !checkedData.length;
+            disabled.archive = !checkedData.length;
             this.setState("disabled", disabled);
             return;
         }
@@ -357,6 +360,10 @@ export default class {
             await this.utils.waitForComponent("nameModal");
             this.getComponent("nameModal").show(window.__heretic.t("newDir"), "", "newDir");
             break;
+        case "archive":
+            await this.utils.waitForComponent("archiveModal");
+            this.getComponent("archiveModal").show(this.state.checked);
+            break;
         case "newFile":
             await this.utils.waitForComponent("nameModal");
             this.getComponent("nameModal").show(window.__heretic.t("newFile"), "", "newFile");
@@ -436,6 +443,7 @@ export default class {
         disabled.copy = !checkedData.length;
         disabled.cut = !checkedData.length;
         disabled.delete = !checkedData.length;
+        disabled.archive = !checkedData.length;
         this.setState("disabled", disabled);
     }
 
@@ -604,5 +612,10 @@ export default class {
         } finally {
             this.setState("loading", false);
         }
+    }
+
+    onArchiveModalData(d) {
+        // eslint-disable-next-line no-console
+        console.log(d);
     }
 }
