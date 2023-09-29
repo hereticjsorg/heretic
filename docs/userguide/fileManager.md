@@ -39,6 +39,6 @@ To the left upper corner, there is a toolbar located for managing the table, as 
 2. Select one or several files stored on your PC.
 3. Click on "Submit" button.
 
-# To delete the file:
+# To delete the file or folder:
 1. Choose the file from the tree by marking it, and click on the ![!\[Alt text\](toolbarUpload.JPG)](toolbarDelete.JPG) "Delete" button at the toolbar, or at "Controls" tab.
 2. Click on "Submit" button in the appearing window.
