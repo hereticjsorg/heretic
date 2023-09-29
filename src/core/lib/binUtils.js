@@ -17,7 +17,7 @@ const {
 const {
     format,
 } = require("date-fns");
-const unzip = require("#lib/3rdparty/unzip-stream/unzip");
+const unzip = require("#lib/3rdparty/unzip-stream/unzip.js");
 const Color = require("./color");
 const filesData = require("#bin/data/files.json");
 const directoriesData = require("#bin/data/directories.json");
