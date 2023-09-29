@@ -1,3 +1,15 @@
+## v1.1.107
+
+**Users + group tab revamp (adjustment + scrns)** (2023-09-29)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| iliaasokolov<br/>142392887+iliaasokolov@users.noreply.github.com | 2023-09-27 | Users + group tab revamp (adjustment + scrns) |
+| iliaasokolov<br/>142392887+iliaasokolov@users.noreply.github.com | 2023-09-27 | userTab + groupsTab revamp (screenshots + adj) |
+| iliaasokolov<br/>142392887+iliaasokolov@users.noreply.github.com | 2023-09-27 | groupTab + usersTab revamp(pre-final)<br/>Adjustment of contents + screenshots |
+| iliaasokolov<br/>142392887+iliaasokolov@users.noreply.github.com | 2023-09-28 | sessionsTab revamp |
+
+
 ## v1.1.106
 
 **Bugfixes** (2023-09-29)
