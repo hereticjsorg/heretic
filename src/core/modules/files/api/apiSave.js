@@ -37,7 +37,7 @@ export default () => ({
             } catch {
                 // Ignore
             }
-            if (stats && (!stats.isFile() || utils.isBinary(requestData.filename) || stats.size > moduleConfig.maxFileEditSizeBytes)) {
+            if (stats && (!stats.isFile() || await (utils.isBinary(requestData.filename)) || stats.size > moduleConfig.maxFileEditSizeBytes)) {
                 return rep.error({
                     message: "Not a file or is not editable",
                 });

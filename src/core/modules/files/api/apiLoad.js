@@ -32,7 +32,7 @@ export default () => ({
                 });
             }
             const stats = await fs.lstat(filePath);
-            if (!stats.isFile() || utils.isBinary(requestData.filename) || stats.size > moduleConfig.maxFileEditSizeBytes) {
+            if (!stats.isFile() || await (utils.isBinary(requestData.filename)) || stats.size > moduleConfig.maxFileEditSizeBytes) {
                 return rep.error({
                     message: "Not a file or is not editable",
                 });
