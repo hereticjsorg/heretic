@@ -1,4 +1,6 @@
 import fs from "fs-extra";
+import path from "path";
+import unzip from "#lib/3rdparty/unzip-stream/unzip";
 import FormData from "../data/process";
 import FormValidator from "#lib/formValidatorServer";
 import moduleConfig from "../module.js";
@@ -207,6 +209,119 @@ export default () => ({
                 });
                 return rep.code(200).send({
                     id: jobIdDelete.toString(),
+                });
+            case "unzip":
+                const unzipSrcDirPath = utils.getPath(requestData.srcDir);
+                if (!(await utils.fileExists(unzipSrcDirPath))) {
+                    return rep.error({
+                        message: "Invalid directory",
+                    });
+                }
+                if (!requestData.srcFile) {
+                    return rep.error({
+                        message: "Invalid parameters",
+                    });
+                }
+                const unzipSrcPath = utils.getPath(`${requestData.srcDir}/${requestData.srcFile}`);
+                if (!(await utils.fileExists(unzipSrcPath))) {
+                    return rep.error({
+                        message: "File doesn't exist",
+                    });
+                }
+                const queueItemUnzip = await this.mongo.db.collection(this.systemConfig.collections.jobs).insertOne({
+                    updatedAt: new Date(),
+                    userId: authData._id,
+                    module: moduleConfig.id,
+                    mode: "unzip",
+                    status: "new",
+                });
+                const jobIdUnzip = queueItemUnzip.insertedId;
+                setTimeout(async () => {
+                    let count = 0;
+                    const jobData = await this.mongo.db.collection(this.systemConfig.collections.jobs).findOneAndUpdate({
+                        _id: jobIdUnzip,
+                    }, {
+                        $set: {
+                            updatedAt: new Date(),
+                            status: "processing",
+                        },
+                    });
+                    if (!jobData || jobData.status === "cancelled") {
+                        return;
+                    }
+                    try {
+                        fs.createReadStream(unzipSrcPath).pipe(unzip.Parse())
+                            .on("entry", async entry => {
+                                const jobDataFile = this.mongo.db.collection(this.systemConfig.collections.jobs).findOne({
+                                    _id: jobIdUnzip,
+                                });
+                                if (!jobDataFile || jobDataFile.status === "cancelled") {
+                                    entry.autodrain();
+                                    return;
+                                }
+                                const {
+                                    type,
+                                    path: entryPath,
+                                } = entry;
+                                const filePath = path.resolve(`${unzipSrcDirPath}/${entryPath}`);
+                                if (type === "Directory") {
+                                    await fs.ensureDir(filePath);
+                                    entry.autodrain();
+                                    return;
+                                }
+                                const entryDirName = path.dirname(filePath);
+                                await fs.ensureDir(entryDirName);
+                                if (!this.systemConfig.demo) {
+                                    entry.pipe(fs.createWriteStream(filePath));
+                                } else {
+                                    entry.autodrain();
+                                }
+                                count += 1;
+                                await this.mongo.db.collection(this.systemConfig.collections.jobs).updateOne({
+                                    _id: jobIdUnzip,
+                                }, {
+                                    $set: {
+                                        updatedAt: new Date(),
+                                        count,
+                                    },
+                                });
+                            })
+                            .on("close", () => {
+                                this.mongo.db.collection(this.systemConfig.collections.jobs).updateOne({
+                                    _id: jobIdUnzip,
+                                }, {
+                                    $set: {
+                                        updatedAt: new Date(),
+                                        status: jobData.status === "cancelled" ? "cancelled" : "complete",
+                                        count,
+                                    },
+                                });
+                            })
+                            .on("reject", () => {
+                                this.mongo.db.collection(this.systemConfig.collections.jobs).updateOne({
+                                    _id: jobIdUnzip,
+                                }, {
+                                    $set: {
+                                        updatedAt: new Date(),
+                                        status: "error",
+                                        message: null,
+                                    },
+                                });
+                            });
+                    } catch (e) {
+                        await this.mongo.db.collection(this.systemConfig.collections.jobs).updateOne({
+                            _id: jobIdUnzip,
+                        }, {
+                            $set: {
+                                updatedAt: new Date(),
+                                status: "error",
+                                message: e.message,
+                            },
+                        });
+                    }
+                });
+                return rep.code(200).send({
+                    id: jobIdUnzip.toString(),
                 });
             }
             return rep.code(200).send({

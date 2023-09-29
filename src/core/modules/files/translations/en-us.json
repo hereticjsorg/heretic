@@ -66,5 +66,6 @@
     "fileAlreadyExists": "File already exists",
     "unzip": "Extract archive",
     "fileIsNotZIP": "Not an archive",
-    "operationComplete": "Operation complete"
+    "operationComplete": "Operation complete",
+    "state_unzip": "extracting ZIP archive"
 }

@@ -10,7 +10,7 @@ export default class {
                         type: "text",
                         validation: {
                             type: ["string"],
-                            enum: ["copy", "move", "delete", "rename", "newDir"]
+                            enum: ["copy", "move", "delete", "rename", "newDir", "unzip"]
                         },
                     },
                     {
