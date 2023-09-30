@@ -98,6 +98,8 @@
         "systeminformation",
         "taskkill",
         "Totp",
+        "untar",
+        "untgz",
         "unzipper",
         "urijs",
         "urlset",
