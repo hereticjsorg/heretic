@@ -1,5 +1,10 @@
 import fs from "fs-extra";
 import path from "path";
+import archiver from "archiver";
+import throttle from "lodash.throttle";
+import zlib from "node:zlib";
+import tar from "tar";
+import stream from "stream";
 import unzip from "#lib/3rdparty/unzip-stream/unzip";
 import FormData from "../data/process";
 import FormValidator from "#lib/formValidatorServer";
@@ -8,6 +13,18 @@ import Utils from "./utils";
 
 export default () => ({
     async handler(req, rep) {
+        const updateJob = async (jobId, data) => {
+            this.mongo.db.collection(this.systemConfig.collections.jobs).findOneAndUpdate({
+                _id: jobId,
+            }, {
+                $set: data,
+            });
+        };
+        const updateJobThrottled = throttle((jobId, data) => updateJob(jobId, data), 900);
+        const findJob = async jobId => this.mongo.db.collection(this.systemConfig.collections.jobs).findOne({
+            _id: jobId,
+        });
+        const insertJob = async data => this.mongo.db.collection(this.systemConfig.collections.jobs).insertOne(data);
         const utils = new Utils(this);
         const formData = new FormData();
         const formValidator = new FormValidator(formData.getValidationSchema(), formData.getFieldsFlat(), this);
@@ -67,7 +84,7 @@ export default () => ({
                         });
                     }
                 }
-                const queueItemCopy = await this.mongo.db.collection(this.systemConfig.collections.jobs).insertOne({
+                const queueItemCopy = await insertJob({
                     updatedAt: new Date(),
                     userId: authData._id,
                     module: moduleConfig.id,
@@ -76,21 +93,22 @@ export default () => ({
                 });
                 const jobIdCopy = queueItemCopy.insertedId;
                 setTimeout(async () => {
-                    let count = 0;
                     try {
+                        await updateJob(jobIdCopy, {
+                            updatedAt: new Date(),
+                            status: "processing",
+                        });
+                        let cancelled = false;
+                        let count = 0;
                         for (const copyFile of requestData.files) {
-                            const jobData = await this.mongo.db.collection(this.systemConfig.collections.jobs).findOneAndUpdate({
-                                _id: jobIdCopy,
-                            }, {
-                                $set: {
-                                    updatedAt: new Date(),
-                                    status: "processing",
-                                },
-                            });
+                            if (cancelled) {
+                                continue;
+                            }
+                            const jobData = await findJob(jobIdCopy);
                             if (!jobData || jobData.status === "cancelled") {
+                                cancelled = true;
                                 break;
                             }
-                            let cancelled = false;
                             if (requestData.action === "copy") {
                                 await fs.copy(utils.getPath(`${requestData.srcDir}/${copyFile}`), utils.getPath(`${requestData.destDir}/${copyFile}`), {
                                     // eslint-disable-next-line no-loop-func
@@ -99,17 +117,15 @@ export default () => ({
                                         if (cancelled) {
                                             return false;
                                         }
-                                        const jobDataFile = await this.mongo.db.collection(this.systemConfig.collections.jobs).findOneAndUpdate({
-                                            _id: jobIdCopy,
-                                        }, {
-                                            $set: {
-                                                updatedAt: new Date(),
-                                                count,
-                                            },
-                                        });
+                                        const jobDataFile = await findJob(jobIdCopy);
                                         if (!jobDataFile || jobDataFile.status === "cancelled") {
                                             cancelled = true;
+                                            return false;
                                         }
+                                        await updateJobThrottled(jobIdCopy, {
+                                            updatedAt: new Date(),
+                                            count,
+                                        });
                                         return !this.systemConfig.demo;
                                     },
                                 });
@@ -118,26 +134,22 @@ export default () => ({
                                 if (!this.systemConfig.demo) {
                                     await fs.move(utils.getPath(`${requestData.srcDir}/${copyFile}`), utils.getPath(`${requestData.destDir}/${copyFile}`));
                                 }
-                            }
-                            await this.mongo.db.collection(this.systemConfig.collections.jobs).updateOne({
-                                _id: jobIdCopy,
-                            }, {
-                                $set: {
+                                await updateJobThrottled(jobIdCopy, {
                                     updatedAt: new Date(),
-                                    status: (cancelled || jobData.status === "cancelled") ? "cancelled" : "complete",
                                     count,
-                                },
-                            });
+                                });
+                            }
                         }
+                        const jobData = await findJob(jobIdCopy);
+                        await updateJob(jobIdCopy, {
+                            updatedAt: new Date(),
+                            status: jobData.status === "cancelled" ? "cancelled" : "complete",
+                        });
                     } catch (e) {
-                        await this.mongo.db.collection(this.systemConfig.collections.jobs).updateOne({
-                            _id: jobIdCopy,
-                        }, {
-                            $set: {
-                                updatedAt: new Date(),
-                                status: "error",
-                                message: e.message,
-                            },
+                        await updateJob(jobIdCopy, {
+                            updatedAt: new Date(),
+                            status: "error",
+                            message: e.message,
                         });
                     }
                 });
@@ -169,15 +181,12 @@ export default () => ({
                 setTimeout(async () => {
                     let count = 0;
                     try {
+                        await updateJob(jobIdDelete, {
+                            status: "processing",
+                            updatedAt: new Date(),
+                        });
                         for (const deleteFile of requestData.files) {
-                            const jobData = await this.mongo.db.collection(this.systemConfig.collections.jobs).findOneAndUpdate({
-                                _id: jobIdDelete,
-                            }, {
-                                $set: {
-                                    updatedAt: new Date(),
-                                    status: "processing",
-                                },
-                            });
+                            const jobData = await findJob(jobIdDelete);
                             if (!jobData || jobData.status === "cancelled") {
                                 break;
                             }
@@ -185,25 +194,21 @@ export default () => ({
                             if (!this.systemConfig.demo) {
                                 await fs.remove(utils.getPath(`${requestData.srcDir}/${deleteFile}`));
                             }
-                            await this.mongo.db.collection(this.systemConfig.collections.jobs).updateOne({
-                                _id: jobIdDelete,
-                            }, {
-                                $set: {
-                                    updatedAt: new Date(),
-                                    status: jobData.status === "cancelled" ? "cancelled" : "complete",
-                                    count,
-                                },
+                            await updateJobThrottled(jobIdDelete, {
+                                updatedAt: new Date(),
+                                count,
                             });
                         }
+                        const jobData = await findJob(jobIdDelete);
+                        await updateJob(jobIdDelete, {
+                            updatedAt: new Date(),
+                            status: jobData.status === "cancelled" ? "cancelled" : "complete",
+                        });
                     } catch (e) {
-                        await this.mongo.db.collection(this.systemConfig.collections.jobs).updateOne({
-                            _id: jobIdDelete,
-                        }, {
-                            $set: {
-                                updatedAt: new Date(),
-                                status: "error",
-                                message: e.message,
-                            },
+                        await updateJob(jobIdDelete, {
+                            updatedAt: new Date(),
+                            status: "error",
+                            message: e.message,
                         });
                     }
                 });
@@ -238,25 +243,22 @@ export default () => ({
                 const jobIdUnzip = queueItemUnzip.insertedId;
                 setTimeout(async () => {
                     let count = 0;
-                    const jobData = await this.mongo.db.collection(this.systemConfig.collections.jobs).findOneAndUpdate({
-                        _id: jobIdUnzip,
-                    }, {
-                        $set: {
-                            updatedAt: new Date(),
-                            status: "processing",
-                        },
+                    let cancelled = false;
+                    await updateJob(jobIdUnzip, {
+                        updatedAt: new Date(),
+                        status: "processing",
                     });
-                    if (!jobData || jobData.status === "cancelled") {
-                        return;
-                    }
                     try {
                         fs.createReadStream(unzipSrcPath).pipe(unzip.Parse())
                             .on("entry", async entry => {
-                                const jobDataFile = this.mongo.db.collection(this.systemConfig.collections.jobs).findOne({
-                                    _id: jobIdUnzip,
-                                });
+                                if (cancelled) {
+                                    entry.autodrain();
+                                    return;
+                                }
+                                const jobDataFile = findJob(jobIdUnzip);
                                 if (!jobDataFile || jobDataFile.status === "cancelled") {
                                     entry.autodrain();
+                                    cancelled = true;
                                     return;
                                 }
                                 const {
@@ -265,63 +267,275 @@ export default () => ({
                                 } = entry;
                                 const filePath = path.resolve(`${unzipSrcDirPath}/${entryPath}`);
                                 if (type === "Directory") {
-                                    await fs.ensureDir(filePath);
+                                    if (!this.systemConfig.demo) {
+                                        await fs.ensureDir(filePath);
+                                    }
                                     entry.autodrain();
                                     return;
                                 }
                                 const entryDirName = path.dirname(filePath);
-                                await fs.ensureDir(entryDirName);
                                 if (!this.systemConfig.demo) {
+                                    await fs.ensureDir(entryDirName);
                                     entry.pipe(fs.createWriteStream(filePath));
                                 } else {
                                     entry.autodrain();
                                 }
                                 count += 1;
-                                await this.mongo.db.collection(this.systemConfig.collections.jobs).updateOne({
-                                    _id: jobIdUnzip,
-                                }, {
-                                    $set: {
-                                        updatedAt: new Date(),
-                                        count,
-                                    },
+                                await updateJobThrottled(jobIdUnzip, {
+                                    updatedAt: new Date(),
+                                    count,
                                 });
                             })
-                            .on("close", () => {
-                                this.mongo.db.collection(this.systemConfig.collections.jobs).updateOne({
-                                    _id: jobIdUnzip,
-                                }, {
-                                    $set: {
-                                        updatedAt: new Date(),
-                                        status: jobData.status === "cancelled" ? "cancelled" : "complete",
-                                        count,
-                                    },
+                            .on("close", async () => {
+                                const jobDataFile = await findJob(jobIdUnzip);
+                                await updateJob(jobIdUnzip, {
+                                    updatedAt: new Date(),
+                                    status: jobDataFile.status === "cancelled" || cancelled ? "cancelled" : "complete",
                                 });
                             })
                             .on("reject", () => {
-                                this.mongo.db.collection(this.systemConfig.collections.jobs).updateOne({
-                                    _id: jobIdUnzip,
-                                }, {
-                                    $set: {
-                                        updatedAt: new Date(),
-                                        status: "error",
-                                        message: null,
-                                    },
+                                updateJob(jobIdUnzip, {
+                                    updatedAt: new Date(),
+                                    status: "error",
+                                    message: null,
                                 });
                             });
                     } catch (e) {
-                        await this.mongo.db.collection(this.systemConfig.collections.jobs).updateOne({
-                            _id: jobIdUnzip,
-                        }, {
-                            $set: {
-                                updatedAt: new Date(),
-                                status: "error",
-                                message: e.message,
-                            },
+                        updateJob(jobIdUnzip, {
+                            updatedAt: new Date(),
+                            status: "error",
+                            message: e.message,
                         });
                     }
                 });
                 return rep.code(200).send({
                     id: jobIdUnzip.toString(),
+                });
+            case "archive":
+                const archiveSrcDirPath = utils.getPath(requestData.srcDir);
+                if (!(await utils.fileExists(archiveSrcDirPath))) {
+                    return rep.error({
+                        message: "Invalid directory",
+                    });
+                }
+                if (!requestData.destFile || !requestData.compressionFormat || typeof requestData.compressionLevel !== "number") {
+                    return rep.error({
+                        message: "Invalid parameters",
+                    });
+                }
+                for (const file of requestData.files) {
+                    if (!(await utils.fileExists(utils.getPath(`${requestData.srcDir}/${file}`)))) {
+                        return rep.error({
+                            message: "One or more files or folders could not be found",
+                        });
+                    }
+                }
+                const archiveDestPath = utils.getPath(`${requestData.srcDir}/${requestData.destFile}.${requestData.compressionFormat}`);
+                const queueItemArchive = await this.mongo.db.collection(this.systemConfig.collections.jobs).insertOne({
+                    updatedAt: new Date(),
+                    userId: authData._id,
+                    module: moduleConfig.id,
+                    mode: "archive",
+                    status: "new",
+                });
+                const jobIdArchive = queueItemArchive.insertedId;
+                setTimeout(async () => {
+                    await updateJob(jobIdArchive, {
+                        updatedAt: new Date(),
+                        status: "processing",
+                    });
+                    try {
+                        const format = requestData.compressionFormat === "tgz" ? "tar" : requestData.compressionFormat;
+                        const archive = archiver(format, {
+                            zlib: {
+                                level: requestData.compressionLevel,
+                            },
+                            gzip: {
+                                level: requestData.compressionLevel,
+                            },
+                        });
+                        const archiveOutput = fs.createWriteStream(archiveDestPath);
+                        archive.pipe(archiveOutput);
+                        archiveOutput.on("error", e => {
+                            updateJob(jobIdArchive, {
+                                updatedAt: new Date(),
+                                status: "error",
+                                message: e.message,
+                            });
+                        });
+                        archiveOutput.on("close", async () => {
+                            const jobData = await findJob(jobIdArchive);
+                            await updateJob(jobIdArchive, {
+                                updatedAt: new Date(),
+                                status: jobData.status === "cancelled" ? "cancelled" : "complete",
+                            });
+                        });
+                        archive.on("progress", async progressData => {
+                            const jobDataFile = await findJob(jobIdArchive);
+                            if (!jobDataFile || jobDataFile.status === "cancelled") {
+                                archive.abort();
+                                return;
+                            }
+                            updateJobThrottled(jobIdArchive, {
+                                updatedAt: new Date(),
+                                count: progressData.entries.processed,
+                            });
+                        });
+                        archive.on("error", e => {
+                            updateJob(jobIdArchive, {
+                                updatedAt: new Date(),
+                                status: "error",
+                                message: e.message,
+                            });
+                        });
+                        for (const file of requestData.files) {
+                            const jobDataFile = await findJob(jobIdArchive);
+                            if (!jobDataFile || jobDataFile.status === "cancelled") {
+                                break;
+                            }
+                            const archiveFilePath = utils.getPath(`${requestData.srcDir}/${file}`);
+                            const archiveFileStat = await fs.lstat(archiveFilePath);
+                            if (archiveFileStat.isDirectory()) {
+                                archive.directory(archiveFilePath, file);
+                            } else {
+                                archive.append(fs.createReadStream(archiveFilePath), {
+                                    name: file,
+                                });
+                            }
+                        }
+                        archive.finalize();
+                    } catch (e) {
+                        updateJob(jobIdArchive, {
+                            updatedAt: new Date(),
+                            status: "error",
+                            message: e.message,
+                        });
+                    }
+                });
+                return rep.code(200).send({
+                    id: jobIdArchive.toString(),
+                });
+            case "untar":
+                const untarSrcDirPath = utils.getPath(requestData.srcDir);
+                if (!(await utils.fileExists(untarSrcDirPath))) {
+                    return rep.error({
+                        message: "Invalid directory",
+                    });
+                }
+                if (!requestData.srcFile) {
+                    return rep.error({
+                        message: "Invalid parameters",
+                    });
+                }
+                const untarSrcPath = utils.getPath(`${requestData.srcDir}/${requestData.srcFile}`);
+                if (!(await utils.fileExists(untarSrcPath))) {
+                    return rep.error({
+                        message: "File doesn't exist",
+                    });
+                }
+                const queueItemUntar = await this.mongo.db.collection(this.systemConfig.collections.jobs).insertOne({
+                    updatedAt: new Date(),
+                    userId: authData._id,
+                    module: moduleConfig.id,
+                    mode: "untar",
+                    status: "new",
+                });
+                const jobIdUntar = queueItemUntar.insertedId;
+                setTimeout(async () => {
+                    let count = 0;
+                    let cancelled = false;
+                    await updateJob(jobIdUntar, {
+                        updatedAt: new Date(),
+                        status: "processing",
+                    });
+                    try {
+                        fs.createReadStream(untarSrcPath)
+                            .pipe(zlib.Unzip())
+                            .pipe(new tar.Parse())
+                            .on("entry", async entry => {
+                                if (cancelled) {
+                                    // Drain
+                                    entry.pipe(new stream.Transform({
+                                        transform(d, e, cb) {
+                                            cb();
+                                        }
+                                    }));
+                                    return;
+                                }
+                                const jobDataFile = findJob(jobIdUntar);
+                                if (!jobDataFile || jobDataFile.status === "cancelled") {
+                                    cancelled = true;
+                                    // Drain
+                                    entry.pipe(new stream.Transform({
+                                        transform(d, e, cb) {
+                                            cb();
+                                        }
+                                    }));
+                                    return;
+                                }
+                                const {
+                                    type,
+                                    path: entryPath,
+                                } = entry;
+                                const filePath = path.resolve(`${untarSrcDirPath}/${entryPath}`);
+                                if (type === "Directory") {
+                                    if (!this.systemConfig.demo) {
+                                        await fs.ensureDir(filePath);
+                                    }
+                                    // Drain
+                                    entry.pipe(new stream.Transform({
+                                        transform(d, e, cb) {
+                                            cb();
+                                        }
+                                    }));
+                                    return;
+                                }
+                                const entryDirName = path.dirname(filePath);
+                                if (!this.systemConfig.demo) {
+                                    await fs.ensureDir(entryDirName);
+                                    entry.pipe(fs.createWriteStream(filePath));
+                                } else {
+                                    // Drain
+                                    entry.pipe(new stream.Transform({
+                                        transform(d, e, cb) {
+                                            cb();
+                                        }
+                                    }));
+                                }
+                                count += 1;
+                                await updateJobThrottled(jobIdUntar, {
+                                    updatedAt: new Date(),
+                                    count,
+                                });
+                            })
+                            .on("end", async () => {
+                                const jobDataFile = await findJob(jobIdUntar);
+                                await updateJob(jobIdUntar, {
+                                    updatedAt: new Date(),
+                                    status: jobDataFile.status === "cancelled" || cancelled ? "cancelled" : "complete",
+                                });
+                            })
+                            .on("error", e => {
+                                // eslint-disable-next-line no-console
+                                console.log(e);
+                                updateJob(jobIdUntar, {
+                                    updatedAt: new Date(),
+                                    status: "error",
+                                    message: e.message,
+                                });
+                            });
+                    } catch (e) {
+                        // eslint-disable-next-line no-console
+                        console.log(e);
+                        updateJob(jobIdUntar, {
+                            updatedAt: new Date(),
+                            status: "error",
+                            message: e.message,
+                        });
+                    }
+                });
+                return rep.code(200).send({
+                    id: jobIdUntar.toString(),
                 });
             }
             return rep.code(200).send({

@@ -69,7 +69,7 @@ export default class {
             return;
         }
         this.emit("data", {
-            value,
+            filename: value,
             format: this.state.format,
             compressionLevel: this.state.compressionLevel,
         });

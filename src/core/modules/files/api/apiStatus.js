@@ -29,7 +29,9 @@ export default () => ({
                 jobData.id = String(jobData._id);
                 delete jobData._id;
             }
-            return rep.code(200).send(jobData || {});
+            return rep.code(200).send(jobData || {
+                status: "cancelled",
+            });
         } catch (e) {
             this.log.error(e);
             return Promise.reject(e);

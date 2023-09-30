@@ -64,5 +64,5 @@
     "couldNotSaveData": "Daten konnten nicht gespeichert werden",
     "newFile": "Neue Datei",
     "fileAlreadyExists": "Datei existiert schon",
-    "unzip": "Archiv extrahieren"
+    "unzip": "ZIP-Archiv extrahieren"
 }

@@ -34,5 +34,9 @@ export default [{
         id: "unzip",
         label: "unzip",
         ext: "zip",
+    }, {
+        id: "untar",
+        label: "untar",
+        ext: "tar",
     }]
 }];

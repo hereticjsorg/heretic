@@ -64,7 +64,7 @@
     "couldNotSaveData": "Could not save data",
     "newFile": "New File",
     "fileAlreadyExists": "File already exists",
-    "unzip": "Extract archive",
+    "unzip": "Extract ZIP archive",
     "fileIsNotZIP": "Not an archive",
     "operationComplete": "Operation complete",
     "state_unzip": "extracting ZIP archive",
@@ -76,5 +76,9 @@
     "compressionHighest": "highest",
     "create": "Create",
     "filesToArchive": "Files/folders to add",
-    "invalidFilename": "Invalid filename"
+    "invalidFilename": "Invalid filename",
+    "archiveAlreadyExists": "Duplicate archive filename",
+    "state_archive": "creating archive",
+    "untar": "Extract TAR archive",
+    "fileIsNotTAR": "Not a TAR archive"
 }

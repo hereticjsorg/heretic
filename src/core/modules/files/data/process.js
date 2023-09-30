@@ -10,7 +10,7 @@ export default class {
                         type: "text",
                         validation: {
                             type: ["string"],
-                            enum: ["copy", "move", "delete", "rename", "newDir", "unzip"]
+                            enum: ["copy", "move", "delete", "rename", "newDir", "unzip", "archive", "untar", "untgz"]
                         },
                     },
                     {
@@ -54,6 +54,23 @@ export default class {
                             uniqueItems: true,
                         },
                     },
+                    {
+                        id: "compressionFormat",
+                        type: "text",
+                        validation: {
+                            type: ["string", "null"],
+                            enum: ["zip", "tar", "tgz"]
+                        },
+                    },
+                    {
+                        id: "compressionLevel",
+                        type: "text",
+                        validation: {
+                            type: ["integer", "null"],
+                            minValue: 0,
+                            maxValue: 9,
+                        },
+                    }
                 ],
             }],
         };
