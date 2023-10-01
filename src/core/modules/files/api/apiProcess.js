@@ -346,64 +346,71 @@ export default () => ({
                     });
                     try {
                         const format = requestData.compressionFormat === "tgz" ? "tar" : requestData.compressionFormat;
-                        const archive = archiver(format, {
-                            zlib: requestData.compressionFormat === "zip" ? {
-                                level: requestData.compressionLevel,
-                            } : undefined,
-                            gzip: requestData.compressionFormat === "tgz" ? {
-                                level: requestData.compressionLevel,
-                            } : undefined,
-                        });
-                        const archiveOutput = fs.createWriteStream(archiveDestPath);
-                        archive.pipe(archiveOutput);
-                        archiveOutput.on("error", e => {
-                            updateJob(jobIdArchive, {
-                                updatedAt: new Date(),
-                                status: "error",
-                                message: e.message,
-                            });
-                        });
-                        archiveOutput.on("close", async () => {
-                            const jobData = await findJob(jobIdArchive);
+                        if (this.systemConfig.demo) {
                             await updateJob(jobIdArchive, {
                                 updatedAt: new Date(),
-                                status: jobData.status === "cancelled" ? "cancelled" : "complete",
+                                status: "complete",
                             });
-                        });
-                        archive.on("progress", async progressData => {
-                            const jobDataFile = await findJob(jobIdArchive);
-                            if (!jobDataFile || jobDataFile.status === "cancelled") {
-                                archive.abort();
-                                return;
-                            }
-                            updateJobThrottled(jobIdArchive, {
-                                updatedAt: new Date(),
-                                count: progressData.entries.processed,
+                        } else {
+                            const archive = archiver(format, {
+                                zlib: requestData.compressionFormat === "zip" ? {
+                                    level: requestData.compressionLevel,
+                                } : undefined,
+                                gzip: requestData.compressionFormat === "tgz" ? {
+                                    level: requestData.compressionLevel,
+                                } : undefined,
                             });
-                        });
-                        archive.on("error", e => {
-                            updateJob(jobIdArchive, {
-                                updatedAt: new Date(),
-                                status: "error",
-                                message: e.message,
-                            });
-                        });
-                        for (const file of requestData.files) {
-                            const jobDataFile = await findJob(jobIdArchive);
-                            if (!jobDataFile || jobDataFile.status === "cancelled") {
-                                break;
-                            }
-                            const archiveFilePath = utils.getPath(`${requestData.srcDir}/${file}`);
-                            const archiveFileStat = await fs.lstat(archiveFilePath);
-                            if (archiveFileStat.isDirectory()) {
-                                archive.directory(archiveFilePath, file);
-                            } else {
-                                archive.append(fs.createReadStream(archiveFilePath), {
-                                    name: file,
+                            const archiveOutput = fs.createWriteStream(archiveDestPath);
+                            archive.pipe(archiveOutput);
+                            archiveOutput.on("error", e => {
+                                updateJob(jobIdArchive, {
+                                    updatedAt: new Date(),
+                                    status: "error",
+                                    message: e.message,
                                 });
+                            });
+                            archiveOutput.on("close", async () => {
+                                const jobData = await findJob(jobIdArchive);
+                                await updateJob(jobIdArchive, {
+                                    updatedAt: new Date(),
+                                    status: jobData.status === "cancelled" ? "cancelled" : "complete",
+                                });
+                            });
+                            archive.on("progress", async progressData => {
+                                const jobDataFile = await findJob(jobIdArchive);
+                                if (!jobDataFile || jobDataFile.status === "cancelled") {
+                                    archive.abort();
+                                    return;
+                                }
+                                updateJobThrottled(jobIdArchive, {
+                                    updatedAt: new Date(),
+                                    count: progressData.entries.processed,
+                                });
+                            });
+                            archive.on("error", e => {
+                                updateJob(jobIdArchive, {
+                                    updatedAt: new Date(),
+                                    status: "error",
+                                    message: e.message,
+                                });
+                            });
+                            for (const file of requestData.files) {
+                                const jobDataFile = await findJob(jobIdArchive);
+                                if (!jobDataFile || jobDataFile.status === "cancelled") {
+                                    break;
+                                }
+                                const archiveFilePath = utils.getPath(`${requestData.srcDir}/${file}`);
+                                const archiveFileStat = await fs.lstat(archiveFilePath);
+                                if (archiveFileStat.isDirectory()) {
+                                    archive.directory(archiveFilePath, file);
+                                } else {
+                                    archive.append(fs.createReadStream(archiveFilePath), {
+                                        name: file,
+                                    });
+                                }
                             }
+                            archive.finalize();
                         }
-                        archive.finalize();
                     } catch (e) {
                         updateJob(jobIdArchive, {
                             updatedAt: new Date(),
@@ -451,7 +458,7 @@ export default () => ({
                     });
                     try {
                         const onUntarEntry = async entry => {
-                            if (cancelled ) {
+                            if (cancelled) {
                                 // Drain
                                 entry.pipe(new stream.Transform({
                                     transform(d, e, cb) {
