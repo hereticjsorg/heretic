@@ -1,3 +1,16 @@
+## v1.1.108
+
+**Files Manager module implemented** (2023-10-01)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-09-29 | Files Module work-in-progress |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-09-30 | Typos |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-09-30 | NPM Modules update |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-09-30 | File Manager work-in-progress |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-10-01 | Files Module<br/>Archive & download features implemented |
+
+
 ## v1.1.107
 
 **Users + group tab revamp (adjustment + scrns)** (2023-09-29)
