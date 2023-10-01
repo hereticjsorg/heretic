@@ -1,3 +1,12 @@
+## v1.1.109
+
+**Fixed archive creation in demo mode** (2023-10-01)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-10-01 | Fixed archive creation in demo mode |
+
+
 ## v1.1.108
 
 **Files Manager module implemented** (2023-10-01)
