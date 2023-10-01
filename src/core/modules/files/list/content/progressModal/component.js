@@ -104,6 +104,7 @@ export default class {
             return;
         }
         try {
+            this.setState("cancelClickCount", 2);
             const formData = new FormData();
             formData.append("id", this.state.id);
             await axios({
@@ -115,8 +116,8 @@ export default class {
                 },
             });
             this.showNotification("cancellationRequestSent", "is-info");
-            this.setState("cancelClickCount", 2);
         } catch {
+            this.setState("cancelClickCount", 0);
             this.showNotification("unableToCancel", "is-danger");
         }
     }

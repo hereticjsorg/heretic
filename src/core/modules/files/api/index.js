@@ -1,3 +1,4 @@
+import apiDownload from "./apiDownload";
 import apiCancel from "./apiCancel";
 import apiListFiles from "./apiListFiles";
 import apiLoad from "./apiLoad";
@@ -15,5 +16,6 @@ export default fastify => {
         fastify.post("/api/files/cancel", apiCancel());
         fastify.post("/api/files/load", apiLoad());
         fastify.post("/api/files/save", apiSave());
+        fastify.get(`${fastify.systemConfig.routes.admin}/files/download`, apiDownload());
     }
 };

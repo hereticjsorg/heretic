@@ -8,6 +8,7 @@ import {
     mdiFileUploadOutline,
     mdiContentPaste,
     mdiFileDocumentPlusOutline,
+    mdiZipBoxOutline,
 } from "@mdi/js";
 
 export default [{
@@ -37,6 +38,10 @@ export default [{
     label: "delete",
     icon: mdiTrashCanOutline,
     danger: true,
+}, {
+    id: "archive",
+    label: "archive",
+    icon: mdiZipBoxOutline,
 }, {
     separator: true,
 }, {

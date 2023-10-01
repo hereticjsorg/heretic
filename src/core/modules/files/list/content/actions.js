@@ -34,5 +34,17 @@ export default [{
         id: "unzip",
         label: "unzip",
         ext: "zip",
+    }, {
+        id: "untar",
+        label: "untar",
+        ext: "tar",
+    }, {
+        id: "untgz",
+        label: "untgz",
+        ext: "tgz",
+    }, {
+        id: "download",
+        label: "download",
+        dir: false,
     }]
 }];

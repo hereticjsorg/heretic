@@ -5,11 +5,11 @@ export default class {
         this.state = {
             ready: false,
             active: false,
-            title: "",
-            value: "",
-            initialValue: "",
-            action: "",
             error: false,
+            value: null,
+            format: null,
+            files: [],
+            compressionLevel: 5,
         };
         this.language = out.global.language;
         this.siteTitle = out.global.siteTitle;
@@ -31,17 +31,25 @@ export default class {
         });
     }
 
+    onKeyDown(e) {
+        if (e.key === "Escape" && this.state.active) {
+            e.preventDefault();
+            e.stopPropagation();
+            this.hide();
+        }
+    }
+
     async onMount() {
         this.setState("ready", true);
         window.addEventListener("keydown", this.onKeyDown.bind(this));
     }
 
-    async show(title, value, action) {
-        this.setState("title", title);
-        this.setState("value", value);
-        this.setState("action", action);
+    async show(files) {
+        this.setState("value", null);
+        this.setState("format", "zip");
+        this.setState("compressionLevel", 6);
+        this.setState("files", files);
         this.setState("error", false);
-        this.setState("initialValue", value);
         this.setState("active", true);
         await this.utils.waitForElement("hr_nm_value");
         document.getElementById("hr_nm_value").focus();
@@ -61,9 +69,9 @@ export default class {
             return;
         }
         this.emit("data", {
-            id: this.state.initialValue,
-            value,
-            action: this.state.action,
+            filename: value,
+            format: this.state.format,
+            compressionLevel: this.state.compressionLevel,
         });
         this.hide();
     }
@@ -76,11 +84,19 @@ export default class {
         this.setState("value", value.trim());
     }
 
-    onKeyDown(e) {
-        if (e.key === "Escape" && this.state.active) {
-            e.preventDefault();
-            e.stopPropagation();
-            this.hide();
-        }
+    onCompressionLevelChange(e) {
+        e.preventDefault();
+        const {
+            value,
+        } = e.target;
+        this.setState("compressionLevel", parseInt(value, 10));
+    }
+
+    onFormatChange(e) {
+        e.preventDefault();
+        const {
+            value,
+        } = e.target;
+        this.setState("format", value);
     }
 }

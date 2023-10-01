@@ -1,0 +1,27 @@
+@import "~styles/variables.scss";
+
+.hr-am-foot {
+    background: $white-bis !important;
+    position: relative;
+    order: 100;
+}
+
+.hr-am-modal {
+    user-select: none;
+}
+
+.hr-am-label {
+    font-weight: normal !important;
+}
+
+.hr-am-label-mandatory {
+    color: $red;
+}
+
+@media (max-width: 768px) {
+
+    .hr-am-label {
+        margin-top: 5px;
+    }
+
+}

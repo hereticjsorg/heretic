@@ -23,6 +23,7 @@ export default class {
                 cut: true,
                 copy: true,
                 delete: true,
+                archive: true,
                 paste: true,
             },
             checked: [],
@@ -98,6 +99,7 @@ export default class {
             disabled.copy = true;
             disabled.cut = true;
             disabled.delete = true;
+            disabled.archive = true;
             if (dir !== null) {
                 this.setState("dir", dir);
                 disabled.dirUp = !dir.length;
@@ -200,6 +202,7 @@ export default class {
             disabled.copy = !checkedData.length;
             disabled.cut = !checkedData.length;
             disabled.delete = !checkedData.length;
+            disabled.archive = !checkedData.length;
             this.setState("disabled", disabled);
             return;
         }
@@ -230,6 +233,9 @@ export default class {
             const fileData = this.state.files.find(f => f.name === filename);
             const disabled = cloneDeep(this.state.disabled);
             switch (id) {
+            case "download":
+                window.open(`${this.systemRoutes.admin}/files/download?filename=${filename}&dir=${this.state.dir}&language=${this.language}`, "_blank");
+                break;
             case "rename":
                 await this.utils.waitForComponent("nameModal");
                 this.getComponent("nameModal").show(`${window.__heretic.t("rename")}: ${filename}`, filename, id);
@@ -307,6 +313,82 @@ export default class {
                     this.setState("loading", false);
                 }
                 break;
+            case "untar":
+                if (fileData.ext !== "tar") {
+                    await this.showNotification("fileIsNotTAR", "is-danger");
+                    break;
+                }
+                this.setState("loading", true);
+                const formTabsUntar = JSON.stringify({
+                    _default: {
+                        srcDir: this.state.dir,
+                        destDir: "",
+                        action: "untar",
+                        files: [],
+                        srcFile: filename,
+                    },
+                });
+                const dataUntar = new FormData();
+                dataUntar.append("formTabs", formTabsUntar);
+                dataUntar.append("formShared", "{}");
+                dataUntar.append("tabs", `["_default"]`);
+                try {
+                    const {
+                        data: processUntarData,
+                    } = await axios({
+                        method: "post",
+                        url: "/api/files/process",
+                        data: dataUntar,
+                        headers: {
+                            Authorization: `Bearer ${this.currentToken}`,
+                        },
+                    });
+                    await this.utils.waitForComponent("progressModal");
+                    this.getComponent("progressModal").show(processUntarData.id);
+                } catch (er) {
+                    await this.showNotification("couldNotLoadData", "is-danger");
+                } finally {
+                    this.setState("loading", false);
+                }
+                break;
+            case "untgz":
+                if (fileData.ext !== "tgz") {
+                    await this.showNotification("fileIsNotTGZ", "is-danger");
+                    break;
+                }
+                this.setState("loading", true);
+                const formTabsUntgz = JSON.stringify({
+                    _default: {
+                        srcDir: this.state.dir,
+                        destDir: "",
+                        action: "untgz",
+                        files: [],
+                        srcFile: filename,
+                    },
+                });
+                const dataUntgz = new FormData();
+                dataUntgz.append("formTabs", formTabsUntgz);
+                dataUntgz.append("formShared", "{}");
+                dataUntgz.append("tabs", `["_default"]`);
+                try {
+                    const {
+                        data: processUntgzData,
+                    } = await axios({
+                        method: "post",
+                        url: "/api/files/process",
+                        data: dataUntgz,
+                        headers: {
+                            Authorization: `Bearer ${this.currentToken}`,
+                        },
+                    });
+                    await this.utils.waitForComponent("progressModal");
+                    this.getComponent("progressModal").show(processUntgzData.id);
+                } catch (er) {
+                    await this.showNotification("couldNotLoadData", "is-danger");
+                } finally {
+                    this.setState("loading", false);
+                }
+                break;
             case "cut":
             case "copy":
                 this.setState("clipboard", {
@@ -356,6 +438,10 @@ export default class {
         case "newDir":
             await this.utils.waitForComponent("nameModal");
             this.getComponent("nameModal").show(window.__heretic.t("newDir"), "", "newDir");
+            break;
+        case "archive":
+            await this.utils.waitForComponent("archiveModal");
+            this.getComponent("archiveModal").show(this.state.checked);
             break;
         case "newFile":
             await this.utils.waitForComponent("nameModal");
@@ -436,6 +522,7 @@ export default class {
         disabled.copy = !checkedData.length;
         disabled.cut = !checkedData.length;
         disabled.delete = !checkedData.length;
+        disabled.archive = !checkedData.length;
         this.setState("disabled", disabled);
     }
 
@@ -601,6 +688,48 @@ export default class {
             await this.utils.waitForComponent("editorModal");
             const fileData = this.state.files.find(f => f.name === d.filename);
             this.getComponent("editorModal").show(d.filename, d.content, fileData.mime);
+        } finally {
+            this.setState("loading", false);
+        }
+    }
+
+    async onArchiveModalData(d) {
+        const filename = `${d.filename}.${d.format}`;
+        if (this.state.files.find(f => f.name === filename)) {
+            await this.showNotification("archiveAlreadyExists", "is-danger");
+            return;
+        }
+        const formTabs = JSON.stringify({
+            _default: {
+                srcDir: this.state.dir,
+                destDir: "",
+                action: "archive",
+                files: this.state.checked,
+                destFile: d.filename,
+                compressionFormat: d.format,
+                compressionLevel: d.compressionLevel,
+            },
+        });
+        const data = new FormData();
+        data.append("formTabs", formTabs);
+        data.append("formShared", "{}");
+        data.append("tabs", `["_default"]`);
+        this.setState("loading", true);
+        try {
+            const {
+                data: processData,
+            } = await axios({
+                method: "post",
+                url: "/api/files/process",
+                data,
+                headers: {
+                    Authorization: `Bearer ${this.currentToken}`,
+                },
+            });
+            await this.utils.waitForComponent("progressModal");
+            this.getComponent("progressModal").show(processData.id);
+        } catch (er) {
+            await this.showNotification("couldNotLoadData", "is-danger");
         } finally {
             this.setState("loading", false);
         }
