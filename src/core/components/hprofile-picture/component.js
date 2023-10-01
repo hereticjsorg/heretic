@@ -65,7 +65,6 @@ export default class {
                 break;
             }
             const imageData = this.cropper.getCroppedImage();
-            // eslint-disable-next-line no-console
             this.emit("image-data", imageData);
             break;
         case "close":

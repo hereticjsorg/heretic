@@ -347,12 +347,12 @@ export default () => ({
                     try {
                         const format = requestData.compressionFormat === "tgz" ? "tar" : requestData.compressionFormat;
                         const archive = archiver(format, {
-                            zlib: {
+                            zlib: requestData.compressionFormat === "zip" ? {
                                 level: requestData.compressionLevel,
-                            },
-                            gzip: {
+                            } : undefined,
+                            gzip: requestData.compressionFormat === "tgz" ? {
                                 level: requestData.compressionLevel,
-                            },
+                            } : undefined,
                         });
                         const archiveOutput = fs.createWriteStream(archiveDestPath);
                         archive.pipe(archiveOutput);
@@ -416,6 +416,7 @@ export default () => ({
                     id: jobIdArchive.toString(),
                 });
             case "untar":
+            case "untgz":
                 const untarSrcDirPath = utils.getPath(requestData.srcDir);
                 if (!(await utils.fileExists(untarSrcDirPath))) {
                     return rep.error({
@@ -437,7 +438,7 @@ export default () => ({
                     updatedAt: new Date(),
                     userId: authData._id,
                     module: moduleConfig.id,
-                    mode: "untar",
+                    mode: requestData.action,
                     status: "new",
                 });
                 const jobIdUntar = queueItemUntar.insertedId;
@@ -449,64 +450,71 @@ export default () => ({
                         status: "processing",
                     });
                     try {
+                        const onUntarEntry = async entry => {
+                            if (cancelled ) {
+                                // Drain
+                                entry.pipe(new stream.Transform({
+                                    transform(d, e, cb) {
+                                        cb();
+                                    }
+                                }));
+                                return;
+                            }
+                            const jobDataFile = findJob(jobIdUntar);
+                            if (!jobDataFile || jobDataFile.status === "cancelled") {
+                                cancelled = true;
+                                // Drain
+                                entry.pipe(new stream.Transform({
+                                    transform(d, e, cb) {
+                                        cb();
+                                    }
+                                }));
+                                return;
+                            }
+                            const {
+                                type,
+                                path: entryPath,
+                            } = entry;
+                            const filePath = path.resolve(`${untarSrcDirPath}/${entryPath}`);
+                            if (type === "Directory") {
+                                if (!this.systemConfig.demo) {
+                                    await fs.ensureDir(filePath);
+                                }
+                                // Drain
+                                entry.pipe(new stream.Transform({
+                                    transform(d, e, cb) {
+                                        cb();
+                                    }
+                                }));
+                                return;
+                            }
+                            const entryDirName = path.dirname(filePath);
+                            if (!this.systemConfig.demo) {
+                                await fs.ensureDir(entryDirName);
+                                entry.pipe(fs.createWriteStream(filePath));
+                            } else {
+                                // Drain
+                                entry.pipe(new stream.Transform({
+                                    transform(d, e, cb) {
+                                        cb();
+                                    }
+                                }));
+                            }
+                            count += 1;
+                            await updateJobThrottled(jobIdUntar, {
+                                updatedAt: new Date(),
+                                count,
+                            });
+                        };
                         fs.createReadStream(untarSrcPath)
-                            .pipe(zlib.Unzip())
+                            .pipe(requestData.action === "untgz" ? zlib.Unzip() : new stream.Transform({
+                                transform(chunk, encoding, callback) {
+                                    callback(null, chunk);
+                                }
+                            }))
                             .pipe(new tar.Parse())
                             .on("entry", async entry => {
-                                if (cancelled) {
-                                    // Drain
-                                    entry.pipe(new stream.Transform({
-                                        transform(d, e, cb) {
-                                            cb();
-                                        }
-                                    }));
-                                    return;
-                                }
-                                const jobDataFile = findJob(jobIdUntar);
-                                if (!jobDataFile || jobDataFile.status === "cancelled") {
-                                    cancelled = true;
-                                    // Drain
-                                    entry.pipe(new stream.Transform({
-                                        transform(d, e, cb) {
-                                            cb();
-                                        }
-                                    }));
-                                    return;
-                                }
-                                const {
-                                    type,
-                                    path: entryPath,
-                                } = entry;
-                                const filePath = path.resolve(`${untarSrcDirPath}/${entryPath}`);
-                                if (type === "Directory") {
-                                    if (!this.systemConfig.demo) {
-                                        await fs.ensureDir(filePath);
-                                    }
-                                    // Drain
-                                    entry.pipe(new stream.Transform({
-                                        transform(d, e, cb) {
-                                            cb();
-                                        }
-                                    }));
-                                    return;
-                                }
-                                const entryDirName = path.dirname(filePath);
-                                if (!this.systemConfig.demo) {
-                                    await fs.ensureDir(entryDirName);
-                                    entry.pipe(fs.createWriteStream(filePath));
-                                } else {
-                                    // Drain
-                                    entry.pipe(new stream.Transform({
-                                        transform(d, e, cb) {
-                                            cb();
-                                        }
-                                    }));
-                                }
-                                count += 1;
-                                await updateJobThrottled(jobIdUntar, {
-                                    updatedAt: new Date(),
-                                    count,
-                                });
+                                onUntarEntry(entry);
                             })
                             .on("end", async () => {
                                 const jobDataFile = await findJob(jobIdUntar);
@@ -516,8 +524,6 @@ export default () => ({
                                 });
                             })
                             .on("error", e => {
-                                // eslint-disable-next-line no-console
-                                console.log(e);
                                 updateJob(jobIdUntar, {
                                     updatedAt: new Date(),
                                     status: "error",
@@ -525,8 +531,6 @@ export default () => ({
                                 });
                             });
                     } catch (e) {
-                        // eslint-disable-next-line no-console
-                        console.log(e);
                         updateJob(jobIdUntar, {
                             updatedAt: new Date(),
                             status: "error",

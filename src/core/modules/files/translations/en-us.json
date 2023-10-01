@@ -80,5 +80,10 @@
     "archiveAlreadyExists": "Duplicate archive filename",
     "state_archive": "creating archive",
     "untar": "Extract TAR archive",
-    "fileIsNotTAR": "Not a TAR archive"
+    "fileIsNotTAR": "Not a TAR archive",
+    "untgz": "Extract TGZ archive",
+    "fileIsNotTGZ": "Not a TGZ archive",
+    "state_untar": "extracting TAR archive",
+    "state_untgz": "extracting TGZ archive",
+    "download": "Download file"
 }

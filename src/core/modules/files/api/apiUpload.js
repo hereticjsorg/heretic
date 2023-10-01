@@ -14,12 +14,14 @@ export default () => ({
             }
             const multipartData = await req.processMultipart();
             if (typeof multipartData.fields.dir !== "string") {
+                await req.removeMultipartTempFiles();
                 return rep.error({
                     message: "Invalid directory",
                 });
             }
             const dir = utils.getPath(multipartData.fields.dir);
             if (!(await utils.fileExists(dir))) {
+                await req.removeMultipartTempFiles();
                 return rep.error({
                     message: "Directory doesn't exists",
                 });
@@ -35,6 +37,7 @@ export default () => ({
             await req.removeMultipartTempFiles();
             return rep.code(200).send({});
         } catch (e) {
+            await req.removeMultipartTempFiles();
             this.log.error(e);
             return Promise.reject(e);
         }

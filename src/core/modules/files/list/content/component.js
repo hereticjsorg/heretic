@@ -233,6 +233,9 @@ export default class {
             const fileData = this.state.files.find(f => f.name === filename);
             const disabled = cloneDeep(this.state.disabled);
             switch (id) {
+            case "download":
+                window.open(`${this.systemRoutes.admin}/files/download?filename=${filename}&dir=${this.state.dir}&language=${this.language}`, "_blank");
+                break;
             case "rename":
                 await this.utils.waitForComponent("nameModal");
                 this.getComponent("nameModal").show(`${window.__heretic.t("rename")}: ${filename}`, filename, id);
@@ -342,6 +345,44 @@ export default class {
                     });
                     await this.utils.waitForComponent("progressModal");
                     this.getComponent("progressModal").show(processUntarData.id);
+                } catch (er) {
+                    await this.showNotification("couldNotLoadData", "is-danger");
+                } finally {
+                    this.setState("loading", false);
+                }
+                break;
+            case "untgz":
+                if (fileData.ext !== "tgz") {
+                    await this.showNotification("fileIsNotTGZ", "is-danger");
+                    break;
+                }
+                this.setState("loading", true);
+                const formTabsUntgz = JSON.stringify({
+                    _default: {
+                        srcDir: this.state.dir,
+                        destDir: "",
+                        action: "untgz",
+                        files: [],
+                        srcFile: filename,
+                    },
+                });
+                const dataUntgz = new FormData();
+                dataUntgz.append("formTabs", formTabsUntgz);
+                dataUntgz.append("formShared", "{}");
+                dataUntgz.append("tabs", `["_default"]`);
+                try {
+                    const {
+                        data: processUntgzData,
+                    } = await axios({
+                        method: "post",
+                        url: "/api/files/process",
+                        data: dataUntgz,
+                        headers: {
+                            Authorization: `Bearer ${this.currentToken}`,
+                        },
+                    });
+                    await this.utils.waitForComponent("progressModal");
+                    this.getComponent("progressModal").show(processUntgzData.id);
                 } catch (er) {
                     await this.showNotification("couldNotLoadData", "is-danger");
                 } finally {
