@@ -1,12 +1,32 @@
-# Sessions Module
+# Users Module
 
-Session module shows the list of active and ended sessions performed by users. Each entry is automatically created once the user logs in the system and ends once they log out or the connection to the service is interrupted.
+Users module allows to get the list of users registered in the system and data regarding each entry.
 
-![Sessions Module](./images/sessionsModule.jpg)
+Admins can use this module in order to create new user, delete or sort the existent entries by filtering, as well as export the search results to Excel file.
+
+Creating new user:
+
+1. Click *Add user* button in the upper side of the screen
+   
+![Add User](./images/userAdd.png)
+
+2. Fill up the data in each field accordingly: username (their name in the system), user's active status (switched by pressing the check icon, binary), displayed name (the name which will get shown instead of username where applicable), e-mail of the new user, password, and choosing the groups (by clicking *add* button)
+3. When finished, click the *Save* button
+4. There's also an option to turn off the two-factor authorization by clicking *Disable 2FA* (if enabled)
+
+New user entry will appear on the list with all data added during the creation process.
+
+To delete the user, you should perform the steps below:
+
+1. Choose the one or several entries you want to delete
+2. Click *Delete* button in the upper side of the page
+3. Click *Delete* on the confirmation window
+
+The "Reload" button will allow you to refresh the list to see the changes made.
 
 Settings buttons functional is: sorting the list of sessions and adjusting it's visual. By clicking on it, you'll see three tabs appearing in a new window: Columns, Pages and Filter.
 
-![![Setting](image-3.png)](./images/sessionSettings.jpg)
+![User Settings](./images/userSettings.png)
 
 + Columns tab will allow you to switch types of data being shown in every entry (Session ID, creation date, end session time, IP address etc.)
 + Pages will give you an option to change how many list entries are visible within one page
