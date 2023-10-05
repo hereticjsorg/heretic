@@ -13,5 +13,6 @@
     "id": "ID",
     "req": "REQ",
     "res": "RES",
-    "pid": "PID"
+    "pid": "PID",
+    "noEntriesToDisplay": "No entries to display"
 }

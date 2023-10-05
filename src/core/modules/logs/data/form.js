@@ -1,8 +1,3 @@
-import {
-    format,
-} from "date-fns";
-
-import moduleConfig from "../module.js";
 import utils from "#lib/formValidatorUtils";
 
 export default class {
@@ -121,28 +116,13 @@ export default class {
                     column: true,
                     createIndex: false,
                     hidden: true,
-                },],
+                }],
             }],
         };
         this.validationData = utils.getValidationData(this.data.form);
         this.columnTypes = ["text", "select", "column", "date"];
         this.defaultSortColumn = "date";
         this.defaultSortDirection = "desc";
-        this.actionColumn = false;
-        this.checkboxColumn = false;
-        this.modeChangeAllowed = false;
-        this.tableLoadConfig = {
-            url: `/api/${moduleConfig.id}/list`,
-        };
-        this.tableDeleteConfig = false;
-        this.tableBulkUpdateConfig = null;
-        this.tableExportConfig = false;
-        this.tableRecycleBinConfig = {
-            enabled: false,
-        };
-        this.historyConfig = {
-            enabled: false,
-        };
     }
 
     getData() {
@@ -160,88 +140,6 @@ export default class {
         return this.validationData.fieldsFlat;
     }
 
-    getTableColumns() {
-        return Object.fromEntries(Object.entries(this.validationData.fieldsFlat).filter(([, value]) => this.columnTypes.indexOf(value.type) > -1));
-        // return Object.fromEntries(Object.entries(this.validationData.fieldsFlat).filter(([, value]) => this.columnIds.indexOf(value.id) > -1));
-    }
-
-    getTableDefaultSortColumn() {
-        return {
-            id: this.defaultSortColumn,
-            direction: this.defaultSortDirection,
-        };
-    }
-
-    isActionColumn() {
-        return this.actionColumn;
-    }
-
-    isCheckboxColumn() {
-        return this.checkboxColumn;
-    }
-
-    getActions() {
-        return [];
-    }
-
-    getTopButtons() {
-        return [];
-    }
-
-    getTableLoadConfig() {
-        return this.tableLoadConfig;
-    }
-
-    getTableBulkUpdateConfig() {
-        return this.tableBulkUpdateConfig;
-    }
-
-    getTableExportConfig() {
-        return this.tableExportConfig;
-    }
-
-    getRecycleBinConfig() {
-        return this.tableRecycleBinConfig;
-    }
-
-    getTableDeleteConfig() {
-        return this.tableDeleteConfig;
-    }
-
-    processTableCell(id, row) {
-        switch (id) {
-        case "date":
-            try {
-                return row[id] ? format(new Date(row[id] * 1000), `${this.t("global.dateFormatShort")} ${this.t("global.timeFormatShort")}`) : "";
-            } catch {
-                return row[id];
-            }
-            // eslint-disable-next-line no-unreachable
-            break;
-        case "type":
-            return this.t(row[id]) || "—";
-        default:
-            return row[id];
-        }
-    }
-
-    processTableRow(row) {
-        if (this.providerDataEvents && row.event && this.providerDataEvents[row.event] && this.providerDataEvents[row.event].level) {
-            switch (this.providerDataEvents[row.event].level) {
-            case "error":
-                return "hr-ht-row-error";
-            case "warning":
-                return "hr-ht-row-warning";
-            default:
-                return "";
-            }
-        }
-    }
-
-    isModeChangeAllowed() {
-        return this.modeChangeAllowed;
-    }
-
     getTabs() {
         return [{
             id: "_default",
@@ -253,7 +151,7 @@ export default class {
         return ["_default"];
     }
 
-    getHistoryConfig() {
-        return this.historyConfig;
+    getTableColumns() {
+        return Object.fromEntries(Object.entries(this.validationData.fieldsFlat).filter(([, value]) => this.columnTypes.indexOf(value.type) > -1));
     }
 }

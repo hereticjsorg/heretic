@@ -1,7 +1,7 @@
+// import cloneDeep from "lodash.clonedeep";
 import axios from "axios";
-import {
-    format,
-} from "date-fns";
+import throttle from "lodash.throttle";
+import debounce from "lodash.debounce";
 import Utils from "#lib/componentUtils";
 import Query from "#lib/queryBrowser";
 import Cookies from "#lib/cookiesBrowser";
@@ -12,15 +12,14 @@ export default class {
     onCreate(input, out) {
         this.state = {
             ready: !process.browser,
+            headers: null,
             failed: false,
-            headers: {},
-            eventTitle: null,
-            eventDateTime: null,
-            eventIp: null,
-            eventUsername: null,
-            eventExtras: null,
-            formData: null,
-            providerDataEvents: null,
+            entries: [],
+            loading: false,
+            sort: "date",
+            sortDir: "desc",
+            page: 1,
+            mobile: false,
         };
         this.language = out.global.language;
         this.siteTitle = out.global.siteTitle;
@@ -44,8 +43,60 @@ export default class {
         this.utils = new Utils(this, this.language);
     }
 
-    setFormData(formData) {
-        this.state.formData = formData;
+    async setLogWrapWidth() {
+        await this.utils.waitForElement("hr_fs_entries_wrap");
+        if (!this.setLogWrapWidthRun) {
+            if (document.getElementById("hr_admin_dummy").getBoundingClientRect().width !== document.body.getBoundingClientRect().width) {
+                setTimeout(() => this.setLogWrapWidthDelayed());
+                return;
+            }
+            this.setLogWrapWidthRun = true;
+        }
+        const filesWrap = document.getElementById("hr_fs_entries_wrap");
+        filesWrap.style.display = "none";
+        await this.utils.waitForElement("hr_lg_dummy");
+        const dummy = document.getElementById("hr_lg_dummy");
+        const {
+            width,
+        } = dummy.getBoundingClientRect();
+        filesWrap.style.width = `${width}px`;
+        filesWrap.style.display = "block";
+    }
+
+    async showNotification(message, css = "is-success") {
+        await this.utils.waitForComponent("notify");
+        this.getComponent("notify").show(window.__heretic.t(message), css);
+    }
+
+    async loadData() {
+        if (this.state.loading) {
+            return;
+        }
+        this.setState("loading", true);
+        try {
+            const res = await axios({
+                method: "post",
+                url: "/api/logs/list",
+                data: {
+                    searchText: "",
+                    fields: ["date", "level", "url"],
+                    sortField: this.state.sort,
+                    sortDirection: this.state.sortDir,
+                    itemsPerPage: 30,
+                    page: this.state.page,
+                    filters: [],
+                    language: this.language,
+                },
+                headers: this.state.headers,
+            });
+            this.setState("entries", res.data.items);
+            // await this.utils.waitForElement("hr_fs_dummy");
+            // this.setLogWrapWidthDelayed();
+        } catch (er) {
+            await this.showNotification("couldNotLoadData", "is-danger");
+        } finally {
+            this.setState("loading", false);
+        }
     }
 
     async onMount() {
@@ -65,81 +116,22 @@ export default class {
         this.setState("headers", {
             Authorization: `Bearer ${currentToken}`
         });
-        if (!this.state.providerDataEvents) {
-            try {
-                const {
-                    data,
-                } = await axios({
-                    method: "get",
-                    headers: this.state.headers,
-                    url: `/api/dataProviders/events?language=${this.language}`,
-                });
-                this.setState("providerDataEvents", data.data);
-            } catch (e) {
-                this.setState("failed", true);
-                return;
-            }
+        this.setLogWrapWidthDelayed = throttle(this.setLogWrapWidth, 200);
+        this.setState("mobile", window.innerWidth <= 768);
+        window.addEventListener("resize", debounce(() => this.setState("mobile", window.innerWidth <= 768), 500));
+        if (window.innerWidth > 768) {
+            window.addEventListener("resize", () => this.setLogWrapWidth());
         }
         this.setState("ready", true);
-        await this.utils.waitForComponent(`${moduleConfig.id}List`);
+        await this.loadData();
     }
-
-    onTopButtonClick() {}
-
-    async onActionButtonClick(data) {
-        switch (data.buttonId) {
-        case "view":
-            await this.utils.waitForComponent(`${moduleConfig.id}List`);
-            const table = this.getComponent(`${moduleConfig.id}List`);
-            table.setLoading(true);
-            let responseData;
-            try {
-                const response = await axios({
-                    method: "post",
-                    url: `/api/${moduleConfig.id}/load`,
-                    data: {
-                        id: data.itemId,
-                        language: this.language,
-                    },
-                    headers: this.state.headers,
-                });
-                responseData = response.data._default;
-            } catch {
-                this.getComponent(`notify_${moduleConfig.id}List`).show(window.__heretic.t("loadingError"), "is-danger");
-                return;
-            } finally {
-                table.setLoading(false);
-            }
-            await this.utils.waitForComponent(`${moduleConfig.id}EditModal`);
-            const modalDialog = await this.getComponent(`${moduleConfig.id}EditModal`);
-            modalDialog.setTitle(this.t("viewEvent"));
-            this.setState("eventTitle", this.state.providerDataEvents[responseData.event] && this.state.providerDataEvents[responseData.event].title ? this.state.providerDataEvents[responseData.event].title : responseData.event);
-            this.setState("eventDateTime", format(new Date(responseData.date * 1000), `${this.t("global.dateFormatShort")} ${this.t("global.timeFormatShort")}`));
-            this.setState("eventLocation", responseData.location);
-            this.setState("eventUsername", responseData.username);
-            this.setState("eventExtras", responseData.extras);
-            modalDialog.setActive(true).setCloseAllowed(true).setLoading(false);
-            this.setState("eventIp", responseData.ip);
-            break;
-        }
-    }
-
-    onFormMountComplete() {}
 
     onUnauthorized() {
         this.setState("ready", false);
         setTimeout(() => window.location.href = this.utils.getLocalizedURL(this.systemRoutes.signInAdmin), 100);
     }
 
-    onFormSubmit() {
-        this.formSave();
-    }
+    updateSort() {}
 
-    async onModalButtonClick(button) {
-        switch (button) {
-        case "save":
-            await this.formSave();
-            break;
-        }
-    }
+    onEntryClick() {}
 }
