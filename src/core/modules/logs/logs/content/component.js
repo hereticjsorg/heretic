@@ -20,6 +20,8 @@ export default class {
             sortDir: "desc",
             page: 1,
             mobile: false,
+            itemsPerPage: 30,
+            pagination: [],
         };
         this.language = out.global.language;
         this.siteTitle = out.global.siteTitle;
@@ -68,7 +70,35 @@ export default class {
         this.getComponent("notify").show(window.__heretic.t(message), css);
     }
 
-    async loadData() {
+    generatePagination() {
+        const center = [this.state.page - 2, this.state.page - 1, this.state.page, this.state.page + 1, this.state.page + 2];
+        const filteredCenter = center.filter((p) => p > 1 && p < this.state.totalPages);
+        // includeThreeLeft
+        if (this.state.page === 5) {
+            filteredCenter.unshift(2);
+        }
+        // includeThreeRight
+        if (this.state.page === this.state.totalPages - 4) {
+            filteredCenter.push(this.state.totalPages - 1);
+        }
+        // includeLeftDots
+        if (this.state.page > 5) {
+            filteredCenter.unshift("...");
+        }
+        // includeRightDots
+        if (this.state.page < this.state.totalPages - 4) {
+            filteredCenter.push("...");
+        }
+        // Finalize
+        const pagination = [1, ...filteredCenter, this.state.totalPages];
+        if (pagination.join(",") === "1,1") {
+            pagination.pop();
+        }
+        // Set pagination
+        this.setState("pagination", pagination);
+    }
+
+    async loadData(sort = this.state.sort, sortDir = this.state.sortDir, page = this.state.page) {
         if (this.state.loading) {
             return;
         }
@@ -79,19 +109,24 @@ export default class {
                 url: "/api/logs/list",
                 data: {
                     searchText: "",
-                    fields: ["date", "level", "url"],
-                    sortField: this.state.sort,
-                    sortDirection: this.state.sortDir,
-                    itemsPerPage: 30,
-                    page: this.state.page,
+                    fields: ["date", "level", "url", "ip"],
+                    sortField: sort,
+                    sortDirection: sortDir,
+                    itemsPerPage: this.state.itemsPerPage,
+                    page: parseInt(page, 10),
                     filters: [],
                     language: this.language,
                 },
                 headers: this.state.headers,
             });
             this.setState("entries", res.data.items);
-            // await this.utils.waitForElement("hr_fs_dummy");
-            // this.setLogWrapWidthDelayed();
+            this.setState("sort", sort);
+            this.setState("sortDir", sortDir);
+            this.setState("sortDir", page);
+            this.setState("totalPages", res.data.total < this.state.itemsPerPage ? 1 : Math.ceil(res.data.total / this.state.itemsPerPage));
+            this.generatePagination();
+            await this.utils.waitForElement("hr_lg_dummy");
+            this.setLogWrapWidthDelayed();
         } catch (er) {
             await this.showNotification("couldNotLoadData", "is-danger");
         } finally {
@@ -131,7 +166,23 @@ export default class {
         setTimeout(() => window.location.href = this.utils.getLocalizedURL(this.systemRoutes.signInAdmin), 100);
     }
 
-    updateSort() {}
+    updateSort(e) {
+        if (!e.target.closest("[data-id]")) {
+            return;
+        }
+        e.preventDefault(e);
+        const {
+            id,
+        } = e.target.closest("[data-id]").dataset;
+        const sortDir = (id === this.state.sort) ? (this.state.sortDir === "asc" ? "desc" : "asc") : "asc";
+        // this.setState("sort", id);
+        // this.setState("sortDir", sortDir);
+        this.loadData(id, sortDir);
+    }
 
     onEntryClick() {}
+
+    onPageClick(page) {
+        this.loadData(this.state.sort, this.state.sortDir, page);
+    }
 }

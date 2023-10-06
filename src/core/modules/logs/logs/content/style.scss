@@ -94,9 +94,15 @@ html.heretic-dark .hr-lg-entries-loading {
 }
 
 .hr-lg-col-level {
-    min-width: 80px;
-    max-width: 80px;
-    width: 80px;
+    min-width: 60px;
+    max-width: 60px;
+    width: 60px;
+}
+
+.hr-lg-col-ip {
+    min-width: 140px;
+    max-width: 140px;
+    width: 140px;
 }
 
 .hr-lg-cell-clipped {
@@ -122,6 +128,7 @@ html.heretic-dark .hr-lg-tag {
 
     .hr-lg-col-date,
     .hr-lg-col-level,
+    .hr-lg-col-ip,
     .hr-lg-col-url {
         min-width: unset;
         max-width: unset;

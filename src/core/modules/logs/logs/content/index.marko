@@ -13,15 +13,19 @@ import {
                     </div>
                 </if>
                 <div class="columns p-0 m-0 hr-lg-head" id="hr_fs_head_wrap" on-click("updateSort")>
-                    <div class="column pt-2 pb-2 pr-2 hr-lg-col hr-lg-col-sortable hr-lg-col-date" data-id="date">
+                    <div class="column p-2 hr-lg-col hr-lg-col-sortable hr-lg-col-date" data-id="date">
                         <sortIcon sortDir=(state.sort === "date" ? state.sortDir : null)/>
                         <t>date</t>
                     </div>
-                    <div class="column pt-2 pb-2 pr-2 hr-lg-col hr-lg-col-sortable hr-lg-col-level" data-id="level">
+                    <div class="column p-2 hr-lg-col hr-lg-col-sortable hr-lg-col-level" data-id="level">
                         <sortIcon sortDir=(state.sort === "level" ? state.sortDir : null)/>
                         <t>level</t>
                     </div>
-                    <div class="column pt-2 pb-2 pr-2 hr-lg-col hr-lg-col-sortable hr-lg-col-url" data-id="url">
+                    <div class="column p-2 hr-lg-col hr-lg-col-sortable hr-lg-col-ip" data-id="ip">
+                        <sortIcon sortDir=(state.sort === "ip" ? state.sortDir : null)/>
+                        <t>ip</t>
+                    </div>
+                    <div class="column p-2 hr-lg-col hr-lg-col-sortable hr-lg-col-url" data-id="url">
                         <sortIcon sortDir=(state.sort === "url" ? state.sortDir : null)/>
                         <t>url</t>
                     </div>
@@ -30,17 +34,26 @@ import {
                     <if(state.entries.length)>
                         <for|item, index| of=state.entries>
                             <div class=`columns p-0 m-0 hr-lg-entry${index === state.entries.length - 1 ? " hr-lg-bottomItem" : ""}${index % 2 !== 0 ? " hr-lg-entry-odd" : ""}`>
-                                <div class="column p-1 hr-lg-col-date">
+                                <div class="column p-2 hr-lg-col-date">
                                     <div class="hr-lg-cell">${process.browser && item.date ? format(new Date(item.date * 1000), `${window.__heretic.t("global.dateFormatShort")} ${window.__heretic.t("global.timeFormatShort")}`) : ""}</div>
                                 </div>
-                                <div class="column p-1 hr-lg-col-level ">
+                                <div class="column p-2 hr-lg-col-level ">
                                     <div class="hr-lg-cell">${item.level}</div>
                                 </div>
-                                <div class="column p-1 hr-lg-col-url hr-fs-col-url-clipped hr-lg-cell">
-                                    <div class="hr-lg-cell-clipped">${item.url}</div>
+                                <div class="column p-2 hr-lg-col-ip">
+                                    <div class="hr-lg-cell">${item.ip}</div>
+                                </div>
+                                <div class="column p-2 hr-lg-col-url hr-fs-col-url-clipped hr-lg-cell">
+                                    <div class="hr-lg-cell-clipped">
+                                        <if(item.method)>
+                                            <span class="tag mr-2">${item.method.toUpperCase()}</span>
+                                        </if>
+                                        ${item.url}
+                                    </div>
                                 </div>
                             </div>
                         </for>
+                        <hpagination admin=input.admin data=state.pagination currentPage=state.page on-page-click("onPageClick")/>
                     </if>
                     <else>
                         <div class=`columns p-0 m-0 hr-lg-entry hr-lg-bottomItem`>
