@@ -122,7 +122,7 @@ export default class {
             this.setState("entries", res.data.items);
             this.setState("sort", sort);
             this.setState("sortDir", sortDir);
-            this.setState("sortDir", page);
+            this.setState("page", parseInt(page, 10));
             this.setState("totalPages", res.data.total < this.state.itemsPerPage ? 1 : Math.ceil(res.data.total / this.state.itemsPerPage));
             this.generatePagination();
             await this.utils.waitForElement("hr_lg_dummy");
@@ -175,12 +175,21 @@ export default class {
             id,
         } = e.target.closest("[data-id]").dataset;
         const sortDir = (id === this.state.sort) ? (this.state.sortDir === "asc" ? "desc" : "asc") : "asc";
-        // this.setState("sort", id);
-        // this.setState("sortDir", sortDir);
         this.loadData(id, sortDir);
     }
 
-    onEntryClick() {}
+    async onEntryClick(e) {
+        if (!e.target.closest("[data-id]")) {
+            return;
+        }
+        e.preventDefault(e);
+        const id = parseInt(e.target.closest("[data-id]").dataset.id, 10);
+        const item = this.state.entries[id];
+        // eslint-disable-next-line no-console
+        console.log(item);
+        await this.utils.waitForComponent("entryModal");
+        this.getComponent("entryModal").show(item);
+    }
 
     onPageClick(page) {
         this.loadData(this.state.sort, this.state.sortDir, page);

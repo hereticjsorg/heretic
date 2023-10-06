@@ -1,0 +1,21 @@
+@import "~styles/variables.scss";
+
+.hr-em-foot {
+    background: $white-bis !important;
+    position: relative;
+    order: 100;
+}
+
+.hr-em-modal {
+    user-select: none;
+}
+
+.hr-em-par-col {
+    min-width: 110px;
+    text-align: right;
+    font-weight: 600;
+}
+
+.hr-em-col-line {
+    border-bottom: dashed 1px $grey-lightest;
+}

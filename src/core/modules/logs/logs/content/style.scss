@@ -22,6 +22,7 @@ html.heretic-dark .hr-lg-head {
 
 .hr-lg-entry {
     background-color: $grey-lightest;
+    cursor: pointer;
 }
 
 .hr-lg-entry-odd {
@@ -87,10 +88,20 @@ html.heretic-dark .hr-lg-entries-loading {
     align-items: center;
 }
 
+.ht-lg-cell {
+    padding: 8px;
+}
+
 .hr-lg-col-date {
     min-width: 160px;
     max-width: 160px;
     width: 160px;
+}
+
+.hr-lg-col-level,
+.hr-lg-col-ip,
+.hr-lg-col-url {
+    padding-left: 8px !important;
 }
 
 .hr-lg-col-level {
@@ -133,7 +144,8 @@ html.heretic-dark .hr-lg-tag {
         min-width: unset;
         max-width: unset;
         width: 100%;
-        padding-left: 5px;
+        // padding-left: 8px !important;
+        padding: 8px !important
     }
 
     .hr-lg-col {

@@ -33,17 +33,17 @@ import {
                 <div id="hr_fs_entries_wrap" on-click("onEntryClick")>
                     <if(state.entries.length)>
                         <for|item, index| of=state.entries>
-                            <div class=`columns p-0 m-0 hr-lg-entry${index === state.entries.length - 1 ? " hr-lg-bottomItem" : ""}${index % 2 !== 0 ? " hr-lg-entry-odd" : ""}`>
-                                <div class="column p-2 hr-lg-col-date">
+                            <div class=`columns p-0 m-0 hr-lg-entry${index === state.entries.length - 1 ? " hr-lg-bottomItem" : ""}${index % 2 !== 0 ? " hr-lg-entry-odd" : ""}` data-id=index>
+                                <div class="column hr-lg-col-date">
                                     <div class="hr-lg-cell">${process.browser && item.date ? format(new Date(item.date * 1000), `${window.__heretic.t("global.dateFormatShort")} ${window.__heretic.t("global.timeFormatShort")}`) : ""}</div>
                                 </div>
-                                <div class="column p-2 hr-lg-col-level ">
+                                <div class="column hr-lg-col-level">
                                     <div class="hr-lg-cell">${item.level}</div>
                                 </div>
-                                <div class="column p-2 hr-lg-col-ip">
+                                <div class="column hr-lg-col-ip">
                                     <div class="hr-lg-cell">${item.ip}</div>
                                 </div>
-                                <div class="column p-2 hr-lg-col-url hr-fs-col-url-clipped hr-lg-cell">
+                                <div class="column hr-lg-col-url hr-fs-col-url-clipped hr-lg-cell">
                                     <div class="hr-lg-cell-clipped">
                                         <if(item.method)>
                                             <span class="tag mr-2">${item.method.toUpperCase()}</span>
@@ -68,6 +68,7 @@ import {
     </div>
     <div id="hr_lg_dummy"/>
     <hnotify admin=true key="notify"/>
+    <entryModal key="entryModal" on-notification("onNotification")/>
 </if>
 <if(!state.ready && !state.failed && component.mongoEnabled)>
     <!-- <hloading admin=true active=true/> -->
