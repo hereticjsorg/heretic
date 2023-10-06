@@ -19,3 +19,7 @@
 .hr-em-col-line {
     border-bottom: dashed 1px $grey-lightest;
 }
+
+html.heretic-dark .hr-em-col-line {
+    border-bottom: dashed 1px $grey;
+}
