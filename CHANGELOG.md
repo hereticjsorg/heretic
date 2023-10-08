@@ -1,3 +1,23 @@
+## v1.1.110
+
+**Logs Module work-in-progress** (2023-10-08)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-10-02 | Docs updated |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-10-02 | Docs updated |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-10-02 | NPM Modules update |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-10-03 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-10-05 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-10-05 | Logs Module work-in-progress |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-10-06 | Logs Module work-in-progress |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-10-06 | Logs Module work-in-progress |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-10-06 | NPM Modules update |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-10-06 | Update dark theme for Logs Module |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-10-08 | NPM Modules update |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-10-08 | Fixed modal dialog prefix |
+
+
 ## v1.1.109
 
 **Fixed archive creation in demo mode** (2023-10-01)
