@@ -43,7 +43,7 @@ export default () => ({
                         }
                         return item;
                     })
-                    .filter(i => i)
+                    .filter(i => i && i.time)
                     .map(i => ({
                         _id: uuid(),
                         level: i.level,

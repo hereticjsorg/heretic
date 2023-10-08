@@ -1,0 +1,12 @@
+import { mdiMenuDown, mdiMenuUp } from "@mdi/js"
+
+<if(input.sortDir)>
+<span class="hr-fs-sort-icon">
+    <svg viewBox="0 0 24 13" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
+        <path d=(input.sortDir === "asc" ? mdiMenuDown : mdiMenuUp)/>
+    </svg>
+</span>
+</if>
+<else>
+    <div class="hr-fs-sort-icon-empty"/>
+</else>

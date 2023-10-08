@@ -1,0 +1,11 @@
+@import "~styles/variables.scss";
+
+html.heretic-dark .hr-fs-sort-icon>svg>path {
+    fill: $white-ter;
+}
+
+.hr-fs-sort-icon-empty {
+    display: inline-block;
+    width: 1px;
+    height: 20px;
+}

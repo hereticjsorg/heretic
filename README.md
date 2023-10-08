@@ -21,5 +21,6 @@ Please read the docs before you get started:
 * [Build Process](docs/build.md)
 * [Using Docker](docs/docker.md)
 * [Deploy on Server](docs/deploy.md)
+* [User Guide](docs/userguide/index.md)
 
 Check out the [Demo](https://demo.hereticjs.org) - sample website build on Heretic. It's automatically updated every time a new release is being pushed to the *master* branch of Heretic repository.

@@ -1,0 +1,25 @@
+@import "~styles/variables.scss";
+
+.hr-enm-foot {
+    background: $white-bis !important;
+    position: relative;
+    order: 100;
+}
+
+.hr-enm-modal {
+    user-select: none;
+}
+
+.hr-enm-par-col {
+    min-width: 110px;
+    text-align: right;
+    font-weight: 600;
+}
+
+.hr-enm-col-line {
+    border-bottom: dashed 1px $grey-lightest;
+}
+
+html.heretic-dark .hr-enm-col-line {
+    border-bottom: dashed 1px $grey;
+}

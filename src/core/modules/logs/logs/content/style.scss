@@ -1,19 +1,155 @@
 @import "~styles/variables.scss";
 
-.editModal-card-body>.hr-hf-wrap>.hr-hf-form>.hr-hf-area {
-    margin-bottom: 0 !important;
+$folder: #F2DCB3;
+$folder-dark: #594D36;
+
+.hr-lg-head {
+    background-color: $grey-lighter;
+    border-top-right-radius: $radius;
+    border-top-left-radius: $radius;
+    font-weight: bold;
+    user-select: none;
 }
 
-.eventsModal-card-body {
-    user-select: text;
+html.heretic-dark .hr-lg-head {
+    background-color: $grey-darker;
+    color: $white;
 }
 
-html.heretic-dark .editModal-card-body>.hr-hf-wrap>.hr-hf-form>.hr-hf-area {
-    border: 1px solid $grey;
+.hr-lg-dir>.column {
+    color: $black-ter;
 }
 
-// @media (max-width: 769px) {
-//     .hr-groups-edit-modal>.hr-hm-modal-card {
-//         height: 90vh;
-//     }
-// }
+.hr-lg-entry {
+    background-color: $grey-lightest;
+    cursor: pointer;
+}
+
+.hr-lg-entry-odd {
+    background-color: $grey-lighter;
+}
+
+.hr-lg-entry:hover,
+.hr-lg-entry-odd:hover {
+    background-color: darken($grey-lighter, 10%);
+}
+
+html.heretic-dark .hr-lg-entry {
+    background-color: $grey-dark;
+}
+
+html.heretic-dark .hr-lg-entry-odd {
+    background-color: $grey-darker;
+}
+
+html.heretic-dark .hr-lg-entry:hover,
+html.heretic-dark .hr-lg-entry-odd:hover {
+    background-color: lighten($grey-dark, 20%);
+}
+
+.hr-lg-bottomItem {
+    border-bottom-right-radius: $radius;
+    border-bottom-left-radius: $radius;
+}
+
+html.heretic-dark .hr-lg-entry-icon>svg>path {
+    fill: $white-ter;
+}
+
+.hr-lg-entries {
+    position: relative;
+}
+
+.hr-lg-entries-loading {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: rgba($white, 0.5);
+    left: 0;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    padding-top: 10px;
+    border-radius: $radius;
+}
+
+html.heretic-dark .hr-lg-entries-loading {
+    background-color: rgba($black, 0.5);
+}
+
+.hr-lg-col,
+.hr-lg-cell {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.ht-lg-cell {
+    padding: 8px;
+}
+
+.hr-lg-col-date {
+    min-width: 160px;
+    max-width: 160px;
+    width: 160px;
+}
+
+.hr-lg-col-level,
+.hr-lg-col-ip,
+.hr-lg-col-url {
+    padding-left: 8px !important;
+}
+
+.hr-lg-col-level {
+    min-width: 60px;
+    max-width: 60px;
+    width: 60px;
+}
+
+.hr-lg-col-ip {
+    min-width: 140px;
+    max-width: 140px;
+    width: 140px;
+}
+
+.hr-lg-cell-clipped {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.hr-lg-col-sortable {
+    cursor: pointer;
+}
+
+html.heretic-dark .hr-lg-tag {
+    background-color: $grey;
+    color: $white-ter;
+}
+
+.hr-lg-col {
+    padding-left: 0 !important;
+}
+
+@media (max-width: 768px) {
+
+    .hr-lg-col-date,
+    .hr-lg-col-level,
+    .hr-lg-col-ip,
+    .hr-lg-col-url {
+        min-width: unset;
+        max-width: unset;
+        width: 100%;
+        // padding-left: 8px !important;
+        padding: 8px !important
+    }
+
+    .hr-lg-col {
+        padding-left: 8px !important;
+    }
+
+}
