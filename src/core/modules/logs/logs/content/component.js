@@ -46,7 +46,7 @@ export default class {
     }
 
     async setLogWrapWidth() {
-        await this.utils.waitForElement("hr_fs_entries_wrap");
+        await this.utils.waitForElement("hr_lg_entries_wrap");
         if (!this.setLogWrapWidthRun) {
             if (document.getElementById("hr_admin_dummy").getBoundingClientRect().width !== document.body.getBoundingClientRect().width) {
                 setTimeout(() => this.setLogWrapWidthDelayed());
@@ -54,7 +54,7 @@ export default class {
             }
             this.setLogWrapWidthRun = true;
         }
-        const filesWrap = document.getElementById("hr_fs_entries_wrap");
+        const filesWrap = document.getElementById("hr_lg_entries_wrap");
         filesWrap.style.display = "none";
         await this.utils.waitForElement("hr_lg_dummy");
         const dummy = document.getElementById("hr_lg_dummy");
@@ -140,6 +140,7 @@ export default class {
         if (!this.mongoEnabled) {
             return;
         }
+        await import(/* webpackChunkName: "logs" */ "./logs.scss");
         this.t = window.__heretic.t;
         this.query = new Query();
         this.cookies = new Cookies(this.cookieOptions);

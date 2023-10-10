@@ -83,9 +83,13 @@ html.heretic-dark .hr-lg-entries-loading {
     overflow: hidden;
     text-overflow: ellipsis;
     width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+    // display: flex;
+    // flex-direction: row;
+    // align-items: center;
+}
+
+.hr-lg-col {
+    padding: 8px !important;
 }
 
 .ht-lg-cell {
@@ -93,9 +97,9 @@ html.heretic-dark .hr-lg-entries-loading {
 }
 
 .hr-lg-col-date {
-    min-width: 160px;
-    max-width: 160px;
-    width: 160px;
+    min-width: 180px;
+    max-width: 180px;
+    width: 180px;
 }
 
 .hr-lg-col-level,
@@ -129,10 +133,6 @@ html.heretic-dark .hr-lg-entries-loading {
 html.heretic-dark .hr-lg-tag {
     background-color: $grey;
     color: $white-ter;
-}
-
-.hr-lg-col {
-    padding-left: 0 !important;
 }
 
 @media (max-width: 768px) {
