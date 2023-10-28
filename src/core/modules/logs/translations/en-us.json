@@ -16,5 +16,6 @@
     "pid": "PID",
     "noEntriesToDisplay": "No entries to display",
     "entry": "Log Entry",
-    "close": "Close"    
+    "close": "Close",
+    "view": "View"
 }

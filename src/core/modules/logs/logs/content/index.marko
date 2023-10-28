@@ -1,10 +1,13 @@
 import {
     format,
 } from "date-fns"
+import LogForm from "../../data/form.js";
 
 <if(state.ready)>
-    <hadmin-title admin=true title=(process.browser && window.__heretic ? window.__heretic.t("moduleTitleLogs") : null)/>
-    <div id="hr_lg_entries_wrap">
+    $ const t = process.browser && window.__heretic ? window.__heretic.t : out.global.t
+    <hadmin-title admin=true title=(t("moduleTitleLogs"))/>
+    <hflextable id="medved" data=(new LogForm(t)) headers=state.headers/>
+    <!-- <div id="hr_lg_entries_wrap" style="display:none">
         <if(state.entries)>
             <div class="hr-lg-entries">
                 <if(state.loading)>
@@ -65,7 +68,7 @@ import {
                 </div>
             </div>
         </if>
-    </div>
+    </div> -->
     <div id="hr_lg_dummy"/>
     <hnotify admin=true key="notify"/>
     <entryModal key="entryModal" on-notification("onNotification")/>

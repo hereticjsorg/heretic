@@ -1,0 +1,15 @@
+@import "~styles/variables.scss";
+
+.hr-ft-sort-icon {
+    margin-left: -4px;
+}
+
+html.heretic-dark .hr-ft-sort-icon>svg>path {
+    fill: $white-ter;
+}
+
+.hr-ft-sort-icon-empty {
+    display: inline-block;
+    width: 1px;
+    height: 20px;
+}

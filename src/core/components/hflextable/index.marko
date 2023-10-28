@@ -1,0 +1,309 @@
+import { mdiReload, mdiPlus, mdiMagnify, mdiCogOutline, mdiPencilOutline, mdiTrashCanOutline, mdiFilterOutline, mdiDatabaseOutline, mdiContentSaveMoveOutline, mdiFormatListGroup, mdiDatabaseExportOutline, mdiDatabaseImportOutline, mdiLockOutline, mdiClose } from "@mdi/js"
+
+<div class="columns is-gapless m-0 p-0">
+    <div class="column is-auto">
+        <if(state.topButtons)>
+            <div class="mb-3 buttons">
+                <for|item, index| of=state.topButtons>
+                    <button data-tippy-content=(state.clientWidth < 1023 ? item.label : null) data-id=item.id on-click("onTopButtonClick") class=`button ${item.danger ? "is-danger" : "is-light"}` disabled=state.loading>
+                        <span class=`hr-hf-top-button-icon icon${item.danger ? " hr-hf-top-button-icon-danger" : ""}`>
+                            <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                <path d=item.icon/>
+                            </svg>
+                        </span>
+                        <if(state.clientWidth > 1023)>
+                            <span>${item.label}</span>
+                        </if>
+                    </button>
+                </for>
+                <if(state.loadConfig && state.loadConfig.url)>
+                    <button data-tippy-content=(process.browser && state.clientWidth < 1023 && window.__heretic ? window.__heretic.t("htable_reloadButton") : null) on-click("onReloadClick") class="button is-light" disabled=state.loading>
+                        <span class="hr-hf-top-button-icon icon">
+                            <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                <path d=mdiReload/>
+                            </svg>
+                        </span>
+                        <if(state.clientWidth > 1023)>
+                            <t>htable_reloadButton</t>
+                        </if>
+                    </button>
+                </if>
+                <button data-tippy-content=(process.browser && state.clientWidth < 1023 && window.__heretic ? window.__heretic.t("htable_settingsButton") : null) on-click("onSettingsClick") class="button is-light" disabled=state.loading>
+                    <span class="hr-hf-top-button-icon icon">
+                        <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                            <path d=mdiCogOutline/>
+                        </svg>
+                    </span>
+                    <if(state.clientWidth > 1023)>
+                        <t>htable_settingsButton</t>
+                    </if>
+                    <if(state.filtersEnabledCount)>
+                        <span class="hr-hf-top-info-icon icon">
+                            <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                <path d=mdiFilterOutline/>
+                            </svg>
+                        </span>
+                    </if>
+                </button>
+                <if(state.bulkUpdateConfig || state.exportConfig || state.recycleBin.enabled || state.importConfig)>
+                    <div class=`dropdown${state.dataOpen ? " is-active" : ""}` id=`hr_hf_data_dropdown_${input.id}`>
+                        <div class="dropdown-trigger">
+                            <button data-tippy-content=(process.browser && state.clientWidth < 1023 && window.__heretic ? window.__heretic.t("htable_dataButton") : null) on-click("onDataClick") class="button is-light" disabled=state.loading>
+                                <span class="hr-hf-top-button-icon icon">
+                                    <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                        <path d=mdiDatabaseOutline/>
+                                    </svg>
+                                </span>
+                                <if(state.clientWidth > 1023)>
+                                    <t>htable_dataButton</t>
+                                </if>
+                            </button>
+                        </div>
+                        <div class="dropdown-menu" role="menu">
+                            <div class="dropdown-content">
+                                <if(state.bulkUpdateConfig)>
+                                    <a class="dropdown-item" on-click("onBulkUpdateClick")>
+                                        <span class="hr-hf-top-button-submenu-icon">
+                                            <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d=mdiFormatListGroup/>
+                                            </svg>
+                                        </span>
+                                        <t>htable_bulkUpdate</t>
+                                    </a>
+                                </if>
+                                <if(state.importConfig)>
+                                    <a class="dropdown-item" on-click("onImportClick")>
+                                        <span class="hr-hf-top-button-submenu-icon">
+                                            <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d=mdiDatabaseImportOutline/>
+                                            </svg>
+                                        </span>
+                                        <t>htable_import</t>
+                                    </a>
+                                </if>
+                                <if(state.exportConfig)>
+                                    <a class="dropdown-item" on-click("onExportClick")>
+                                        <span class="hr-hf-top-button-submenu-icon">
+                                            <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d=mdiDatabaseExportOutline/>
+                                            </svg>
+                                        </span>
+                                        <t>htable_export</t>
+                                    </a>
+                                </if>
+                                <if(state.recycleBin && state.recycleBin.enabled)>
+                                    <a class="dropdown-item" on-click("onRecycleBinClick")>
+                                        <span class="hr-hf-top-button-submenu-icon">
+                                            <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d=mdiTrashCanOutline/>
+                                            </svg>
+                                        </span>
+                                        <t>htable_recycleBin</t>
+                                    </a>
+                                </if>
+                            </div>
+                        </div>
+                    </div>
+                </if>
+            </div>
+        </if>
+    </div>
+    <div class="column is-narrow">
+        <div class="field has-addons has-addons-centered">
+            <div class="control hr-hf-search-control">
+                <form on-submit("onSearchInputFormSubmit")>
+                    <input class="input hr-hf-search-field" type="text" value=state.searchText on-input("onSearchInputChange") placeholder=(process.browser ? window.__heretic.t("htable_searchPlaceholder") : "") disabled=state.loading id=`hr_hf_table_search_${input.id}`/>
+                </form>
+            </div>
+            <p class="control">
+                <a class="button hr-hf-search-button" on-click("onSearchButtonClearClick") disabled=state.loading>
+                    <span class="hr-hf-form-icon icon">
+                        <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                            <path d=mdiClose/>
+                        </svg>
+                    </span>
+                </a>
+            </p>
+        </div>
+    </div>
+</div>
+<div
+    class="hr-ft-wrap"
+    id=`hr_ft_wrap_${input.id}`
+    style={
+        opacity: "0"
+    }>
+    <div class="columns m-0 p-0 hr-hf-head" data-hf-row=input.id on-click("onHeadClick")>
+        <div
+            class="column m-0 p-0 is-narrow"
+            style={
+                width: "30px"
+            }>
+            <div>
+                <div class="hr-hf-checkbox-wrap" data-checkbox=true on-change("onCheckboxAllChange")>
+                    <input type="checkbox" checked=(state.data.length && state.checked.length === state.data.length)/>
+                </div>
+            </div>
+        </div>
+        <for|c, ci| of=Object.keys(state.columns)>
+            <if(state.columns[c])>
+                $ const column = state.columnData[c];
+                <if(column.width === "auto")>
+                    <div
+                        class="column m-0 p-0 is-auto hr-hf-cell-border-head-left"
+                        data-id=column.id
+                        style={
+                            minWidth: column.minWidth,
+                            cursor: column.sortable ? "pointer" : "inherit"
+                        }>
+                        <div class="hr-hf-cell-head-data">
+                            <if(state.sortField === column.id)>
+                                <hfxsort sortDir=state.sortDirection/>
+                            </if>
+                            <else>
+                                <hfxsort/>
+                            </else>
+                            <span data-tippy-content=column.label>${column.label}</span>
+                        </div>
+                    </div>
+                </if>
+                <else>
+                    <div
+                        class="column m-0 p-0 is-narrow hr-hf-cell-border-head-left"
+                        data-id=column.id
+                        style={
+                            width: column.width,
+                            cursor: column.sortable ? "pointer" : "inherit"
+                        }>
+                        <div class="hr-hf-cell-head-data">
+                            <if(state.sortField === column.id)>
+                                <hfxsort sortDir=state.sortDirection/>
+                            </if>
+                            <else>
+                                <hfxsort/>
+                            </else>
+                            <span data-tippy-content=column.label>${column.label}</span>
+                        </div>
+                    </div>
+                </else>
+            </if>
+        </for>
+        <div class="column m-0 p-0 is-narrow hr-hf-cell-action hr-hf-head hr-hf-cell-border-head-left hr-hf-action-column-head" data-hf-action=input.id>
+            <div class="hr-hf-cell-head-data">
+                <hfxsort/>
+                <t>htable_actions</t>
+            </div>
+        </div>
+        <div class="column m-0 p-0 is-narrow" data-hf-spacer=input.id/>
+    </div>
+    <if(state.data && state.data.length)>
+        <div on-click("onRowClick")>
+            <for|i, index| of=state.data>
+                <div class=`columns m-0 p-0 hr-hf-row${index % 2 === 0 ? " hr-hf-row-odd" : ""}${index === state.data.length - 1 ? " hr-hf-item-bottom" : ""}` data-item=i._id data-hf-row=input.id>
+                    <div
+                        class="column m-0 p-0 is-narrow"
+                        style={
+                            width: "30px"
+                        }>
+                        <div class="hr-hf-checkbox-wrap">
+                            <input type="checkbox" data-checkboxid=i._id checked=(state.checked.indexOf(i._id) > -1)/>
+                        </div>
+                    </div>
+                    <for|c, ci| of=Object.keys(state.columns)>
+                        <if(state.columns[c])>
+                            $ const column = state.columnData[c];
+                            <if(column.width === "auto")>
+                                <div
+                                    class="column m-0 is-auto hr-hf-cell-data hr-hf-cell-border-left"
+                                    style={
+                                        minWidth: column.minWidth
+                                    }>
+                                    ${input.data.processTableCell(c, i)}
+                                </div>
+                            </if>
+                            <else>
+                                <div
+                                    class="column m-0 is-narrow hr-hf-cell-data hr-hf-cell-border-left"
+                                    style={
+                                        width: column.width
+                                    }>
+                                    ${input.data.processTableCell(c, i)}
+                                </div>
+                            </else>
+                        </if>
+                    </for>
+                    <div class=`column m-0 is-narrow hr-hf-cell-action hr-hf-cell-border-left hr-hf-row${index % 2 === 0 ? " hr-hf-row-odd" : ""}${index === state.data.length - 1 ? " hr-hf-item-bottom" : ""}` data-hf-action=input.id>
+                        <for|item, index| of=state.actions>
+                            <button
+                                data-id=item.id
+                                data-tippy-content=(process.browser && window.__heretic ? window.__heretic.t(item.label) : null)
+                                data-item=i._id
+                                on-click("onActionButtonClick")
+                                class=`button is-small hr-hf-action-button ${item.danger ? "is-danger" : "is-light"}`
+                                style={
+                                    "margin-left": index > 0 ? "2px" : "0"
+                                }>
+                                <span class=`hr-hf-action-icon icon${item.danger ? " hr-hf-action-icon-danger" : ""}`>
+                                    <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                        <path d=item.icon/>
+                                    </svg>
+                                </span>
+                            </button>
+                        </for>
+                    </div>
+                    <div class="column m-0 p-0 is-narrow" data-hf-spacer=input.id/>
+                </div>
+            </for>
+        </div>
+    </if>
+    <else>
+        <div class="columns m-0 p-0 hr-hf-row hr-hf-row-odd hr-hf-item-bottom" data-hf-row=input.id>
+            <div class="ccolumn m-0 is-narrow hr-hf-cell-data">&nbsp;</div>
+        </div>
+    </else>
+    <if(state.loading)>
+        <div class="hr-hf-loading-wrap" id=`hr_hf_loading_wrap_${input.id}` no-update>
+            <div class="hr-hf-loading" id=`hr_hf_loading_${input.id}`>
+                <hloading-dots admin=input.admin/>
+            </div>
+        </div>
+    </if>
+</div>
+<hfxscroll key=`hr_ft_scroll_bottom_${input.id}` id=`bottom_${input.id}` on-wrap-scroll("onWrapScroll")/>
+<hpagination admin=input.admin data=state.pagination currentPage=state.currentPage on-page-click("onPageClick")/>
+<hnotify admin=input.admin key=`notify_hf_${input.id}`/>
+<hfxsettings admin=input.admin id=input.id key=`settings_hf_${input.id}` filters=state.filters columns=state.columns itemsPerPage=state.itemsPerPage columnData=state.columnData on-notification("onNotification")/>
+<div id=`hr_ft_dummy_${input.id}`/>
+<hmodal
+    admin=input.admin
+    key=`deleteConfirmation_hf_${input.id}`
+    id=`deleteConfirmation_hf_${input.id}`
+    on-button-click("onDeleteConfirmationButtonClick")
+    close=true
+    title="htable_deleteConfirmation"
+    actions=[
+        {
+            id: "delete",
+            label: "htable_delete",
+            class: "button is-danger"
+        },
+        {
+            id: "cancel",
+            label: "htable_cancel",
+            class: "button is-light",
+            close: true
+        }
+    ]>
+    <section
+        class="modal-card-body"
+        style={
+            order: "2"
+        }>
+        <t>htable_deleteItems</t>:
+        <ul class="mt-2">
+            <for|item| of=state.deleteItems>
+                <li>&ndash;&nbsp;${item.title}</li>
+            </for>
+        </ul>
+    </section>
+</hmodal>

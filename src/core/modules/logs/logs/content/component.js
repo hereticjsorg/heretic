@@ -1,7 +1,7 @@
 // import cloneDeep from "lodash.clonedeep";
 import axios from "axios";
-import throttle from "lodash.throttle";
-import debounce from "lodash.debounce";
+// import throttle from "lodash.throttle";
+// import debounce from "lodash.debounce";
 import Utils from "#lib/componentUtils";
 import Query from "#lib/queryBrowser";
 import Cookies from "#lib/cookiesBrowser";
@@ -152,14 +152,14 @@ export default class {
         this.setState("headers", {
             Authorization: `Bearer ${currentToken}`
         });
-        this.setLogWrapWidthDelayed = throttle(this.setLogWrapWidth, 200);
-        this.setState("mobile", window.innerWidth <= 768);
-        window.addEventListener("resize", debounce(() => this.setState("mobile", window.innerWidth <= 768), 500));
-        if (window.innerWidth > 768) {
-            window.addEventListener("resize", () => this.setLogWrapWidth());
-        }
+        // this.setLogWrapWidthDelayed = throttle(this.setLogWrapWidth, 200);
+        // this.setState("mobile", window.innerWidth <= 768);
+        // window.addEventListener("resize", debounce(() => this.setState("mobile", window.innerWidth <= 768), 500));
+        // if (window.innerWidth > 768) {
+        //     window.addEventListener("resize", () => this.setLogWrapWidth());
+        // }
         this.setState("ready", true);
-        await this.loadData();
+        // await this.loadData();
     }
 
     onUnauthorized() {
@@ -194,5 +194,9 @@ export default class {
 
     onPageClick(page) {
         this.loadData(this.state.sort, this.state.sortDir, page);
+    }
+
+    onNotification(data) {
+        this.showNotification(data.message, data.css);
     }
 }
