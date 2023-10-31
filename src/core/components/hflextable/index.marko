@@ -1,6 +1,8 @@
 import { mdiReload, mdiPlus, mdiMagnify, mdiCogOutline, mdiPencilOutline, mdiTrashCanOutline, mdiFilterOutline, mdiDatabaseOutline, mdiContentSaveMoveOutline, mdiFormatListGroup, mdiDatabaseExportOutline, mdiDatabaseImportOutline, mdiLockOutline, mdiClose } from "@mdi/js"
 
-<div class="columns is-gapless m-0 p-0">
+<div
+    class="columns is-gapless m-0 p-0"
+    id=`hr_ft_controls_${input.id}`>
     <div class="column is-auto">
         <if(state.topButtons)>
             <div class="mb-3 buttons">
@@ -131,7 +133,7 @@ import { mdiReload, mdiPlus, mdiMagnify, mdiCogOutline, mdiPencilOutline, mdiTra
     class="hr-ft-wrap"
     id=`hr_ft_wrap_${input.id}`
     style={
-        opacity: "0"
+        width: "0px"
     }>
     <div class="columns m-0 p-0 hr-hf-head" data-hf-row=input.id on-click("onHeadClick")>
         <div

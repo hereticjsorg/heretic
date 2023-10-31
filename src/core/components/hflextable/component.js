@@ -1,4 +1,5 @@
 import throttle from "lodash.throttle";
+import debounce from "lodash.debounce";
 import axios from "axios";
 import cloneDeep from "lodash.clonedeep";
 import Utils from "#lib/componentUtils";
@@ -32,10 +33,11 @@ export default class {
             filtersEnabledCount: 0,
             bulkUpdateConfig: input.data.getTableBulkUpdateConfig ? input.data.getTableBulkUpdateConfig() : null,
             exportConfig: input.data.getTableExportConfig ? input.data.getTableExportConfig() : null,
-            importConfig: input.data.getTableImportConfig ? input.formData.getTableImportConfig() : null,
+            importConfig: input.data.getTableImportConfig ? input.data.getTableImportConfig() : null,
             recycleBin: input.data.getRecycleBinConfig ? input.data.getRecycleBinConfig() : null,
             deleteConfig: input.data.getTableLoadConfig ? input.data.getTableDeleteConfig() : null,
             deleteItems: [],
+            dataOpen: false,
         };
         if (input.admin) {
             await import( /* webpackChunkName: "hflextable-admin" */ "./style-admin.scss");
@@ -60,10 +62,9 @@ export default class {
             this.cookieOptions = out.global.cookieOptions || window.__heretic.outGlobal.cookieOptions;
             this.systemRoutes = out.global.systemRoutes || window.__heretic.outGlobal.systemRoutes;
         }
-    }
-
-    setClientWidth() {
-        this.setState("clientWidth", Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0));
+        if (process.browser) {
+            this.setState("clientWidth", Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0));
+        }
     }
 
     generatePagination() {
@@ -95,80 +96,79 @@ export default class {
     }
 
     async setWrapWidth() {
+        // eslint-disable-next-line no-console
+        console.log("setWrapWidth called");
         if (this.setWrapWidthRunning) {
             return;
         }
         this.setWrapWidthRunning = true;
         await this.utils.waitForElement(`hr_ft_wrap_${this.input.id}`);
-        if (!this.setWrapWidthRun) {
-            if (document.getElementById("hr_admin_dummy").getBoundingClientRect().width !== document.body.getBoundingClientRect().width) {
-                this.setWrapWidthRunning = false;
-                setTimeout(() => this.setWrapWidthDelayed());
-                return;
-            }
-            this.setWrapWidthRun = true;
-        }
         const wrap = document.getElementById(`hr_ft_wrap_${this.input.id}`);
-        await this.utils.waitForComponent(`hr_ft_scroll_bottom_${this.input.id}`);
-        const scrollBottom = this.getComponent(`hr_ft_scroll_bottom_${this.input.id}`);
-        scrollBottom.setDisplay("none");
-        wrap.style.display = "none";
-        await this.utils.waitForElement(`hr_ft_dummy_${this.input.id}`);
-        const dummy = document.getElementById(`hr_ft_dummy_${this.input.id}`);
-        const {
-            left,
-            width,
-        } = dummy.getBoundingClientRect();
-        wrap.style.width = `${width}px`;
-        scrollBottom.setWrapWidth(width);
-        wrap.style.display = "block";
-        scrollBottom.setDisplay("block");
-        const actionColumnElements = document.querySelectorAll(`[data-hf-action='${this.input.id}']`);
-        const spacerColumnElements = document.querySelectorAll(`[data-hf-spacer='${this.input.id}']`);
-        const rowElements = document.querySelectorAll(`[data-hf-row='${this.input.id}']`);
-        const actionsWidth = (this.state.actions.length * 30) + ((this.state.actions.length - 1) * 2) + 17;
-        if (wrap.scrollWidth > width) {
-            // Scrollbar is visible
-            for (const el of actionColumnElements) {
-                el.style.position = "absolute";
-                el.style.left = `${left + width - actionsWidth}px`;
-                el.style.width = `${actionsWidth}px`;
+        try {
+            await this.utils.waitForComponent(`hr_ft_scroll_bottom_${this.input.id}`);
+            const scrollBottom = this.getComponent(`hr_ft_scroll_bottom_${this.input.id}`);
+            scrollBottom.setDisplay("none");
+            wrap.style.display = "none";
+            await this.utils.waitForElement(`hr_ft_dummy_${this.input.id}`);
+            const dummy = document.getElementById(`hr_ft_dummy_${this.input.id}`);
+            const {
+                left,
+                width,
+            } = dummy.getBoundingClientRect();
+            wrap.style.width = `${width}px`;
+            scrollBottom.setWrapWidth(width);
+            wrap.style.display = "block";
+            scrollBottom.setDisplay("block");
+            const actionColumnElements = document.querySelectorAll(`[data-hf-action='${this.input.id}']`);
+            const spacerColumnElements = document.querySelectorAll(`[data-hf-spacer='${this.input.id}']`);
+            const rowElements = document.querySelectorAll(`[data-hf-row='${this.input.id}']`);
+            const actionsWidth = (this.state.actions.length * 30) + ((this.state.actions.length - 1) * 2) + 17;
+            if (wrap.scrollWidth > width) {
+                // Scrollbar is visible
+                for (const el of actionColumnElements) {
+                    el.style.position = "absolute";
+                    el.style.left = `${left + width - actionsWidth}px`;
+                    el.style.width = `${actionsWidth}px`;
+                }
+                for (const el of spacerColumnElements) {
+                    el.style.width = `${actionsWidth}px`;
+                }
+                for (const el of rowElements) {
+                    el.style.width = `${wrap.scrollWidth}px`;
+                }
+            } else {
+                for (const el of actionColumnElements) {
+                    el.style.position = "unset";
+                    el.style.left = "unset";
+                    el.style.width = `${actionsWidth}px`;
+                }
+                for (const el of spacerColumnElements) {
+                    el.style.width = "unset";
+                }
+                for (const el of rowElements) {
+                    el.style.width = "unset";
+                }
             }
-            for (const el of spacerColumnElements) {
-                el.style.width = `${actionsWidth}px`;
+            scrollBottom.setInnerWidth(wrap.scrollWidth);
+            wrap.scrollLeft = 0;
+            scrollBottom.setScrollLeft(0);
+            const spinnerWrap = document.getElementById(`hr_hf_loading_wrap_${this.input.id}`);
+            if (spinnerWrap) {
+                spinnerWrap.style.width = `${width}px`;
+                spinnerWrap.style.height = `${wrap.getBoundingClientRect().height}px`;
+                const spinner = document.getElementById(`hr_hf_loading_${this.input.id}`);
+                spinner.style.left = `${width / 2 - 20}px`;
             }
-            for (const el of rowElements) {
-                el.style.width = `${wrap.scrollWidth}px`;
+            if (window.__heretic && window.__heretic.setTippy) {
+                window.__heretic.setTippy();
             }
-        } else {
-            for (const el of actionColumnElements) {
-                el.style.position = "unset";
-                el.style.left = "unset";
-                el.style.width = `${actionsWidth}px`;
-            }
-            for (const el of spacerColumnElements) {
-                el.style.width = "unset";
-            }
-            for (const el of rowElements) {
-                el.style.width = "unset";
-            }
+            scrollBottom.onWindowScroll();
+        } catch (e) {
+            // eslint-disable-next-line no-console
+            console.log(e);
+            // Ignore
         }
-        scrollBottom.setInnerWidth(wrap.scrollWidth);
-        wrap.style.opacity = "1";
-        wrap.scrollLeft = 0;
-        scrollBottom.setScrollLeft(0);
         this.setWrapWidthRunning = false;
-        const spinnerWrap = document.getElementById(`hr_hf_loading_wrap_${this.input.id}`);
-        if (spinnerWrap) {
-            spinnerWrap.style.width = `${width}px`;
-            spinnerWrap.style.height = `${wrap.getBoundingClientRect().height}px`;
-            const spinner = document.getElementById(`hr_hf_loading_${this.input.id}`);
-            spinner.style.left = `${width / 2 - 20}px`;
-        }
-        if (window.__heretic && window.__heretic.setTippy) {
-            window.__heretic.setTippy();
-        }
-        this.setClientWidth();
     }
 
     onScroll() {
@@ -180,7 +180,7 @@ export default class {
     async setLoading(flag) {
         if (flag) {
             this.setState("loading", true);
-            await this.setWrapWidth();
+            // await this.setWrapWidth();
         } else {
             this.setState("loading", false);
         }
@@ -240,8 +240,6 @@ export default class {
                     }
                     for (const k of Object.keys(input)) {
                         this.setState(k, input[k]);
-                        // eslint-disable-next-line no-console
-                        console.log(`${this.queryStringShorthands[k]} -> ${input[k]}`);
                         if (this.queryStringShorthands[k]) {
                             this.query.set(this.queryStringShorthands[k], input[k]);
                         }
@@ -281,13 +279,13 @@ export default class {
             Object.keys(this.state.columnData).map(c => columns[c] = this.state.columnData[c].column && !this.state.columnData[c].hidden);
         }
         this.setState("columns", columns);
-        this.setWrapWidthDelayed = throttle(this.setWrapWidth, 500);
+        this.setWrapWidthDelayed = throttle(this.setWrapWidth, 150);
+        this.setWrapWidthDebounced = debounce(this.setWrapWidth, 50);
+        await this.utils.waitForElement(`hr_ft_wrap_${this.input.id}`);
+        const wrap = document.getElementById(`hr_ft_wrap_${this.input.id}`);
         if (window.innerWidth > 768) {
             window.addEventListener("resize", () => this.setWrapWidth());
         }
-        await this.utils.waitForElement(`hr_ft_wrap_${this.input.id}`);
-        await this.setWrapWidth();
-        const wrap = document.getElementById(`hr_ft_wrap_${this.input.id}`);
         wrap.addEventListener("scroll", this.onScroll.bind(this));
         const loadInput = {};
         const currentPage = this.query.get(this.queryStringShorthands["currentPage"]);
@@ -308,7 +306,19 @@ export default class {
         if (searchText && typeof searchText === "string" && searchText.length < 64) {
             loadInput.searchText = searchText.replace(/\+/gm, " ");
         }
+        window.addEventListener("click", e => {
+            if (document.getElementById(`hr_hf_data_dropdown_${this.input.id}`) && !document.getElementById(`hr_hf_data_dropdown_${this.input.id}`).contains(e.target)) {
+                this.setState("dataOpen", false);
+            }
+        });
         await this.loadData(loadInput);
+        const hereticContentWidth = document.getElementById("heretic_content").clientWidth;
+        const hereticContentInterval = setInterval(() => {
+            if (document.getElementById("heretic_content").clientWidth !== hereticContentWidth && document.getElementById("heretic_content").clientWidth > hereticContentWidth) {
+                clearInterval(hereticContentInterval);
+                this.setWrapWidth();
+            }
+        }, 10);
     }
 
     onWrapScroll(p) {
@@ -378,8 +388,6 @@ export default class {
             const checkbox = document.querySelector(`[data-checkboxid="${checkboxid}"]`);
             const checkedData = checkbox.checked ? cloneDeep([...this.state.checked, checkboxid]) : cloneDeep(this.state.checked).filter(i => i !== checkboxid);
             this.setState("checked", checkedData);
-            // eslint-disable-next-line no-console
-            console.log(checkedData);
         }
     }
 
@@ -429,8 +437,9 @@ export default class {
         this.getComponent(`settings_hf_${this.input.id}`).show();
     }
 
-    onDataClick() {
-        //
+    onDataClick(e) {
+        e.preventDefault();
+        this.setState("dataOpen", true);
     }
 
     onBulkUpdateClick() {
@@ -493,4 +502,6 @@ export default class {
     onNotification(msg, css) {
         this.notify(msg, css);
     }
+
+    onUpdate() {}
 }

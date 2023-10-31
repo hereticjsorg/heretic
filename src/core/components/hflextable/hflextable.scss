@@ -1,6 +1,5 @@
 .hr-ft-wrap {
     width: 100%;
-    opacity: 0;
     overflow-x: auto;
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -337,6 +336,17 @@ html.heretic-dark .hr-hf-export-columns-drop-area {
 .hr-hf-settings-columns-drop-area-over,
 .hr-hf-export-columns-drop-area-over {
     background: $yellow;
+}
+
+.hr-hf-top-button-submenu-icon svg {
+    height: 16px;
+    width: 16px;
+    top: 3px;
+    position: relative;
+}
+
+.hr-hf-top-button-submenu-icon svg>path {
+    fill: $grey !important;
 }
 
 @media (max-width: 768px) {
