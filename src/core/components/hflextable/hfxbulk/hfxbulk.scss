@@ -3,6 +3,11 @@
     padding: 10px;
 }
 
+html.heretic-dark .hr-hfb-modal-notification {
+    background-color: darken($blue, 20%);
+    color: $grey-light;
+}
+
 .hr-hfb-settings-icon {
     display: inline-flex;
     align-self: center;
@@ -58,6 +63,15 @@ html.heretic-dark .hr-hfb-action-button {
 
 .hr-hfb-action-icon-danger svg>path {
     fill: $white !important;
+}
+
+html.heretic-dark .hr-hfb-settings-bulk-row:hover {
+    background: lighten($heretic-dark-grey-dark, 18%);
+    border-radius: $radius;
+}
+
+html.heretic-dark .hr-hfi-hr {
+    background-color: $grey;
 }
 
 @media (max-width: 768px) {

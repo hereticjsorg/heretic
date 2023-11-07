@@ -24,5 +24,10 @@ html.heretic-dark .hr-he-export-form-wrap {
     background: $white-bis;
 }
 
+html.heretic-dark .hr-he-modal-notification {
+    background-color: darken($blue, 20%);
+    color: $grey-light;
+}
+
 @media (max-width: 768px) {
 }

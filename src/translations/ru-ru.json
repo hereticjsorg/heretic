@@ -75,6 +75,8 @@
     "htable_deleteItems": "Следующая запись (записи) будут удалены",
     "htable_deleteRecycleItems": "Следующие записи будут НАВСЕГДА удалены из базы данных. Вы не сможете их восстановить.",
     "htable_reloadButton": "Обновить",
+    "htable_deleteAll": "Удалить все",
+    "htable_deleteAllRecycleItems": "Настоящее действие выполнит полную очистку корзины и навсегда удалит все элементы, без возможности дальнейшего восстановления.",
     "authorization": "Авторизация",
     "htable_settings": "Настройки",
     "htable_settingsButton": "Настройки",

@@ -37,7 +37,7 @@
                 </label>
             </div>
             <if(state.importColumns && state.importColumns.length)>
-                <hr class="mt-3 mb-3"/>
+                <hr class="mt-3 mb-3 hr-hfi-hr"/>
                 <div class="is-size-7">
                     <t class="tag">htable_hint</t>&nbsp;&nbsp;<t>htable_checkboxToUpdate</t>
                 </div>
@@ -45,7 +45,7 @@
                     <for|c, i| of=state.importColumns>
                         <div class="columns is-mobile" data-column=c>
                             <div class="column">
-                                <label class="checkbox">
+                                <label class="checkbox hr-hfi-import-checkbox">
                                     <input type="checkbox" disabled=!!!state.importColumnsData[c].targetColumn checked=!!state.importColumnsData[c].update on-change("onImportUpdateCheckboxChange")/>
                                     &nbsp;${c}
                                 </label>

@@ -75,6 +75,8 @@
     "htable_deleteItems": "Die folgende(n) Position(en) wird (werden) gelöscht",
     "htable_deleteRecycleItems": "Die folgenden Einträge werden PERMANENT aus der Datenbank gelöscht und können nicht mehr wiederhergestellt werden",
     "htable_reloadButton": "Neu laden",
+    "htable_deleteAll": "Alle löschen",
+    "htable_deleteAllRecycleItems": "Diese Aktion führt eine vollständige Bereinigung des Papierkorbes durch und löscht alle Objekte endgültig, ohne dass eine weitere Wiederherstellung möglich ist.",
     "authorization": "Autorisierung",
     "htable_settings": "Einstellungen",
     "htable_settingsButton": "Einstellungen",

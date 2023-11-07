@@ -75,6 +75,8 @@
     "htable_deleteItems": "The following item(s) will be deleted",
     "htable_deleteRecycleItems": "The following item(s) will be PERMANENTLY deleted from the database and you won't be able to restore them anymore",
     "htable_reloadButton": "Reload",
+    "htable_deleteAll": "Delete All",
+    "htable_deleteAllRecycleItems": "This action will perform a full Recycle Bin cleanup and permanently delete all items, with no further recovery possible.",
     "authorization": "Authorization",
     "htable_settings": "Settings",
     "htable_settingsButton": "Settings",

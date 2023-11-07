@@ -225,4 +225,41 @@ export default class {
             page: 1
         });
     }
+
+    async onDeleteAllRecycleConfirmationButtonClick(button) {
+        switch (button) {
+        case "delete":
+            await this.utils.waitForComponent(`deleteAllRecycleConfirmation_hf_${this.input.id}`);
+            const deleteConfirmation = this.getComponent(`deleteAllRecycleConfirmation_hf_${this.input.id}`);
+            deleteConfirmation.setCloseAllowed(false).setLoading(true);
+            try {
+                await axios({
+                    method: "post",
+                    url: this.input.recycleBin.url.deleteAll,
+                    data: {},
+                    headers: this.input.headers || {},
+                });
+                await this.loadRecycleBinData({
+                    page: 1
+                });
+                deleteConfirmation.setActive(false);
+                await this.notify("htable_deleteSuccess");
+            } catch (e) {
+                if (e && e.response && e.response.status === 403) {
+                    this.emit("unauthorized");
+                    return;
+                }
+                await this.notify("htable_loadingError", "is-danger");
+            } finally {
+                deleteConfirmation.setLoading(false).setCloseAllowed(true);
+            }
+            break;
+        }
+    }
+
+    async onDeleteAllClick() {
+        await this.utils.waitForComponent(`deleteAllRecycleConfirmation_hf_${this.input.id}`);
+        const deleteConfirmation = this.getComponent(`deleteAllRecycleConfirmation_hf_${this.input.id}`);
+        deleteConfirmation.setActive(true).setCloseAllowed(true).setLoading(false);
+    }
 }

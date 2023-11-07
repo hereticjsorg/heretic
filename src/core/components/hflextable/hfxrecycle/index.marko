@@ -1,4 +1,4 @@
-import { mdiContentSaveMoveOutline, mdiTrashCanOutline, mdiReload } from "@mdi/js"
+import { mdiContentSaveMoveOutline, mdiTrashCanOutline, mdiReload, } from "@mdi/js"
 
 <hmodal
     admin=input.admin
@@ -21,10 +21,17 @@ import { mdiContentSaveMoveOutline, mdiTrashCanOutline, mdiReload } from "@mdi/j
             order: "2"
         }>
         <div class="m-2">
-            <button data-tippy-content=window.__heretic.t("htable_reloadButton") on-click("onReloadClick") class="button is-light" disabled=state.loading>
+            <button data-tippy-content=window.__heretic.t("htable_reloadButton") on-click("onReloadClick") class="button is-light mr-1" disabled=state.loading>
                 <span class="hr-hr-top-button-icon icon">
                     <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
                         <path d=mdiReload/>
+                    </svg>
+                </span>
+            </button>
+            <button data-tippy-content=window.__heretic.t("htable_deleteAll") on-click("onDeleteAllClick") class="button is-danger" disabled=state.loading>
+                <span class="hr-hr-top-button-icon hr-hr-action-icon-danger icon">
+                    <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                        <path d=mdiTrashCanOutline/>
                     </svg>
                 </span>
             </button>
@@ -42,7 +49,7 @@ import { mdiContentSaveMoveOutline, mdiTrashCanOutline, mdiReload } from "@mdi/j
                     <table class="table is-striped is-hoverable is-fullwidth hr-hr-table-main" id=`hr_hf_table_main_${input.id}`>
                         <thead>
                             <tr>
-                                <if(state.recycleBin.id)>
+                                <if(input.recycleBin.id)>
                                     <th class="is-narrow">
                                         <t>htable_recycleBinId</t>
                                     </th>
@@ -56,7 +63,7 @@ import { mdiContentSaveMoveOutline, mdiTrashCanOutline, mdiReload } from "@mdi/j
                         <tbody>
                             <for|item, index| of=state.recycleBinList>
                                 <tr>
-                                    <if(state.recycleBin.id)>
+                                    <if(input.recycleBin.id)>
                                         <td>
                                             <div class="hr-hr-recycleBin-cell">${item[input.recycleBin.id]}</div>
                                         </td>
@@ -150,5 +157,35 @@ import { mdiContentSaveMoveOutline, mdiTrashCanOutline, mdiReload } from "@mdi/j
                 <li>&ndash;&nbsp;${item.title}</li>
             </for>
         </ul>
+    </section>
+</hmodal>
+<hmodal
+    admin=input.admin
+    key=`deleteAllRecycleConfirmation_hf_${input.id}`
+    id=`deleteAllRecycleConfirmation_hf_${input.id}`
+    on-button-click("onDeleteAllRecycleConfirmationButtonClick")
+    close=true
+    cardClass="pl-3 pr-3"
+    backgroundClass="hr-hm-background-60"
+    title="htable_deleteConfirmation"
+    actions=[
+        {
+            id: "delete",
+            label: "htable_delete",
+            class: "button is-danger"
+        },
+        {
+            id: "cancel",
+            label: "htable_cancel",
+            class: "button is-light",
+            close: true
+        }
+    ]>
+    <section
+        class="modal-card-body"
+        style={
+            order: "2"
+        }>
+        <t>htable_deleteAllRecycleItems</t>
     </section>
 </hmodal>

@@ -38,4 +38,9 @@ html.heretic-dark .hr-hd-drop-area {
     border-radius: $radius;
 }
 
+html.heretic-dark .hr-hd-columns-row:hover {
+    background: lighten($heretic-dark-grey-dark, 18%);
+    border-radius: $radius;
+}
+
 @media (max-width: 768px) {}
