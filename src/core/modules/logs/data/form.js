@@ -3,7 +3,6 @@ import {
 } from "date-fns";
 import {
     mdiTextBoxSearchOutline,
-    mdiTrashCanOutline,
 } from "@mdi/js";
 import utils from "#lib/formValidatorUtils";
 import moduleConfig from "../module.js";
@@ -228,12 +227,7 @@ export default class {
     }
 
     getTopButtons() {
-        return [{
-            id: "delete",
-            label: this.t("deleteSelected"),
-            icon: mdiTrashCanOutline,
-            danger: true,
-        }];
+        return [];
     }
 
     getTableBulkUpdateConfig() {

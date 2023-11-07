@@ -1,0 +1,90 @@
+<hmodal
+    admin=input.admin
+    key=`exportModal_hf_${input.id}`
+    id=`exportModal_hf_${input.id}`
+    on-button-click("onExportButtonClick")
+    close=true
+    title="htable_export"
+    cardClass="p-0"
+    actions=[
+        {
+            id: "save",
+            label: "htable_exportExecute",
+            class: "button is-primary"
+        },
+        {
+            id: "cancel",
+            label: "htable_close",
+            class: "button is-light",
+            close: true
+        }
+    ]>
+    <div
+        class="notification is-info p-4 mb-0 hr-he-modal-notification"
+        style={
+            order: "2"
+        }>
+        <t>htable_exportCount</t>: ${input.checked.length}
+    </div>
+    <div
+        class="p-3 hr-he-export-form-wrap"
+        style={
+            order: "3"
+        }>
+        <div class="select is-fullwidth">
+            <select id=`export_hf_${input.id}_format`>
+                <option value="excel">
+                    <t>htable_exportExcel</t>
+                </option>
+                <option value="tsv">
+                    <t>htable_exportTSV</t>
+                </option>
+            </select>
+        </div>
+    </div>
+    <section
+        class="modal-card-body hr-he-settings-body"
+        id=`exportModal_hf_${input.id}_body`
+        style={
+            order: "4"
+        }>
+        <div class="p-3">
+            <div>
+                <hdraglist columns=input.columns columnData=input.columnData id="columns" key="exportColumns"/>
+            </div>
+        </div>
+    </section>
+</hmodal>
+<hmodal
+    admin=input.admin
+    key=`exportDownloadModal_hf_${input.id}`
+    id=`exportDownloadModal_hf_${input.id}`
+    on-button-click("onExportDownloadButtonClick")
+    close=true
+    title="htable_exportDownload"
+    actions=[
+        {
+            id: "cancel",
+            label: "htable_close",
+            class: "button is-light",
+            close: true
+        }
+    ]>
+    <section
+        class="modal-card-body hr-he-settings-body"
+        id=`exportDownloadModal_hf_${input.id}_body`
+        style={
+            order: "2"
+        }>
+        <div class="p-3">
+            <div>
+                <t>htable_exportDownloadMessage</t>
+            </div>
+            <div class="mt-2">
+                <a class="is-underlined" href=`${input.exportConfig.download}?id=${state.dataExportUID}&_=${Math.floor(Date.now())}`>
+                    <t>htable_exportDownload</t>
+                </a>
+            </div>
+        </div>
+    </section>
+</hmodal>

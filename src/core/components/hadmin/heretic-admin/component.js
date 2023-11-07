@@ -149,6 +149,13 @@ export default class {
         this.cookies.set(`${this.siteId}.darkMode`, darkMode);
         this.setState("mounted", true);
         window.dispatchEvent(new CustomEvent("scroll"));
+        const hereticContentWidth = document.getElementById("heretic_content").clientWidth;
+        const hereticContentInterval = setInterval(async () => {
+            if (document.getElementById("heretic_dummy").clientWidth !== hereticContentWidth && document.getElementById("heretic_content").clientWidth > hereticContentWidth) {
+                clearInterval(hereticContentInterval);
+                window.__heretic.viewSettled = true;
+            }
+        }, 10);
     }
 
     getAnimationTimer() {

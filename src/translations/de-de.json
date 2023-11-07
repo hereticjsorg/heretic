@@ -81,6 +81,7 @@
     "htable_dataButton": "Daten",
     "htable_save": "Speichern",
     "htable_bulkUpdate": "Massenaktualisierung",
+    "htable_bulkUpdateSuccess": "Erfolgreich aktualisiert",
     "htable_export": "Exportieren in Datei",
     "htable_import": "Aus Excel importieren",
     "htable_exportCount": "Zu exportierende Einträge",

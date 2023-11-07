@@ -12,16 +12,21 @@ export default class {
         }
     }
 
-    onWindowScroll() {
-        const scrollWrap = document.getElementById(`hr_ft_scroll_wrap_${this.input.id}`);
-        scrollWrap.style.position = "unset";
-        scrollWrap.style.bottom = "unset";
-        if (this.utils.isElementInViewport(scrollWrap)) {
+    async onWindowScroll() {
+        try {
+            await this.utils.waitForElement(`hr_ft_scroll_wrap_${this.input.id}`);
+            const scrollWrap = document.getElementById(`hr_ft_scroll_wrap_${this.input.id}`);
             scrollWrap.style.position = "unset";
             scrollWrap.style.bottom = "unset";
-        } else {
-            scrollWrap.style.position = "fixed";
-            scrollWrap.style.bottom = 0;
+            if (this.utils.isElementInViewport(scrollWrap)) {
+                scrollWrap.style.position = "unset";
+                scrollWrap.style.bottom = "unset";
+            } else {
+                scrollWrap.style.position = "fixed";
+                scrollWrap.style.bottom = 0;
+            }
+        } catch {
+            //
         }
     }
 

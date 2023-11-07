@@ -1,0 +1,80 @@
+<hmodal
+    admin=input.admin
+    key=`importModal_hf_${input.id}`
+    id=`importModal_hf_${input.id}`
+    on-button-click("onImportButtonClick")
+    close=true
+    title="htable_import"
+    actions=[
+        {
+            id: "save",
+            label: "htable_importButton",
+            class: "button is-primary"
+        },
+        {
+            id: "cancel",
+            label: "htable_cancel",
+            class: "button is-light",
+            close: true
+        }
+    ]>
+    <section
+        class="modal-card-body p-3"
+        style={
+            order: "2"
+        }>
+        <div>
+            <div
+                class="control"
+                style={
+                    display: "inline-block"
+                }>
+                <label class="file-label">
+                    <input class="file-input" type="file" multiple=false on-change("onImportFileInputChange")/>
+                    <a class="hr-hfi-file-cta file-cta button is-light" tabindex="0">
+                        <t class="file-label">hform_import_selectFile</t>
+                    </a>
+                </label>
+            </div>
+            <if(state.importColumns && state.importColumns.length)>
+                <hr class="mt-3 mb-3"/>
+                <div class="is-size-7">
+                    <t class="tag">htable_hint</t>&nbsp;&nbsp;<t>htable_checkboxToUpdate</t>
+                </div>
+                <div class="mt-3 card p-3">
+                    <for|c, i| of=state.importColumns>
+                        <div class="columns is-mobile" data-column=c>
+                            <div class="column">
+                                <label class="checkbox">
+                                    <input type="checkbox" disabled=!!!state.importColumnsData[c].targetColumn checked=!!state.importColumnsData[c].update on-change("onImportUpdateCheckboxChange")/>
+                                    &nbsp;${c}
+                                </label>
+                            </div> 
+                            <div class="column">
+                                <div class="select is-fullwidth">
+                                    <select on-change("onImportColumnChange")>
+                                        <option value="">—</option>
+                                        <for|item| of=Object.keys(input.columnData).sort()>
+                                            <if(state.bulkItemTypes.indexOf(input.columnData[item].type) > -1)>
+                                                <option selected=(state.importColumnsData[c].targetColumn === item) value=item>${input.columnData[item].label}</option>
+                                            </if>
+                                        </for>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="column">
+                                <div class="select is-fullwidth">
+                                    <select on-change("onImportTypeChange")>
+                                        <for|i| of=["text", "integer", "boolean", "date"]>
+                                            <option value=i selected=(state.importColumnsData[c].type === i)>${process.browser && window.__heretic ? window.__heretic.t(`hform_import_type_${i}`) : ""}</option>
+                                        </for>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </for>
+                </div>
+            </if>
+        </div>
+    </section>
+</hmodal>

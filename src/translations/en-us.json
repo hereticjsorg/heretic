@@ -125,6 +125,7 @@
     "htable_duplicateBulkItem": "Duplicate Item",
     "htable_bulkWarning": "Warning: nothing selected, all records will be updated",
     "htable_bulkUpdateCount": "Updating database records",
+    "htable_bulkUpdateSuccess": "Successfully updated",
     "htable_performUpdate": "Perform Update",
     "htable_nothingToDo": "Nothing To Do",
     "htable_bulkUpdateError": "Could not perform update",

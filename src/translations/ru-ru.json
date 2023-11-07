@@ -81,6 +81,7 @@
     "htable_dataButton": "Данные",
     "htable_save": "Сохранить",
     "htable_bulkUpdate": "Обновление нескольких записей",
+    "htable_bulkUpdateSuccess": "Данные успешно обновлены",
     "htable_export": "Экспорт в файл",
     "htable_import": "Импорт из Excel",
     "htable_exportCount": "Записи для экспортирования",

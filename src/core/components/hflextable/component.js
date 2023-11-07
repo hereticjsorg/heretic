@@ -1,5 +1,6 @@
 import throttle from "lodash.throttle";
 import debounce from "lodash.debounce";
+import store from "store2";
 import axios from "axios";
 import cloneDeep from "lodash.clonedeep";
 import Utils from "#lib/componentUtils";
@@ -9,6 +10,7 @@ export default class {
     async onCreate(input, out) {
         this.defaultSortData = input.data.getTableDefaultSortColumn ? input.data.getTableDefaultSortColumn() : {};
         this.state = {
+            initComplete: false,
             loadConfig: input.data.getTableLoadConfig(),
             loading: false,
             columnData: input.data.getTableColumns(),
@@ -38,6 +40,11 @@ export default class {
             deleteConfig: input.data.getTableLoadConfig ? input.data.getTableDeleteConfig() : null,
             deleteItems: [],
             dataOpen: false,
+            lockedItems: {},
+            tabs: input.data.getTabs ? input.data.getTabs : [{
+                id: "_default",
+                label: null,
+            }],
         };
         if (input.admin) {
             await import( /* webpackChunkName: "hflextable-admin" */ "./style-admin.scss");
@@ -53,6 +60,7 @@ export default class {
         this.mongoEnabled = out.global.mongoEnabled;
         if (process.browser) {
             window.__heretic = window.__heretic || {};
+            window.__heretic.initComplete = window.__heretic.initComplete || {};
             window.__heretic.outGlobal = window.__heretic.outGlobal || out.global || {};
             this.authOptions = this.authOptions || window.__heretic.outGlobal.authOptions;
             this.mongoEnabled = this.mongoEnabled || window.__heretic.outGlobal.mongoEnabled;
@@ -64,6 +72,19 @@ export default class {
         }
         if (process.browser) {
             this.setState("clientWidth", Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0));
+        }
+    }
+
+    setLock(id, username) {
+        const lockedItems = cloneDeep(this.state.lockedItems);
+        if (username) {
+            lockedItems[id] = username;
+        } else {
+            delete lockedItems[id];
+        }
+        this.setStateDirty("lockedItems", lockedItems);
+        if (window.__heretic && window.__heretic.setTippy) {
+            window.__heretic.setTippy();
         }
     }
 
@@ -95,9 +116,21 @@ export default class {
         this.setState("pagination", pagination);
     }
 
+    async positionSpinner() {
+        const wrap = document.getElementById(`hr_ft_wrap_${this.input.id}`);
+        const spinnerWrap = document.getElementById(`hr_hf_loading_wrap_${this.input.id}`);
+        if (wrap && spinnerWrap) {
+            const wrapBoundingRect = wrap.getBoundingClientRect();
+            spinnerWrap.style.left = `${wrapBoundingRect.left}px`;
+            spinnerWrap.style.top = `${wrapBoundingRect.top}px`;
+            spinnerWrap.style.width = `${wrapBoundingRect.width}px`;
+            spinnerWrap.style.height = `${wrapBoundingRect.height}px`;
+            const spinner = document.getElementById(`hr_hf_loading_${this.input.id}`);
+            spinner.style.left = `${wrapBoundingRect.width / 2 - 20}px`;
+        }
+    }
+
     async setWrapWidth() {
-        // eslint-disable-next-line no-console
-        console.log("setWrapWidth called");
         if (this.setWrapWidthRunning) {
             return;
         }
@@ -105,9 +138,15 @@ export default class {
         await this.utils.waitForElement(`hr_ft_wrap_${this.input.id}`);
         const wrap = document.getElementById(`hr_ft_wrap_${this.input.id}`);
         try {
-            await this.utils.waitForComponent(`hr_ft_scroll_bottom_${this.input.id}`);
+            try {
+                await this.utils.waitForComponent(`hr_ft_scroll_bottom_${this.input.id}`);
+            } catch {
+                //
+            }
             const scrollBottom = this.getComponent(`hr_ft_scroll_bottom_${this.input.id}`);
-            scrollBottom.setDisplay("none");
+            if (scrollBottom) {
+                scrollBottom.setDisplay("none");
+            }
             wrap.style.display = "none";
             await this.utils.waitForElement(`hr_ft_dummy_${this.input.id}`);
             const dummy = document.getElementById(`hr_ft_dummy_${this.input.id}`);
@@ -116,9 +155,13 @@ export default class {
                 width,
             } = dummy.getBoundingClientRect();
             wrap.style.width = `${width}px`;
-            scrollBottom.setWrapWidth(width);
+            if (scrollBottom) {
+                scrollBottom.setWrapWidth(width);
+            }
             wrap.style.display = "block";
-            scrollBottom.setDisplay("block");
+            if (scrollBottom) {
+                scrollBottom.setDisplay("block");
+            }
             const actionColumnElements = document.querySelectorAll(`[data-hf-action='${this.input.id}']`);
             const spacerColumnElements = document.querySelectorAll(`[data-hf-spacer='${this.input.id}']`);
             const rowElements = document.querySelectorAll(`[data-hf-row='${this.input.id}']`);
@@ -149,25 +192,25 @@ export default class {
                     el.style.width = "unset";
                 }
             }
-            scrollBottom.setInnerWidth(wrap.scrollWidth);
-            wrap.scrollLeft = 0;
-            scrollBottom.setScrollLeft(0);
-            const spinnerWrap = document.getElementById(`hr_hf_loading_wrap_${this.input.id}`);
-            if (spinnerWrap) {
-                spinnerWrap.style.width = `${width}px`;
-                spinnerWrap.style.height = `${wrap.getBoundingClientRect().height}px`;
-                const spinner = document.getElementById(`hr_hf_loading_${this.input.id}`);
-                spinner.style.left = `${width / 2 - 20}px`;
+            if (scrollBottom) {
+                scrollBottom.setInnerWidth(wrap.scrollWidth);
             }
+            wrap.scrollLeft = 0;
+            if (scrollBottom) {
+                scrollBottom.setScrollLeft(0);
+            }
+            await this.positionSpinner();
             if (window.__heretic && window.__heretic.setTippy) {
                 window.__heretic.setTippy();
             }
-            scrollBottom.onWindowScroll();
-        } catch (e) {
-            // eslint-disable-next-line no-console
-            console.log(e);
+            if (scrollBottom) {
+                scrollBottom.onWindowScroll();
+            }
+        } catch {
             // Ignore
         }
+        window.__heretic.initComplete[this.input.id] = true;
+        this.setState("clientWidth", Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0));
         this.setWrapWidthRunning = false;
     }
 
@@ -180,7 +223,8 @@ export default class {
     async setLoading(flag) {
         if (flag) {
             this.setState("loading", true);
-            // await this.setWrapWidth();
+            await this.utils.waitForElement(`hr_hf_loading_wrap_${this.input.id}`);
+            await this.positionSpinner();
         } else {
             this.setState("loading", false);
         }
@@ -212,7 +256,7 @@ export default class {
                             fields: Object.keys(this.state.columns),
                             sortField: input.sortField || this.state.sortField,
                             sortDirection: input.sortDirection || this.state.sortDirection,
-                            itemsPerPage: this.state.itemsPerPage,
+                            itemsPerPage: input.itemsPerPage || this.state.itemsPerPage,
                             page: input.currentPage || this.state.currentPage,
                             filters: this.state.filters.filter(i => i.enabled),
                             language: this.language,
@@ -247,6 +291,12 @@ export default class {
                     this.generatePagination();
                     this.setState("checked", []);
                     this.emit("load-complete", response.data);
+                    if (input && input.focusOnSearch) {
+                        setTimeout(async () => {
+                            await this.utils.waitForElement(`hr_hf_table_search_${this.input.id}`);
+                            document.getElementById(`hr_hf_table_search_${this.input.id}`).focus();
+                        });
+                    }
                 } catch (e) {
                     if (e && e.response && e.response.status === 403) {
                         this.emit("unauthorized");
@@ -266,6 +316,7 @@ export default class {
 
     async onMount() {
         this.utils = new Utils(this, this.language);
+        this.store = store.namespace(`heretic_flextable_${this.input.id}`);
         this.query = new Query();
         this.queryStringShorthands = {
             currentPage: "p",
@@ -273,12 +324,16 @@ export default class {
             sortDirection: "d",
             searchText: "s",
         };
-        // const columns = this.store.get("columns") || {};
-        const columns = {};
+        const columns = this.store.get("columns") || {};
         if (Object.keys(columns).length !== Object.keys(this.state.columnData).length) {
             Object.keys(this.state.columnData).map(c => columns[c] = this.state.columnData[c].column && !this.state.columnData[c].hidden);
         }
         this.setState("columns", columns);
+        this.setState("filters", this.store.get("filters") || []);
+        this.setState("filtersEnabledCount", this.state.filters.reduce((a, c) => a += c.enabled ? 1 : 0, 0));
+        if (this.store.get("itemsPerPage")) {
+            this.setState("itemsPerPage", parseInt(this.store.get("itemsPerPage"), 10));
+        }
         this.setWrapWidthDelayed = throttle(this.setWrapWidth, 150);
         this.setWrapWidthDebounced = debounce(this.setWrapWidth, 50);
         await this.utils.waitForElement(`hr_ft_wrap_${this.input.id}`);
@@ -312,13 +367,17 @@ export default class {
             }
         });
         await this.loadData(loadInput);
-        const hereticContentWidth = document.getElementById("heretic_content").clientWidth;
-        const hereticContentInterval = setInterval(() => {
-            if (document.getElementById("heretic_content").clientWidth !== hereticContentWidth && document.getElementById("heretic_content").clientWidth > hereticContentWidth) {
-                clearInterval(hereticContentInterval);
-                this.setWrapWidth();
-            }
-        }, 10);
+        if ((window.__heretic.initComplete && window.__heretic.initComplete[this.input.id]) || window.__heretic.viewSettled) {
+            setTimeout(() => this.setWrapWidthDebounced());
+        } else {
+            const hereticContentWidth = document.getElementById("heretic_content").clientWidth;
+            const hereticContentInterval = setInterval(async () => {
+                if (document.getElementById("heretic_content").clientWidth !== hereticContentWidth && document.getElementById("heretic_content").clientWidth > hereticContentWidth) {
+                    clearInterval(hereticContentInterval);
+                    await this.setWrapWidthDebounced();
+                }
+            }, 10);
+        }
     }
 
     onWrapScroll(p) {
@@ -442,32 +501,70 @@ export default class {
         this.setState("dataOpen", true);
     }
 
-    onBulkUpdateClick() {
-        //
+    async onBulkUpdateClick(e) {
+        e.preventDefault();
+        this.setState("dataOpen", false);
+        await this.utils.waitForComponent(`bulk_hf_${this.input.id}`);
+        await this.getComponent(`bulk_hf_${this.input.id}`).show();
     }
 
-    onImportClick() {
-        //
+    async onImportClick(e) {
+        e.preventDefault();
+        this.setState("dataOpen", false);
+        await this.utils.waitForComponent(`import_hf_${this.input.id}`);
+        this.getComponent(`import_hf_${this.input.id}`).show();
     }
 
-    onExportClick() {
-        //
+    async onExportClick(e) {
+        e.preventDefault();
+        this.setState("dataOpen", false);
+        if (!this.state.checked.length) {
+            await this.notify("htable_exportNoneSelectedError", "is-warning");
+            return;
+        }
+        await this.utils.waitForComponent(`export_hf_${this.input.id}`);
+        this.getComponent(`export_hf_${this.input.id}`).show();
     }
 
-    onRecycleBinClick() {
-        //
+    async onRecycleBinClick(e) {
+        e.preventDefault();
+        this.setState("dataOpen", false);
+        await this.utils.waitForComponent(`recycle_hf_${this.input.id}`);
+        this.getComponent(`recycle_hf_${this.input.id}`).show();
     }
 
-    onSearchInputFormSubmit() {
-        //
+    onSearchInputFormSubmit(e) {
+        e.preventDefault();
+        this.onSearchInputFormSubmitHandler();
     }
 
-    onSearchInputChange() {
-        //
+    async onSearchInputFormSubmitHandler() {
+        await this.loadData({
+            searchText: this.state.searchText,
+            currentPage: 1,
+            focusOnSearch: true,
+        });
+        setTimeout(async () => {
+            await this.utils.waitForElement(`hr_hf_table_search_${this.input.id}`);
+            document.getElementById(`hr_hf_table_search_${this.input.id}`).focus();
+        }, 10);
     }
 
-    onSearchButtonClearClick() {
-        //
+    onSearchInputChange(e) {
+        const value = e.target.value.trim();
+        this.setState("searchText", value);
+    }
+
+    onSearchButtonClearClick(e) {
+        e.preventDefault();
+        if (this.state.searchText && this.state.searchText.length) {
+            this.setState("searchText", "");
+            this.loadData({
+                searchText: "",
+                currentPage: 1,
+                focusOnSearch: true,
+            });
+        }
     }
 
     async onDeleteConfirmationButtonClick(id) {
@@ -499,9 +596,42 @@ export default class {
         }
     }
 
-    onNotification(msg, css) {
-        this.notify(msg, css);
+    onNotification(data) {
+        this.notify(data.message, data.css);
     }
 
-    onUpdate() {}
+    async onSettingsData(data) {
+        this.setState("columns", data.columns);
+        this.setState("filters", data.filters);
+        this.setState("filtersEnabledCount", data.filtersEnabledCount);
+        this.store.set("columns", data.columns);
+        this.store.set("itemsPerPage", data.itemsPerPage);
+        this.store.set("filters", data.filters);
+        await this.loadData({
+            currentPage: 1,
+            itemsPerPage: data.itemsPerPage,
+        });
+        await this.setWrapWidthDebounced();
+    }
+
+    onUnauthorized() {
+        this.emit("unauthorized");
+    }
+
+    onBulkUpdateSuccess() {
+        this.notify("htable_bulkUpdateSuccess");
+        this.loadData();
+    }
+
+    onImportSuccess() {
+        this.loadData();
+    }
+
+    onExportSuccess() {
+        this.loadData();
+    }
+
+    onRecycleSuccess() {
+        this.loadData();
+    }
 }

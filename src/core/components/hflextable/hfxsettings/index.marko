@@ -25,11 +25,11 @@ import SettingsPagesForm from "./settingsPagesForm"
         }
     ]>
     <header
-        class="modal-card-head hr-hm-tabs-wrap p-0"
+        class="modal-card-head hr-hfe-tabs-wrap p-0"
         style={
             order: "2"
         }>
-        <div class="tabs is-boxed hr-hm-tabs p-0">
+        <div class="tabs is-boxed hr-hfe-tabs p-0">
             <ul>
                 <for|i| of=["columns", "pages", "filter"]>
                     <li class=(state.settingsTab === i ? "is-active" : "")>
@@ -43,7 +43,7 @@ import SettingsPagesForm from "./settingsPagesForm"
                             <if(i === "filter")>
                                 <t>htable_settingsFilter</t>
                                 <if(state.filtersEnabledCount)>
-                                    <span class="hr-hf-top-info-icon icon">
+                                    <span class="hr-hfe-top-info-icon icon">
                                         <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
                                             <path d=mdiFilterOutline/>
                                         </svg>
@@ -57,7 +57,7 @@ import SettingsPagesForm from "./settingsPagesForm"
         </div>
     </header>
     <section
-        class="modal-card-body hr-hf-settings-body"
+        class="modal-card-body hr-hfe-settings-body"
         style={
             order: "3"
         }>
@@ -67,27 +67,7 @@ import SettingsPagesForm from "./settingsPagesForm"
                 left: state.settingsTab === "columns" ? "unset" : "-999999px",
                 clip: state.settingsTab === "columns" ? "unset" : "rect(0 0 0 0)"
             }>
-                <for|k, index| of=Object.keys(state.settingsColumns)>
-                    $ const column = input.columnData[k];
-                    <if(!column.noRender)>
-                        <if(index > 0 && state.settingColumnDrag !== null)>
-                            <div data-id=k class="hr-hf-settings-columns-drop-area" on-dragover("onSettingsColumnDragOver") on-dragenter("onSettingsColumnDragEnter") on-dragleave("onSettingsColumnDragLeave") on-drop("onSettingsColumnDrop")/>
-                        </if>
-                        <div class="hr-hf-settings-columns-row columns is-vcentered is-mobile is-gapless p-1 m-0" draggable="true" on-dragstart("onSettingsColumnDragStart") on-dragend("onSettingsColumnDragEnd") data-id=k>
-                            <div class="column is-narrow mr-2">
-                                <span class="hr-hf-drag-icon icon">
-                                    <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                                        <path d=mdiDrag/>
-                                    </svg>
-                                </span>
-                            </div>
-                            <div class="column is-narrow mr-2">
-                                <input type="checkbox" class="hr-hf-settings-switch switch" checked=state.settingsColumns[k] on-change("onSettingsColumnCheckboxClick") data-id=k/>
-                            </div>
-                            <div class="column is-auto mr-2">${column.label}</div>
-                        </div>
-                    </if>
-                </for>
+                <hdraglist columns=state.settingsColumns columnData=input.columnData id="columns" key="settingsColumns"/>
             </div>
             <div style={
                 position: state.settingsTab === "pages" ? "unset" : "absolute",
@@ -103,7 +83,7 @@ import SettingsPagesForm from "./settingsPagesForm"
             }>
                 <div class="buttons mb-0">
                     <button class="button is-light is-small mb-0" on-click("settingsNewFilter")>
-                        <span class="hr-hf-top-button-icon icon">
+                        <span class="hr-hfe-top-button-icon icon">
                             <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
                                 <path d=mdiPlus/>
                             </svg>
@@ -114,9 +94,9 @@ import SettingsPagesForm from "./settingsPagesForm"
                 <if(state.settingsFilters.length)>
                     <div class="mt-3">
                         <for|item| of=state.settingsFilters>
-                            <div class="hr-hf-settings-filters-row columns is-vcentered is-mobile is-gapless p-1 m-0" data-uid=item.uid>
+                            <div class="hr-hfe-settings-filters-row columns is-vcentered is-mobile is-gapless p-1 m-0" data-uid=item.uid>
                                 <div class="column is-narrow mr-2">
-                                    <input type="checkbox" data-uid=item.uid class="hr-hf-settings-switch switch" checked=state.settingsFilters.find(i => i.uid === item.uid).enabled on-change("settingsFilterCheckboxChange")/>
+                                    <input type="checkbox" data-uid=item.uid class="hr-hfe-settings-switch switch" checked=state.settingsFilters.find(i => i.uid === item.uid).enabled on-change("settingsFilterCheckboxChange")/>
                                 </div>
                                 <div class="column is-auto">
                                     <span class="tag is-white mr-1">${input.columnData[item.id].label}</span>
@@ -140,15 +120,15 @@ import SettingsPagesForm from "./settingsPagesForm"
                                     </if>
                                 </div>
                                 <div class="column is-narrow">
-                                    <button class="mr-1 button is-small hr-hf-action-button is-light" on-click("onSettingsFilterEditClick") data-tippy-content=(process.browser && state.clientWidth < 1023 && window.__heretic ? window.__heretic.t("htable_edit") : null)>
-                                        <span class="hr-hf-settings-icon icon">
+                                    <button class="mr-1 button is-small hr-hfe-action-button is-light" on-click("onSettingsFilterEditClick") data-tippy-content=(process.browser && state.clientWidth < 1023 && window.__heretic ? window.__heretic.t("htable_edit") : null)>
+                                        <span class="hr-hfe-settings-icon icon">
                                             <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
                                                 <path d=mdiPencilOutline/>
                                             </svg>
                                         </span>
                                     </button>
-                                    <button class="button is-small hr-hf-action-button is-danger" on-click("onSettingsFilterDeleteClick") data-tippy-content=(process.browser && state.clientWidth < 1023 && window.__heretic ? window.__heretic.t("htable_delete") : null)>
-                                        <span class="hr-hf-settings-icon hr-hf-action-icon-danger icon">
+                                    <button class="button is-small hr-hfe-action-button is-danger" on-click("onSettingsFilterDeleteClick") data-tippy-content=(process.browser && state.clientWidth < 1023 && window.__heretic ? window.__heretic.t("htable_delete") : null)>
+                                        <span class="hr-hfe-settings-icon hr-hfe-action-icon-danger icon">
                                             <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
                                                 <path d=mdiTrashCanOutline/>
                                             </svg>
@@ -170,7 +150,7 @@ import SettingsPagesForm from "./settingsPagesForm"
     on-button-click("onFilterButtonClick")
     close=true
     cardClass="pl-3 pr-3"
-    backgroundClass="hr-hm-background-60"
+    backgroundClass="hr-hfe-background-60"
     title="htable_filterEdit"
     actions=[
         {
@@ -191,7 +171,7 @@ import SettingsPagesForm from "./settingsPagesForm"
         style={
             order: "2"
         }>
-        <div class="p-3">
+        <div>
             <form on-submit("onFilterEditFormSubmit")>
                 <button
                     type="submit"
@@ -232,7 +212,7 @@ import SettingsPagesForm from "./settingsPagesForm"
                     </if>
                     <if(input.columnData[state.settingsFilterEditSelectedId].type === "checkbox")>
                         <div class="mt-2 is-fullwidth">
-                            <label class="label hr-hf-label">
+                            <label class="label hr-hfe-label">
                                 <input type="checkbox" checked=state.settingsFilterEditSelectedValue on-change("onSettingsFilterEditCheckboxValueChange")/>
                                 &nbsp;(${window.__heretic.t("checkboxSelected")})
                             </label>

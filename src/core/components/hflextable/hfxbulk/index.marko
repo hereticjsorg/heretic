@@ -1,0 +1,167 @@
+import { mdiPlus, mdiPencilOutline, mdiTrashCanOutline } from "@mdi/js"
+
+<hmodal
+    admin=input.admin
+    key=`bulkUpdateModal_hf_${input.id}`
+    id=`bulkUpdateModal_hf_${input.id}`
+    on-button-click("onBulkUpdateButtonClick")
+    close=true
+    title="htable_bulkUpdate"
+    actions=[
+        {
+            id: "save",
+            label: "htable_performUpdate",
+            class: "button is-primary"
+        },
+        {
+            id: "cancel",
+            label: "htable_cancel",
+            class: "button is-light",
+            close: true
+        }
+    ]>
+    <section
+        class="modal-card-body hr-hfb-settings-body"
+        id=`bulkUpdateModal_hf_${input.id}_body`
+        style={
+            order: "2"
+        }>
+        <if(input.checked.length)>
+            <div class="notification is-info p-4 mb-0 hr-hfb-modal-notification">
+                <t>htable_bulkUpdateCount</t>: ${input.checked.length}
+            </div>
+        </if>
+        <else>
+            <div class="notification is-warning p-4 mb-0 hr-hfb-modal-notification">
+                <t>htable_bulkWarning</t>
+            </div>
+        </else>
+        <div class="p-3">
+            <div class="buttons mb-0">
+                <button class="button is-light is-small mb-0" on-click("bulkItemNew")>
+                    <span class="hr-hfb-top-button-icon icon">
+                        <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                            <path d=mdiPlus/>
+                        </svg>
+                    </span>
+                    <t>htable_bulkItemNew</t>
+                </button>
+            </div>
+            <if(state.bulkItems.length)>
+                <div class="mt-3">
+                    <for|item| of=state.bulkItems>
+                        <div class="hr-hfb-settings-bulk-row columns is-vcentered is-mobile is-gapless p-1 m-0" data-uid=item.uid>
+                            <div class="column is-auto">
+                                <span class="tag is-dark mr-1">${input.columnData[item.id].label}</span>
+                                <if(input.columnData[item.id].type === "select" && item.value !== null)>
+                                    <span class="tag is-white">${input.columnData[item.id].options.find(i => i.value === item.value).label}</span> 
+                                </if>
+                                <if(input.columnData[item.id].type === "date" && item.value !== null)>
+                                    <span class="tag is-white">${format(new Date(item.value * 1000), window.__heretic.t("global.dateFormatShort"))}</span>
+                                </if>
+                                <if(input.columnData[item.id].type === "text" && item.value !== null)>
+                                    <span class="tag is-white">${item.value}</span>
+                                </if>
+                                <if(item.value === null)>
+                                    <span class="tag is-primary">null</span>
+                                </if>
+                            </div>
+                            <div class="column is-narrow">
+                                <button class="mr-1 button is-small hr-hfb-action-button is-light" on-click("onBulkItemEditClick") data-tippy-content=(process.browser && state.clientWidth < 1023 && window.__heretic ? window.__heretic.t("htable_edit") : null)>
+                                    <span class="hr-hfb-settings-icon icon">
+                                        <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d=mdiPencilOutline/>
+                                        </svg>
+                                    </span>
+                                </button>
+                                <button class="button is-small hr-hfb-action-button is-danger" on-click("onBulkItemDeleteClick") data-tippy-content=(process.browser && state.clientWidth < 1023 && window.__heretic ? window.__heretic.t("htable_delete") : null)>
+                                    <span class="hr-hfb-settings-icon hr-hfb-action-icon-danger icon">
+                                        <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d=mdiTrashCanOutline/>
+                                        </svg>
+                                    </span>
+                                </button> 
+                            </div>
+                        </div>
+                    </for>
+                </div>
+            </if>
+        </div>
+    </section>
+</hmodal>
+<hmodal
+    admin=input.admin
+    key=`bulkItemModal_hf_${input.id}`
+    id=`bulkItemModal_hf_${input.id}`
+    on-button-click("onBulkItemButtonClick")
+    close=true
+    cardClass="pl-3 pr-3"
+    backgroundClass="hr-hm-background-60"
+    title="htable_bulkItemEdit"
+    actions=[
+        {
+            id: "save",
+            label: "htable_save",
+            class: "button is-primary"
+        },
+        {
+            id: "cancel",
+            label: "htable_cancel",
+            class: "button is-light",
+            close: true
+        }
+    ]>
+    <section
+        class="modal-card-body hr-hfb-settings-body"
+        id=`bulkItem_hf_${input.id}_body`
+        style={
+            order: "2"
+        }>
+        <div class="p-3">
+            <form on-submit("onBulkItemFormSubmit")>
+                <button
+                    type="submit"
+                    style={
+                        display: "none"
+                    }/>
+                <div class="select is-fullwidth">
+                    <select on-change("onBulkItemSelectedChange") id=`bulkItem_hf_${input.id}_select_id`>
+                        <for|item| of=Object.keys(input.columnData)>
+                            <if(state.bulkItemTypes.indexOf(input.columnData[item].type) > -1)>
+                                <option value=item selected=(state.bulkItemSelectedId === item)>${input.columnData[item].label}</option>
+                            </if>
+                        </for>
+                    </select>
+                </div>
+                <if(input.columnData[state.bulkItemSelectedId])>
+                    <if(input.columnData[state.bulkItemSelectedId].type === "text")>
+                        <div class="mt-2 is-fullwidth">
+                            <input class="input" type="text" value=state.bulkItemSelectedValue on-change("onBulkItemValueChange")/>
+                        </div>
+                    </if>
+                    <if(input.columnData[state.bulkItemSelectedId].type === "select")>
+                        <div class="select is-fullwidth mt-2">
+                            <select on-change("onBulkItemSelectChange") id=`bulkItem_hf_${input.id}_select`>
+                                <for|item| of=state.bulkItemEditSelectValues>
+                                    <option value=item.value selected=(state.bulkItemSelectedValue === item.value)>${item.label}</option>
+                                </for>
+                            </select>
+                        </div>
+                    </if>
+                    <if(input.columnData[state.bulkItemSelectedId].type === "date")>
+                        <div class="mt-2">
+                            <hcalendar admin=input.admin key=`bulkItem_hf_${input.id}_hcalendar`/>
+                        </div>
+                    </if>
+                    <div style={
+                        display: input.tabs.length > 1 || (input.tabs && input.tabs[0] && input.tabs[0].id !== "_default") ? "block" : "none"
+                    }>
+                        <div class="mt-2">
+                            <hselect admin=input.admin key=`bulkItem_hf_${input.id}_tabs`/>
+                        </div>
+                    </div>
+                </if>
+            </form>
+        </div>
+    </section>
+</hmodal>

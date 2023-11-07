@@ -11,7 +11,6 @@ export default class {
             settingsTab: "columns",
             settingsItemsPerPage: 0,
             settingsFilters: [],
-            settingColumnDrag: null,
             settingsFilterUID: null,
             settingsFilterEditSelectedId: null,
             settingsFilterEditSelectedValue: null,
@@ -71,19 +70,6 @@ export default class {
         }
     }
 
-    onSettingsColumnCheckboxClick(e) {
-        e.preventDefault();
-        const {
-            checked
-        } = e.target;
-        const {
-            id
-        } = e.target.dataset;
-        const settingsColumns = cloneDeep(this.state.settingsColumns);
-        settingsColumns[id] = checked;
-        this.setState("settingsColumns", settingsColumns);
-    }
-
     async notify(message, css = "is-success") {
         this.emit("notification", {
             message,
@@ -95,15 +81,17 @@ export default class {
         const data = {};
         await this.utils.waitForComponent(`settingsModal_hf_${this.input.id}`);
         const settingsModal = this.getComponent(`settingsModal_hf_${this.input.id}`);
+        await this.utils.waitForComponent("settingsColumns");
+        const columnsDragList = this.getComponent("settingsColumns");
+        data.columns = columnsDragList.getColumns();
         let count = 0;
-        for (const k of Object.keys(this.state.settingsColumns)) {
-            count += this.state.settingsColumns[k] ? 1 : 0;
+        for (const k of Object.keys(data.columns)) {
+            count += data.columns[k] ? 1 : 0;
         }
         if (!count) {
             this.notify("htable_noColumnsSelected", "is-warning");
             return;
         }
-        data.columns = cloneDeep(this.state.settingsColumns);
         this.setState("settingsTab", "pages");
         await this.utils.waitForComponent(`settingsPagesForm_${this.input.id}`);
         const settingsPagesForm = this.getComponent(`settingsPagesForm_${this.input.id}`);
@@ -121,8 +109,7 @@ export default class {
         }));
         data.filtersEnabledCount = data.filters.reduce((a, c) => a += c.enabled ? 1 : 0, 0);
         settingsModal.setActive(false).setCloseAllowed(true).setBackgroundCloseAllowed(false).setLoading(false);
-        // eslint-disable-next-line no-console
-        console.log(data);
+        this.emit("data", data);
     }
 
     onSettingsPagesFormSubmit() {
@@ -228,54 +215,6 @@ export default class {
         } = e.target.closest("[data-uid]").dataset;
         const settingsFilters = this.state.settingsFilters.filter(i => i.uid !== uid);
         this.setState("settingsFilters", settingsFilters);
-    }
-
-    onSettingsColumnDragEnd() {
-        this.setState("settingColumnDrag", null);
-        return true;
-    }
-
-    onSettingsColumnDragStart(e) {
-        const {
-            id
-        } = e.target.closest("[data-id]").dataset;
-        this.setState("settingColumnDrag", id);
-        e.dataTransfer.setData("text", this.input.id);
-        return true;
-    }
-
-    onSettingsColumnDragEnter(e) {
-        e.preventDefault();
-        e.target.classList.add("hr-hf-settings-columns-drop-area-over");
-    }
-
-    onSettingsColumnDragLeave(e) {
-        e.preventDefault();
-        e.target.classList.remove("hr-hf-settings-columns-drop-area-over");
-    }
-
-    onSettingsColumnDragOver(e) {
-        e.preventDefault();
-        e.target.classList.add("hr-hf-settings-columns-drop-area-over");
-    }
-
-    onSettingsColumnDrop(e) {
-        const dataTransfer = e.dataTransfer.getData("text");
-        e.target.classList.remove("hr-hf-settings-columns-drop-area-over");
-        if (dataTransfer === this.input.id) {
-            const {
-                id
-            } = e.target.closest("[data-id]").dataset;
-            const settingsColumns = {};
-            const settingsColumnsArr = Object.keys(this.state.settingsColumns).filter(i => i !== this.state.settingColumnDrag);
-            const newIndex = settingsColumnsArr.findIndex(i => i === id);
-            settingsColumnsArr.splice(newIndex, 0, this.state.settingColumnDrag);
-            for (const c of settingsColumnsArr) {
-                settingsColumns[c] = this.state.settingsColumns[c];
-            }
-            this.setState("settingsColumns", settingsColumns);
-            return true;
-        }
     }
 
     async settingsSetValue(id, value) {

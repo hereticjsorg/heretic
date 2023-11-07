@@ -1,14 +1,12 @@
-import { mdiReload, mdiPlus, mdiMagnify, mdiCogOutline, mdiPencilOutline, mdiTrashCanOutline, mdiFilterOutline, mdiDatabaseOutline, mdiContentSaveMoveOutline, mdiFormatListGroup, mdiDatabaseExportOutline, mdiDatabaseImportOutline, mdiLockOutline, mdiClose } from "@mdi/js"
+import { mdiReload, mdiPlus, mdiMagnify, mdiCogOutline, mdiPencilOutline, mdiTrashCanOutline, mdiFilterOutline, mdiDatabaseOutline, mdiContentSaveMoveOutline, mdiFormatListGroup, mdiDatabaseExportOutline, mdiDatabaseImportOutline,  mdiClose, mdiLockOutline } from "@mdi/js"
 
-<div
-    class="columns is-gapless m-0 p-0"
-    id=`hr_ft_controls_${input.id}`>
+<div class="columns is-gapless m-0 p-0" id=`hr_ft_controls_${input.id}`>
     <div class="column is-auto">
         <if(state.topButtons)>
             <div class="mb-3 buttons">
                 <for|item, index| of=state.topButtons>
                     <button data-tippy-content=(state.clientWidth < 1023 ? item.label : null) data-id=item.id on-click("onTopButtonClick") class=`button ${item.danger ? "is-danger" : "is-light"}` disabled=state.loading>
-                        <span class=`hr-hf-top-button-icon icon${item.danger ? " hr-hf-top-button-icon-danger" : ""}`>
+                        <span class=`icon ${item.danger ? "hr-hf-top-button-icon-danger" : " hr-hf-top-button-icon"}`>
                             <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
                                 <path d=item.icon/>
                             </svg>
@@ -190,7 +188,7 @@ import { mdiReload, mdiPlus, mdiMagnify, mdiCogOutline, mdiPencilOutline, mdiTra
                 </else>
             </if>
         </for>
-        <div class="column m-0 p-0 is-narrow hr-hf-cell-action hr-hf-head hr-hf-cell-border-head-left hr-hf-action-column-head" data-hf-action=input.id>
+        <div class="column m-0 p-0 is-narrow hr-hf-cell-action hr-hf-head hr-hf-cell-border-head-left hr-hf-action-column-head has-text-centered" data-hf-action=input.id>
             <div class="hr-hf-cell-head-data">
                 <hfxsort/>
                 <t>htable_actions</t>
@@ -205,11 +203,21 @@ import { mdiReload, mdiPlus, mdiMagnify, mdiCogOutline, mdiPencilOutline, mdiTra
                     <div
                         class="column m-0 p-0 is-narrow"
                         style={
-                            width: "30px"
+                            width: "30px",
+                            position: "relative",
                         }>
-                        <div class="hr-hf-checkbox-wrap">
-                            <input type="checkbox" data-checkboxid=i._id checked=(state.checked.indexOf(i._id) > -1)/>
-                        </div>
+                        <if(state.lockedItems[i._id])>
+                            <span class="hr-hf-lock-icon">
+                                <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg" data-tippy-content=(process.browser && window.__heretic ? `${window.__heretic.t("htable_lockedBy")}: ${state.lockedItems[i._id]}` : null)>
+                                    <path d=mdiLockOutline/>
+                                </svg>
+                            </span>
+                        </if>
+                        <else>
+                            <div class="hr-hf-checkbox-wrap">
+                                <input type="checkbox" data-checkboxid=i._id checked=(state.checked.indexOf(i._id) > -1)/>
+                            </div>
+                        </else>
                     </div>
                     <for|c, ci| of=Object.keys(state.columns)>
                         <if(state.columns[c])>
@@ -264,7 +272,12 @@ import { mdiReload, mdiPlus, mdiMagnify, mdiCogOutline, mdiPencilOutline, mdiTra
         </div>
     </else>
     <if(state.loading)>
-        <div class="hr-hf-loading-wrap" id=`hr_hf_loading_wrap_${input.id}` no-update>
+        <div
+            class="hr-hf-loading-wrap"
+            id=`hr_hf_loading_wrap_${input.id}`
+            style={
+                opacity: 0
+            }>
             <div class="hr-hf-loading" id=`hr_hf_loading_${input.id}`>
                 <hloading-dots admin=input.admin/>
             </div>
@@ -272,10 +285,16 @@ import { mdiReload, mdiPlus, mdiMagnify, mdiCogOutline, mdiPencilOutline, mdiTra
     </if>
 </div>
 <hfxscroll key=`hr_ft_scroll_bottom_${input.id}` id=`bottom_${input.id}` on-wrap-scroll("onWrapScroll")/>
-<hpagination admin=input.admin data=state.pagination currentPage=state.currentPage on-page-click("onPageClick")/>
+<if(!state.loading)>
+    <hpagination admin=input.admin data=state.pagination currentPage=state.currentPage on-page-click("onPageClick")/>
+</if>
 <hnotify admin=input.admin key=`notify_hf_${input.id}`/>
-<hfxsettings admin=input.admin id=input.id key=`settings_hf_${input.id}` filters=state.filters columns=state.columns itemsPerPage=state.itemsPerPage columnData=state.columnData on-notification("onNotification")/>
-<div id=`hr_ft_dummy_${input.id}`/>
+<hfxsettings admin=input.admin id=input.id key=`settings_hf_${input.id}` filters=state.filters columns=state.columns itemsPerPage=state.itemsPerPage columnData=state.columnData on-notification("onNotification") on-data("onSettingsData")/>
+<hfxbulk admin=input.admin id=input.id key=`bulk_hf_${input.id}` tabs=state.tabs columnData=state.columnData checked=state.checked on-notification("onNotification") filters=state.filters bulkUpdateConfig=state.bulkUpdateConfig searchText=state.searchText headers=input.headers on-unauthorized("onUnauthorized") on-update-success("onBulkUpdateSuccess")/>
+<hfximport admin=input.admin id=input.id key=`import_hf_${input.id}` columnData=state.columnData  on-notification("onNotification") importConfig=state.importConfig headers=input.headers on-unauthorized("onUnauthorized") on-import-success("onImportSuccess")/>
+<hfxexport admin=input.admin id=input.id key=`export_hf_${input.id}` headers=input.headers on-unauthorized("onUnauthorized") on-notification("onNotification") on-export-success("onExportSuccess") columnData=state.columnData columns=state.columns exportConfig=state.exportConfig checked=state.checked/>
+<hfxrecycle admin=input.admin id=input.id key=`recycle_hf_${input.id}` headers=input.headers on-unauthorized("onUnauthorized") on-notification("onNotification") on-success("onRecycleSuccess") recycleBin=state.recycleBin/>
+<div id=`hr_ft_dummy_${input.id}` recycleBin=state.recycleBin/>
 <hmodal
     admin=input.admin
     key=`deleteConfirmation_hf_${input.id}`

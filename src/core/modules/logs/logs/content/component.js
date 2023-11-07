@@ -48,7 +48,7 @@ export default class {
     async setLogWrapWidth() {
         await this.utils.waitForElement("hr_lg_entries_wrap");
         if (!this.setLogWrapWidthRun) {
-            if (document.getElementById("hr_admin_dummy").getBoundingClientRect().width !== document.body.getBoundingClientRect().width) {
+            if (document.getElementById("heretic_dummy").getBoundingClientRect().width !== document.body.getBoundingClientRect().width) {
                 setTimeout(() => this.setLogWrapWidthDelayed());
                 return;
             }

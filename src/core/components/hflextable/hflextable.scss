@@ -21,13 +21,12 @@
     white-space: nowrap;
     overflow: hidden;
     position: relative;
-
     &:after {
         content: '';
         position: absolute;
         top: 0;
         right: 0;
-        width: 25px;
+        width: 15px;
         height: 42px;
         pointer-events: none;
         background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba($grey-lighter, 1) 100%);
@@ -37,6 +36,18 @@
 .hr-hf-row-odd>.hr-hf-cell-data {
     &:after {
         background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba($grey-lightest, 1) 100%);
+    }
+}
+
+html.heretic-dark .hr-hf-cell-data {
+    &:after {
+        background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba($grey-dark, 1) 100%);
+    }
+}
+
+html.heretic-dark .hr-hf-row-odd>.hr-hf-cell-data {
+    &:after {
+        background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba($grey-darker, 1) 100%);
     }
 }
 
@@ -51,7 +62,7 @@
         position: absolute;
         top: 0;
         right: 0;
-        width: 25px;
+        width: 15px;
         height: 42px;
         pointer-events: none;
         background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba($grey-light, 1) 100%);
@@ -190,12 +201,14 @@ html.heretic-dark .hr-hf-action-button {
 }
 
 .hr-hf-top-button-icon,
+.hr-hf-top-button-icon-danger,
 .hr-hf-top-button-submenu-icon {
     display: inline-flex;
     align-self: center;
 }
 
-.hr-hf-top-button-icon svg {
+.hr-hf-top-button-icon svg,
+.hr-hf-top-button-icon-danger svg {
     height: 16px;
     width: 16px;
     top: 0px;
@@ -299,11 +312,6 @@ html.heretic-dark .hr-hf-export-columns-drop-area {
     fill: $grey !important;
 }
 
-.hr-hf-settings-switch,
-.hr-hf-export-switch {
-    margin-top: 3px !important;
-}
-
 .hr-hf-settings-columns-row:hover,
 .hr-hf-settings-filters-row:hover,
 .hr-hf-settings-bulk-row:hover,
@@ -346,6 +354,42 @@ html.heretic-dark .hr-hf-export-columns-drop-area {
 }
 
 .hr-hf-top-button-submenu-icon svg>path {
+    fill: $grey !important;
+}
+
+.hr-hf-top-info-icon {
+    display: inline-flex;
+    align-self: center;
+    margin-left: 1px !important;
+}
+
+.hr-hf-top-info-icon svg {
+    height: 15px;
+    width: 15px;
+    top: 1px;
+    position: relative;
+}
+
+.hr-hf-top-info-icon svg>path {
+    fill: $primary !important;
+    margin-left: 10px;
+}
+
+.hr-hf-lock-icon {
+    display: inline-flex;
+    align-self: center;
+    position: absolute;
+    left: 7px !important;
+    top: 14px !important;
+}
+
+.hr-hf-lock-icon svg {
+    height: 17px;
+    width: 17px;
+    position: relative;
+}
+
+.hr-hf-lock-icon>svg>path {
     fill: $grey !important;
 }
 

@@ -45,7 +45,8 @@ export default {
         listValidationSchemaClone.properties.language.enum = Object.keys(languages);
         const validate = ajv.compile(listValidationSchemaClone);
         if (!validate(this.body)) {
-            // console.log(validate.errors);
+            // eslint-disable-next-line no-console
+            console.log(validate.errors);
             return null;
         }
         const options = {
