@@ -15,6 +15,16 @@ html.heretic-dark .hr-hfe-settings-filters-row:hover {
     height: 40px;
 }
 
+html.heretic-dark .hr-hfe-tabs-wrap {
+    background-color: $heretic-dark-grey-dark !important;
+}
+
+html.heretic-dark .hr-hfe-tabs>ul>li.is-active>a {
+    background: lighten($heretic-dark-grey-dark, 6%) !important;
+    color: $heretic-dark-text-color !important;
+    border-color: darken($heretic-dark-grey-dark, 20%) !important;
+}
+
 .hr-hfe-tabs>ul {
     position: absolute;
     top: 5px;
@@ -74,5 +84,12 @@ html.heretic-dark .hr-hfe-action-button {
     margin-top: 3px !important;
 }
 
-@media (max-width: 768px) {
+html.heretic-dark .hr-hs-wrap {
+    border-color: $grey;
 }
+
+html.heretic-dark .hr-hs-wrap>div>label:hover {
+    color: $grey-lighter;
+}
+
+@media (max-width: 768px) {}

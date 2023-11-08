@@ -21,6 +21,7 @@
     white-space: nowrap;
     overflow: hidden;
     position: relative;
+
     &:after {
         content: '';
         position: absolute;
@@ -197,7 +198,7 @@ html.heretic-dark .hr-hf-action-button {
 }
 
 .hr-hf-checkbox-wrap {
-    padding: 13px 6px 0;
+    padding: 13px 11px 0;
 }
 
 .hr-hf-top-button-icon,
@@ -394,6 +395,12 @@ html.heretic-dark .hr-hf-export-columns-drop-area {
 }
 
 @media (max-width: 768px) {
+
+    .hr-hf-top-button-icon,
+    .hr-hf-top-button-icon-danger {
+        margin-right: 0;
+    }
+
     .hr-hf-cell-action {
         width: unset !important;
         min-width: unset !important;
@@ -426,5 +433,13 @@ html.heretic-dark .hr-hf-export-columns-drop-area {
 
     .hr-hf-search-field {
         margin-bottom: 10px;
+    }
+
+    .hr-hf-head {
+        margin-left: -1px !important;
+    }
+
+    .hr-hf-row {
+        margin-left: -1px !important;
     }
 }

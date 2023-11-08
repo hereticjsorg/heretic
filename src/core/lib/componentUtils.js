@@ -151,4 +151,13 @@ export default class {
         const rect = el.getBoundingClientRect();
         return rect.top >= 0 && rect.left >= 0 && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && rect.right <= (window.innerWidth || document.documentElement.clientWidth);
     }
+
+    setDarkTheme(isDark) {
+        document.documentElement.style.overflow = "hidden";
+        document.documentElement.setAttribute(
+            "data-color-scheme",
+            isDark ? "dark" : "light",
+        );
+        document.documentElement.style.overflow = "";
+    }
 }

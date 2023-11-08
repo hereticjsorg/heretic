@@ -46,8 +46,8 @@ export default class {
         this.siteId = out.global.siteId;
         this.cookieOptions = out.global.cookieOptions;
         this.utils = new Utils(this, this.language);
-        await import(/* webpackChunkName: "bulma" */ "../bulma.scss");
-        await import(/* webpackChunkName: "heretic" */ "../heretic.scss");
+        await import( /* webpackChunkName: "bulma" */ "../bulma.scss");
+        await import( /* webpackChunkName: "heretic" */ "../heretic.scss");
         await this.loadLanguageData();
         this.setGlobalVariables(out);
     }
@@ -131,10 +131,18 @@ export default class {
         this.store = store.namespace(`heretic_${this.siteId}`);
         const darkMode = this.store.get("darkMode") || false;
         document.documentElement.classList[darkMode ? "add" : "remove"]("heretic-dark");
+        this.utils.setDarkTheme(darkMode);
         document.documentElement.style.transition = "all 0.6s ease";
         this.cookies.set(`${this.siteId}.language`, this.language);
         this.cookies.set(`${this.siteId}.darkMode`, darkMode);
         this.setState("mounted", true);
+        const hereticContentWidth = document.getElementById("heretic_content").clientWidth;
+        const hereticContentInterval = setInterval(async () => {
+            if (document.getElementById("heretic_dummy").clientWidth !== hereticContentWidth && document.getElementById("heretic_content").clientWidth > hereticContentWidth) {
+                clearInterval(hereticContentInterval);
+                window.__heretic.viewSettled = true;
+            }
+        }, 10);
     }
 
     getAnimationTimer() {
