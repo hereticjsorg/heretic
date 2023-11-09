@@ -204,7 +204,7 @@ import { mdiReload, mdiPlus, mdiMagnify, mdiCogOutline, mdiPencilOutline, mdiTra
                         class="column m-0 p-0 is-narrow"
                         style={
                             width: "40px",
-                            position: "relative",
+                            position: "relative"
                         }>
                         <if(state.lockedItems[i._id])>
                             <span class="hr-hf-lock-icon">
@@ -268,7 +268,12 @@ import { mdiReload, mdiPlus, mdiMagnify, mdiCogOutline, mdiPencilOutline, mdiTra
     </if>
     <else>
         <div class="columns m-0 p-0 hr-hf-row hr-hf-row-odd hr-hf-item-bottom" data-hf-row=input.id>
-            <div class="ccolumn m-0 is-narrow hr-hf-cell-data">&nbsp;</div>
+            <div class="ccolumn m-0 is-narrow hr-hf-cell-data">
+                <if(state.dataLoaded)>
+                    <t>htable_noRecords</t>
+                </if>
+                <else>&nbsp;</else>
+            </div>
         </div>
     </else>
     <if(state.loading)>
@@ -291,7 +296,7 @@ import { mdiReload, mdiPlus, mdiMagnify, mdiCogOutline, mdiPencilOutline, mdiTra
 <hnotify admin=input.admin key=`notify_hf_${input.id}`/>
 <hfxsettings admin=input.admin id=input.id key=`settings_hf_${input.id}` filters=state.filters columns=state.columns itemsPerPage=state.itemsPerPage columnData=state.columnData on-notification("onNotification") on-data("onSettingsData")/>
 <hfxbulk admin=input.admin id=input.id key=`bulk_hf_${input.id}` tabs=state.tabs columnData=state.columnData checked=state.checked on-notification("onNotification") filters=state.filters bulkUpdateConfig=state.bulkUpdateConfig searchText=state.searchText headers=input.headers on-unauthorized("onUnauthorized") on-update-success("onBulkUpdateSuccess")/>
-<hfximport admin=input.admin id=input.id key=`import_hf_${input.id}` columnData=state.columnData  on-notification("onNotification") importConfig=state.importConfig headers=input.headers on-unauthorized("onUnauthorized") on-import-success("onImportSuccess")/>
+<hfximport admin=input.admin id=input.id key=`import_hf_${input.id}` columnData=state.columnData on-notification("onNotification") importConfig=state.importConfig headers=input.headers on-unauthorized("onUnauthorized") on-import-success("onImportSuccess")/>
 <hfxexport admin=input.admin id=input.id key=`export_hf_${input.id}` headers=input.headers on-unauthorized("onUnauthorized") on-notification("onNotification") on-export-success("onExportSuccess") columnData=state.columnData columns=state.columns exportConfig=state.exportConfig checked=state.checked/>
 <hfxrecycle admin=input.admin id=input.id key=`recycle_hf_${input.id}` headers=input.headers on-unauthorized("onUnauthorized") on-notification("onNotification") on-success("onRecycleSuccess") recycleBin=state.recycleBin/>
 <div id=`hr_ft_dummy_${input.id}` recycleBin=state.recycleBin/>

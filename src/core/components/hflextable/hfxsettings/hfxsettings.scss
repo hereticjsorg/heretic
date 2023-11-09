@@ -92,4 +92,8 @@ html.heretic-dark .hr-hs-wrap>div>label:hover {
     color: $grey-lighter;
 }
 
+.hr-hfe-action-icon-danger svg>path {
+    fill: $white !important;
+}
+
 @media (max-width: 768px) {}

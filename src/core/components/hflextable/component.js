@@ -17,6 +17,7 @@ export default class {
             columns: {},
             firstLoadFlag: false,
             data: [],
+            dataLoaded: false,
             pagination: [],
             access: [],
             filters: [],
@@ -135,6 +136,7 @@ export default class {
             return;
         }
         this.setWrapWidthRunning = true;
+        this.setState("clientWidth", Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0));
         await this.utils.waitForElement(`hr_ft_wrap_${this.input.id}`);
         const wrap = document.getElementById(`hr_ft_wrap_${this.input.id}`);
         try {
@@ -154,7 +156,7 @@ export default class {
                 left,
                 width,
             } = dummy.getBoundingClientRect();
-            wrap.style.width = `${width}px`;
+            wrap.style.width = `${this.state.clientWidth > 768 && this.state.data.length ? width - 10 : width}px`;
             if (scrollBottom) {
                 scrollBottom.setWrapWidth(width);
             }
@@ -166,7 +168,7 @@ export default class {
             const spacerColumnElements = document.querySelectorAll(`[data-hf-spacer='${this.input.id}']`);
             const rowElements = document.querySelectorAll(`[data-hf-row='${this.input.id}']`);
             const actionsWidth = (this.state.actions.length * 30) + ((this.state.actions.length - 1) * 2) + 17;
-            if (wrap.scrollWidth > width) {
+            if (wrap.scrollWidth > width && width > 768) {
                 // Scrollbar is visible
                 for (const el of actionColumnElements) {
                     el.style.position = "absolute";
@@ -210,7 +212,6 @@ export default class {
             // Ignore
         }
         window.__heretic.initComplete[this.input.id] = true;
-        this.setState("clientWidth", Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0));
         this.setWrapWidthRunning = false;
     }
 
@@ -291,11 +292,15 @@ export default class {
                     this.generatePagination();
                     this.setState("checked", []);
                     this.emit("load-complete", response.data);
+                    this.setState("dataLoaded", true);
                     if (input && input.focusOnSearch) {
                         setTimeout(async () => {
                             await this.utils.waitForElement(`hr_hf_table_search_${this.input.id}`);
                             document.getElementById(`hr_hf_table_search_${this.input.id}`).focus();
                         });
+                    }
+                    if ((window.__heretic.initComplete && window.__heretic.initComplete[this.input.id]) || window.__heretic.viewSettled) {
+                        setTimeout(() => this.setWrapWidthDebounced());
                     }
                 } catch (e) {
                     if (e && e.response && e.response.status === 403) {
