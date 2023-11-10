@@ -150,10 +150,7 @@ export default class {
             titleId: "ip",
         };
         this.tableBulkUpdateConfig = null;
-        this.tableExportConfig = {
-            url: `/api/${moduleConfig.id}/export`,
-            download: `/api/${moduleConfig.id}/download`,
-        };
+        this.tableExportConfig = null;
         this.tableRecycleBinConfig = {
             enabled: false,
         };
