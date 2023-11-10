@@ -1,3 +1,26 @@
+## v1.1.111
+
+**Introducing hflextable component** (2023-11-10)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-10-10 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-10-10 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-10-28 | Working on hflextable |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-10-28 | Typos fixed |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-10-28 | NPM Modules Update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-10-28 | Update componentUtils.js |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-10-28 | Update requestDecorators.js |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-10-31 | hflextable work-in-progress |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-07 | flextable work-in-progress |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-07 | Flextable work-in-progress |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-08 | hflextable Work-in-prorgess |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-09 | Flextable work-in-progress |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-10 | Flextable-related changes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-10 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-10 | Code cleanup |
+
+
 ## v1.1.110
 
 **Logs Module work-in-progress** (2023-10-08)
