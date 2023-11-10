@@ -114,6 +114,8 @@ export default class {
             pagination.pop();
         }
         // Set pagination
+        // eslint-disable-next-line no-console
+        console.log(pagination);
         this.setState("pagination", pagination);
     }
 
@@ -289,7 +291,6 @@ export default class {
                             this.query.set(this.queryStringShorthands[k], input[k]);
                         }
                     }
-                    this.generatePagination();
                     this.setState("checked", []);
                     this.emit("load-complete", response.data);
                     this.setState("dataLoaded", true);
@@ -302,6 +303,10 @@ export default class {
                     if ((window.__heretic.initComplete && window.__heretic.initComplete[this.input.id]) || window.__heretic.viewSettled) {
                         setTimeout(() => this.setWrapWidthDebounced());
                     }
+                    this.setState("currentPage", input.currentPage || this.state.currentPage || 1);
+                    // eslint-disable-next-line no-console
+                    console.log(this.state.currentPage);
+                    this.generatePagination();
                 } catch (e) {
                     if (e && e.response && e.response.status === 403) {
                         this.emit("unauthorized");
@@ -430,7 +435,8 @@ export default class {
         const itemId = e.target.closest("[data-item]").dataset.item;
         this.emit("action-button-click", {
             buttonId,
-            itemId
+            itemId,
+            item: this.state.data.find(i => i._id === itemId),
         });
         if (buttonId === "delete" && this.state.deleteConfig) {
             await this.utils.waitForComponent(`deleteConfirmation_hf_${this.input.id}`);
@@ -609,6 +615,7 @@ export default class {
         this.setState("columns", data.columns);
         this.setState("filters", data.filters);
         this.setState("filtersEnabledCount", data.filtersEnabledCount);
+        this.setState("itemsPerPage", data.itemsPerPage);
         this.store.set("columns", data.columns);
         this.store.set("itemsPerPage", data.itemsPerPage);
         this.store.set("filters", data.filters);

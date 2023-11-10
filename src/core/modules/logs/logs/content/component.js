@@ -140,7 +140,7 @@ export default class {
         if (!this.mongoEnabled) {
             return;
         }
-        await import(/* webpackChunkName: "logs" */ "./logs.scss");
+        await import( /* webpackChunkName: "logs" */ "./logs.scss");
         this.t = window.__heretic.t;
         this.query = new Query();
         this.cookies = new Cookies(this.cookieOptions);
@@ -152,31 +152,12 @@ export default class {
         this.setState("headers", {
             Authorization: `Bearer ${currentToken}`
         });
-        // this.setLogWrapWidthDelayed = throttle(this.setLogWrapWidth, 200);
-        // this.setState("mobile", window.innerWidth <= 768);
-        // window.addEventListener("resize", debounce(() => this.setState("mobile", window.innerWidth <= 768), 500));
-        // if (window.innerWidth > 768) {
-        //     window.addEventListener("resize", () => this.setLogWrapWidth());
-        // }
         this.setState("ready", true);
-        // await this.loadData();
     }
 
     onUnauthorized() {
         this.setState("ready", false);
         setTimeout(() => window.location.href = this.utils.getLocalizedURL(this.systemRoutes.signInAdmin), 100);
-    }
-
-    updateSort(e) {
-        if (!e.target.closest("[data-id]")) {
-            return;
-        }
-        e.preventDefault(e);
-        const {
-            id,
-        } = e.target.closest("[data-id]").dataset;
-        const sortDir = (id === this.state.sort) ? (this.state.sortDir === "asc" ? "desc" : "asc") : "asc";
-        this.loadData(id, sortDir);
     }
 
     async onEntryClick(e) {
@@ -192,11 +173,12 @@ export default class {
         this.getComponent("entryModal").show(item);
     }
 
-    onPageClick(page) {
-        this.loadData(this.state.sort, this.state.sortDir, page);
-    }
-
-    onNotification(data) {
-        this.showNotification(data.message, data.css);
+    async onActionButtonClick(data) {
+        switch (data.buttonId) {
+        case "view":
+            await this.utils.waitForComponent("entryModal");
+            this.getComponent("entryModal").show(data.item);
+            break;
+        }
     }
 }

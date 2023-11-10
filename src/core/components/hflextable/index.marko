@@ -127,6 +127,10 @@ import { mdiReload, mdiPlus, mdiMagnify, mdiCogOutline, mdiPencilOutline, mdiTra
         </div>
     </div>
 </div>
+<div class="menu-label">
+    <t>htable_total</t>: ${state.total}<if(state.total !== state.grandTotal)>&nbsp;(${state.grandTotal})</if>,&nbsp;
+    <t>htable_selected</t>: ${state.checked.length}
+</div>
 <div
     class="hr-ft-wrap"
     id=`hr_ft_wrap_${input.id}`
