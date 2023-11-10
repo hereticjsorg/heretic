@@ -86,7 +86,7 @@
         "lodash.debounce": "^4.0.8",
         "lodash.template": "^4.5.0",
         "lodash.throttle": "^4.1.1",
-        "marko": "^5.31.14",
+        "marko": "^5.31.17",
         "mime": "^3.0.0",
         "mini-css-extract-plugin": "^2.7.6",
         "postcss-csso": "^6.0.1",

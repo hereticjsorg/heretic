@@ -506,6 +506,9 @@ export default class {
     onDataClick(e) {
         e.preventDefault();
         this.setState("dataOpen", true);
+        if (window.__heretic && window.__heretic.setTippy) {
+            window.__heretic.setTippy();
+        }
     }
 
     async onBulkUpdateClick(e) {

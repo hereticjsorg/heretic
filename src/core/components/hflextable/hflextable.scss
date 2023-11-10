@@ -160,6 +160,7 @@ html.heretic-dark .hr-hf-loading-wrap {
 
 .hr-hf-action-column-head {
     border-top-right-radius: $radius;
+    text-align: center;
 }
 
 .hr-hf-action-button {
@@ -441,5 +442,10 @@ html.heretic-dark .hr-hf-export-columns-drop-area {
 
     .hr-hf-row {
         margin-left: -1px !important;
+    }
+
+    .hr-hf-action-column-head {
+        border-top-right-radius: $radius;
+        text-align: left;
     }
 }

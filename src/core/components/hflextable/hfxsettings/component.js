@@ -251,6 +251,9 @@ export default class {
                 itemsPerPage: this.state.settingsItemsPerPage,
             }
         });
+        if (window.__heretic && window.__heretic.setTippy) {
+            window.__heretic.setTippy();
+        }
     }
 
     onFilterEditFormSubmit(e) {
