@@ -1,10 +1,14 @@
 @import "~styles/variables.scss";
 
-html.heretic-dark .hr-fs-sort-icon>svg>path {
+.hr-ft-sort-icon {
+    margin-left: -4px;
+}
+
+html.heretic-dark .hr-ft-sort-icon>svg>path {
     fill: $white-ter;
 }
 
-.hr-fs-sort-icon-empty {
+.hr-ft-sort-icon-empty {
     display: inline-block;
     width: 1px;
     height: 20px;

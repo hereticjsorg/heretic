@@ -1,4 +1,11 @@
+import {
+    format,
+} from "date-fns";
+import {
+    mdiTextBoxSearchOutline,
+} from "@mdi/js";
 import utils from "#lib/formValidatorUtils";
+import moduleConfig from "../module.js";
 
 export default class {
     constructor(t) {
@@ -17,6 +24,7 @@ export default class {
                     searchable: false,
                     column: true,
                     createIndex: false,
+                    width: 150,
                 }, {
                     id: "id",
                     type: "text",
@@ -28,7 +36,8 @@ export default class {
                     searchable: true,
                     column: true,
                     createIndex: false,
-                    hidden: true,
+                    hidden: false,
+                    width: 90,
                 }, {
                     id: "level",
                     type: "text",
@@ -40,6 +49,7 @@ export default class {
                     searchable: true,
                     column: true,
                     createIndex: false,
+                    width: 60,
                 }, {
                     id: "pid",
                     type: "text",
@@ -49,7 +59,8 @@ export default class {
                     searchable: true,
                     column: true,
                     createIndex: false,
-                    hidden: true,
+                    hidden: false,
+                    width: 90,
                 }, {
                     id: "type",
                     type: "text",
@@ -59,6 +70,7 @@ export default class {
                     searchable: true,
                     column: true,
                     createIndex: false,
+                    width: 60,
                 }, {
                     id: "code",
                     type: "text",
@@ -68,6 +80,7 @@ export default class {
                     searchable: true,
                     column: true,
                     createIndex: false,
+                    width: 80,
                 }, {
                     id: "resTime",
                     type: "text",
@@ -77,7 +90,8 @@ export default class {
                     searchable: true,
                     column: true,
                     createIndex: false,
-                    hidden: true,
+                    hidden: false,
+                    width: 100,
                 }, {
                     id: "method",
                     type: "text",
@@ -87,6 +101,7 @@ export default class {
                     searchable: true,
                     column: true,
                     createIndex: false,
+                    width: 60,
                 }, {
                     id: "url",
                     type: "text",
@@ -96,6 +111,8 @@ export default class {
                     searchable: true,
                     column: true,
                     createIndex: false,
+                    width: "auto",
+                    minWidth: 300,
                 }, {
                     id: "ip",
                     type: "text",
@@ -105,7 +122,8 @@ export default class {
                     searchable: true,
                     column: true,
                     createIndex: false,
-                    hidden: true,
+                    hidden: false,
+                    width: 130,
                 }, {
                     id: "message",
                     type: "text",
@@ -115,7 +133,8 @@ export default class {
                     searchable: true,
                     column: true,
                     createIndex: false,
-                    hidden: true,
+                    hidden: false,
+                    width: 160,
                 }],
             }],
         };
@@ -123,6 +142,24 @@ export default class {
         this.columnTypes = ["text", "select", "column", "date"];
         this.defaultSortColumn = "date";
         this.defaultSortDirection = "desc";
+        this.tableLoadConfig = {
+            url: `/api/${moduleConfig.id}/list`,
+        };
+        this.tableDeleteConfig = {
+            url: `/api/${moduleConfig.id}/delete`,
+            titleId: "ip",
+        };
+        this.tableBulkUpdateConfig = null;
+        this.tableExportConfig = {
+            url: `/api/${moduleConfig.id}/export`,
+            download: `/api/${moduleConfig.id}/download`,
+        };
+        this.tableRecycleBinConfig = {
+            enabled: false,
+        };
+        this.historyConfig = {
+            enabled: false,
+        };
     }
 
     getData() {
@@ -153,5 +190,59 @@ export default class {
 
     getTableColumns() {
         return Object.fromEntries(Object.entries(this.validationData.fieldsFlat).filter(([, value]) => this.columnTypes.indexOf(value.type) > -1));
+    }
+
+    getTableLoadConfig() {
+        return this.tableLoadConfig;
+    }
+
+    getTableDefaultSortColumn() {
+        return {
+            id: this.defaultSortColumn,
+            direction: this.defaultSortDirection,
+        };
+    }
+
+    processTableCell(id, row) {
+        switch (id) {
+        case "date":
+            try {
+                return row[id] ? format(new Date(row[id] * 1000), `${this.t("global.dateFormatShort")} ${this.t("global.timeFormatShort")}`) : "";
+            } catch {
+                return row[id];
+            }
+            // eslint-disable-next-line no-unreachable
+            break;
+        default:
+            return row[id];
+        }
+    }
+
+    getActions() {
+        return [{
+            id: "view",
+            label: this.t("view"),
+            icon: mdiTextBoxSearchOutline,
+        }];
+    }
+
+    getTopButtons() {
+        return [];
+    }
+
+    getTableBulkUpdateConfig() {
+        return this.tableBulkUpdateConfig;
+    }
+
+    getTableExportConfig() {
+        return this.tableExportConfig;
+    }
+
+    getRecycleBinConfig() {
+        return this.tableRecycleBinConfig;
+    }
+
+    getTableDeleteConfig() {
+        return this.tableDeleteConfig;
     }
 }

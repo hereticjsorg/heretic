@@ -9,6 +9,7 @@ import apiDataExport from "./apiDataExport";
 import apiRecycleBinList from "./apiRecycleBinList.js";
 import apiRecycleBinRestore from "./apiRecycleBinRestore";
 import apiRecycleBinDelete from "./apiRecycleBinDelete";
+import apiRecycleBinDeleteAll from "./apiRecycleBinDeleteAll";
 import apiHistoryList from "./apiHistoryList.js";
 import apiHistoryDelete from "./apiHistoryDelete.js";
 import apiHistoryRestore from "./apiHistoryRestore.js";
@@ -27,6 +28,7 @@ export default fastify => {
     fastify.post(`/api/${moduleConfig.id}/recycleBin/list`, apiRecycleBinList());
     fastify.post(`/api/${moduleConfig.id}/recycleBin/restore`, apiRecycleBinRestore());
     fastify.post(`/api/${moduleConfig.id}/recycleBin/delete`, apiRecycleBinDelete());
+    fastify.post(`/api/${moduleConfig.id}/recycleBin/deleteAll`, apiRecycleBinDeleteAll());
     fastify.post(`/api/${moduleConfig.id}/history/list`, apiHistoryList());
     fastify.post(`/api/${moduleConfig.id}/history/delete`, apiHistoryDelete());
     fastify.post(`/api/${moduleConfig.id}/history/restore`, apiHistoryRestore());

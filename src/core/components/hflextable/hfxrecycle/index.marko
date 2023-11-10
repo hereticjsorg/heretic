@@ -1,0 +1,191 @@
+import { mdiContentSaveMoveOutline, mdiTrashCanOutline, mdiReload, } from "@mdi/js"
+
+<hmodal
+    admin=input.admin
+    key=`recycleBinModal_hf_${input.id}`
+    id=`recycleBinModal_hf_${input.id}`
+    on-button-click("onRecycleBinButtonClick")
+    close=true
+    title="htable_recycleBin"
+    actions=[
+        {
+            id: "cancel",
+            label: "htable_close",
+            class: "button is-light",
+            close: true
+        }
+    ]>
+    <div
+        class="notification p-4 mb-0 hr-hr-actions-body"
+        style={
+            order: "2"
+        }>
+        <div class="m-2">
+            <button data-tippy-content=window.__heretic.t("htable_reloadButton") on-click("onReloadClick") class="button is-light mr-1" disabled=state.loading>
+                <span class="hr-hr-top-button-icon icon">
+                    <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                        <path d=mdiReload/>
+                    </svg>
+                </span>
+            </button>
+            <button data-tippy-content=window.__heretic.t("htable_deleteAll") on-click("onDeleteAllClick") class="button is-danger" disabled=state.loading>
+                <span class="hr-hr-top-button-icon hr-hr-action-icon-danger icon">
+                    <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                        <path d=mdiTrashCanOutline/>
+                    </svg>
+                </span>
+            </button>
+        </div>
+    </div>
+    <section
+        class="modal-card-body hr-hr-settings-body"
+        id=`recycleBinModal_hf_${input.id}_body`
+        style={
+            order: "3"
+        }>
+        <div class="p-0">
+            <if(state.recycleBinList.length)>
+                <div class="table-container">
+                    <table class="table is-striped is-hoverable is-fullwidth hr-hr-table-main" id=`hr_hf_table_main_${input.id}`>
+                        <thead>
+                            <tr>
+                                <if(input.recycleBin.id)>
+                                    <th class="is-narrow">
+                                        <t>htable_recycleBinId</t>
+                                    </th>
+                                </if>
+                                <th>${process.browser && window.__heretic ? window.__heretic.t(state.recycleBin.title) : null}</th>
+                                <th class="is-narrow">
+                                    <t>htable_actions</t>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <for|item, index| of=state.recycleBinList>
+                                <tr>
+                                    <if(input.recycleBin.id)>
+                                        <td>
+                                            <div class="hr-hr-recycleBin-cell">${item[input.recycleBin.id]}</div>
+                                        </td>
+                                    </if>
+                                    <td>
+                                        <div class="hr-hr-recycleBin-cell">${item[input.recycleBin.title]}</div>
+                                    </td>
+                                    <td nowrap>
+                                        <button data-tippy-content=(process.browser && window.__heretic ? window.__heretic.t("htable_recycleBinRestore") : null) data-id=item._id class="button is-small hr-hr-action-button is-light" on-click("onRecycleBinRestoreClick")>
+                                            <span class="hr-hr-action-icon icon">
+                                                <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d=mdiContentSaveMoveOutline/>
+                                                </svg>
+                                            </span>
+                                        </button>
+                                        <button
+                                            data-tippy-content=(process.browser && window.__heretic ? window.__heretic.t("htable_recycleBinDelete") : null)
+                                            data-id=item._id
+                                            class="button is-small hr-hr-action-button is-danger"
+                                            style={
+                                                "margin-left": "2px"
+                                            }
+                                            on-click("onRecycleBinDeleteClick")>
+                                            <span class="hr-hr-action-icon icon hr-hr-action-icon-danger">
+                                                <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d=mdiTrashCanOutline/>
+                                                </svg>
+                                            </span>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </for>
+                        </tbody>
+                    </table>
+                </div>
+            </if>
+        </div>
+    </section>
+    <if(state.recycleBinList.length && state.recycleBinPagination.length > 1)>
+        <div
+            class="p-2 hr-hr-recycleBin-pagination-wrap"
+            style={
+                order: "4"
+            }>
+            <hpagination admin=input.admin data=state.recycleBinPagination currentPage=state.currentRecycleBinListPage on-page-click("onRecycleBinPageClick")/>
+        </div>
+    </if>
+    <if(!state.recycleBinList.length)>
+        <section
+            class="modal-card-body hr-hr-settings-body"
+            id=`recycleBinModal_hf_${input.id}_body`
+            style={
+                order: "5"
+            }>
+            <div class="p-3">
+                <t>htable_noRecycleBinRecords</t>
+            </div>
+        </section>
+    </if>
+</hmodal>
+<hmodal
+    admin=input.admin
+    key=`deleteRecycleConfirmation_hf_${input.id}`
+    id=`deleteRecycleConfirmation_hf_${input.id}`
+    on-button-click("onDeleteRecycleConfirmationButtonClick")
+    close=true
+    cardClass="pl-3 pr-3"
+    backgroundClass="hr-hm-background-60"
+    title="htable_deleteConfirmation"
+    actions=[
+        {
+            id: "delete",
+            label: "htable_delete",
+            class: "button is-danger"
+        },
+        {
+            id: "cancel",
+            label: "htable_cancel",
+            class: "button is-light",
+            close: true
+        }
+    ]>
+    <section
+        class="modal-card-body"
+        style={
+            order: "2"
+        }>
+        <t>htable_deleteRecycleItems</t>:
+        <ul class="mt-2">
+            <for|item| of=state.recycleDeleteItems>
+                <li>&ndash;&nbsp;${item.title}</li>
+            </for>
+        </ul>
+    </section>
+</hmodal>
+<hmodal
+    admin=input.admin
+    key=`deleteAllRecycleConfirmation_hf_${input.id}`
+    id=`deleteAllRecycleConfirmation_hf_${input.id}`
+    on-button-click("onDeleteAllRecycleConfirmationButtonClick")
+    close=true
+    cardClass="pl-3 pr-3"
+    backgroundClass="hr-hm-background-60"
+    title="htable_deleteConfirmation"
+    actions=[
+        {
+            id: "delete",
+            label: "htable_delete",
+            class: "button is-danger"
+        },
+        {
+            id: "cancel",
+            label: "htable_cancel",
+            class: "button is-light",
+            close: true
+        }
+    ]>
+    <section
+        class="modal-card-body"
+        style={
+            order: "2"
+        }>
+        <t>htable_deleteAllRecycleItems</t>
+    </section>
+</hmodal>

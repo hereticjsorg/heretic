@@ -75,5 +75,6 @@ export default class {
         this.setState("darkMode", darkMode);
         this.emit("dark-mode", darkMode);
         document.documentElement.classList[darkMode ? "add" : "remove"]("heretic-dark");
+        this.utils.setDarkTheme(darkMode);
     }
 }

@@ -1,0 +1,23 @@
+import { mdiDrag } from "@mdi/js"
+
+<for|k, index| of=Object.keys(state.columns)>
+    $ const column = input.columnData[k];
+    <if(!column.noRender)>
+        <if(index > 0 && state.columnDrag !== null)>
+            <div data-id=k class="hr-hd-drop-area" on-dragover("onDragOver") on-dragenter("onDragEnter") on-dragleave("onDragLeave") on-drop("onDrop")/>
+        </if>
+        <div class="hr-hd-columns-row columns is-vcentered is-mobile is-gapless p-1 m-0" draggable="true" on-dragstart("onDragStart") on-dragend("onDragEnd") data-id=k>
+            <div class="column is-narrow mr-2">
+                <span class="hr-hf-drag-icon icon">
+                    <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                        <path d=mdiDrag/>
+                    </svg>
+                </span>
+            </div>
+            <div class="column is-narrow mr-2">
+                <input type="checkbox" class="hr-hd-switch switch" checked=state.columns[k] on-change("onCheckboxClick") data-id=k/>
+            </div>
+            <div class="column is-auto mr-2">${column.label}</div>
+        </div>
+    </if>
+</for>

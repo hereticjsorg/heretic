@@ -2,7 +2,7 @@ import {
     ObjectId
 } from "mongodb";
 import moduleConfig from "../module.js";
-import utils from "./utils";
+// import utils from "./utils";
 
 export default () => ({
     async handler(req, rep) {
@@ -29,11 +29,11 @@ export default () => ({
                     message: "notFound"
                 }, 404);
             }
-            if (!utils.isSaveAllowed(authData, dbItem)) {
-                return rep.error({
-                    message: "accessDenied",
-                }, 400);
-            }
+            // if (!utils.isSaveAllowed(authData, dbItem)) {
+            //     return rep.error({
+            //         message: "accessDenied",
+            //     }, 400);
+            // }
             if (!this.systemConfig.demo) {
                 const deleteResult = await this.mongo.db.collection(moduleConfig.collections.main).deleteOne(query);
                 return rep.code(200).send({

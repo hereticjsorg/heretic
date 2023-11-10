@@ -218,6 +218,7 @@ export default class {
                 list: `/api/${moduleConfig.id}/recycleBin/list`,
                 restore: `/api/${moduleConfig.id}/recycleBin/restore`,
                 delete: `/api/${moduleConfig.id}/recycleBin/delete`,
+                deleteAll: `/api/${moduleConfig.id}/recycleBin/deleteAll`,
             }
         };
         this.historyConfig = {

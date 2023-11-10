@@ -9,6 +9,14 @@
 
 // Template-related styles
 
+[data-color-scheme="dark"] {
+    color-scheme: dark;
+}
+
+[data-color-scheme="light"] {
+    color-scheme: light;
+}
+
 .hr-wrap {
     display: flex;
     min-height: 100vh;

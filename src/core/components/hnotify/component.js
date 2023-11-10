@@ -15,9 +15,9 @@ export default class {
             clean: this.clean.bind(this),
         };
         if (input.admin) {
-            await import(/* webpackChunkName: "hnotify-admin" */ "./style-admin.scss");
+            await import( /* webpackChunkName: "hnotify-admin" */ "./style-admin.scss");
         } else {
-            await import(/* webpackChunkName: "hnotify-frontend" */ "./style-frontend.scss");
+            await import( /* webpackChunkName: "hnotify-frontend" */ "./style-frontend.scss");
         }
     }
 
@@ -42,7 +42,11 @@ export default class {
                 div.classList.add("notification");
                 div.classList.add("hr-notification");
                 if (q.css) {
-                    div.classList.add(q.css);
+                    try {
+                        div.classList.add(q.css);
+                    } catch {
+                        //
+                    }
                 }
                 div.id = q.id;
                 document.body.append(div);

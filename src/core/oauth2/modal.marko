@@ -156,6 +156,12 @@
             const darkMode = getCookie("${input.id}.darkMode");
             document.documentElement.classList[darkMode === "true" ? "add" : "remove"]("heretic-dark");
             document.documentElement.style.transition = "all 0.6s ease";
+            document.documentElement.style.overflow = "hidden";
+            document.documentElement.setAttribute(
+                "data-color-scheme",
+                darkMode ? "dark" : "light",
+            );
+            document.documentElement.style.overflow = "";
             setTimeout(() => {
                 const messages = ${input.messages};
                 const defaultLanguage = "${input.defaultLanguage}";

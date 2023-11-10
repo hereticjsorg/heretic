@@ -1,0 +1,225 @@
+import { mdiDrag, mdiPlus, mdiPencilOutline, mdiFilterOutline, mdiTrashCanOutline } from "@mdi/js"
+import {
+    format,
+} from "date-fns"
+import SettingsPagesForm from "./settingsPagesForm"
+
+<hmodal
+    admin=input.admin
+    key=`settingsModal_hf_${input.id}`
+    id=`settingsModal_hf_${input.id}`
+    on-button-click("onSettingsButtonClick")
+    close=true
+    title="htable_settings"
+    actions=[
+        {
+            id: "save",
+            label: "htable_save",
+            class: "button is-primary"
+        },
+        {
+            id: "cancel",
+            label: "htable_cancel",
+            class: "button is-light",
+            close: true
+        }
+    ]>
+    <header
+        class="modal-card-head hr-hfe-tabs-wrap p-0"
+        style={
+            order: "2"
+        }>
+        <div class="tabs is-boxed hr-hfe-tabs p-0">
+            <ul>
+                <for|i| of=["columns", "pages", "filter"]>
+                    <li class=(state.settingsTab === i ? "is-active" : "")>
+                        <a on-click("onSettingsTabClick") data-tab=i>
+                            <if(i === "columns")>
+                                <t>htable_settingsColumns</t>
+                            </if>
+                            <if(i === "pages")>
+                                <t>htable_settingsPages</t>
+                            </if>
+                            <if(i === "filter")>
+                                <t>htable_settingsFilter</t>
+                                <if(state.filtersEnabledCount)>
+                                    <span class="hr-hfe-top-info-icon icon">
+                                        <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d=mdiFilterOutline/>
+                                        </svg>
+                                    </span>
+                                </if>
+                            </if>
+                        </a>
+                    </li>
+                </for>
+            </ul>
+        </div>
+    </header>
+    <section
+        class="modal-card-body hr-hfe-settings-body"
+        style={
+            order: "3"
+        }>
+        <div class="p-3">
+            <div style={
+                position: state.settingsTab === "columns" ? "unset" : "absolute",
+                left: state.settingsTab === "columns" ? "unset" : "-999999px",
+                clip: state.settingsTab === "columns" ? "unset" : "rect(0 0 0 0)"
+            }>
+                <hdraglist columns=state.settingsColumns columnData=input.columnData id="columns" key="settingsColumns"/>
+            </div>
+            <div style={
+                position: state.settingsTab === "pages" ? "unset" : "absolute",
+                left: state.settingsTab === "pages" ? "unset" : "-999999px",
+                clip: state.settingsTab === "pages" ? "unset" : "rect(0 0 0 0)"
+            }>
+                <hform admin=input.admin key=`settingsPagesForm_${input.id}` id=`settingsPagesForm_${input.id}` data=(new SettingsPagesForm(process.browser && window.__heretic ? window.__heretic.t : out.global.t)) on-form-submit("onSettingsPagesFormSubmit")/>
+            </div>
+            <div style={
+                position: state.settingsTab === "filter" ? "unset" : "absolute",
+                left: state.settingsTab === "filter" ? "unset" : "-999999px",
+                clip: state.settingsTab === "filter" ? "unset" : "rect(0 0 0 0)"
+            }>
+                <div class="buttons mb-0">
+                    <button class="button is-light is-small mb-0" on-click("settingsNewFilter")>
+                        <span class="hr-hfe-top-button-icon icon">
+                            <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                <path d=mdiPlus/>
+                            </svg>
+                        </span>
+                        <t>htable_filterNew</t>
+                    </button>
+                </div>
+                <if(state.settingsFilters.length)>
+                    <div class="mt-3">
+                        <for|item| of=state.settingsFilters>
+                            <div class="hr-hfe-settings-filters-row columns is-vcentered is-mobile is-gapless p-1 m-0" data-uid=item.uid>
+                                <div class="column is-narrow mr-2">
+                                    <input type="checkbox" data-uid=item.uid class="hr-hfe-settings-switch switch" checked=state.settingsFilters.find(i => i.uid === item.uid).enabled on-change("settingsFilterCheckboxChange")/>
+                                </div>
+                                <div class="column is-auto">
+                                    <span class="tag is-white mr-1">${input.columnData[item.id].label}</span>
+                                    <span class="tag is-dark mr-1">${window.__heretic.t(item.mode)}</span>
+                                    <if(input.columnData[item.id].type === "select" && item.value !== null)>
+                                        <for|ai| of=item.value>
+                                            <span class="tag is-white">${input.columnData[item.id].options.find(i => i.value === ai).label}</span> 
+                                        </for>
+                                    </if>
+                                    <if(input.columnData[item.id].type === "date" && item.value !== null)>
+                                        <span class="tag is-white">${format(new Date(item.value * 1000), window.__heretic.t("global.dateFormatShort"))}</span>
+                                    </if>
+                                    <if(input.columnData[item.id].type === "text" && item.value !== null)>
+                                        <span class="tag is-white">${item.value}</span>
+                                    </if>
+                                    <if(input.columnData[item.id].type === "checkbox")>
+                                        <span class="tag is-white">${!!item.value ? window.__heretic.t("checkboxChecked") : window.__heretic.t("checkboxNotChecked")}</span>
+                                    </if>
+                                    <if(item.value === null)>
+                                        <span class="tag is-primary">null</span>
+                                    </if>
+                                </div>
+                                <div class="column is-narrow">
+                                    <button class="mr-1 button is-small hr-hfe-action-button is-light" on-click("onSettingsFilterEditClick") data-tippy-content=(process.browser && state.clientWidth < 1023 && window.__heretic ? window.__heretic.t("htable_edit") : null)>
+                                        <span class="hr-hfe-settings-icon icon">
+                                            <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d=mdiPencilOutline/>
+                                            </svg>
+                                        </span>
+                                    </button>
+                                    <button class="button is-small hr-hfe-action-button is-danger" on-click("onSettingsFilterDeleteClick") data-tippy-content=(process.browser && state.clientWidth < 1023 && window.__heretic ? window.__heretic.t("htable_delete") : null)>
+                                        <span class="hr-hfe-settings-icon hr-hfe-action-icon-danger icon">
+                                            <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d=mdiTrashCanOutline/>
+                                            </svg>
+                                        </span>
+                                    </button> 
+                                </div>
+                            </div>
+                        </for>
+                    </div>
+                </if>
+            </div>
+        </div>
+    </section>
+</hmodal>
+<hmodal
+    admin=input.admin
+    key=`filterModal_hf_${input.id}`
+    id=`filterModal_hf_${input.id}`
+    on-button-click("onFilterButtonClick")
+    close=true
+    cardClass="pl-3 pr-3"
+    backgroundClass="hr-hfe-background-60"
+    title="htable_filterEdit"
+    actions=[
+        {
+            id: "save",
+            label: "htable_save",
+            class: "button is-primary"
+        },
+        {
+            id: "cancel",
+            label: "htable_cancel",
+            class: "button is-light",
+            close: true
+        }
+    ]>
+    <section
+        class="modal-card-body hr-ht-settings-body"
+        id=`filterModal_hf_${input.id}_body`
+        style={
+            order: "2"
+        }>
+        <div>
+            <form on-submit("onFilterEditFormSubmit")>
+                <button
+                    type="submit"
+                    style={
+                        display: "none"
+                    }/>
+                <div class="select is-fullwidth">
+                    <select on-change("onSettingsFilterEditSelectedChange") id=`filterModal_hf_${input.id}_select_id`>
+                        <for|item| of=Object.keys(input.columnData).sort()>
+                            <if(state.settingsFilterTypes.indexOf(input.columnData[item].type) > -1 && !input.columnData[item].noFilter)>
+                                <option value=item selected=(state.settingsFilterEditSelectedId === item)>${input.columnData[item].label}</option>
+                            </if>
+                        </for>
+                    </select>
+                </div>
+                <div class="select mt-2 is-fullwidth">
+                    <select on-change("onSettingsFilterEditModeChange")>
+                        <for|item| of=state.settingsFilterEditSelectedModes>
+                            <option value=item selected=(state.settingsFilterEditSelectedMode === item)>${window.__heretic.t(item)}</option>
+                        </for>
+                    </select>
+                </div>
+                <if(input.columnData[state.settingsFilterEditSelectedId])>
+                    <if(input.columnData[state.settingsFilterEditSelectedId].type === "text")>
+                        <div class="mt-2 is-fullwidth">
+                            <input class="input" type="text" value=state.settingsFilterEditSelectedValue on-change("onSettingsFilterEditValueChange")/>
+                        </div>
+                    </if>
+                    <if(input.columnData[state.settingsFilterEditSelectedId].type === "select")>
+                        <div class="mt-2">
+                            <hselect admin=input.admin key=`filterModal_hf_${input.id}_hselect`/>
+                        </div>
+                    </if>
+                    <if(input.columnData[state.settingsFilterEditSelectedId].type === "date")>
+                        <div class="mt-2">
+                            <hcalendar admin=input.admin key=`filterModal_hf_${input.id}_hcalendar`/>
+                        </div>
+                    </if>
+                    <if(input.columnData[state.settingsFilterEditSelectedId].type === "checkbox")>
+                        <div class="mt-2 is-fullwidth">
+                            <label class="label hr-hfe-label">
+                                <input type="checkbox" checked=state.settingsFilterEditSelectedValue on-change("onSettingsFilterEditCheckboxValueChange")/>
+                                &nbsp;(${window.__heretic.t("checkboxSelected")})
+                            </label>
+                        </div>
+                    </if>
+                </if>
+            </form>
+        </div>
+    </section>
+</hmodal>

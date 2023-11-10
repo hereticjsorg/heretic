@@ -124,7 +124,7 @@ export default class {
     async setFilesWrapWidth() {
         await this.utils.waitForElement("hr_fs_files_wrap");
         if (!this.setFilesWrapWidthRun) {
-            if (document.getElementById("hr_admin_dummy").getBoundingClientRect().width !== document.body.getBoundingClientRect().width) {
+            if (document.getElementById("heretic_dummy").getBoundingClientRect().width !== document.body.getBoundingClientRect().width) {
                 setTimeout(() => this.setFilesWrapWidthDelayed());
                 return;
             }

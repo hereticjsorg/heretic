@@ -1,7 +1,7 @@
 // import cloneDeep from "lodash.clonedeep";
 import axios from "axios";
-import throttle from "lodash.throttle";
-import debounce from "lodash.debounce";
+// import throttle from "lodash.throttle";
+// import debounce from "lodash.debounce";
 import Utils from "#lib/componentUtils";
 import Query from "#lib/queryBrowser";
 import Cookies from "#lib/cookiesBrowser";
@@ -46,15 +46,15 @@ export default class {
     }
 
     async setLogWrapWidth() {
-        await this.utils.waitForElement("hr_fs_entries_wrap");
+        await this.utils.waitForElement("hr_lg_entries_wrap");
         if (!this.setLogWrapWidthRun) {
-            if (document.getElementById("hr_admin_dummy").getBoundingClientRect().width !== document.body.getBoundingClientRect().width) {
+            if (document.getElementById("heretic_dummy").getBoundingClientRect().width !== document.body.getBoundingClientRect().width) {
                 setTimeout(() => this.setLogWrapWidthDelayed());
                 return;
             }
             this.setLogWrapWidthRun = true;
         }
-        const filesWrap = document.getElementById("hr_fs_entries_wrap");
+        const filesWrap = document.getElementById("hr_lg_entries_wrap");
         filesWrap.style.display = "none";
         await this.utils.waitForElement("hr_lg_dummy");
         const dummy = document.getElementById("hr_lg_dummy");
@@ -140,6 +140,7 @@ export default class {
         if (!this.mongoEnabled) {
             return;
         }
+        await import( /* webpackChunkName: "logs" */ "./logs.scss");
         this.t = window.__heretic.t;
         this.query = new Query();
         this.cookies = new Cookies(this.cookieOptions);
@@ -151,31 +152,12 @@ export default class {
         this.setState("headers", {
             Authorization: `Bearer ${currentToken}`
         });
-        this.setLogWrapWidthDelayed = throttle(this.setLogWrapWidth, 200);
-        this.setState("mobile", window.innerWidth <= 768);
-        window.addEventListener("resize", debounce(() => this.setState("mobile", window.innerWidth <= 768), 500));
-        if (window.innerWidth > 768) {
-            window.addEventListener("resize", () => this.setLogWrapWidth());
-        }
         this.setState("ready", true);
-        await this.loadData();
     }
 
     onUnauthorized() {
         this.setState("ready", false);
         setTimeout(() => window.location.href = this.utils.getLocalizedURL(this.systemRoutes.signInAdmin), 100);
-    }
-
-    updateSort(e) {
-        if (!e.target.closest("[data-id]")) {
-            return;
-        }
-        e.preventDefault(e);
-        const {
-            id,
-        } = e.target.closest("[data-id]").dataset;
-        const sortDir = (id === this.state.sort) ? (this.state.sortDir === "asc" ? "desc" : "asc") : "asc";
-        this.loadData(id, sortDir);
     }
 
     async onEntryClick(e) {
@@ -185,13 +167,16 @@ export default class {
         e.preventDefault(e);
         const id = parseInt(e.target.closest("[data-id]").dataset.id, 10);
         const item = this.state.entries[id];
-        // eslint-disable-next-line no-console
-        console.log(item);
         await this.utils.waitForComponent("entryModal");
         this.getComponent("entryModal").show(item);
     }
 
-    onPageClick(page) {
-        this.loadData(this.state.sort, this.state.sortDir, page);
+    async onActionButtonClick(data) {
+        switch (data.buttonId) {
+        case "view":
+            await this.utils.waitForComponent("entryModal");
+            this.getComponent("entryModal").show(data.item);
+            break;
+        }
     }
 }
