@@ -1,3 +1,12 @@
+## v1.1.112
+
+**Bugfixes** (2023-11-10)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-10 | Bugfixes |
+
+
 ## v1.1.111
 
 **Introducing hflextable component** (2023-11-10)
