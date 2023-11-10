@@ -113,6 +113,9 @@ export default class {
         const modal = this.getComponent(`recycleBinModal_hf_${this.input.id}`);
         modal.setActive(true).setCloseAllowed(true).setBackgroundCloseAllowed(true).setLoading(false);
         this.loadRecycleBinData();
+        if (window.__heretic && window.__heretic.setTippy) {
+            window.__heretic.setTippy();
+        }
     }
 
     async notify(message, css = "is-success") {

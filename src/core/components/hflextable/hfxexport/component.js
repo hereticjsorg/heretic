@@ -43,6 +43,9 @@ export default class {
         this.setState("dataExportUID", null);
         this.setState("dataExportColumns", cloneDeep(this.input.columns));
         exportModal.setActive(true).setCloseAllowed(true).setBackgroundCloseAllowed(true).setLoading(false);
+        if (window.__heretic && window.__heretic.setTippy) {
+            window.__heretic.setTippy();
+        }
     }
 
     async notify(message, css = "is-success") {
