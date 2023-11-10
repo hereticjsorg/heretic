@@ -100,8 +100,6 @@ export default class {
             }
             await this.notify("htable_loadingError", "is-danger");
             this.setState("recycleBinList", []);
-            // eslint-disable-next-line no-console
-            console.log(e);
         } finally {
             recycleBinModal.setLoading(false).setCloseAllowed(true);
         }

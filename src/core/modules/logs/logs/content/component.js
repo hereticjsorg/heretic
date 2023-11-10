@@ -167,8 +167,6 @@ export default class {
         e.preventDefault(e);
         const id = parseInt(e.target.closest("[data-id]").dataset.id, 10);
         const item = this.state.entries[id];
-        // eslint-disable-next-line no-console
-        console.log(item);
         await this.utils.waitForComponent("entryModal");
         this.getComponent("entryModal").show(item);
     }

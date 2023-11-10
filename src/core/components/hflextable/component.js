@@ -114,8 +114,6 @@ export default class {
             pagination.pop();
         }
         // Set pagination
-        // eslint-disable-next-line no-console
-        console.log(pagination);
         this.setState("pagination", pagination);
     }
 
@@ -304,8 +302,6 @@ export default class {
                         setTimeout(() => this.setWrapWidthDebounced());
                     }
                     this.setState("currentPage", input.currentPage || this.state.currentPage || 1);
-                    // eslint-disable-next-line no-console
-                    console.log(this.state.currentPage);
                     this.generatePagination();
                 } catch (e) {
                     if (e && e.response && e.response.status === 403) {
