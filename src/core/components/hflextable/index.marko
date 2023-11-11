@@ -1,6 +1,6 @@
 import { mdiReload, mdiPlus, mdiMagnify, mdiCogOutline, mdiPencilOutline, mdiTrashCanOutline, mdiFilterOutline, mdiDatabaseOutline, mdiContentSaveMoveOutline, mdiFormatListGroup, mdiDatabaseExportOutline, mdiDatabaseImportOutline,  mdiClose, mdiLockOutline } from "@mdi/js"
 
-<div class="columns is-gapless m-0 p-0" id=`hr_ft_controls_${input.id}`>
+<div class="columns is-gapless m-0 p-0" id=`hr_hft_controls_${input.id}`>
     <div class="column is-auto">
         <if(state.topButtons)>
             <div class="mb-3 buttons">
@@ -46,7 +46,7 @@ import { mdiReload, mdiPlus, mdiMagnify, mdiCogOutline, mdiPencilOutline, mdiTra
                     </if>
                 </button>
                 <if(state.bulkUpdateConfig || state.exportConfig || state.recycleBin.enabled || state.importConfig)>
-                    <div class=`dropdown${state.dataOpen ? " is-active" : ""}` id=`hr_hf_data_dropdown_${input.id}`>
+                    <div class=`dropdown${state.dataOpen ? " is-active" : ""}` id=`hr_hft_data_dropdown_${input.id}`>
                         <div class="dropdown-trigger">
                             <button data-tippy-content=(process.browser && state.clientWidth < 1023 && window.__heretic ? window.__heretic.t("htable_dataButton") : null) on-click("onDataClick") class="button is-light" disabled=state.loading>
                                 <span class="hr-hft-top-button-icon icon">
@@ -112,7 +112,7 @@ import { mdiReload, mdiPlus, mdiMagnify, mdiCogOutline, mdiPencilOutline, mdiTra
         <div class="field has-addons has-addons-centered">
             <div class="control hr-hft-search-control">
                 <form on-submit("onSearchInputFormSubmit")>
-                    <input class="input hr-hft-search-field" type="text" value=state.searchText on-input("onSearchInputChange") placeholder=(process.browser ? window.__heretic.t("htable_searchPlaceholder") : "") disabled=state.loading id=`hr_hf_table_search_${input.id}`/>
+                    <input class="input hr-hft-search-field" type="text" value=state.searchText on-input("onSearchInputChange") placeholder=(process.browser ? window.__heretic.t("htable_searchPlaceholder") : "") disabled=state.loading id=`hr_hft_table_search_${input.id}`/>
                 </form>
             </div>
             <p class="control">
@@ -133,7 +133,7 @@ import { mdiReload, mdiPlus, mdiMagnify, mdiCogOutline, mdiPencilOutline, mdiTra
 </div>
 <div
     class="hr-hft-wrap"
-    id=`hr_ft_wrap_${input.id}`
+    id=`hr_hft_wrap_${input.id}`
     style={
         width: "0px"
     }>
@@ -284,17 +284,17 @@ import { mdiReload, mdiPlus, mdiMagnify, mdiCogOutline, mdiPencilOutline, mdiTra
     <if(state.loading)>
         <div
             class="hr-hft-loading-wrap"
-            id=`hr_hf_loading_wrap_${input.id}`
+            id=`hr_hft_loading_wrap_${input.id}`
             style={
                 opacity: 0
             }>
-            <div class="hr-hft-loading" id=`hr_hf_loading_${input.id}`>
+            <div class="hr-hft-loading" id=`hr_hft_loading_${input.id}`>
                 <hloading-dots admin=input.admin/>
             </div>
         </div>
     </if>
 </div>
-<hfxscroll key=`hr_ft_scroll_bottom_${input.id}` id=`bottom_${input.id}` on-wrap-scroll("onWrapScroll")/>
+<hfxscroll key=`hr_hft_scroll_bottom_${input.id}` id=`bottom_${input.id}` on-wrap-scroll("onWrapScroll")/>
 <if(!state.loading)>
     <hpagination admin=input.admin data=state.pagination currentPage=state.currentPage on-page-click("onPageClick")/>
 </if>
@@ -304,7 +304,7 @@ import { mdiReload, mdiPlus, mdiMagnify, mdiCogOutline, mdiPencilOutline, mdiTra
 <hfximport admin=input.admin id=input.id key=`import_hf_${input.id}` columnData=state.columnData on-notification("onNotification") importConfig=state.importConfig headers=input.headers on-unauthorized("onUnauthorized") on-import-success("onImportSuccess")/>
 <hfxexport admin=input.admin id=input.id key=`export_hf_${input.id}` headers=input.headers on-unauthorized("onUnauthorized") on-notification("onNotification") on-export-success("onExportSuccess") columnData=state.columnData columns=state.columns exportConfig=state.exportConfig checked=state.checked/>
 <hfxrecycle admin=input.admin id=input.id key=`recycle_hf_${input.id}` headers=input.headers on-unauthorized("onUnauthorized") on-notification("onNotification") on-success("onRecycleSuccess") recycleBin=state.recycleBin/>
-<div id=`hr_ft_dummy_${input.id}` recycleBin=state.recycleBin/>
+<div id=`hr_hft_dummy_${input.id}` recycleBin=state.recycleBin/>
 <hmodal
     admin=input.admin
     key=`deleteConfirmation_hf_${input.id}`

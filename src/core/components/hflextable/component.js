@@ -118,16 +118,17 @@ export default class {
     }
 
     async positionSpinner() {
-        const wrap = document.getElementById(`hr_ft_wrap_${this.input.id}`);
-        const spinnerWrap = document.getElementById(`hr_hf_loading_wrap_${this.input.id}`);
+        const wrap = document.getElementById(`hr_hft_wrap_${this.input.id}`);
+        const spinnerWrap = document.getElementById(`hr_hft_loading_wrap_${this.input.id}`);
         if (wrap && spinnerWrap) {
             const wrapBoundingRect = wrap.getBoundingClientRect();
             spinnerWrap.style.left = `${wrapBoundingRect.left}px`;
             spinnerWrap.style.top = `${wrapBoundingRect.top}px`;
             spinnerWrap.style.width = `${wrapBoundingRect.width}px`;
             spinnerWrap.style.height = `${wrapBoundingRect.height}px`;
-            const spinner = document.getElementById(`hr_hf_loading_${this.input.id}`);
+            const spinner = document.getElementById(`hr_hft_loading_${this.input.id}`);
             spinner.style.left = `${wrapBoundingRect.width / 2 - 20}px`;
+            spinnerWrap.style.opacity = "1";
         }
     }
 
@@ -137,21 +138,21 @@ export default class {
         }
         this.setWrapWidthRunning = true;
         this.setState("clientWidth", Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0));
-        await this.utils.waitForElement(`hr_ft_wrap_${this.input.id}`);
-        const wrap = document.getElementById(`hr_ft_wrap_${this.input.id}`);
+        await this.utils.waitForElement(`hr_hft_wrap_${this.input.id}`);
+        const wrap = document.getElementById(`hr_hft_wrap_${this.input.id}`);
         try {
             try {
-                await this.utils.waitForComponent(`hr_ft_scroll_bottom_${this.input.id}`);
+                await this.utils.waitForComponent(`hr_hft_scroll_bottom_${this.input.id}`);
             } catch {
                 //
             }
-            const scrollBottom = this.getComponent(`hr_ft_scroll_bottom_${this.input.id}`);
+            const scrollBottom = this.getComponent(`hr_hft_scroll_bottom_${this.input.id}`);
             if (scrollBottom) {
                 scrollBottom.setDisplay("none");
             }
             wrap.style.display = "none";
-            await this.utils.waitForElement(`hr_ft_dummy_${this.input.id}`);
-            const dummy = document.getElementById(`hr_ft_dummy_${this.input.id}`);
+            await this.utils.waitForElement(`hr_hft_dummy_${this.input.id}`);
+            const dummy = document.getElementById(`hr_hft_dummy_${this.input.id}`);
             const {
                 left,
                 width,
@@ -194,6 +195,8 @@ export default class {
                 for (const el of rowElements) {
                     el.style.width = "unset";
                 }
+            }
+            if (width < 769) {
                 for (const el of headElements) {
                     el.style.width = "unset";
                 }
@@ -220,16 +223,23 @@ export default class {
     }
 
     onScroll() {
-        const wrap = document.getElementById(`hr_ft_wrap_${this.input.id}`);
-        const scrollBottom = this.getComponent(`hr_ft_scroll_bottom_${this.input.id}`);
+        const wrap = document.getElementById(`hr_hft_wrap_${this.input.id}`);
+        const scrollBottom = this.getComponent(`hr_hft_scroll_bottom_${this.input.id}`);
         scrollBottom.setScrollLeft(wrap.scrollLeft);
     }
 
     async setLoading(flag) {
         if (flag) {
             this.setState("loading", true);
-            await this.utils.waitForElement(`hr_hf_loading_wrap_${this.input.id}`);
-            await this.positionSpinner();
+            try {
+                if (!this.state.loading) {
+                    return;
+                }
+                await this.utils.waitForElement(`hr_hft_loading_wrap_${this.input.id}`);
+                await this.positionSpinner();
+            } catch {
+                // Ignore
+            }
         } else {
             this.setState("loading", false);
         }
@@ -298,8 +308,8 @@ export default class {
                     this.setState("dataLoaded", true);
                     if (input && input.focusOnSearch) {
                         setTimeout(async () => {
-                            await this.utils.waitForElement(`hr_hf_table_search_${this.input.id}`);
-                            document.getElementById(`hr_hf_table_search_${this.input.id}`).focus();
+                            await this.utils.waitForElement(`hr_hft_table_search_${this.input.id}`);
+                            document.getElementById(`hr_hft_table_search_${this.input.id}`).focus();
                         });
                     }
                     if ((window.__heretic.initComplete && window.__heretic.initComplete[this.input.id]) || window.__heretic.viewSettled) {
@@ -307,6 +317,9 @@ export default class {
                     }
                     this.setState("currentPage", input.currentPage || this.state.currentPage || 1);
                     this.generatePagination();
+                    if (window.__heretic && window.__heretic.setTippy) {
+                        setTimeout(() => window.__heretic.setTippy());
+                    }
                 } catch (e) {
                     if (e && e.response && e.response.status === 403) {
                         this.emit("unauthorized");
@@ -346,8 +359,8 @@ export default class {
         }
         this.setWrapWidthDelayed = throttle(this.setWrapWidth, 150);
         this.setWrapWidthDebounced = debounce(this.setWrapWidth, 50);
-        await this.utils.waitForElement(`hr_ft_wrap_${this.input.id}`);
-        const wrap = document.getElementById(`hr_ft_wrap_${this.input.id}`);
+        await this.utils.waitForElement(`hr_hft_wrap_${this.input.id}`);
+        const wrap = document.getElementById(`hr_hft_wrap_${this.input.id}`);
         if (window.innerWidth > 768) {
             window.addEventListener("resize", () => this.setWrapWidth());
         }
@@ -372,7 +385,7 @@ export default class {
             loadInput.searchText = searchText.replace(/\+/gm, " ");
         }
         window.addEventListener("click", e => {
-            if (document.getElementById(`hr_hf_data_dropdown_${this.input.id}`) && !document.getElementById(`hr_hf_data_dropdown_${this.input.id}`).contains(e.target)) {
+            if (document.getElementById(`hr_hft_data_dropdown_${this.input.id}`) && !document.getElementById(`hr_hft_data_dropdown_${this.input.id}`).contains(e.target)) {
                 this.setState("dataOpen", false);
             }
         });
@@ -391,7 +404,7 @@ export default class {
     }
 
     onWrapScroll(p) {
-        const wrap = document.getElementById(`hr_ft_wrap_${this.input.id}`);
+        const wrap = document.getElementById(`hr_hft_wrap_${this.input.id}`);
         wrap.scrollLeft = p;
     }
 
@@ -580,8 +593,8 @@ export default class {
             focusOnSearch: true,
         });
         setTimeout(async () => {
-            await this.utils.waitForElement(`hr_hf_table_search_${this.input.id}`);
-            document.getElementById(`hr_hf_table_search_${this.input.id}`).focus();
+            await this.utils.waitForElement(`hr_hft_table_search_${this.input.id}`);
+            document.getElementById(`hr_hft_table_search_${this.input.id}`).focus();
         }, 10);
     }
 
