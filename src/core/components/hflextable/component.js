@@ -364,6 +364,7 @@ export default class {
         if (window.innerWidth > 768) {
             window.addEventListener("resize", () => this.setWrapWidth());
         }
+        window.addEventListener("orientationchange", () => this.setWrapWidth());
         wrap.addEventListener("scroll", this.onScroll.bind(this));
         const loadInput = {};
         const currentPage = this.query.get(this.queryStringShorthands["currentPage"]);
