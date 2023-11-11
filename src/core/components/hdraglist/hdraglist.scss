@@ -1,44 +1,44 @@
-.hr-hd-drop-area {
+.hr-hdg-drop-area {
     height: 5px;
     border: 1px dashed $grey-lighter;
     background: $grey-lightest;
 }
 
-html.heretic-dark .hr-hd-drop-area {
+html.heretic-dark .hr-hdg-drop-area {
     background: $heretic-dark-grey-dark;
     border: 1px dashed darken($heretic-dark-grey-dark, 20%);
 }
 
-.hr-hd-drop-area-over {
+.hr-hdg-drop-area-over {
     background: $yellow;
 }
 
-.hr-hd-drag-icon {
+.hr-hdg-drag-icon {
     display: inline-flex;
     align-self: center;
 }
 
-.hr-hd-drag-icon svg {
+.hr-hdg-drag-icon svg {
     height: 18px;
     width: 18px;
     top: 2px;
     position: relative;
 }
 
-.hr-hd-drag-icon svg>path {
+.hr-hdg-drag-icon svg>path {
     fill: $grey !important;
 }
 
-.hr-hd-switch {
+.hr-hdg-switch {
     margin-top: 3px !important;
 }
 
-.hr-hd-columns-row:hover {
+.hr-hdg-columns-row:hover {
     background: $white-ter;
     border-radius: $radius;
 }
 
-html.heretic-dark .hr-hd-columns-row:hover {
+html.heretic-dark .hr-hdg-columns-row:hover {
     background: lighten($heretic-dark-grey-dark, 18%);
     border-radius: $radius;
 }

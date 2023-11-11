@@ -24,7 +24,7 @@ export default class {
                     searchable: false,
                     column: true,
                     createIndex: false,
-                    width: 150,
+                    width: 155,
                 }, {
                     id: "id",
                     type: "text",

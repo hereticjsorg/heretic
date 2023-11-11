@@ -84,8 +84,8 @@ export default class {
             delete lockedItems[id];
         }
         this.setStateDirty("lockedItems", lockedItems);
-        if (window.__heretic && window.__heretic.setTippy) {
-            window.__heretic.setTippy();
+        if (window.__heretic.tippyHideAll) {
+            window.__heretic.tippyHideAll();
         }
     }
 
@@ -167,6 +167,7 @@ export default class {
             const actionColumnElements = document.querySelectorAll(`[data-hf-action='${this.input.id}']`);
             const spacerColumnElements = document.querySelectorAll(`[data-hf-spacer='${this.input.id}']`);
             const rowElements = document.querySelectorAll(`[data-hf-row='${this.input.id}']`);
+            const headElements = document.querySelectorAll(`[data-hf-head='${this.input.id}']`);
             const actionsWidth = (this.state.actions.length * 30) + ((this.state.actions.length - 1) * 2) + 17;
             if (wrap.scrollWidth > width && width > 768) {
                 // Scrollbar is visible
@@ -193,6 +194,9 @@ export default class {
                 for (const el of rowElements) {
                     el.style.width = "unset";
                 }
+                for (const el of headElements) {
+                    el.style.width = "unset";
+                }
             }
             if (scrollBottom) {
                 scrollBottom.setInnerWidth(wrap.scrollWidth);
@@ -202,8 +206,8 @@ export default class {
                 scrollBottom.setScrollLeft(0);
             }
             await this.positionSpinner();
-            if (window.__heretic && window.__heretic.setTippy) {
-                window.__heretic.setTippy();
+            if (window.__heretic.tippyHideAll) {
+                window.__heretic.tippyHideAll();
             }
             if (scrollBottom) {
                 scrollBottom.onWindowScroll();
@@ -424,6 +428,9 @@ export default class {
 
     async onActionButtonClick(e) {
         e.preventDefault();
+        if (window.__heretic.tippyHideAll) {
+            setTimeout(() => window.__heretic.tippyHideAll());
+        }
         if (this.state.loading) {
             return;
         }
@@ -468,6 +475,9 @@ export default class {
 
     async onTopButtonClick(e) {
         e.preventDefault();
+        if (window.__heretic.tippyHideAll) {
+            setTimeout(() => window.__heretic.tippyHideAll());
+        }
         if (this.state.loading) {
             return;
         }
@@ -499,6 +509,9 @@ export default class {
 
     async onSettingsClick(e) {
         e.preventDefault();
+        if (window.__heretic.tippyHideAll) {
+            setTimeout(() => window.__heretic.tippyHideAll());
+        }
         await this.utils.waitForComponent(`settings_hf_${this.input.id}`);
         this.getComponent(`settings_hf_${this.input.id}`).show();
     }
@@ -506,14 +519,17 @@ export default class {
     onDataClick(e) {
         e.preventDefault();
         this.setState("dataOpen", true);
-        if (window.__heretic && window.__heretic.setTippy) {
-            window.__heretic.setTippy();
+        if (window.__heretic.tippyHideAll) {
+            window.__heretic.tippyHideAll();
         }
     }
 
     async onBulkUpdateClick(e) {
         e.preventDefault();
         this.setState("dataOpen", false);
+        if (window.__heretic.tippyHideAll) {
+            setTimeout(() => window.__heretic.tippyHideAll());
+        }
         await this.utils.waitForComponent(`bulk_hf_${this.input.id}`);
         await this.getComponent(`bulk_hf_${this.input.id}`).show();
     }
@@ -521,6 +537,9 @@ export default class {
     async onImportClick(e) {
         e.preventDefault();
         this.setState("dataOpen", false);
+        if (window.__heretic.tippyHideAll) {
+            setTimeout(() => window.__heretic.tippyHideAll());
+        }
         await this.utils.waitForComponent(`import_hf_${this.input.id}`);
         this.getComponent(`import_hf_${this.input.id}`).show();
     }
@@ -528,6 +547,9 @@ export default class {
     async onExportClick(e) {
         e.preventDefault();
         this.setState("dataOpen", false);
+        if (window.__heretic.tippyHideAll) {
+            setTimeout(() => window.__heretic.tippyHideAll());
+        }
         if (!this.state.checked.length) {
             await this.notify("htable_exportNoneSelectedError", "is-warning");
             return;
@@ -539,6 +561,9 @@ export default class {
     async onRecycleBinClick(e) {
         e.preventDefault();
         this.setState("dataOpen", false);
+        if (window.__heretic.tippyHideAll) {
+            setTimeout(() => window.__heretic.tippyHideAll());
+        }
         await this.utils.waitForComponent(`recycle_hf_${this.input.id}`);
         this.getComponent(`recycle_hf_${this.input.id}`).show();
     }
