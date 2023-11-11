@@ -1,3 +1,12 @@
+## v1.1.115
+
+**Update hfxsettings.scss** (2023-11-11)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-11 | Update hfxsettings.scss |
+
+
 ## v1.1.114
 
 **Bugfixes** (2023-11-11)
