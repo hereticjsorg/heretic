@@ -61,6 +61,24 @@ export default class {
         return new Promise(wait);
     }
 
+    waitForViewSettled() {
+        const timeout = 5000;
+        const start = Date.now();
+        const wait = (resolve, reject) => {
+            if (!process.browser) {
+                resolve();
+            }
+            if (window.__heretic && window.__heretic.viewSettled) {
+                resolve();
+            } else if (timeout && (Date.now() - start) >= timeout) {
+                reject(new Error("View is not settled"));
+            } else {
+                setTimeout(wait.bind(this, resolve, reject), 30);
+            }
+        };
+        return new Promise(wait);
+    }
+
     async loadLanguageData(page) {
         if (process.browser && window.__heretic && window.__heretic.languageData) { // && !window.__heretic.translationsLoaded[page]
             const i18nLoader = require(`#build/loaders/i18n-loader-${page}`);

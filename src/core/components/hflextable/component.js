@@ -122,12 +122,19 @@ export default class {
         const spinnerWrap = document.getElementById(`hr_hft_loading_wrap_${this.input.id}`);
         if (wrap && spinnerWrap) {
             const wrapBoundingRect = wrap.getBoundingClientRect();
+            let {
+                width,
+            } = wrapBoundingRect;
+            if (!width) {
+                const dummy = document.getElementById(`hr_hft_dummy_${this.input.id}`);
+                width = this.state.clientWidth > 768 && this.state.data.length ? dummy.getBoundingClientRect().width - 10 : dummy.getBoundingClientRect().width;
+            }
             spinnerWrap.style.left = `${wrapBoundingRect.left}px`;
             spinnerWrap.style.top = `${wrapBoundingRect.top}px`;
-            spinnerWrap.style.width = `${wrapBoundingRect.width}px`;
+            spinnerWrap.style.width = `${width}px`;
             spinnerWrap.style.height = `${wrapBoundingRect.height}px`;
             const spinner = document.getElementById(`hr_hft_loading_${this.input.id}`);
-            spinner.style.left = `${wrapBoundingRect.width / 2 - 20}px`;
+            spinner.style.left = `${width / 2 - 20}px`;
             spinnerWrap.style.opacity = "1";
         }
     }
@@ -232,11 +239,8 @@ export default class {
         if (flag) {
             this.setState("loading", true);
             try {
-                if (!this.state.loading) {
-                    return;
-                }
                 await this.utils.waitForElement(`hr_hft_loading_wrap_${this.input.id}`);
-                await this.positionSpinner();
+                this.positionSpinner();
             } catch {
                 // Ignore
             }
@@ -390,6 +394,7 @@ export default class {
                 this.setState("dataOpen", false);
             }
         });
+        await this.utils.waitForViewSettled();
         await this.loadData(loadInput);
         if ((window.__heretic.initComplete && window.__heretic.initComplete[this.input.id]) || window.__heretic.viewSettled) {
             setTimeout(() => this.setWrapWidthDebounced());

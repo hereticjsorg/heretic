@@ -32,26 +32,28 @@ import SettingsPagesForm from "./settingsPagesForm"
         <div class="tabs is-boxed hr-hfe-tabs p-0">
             <ul>
                 <for|i| of=["columns", "pages", "filter"]>
-                    <li class=(state.settingsTab === i ? "is-active" : "")>
-                        <a on-click("onSettingsTabClick") data-tab=i>
-                            <if(i === "columns")>
-                                <t>htable_settingsColumns</t>
-                            </if>
-                            <if(i === "pages")>
-                                <t>htable_settingsPages</t>
-                            </if>
-                            <if(i === "filter")>
-                                <t>htable_settingsFilter</t>
-                                <if(state.filtersEnabledCount)>
-                                    <span class="hr-hfe-top-info-icon icon">
-                                        <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                                            <path d=mdiFilterOutline/>
-                                        </svg>
-                                    </span>
+                    <if(!input.noFilters || (input.noFilters && i !== "filter"))>
+                        <li class=(state.settingsTab === i ? "is-active" : "")>
+                            <a on-click("onSettingsTabClick") data-tab=i>
+                                <if(i === "columns")>
+                                    <t>htable_settingsColumns</t>
                                 </if>
-                            </if>
-                        </a>
-                    </li>
+                                <if(i === "pages")>
+                                    <t>htable_settingsPages</t>
+                                </if>
+                                <if(i === "filter")>
+                                    <t>htable_settingsFilter</t>
+                                    <if(state.filtersEnabledCount)>
+                                        <span class="hr-hfe-top-info-icon icon">
+                                            <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d=mdiFilterOutline/>
+                                            </svg>
+                                        </span>
+                                    </if>
+                                </if>
+                            </a>
+                        </li>
+                    </if>
                 </for>
             </ul>
         </div>
