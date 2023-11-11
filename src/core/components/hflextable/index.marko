@@ -108,24 +108,26 @@ import { mdiReload, mdiPlus, mdiMagnify, mdiCogOutline, mdiPencilOutline, mdiTra
             </div>
         </if>
     </div>
-    <div class="column is-narrow">
-        <div class="field has-addons has-addons-centered">
-            <div class="control hr-hft-search-control">
-                <form on-submit("onSearchInputFormSubmit")>
-                    <input class="input hr-hft-search-field" type="text" value=state.searchText on-input("onSearchInputChange") placeholder=(process.browser ? window.__heretic.t("htable_searchPlaceholder") : "") disabled=state.loading id=`hr_hft_table_search_${input.id}`/>
-                </form>
+    <if(!input.noSearch)>
+        <div class="column is-narrow">
+            <div class="field has-addons has-addons-centered">
+                <div class="control hr-hft-search-control">
+                    <form on-submit("onSearchInputFormSubmit")>
+                        <input class="input hr-hft-search-field" type="text" value=state.searchText on-input("onSearchInputChange") placeholder=(process.browser ? window.__heretic.t("htable_searchPlaceholder") : "") disabled=state.loading id=`hr_hft_table_search_${input.id}`/>
+                    </form>
+                </div>
+                <p class="control">
+                    <a class="button hr-hft-search-button" on-click("onSearchButtonClearClick") disabled=state.loading>
+                        <span class="hr-hft-form-icon icon">
+                            <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                <path d=mdiClose/>
+                            </svg>
+                        </span>
+                    </a>
+                </p>
             </div>
-            <p class="control">
-                <a class="button hr-hft-search-button" on-click("onSearchButtonClearClick") disabled=state.loading>
-                    <span class="hr-hft-form-icon icon">
-                        <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                            <path d=mdiClose/>
-                        </svg>
-                    </span>
-                </a>
-            </p>
         </div>
-    </div>
+    </if>
 </div>
 <div class="menu-label">
     <t>htable_total</t>: ${state.total}<if(state.total !== state.grandTotal)>&nbsp;(${state.grandTotal})</if>,&nbsp;
@@ -138,23 +140,25 @@ import { mdiReload, mdiPlus, mdiMagnify, mdiCogOutline, mdiPencilOutline, mdiTra
         width: "0px"
     }>
     <div class="columns m-0 p-0 hr-hft-head" data-hf-row=input.id on-click("onHeadClick")>
-        <div
-            class="column m-0 p-0 is-narrow"
-            style={
-                width: "40px"
-            }>
-            <div>
-                <div class="hr-hft-checkbox-wrap" data-checkbox=true on-change("onCheckboxAllChange")>
-                    <input type="checkbox" checked=(state.data.length && state.checked.length === state.data.length)/>
+        <if(!input.noCheckbox)>
+            <div
+                class="column m-0 p-0 is-narrow"
+                style={
+                    width: "40px"
+                }>
+                <div>
+                    <div class="hr-hft-checkbox-wrap" data-checkbox=true on-change("onCheckboxAllChange")>
+                        <input type="checkbox" checked=(state.data.length && state.checked.length === state.data.length)/>
+                    </div>
                 </div>
             </div>
-        </div>
+        </if>
         <for|c, ci| of=Object.keys(state.columns)>
             <if(state.columns[c])>
                 $ const column = state.columnData[c];
                 <if(column.width === "auto")>
                     <div
-                        class="column m-0 p-0 is-auto hr-hft-cell-border-head-left"
+                        class=`column m-0 p-0 is-auto${input.noCheckbox && ci === 0 ? "" : " hr-hft-cell-border-head-left"}`
                         data-id=column.id
                         style={
                             minWidth: column.minWidth,
@@ -173,7 +177,7 @@ import { mdiReload, mdiPlus, mdiMagnify, mdiCogOutline, mdiPencilOutline, mdiTra
                 </if>
                 <else>
                     <div
-                        class="column m-0 p-0 is-narrow hr-hft-cell-border-head-left"
+                        class=`column m-0 p-0 is-narrow ${input.noCheckbox && ci === 0 ? "" : " hr-hft-cell-border-head-left"}`
                         data-id=column.id
                         data-hf-head=input.id
                         style={
@@ -194,7 +198,7 @@ import { mdiReload, mdiPlus, mdiMagnify, mdiCogOutline, mdiPencilOutline, mdiTra
             </if>
         </for>
         <div class="column m-0 p-0 is-narrow hr-hft-cell-action hr-hft-head hr-hft-cell-border-head-left hr-hft-action-column-head" data-hf-action=input.id>
-            <div class="hr-hft-cell-head-data">
+            <div class="hr-hft-cell-head-data" data-tippy-content=(process.browser && window.__heretic && window.__heretic.t ? window.__heretic.t("htable_actions") : "")>
                 <hfxsort/>
                 <t>htable_actions</t>
             </div>
@@ -205,31 +209,33 @@ import { mdiReload, mdiPlus, mdiMagnify, mdiCogOutline, mdiPencilOutline, mdiTra
         <div on-click("onRowClick")>
             <for|i, index| of=state.data>
                 <div class=`columns m-0 p-0 hr-hft-row${index % 2 === 0 ? " hr-hft-row-odd" : ""}${index === state.data.length - 1 ? " hr-hft-item-bottom" : ""}` data-item=i._id data-hf-row=input.id>
-                    <div
-                        class="column m-0 p-0 is-narrow"
-                        style={
-                            width: "40px",
-                            position: "relative"
-                        }>
-                        <if(state.lockedItems[i._id])>
-                            <span class="hr-hft-lock-icon">
-                                <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg" data-tippy-content=(process.browser && window.__heretic ? `${window.__heretic.t("htable_lockedBy")}: ${state.lockedItems[i._id]}` : null)>
-                                    <path d=mdiLockOutline/>
-                                </svg>
-                            </span>
-                        </if>
-                        <else>
-                            <div class="hr-hft-checkbox-wrap">
-                                <input type="checkbox" data-checkboxid=i._id checked=(state.checked.indexOf(i._id) > -1)/>
-                            </div>
-                        </else>
-                    </div>
+                    <if(!input.noCheckbox)>
+                        <div
+                            class="column m-0 p-0 is-narrow"
+                            style={
+                                width: "40px",
+                                position: "relative"
+                            }>
+                            <if(state.lockedItems[i._id])>
+                                <span class="hr-hft-lock-icon">
+                                    <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg" data-tippy-content=(process.browser && window.__heretic ? `${window.__heretic.t("htable_lockedBy")}: ${state.lockedItems[i._id]}` : null)>
+                                        <path d=mdiLockOutline/>
+                                    </svg>
+                                </span>
+                            </if>
+                            <else>
+                                <div class="hr-hft-checkbox-wrap">
+                                    <input type="checkbox" data-checkboxid=i._id checked=(state.checked.indexOf(i._id) > -1)/>
+                                </div>
+                            </else>
+                        </div>
+                    </if>
                     <for|c, ci| of=Object.keys(state.columns)>
                         <if(state.columns[c])>
                             $ const column = state.columnData[c];
                             <if(column.width === "auto")>
                                 <div
-                                    class="column m-0 is-auto hr-hft-cell-data hr-hft-cell-border-left"
+                                    class=`column m-0 is-auto hr-hft-cell-data${input.noCheckbox && ci === 0 ? "" : " hr-hft-cell-border-left"}`
                                     style={
                                         minWidth: column.minWidth
                                     }>
@@ -238,7 +244,7 @@ import { mdiReload, mdiPlus, mdiMagnify, mdiCogOutline, mdiPencilOutline, mdiTra
                             </if>
                             <else>
                                 <div
-                                    class="column m-0 is-narrow hr-hft-cell-data hr-hft-cell-border-left"
+                                    class=`column m-0 is-narrow hr-hft-cell-data${input.noCheckbox && ci === 0 ? "" : " hr-hft-cell-border-left"}`
                                     style={
                                         width: column.width
                                     }>
@@ -299,7 +305,7 @@ import { mdiReload, mdiPlus, mdiMagnify, mdiCogOutline, mdiPencilOutline, mdiTra
     <hpagination admin=input.admin data=state.pagination currentPage=state.currentPage on-page-click("onPageClick")/>
 </if>
 <hnotify admin=input.admin key=`notify_hf_${input.id}`/>
-<hfxsettings admin=input.admin id=input.id key=`settings_hf_${input.id}` filters=state.filters columns=state.columns itemsPerPage=state.itemsPerPage columnData=state.columnData on-notification("onNotification") on-data("onSettingsData")/>
+<hfxsettings admin=input.admin id=input.id key=`settings_hf_${input.id}` filters=state.filters columns=state.columns itemsPerPage=state.itemsPerPage columnData=state.columnData on-notification("onNotification") on-data("onSettingsData") noFilters=input.noFilters/>
 <hfxbulk admin=input.admin id=input.id key=`bulk_hf_${input.id}` tabs=state.tabs columnData=state.columnData checked=state.checked on-notification("onNotification") filters=state.filters bulkUpdateConfig=state.bulkUpdateConfig searchText=state.searchText headers=input.headers on-unauthorized("onUnauthorized") on-update-success("onBulkUpdateSuccess")/>
 <hfximport admin=input.admin id=input.id key=`import_hf_${input.id}` columnData=state.columnData on-notification("onNotification") importConfig=state.importConfig headers=input.headers on-unauthorized("onUnauthorized") on-import-success("onImportSuccess")/>
 <hfxexport admin=input.admin id=input.id key=`export_hf_${input.id}` headers=input.headers on-unauthorized("onUnauthorized") on-notification("onNotification") on-export-success("onExportSuccess") columnData=state.columnData columns=state.columns exportConfig=state.exportConfig checked=state.checked/>

@@ -6,7 +6,7 @@ import LogForm from "../../data/form.js";
 <if(state.ready)>
     $ const t = process.browser && window.__heretic ? window.__heretic.t : out.global.t
     <hadmin-title admin=true title=(t("moduleTitleLogs"))/>
-    <hflextable id="medved" data=(new LogForm(t)) headers=state.headers on-action-button-click("onActionButtonClick") on-unauthorized("onUnauthorized")/>
+    <hflextable id="medved" data=(new LogForm(t)) headers=state.headers on-action-button-click("onActionButtonClick") on-unauthorized("onUnauthorized") noCheckbox=true noFilters=true noSearch=true/>
     <div id="hr_lg_dummy"/>
     <hnotify admin=true key="notify"/>
     <entryModal key="entryModal" on-notification("onNotification")/>
