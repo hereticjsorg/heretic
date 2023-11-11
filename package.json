@@ -106,7 +106,7 @@
         "@dword-design/eslint-plugin-import-alias": "^4.0.9",
         "@fastify/cookie": "^9.1.0",
         "@fastify/formbody": "^7.4.0",
-        "@fastify/jwt": "^7.2.2",
+        "@fastify/jwt": "^7.2.3",
         "@fastify/mongodb": "^8.0.0",
         "@fastify/oauth2": "^7.5.0",
         "@lukeed/ms": "^2.0.1",

@@ -31,6 +31,7 @@ export default class {
                         helpText: this.t("usernameHelpText"),
                         createIndex: true,
                         autoFocus: true,
+                        width: 150,
                     }, {
                         id: "active",
                         type: "checkbox",
@@ -46,6 +47,7 @@ export default class {
                         createIndex: true,
                         autoFocus: false,
                         defaultValue: true,
+                        width: 60,
                     }, {
                         id: "displayName",
                         type: "text",
@@ -62,6 +64,7 @@ export default class {
                         helpText: this.t("displayNameHelpText"),
                         createIndex: true,
                         autoFocus: false,
+                        width: 180,
                     }, {
                         id: "email",
                         type: "text",
@@ -77,6 +80,8 @@ export default class {
                         css: "hr-hf-field-large",
                         column: true,
                         createIndex: true,
+                        width: "auto",
+                        minWidth: 250,
                     }, {
                         id: "password",
                         type: "password",
@@ -90,6 +95,7 @@ export default class {
                         searchable: false,
                         column: false,
                         createIndex: false,
+                        width: 150,
                     }, {
                         id: "groups",
                         type: "tags",
@@ -114,6 +120,7 @@ export default class {
                         enumOnly: true,
                         enumButton: true,
                         enumDropdown: false,
+                        width: 180,
                     }
                 ],
             }],
