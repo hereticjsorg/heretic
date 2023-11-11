@@ -1,3 +1,12 @@
+## v1.1.118
+
+**Not showing selected label when in no checkboxes mode** (2023-11-11)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-11 | Not showing selected label when in no checkboxes mode |
+
+
 ## v1.1.117
 
 **Bugfixes** (2023-11-11)
