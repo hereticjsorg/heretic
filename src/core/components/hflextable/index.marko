@@ -130,8 +130,11 @@ import { mdiReload, mdiPlus, mdiMagnify, mdiCogOutline, mdiPencilOutline, mdiTra
     </if>
 </div>
 <div class="menu-label">
-    <t>htable_total</t>: ${state.total}<if(state.total !== state.grandTotal)>&nbsp;(${state.grandTotal})</if>,&nbsp;
-    <t>htable_selected</t>: ${state.checked.length}
+    <t>htable_total</t>: ${state.total}<if(state.total !== state.grandTotal)>&nbsp;(${state.grandTotal})</if>
+    <if(!input.noCheckbox)>
+        ,&nbsp;
+        <t>htable_selected</t>: ${state.checked.length}
+    </if>
 </div>
 <div
     class="hr-hft-wrap"
