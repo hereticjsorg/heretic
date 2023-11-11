@@ -96,4 +96,9 @@ html.heretic-dark .hr-hs-wrap>div>label:hover {
     fill: $white !important;
 }
 
-@media (max-width: 768px) {}
+@media (max-width: 768px) {
+    .hr-hm-tabs>ul {
+        position: relative;
+        top: 0;
+    }    
+}

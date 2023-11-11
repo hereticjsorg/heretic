@@ -50,9 +50,6 @@ export default class {
         await this.utils.waitForComponent(`bulkUpdateModal_hf_${this.input.id}`);
         const bulkUpdateModal = this.getComponent(`bulkUpdateModal_hf_${this.input.id}`);
         bulkUpdateModal.setActive(true).setCloseAllowed(true).setBackgroundCloseAllowed(false).setLoading(false);
-        if (window.__heretic && window.__heretic.setTippy) {
-            window.__heretic.setTippy();
-        }
     }
 
     getFirstBulkUpdateColumn() {

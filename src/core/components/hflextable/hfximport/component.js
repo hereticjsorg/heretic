@@ -51,9 +51,6 @@ export default class {
         this.setState("importColumns", []);
         this.setState("importColumnsData", {});
         this.setState("importWorksheet", null);
-        if (window.__heretic && window.__heretic.setTippy) {
-            window.__heretic.setTippy();
-        }
     }
 
     async notify(message, css = "is-success") {

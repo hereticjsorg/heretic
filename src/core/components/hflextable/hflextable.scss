@@ -1,23 +1,23 @@
-.hr-ft-wrap {
+.hr-hft-wrap {
     width: 100%;
     overflow-x: auto;
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
 
-.hr-ft-wrap::-webkit-scrollbar {
+.hr-hft-wrap::-webkit-scrollbar {
     display: none;
 }
 
-.hr-hf-cell-data {
+.hr-hft-cell-data {
     padding: 11px 8px 10px 8px;
 }
 
-.hr-hf-cell-action {
+.hr-hft-cell-action {
     padding: 8px;
 }
 
-.hr-hf-cell-data {
+.hr-hft-cell-data {
     white-space: nowrap;
     overflow: hidden;
     position: relative;
@@ -34,25 +34,25 @@
     }
 }
 
-.hr-hf-row-odd>.hr-hf-cell-data {
+.hr-hft-row-odd>.hr-hft-cell-data {
     &:after {
         background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba($grey-lightest, 1) 100%);
     }
 }
 
-html.heretic-dark .hr-hf-cell-data {
+html.heretic-dark .hr-hft-cell-data {
     &:after {
         background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba($grey-dark, 1) 100%);
     }
 }
 
-html.heretic-dark .hr-hf-row-odd>.hr-hf-cell-data {
+html.heretic-dark .hr-hft-row-odd>.hr-hft-cell-data {
     &:after {
         background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba($grey-darker, 1) 100%);
     }
 }
 
-.hr-hf-cell-head-data {
+.hr-hft-cell-head-data {
     position: relative;
     overflow: hidden;
     white-space: nowrap;
@@ -70,50 +70,50 @@ html.heretic-dark .hr-hf-row-odd>.hr-hf-cell-data {
     }
 }
 
-html.heretic-dark .hr-hf-cell-head-data {
+html.heretic-dark .hr-hft-cell-head-data {
     &:after {
         background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(lighten($grey-dark, 5%), 1) 100%);
     }
 }
 
-.hr-hf-cell-border-left {
+.hr-hft-cell-border-left {
     border-left: 1px solid darken($grey-lighter, 5%);
 }
 
-.hr-hf-cell-border-head-left {
+.hr-hft-cell-border-head-left {
     border-left: 1px solid darken($grey-light, 5%);
 }
 
-html.heretic-dark .hr-hf-cell-border-left {
+html.heretic-dark .hr-hft-cell-border-left {
     border-left: 1px solid darken($grey-dark, 5%);
 }
 
-html.heretic-dark .hr-hf-cell-border-head-left {
+html.heretic-dark .hr-hft-cell-border-head-left {
     border-left: 1px solid darken($grey-dark, 5%);
 }
 
-.hr-hf-row {
+.hr-hft-row {
     background-color: $grey-lighter;
 }
 
-.hr-hf-row-odd {
+.hr-hft-row-odd {
     background-color: $grey-lightest;
 }
 
-html.heretic-dark .hr-hf-row {
+html.heretic-dark .hr-hft-row {
     background-color: $grey-dark;
 }
 
-html.heretic-dark .hr-hf-row-odd {
+html.heretic-dark .hr-hft-row-odd {
     background-color: $grey-darker;
 }
 
-.hr-hf-row-bottom {
+.hr-hft-row-bottom {
     border-bottom-right-radius: $radius;
     border-bottom-left-radius: $radius;
 }
 
-.hr-hf-head {
+.hr-hft-head {
     background-color: $grey-light;
     font-weight: 600;
     border-top-right-radius: $radius;
@@ -121,22 +121,22 @@ html.heretic-dark .hr-hf-row-odd {
     user-select: none;
 }
 
-html.heretic-dark .hr-hf-head {
+html.heretic-dark .hr-hft-head {
     background-color: lighten($grey-dark, 5%);
 }
 
-.hr-hf-cell-resize:hover {
+.hr-hft-cell-resize:hover {
     opacity: 0.9;
 }
 
-.hr-hf-loading {
+.hr-hft-loading {
     position: absolute;
     left: 0;
     top: 22px;
     // opacity: 0;
 }
 
-.hr-hf-loading-wrap {
+.hr-hft-loading-wrap {
     position: absolute;
     left: 0;
     top: 0;
@@ -145,44 +145,44 @@ html.heretic-dark .hr-hf-head {
     z-index: 25;
 }
 
-html.heretic-dark .hr-hf-loading-wrap {
+html.heretic-dark .hr-hft-loading-wrap {
     background: rgba($heretic-theme-loading-background-color-dark, 0.7);
 }
 
-.hr-hf-cell-head-data {
+.hr-hft-cell-head-data {
     border-top-right-radius: $radius;
 }
 
-.hr-hf-item-bottom {
+.hr-hft-item-bottom {
     border-bottom-left-radius: $radius;
     border-bottom-right-radius: $radius;
 }
 
-.hr-hf-action-column-head {
+.hr-hft-action-column-head {
     border-top-right-radius: $radius;
     text-align: center;
 }
 
-.hr-hf-action-button {
+.hr-hft-action-button {
     border-radius: 50% !important;
     height: 29px !important;
 }
 
-html.heretic-dark .hr-hf-action-button {
+html.heretic-dark .hr-hft-action-button {
     width: 30px !important;
 }
 
-.hr-hf-action-button:disabled {
+.hr-hft-action-button:disabled {
     opacity: 0 !important;
     cursor: unset !important;
 }
 
-.hr-hf-action-icon {
+.hr-hft-action-icon {
     display: inline-flex;
     align-self: center;
 }
 
-.hr-hf-action-icon svg {
+.hr-hft-action-icon svg {
     height: 23px;
     width: 23px;
     top: 1px;
@@ -190,194 +190,194 @@ html.heretic-dark .hr-hf-action-button {
     position: relative;
 }
 
-.hr-hf-action-icon svg>path {
+.hr-hft-action-icon svg>path {
     fill: $grey-darker !important;
 }
 
-.hr-hf-action-icon-danger svg>path {
+.hr-hft-action-icon-danger svg>path {
     fill: $white !important;
 }
 
-.hr-hf-checkbox-wrap {
+.hr-hft-checkbox-wrap {
     padding: 13px 11px 0;
 }
 
-.hr-hf-top-button-icon,
-.hr-hf-top-button-icon-danger,
-.hr-hf-top-button-submenu-icon {
+.hr-hft-top-button-icon,
+.hr-hft-top-button-icon-danger,
+.hr-hft-top-button-submenu-icon {
     display: inline-flex;
     align-self: center;
 }
 
-.hr-hf-top-button-icon svg,
-.hr-hf-top-button-icon-danger svg {
+.hr-hft-top-button-icon svg,
+.hr-hft-top-button-icon-danger svg {
     height: 16px;
     width: 16px;
     top: 0px;
     position: relative;
 }
 
-.hr-hf-top-button-icon svg>path {
+.hr-hft-top-button-icon svg>path {
     fill: $grey-darker;
 }
 
-.hr-hf-top-button-icon-danger svg>path {
+.hr-hft-top-button-icon-danger svg>path {
     fill: $white !important;
 }
 
-.hr-hf-top-button-submenu-icon {
+.hr-hft-top-button-submenu-icon {
     margin-right: 10px;
 }
 
-.hr-hf-search-button,
-.hr-hf-search-button:hover {
+.hr-hft-search-button,
+.hr-hft-search-button:hover {
     border-top: 1px solid $grey-lighter;
     border-right: 1px solid $grey-lighter;
     border-bottom: 1px solid $grey-lighter;
     border-left: unset;
 }
 
-.hr-hf-search-button:hover {
+.hr-hft-search-button:hover {
     background: $white-ter;
 }
 
-html.heretic-dark .hr-hf-search-button,
-html.heretic-dark .hr-hf-search-button:hover {
+html.heretic-dark .hr-hft-search-button,
+html.heretic-dark .hr-hft-search-button:hover {
     border-top: 1px solid lighten($heretic-dark-grey-darker, 8%) !important;
     border-right: 1px solid lighten($heretic-dark-grey-darker, 8%) !important;
     border-bottom: 1px solid lighten($heretic-dark-grey-darker, 8%) !important;
     border-left: unset;
 }
 
-html.heretic-dark .hr-hf-search-button:hover {
+html.heretic-dark .hr-hft-search-button:hover {
     background: lighten($heretic-dark-grey-darker, 5%) !important;
 }
 
-.hr-hf-form-icon,
-.hr-hf-search-close-icon {
+.hr-hft-form-icon,
+.hr-hft-search-close-icon {
     display: inline-flex;
     align-self: center;
 }
 
-.hr-hf-form-icon svg,
-.hr-hf-search-close-icon svg {
+.hr-hft-form-icon svg,
+.hr-hft-search-close-icon svg {
     height: 17px;
     width: 17px;
     top: 0px;
     position: relative;
 }
 
-.hr-hf-form-icon svg>path {
+.hr-hft-form-icon svg>path {
     fill: $grey-light !important;
 }
 
-.hr-hf-search-close-icon svg>path {
+.hr-hft-search-close-icon svg>path {
     fill: darken($grey, 5%) !important;
 }
 
-.hr-hf-settings-body {
+.hr-hft-settings-body {
     margin: 0 !important;
     padding: 0 !important;
 }
 
-.hr-hf-settings-columns-drop-area,
-.hr-hf-export-columns-drop-area {
+.hr-hft-settings-columns-drop-area,
+.hr-hft-export-columns-drop-area {
     height: 5px;
     border: 1px dashed $grey-lighter;
     background: $grey-lightest;
 }
 
-html.heretic-dark .hr-hf-settings-columns-drop-area,
-html.heretic-dark .hr-hf-export-columns-drop-area {
+html.heretic-dark .hr-hft-settings-columns-drop-area,
+html.heretic-dark .hr-hft-export-columns-drop-area {
     background: $heretic-dark-grey-dark;
     border: 1px dashed darken($heretic-dark-grey-dark, 20%);
 }
 
-.hr-hf-settings-columns-drop-area-over,
-.hr-hf-export-columns-drop-area-over {
+.hr-hft-settings-columns-drop-area-over,
+.hr-hft-export-columns-drop-area-over {
     background: $yellow;
 }
 
-.hr-hf-drag-icon {
+.hr-hft-drag-icon {
     display: inline-flex;
     align-self: center;
 }
 
-.hr-hf-drag-icon svg {
+.hr-hft-drag-icon svg {
     height: 18px;
     width: 18px;
     top: 2px;
     position: relative;
 }
 
-.hr-hf-drag-icon svg>path {
+.hr-hft-drag-icon svg>path {
     fill: $grey !important;
 }
 
-.hr-hf-settings-columns-row:hover,
-.hr-hf-settings-filters-row:hover,
-.hr-hf-settings-bulk-row:hover,
-.hr-hf-export-columns-row:hover {
+.hr-hft-settings-columns-row:hover,
+.hr-hft-settings-filters-row:hover,
+.hr-hft-settings-bulk-row:hover,
+.hr-hft-export-columns-row:hover {
     background: $white-ter;
     border-radius: $radius;
 }
 
-html.heretic-dark .hr-hf-settings-columns-row:hover,
-html.heretic-dark .hr-hf-settings-filters-row:hover,
-html.heretic-dark .hr-hf-settings-bulk-row:hover,
-html.heretic-dark .hr-hf-export-columns-row:hover {
+html.heretic-dark .hr-hft-settings-columns-row:hover,
+html.heretic-dark .hr-hft-settings-filters-row:hover,
+html.heretic-dark .hr-hft-settings-bulk-row:hover,
+html.heretic-dark .hr-hft-export-columns-row:hover {
     background: lighten($heretic-dark-grey-dark, 18%);
     border-radius: $radius;
 }
 
-.hr-hf-settings-columns-drop-area,
-.hr-hf-export-columns-drop-area {
+.hr-hft-settings-columns-drop-area,
+.hr-hft-export-columns-drop-area {
     height: 5px;
     border: 1px dashed $grey-lighter;
     background: $grey-lightest;
 }
 
-html.heretic-dark .hr-hf-settings-columns-drop-area,
-html.heretic-dark .hr-hf-export-columns-drop-area {
+html.heretic-dark .hr-hft-settings-columns-drop-area,
+html.heretic-dark .hr-hft-export-columns-drop-area {
     background: $heretic-dark-grey-dark;
     border: 1px dashed darken($heretic-dark-grey-dark, 20%);
 }
 
-.hr-hf-settings-columns-drop-area-over,
-.hr-hf-export-columns-drop-area-over {
+.hr-hft-settings-columns-drop-area-over,
+.hr-hft-export-columns-drop-area-over {
     background: $yellow;
 }
 
-.hr-hf-top-button-submenu-icon svg {
+.hr-hft-top-button-submenu-icon svg {
     height: 16px;
     width: 16px;
     top: 3px;
     position: relative;
 }
 
-.hr-hf-top-button-submenu-icon svg>path {
+.hr-hft-top-button-submenu-icon svg>path {
     fill: $grey !important;
 }
 
-.hr-hf-top-info-icon {
+.hr-hft-top-info-icon {
     display: inline-flex;
     align-self: center;
     margin-left: 1px !important;
 }
 
-.hr-hf-top-info-icon svg {
+.hr-hft-top-info-icon svg {
     height: 15px;
     width: 15px;
     top: 1px;
     position: relative;
 }
 
-.hr-hf-top-info-icon svg>path {
+.hr-hft-top-info-icon svg>path {
     fill: $primary !important;
     margin-left: 10px;
 }
 
-.hr-hf-lock-icon {
+.hr-hft-lock-icon {
     display: inline-flex;
     align-self: center;
     position: absolute;
@@ -385,24 +385,24 @@ html.heretic-dark .hr-hf-export-columns-drop-area {
     top: 14px !important;
 }
 
-.hr-hf-lock-icon svg {
+.hr-hft-lock-icon svg {
     height: 17px;
     width: 17px;
     position: relative;
 }
 
-.hr-hf-lock-icon>svg>path {
+.hr-hft-lock-icon>svg>path {
     fill: $grey !important;
 }
 
 @media (max-width: 768px) {
 
-    .hr-hf-top-button-icon,
-    .hr-hf-top-button-icon-danger {
+    .hr-hft-top-button-icon,
+    .hr-hft-top-button-icon-danger {
         margin-right: 0;
     }
 
-    .hr-hf-cell-action {
+    .hr-hft-cell-action {
         width: unset !important;
         min-width: unset !important;
         max-width: unset !important;
@@ -410,41 +410,41 @@ html.heretic-dark .hr-hf-export-columns-drop-area {
         left: unset !important;
     }
 
-    .hr-hf-cell-data {
+    .hr-hft-cell-data {
         width: unset !important;
         min-width: unset !important;
     }
 
-    .hr-hf-cell-border-left {
+    .hr-hft-cell-border-left {
         border-left: unset;
     }
 
-    .hr-hf-cell-border-head-left {
+    .hr-hft-cell-border-head-left {
         border-left: unset;
     }
 
-    .hr-hf-cell-head-data {
+    .hr-hft-cell-head-data {
         min-width: unset !important;
         width: unset !important;
     }
 
-    .hr-hf-search-control {
+    .hr-hft-search-control {
         width: 100%;
     }
 
-    .hr-hf-search-field {
+    .hr-hft-search-field {
         margin-bottom: 10px;
     }
 
-    .hr-hf-head {
+    .hr-hft-head {
         margin-left: -1px !important;
     }
 
-    .hr-hf-row {
+    .hr-hft-row {
         margin-left: -1px !important;
     }
 
-    .hr-hf-action-column-head {
+    .hr-hft-action-column-head {
         border-top-right-radius: $radius;
         text-align: left;
     }

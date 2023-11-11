@@ -52,22 +52,22 @@ export default class {
 
     onDragEnter(e) {
         e.preventDefault();
-        e.target.classList.add("hr-hd-drop-area-over");
+        e.target.classList.add("hr-hdg-drop-area-over");
     }
 
     onDragLeave(e) {
         e.preventDefault();
-        e.target.classList.remove("hr-hd-drop-area-over");
+        e.target.classList.remove("hr-hdg-drop-area-over");
     }
 
     onDragOver(e) {
         e.preventDefault();
-        e.target.classList.add("hr-hd-drop-area-over");
+        e.target.classList.add("hr-hdg-drop-area-over");
     }
 
     onDrop(e) {
         const dataTransfer = e.dataTransfer.getData("text");
-        e.target.classList.remove("hr-hd-drop-area-over");
+        e.target.classList.remove("hr-hdg-drop-area-over");
         if (dataTransfer === this.input.id) {
             const {
                 id
