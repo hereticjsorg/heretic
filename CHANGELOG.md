@@ -1,3 +1,12 @@
+## v1.1.117
+
+**Bugfixes** (2023-11-11)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-11 | Bugfixes |
+
+
 ## v1.1.116
 
 **Handling orientation change in hflextable** (2023-11-11)
