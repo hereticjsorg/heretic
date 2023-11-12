@@ -1,3 +1,12 @@
+## v1.1.120
+
+**Update component.js** (2023-11-12)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-11-12 | Update component.js |
+
+
 ## v1.1.119
 
 **Bugfixes** (2023-11-12)
