@@ -66,9 +66,10 @@ export default class {
     }
 
     onDrop(e) {
+        // e.preventDefault();
         const dataTransfer = e.dataTransfer.getData("text");
         e.target.classList.remove("hr-hdg-drop-area-over");
-        if (dataTransfer === this.input.id) {
+        if (String(dataTransfer) === this.input.id) {
             const {
                 id
             } = e.target.closest("[data-id]").dataset;
