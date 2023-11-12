@@ -1,3 +1,14 @@
+## v1.1.119
+
+**Bugfixes** (2023-11-12)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-12 | Update hdraglist.scss |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-11-12 | Update configurationFiles.md |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-11-12 | Fixed drag-and-drop problem with Safari |
+
+
 ## v1.1.118
 
 **Not showing selected label when in no checkboxes mode** (2023-11-11)
