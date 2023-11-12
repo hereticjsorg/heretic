@@ -90,7 +90,7 @@ Example:
 ```js
 mongo: {
     enabled: true,
-    url: "mongodb://0.0.0.0:27017",
+    url: "mongodb://127.0.0.1:27017",
     dbName: "heretic",
     options: {
         connectTimeoutMS: 5000,
