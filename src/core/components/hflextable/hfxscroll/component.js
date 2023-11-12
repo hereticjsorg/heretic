@@ -46,19 +46,16 @@ export default class {
     }
 
     async setWrapWidth(w) {
-        // await this.utils.waitForElement(`hr_ft_scroll_wrap_${this.input.id}`);
         const scrollWrap = document.getElementById(`hr_ft_scroll_wrap_${this.input.id}`);
         scrollWrap.style.width = `${w}px`;
     }
 
     async setInnerWidth(w) {
-        // await this.utils.waitForElement(`hr_ft_scroll_inner_${this.input.id}`);
         const scrollInner = document.getElementById(`hr_ft_scroll_inner_${this.input.id}`);
         scrollInner.style.width = `${w}px`;
     }
 
     async setDisplay(d) {
-        // await this.utils.waitForElement(`hr_ft_scroll_wrap_${this.input.id}`);
         const scrollWrap = document.getElementById(`hr_ft_scroll_wrap_${this.input.id}`);
         scrollWrap.style.display = d;
     }

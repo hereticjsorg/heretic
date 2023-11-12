@@ -28,6 +28,8 @@ export default class {
                     searchable: true,
                     column: true,
                     createIndex: true,
+                    width: "auto",
+                    minWidth: 300,
                 }, {
                     id: "createdAt",
                     type: "date",
@@ -40,6 +42,7 @@ export default class {
                     searchable: false,
                     column: true,
                     createIndex: true,
+                    width: 160,
                 }, {
                     id: "dateEnd",
                     type: "date",
@@ -52,6 +55,7 @@ export default class {
                     searchable: false,
                     column: true,
                     createIndex: true,
+                    width: 160,
                 }, {
                     id: "ip",
                     type: "text",
@@ -63,6 +67,7 @@ export default class {
                     searchable: true,
                     column: true,
                     createIndex: true,
+                    width: 130,
                 }, {
                     id: "username",
                     type: "text",
@@ -74,6 +79,7 @@ export default class {
                     searchable: true,
                     column: true,
                     createIndex: true,
+                    width: 150,
                 }],
             }],
         };

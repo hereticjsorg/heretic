@@ -183,6 +183,7 @@ import { mdiReload, mdiPlus, mdiMagnify, mdiCogOutline, mdiPencilOutline, mdiTra
                         class=`column m-0 p-0 is-narrow ${input.noCheckbox && ci === 0 ? "" : " hr-hft-cell-border-head-left"}`
                         data-id=column.id
                         data-hf-head=input.id
+                        data-width=column.width
                         style={
                             width: column.width,
                             cursor: column.sortable ? "pointer" : "inherit"
@@ -247,7 +248,7 @@ import { mdiReload, mdiPlus, mdiMagnify, mdiCogOutline, mdiPencilOutline, mdiTra
                             </if>
                             <else>
                                 <div
-                                    class=`column m-0 is-narrow hr-hft-cell-data${input.noCheckbox && ci === 0 ? "" : " hr-hft-cell-border-left"}`
+                                    class=`column m-0 is-narrow hr-hft-cell-data${input.noCheckbox && ci === 0 ? "" : " hr-hft-cell-border-left"}` 
                                     style={
                                         width: column.width
                                     }>
