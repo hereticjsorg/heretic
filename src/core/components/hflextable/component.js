@@ -49,8 +49,20 @@ export default class {
         };
         if (input.admin) {
             await import( /* webpackChunkName: "hflextable-admin" */ "./style-admin.scss");
+            // await import( /* webpackChunkName: "hfxbulk-admin" */ "./hfxbulk/style-admin.scss");
+            // await import( /* webpackChunkName: "hfxexport-admin" */ "./hfxexport/style-admin.scss");
+            // await import( /* webpackChunkName: "hfximport-admin" */ "./hfximport/style-admin.scss");
+            // await import( /* webpackChunkName: "hfxrecycle-admin" */ "./hfxrecycle/style-admin.scss");
+            // await import( /* webpackChunkName: "hfxscroll-admin" */ "./hfxscroll/style-admin.scss");
+            // await import( /* webpackChunkName: "hfxsettings-admin" */ "./hfxsettings/style-admin.scss");
         } else {
             await import( /* webpackChunkName: "hflextable-frontend" */ "./style-frontend.scss");
+            // await import( /* webpackChunkName: "hfxbulk-frontend" */ "./hfxbulk/style-frontend.scss");
+            // await import( /* webpackChunkName: "hfxexport-frontend" */ "./hfxexport/style-frontend.scss");
+            // await import( /* webpackChunkName: "hfximport-frontend" */ "./hfximport/style-frontend.scss");
+            // await import( /* webpackChunkName: "hfxrecycle-frontend" */ "./hfxrecycle/style-frontend.scss");
+            // await import( /* webpackChunkName: "hfxscroll-frontend" */ "./hfxscroll/style-frontend.scss");
+            // await import( /* webpackChunkName: "hfxsettings-frontend" */ "./hfxsettings/style-frontend.scss");
         }
         this.language = out.global.language;
         this.siteTitle = out.global.siteTitle;

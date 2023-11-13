@@ -15,9 +15,9 @@ export default class {
             page: 1,
         };
         if (input.admin) {
-            await import( /* webpackChunkName: "hrecycle-admin" */ "./style-admin.scss");
+            await import( /* webpackChunkName: "hfxrecycle-admin" */ "./style-admin.scss");
         } else {
-            await import( /* webpackChunkName: "hrecycle-frontend" */ "./style-frontend.scss");
+            await import( /* webpackChunkName: "hfxrecycle-frontend" */ "./style-frontend.scss");
         }
         this.language = out.global.language;
         this.siteTitle = out.global.siteTitle;
