@@ -3,6 +3,8 @@
     overflow-x: auto;
     -ms-overflow-style: none;
     scrollbar-width: none;
+    // border: 1px solid $grey-light;
+    border-radius: $radius-large;
 }
 
 .hr-hft-wrap::-webkit-scrollbar {

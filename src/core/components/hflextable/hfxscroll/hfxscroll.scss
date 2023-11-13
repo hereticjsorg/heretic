@@ -1,0 +1,27 @@
+.hr-hfs-scroll-wrap {
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.hr-hfs-scroll-wrap::-webkit-scrollbar {
+    display: none;
+}
+
+.hr-hfs-scroll-inner {
+    height: 1px;
+}
+
+.hr-hfs-vscroll-wrap {
+    position: relative;
+}
+
+.hr-hfs-vscroll-inner {
+    background-color: $grey;
+    height: 10px;
+    border-radius: 10px;
+    position: absolute;
+}
+
+html.heretic-dark .hr-hfs-vscroll-inner {
+    background-color: $grey-light;
+}

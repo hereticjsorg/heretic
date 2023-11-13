@@ -168,7 +168,8 @@ export default class {
                 left,
                 width,
             } = dummy.getBoundingClientRect();
-            wrap.style.width = `${this.state.clientWidth > 768 && this.state.data.length ? width - 10 : width}px`;
+            // wrap.style.width = `${this.state.clientWidth > 768 && this.state.data.length ? width - 10 : width}px`;
+            wrap.style.width = `${width}px`;
             if (scrollBottom) {
                 scrollBottom.setWrapWidth(width);
             }
@@ -182,9 +183,7 @@ export default class {
             const headElements = document.querySelectorAll(`[data-hf-head='${this.input.id}']`);
             const actionsWidth = (this.state.actions.length * 30) + ((this.state.actions.length - 1) * 2) + 17;
             // Scrollbar is visible
-            // eslint-disable-next-line no-console
-            console.log(`${wrap.scrollWidth} > ${width}`);
-            if (wrap.scrollWidth > width && width > 768) {
+            if (wrap.scrollWidth > width && window.innerWidth > 768) {
                 for (const el of actionColumnElements) {
                     el.style.position = "absolute";
                     el.style.left = `${left + width - actionsWidth}px`;
@@ -209,7 +208,7 @@ export default class {
                     el.style.width = "unset";
                 }
             }
-            if (width < 769) {
+            if (window.innerWidth < 769) {
                 for (const el of headElements) {
                     el.style.width = "unset";
                 }

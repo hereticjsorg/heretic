@@ -24,6 +24,7 @@ export default class {
                         sortable: true,
                         column: true,
                         createIndex: true,
+                        width: 70,
                     },
                     [{
                         id: "firstName",
@@ -39,6 +40,7 @@ export default class {
                         column: true,
                         createIndex: true,
                         autoFocus: true,
+                        width: 150,
                     }, {
                         id: "lastName",
                         type: "text",
@@ -52,6 +54,7 @@ export default class {
                         css: "hr-hf-field-large",
                         column: true,
                         createIndex: true,
+                        width: 150,
                     }, {
                         id: "email",
                         type: "text",
@@ -65,6 +68,8 @@ export default class {
                         css: "hr-hf-field-xlarge",
                         column: true,
                         createIndex: true,
+                        width: "auto",
+                        minWidth: 130,
                     }],
                 ],
             }, {
@@ -86,6 +91,7 @@ export default class {
                         column: true,
                         createIndex: true,
                         hidden: true,
+                        width: 160,
                     }, {
                         id: "sex",
                         type: "select",
@@ -110,6 +116,7 @@ export default class {
                         column: true,
                         createIndex: true,
                         hidden: true,
+                        width: 70,
                     }, {
                         id: "phone",
                         type: "text",
@@ -127,6 +134,7 @@ export default class {
                             mask: "+00 000 000-00-00",
                         },
                         hidden: true,
+                        width: 100,
                     }, {
                         id: "address",
                         type: "text",
@@ -141,6 +149,7 @@ export default class {
                         column: true,
                         createIndex: true,
                         hidden: true,
+                        width: 190,
                     }],
                     [{
                         id: "attachments",
