@@ -1,3 +1,14 @@
+## v1.1.121
+
+**Implemented Flextable** (2023-11-13)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-11-12 | Fixing Flextable |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-13 | Implemented flextable for all modules |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-13 | Bugfixes |
+
+
 ## v1.1.120
 
 **Update component.js** (2023-11-12)
