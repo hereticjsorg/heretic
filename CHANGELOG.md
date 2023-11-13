@@ -1,3 +1,12 @@
+## v1.1.122
+
+**Bugfixes** (2023-11-13)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-13 | Bugfixes |
+
+
 ## v1.1.121
 
 **Implemented Flextable** (2023-11-13)
