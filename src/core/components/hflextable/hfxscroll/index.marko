@@ -1,3 +1,13 @@
-<div id=`hr_ft_scroll_wrap_${input.id}` class="hr-hfs-scroll-wrap">
-    <div id=`hr_ft_scroll_inner_${input.id}` class="hr-hfs-scroll-inner"/>
+<div id=`hr_hfs_wrap_${input.id}` class="hrs-hfs-wrap">
+    <div id=`hr_hfs_scroll_wrap_${input.id}` class="hr-hfs-scroll-wrap">
+        <div id=`hr_hfs_scroll_inner_${input.id}` class="hr-hfs-scroll-inner"/>
+    </div>
+    <div
+        id=`hr_hfs_vscroll_wrap_${input.id}`
+        class="hr-hfs-vscroll-wrap"
+        style={
+            display: state.vScrollWidth > 0 ? "block" : "none"
+        }>
+        <div id=`hr_hfs_vscroll_inner_${input.id}` class="hr-hfs-vscroll-inner" on-mousedown("onVScrollMouseDown") on-mouseup("onVScrollMouseUp") on-mousemove("onVScrollMouseMove")/>
+    </div>
 </div>

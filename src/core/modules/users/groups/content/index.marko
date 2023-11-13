@@ -7,7 +7,7 @@ $ {
 }
 <if(state.ready && component.mongoEnabled)>
     <hadmin-title admin=true title=(process.browser && window.__heretic ? window.__heretic.t("moduleTitleGroups") : null)/>
-    <htable admin=true key=`${pageConfig.id}List` id=`${pageConfig.id}List` formData=(new FormData(process.browser && window.__heretic ? window.__heretic.t : out.global.t)) on-top-button-click("onTopButtonClick") on-action-button-click("onActionButtonClick") on-unauthorized("onUnauthorized") on-load-complete("onLoadComplete") autoLoad=true queryString=true headers=state.headers/>
+    <hflextable admin=true key=`${pageConfig.id}List` id=`${pageConfig.id}List` data=(new FormData(process.browser && window.__heretic ? window.__heretic.t : out.global.t)) on-top-button-click("onTopButtonClick") on-action-button-click("onActionButtonClick") on-unauthorized("onUnauthorized") on-load-complete("onLoadComplete") autoLoad=true queryString=true headers=state.headers/>
     <hnotify admin=true key=`notify_${pageConfig.id}List`/>
     <hmodal
         admin=true

@@ -183,6 +183,7 @@ import { mdiReload, mdiPlus, mdiMagnify, mdiCogOutline, mdiPencilOutline, mdiTra
                         class=`column m-0 p-0 is-narrow ${input.noCheckbox && ci === 0 ? "" : " hr-hft-cell-border-head-left"}`
                         data-id=column.id
                         data-hf-head=input.id
+                        data-width=column.width
                         style={
                             width: column.width,
                             cursor: column.sortable ? "pointer" : "inherit"
@@ -313,7 +314,7 @@ import { mdiReload, mdiPlus, mdiMagnify, mdiCogOutline, mdiPencilOutline, mdiTra
 <hfximport admin=input.admin id=input.id key=`import_hf_${input.id}` columnData=state.columnData on-notification("onNotification") importConfig=state.importConfig headers=input.headers on-unauthorized("onUnauthorized") on-import-success("onImportSuccess")/>
 <hfxexport admin=input.admin id=input.id key=`export_hf_${input.id}` headers=input.headers on-unauthorized("onUnauthorized") on-notification("onNotification") on-export-success("onExportSuccess") columnData=state.columnData columns=state.columns exportConfig=state.exportConfig checked=state.checked/>
 <hfxrecycle admin=input.admin id=input.id key=`recycle_hf_${input.id}` headers=input.headers on-unauthorized("onUnauthorized") on-notification("onNotification") on-success("onRecycleSuccess") recycleBin=state.recycleBin/>
-<div id=`hr_hft_dummy_${input.id}` recycleBin=state.recycleBin/>
+<div id=`hr_hft_dummy_${input.id}` class="hr-hft-dummy" recycleBin=state.recycleBin/>
 <hmodal
     admin=input.admin
     key=`deleteConfirmation_hf_${input.id}`

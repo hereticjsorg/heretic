@@ -145,6 +145,10 @@ export default class {
         }
         this.setWrapWidthRunning = true;
         this.setState("clientWidth", Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0));
+        // eslint-disable-next-line no-console
+        console.log("waitForElement hr_hft_wrap_");
+        // eslint-disable-next-line no-console
+        console.log("Wait done");
         await this.utils.waitForElement(`hr_hft_wrap_${this.input.id}`);
         const wrap = document.getElementById(`hr_hft_wrap_${this.input.id}`);
         try {
@@ -164,7 +168,8 @@ export default class {
                 left,
                 width,
             } = dummy.getBoundingClientRect();
-            wrap.style.width = `${this.state.clientWidth > 768 && this.state.data.length ? width - 10 : width}px`;
+            // wrap.style.width = `${this.state.clientWidth > 768 && this.state.data.length ? width - 10 : width}px`;
+            wrap.style.width = `${width}px`;
             if (scrollBottom) {
                 scrollBottom.setWrapWidth(width);
             }
@@ -177,8 +182,8 @@ export default class {
             const rowElements = document.querySelectorAll(`[data-hf-row='${this.input.id}']`);
             const headElements = document.querySelectorAll(`[data-hf-head='${this.input.id}']`);
             const actionsWidth = (this.state.actions.length * 30) + ((this.state.actions.length - 1) * 2) + 17;
-            if (wrap.scrollWidth > width && width > 768) {
-                // Scrollbar is visible
+            // Scrollbar is visible
+            if (wrap.scrollWidth > width && window.innerWidth > 768) {
                 for (const el of actionColumnElements) {
                     el.style.position = "absolute";
                     el.style.left = `${left + width - actionsWidth}px`;
@@ -203,9 +208,14 @@ export default class {
                     el.style.width = "unset";
                 }
             }
-            if (width < 769) {
+            if (window.innerWidth < 769) {
                 for (const el of headElements) {
                     el.style.width = "unset";
+                }
+            } else {
+                for (const el of headElements) {
+                    const { width: elWidth, } = el.dataset;
+                    el.style.width = elWidth ? `${elWidth}px` : "unset";
                 }
             }
             if (scrollBottom) {
@@ -363,7 +373,11 @@ export default class {
         }
         this.setWrapWidthDelayed = throttle(this.setWrapWidth, 150);
         this.setWrapWidthDebounced = debounce(this.setWrapWidth, 50);
+        // eslint-disable-next-line no-console
+        console.log("waitForElement hr_hft_wrap_");
         await this.utils.waitForElement(`hr_hft_wrap_${this.input.id}`);
+        // eslint-disable-next-line no-console
+        console.log("Wait done");
         const wrap = document.getElementById(`hr_hft_wrap_${this.input.id}`);
         if (window.innerWidth > 768) {
             window.addEventListener("resize", () => this.setWrapWidth());

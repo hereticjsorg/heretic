@@ -33,6 +33,8 @@ export default class {
                     createIndex: true,
                     helpText: this.t("groupHelpText"),
                     autoFocus: true,
+                    width: "auto",
+                    minWidth: 250,
                 }, {
                     id: "data",
                     type: "keyValue",
