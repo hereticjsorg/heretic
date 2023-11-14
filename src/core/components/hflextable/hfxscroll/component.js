@@ -70,7 +70,7 @@ export default class {
                 const sizeCoe = this.state.widthWrap / this.state.widthInner;
                 const virtualScroll = document.getElementById(`hr_hfs_vscroll_inner_${this.input.id}`);
                 if (virtualScroll) {
-                    this.setState("vScrollWidth", parseInt(this.state.widthWrap * sizeCoe, 10) - 5);
+                    this.setState("vScrollWidth", parseInt(this.state.widthWrap * sizeCoe, 10));
                     virtualScroll.style.width = `${this.state.vScrollWidth}px`;
                 }
             } else {
