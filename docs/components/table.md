@@ -1,14 +1,14 @@
 # Table Builder
 
-Table Builder component (*htable*) allows you to dynamically display table data.
+Table Builder component (*hflextable*) allows you to dynamically display table data.
 
 Usage example:
 
 ```html
-<htable 
+<hflextable 
     key=`${moduleConfig.id}List`
     id=`${moduleConfig.id}List`
-    formData=formData
+    data=formData
     on-top-button-click("onTopButtonClick")
     on-action-button-click("onActionButtonClick")
     on-unauthorized("onUnauthorized")
