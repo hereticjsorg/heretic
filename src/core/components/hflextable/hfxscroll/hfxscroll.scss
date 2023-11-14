@@ -16,12 +16,18 @@
 }
 
 .hr-hfs-vscroll-inner {
-    background-color: $grey;
+    background-color: $grey-light;
     height: 10px;
     border-radius: 10px;
     position: absolute;
+    opacity: .5;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.hr-hfs-vscroll-inner:hover {
+    opacity: 1;
 }
 
 html.heretic-dark .hr-hfs-vscroll-inner {
-    background-color: $grey-light;
+    background-color: $grey;
 }

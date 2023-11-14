@@ -114,7 +114,7 @@
         "archiver": "^6.0.1",
         "argon2": "^0.31.2",
         "axios": "^1.6.1",
-        "axios-retry": "^3.8.1",
+        "axios-retry": "^3.9.0",
         "busboy": "^1.6.0",
         "cli-progress": "^3.12.0",
         "csv": "^6.3.5",
