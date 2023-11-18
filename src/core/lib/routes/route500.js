@@ -3,10 +3,11 @@ import error500 from "#core/errors/500/server.marko";
 export default async (err, rep, languageData, language, siteConfig) => {
     let title;
     let message;
+    err.code = err.code || err.statusCode || 500;
     switch (err.code) {
     case 429:
-        title = languageData[language].rateLimitErrorTitle;
-        message = languageData[language].rateLimitErrorMessage;
+        title = languageData[language].rateLimitErrorTitle();
+        message = languageData[language].rateLimitErrorMessage();
         break;
     default:
         title = languageData[language].internalServerErrorTitle();

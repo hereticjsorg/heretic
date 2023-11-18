@@ -12,9 +12,7 @@ import oauthPlugin from "@fastify/oauth2";
 import commandLineArgs from "command-line-args";
 
 import template from "lodash.template";
-import hereticRateLimit from "./rateLimit";
 import routePageUserspace from "./routes/routePageUserspace.js";
-// import routePageAdmin from "./routes/routePageAdmin";
 import route404 from "./routes/route404";
 import route500 from "./routes/route500";
 import apiRoute404 from "./routes/route404-api";
@@ -56,6 +54,28 @@ export default class {
     languageData: any;
 
     languages: string[];
+
+    initRedis() {
+        if (this.systemConfig.redis && this.systemConfig.redis.enabled) {
+            const redis = new Redis(this.systemConfig.redis);
+            redis.on("error", e => {
+                this.fastify.log.error(`Redis ${e}`);
+                process.exit(1);
+            });
+            redis.on("connect", () => this.fastify.log.info(`Connected to Redis Server at ${this.systemConfig.redis.host}:${this.systemConfig.redis.port}`));
+            this.fastify.decorate("redis", redis);
+        }
+    }
+
+    async initRateLimit() {
+        if (this.systemConfig.rateLimit && this.systemConfig.rateLimit.enabled) {
+            const config = { ...this.systemConfig.rateLimit.global, };
+            if (this.fastify.redis) {
+                config.redis = this.fastify.redis;
+            }
+            await this.fastify.register(import("@fastify/rate-limit"), config);
+        }
+    }
 
     constructor() {
         this.utils = new Utils(Object.keys(languages));
@@ -124,18 +144,6 @@ export default class {
             request.fastify = this.fastify;
             done();
         });
-        if (this.systemConfig.redis && this.systemConfig.redis.enabled) {
-            const redis = new Redis(this.systemConfig.redis);
-            redis.on("error", e => {
-                this.fastify.log.error(`Redis ${e}`);
-                process.exit(1);
-            });
-            redis.on("connect", () => this.fastify.log.info(`Connected to Redis Server at ${this.systemConfig.redis.host}:${this.systemConfig.redis.port}`));
-            this.fastify.decorate("redis", redis);
-            if (this.systemConfig.rateLimit && this.systemConfig.rateLimit.enabled) {
-                this.fastify.register(hereticRateLimit, this.systemConfig.rateLimit);
-            }
-        }
         try {
             this.options = commandLineArgs([{
                 name: "command",
@@ -201,18 +209,26 @@ export default class {
         for (const m of buildData.modules) {
             for (const p of m.pages) {
                 if (p.type === "userspace") {
-                    this.fastify.get(p.routePath || "/", routePageUserspace(m, p, this.languageData, this.defaultLanguage));
+                    this.fastify.register(async () => {
+                        this.fastify.get(p.routePath || "/", routePageUserspace(m, p, this.languageData, this.defaultLanguage));
+                    });
                     for (const lang of Object.keys(languages)) {
                         if (lang !== this.defaultLanguage) {
-                            this.fastify.get(`/${lang}${p.routePath || "/"}`, routePageUserspace(m, p, this.languageData, lang));
+                            this.fastify.register(async () => {
+                                this.fastify.get(`/${lang}${p.routePath || "/"}`, routePageUserspace(m, p, this.languageData, lang));
+                            });
                         }
                     }
                 }
                 if (p.type === "admin") {
-                    this.fastify.get(p.routePath, routePageAdmin(m, p, this.languageData, this.defaultLanguage));
+                    this.fastify.register(async () => {
+                        this.fastify.get(p.routePath, routePageAdmin(m, p, this.languageData, this.defaultLanguage));
+                    });
                     for (const lang of Object.keys(languages)) {
                         if (lang !== this.defaultLanguage) {
-                            this.fastify.get(`/${lang}${p.routePath}`, routePageAdmin(m, p, this.languageData, lang));
+                            this.fastify.register(async () => {
+                                this.fastify.get(`/${lang}${p.routePath}`, routePageAdmin(m, p, this.languageData, lang));
+                            });
                         }
                     }
                 }
@@ -234,7 +250,9 @@ export default class {
             try {
                 this.fastify.register(oauthPlugin, route);
                 const oa2 = (await import(`../oauth2/${route.name.replace(/^oa2/, "")}.js`)).default;
-                this.fastify.get(route.callbackPath, oa2());
+                this.fastify.register(async () => {
+                    this.fastify.get(route.callbackPath, oa2());
+                });
             } catch {
                 // Ignore
             }
@@ -245,13 +263,15 @@ export default class {
      * Register error routes (both 404 and 500)
      */
     registerRouteErrors() {
-        this.fastify.setNotFoundHandler(async (req: { url: any; urlData: (arg0: null, arg1: any) => { (): any; new(): any; path: string; }; }, rep: { code: (arg0: number) => void; send: (arg0: string | { error: number; errorMessage: any; }) => void; }) => {
+        this.fastify.setNotFoundHandler({
+            preHandler: this.fastify.rateLimit ? this.fastify.rateLimit() : undefined,
+          }, async (req: any, rep: any) => {
             const language = this.utils.getLanguageFromUrl(req.url);
             const output = req.urlData(null, req).path.match(/^\/api\//) ? apiRoute404(rep, this.languageData, language) : await route404(req, rep, this.languageData, language, this.siteConfig, this.systemConfig, buildData.i18nNavigation);
             rep.code(404);
             rep.send(output);
         });
-        this.fastify.setErrorHandler(async (err: { code: number; }, req: { url: any; urlData: (arg0: null, arg1: any) => { (): any; new(): any; path: string; }; }, rep: { code: (arg0: number) => void; send: (arg0: string | { error: number; errorMessage: any; }) => void; }) => {
+        this.fastify.setErrorHandler(async (err: any, req: any, rep: any) => {
             this.fastify.log.error(err);
             const language = this.utils.getLanguageFromUrl(req.url);
             const output = req.urlData(null, req).path.match(/^\/api\//) ? apiRoute500(err, rep, this.languageData, language) : await route500(err, rep, this.languageData, language, this.siteConfig);
@@ -266,7 +286,9 @@ export default class {
     async registerRouteAPI() {
         for (const m of buildData.modules.filter(i => i.api)) {
             const api = await import(`#site/../${m.path}/api/index.js`);
-            api.default(this.fastify);
+            this.fastify.register(async () => {
+                api.default(this.fastify);
+            });
         }
     }
 
@@ -289,10 +311,10 @@ export default class {
                 }
             }
         }
-        this.fastify.register(async (fastify: { get: (arg0: string, arg1: { websocket: boolean; }, arg2: (connection: any, req: any) => Promise<void>) => void; redis: { set: (arg0: string, arg1: number, arg2: string, arg3: number) => any; del: (arg0: string) => any; }; siteConfig: { id: any; }; }) => {
+        this.fastify.register(async (fastify: any) => {
             fastify.get("/ws", {
                 websocket: true,
-            }, async (connection: { socket: { send: (arg0: string) => void; close: () => void; on: any; }; uid: string; }, req: { auth: { getData: (arg0: any) => any; methods: { COOKIE: any; }; }; }) => {
+            }, async (connection: any, req: any) => {
                 const authData = await req.auth.getData(req.auth.methods.COOKIE);
                 for (const handler of this.wsHandlers) {
                     if (!authData) {

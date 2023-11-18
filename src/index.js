@@ -3,6 +3,8 @@ import Heretic from "./core/lib/heretic.ts";
 (async () => {
     const heretic = new Heretic();
     try {
+        await heretic.initRedis();
+        await heretic.initRateLimit();
         await heretic.loadLanguageData();
         const systemConfig = heretic.getConfigSystem();
         if (systemConfig.server.static) {
