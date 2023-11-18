@@ -72,9 +72,11 @@ module.exports = {
         ...conf.mongo,
     },
     redis: {
-        enabled: false,
+        enabled: true,
         host: "127.0.0.1",
         port: 6379,
+        connectTimeout: 500,
+        maxRetriesPerRequest: 1,
         ...conf.redis,
     },
     email: {
@@ -138,9 +140,10 @@ module.exports = {
         enabled: false,
         ban: false,
         global: {
-            max: 100,
+            max: 500,
             ban: 1000,
-            timeWindow: 10000
+            timeWindow: 10000,
+            nameSpace: "heretic-rate-limit-",
         },
         whiteList: [],
         blackList: [],

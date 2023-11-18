@@ -157,10 +157,6 @@ export default class {
         }
         this.setWrapWidthRunning = true;
         this.setState("clientWidth", Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0));
-        // eslint-disable-next-line no-console
-        console.log("waitForElement hr_hft_wrap_");
-        // eslint-disable-next-line no-console
-        console.log("Wait done");
         await this.utils.waitForElement(`hr_hft_wrap_${this.input.id}`);
         const wrap = document.getElementById(`hr_hft_wrap_${this.input.id}`);
         try {
@@ -385,11 +381,7 @@ export default class {
         }
         this.setWrapWidthDelayed = throttle(this.setWrapWidth, 150);
         this.setWrapWidthDebounced = debounce(this.setWrapWidth, 50);
-        // eslint-disable-next-line no-console
-        console.log("waitForElement hr_hft_wrap_");
         await this.utils.waitForElement(`hr_hft_wrap_${this.input.id}`);
-        // eslint-disable-next-line no-console
-        console.log("Wait done");
         const wrap = document.getElementById(`hr_hft_wrap_${this.input.id}`);
         if (window.innerWidth > 768) {
             window.addEventListener("resize", () => this.setWrapWidth());
