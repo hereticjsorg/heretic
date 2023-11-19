@@ -228,6 +228,10 @@ html.heretic-dark .label {
     color: $heretic-dark-text-color;
 }
 
+html.heretic-dark .control>label.checkbox:hover {
+    color: lighten($heretic-dark-text-color, 10%);
+}
+
 // Dialogs
 
 html.heretic-dark .modal-card-head {
