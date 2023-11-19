@@ -1,3 +1,13 @@
+## v1.1.127
+
+**Bugfixes** (2023-11-19)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-11-18 | NPM Modules update |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-11-19 | Fixed dark theme for a tag |
+
+
 ## v1.1.126
 
 **Bugfixes** (2023-11-18)
