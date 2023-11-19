@@ -1,3 +1,12 @@
+## v1.1.128
+
+**Update dark.scss** (2023-11-19)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-11-19 | Update dark.scss |
+
+
 ## v1.1.127
 
 **Bugfixes** (2023-11-19)
