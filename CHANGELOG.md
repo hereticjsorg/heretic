@@ -1,3 +1,12 @@
+## v1.1.129
+
+**NPM Modules update** (2023-11-20)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-20 | NPM Modules update |
+
+
 ## v1.1.128
 
 **Update dark.scss** (2023-11-19)
