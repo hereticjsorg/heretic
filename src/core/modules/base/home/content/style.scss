@@ -42,6 +42,60 @@ html.heretic-dark .hr-ah-systemInfo-td-par {
     border-radius: 0 0 0 $radius;
 }
 
+.hr-ah-tab-icon {
+    height: 16px;
+    width: 16px;
+    top: 0px;
+    position: relative;
+}
+
+.hr-ah-tab-icon>path {
+    fill: $grey-darker;
+}
+
+html.heretic-dark .hr-ah-tab-icon>path {
+    fill: $grey;
+}
+
+.hr-ah-data-wrap {
+    border: 1px solid $grey-lighter;
+    border-top: unset;
+    border-bottom-left-radius: $radius;
+    border-bottom-right-radius: $radius;
+}
+
+html.heretic-dark .hr-ah-data-wrap {
+    border-color: darken($grey, 10%);
+}
+
+html.heretic-dark .hr-ah-tabs>ul {
+    border-bottom-color: darken($grey, 10%) !important; 
+}
+
+html.heretic-dark .hr-ah-tab.is-active>a {
+    border-color: darken($grey, 10%) !important;
+    background-color: $black-bis !important;
+}
+
+html.heretic-dark .hr-ah-tab>a {
+    background: transparent !important;
+    border-bottom: unset !important;
+    color: $grey-lighter !important
+}
+
+html.heretic-dark .hr-ah-tab.is-active>a>span {
+    margin-top: -2px;
+}
+
+html.heretic-dark .hr-ah-tab:not(.is-active) {
+    margin-top: -2px;
+}
+
+html.heretic-dark .hr-ah-tab:not(.is-active)>a:hover {
+    background: $grey-dark !important;
+    border-bottom: 1px solid darken($grey, 10%);
+}
+
 @keyframes hr-ah-blink-animation {
     to {
         visibility: hidden;

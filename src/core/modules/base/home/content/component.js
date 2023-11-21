@@ -9,6 +9,7 @@ export default class {
         this.state = {
             ready: !process.browser,
             info: null,
+            tab: "info",
         };
         this.language = out.global.language;
         this.siteTitle = out.global.siteTitle;
@@ -59,5 +60,12 @@ export default class {
             this.setState("ready", false);
             this.setState("failed", true);
         }
+    }
+
+    onTabClick(e) {
+        const {
+            id,
+        } = e.target.closest("[data-id]").dataset;
+        this.setState("tab", id);
     }
 }
