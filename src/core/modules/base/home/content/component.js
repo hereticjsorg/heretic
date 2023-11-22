@@ -39,8 +39,8 @@ export default class {
         await this.utils.waitForLanguageData();
         await this.utils.loadLanguageData(moduleConfig.id);
         this.cookies = new Cookies(this.cookieOptions);
-        const currentToken = this.cookies.get(`${this.siteId}.authToken`);
-        if (!currentToken) {
+        this.currentToken = this.cookies.get(`${this.siteId}.authToken`);
+        if (!this.currentToken) {
             setTimeout(() => window.location.href = `${this.utils.getLocalizedURL(this.systemRoutes.signInAdmin)}`, 100);
             return;
         }
@@ -51,7 +51,7 @@ export default class {
                 url: `/api/admin/sysInfo`,
                 data: {},
                 headers: {
-                    Authorization: `Bearer ${currentToken}`,
+                    Authorization: `Bearer ${this.currentToken}`,
                 },
                 onUploadProgress: () => {}
             });
@@ -67,5 +67,64 @@ export default class {
             id,
         } = e.target.closest("[data-id]").dataset;
         this.setState("tab", id);
+    }
+
+    async onRestartButtonClick(e) {
+        e.preventDefault();
+        await this.utils.waitForComponent("confirm");
+        this.getComponent("confirm").show({
+            message: window.__heretic.t("restartConfirmationText"),
+            action: "restart",
+        });
+    }
+
+    async showNotification(message, css = "is-success") {
+        await this.utils.waitForComponent("notify");
+        this.getComponent("notify").show(window.__heretic.t(message), css);
+    }
+
+    async onConfirmed(action) {
+        switch (action) {
+        case "restart":
+            await this.utils.waitForComponent("progress");
+            const progressModal = this.getComponent("progress");
+            progressModal.setCloseAllowed(false);
+            progressModal.show({
+                message: window.__heretic.t("progressRestarting"),
+            });
+            try {
+                await axios({
+                    method: "get",
+                    url: "/api/admin/restart",
+                    data: {},
+                    headers: {
+                        Authorization: `Bearer ${this.currentToken}`,
+                    },
+                });
+                setTimeout(async () => {
+                    await this.showNotification("restartSuccess");
+                    progressModal.hide({});
+                    setTimeout(() => window.location.reload(), 300);
+                }, 15000);
+            } catch {
+                progressModal.setCloseAllowed(true);
+                progressModal.hide({});
+                this.showNotification("restartError", "is-danger");
+            }
+            break;
+        }
+    }
+
+    async onUpdateButtonClick(e) {
+        if (!this.state.info.masterPackageJson.version || this.state.info.hereticVersion === this.state.info.masterPackageJson.version) {
+            this.showNotification("nothingToDo", "is-warning");
+            return;
+        }
+        e.preventDefault();
+        await this.utils.waitForComponent("confirm");
+        this.getComponent("confirm").show({
+            message: window.__heretic.t("updateConfirmationText"),
+            action: "update",
+        });
     }
 }

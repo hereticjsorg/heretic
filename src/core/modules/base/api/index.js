@@ -3,6 +3,7 @@ import apiSysInfo from "./apiSysInfo";
 import apiDataProviderEvents from "./apiDataProviderEvents";
 import apiDataProviderGroups from "./apiDataProviderGroups";
 import apiCaptcha from "./apiCaptcha";
+import apiRestart from "./apiRestart";
 
 export default fastify => {
     fastify.get("/api/captcha", apiCaptcha());
@@ -11,5 +12,6 @@ export default fastify => {
         fastify.get("/api/admin/sysInfo", apiSysInfo());
         fastify.get("/api/dataProviders/groups", apiDataProviderGroups());
         fastify.get("/api/dataProviders/events", apiDataProviderEvents());
+        fastify.get("/api/admin/restart", apiRestart());
     }
 };

@@ -54,5 +54,18 @@
     "systemInfo_listenPort": "Listening to port",
     "systemInfo_hereticServeStatic": "Serve static files",
     "systemInfo_rateLimiting": "Rate limiting",
-    "systemInfo_logLevel": "Log level"
+    "systemInfo_logLevel": "Log level",
+    "restartNotice": "Heretic will be restarted by executing the command specified in the configuration file. In the event that the current Heretic configuration contains errors, a situation may arise in which the system cannot be started, so system administrator intervention will be required.",
+    "buttonRestart": "Restart Heretic",
+    "restartConfirmationText": "Are you sure you wish to restart your Heretic instance?",
+    "buttonConfirm": "Confirm",
+    "buttonCancel": "Cancel",
+    "restartSuccess": "Heretic has been restarted",
+    "restartError": "Could not restart Heretic",
+    "progressRestarting": "Restarting Heretic, this may take up to 15 seconds",
+    "masterVersion": "Actual version",
+    "buttonUpdate": "Update Heretic",
+    "updateNotice": "The update is to the latest available version and takes some time depending on the build mode. Please note that if you use third-party modules, the update may require additional actions from your system administrator. Heretic will automatically restart after the update.",
+    "nothingToDo": "Nothing to do",
+    "updateConfirmationText": "Are you sure you wish to start update process?"
 }

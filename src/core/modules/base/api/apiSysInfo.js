@@ -1,6 +1,7 @@
 import {
     ObjectId
 } from "mongodb";
+import axios from "axios";
 import systemInformation from "systeminformation";
 import packageJson from "#root/package.json";
 import buildJson from "#build/build.json";
@@ -14,6 +15,20 @@ export default () => ({
             }, 403);
         }
         try {
+            let masterPackageJson = {};
+            try {
+                const {
+                    data,
+                } = await axios({
+                    method: "get",
+                    url: this.systemConfig.heretic.packageJson,
+                    data: {},
+                    headers: {},
+                });
+                masterPackageJson = data;
+            } catch {
+                //
+            }
             const onlineUsers = {};
             let connections = 0;
             if (this.redis && this.systemConfig.webSockets && this.systemConfig.webSockets.enabled) {
@@ -55,6 +70,7 @@ export default () => ({
                 onlineUsers,
                 connections,
                 productionMode: buildJson.production,
+                masterPackageJson,
                 systemConfig: {
                     server: this.systemConfig.server,
                     auth: this.systemConfig.server,

@@ -1,0 +1,15 @@
+<if(state.ready && state.active)>
+    <div class="modal is-active">
+        <div class="modal-background" on-click("hide")/>
+        <div class="modal-content">
+            <div class="box is-flex is-flex-direction-column pt-6 pb-6">
+                <div class="is-flex is-justify-content-center">
+                    <hloading-dots admin=true/>
+                </div>
+                <div class="is-flex is-justify-content-center mt-6">
+                    ${state.data.message}
+                </div>
+            </div>
+        </div>
+    </div>
+</if>

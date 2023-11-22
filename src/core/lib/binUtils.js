@@ -26,7 +26,14 @@ const cleanupData = require("#bin/data/cleanup.json");
 module.exports = class {
     constructor(options) {
         this.options = options;
-        this.languages = Object.keys(fs.readJSONSync(fs.existsSync(path.resolve(__dirname, "../../../etc/languages.json")) ? path.resolve(__dirname, "../../../etc/languages.json") : path.resolve(__dirname, "../../core/defaults/config/languages.json")));
+        const defaultLanguages = require("#core/defaults/config/languages.json");
+        let etcLanguages;
+        try {
+            etcLanguages = require("#etc/languages.json");
+        } catch {
+            //
+        }
+        this.languages = Object.keys(etcLanguages || defaultLanguages);
         this.color = new Color();
         this.logEnabled = true;
         this.logColor = !options || !options["no-color"];
@@ -113,7 +120,7 @@ module.exports = class {
     }
 
     readConfig() {
-        this.config = require(path.resolve(`${__dirname}/../../../etc/system.js`));
+        this.config = require("#etc/system.js");
     }
 
     async connectDatabase() {
@@ -413,7 +420,7 @@ module.exports = class {
             spaces: "  ",
         });
         this.log("Modifying existing modules...");
-        const buildJson = require("../../../build/build.json");
+        const buildJson = require("#build/build.json");
         for (const m of buildJson.modules) {
             if (m.translations) {
                 const translationDataDefault = fs.readJSONSync(path.resolve(`${m.path}/translations/${Object.keys(languageJSON)[0]}.json`));
@@ -481,7 +488,7 @@ module.exports = class {
             spaces: "  ",
         });
         this.log("Modifying existing modules...");
-        const buildJson = require("../../../build/build.json");
+        const buildJson = require("#build/build.json");
         for (const m of buildJson.modules) {
             if (m.translations && fs.existsSync(path.resolve(`${m.path}/translations/${id}.json`))) {
                 fs.removeSync(path.resolve(`${m.path}/translations/${id}.json`));

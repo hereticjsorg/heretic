@@ -202,7 +202,9 @@ module.exports = {
     },
     heretic: {
         zipball: "http://github.com/hereticjsorg/heretic/zipball/master/",
+        packageJson: "https://raw.githubusercontent.com/hereticjsorg/heretic/master/package.json",
         darkModeEnabled: true,
+        restartCommand: "pm2 restart [id]",
         ...conf.heretic,
     },
     ...conf.system,
