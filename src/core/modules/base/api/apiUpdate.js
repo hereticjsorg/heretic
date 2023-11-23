@@ -1,5 +1,6 @@
 import BinUtils from "#lib/binUtils.js";
 import moduleConfig from "../module.js";
+import buildJson from "#build/build.json";
 
 const binUtils = new BinUtils({});
 
@@ -37,7 +38,7 @@ export default () => ({
                         updatedAt: new Date(),
                         status: "processing",
                     });
-                    const jobData = await findJob(jobId);
+                    let jobData = await findJob(jobId);
                     const updateInterval = setInterval(() => updateJob(jobId, {
                         updatedAt: new Date(),
                     }), 5000);
@@ -46,11 +47,24 @@ export default () => ({
                             status: "runUpdate",
                         });
                         const updateResult = await binUtils.executeCommand("npm run update");
-                        // eslint-disable-next-line no-console
-                        console.log(updateResult);
+                        if (updateResult.exitCode !== 0) {
+                            throw new Error("updateError");
+                        }
+                        await updateJob(jobId, {
+                            status: "runInstall",
+                        });
+                        const installResult = await binUtils.executeCommand("npm i");
+                        if (installResult.exitCode !== 0) {
+                            throw new Error("installError");
+                        }
                         await updateJob(jobId, {
                             status: "runBuild",
                         });
+                        const buildCommand = buildJson.production ? "npm run build" : "npm run build -- --dev";
+                        const buildResult = await binUtils.executeCommand(buildCommand);
+                        if (buildResult.exitCode !== 0) {
+                            throw new Error("buildError");
+                        }
                     } catch (e) {
                         clearInterval(updateInterval);
                         await updateJob(jobId, {
@@ -59,9 +73,10 @@ export default () => ({
                             message: e.message,
                         });
                     }
+                    jobData = await findJob(jobId);
                     await updateJob(jobId, {
                         updatedAt: new Date(),
-                        status: jobData.status === "cancelled" ? "cancelled" : "complete",
+                        status: jobData.status === "error" ? "error" : "complete",
                     });
                 } catch (e) {
                     await updateJob(jobId, {
