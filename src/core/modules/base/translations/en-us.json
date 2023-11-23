@@ -67,5 +67,7 @@
     "buttonUpdate": "Update Heretic",
     "updateNotice": "The update is to the latest available version and takes some time depending on the build mode. Please note that if you use third-party modules, the update may require additional actions from your system administrator. Heretic will automatically restart after the update.",
     "nothingToDo": "Nothing to do",
-    "updateConfirmationText": "Are you sure you wish to start update process?"
+    "updateConfirmationText": "Are you sure you wish to start update process?",
+    "progressUpdating": "Updating Heretic",
+    "updateError": "Could not start update process"
 }

@@ -84,10 +84,10 @@ export default class {
     }
 
     async onConfirmed(action) {
+        await this.utils.waitForComponent("progress");
+        const progressModal = this.getComponent("progress");
         switch (action) {
         case "restart":
-            await this.utils.waitForComponent("progress");
-            const progressModal = this.getComponent("progress");
             progressModal.setCloseAllowed(false);
             progressModal.show({
                 message: window.__heretic.t("progressRestarting"),
@@ -110,6 +110,30 @@ export default class {
                 progressModal.setCloseAllowed(true);
                 progressModal.hide({});
                 this.showNotification("restartError", "is-danger");
+            }
+            break;
+        case "update":
+            progressModal.setCloseAllowed(false);
+            progressModal.show({
+                message: window.__heretic.t("progressUpdating"),
+            });
+            try {
+                const {
+                    data: updateData,
+                } = await axios({
+                    method: "get",
+                    url: "/api/admin/update",
+                    data: {},
+                    headers: {
+                        Authorization: `Bearer ${this.currentToken}`,
+                    },
+                });
+                // eslint-disable-next-line no-console
+                console.log(updateData);
+            } catch {
+                progressModal.setCloseAllowed(true);
+                progressModal.hide({});
+                this.showNotification("updateError", "is-danger");
             }
             break;
         }
