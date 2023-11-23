@@ -45,7 +45,9 @@ export default () => ({
                         await updateJob(jobId, {
                             status: "runUpdate",
                         });
-                        await binUtils.executeCommand("npm run update");
+                        const updateResult = await binUtils.executeCommand("npm run update");
+                        // eslint-disable-next-line no-console
+                        console.log(updateResult);
                         await updateJob(jobId, {
                             status: "runBuild",
                         });
