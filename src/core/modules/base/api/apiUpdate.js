@@ -50,13 +50,13 @@ export default () => ({
                         updatedAt: new Date(),
                     }), 5000);
                     try {
-                        await updateJob(jobId, {
-                            status: "runUpdate",
-                        });
-                        const updateResult = await binUtils.executeCommand("npm run update");
-                        if (updateResult.exitCode !== 0) {
-                            throw new Error("updateError");
-                        }
+                        // await updateJob(jobId, {
+                        //     status: "runUpdate",
+                        // });
+                        // const updateResult = await binUtils.executeCommand("npm run update");
+                        // if (updateResult.exitCode !== 0) {
+                        //     throw new Error("updateError");
+                        // }
                         await updateJob(jobId, {
                             status: "runInstall",
                         });

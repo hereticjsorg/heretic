@@ -109,17 +109,21 @@ export default class {
             progressModal.setData({
                 message: window.__heretic.t(data.status || "progressUpdating"),
             });
-            if (data.status === "processing") {
-                setTimeout(() => this.getData(), 1000);
+            if (data.status === "cancelled" || data.status === "error") {
+                this.showNotification(data.message || "couldNotGetOperationStatus", "is-danger");
+                progressModal.setCloseAllowed(true);
+                progressModal.hide({});
             } else if (data.status === "complete") {
                 this.showNotification("processSuccess", "is-success");
                 progressModal.setCloseAllowed(true);
                 progressModal.hide({});
+            } else {
+                setTimeout(() => this.getData(), 1000);
             }
         } catch {
             this.showNotification("couldNotGetOperationStatus", "is-danger");
             progressModal.setCloseAllowed(true);
-                progressModal.hide({});
+            progressModal.hide({});
         }
     }
 
