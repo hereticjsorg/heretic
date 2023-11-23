@@ -1,8 +1,14 @@
 import axios from "axios";
+import axiosRetry from "axios-retry";
 import Utils from "#lib/componentUtils";
 import Cookies from "#lib/cookiesBrowser";
 import pageConfig from "../page.js";
 import moduleConfig from "../../module.js";
+
+axiosRetry(axios, {
+    retryDelay: axiosRetry.exponentialDelay,
+    retries: 10,
+});
 
 export default class {
     onCreate(input, out) {
@@ -10,6 +16,7 @@ export default class {
             ready: !process.browser,
             info: null,
             tab: "info",
+            updateId: null,
         };
         this.language = out.global.language;
         this.siteTitle = out.global.siteTitle;
@@ -83,6 +90,39 @@ export default class {
         this.getComponent("notify").show(window.__heretic.t(message), css);
     }
 
+    async getData() {
+        await this.utils.waitForComponent("progress");
+        const progressModal = this.getComponent("progress");
+        try {
+            const formData = new FormData();
+            formData.append("id", this.state.updateId);
+            const {
+                data,
+            } = await axios({
+                method: "post",
+                url: `/api/admin/status`,
+                data: formData,
+                headers: {
+                    Authorization: `Bearer ${this.currentToken}`,
+                },
+            });
+            progressModal.setData({
+                message: window.__heretic.t(data.status || "progressUpdating"),
+            });
+            if (data.status === "processing") {
+                setTimeout(() => this.getData(), 1000);
+            } else if (data.status === "complete") {
+                this.showNotification("processSuccess", "is-success");
+                progressModal.setCloseAllowed(true);
+                progressModal.hide({});
+            }
+        } catch {
+            this.showNotification("couldNotGetOperationStatus", "is-danger");
+            progressModal.setCloseAllowed(true);
+                progressModal.hide({});
+        }
+    }
+
     async onConfirmed(action) {
         await this.utils.waitForComponent("progress");
         const progressModal = this.getComponent("progress");
@@ -128,8 +168,8 @@ export default class {
                         Authorization: `Bearer ${this.currentToken}`,
                     },
                 });
-                // eslint-disable-next-line no-console
-                console.log(updateData);
+                this.setState("updateId", updateData.id);
+                this.getData();
             } catch {
                 progressModal.setCloseAllowed(true);
                 progressModal.hide({});

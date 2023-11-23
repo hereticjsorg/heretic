@@ -69,5 +69,7 @@
     "nothingToDo": "Nothing to do",
     "updateConfirmationText": "Are you sure you wish to start update process?",
     "progressUpdating": "Updating Heretic",
-    "updateError": "Could not start update process"
+    "updateError": "Could not start update process",
+    "processSuccess": "Successfully completed",
+    "couldNotGetOperationStatus": "Could not get operation status"
 }

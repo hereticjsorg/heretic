@@ -11,7 +11,10 @@ export default () => ({
             }, 403);
         }
         try {
-            const restartCommand = this.systemConfig.heretic.restartCommand ? this.systemConfig.heretic.restartCommand.replace(/\[id\]/gm, this.systemConfig.id) : `pm2 restart ${this.systemConfig.id}`;
+            if (!this.systemConfig.heretic.restartCommand) {
+                process.exit(0);
+            }
+            const restartCommand = this.systemConfig.heretic.restartCommand.replace(/\[id\]/gm, this.systemConfig.id);
             try {
                 await binUtils.executeCommand(restartCommand);
             } catch {

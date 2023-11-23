@@ -48,6 +48,10 @@ export default class {
         this.setState("active", true);
     }
 
+    async setData(data) {
+        this.setState("data", data);
+    }
+
     setCloseAllowed(flag) {
         this.setState("closeAllowed", flag);
     }

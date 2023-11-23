@@ -24,6 +24,13 @@ export default () => ({
             const findJob = async jobId => this.mongo.db.collection(this.systemConfig.collections.jobs).findOne({
                 _id: jobId,
             });
+            const existingJob = await this.mongo.db.collection(this.systemConfig.collections.jobs).findOne({
+                module: moduleConfig.id,
+                mode: "update",
+            });
+            if (existingJob) {
+                return rep.error({});
+            }
             const updateJobDb = await insertJob({
                 updatedAt: new Date(),
                 userId: authData._id,
@@ -65,19 +72,33 @@ export default () => ({
                         if (buildResult.exitCode !== 0) {
                             throw new Error("buildError");
                         }
+                        await updateJob(jobId, {
+                            status: "runRestart",
+                        });
+                        if (this.systemConfig.heretic.restartCommand) {
+                            const restartCommand = this.systemConfig.heretic.restartCommand.replace(/\[id\]/gm, this.systemConfig.id);
+                            const restartResult = await binUtils.executeCommand(restartCommand);
+                            if (restartResult.exitCode !== 0) {
+                                throw new Error("restartError");
+                            }
+                        }
                     } catch (e) {
-                        clearInterval(updateInterval);
                         await updateJob(jobId, {
                             updatedAt: new Date(),
                             status: "error",
                             message: e.message,
                         });
+                    } finally {
+                        clearInterval(updateInterval);
                     }
                     jobData = await findJob(jobId);
                     await updateJob(jobId, {
                         updatedAt: new Date(),
                         status: jobData.status === "error" ? "error" : "complete",
                     });
+                    if (!this.systemConfig.heretic.restartCommand) {
+                        process.exit(0);
+                    }
                 } catch (e) {
                     await updateJob(jobId, {
                         updatedAt: new Date(),
