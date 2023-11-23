@@ -72,16 +72,6 @@ export default () => ({
                         if (buildResult.exitCode !== 0) {
                             throw new Error("buildError");
                         }
-                        await updateJob(jobId, {
-                            status: "runRestart",
-                        });
-                        if (this.systemConfig.heretic.restartCommand) {
-                            const restartCommand = this.systemConfig.heretic.restartCommand.replace(/\[id\]/gm, this.systemConfig.id);
-                            const restartResult = await binUtils.executeCommand(restartCommand);
-                            if (restartResult.exitCode !== 0) {
-                                throw new Error("restartError");
-                            }
-                        }
                     } catch (e) {
                         await updateJob(jobId, {
                             updatedAt: new Date(),
@@ -96,15 +86,24 @@ export default () => ({
                         updatedAt: new Date(),
                         status: jobData.status === "error" ? "error" : "complete",
                     });
-                    if (!this.systemConfig.heretic.restartCommand) {
-                        process.exit(0);
-                    }
                 } catch (e) {
                     await updateJob(jobId, {
                         updatedAt: new Date(),
                         status: "error",
                         message: e.message,
                     });
+                }
+                try {
+                    if (this.systemConfig.heretic.restartCommand) {
+                        setTimeout(() => {
+                            const restartCommand = this.systemConfig.heretic.restartCommand.replace(/\[id\]/gm, this.systemConfig.id);
+                            binUtils.executeCommand(restartCommand);
+                        }, 1000);
+                    } else {
+                        setTimeout(() => process.exit(0), 1000);
+                    }
+                } catch {
+                    // Ignore
                 }
             });
             return rep.code(200).send({

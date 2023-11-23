@@ -114,9 +114,12 @@ export default class {
                 progressModal.setCloseAllowed(true);
                 progressModal.hide({});
             } else if (data.status === "complete") {
-                this.showNotification("processSuccess", "is-success");
-                progressModal.setCloseAllowed(true);
-                progressModal.hide({});
+                setTimeout(() => {
+                    this.showNotification("processSuccess", "is-success");
+                    progressModal.setCloseAllowed(true);
+                    progressModal.hide({});
+                }, 10000);
+                setTimeout(() => window.location.reload(), 10500);
             } else {
                 setTimeout(() => this.getData(), 1000);
             }
