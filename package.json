@@ -64,7 +64,7 @@
         "@mdi/js": "^7.3.67",
         "@types/command-line-args": "^5.2.3",
         "@types/lodash.template": "^4.5.3",
-        "@types/node": "^20.9.4",
+        "@types/node": "^20.10.0",
         "@types/uuid": "^9.0.7",
         "@types/webpack-env": "^1.18.4",
         "@typescript-eslint/eslint-plugin": "^6.12.0",
@@ -140,6 +140,6 @@
         "fastify": "^4.24.3",
         "mongodb": "^6.3.0",
         "sharp": "^0.32.6",
-        "systeminformation": "^5.21.17"
+        "systeminformation": "^5.21.18"
     }
 }
