@@ -10,6 +10,7 @@ import {
     mdiCogOutline,
     mdiInformationSlabCircleOutline,
     mdiCloudRefreshOutline,
+    mdiCogSyncOutline,
     mdiRestart,
 } from "@mdi/js"
 
@@ -68,6 +69,15 @@ $ const capitalizeFirst = s => s.charAt(0).toUpperCase() + s.slice(1);
                         </svg>
                         &nbsp;
                         <t>tabSystemUpdate</t>
+                    </a>
+                </li>
+                <li class=`hr-ah-tab${state.tab === "rebuild" ? " is-active" : ""}` data-id="rebuild">
+                    <a>
+                        <svg class="hr-ah-tab-icon" viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                            <path d=mdiCogSyncOutline/>
+                        </svg>
+                        &nbsp;
+                        <t>tabSystemRebuild</t>
                     </a>
                 </li>
                 <li class=`hr-ah-tab${state.tab === "restart" ? " is-active" : ""}` data-id="restart">
@@ -484,6 +494,20 @@ $ const capitalizeFirst = s => s.charAt(0).toUpperCase() + s.slice(1);
         <div
             class="p-2 pt-1 hr-ah-data-wrap"
             style={
+                display: state.tab === "rebuild" ? "block" : "none"
+            }>
+            <div class="notification is-warning mb-0">
+                <t>rebuildNotice</t>
+            </div>
+            <div class="mt-2 mb-2">
+                <button class="button is-light" on-click("onRebuildButtonClick")>
+                    <t>buttonRebuild</t>
+                </button>
+            </div>
+        </div>
+        <div
+            class="p-2 pt-1 hr-ah-data-wrap"
+            style={
                 display: state.tab === "restart" ? "block" : "none"
             }>
             <div class="notification is-warning mb-0">
@@ -502,6 +526,7 @@ $ const capitalizeFirst = s => s.charAt(0).toUpperCase() + s.slice(1);
     <bhconfirm key="confirm" on-confirm("onConfirmed")/>
     <bhprogress key="progress"/>
     <hnotify admin=true key="notify"/>
+    <hloading key="loading"/>
 </if>
 <if(!state.ready && !state.failed)>
     <!-- <hloading active=true/> -->

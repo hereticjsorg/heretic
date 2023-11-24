@@ -85,6 +85,15 @@ export default class {
         });
     }
 
+    async onRebuildButtonClick(e) {
+        e.preventDefault();
+        await this.utils.waitForComponent("confirm");
+        this.getComponent("confirm").show({
+            message: window.__heretic.t("rebuildConfirmationText"),
+            action: "rebuild",
+        });
+    }
+
     async showNotification(message, css = "is-success") {
         await this.utils.waitForComponent("notify");
         this.getComponent("notify").show(window.__heretic.t(message), css);
@@ -107,26 +116,27 @@ export default class {
                 },
             });
             progressModal.setData({
-                message: window.__heretic.t(data.status || "progressUpdating"),
+                message: window.__heretic.t(`progress_${data.status}` || "progressUpdating"),
             });
             if (data.status === "cancelled" || data.status === "error") {
                 this.showNotification(data.message || "couldNotGetOperationStatus", "is-danger");
                 progressModal.setCloseAllowed(true);
-                progressModal.hide({});
+                progressModal.hide();
             } else if (data.status === "complete") {
                 setTimeout(() => {
                     this.showNotification("processSuccess", "is-success");
                     progressModal.setCloseAllowed(true);
-                    progressModal.hide({});
+                    progressModal.hide();
+                    this.getComponent("loading").setActive(true);
                 }, 10000);
-                setTimeout(() => window.location.reload(), 10500);
+                setTimeout(() => window.location.reload(), 11500);
             } else {
                 setTimeout(() => this.getData(), 1000);
             }
         } catch {
             this.showNotification("couldNotGetOperationStatus", "is-danger");
             progressModal.setCloseAllowed(true);
-            progressModal.hide({});
+            progressModal.hide();
         }
     }
 
@@ -149,13 +159,15 @@ export default class {
                     },
                 });
                 setTimeout(async () => {
+                    progressModal.setCloseAllowed(true);
+                    progressModal.hide();
+                    this.getComponent("loading").setActive(true);
                     await this.showNotification("restartSuccess");
-                    progressModal.hide({});
-                    setTimeout(() => window.location.reload(), 300);
+                    setTimeout(() => window.location.reload(), 1500);
                 }, 15000);
             } catch {
                 progressModal.setCloseAllowed(true);
-                progressModal.hide({});
+                progressModal.hide();
                 this.showNotification("restartError", "is-danger");
             }
             break;
@@ -176,6 +188,30 @@ export default class {
                     },
                 });
                 this.setState("updateId", updateData.id);
+                this.getData();
+            } catch {
+                progressModal.setCloseAllowed(true);
+                progressModal.hide({});
+                this.showNotification("updateError", "is-danger");
+            }
+            break;
+        case "rebuild":
+            progressModal.setCloseAllowed(false);
+            progressModal.show({
+                message: window.__heretic.t("progressRebuilding"),
+            });
+            try {
+                const {
+                    data: rebuildData,
+                } = await axios({
+                    method: "get",
+                    url: "/api/admin/rebuild",
+                    data: {},
+                    headers: {
+                        Authorization: `Bearer ${this.currentToken}`,
+                    },
+                });
+                this.setState("updateId", rebuildData.id);
                 this.getData();
             } catch {
                 progressModal.setCloseAllowed(true);

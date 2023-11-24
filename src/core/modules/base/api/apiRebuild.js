@@ -26,7 +26,7 @@ export default () => ({
             });
             const existingJob = await this.mongo.db.collection(this.systemConfig.collections.jobs).findOne({
                 module: moduleConfig.id,
-                mode: "update",
+                mode: "rebuild",
             });
             if (existingJob) {
                 return rep.error({});
@@ -35,7 +35,7 @@ export default () => ({
                 updatedAt: new Date(),
                 userId: authData._id,
                 module: moduleConfig.id,
-                mode: "update",
+                mode: "rebuild",
                 status: "new",
             });
             const jobId = updateJobDb.insertedId;
@@ -46,17 +46,10 @@ export default () => ({
                         status: "processing",
                     });
                     let jobData = await findJob(jobId);
-                    const updateInterval = setInterval(() => updateJob(jobId, {
+                    const rebuildInterval = setInterval(() => updateJob(jobId, {
                         updatedAt: new Date(),
                     }), 5000);
                     try {
-                        await updateJob(jobId, {
-                            status: "runUpdate",
-                        });
-                        const updateResult = await binUtils.executeCommand("npm run update");
-                        if (updateResult.exitCode !== 0) {
-                            throw new Error("updateError");
-                        }
                         await updateJob(jobId, {
                             status: "runInstall",
                         });
@@ -79,7 +72,7 @@ export default () => ({
                             message: e.message,
                         });
                     } finally {
-                        clearInterval(updateInterval);
+                        clearInterval(rebuildInterval);
                     }
                     jobData = await findJob(jobId);
                     await updateJob(jobId, {

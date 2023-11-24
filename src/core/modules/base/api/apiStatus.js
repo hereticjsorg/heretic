@@ -31,6 +31,11 @@ export default () => ({
                 jobData.id = String(jobData._id);
                 delete jobData._id;
             }
+            if (jobData.status === "complete") {
+                await this.mongo.db.collection(this.systemConfig.collections.jobs).deleteOne({
+                    _id: jobData._id,
+                });
+            }
             return rep.code(200).send(jobData || {
                 status: "cancelled",
             });

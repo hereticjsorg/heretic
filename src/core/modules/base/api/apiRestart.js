@@ -12,13 +12,14 @@ export default () => ({
         }
         try {
             if (!this.systemConfig.heretic.restartCommand) {
-                process.exit(0);
-            }
-            const restartCommand = this.systemConfig.heretic.restartCommand.replace(/\[id\]/gm, this.systemConfig.id);
-            try {
-                await binUtils.executeCommand(restartCommand);
-            } catch {
-                return rep.error({});
+                setTimeout(() => process.exit(0), 2000);
+            } else {
+                const restartCommand = this.systemConfig.heretic.restartCommand.replace(/\[id\]/gm, this.systemConfig.id);
+                try {
+                    await binUtils.executeCommand(restartCommand);
+                } catch {
+                    //
+                }
             }
             return rep.success({});
         } catch (e) {
