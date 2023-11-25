@@ -72,7 +72,7 @@ module.exports = {
         ...conf.mongo,
     },
     redis: {
-        enabled: true,
+        enabled: false,
         host: "127.0.0.1",
         port: 6379,
         connectTimeout: 500,
