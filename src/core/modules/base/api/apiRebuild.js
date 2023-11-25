@@ -98,18 +98,18 @@ export default () => ({
                     });
                 }
                 if (!this.systemConfig.demo) {
-                    try {
-                        if (this.systemConfig.heretic.restartCommand) {
-                            setTimeout(() => {
+                    setTimeout(() => {
+                        try {
+                            if (this.systemConfig.heretic.restartCommand) {
                                 const restartCommand = this.systemConfig.heretic.restartCommand.replace(/\[id\]/gm, this.systemConfig.id);
                                 binUtils.executeCommand(restartCommand);
-                            }, 1000);
-                        } else {
-                            setTimeout(() => process.exit(0), 1000);
+                            } else {
+                                process.exit(0);
+                            }
+                        } catch {
+                            // Ignore
                         }
-                    } catch {
-                        // Ignore
-                    }
+                    }, 1500);
                 }
             });
             return rep.code(200).send({
