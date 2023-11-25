@@ -1,3 +1,12 @@
+## v1.1.132
+
+**Bugfixes** (2023-11-25)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-25 | Bugfixes |
+
+
 ## v1.1.131
 
 **Update index.marko** (2023-11-25)
