@@ -13,6 +13,9 @@ export default () => ({
             }, 403);
         }
         try {
+            const delay = ms => new Promise(resolve => {
+                setTimeout(resolve, ms);
+            });
             const insertJob = async data => this.mongo.db.collection(this.systemConfig.collections.jobs).insertOne(data);
             const updateJob = async (jobId, data) => {
                 this.mongo.db.collection(this.systemConfig.collections.jobs).findOneAndUpdate({
@@ -53,24 +56,36 @@ export default () => ({
                         await updateJob(jobId, {
                             status: "runUpdate",
                         });
-                        const updateResult = await binUtils.executeCommand("npm run update");
-                        if (updateResult.exitCode !== 0) {
-                            throw new Error("updateError");
+                        if (this.systemConfig.demo) {
+                            await delay(10000);
+                        } else {
+                            const updateResult = await binUtils.executeCommand("npm run update");
+                            if (updateResult.exitCode !== 0) {
+                                throw new Error("updateError");
+                            }
                         }
                         await updateJob(jobId, {
                             status: "runInstall",
                         });
-                        const installResult = await binUtils.executeCommand("npm i");
-                        if (installResult.exitCode !== 0) {
-                            throw new Error("installError");
+                        if (this.systemConfig.demo) {
+                            await delay(5000);
+                        } else {
+                            const installResult = await binUtils.executeCommand("npm i");
+                            if (installResult.exitCode !== 0) {
+                                throw new Error("installError");
+                            }
                         }
                         await updateJob(jobId, {
                             status: "runBuild",
                         });
-                        const buildCommand = buildJson.production ? "npm run build" : "npm run build -- --dev";
-                        const buildResult = await binUtils.executeCommand(buildCommand);
-                        if (buildResult.exitCode !== 0) {
-                            throw new Error("buildError");
+                        if (this.systemConfig.demo) {
+                            await delay(30000);
+                        } else {
+                            const buildCommand = buildJson.production ? "npm run build" : "npm run build -- --dev";
+                            const buildResult = await binUtils.executeCommand(buildCommand);
+                            if (buildResult.exitCode !== 0) {
+                                throw new Error("buildError");
+                            }
                         }
                     } catch (e) {
                         await updateJob(jobId, {
@@ -93,17 +108,19 @@ export default () => ({
                         message: e.message,
                     });
                 }
-                try {
-                    if (this.systemConfig.heretic.restartCommand) {
-                        setTimeout(() => {
-                            const restartCommand = this.systemConfig.heretic.restartCommand.replace(/\[id\]/gm, this.systemConfig.id);
-                            binUtils.executeCommand(restartCommand);
-                        }, 1000);
-                    } else {
-                        setTimeout(() => process.exit(0), 1000);
+                if (!this.systemConfig.demo) {
+                    try {
+                        if (this.systemConfig.heretic.restartCommand) {
+                            setTimeout(() => {
+                                const restartCommand = this.systemConfig.heretic.restartCommand.replace(/\[id\]/gm, this.systemConfig.id);
+                                binUtils.executeCommand(restartCommand);
+                            }, 1000);
+                        } else {
+                            setTimeout(() => process.exit(0), 1000);
+                        }
+                    } catch {
+                        // Ignore
                     }
-                } catch {
-                    // Ignore
                 }
             });
             return rep.code(200).send({

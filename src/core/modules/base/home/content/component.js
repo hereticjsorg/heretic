@@ -63,6 +63,15 @@ export default class {
                 onUploadProgress: () => {}
             });
             this.setState("info", response.data);
+            if (response.data.existingJob) {
+                await this.utils.waitForComponent("progress");
+                const progressModal = this.getComponent("progress");
+                this.setState("updateId", String(response.data.existingJob._id));
+                progressModal.show({
+                    message: window.__heretic.t(`progress_${response.data.existingJob.status}` || "progressUpdating"),
+                });
+                await this.getData();
+            }
         } catch (e) {
             this.setState("ready", false);
             this.setState("failed", true);
@@ -131,7 +140,7 @@ export default class {
                 }, 10000);
                 setTimeout(() => window.location.reload(), 11500);
             } else {
-                setTimeout(() => this.getData(), 1000);
+                setTimeout(() => this.getData(), 2000);
             }
         } catch {
             this.showNotification("couldNotGetOperationStatus", "is-danger");

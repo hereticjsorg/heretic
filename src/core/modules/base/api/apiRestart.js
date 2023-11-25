@@ -11,14 +11,16 @@ export default () => ({
             }, 403);
         }
         try {
-            if (!this.systemConfig.heretic.restartCommand) {
-                setTimeout(() => process.exit(0), 2000);
-            } else {
-                const restartCommand = this.systemConfig.heretic.restartCommand.replace(/\[id\]/gm, this.systemConfig.id);
-                try {
-                    await binUtils.executeCommand(restartCommand);
-                } catch {
-                    //
+            if (!this.systemConfig.demo) {
+                if (!this.systemConfig.heretic.restartCommand) {
+                    setTimeout(() => process.exit(0), 2000);
+                } else {
+                    const restartCommand = this.systemConfig.heretic.restartCommand.replace(/\[id\]/gm, this.systemConfig.id);
+                    try {
+                        await binUtils.executeCommand(restartCommand);
+                    } catch {
+                        //
+                    }
                 }
             }
             return rep.success({});

@@ -5,6 +5,7 @@ import axios from "axios";
 import systemInformation from "systeminformation";
 import packageJson from "#root/package.json";
 import buildJson from "#build/build.json";
+import moduleConfig from "../module.js";
 
 export default () => ({
     async handler(req, rep) {
@@ -65,9 +66,13 @@ export default () => ({
                     // Ignore
                 }
             }
+            const existingJob = await this.mongo.db.collection(this.systemConfig.collections.jobs).findOne({
+                module: moduleConfig.id,
+            });
             return rep.success({
                 hereticVersion: packageJson.version,
                 onlineUsers,
+                existingJob,
                 connections,
                 productionMode: buildJson.production,
                 masterPackageJson,
