@@ -1,9 +1,11 @@
 import {
     ObjectId
 } from "mongodb";
+import axios from "axios";
 import systemInformation from "systeminformation";
 import packageJson from "#root/package.json";
 import buildJson from "#build/build.json";
+import moduleConfig from "../module.js";
 
 export default () => ({
     async handler(req, rep) {
@@ -14,6 +16,20 @@ export default () => ({
             }, 403);
         }
         try {
+            let masterPackageJson = {};
+            try {
+                const {
+                    data,
+                } = await axios({
+                    method: "get",
+                    url: this.systemConfig.heretic.packageJson,
+                    data: {},
+                    headers: {},
+                });
+                masterPackageJson = data;
+            } catch {
+                //
+            }
             const onlineUsers = {};
             let connections = 0;
             if (this.redis && this.systemConfig.webSockets && this.systemConfig.webSockets.enabled) {
@@ -50,11 +66,16 @@ export default () => ({
                     // Ignore
                 }
             }
+            const existingJob = await this.mongo.db.collection(this.systemConfig.collections.jobs).findOne({
+                module: moduleConfig.id,
+            });
             return rep.success({
                 hereticVersion: packageJson.version,
                 onlineUsers,
+                existingJob,
                 connections,
                 productionMode: buildJson.production,
+                masterPackageJson,
                 systemConfig: {
                     server: this.systemConfig.server,
                     auth: this.systemConfig.server,

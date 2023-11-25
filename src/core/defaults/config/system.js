@@ -72,7 +72,7 @@ module.exports = {
         ...conf.mongo,
     },
     redis: {
-        enabled: true,
+        enabled: false,
         host: "127.0.0.1",
         port: 6379,
         connectTimeout: 500,
@@ -202,7 +202,9 @@ module.exports = {
     },
     heretic: {
         zipball: "http://github.com/hereticjsorg/heretic/zipball/master/",
+        packageJson: "https://raw.githubusercontent.com/hereticjsorg/heretic/master/package.json",
         darkModeEnabled: true,
+        restartCommand: "pm2 restart [id]",
         ...conf.heretic,
     },
     ...conf.system,
