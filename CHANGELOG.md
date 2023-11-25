@@ -1,3 +1,26 @@
+## v1.1.130
+
+**Restart/rebuild/update functions implemented** (2023-11-25)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-21 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-21 | Implementing tabs on Admin home |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-22 | Admin Panel work-in-progress |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-23 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-23 | Update script work-in-progress |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-23 | Update apiUpdate.js |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-23 | Update apiUpdate.js |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-23 | Update manager work-in-progress |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-23 | Update script work-in-progress |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-23 | Update module work-in-progress |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-24 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-24 | Update, rebuild and restart functions |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-25 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-25 | Restart/update/rebuild functions implemented |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-25 | Update system.js |
+
+
 ## v1.1.129
 
 **NPM Modules update** (2023-11-20)
