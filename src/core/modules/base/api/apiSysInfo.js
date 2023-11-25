@@ -66,9 +66,12 @@ export default () => ({
                     // Ignore
                 }
             }
-            const existingJob = await this.mongo.db.collection(this.systemConfig.collections.jobs).findOne({
-                module: moduleConfig.id,
-            });
+            let existingJob = null;
+            if (this.systemConfig.collections.jobs) {
+                existingJob = await this.mongo.db.collection(this.systemConfig.collections.jobs).findOne({
+                    module: moduleConfig.id,
+                });
+            }
             return rep.success({
                 hereticVersion: packageJson.version,
                 onlineUsers,

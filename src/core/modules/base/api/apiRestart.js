@@ -12,16 +12,18 @@ export default () => ({
         }
         try {
             if (!this.systemConfig.demo) {
-                if (!this.systemConfig.heretic.restartCommand) {
-                    setTimeout(() => process.exit(0), 2000);
-                } else {
-                    const restartCommand = this.systemConfig.heretic.restartCommand.replace(/\[id\]/gm, this.systemConfig.id);
+                setTimeout(() => {
                     try {
-                        await binUtils.executeCommand(restartCommand);
+                        if (this.systemConfig.heretic.restartCommand) {
+                            const restartCommand = this.systemConfig.heretic.restartCommand.replace(/\[id\]/gm, this.systemConfig.id);
+                            binUtils.executeCommand(restartCommand);
+                        } else {
+                            process.exit(0);
+                        }
                     } catch {
-                        //
+                        // Ignore
                     }
-                }
+                }, 1500);
             }
             return rep.success({});
         } catch (e) {
