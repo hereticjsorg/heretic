@@ -2,6 +2,8 @@
 
 Table Builder component (*hflextable*) allows you to dynamically display table data.
 
+*Note*: a deprecated version of the dynamic table htable using the "table" tag is also available. 
+
 Usage example:
 
 ```html
