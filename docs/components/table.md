@@ -14,8 +14,6 @@ Usage example:
     on-top-button-click("onTopButtonClick")
     on-action-button-click("onActionButtonClick")
     on-unauthorized("onUnauthorized")
-    autoLoad=true
-    queryString=true
     headers={}/>
 ```
 
