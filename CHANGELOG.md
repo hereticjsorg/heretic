@@ -1,3 +1,13 @@
+## v1.1.134
+
+**Bugfixes** (2023-11-28)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-28 | Docs updated |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-28 | Bugfixes |
+
+
 ## v1.1.133
 
 **Docs updated** (2023-11-26)
