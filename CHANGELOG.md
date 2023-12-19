@@ -1,3 +1,13 @@
+## v1.1.135
+
+**NPM Modules update** (2023-12-19)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-12-08 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-12-19 | NPM Modules update |
+
+
 ## v1.1.134
 
 **Bugfixes** (2023-11-28)
