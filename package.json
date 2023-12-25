@@ -87,7 +87,7 @@
         "css-loader": "^6.8.1",
         "css-minimizer-webpack-plugin": "^5.0.1",
         "csv": "^6.3.6",
-        "date-fns": "^3.0.0",
+        "date-fns": "^3.0.6",
         "destr": "^2.0.2",
         "documentation": "^14.0.2",
         "es6-promise": "^4.2.8",
@@ -138,9 +138,9 @@
     },
     "dependencies": {
         "argon2": "^0.31.2",
-        "fastify": "^4.25.1",
+        "fastify": "^4.25.2",
         "mongodb": "^6.3.0",
         "sharp": "^0.33.1",
-        "systeminformation": "^5.21.20"
+        "systeminformation": "^5.21.22"
     }
 }
