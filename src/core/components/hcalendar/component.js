@@ -19,9 +19,9 @@ export default class {
             visible: typeof input.visible === "boolean" ? input.visible : true,
         };
         if (input.admin) {
-            await import(/* webpackChunkName: "hcalendar-admin" */ "./style-admin.scss");
+            await import( /* webpackChunkName: "hcalendar-admin" */ "./style-admin.scss");
         } else {
-            await import(/* webpackChunkName: "hcalendar-frontend" */ "./style-frontend.scss");
+            await import( /* webpackChunkName: "hcalendar-frontend" */ "./style-frontend.scss");
         }
     }
 
@@ -143,5 +143,10 @@ export default class {
         if (timestamp) {
             this.setDate(new Date(timestamp));
         }
+    }
+
+    setWhitelist(data) {
+        this.setState("whitelist", data);
+        this.setCalendarData();
     }
 }

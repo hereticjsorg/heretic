@@ -65,12 +65,12 @@ import { mdiPageFirst, mdiPageLast, mdiChevronLeft, mdiChevronRight } from '@mdi
                 </for>
             </div>
         </for>
-        <div class="columns is-gapless is-mobile is-size-7">
-            <div class="column is-6 hr-mc-control has-text-primary" on-click("onCalendarToday")>
-                <if(!input.disabledToday)>
+        <div class="columns is-gapless is-mobile is-size-7 is-centered">
+            <if(!input.disabledToday)>
+                <div class="column is-6 hr-mc-control has-text-primary" on-click("onCalendarToday")>
                     <t>calendar.today</t>
-                </if>
-            </div>
+                </div>
+            </if>            
             <div class="column is-6 hr-mc-control has-text-danger" on-click("onCalendarClear")>
                 <t>calendar.clear</t>
             </div>
