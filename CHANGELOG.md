@@ -1,3 +1,15 @@
+## v1.1.136
+
+**Bugfixes** (2024-01-03)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-12-25 | NPM Modules upgrade |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-01-02 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-01-03 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-01-03 | Directory refactoring, Bugfixes<br/>- Moving "etc" directory to "site" directory<br/>- Moving "src/core/errors" directory to "site" directory<br/>- Bugfixes |
+
+
 ## v1.1.135
 
 **NPM Modules update** (2023-12-19)
