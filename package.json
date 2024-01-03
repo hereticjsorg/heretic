@@ -119,7 +119,7 @@
         "postcss-url": "^10.1.3",
         "puppeteer-core": "^21.6.1",
         "qrcode": "^1.5.3",
-        "sass": "^1.69.6",
+        "sass": "^1.69.7",
         "sass-loader": "^13.3.3",
         "store2": "^2.14.2",
         "style-loader": "^3.3.3",
@@ -141,8 +141,8 @@
         "cryptr": "^6.3.0",
         "fastify": "^4.25.2",
         "mongodb": "^6.3.0",
-        "node-google-calendar": "^1.1.1",
         "sharp": "^0.33.1",
-        "systeminformation": "^5.21.22"
+        "systeminformation": "^5.21.22",
+        "telegraf": "^4.15.3"
     }
 }
