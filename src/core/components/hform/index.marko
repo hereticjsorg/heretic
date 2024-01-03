@@ -121,7 +121,7 @@ $ {
                     <if(Array.isArray(i1))>
                         <div class="columns pt-0 pb-0 mt-0 mb-0 is-multiline mb-0 is-variable is-2">
                             <for|i2| of=i1>
-                                <div class=`column pt-0 pb-0 mt-0 mb-3 ${i2.css ? i2.css : ""}`>
+                                <div class=`column pt-0 pb-0 mt-0 mb-3 ${i2.css ? i2.css : ""}` id=`hr_hf_${input.id}_${i2.id}_wrap`>
                                     <if(state.mode === "edit")>
                                         <fieldEdit admin=input.admin key=`hr_hf_f_${i2.id}_edit` formId=input.id on-button-click("onButtonClick") on-notify("onNotify") on-key-value-add-request("onKeyValueAddRequest") on-key-value-edit-request("onKeyValueEditRequest") on-key-value-delete-request("onKeyValueDeleteRequest") on-tag-add-request("onTagAddRequest") on-log-add-request("onLogAddRequest") on-log-edit-request("onLogEditRequest") on-log-delete-request("onLogDeleteRequest") on-value-change("onFieldEditValueChange") parentComponent=component ...i2/>
                                     </if>
@@ -135,7 +135,7 @@ $ {
                     <else>
                         <if(i1.type !== "column")>
                             <div class="columns pt-0 pb-0 mt-0 mb-1 is-variable is-2">
-                                <div class="column pt-0 pb-0 mt-0 mb-2">
+                                <div class="column pt-0 pb-0 mt-0 mb-2" id=`hr_hf_${input.id}_${i1.id}_wrap`>
                                     <if(state.mode === "edit")>
                                         <fieldEdit key=`hr_hf_f_${i1.id}_edit` formId=input.id on-button-click("onButtonClick") on-notify("onNotify") on-key-value-add-request("onKeyValueAddRequest") on-key-value-edit-request("onKeyValueEditRequest") on-key-value-delete-request("onKeyValueDeleteRequest") on-tag-add-request("onTagAddRequest") on-log-add-request("onLogAddRequest") on-log-edit-request("onLogEditRequest") on-log-delete-request("onLogDeleteRequest") on-value-change("onFieldEditValueChange") parentComponent=component ...i1/>
                                     </if>

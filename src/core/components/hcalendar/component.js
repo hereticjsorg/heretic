@@ -122,10 +122,14 @@ export default class {
         this.emitTimestamp();
     }
 
-    onCalendarClear(e) {
-        e.preventDefault();
+    clear() {
         this.setState("selected", {});
         this.emitTimestamp();
+    }
+
+    onCalendarClear(e) {
+        e.preventDefault();
+        this.clear();
     }
 
     setDate(date) {

@@ -105,9 +105,9 @@ const binUtils = new BinUtils(options);
             await binUtils.addLanguage(addLanguageAnswers.id, addLanguageAnswers.name);
             break;
         case "Remove language":
-            const languagesConfigPath = path.resolve(__dirname, "../../etc/languages.json");
+            const languagesConfigPath = path.resolve(__dirname, "../../site/etc/languages.json");
             if (!fs.existsSync(languagesConfigPath)) {
-                binUtils.log(`The "etc/languages.json" file is missing`, {
+                binUtils.log(`The "site/etc/languages.json" file is missing`, {
                     error: true,
                     noDate: true,
                 });

@@ -10,7 +10,7 @@ const {
 } = require("uuid");
 const BinUtils = require("#lib/binUtils.js");
 
-const dirsArchive = ["dist", "etc", "src"];
+const dirsArchive = ["dist", "site", "src"];
 
 (async () => {
     const inquirer = (await import("inquirer")).default;
@@ -37,7 +37,7 @@ const dirsArchive = ["dist", "etc", "src"];
     try {
         let config;
         try {
-            config = require(path.join(__dirname, "../../etc/system"));
+            config = require(path.join(__dirname, "../../site/etc/system"));
         } catch {
             binUtils.log("Error: configuration file is missing", {
                 error: true,

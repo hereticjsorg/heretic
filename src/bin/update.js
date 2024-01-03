@@ -9,7 +9,7 @@ const {
 
 const BinUtils = require("#lib/binUtils.js");
 
-const config = require(path.resolve(`${__dirname}/../../etc/system`));
+const config = require(path.resolve(`${__dirname}/../../site/etc/system`));
 
 const binUtils = new BinUtils({});
 binUtils.setLogProperties({

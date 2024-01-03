@@ -2,7 +2,7 @@
 
 There are several configuration files available so you may adjust many parameters related to your website.
 
-## etc/system.js
+## site/etc/system.js
 
 This configuration file contains main options related to your web server (IP, ports, logging etc.).
 
@@ -439,7 +439,7 @@ heretic: {
 }
 ```
 
-## etc/website.js
+## site/etc/website.js
 
 This configuration file describes the meta data of your website which is used system-wide.
 
@@ -449,7 +449,7 @@ This configuration file describes the meta data of your website which is used sy
 
 Returns the object which should include data from meta.json (see below).
 
-## etc/meta.src.json
+## site/etc/meta.src.json
 
 This configuration file describes the meta data of your website which is used system-wide.
 
@@ -459,7 +459,7 @@ This configuration file describes the meta data of your website which is used sy
 | shortTitle  | A shorter version of site title (specified for each site language individually) |
 | description | Site description (specified for each site language individually)                |
 
-## etc/languages.json
+## site/etc/languages.json
 
 This configuration file contains a list of languages in the following format:
 
@@ -470,7 +470,7 @@ This configuration file contains a list of languages in the following format:
 }
 ```
 
-## etc/navigation.json
+## site/etc/navigation.json
 
 This file is being used as a source to display the top navigation menu on your website (in the default template). Additionally, you've to set the default route ID.
 

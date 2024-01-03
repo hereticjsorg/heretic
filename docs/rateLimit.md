@@ -4,7 +4,7 @@ Heretic allows you to use rate limits. This helps protect your website from vari
 
 In order to enable rate limits, you will need to **install Redis server** in addition to the base Heretic requirements. Then, please specify rate limit configuration in your *system.js* file.
 
-When rate limits are reached, internal server error occurs. This triggers a 429 HTTP error, the *Internal Server Error* (*./src/errors/500*) page is displayed (using a different error message: *Rate Limit Exceeded*).
+When rate limits are reached, internal server error occurs. This triggers a 429 HTTP error, the *Internal Server Error* page is displayed (using a different error message: *Rate Limit Exceeded*).
 
 ## Configuration
 

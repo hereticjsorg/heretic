@@ -11,7 +11,7 @@
         "#lib/*": "./src/core/lib/*",
         "#bin/*": "./src/bin/*",
         "#site/*": "./site/*",
-        "#etc/*": "./etc/*",
+        "#etc/*": "./site/etc/*",
         "#src/*": "./src/*"
     },
     "scripts": {

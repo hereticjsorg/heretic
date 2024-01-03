@@ -1,6 +1,6 @@
 const path = require("path");
 
-const systemConfig = require(path.resolve(__dirname, "etc", "system.js"));
+const systemConfig = require(path.resolve(__dirname, "site/etc/system.js"));
 const logFileName = `${systemConfig.id}.log`;
 
 module.exports = {

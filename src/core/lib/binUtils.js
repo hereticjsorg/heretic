@@ -168,14 +168,14 @@ module.exports = class {
     }
 
     generateSecureConfig() {
-        const configPath = path.resolve(__dirname, "../../../etc/secure.json");
+        const configPath = path.resolve(__dirname, "../../../site/etc/secure.json");
         if (fs.existsSync(configPath) && !this.options.force) {
-            this.log(`Skipping: "etc/secure.json"`, {
+            this.log(`Skipping: "site/etc/secure.json"`, {
                 warning: true,
             });
             return;
         }
-        this.log(`Writing "etc/secure.json"...`, {
+        this.log(`Writing "site/etc/secure.json"...`, {
             header: true,
         });
         fs.writeJSONSync(configPath, {
@@ -186,9 +186,9 @@ module.exports = class {
     }
 
     writeNavigationConfig() {
-        const configDest = path.resolve(__dirname, "../../../etc/navigation.json");
+        const configDest = path.resolve(__dirname, "../../../site/etc/navigation.json");
         if (fs.existsSync(configDest)) {
-            this.log(`Skipping: "etc/navigation.json"`, {
+            this.log(`Skipping: "site/etc/navigation.json"`, {
                 warning: true,
             });
             return;
@@ -344,7 +344,7 @@ module.exports = class {
             spaces: "  ",
         });
         if (addNavigationConfig) {
-            const navJSONPath = path.resolve(__dirname, "../../../etc/navigation.json");
+            const navJSONPath = path.resolve(__dirname, "../../../site/etc/navigation.json");
             const navJSON = fs.readJSONSync(navJSONPath);
             if (navJSON.userspace.routes.indexOf(id) === -1) {
                 this.log(`Adding navbar item: ${id}_page...`);
@@ -375,7 +375,7 @@ module.exports = class {
             return;
         }
         fs.removeSync(modulePath);
-        const navJSONPath = path.resolve(__dirname, "../../../etc/navigation.json");
+        const navJSONPath = path.resolve(__dirname, "../../../site/etc/navigation.json");
         const navJSON = fs.readJSONSync(navJSONPath);
         if (navJSON.userspace.routes.indexOf(`${id}_page`) >= 0) {
             this.log("Removing page from navbar...");
@@ -397,7 +397,7 @@ module.exports = class {
             });
             return;
         }
-        const languageJSONPath = path.resolve(__dirname, "../../../etc/languages.json");
+        const languageJSONPath = path.resolve(__dirname, "../../../site/etc/languages.json");
         const languageJSON = fs.readJSONSync(languageJSONPath);
         if (Object.keys(languageJSON).indexOf(id) >= 0) {
             this.log(`Language '${id}' already exists`, {
@@ -410,8 +410,8 @@ module.exports = class {
         fs.writeJSONSync(languageJSONPath, languageJSON, {
             spaces: "  ",
         });
-        this.log(`Modifying etc/meta.json...`);
-        const mainMetaJSONPath = path.resolve(__dirname, "../../../etc/meta.json");
+        this.log(`Modifying site/etc/meta.json...`);
+        const mainMetaJSONPath = path.resolve(__dirname, "../../../site/etc/meta.json");
         const mainMetaJSON = fs.readJSONSync(mainMetaJSONPath);
         mainMetaJSON.title[id] = mainMetaJSON.title[Object.keys(languageJSON)[0]];
         mainMetaJSON.shortTitle[id] = mainMetaJSON.shortTitle[Object.keys(languageJSON)[0]];
@@ -472,14 +472,14 @@ module.exports = class {
             });
             return;
         }
-        const languageJSONPath = path.resolve(__dirname, "../../../etc/languages.json");
+        const languageJSONPath = path.resolve(__dirname, "../../../site/etc/languages.json");
         const languageJSON = fs.readJSONSync(languageJSONPath);
         delete languageJSON[id];
         fs.writeJSONSync(languageJSONPath, languageJSON, {
             spaces: "  ",
         });
-        this.log(`Modifying etc/meta.json...`);
-        const mainMetaJSONPath = path.resolve(__dirname, "../../../etc/meta.json");
+        this.log(`Modifying site/etc/meta.json...`);
+        const mainMetaJSONPath = path.resolve(__dirname, "../../../site/etc/meta.json");
         const mainMetaJSON = fs.readJSONSync(mainMetaJSONPath);
         delete mainMetaJSON.title[id];
         delete mainMetaJSON.shortTitle[id];

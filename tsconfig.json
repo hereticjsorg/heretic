@@ -17,7 +17,7 @@
             "#build/*": ["./src/build/*"],
             "#lib/*": ["./src/core/lib/*"],
             "#site/*": ["./site/*"],
-            "#etc/*": ["./etc/*"],
+            "#etc/*": ["./site/etc/*"],
             "#src/*": ["./src/*"],
             "#root/*": ["./*"]
         }

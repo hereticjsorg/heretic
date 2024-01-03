@@ -10,7 +10,7 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 const MarkoPlugin = require("@marko/webpack/plugin").default;
 const WebpackUtils = require("./webpack.utils.js");
 const babelConfig = require("./babel.config");
-const systemConfig = require("./etc/system.js");
+const systemConfig = require("./site/etc/system.js");
 
 module.exports = async (env, argv) => {
     const markoPlugin = new MarkoPlugin();

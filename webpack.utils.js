@@ -6,11 +6,11 @@ const systemInformation = require("systeminformation");
 
 const BinUtils = require("#lib/binUtils.js");
 
-const languages = require(path.resolve(__dirname, "etc/languages.json"));
-const systemConfig = require(path.resolve(__dirname, "etc/system.js"));
-const siteConfig = require(path.resolve(__dirname, "etc/website.js"));
+const languages = require(path.resolve(__dirname, "site/etc/languages.json"));
+const systemConfig = require(path.resolve(__dirname, "site/etc/system.js"));
+const siteConfig = require(path.resolve(__dirname, "site/etc/website.js"));
 const buildConfig = require(path.resolve(__dirname, "webpack.utils.json"));
-const navigationConfig = require(path.resolve(__dirname, "etc/navigation.json"));
+const navigationConfig = require(path.resolve(__dirname, "site/etc/navigation.json"));
 const packageJson = require("./package.json");
 
 module.exports = class {
@@ -168,7 +168,7 @@ module.exports = class {
     loadComponent: async route => {
         switch (route) {\n${this.pages.filter(i => i.type === type).map(p => `        case "${p.moduleId}_${p.id}":
             return import(/* webpackChunkName: "page.${p.moduleId}_${p.id}" */ "../../../${p.path}/index.marko");\n`).join("")}        default:
-            return import(/* webpackChunkName: "page.${type}404" */ "../../core/errors/404/index.marko");
+            return import(/* webpackChunkName: "page.${type}404" */ "../../../site/errors/404/index.marko");
         }
     },\n};\n`, "utf8");
         }
