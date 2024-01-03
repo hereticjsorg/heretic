@@ -11,7 +11,7 @@ const {
 } = require("uuid");
 const BinUtils = require("#lib/binUtils.js");
 
-const dirsArchive = ["dist", "src", "etc", "root", "dump"];
+const dirsArchive = ["dist", "src", "site", "root", "dump"];
 const saveBackupArchive = (dirPath, destPath) => new Promise((resolve, reject) => {
     try {
         const archive = archiver("zip", {
@@ -62,7 +62,7 @@ const saveBackupArchive = (dirPath, destPath) => new Promise((resolve, reject) =
     try {
         let config;
         try {
-            config = require(path.join(__dirname, "../../etc/system"));
+            config = require(path.join(__dirname, "../../site/etc/system"));
         } catch {
             binUtils.log("Error: configuration file is missing", {
                 error: true,
@@ -79,7 +79,7 @@ const saveBackupArchive = (dirPath, destPath) => new Promise((resolve, reject) =
         await fs.ensureDir(dirPath);
         await fs.copy(path.join(__dirname, "../../dist"), path.join(dirPath, "dist"));
         await fs.copy(path.join(__dirname, "../../src"), path.join(dirPath, "src"));
-        await fs.copy(path.join(__dirname, "../../etc"), path.join(dirPath, "etc"));
+        await fs.copy(path.join(__dirname, "../../site"), path.join(dirPath, "site"));
         await fs.remove(path.join(dirPath, "src", "bin", "data"));
         await fs.ensureDir(path.join(dirPath, "src", "bin", "data"));
         await fs.ensureDir(path.join(dirPath, "root"));

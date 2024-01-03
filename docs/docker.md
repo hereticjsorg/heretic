@@ -48,7 +48,7 @@ When finished, you need to run *docker compose* command in order to start the co
 docker compose up -d
 ```
 
-To enable *Mongo*, you will need make some changes to *etc/system.js* file.
+To enable *Mongo*, you will need make some changes to *site/etc/system.js* file.
 
 Assuming that your unique site ID is *heretic*, replace
 

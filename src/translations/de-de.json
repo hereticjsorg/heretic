@@ -217,6 +217,7 @@
     "hform_import_type_boolean": "Boolean",
     "hform_import_type_date": "Datum",
     "hform_import_selectFile": "Datei auswählen",
+    "hform_error_invalidCaptcha": "Ungültiger Code",
     "htable_nothingToImport": "Nichts zu importieren",
     "htable_checkboxToUpdate": "Aktivieren Sie das Kontrollkästchen, um den Aktualisierungsmodus für ausgewählte Felder zu aktivieren. In diesem Modus sucht Heretic alle übereinstimmenden Datensätze mit den entsprechenden Werten und aktualisiert sie, anstatt neue Felder einzufügen.",
     "htable_hint": "Hinweis",

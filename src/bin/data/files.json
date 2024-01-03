@@ -14,15 +14,18 @@
     "from": "../../core/defaults/static",
     "to": "../../../site/static"
 }, {
+    "from": "../../core/defaults/errors",
+    "to": "../../../site/errors"
+}, {
     "from": "../../core/defaults/config/meta.src.json",
-    "to": "../../../etc/meta.json"
+    "to": "../../../site/etc/meta.json"
 }, {
     "from": "../../core/defaults/config/website.js",
-    "to": "../../../etc/website.js"
+    "to": "../../../site/etc/website.js"
 }, {
     "from": "../../core/defaults/config/system.js",
-    "to": "../../../etc/system.js"
+    "to": "../../../site/etc/system.js"
 }, {
     "from": "../../core/defaults/config/languages.json",
-    "to": "../../../etc/languages.json"
+    "to": "../../../site/etc/languages.json"
 }]

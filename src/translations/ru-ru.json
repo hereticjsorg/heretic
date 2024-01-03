@@ -43,6 +43,7 @@
     "hwysiwyg_bold": "Полужирный",
     "hwysiwyg_italic": "Наклонный",
     "hwysiwyg_underline": "Подчеркивание",
+    "hform_error_invalidCaptcha": "Неверный код",
     "hform_error_type": "Некорректное значение",
     "hform_error_max": "Более допустимого",
     "hform_error_min": "Менее допустимого",

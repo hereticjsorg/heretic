@@ -82,9 +82,9 @@ export default class {
         // Read configuration files
         try {
             // eslint-disable-next-line no-undef
-            this.systemConfig = __non_webpack_require__(path.resolve(__dirname, "..", "etc", "system.js"));
+            this.systemConfig = __non_webpack_require__(path.resolve(__dirname, "../site/etc/system.js"));
             // eslint-disable-next-line no-undef
-            this.siteConfig = __non_webpack_require__(path.resolve(__dirname, "..", "etc", "website.js"));
+            this.siteConfig = __non_webpack_require__(path.resolve(__dirname, "../site/etc/website.js"));
         } catch {
             // eslint-disable-next-line no-console
             console.error(`Could not read "system.js" and/or "website.js" configuration files.\nRun the following command to create: npm run configure\nRead documentation for more info.`);

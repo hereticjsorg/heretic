@@ -73,10 +73,12 @@
     border-top-right-radius: $radius;
     border-bottom-right-radius: $radius;
     cursor: pointer;
+    background-color: $white;
 }
 
 html.heretic-dark .hr-hf-captcha-image {
     border: unset;
+    background-color: $heretic-dark-grey-dark;
 }
 
 .hr-hf-captcha-image-reload {

@@ -1,4 +1,4 @@
-import error404 from "#core/errors/404/server.marko";
+import error404 from "#site/errors/404/server.marko";
 import packageJson from "#root/package.json";
 
 export default async (req, rep, languageData, language, siteConfig, systemConfig, i18nNavigation) => {

@@ -1,5 +1,5 @@
 [
-    "../../../etc",
+    "../../../site/etc",
     "../../../site/modules",
     "../../../site/translations"
 ]

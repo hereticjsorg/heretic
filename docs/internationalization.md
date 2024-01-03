@@ -4,7 +4,7 @@ Heretic has a full support for multi-language sites out of the box.
 
 ## Configuration files
 
-First thing first, you well need to edit the file containing a list of languages available (*./etc/languages.json*):
+First thing first, you well need to edit the file containing a list of languages available (*./site/etc/languages.json*):
 
 ```json
 {
@@ -25,7 +25,7 @@ To include a new language into your website, simply add a new key and value, exa
 
 The first language in this list is a default one (used when no language is selected).
 
-After you've defined all the languages you need, it's time to change the main meta.json (*./etc/meta.json*) and update it according to your language list:
+After you've defined all the languages you need, it's time to change the main meta.json (*./site/etc/meta.json*) and update it according to your language list:
 
 ```json
 {
