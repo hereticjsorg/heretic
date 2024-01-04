@@ -33,7 +33,7 @@ export default async (req, rep, languageData, language, siteConfig, systemConfig
             route: null,
             title: languageData[language]["404"](),
             siteTitle: siteConfig.title[language],
-            siteUrl: this.siteConfig.url,
+            siteUrl: siteConfig.url,
             i18nNavigation: i18nNavigation[language],
             username: authData ? authData.username : null,
             isAdmin: authData && authData.groupData && authData.groupData.find(i => i.id === "admin" && i.value === true),
