@@ -1,3 +1,14 @@
+## v1.1.137
+
+**Bugfixes** (2024-01-06)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-01-03 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-01-04 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-01-04 | Update route404.js |
+
+
 ## v1.1.136
 
 **Bugfixes** (2024-01-03)
