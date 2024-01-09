@@ -197,7 +197,7 @@ module.exports = class {
         if (!fs.existsSync(path.resolve(__dirname, "../../../site/modules/sample"))) {
             configNavigation.routes = [];
         }
-        this.log(`Writing "etc/navigation.json"...`, {
+        this.log(`Writing "site/etc/navigation.json"...`, {
             header: true,
         });
         fs.writeJSONSync(configDest, configNavigation, {
@@ -209,12 +209,12 @@ module.exports = class {
         for (const lang of this.languages) {
             const filePath = path.resolve(__dirname, `../../../site/translations/${lang}.json`);
             if (fs.existsSync(filePath)) {
-                this.log(`Skipping: "translations/${lang}.json"`, {
+                this.log(`Skipping: "site/translations/${lang}.json"`, {
                     warning: true,
                 });
                 continue;
             }
-            this.log(`Writing "translations/${lang}.json"...`, {
+            this.log(`Writing "site/translations/${lang}.json"...`, {
                 header: true,
             });
             fs.writeJSONSync(filePath, {}, {
