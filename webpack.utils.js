@@ -66,10 +66,11 @@ module.exports = class {
                 admin: [],
             },
         };
+        const t = {};
         for (const lang of Object.keys(languages)) {
             buildData.i18nNavigation[lang] = {};
             for (const r of navigationConfig.userspace.routes) {
-                buildData.i18nNavigation[lang][r] = "";
+                buildData.i18nNavigation[lang][typeof r === "string" ? r : r.id] = "";
             }
         }
         const siteModules = {
@@ -83,6 +84,11 @@ module.exports = class {
             for (const module of siteModules[mk]) {
                 try {
                     const moduleConfig = require(path.resolve(__dirname, `${modulePath}/${module}/module.js`));
+                    for (const lang of Object.keys(languages)) {
+                        if (fs.existsSync(path.resolve(__dirname, `${modulePath}/${module}/translations/${lang}.json`))) {
+                            t[lang] = fs.readJSONSync(path.resolve(__dirname, `${modulePath}/${module}/translations/${lang}.json`));
+                        }
+                    }
                     const moduleData = {
                         id: moduleConfig.id,
                         path: `${modulePath}/${module}`,
@@ -125,7 +131,10 @@ module.exports = class {
                                             description: pageConfig.description || {},
                                         };
                                         for (const lang of Object.keys(languages)) {
-                                            buildData.i18nNavigation[lang][`${moduleConfig.id}_${k}`] = pageConfig.title && pageConfig.title[lang] ? pageConfig.title[lang] : "";
+                                            buildData.i18nNavigation[lang][`${moduleConfig.id}_${k}`] = pageConfig.title && pageConfig.title[lang] ? pageConfig.title[lang] : t[lang][`${moduleConfig.id}_${k}`] || "";
+                                            for (const kn of Object.keys(buildData.i18nNavigation[lang])) {
+                                                buildData.i18nNavigation[lang][kn] = buildData.i18nNavigation[lang][kn] || t[lang][kn] || "";
+                                            }
                                         }
                                         if (pageConfig.icon) {
                                             moduleDataItem.icon = pageConfig.icon;
@@ -342,7 +351,7 @@ ${Object.keys(this.languages).map(l => `        case "${l}":
         }
     }
 
-    async* walkDir(dir) {
+    async *walkDir(dir) {
         for await (const d of await fs.promises.opendir(dir)) {
             const entry = path.join(dir, d.name);
             if (d.isDirectory()) {
