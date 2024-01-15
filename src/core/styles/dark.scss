@@ -108,6 +108,14 @@ html.heretic-dark a:active {
     box-shadow: 0 !important;
 }
 
+// Message
+
+html.heretic-dark .message,
+html.heretic-dark .message-body {
+    background-color: $heretic-dark-grey-dark !important;
+    color: $heretic-dark-text-color-light !important;
+}
+
 // Table
 
 html.heretic-dark .table {
