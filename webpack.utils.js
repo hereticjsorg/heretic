@@ -40,7 +40,7 @@ module.exports = class {
             fs.ensureDirSync(path.resolve(__dirname, dir));
         }
         if (this.systemConfig.directories.tmp) {
-            fs.ensureDirSync(path.resolve(__dirname, "dist", this.config.directories.tmp));
+            fs.ensureDirSync(path.resolve(__dirname, "dist", this.systemConfig.directories.tmp));
         }
         fs.ensureDirSync(path.resolve(__dirname, "dist", this.systemConfig.directories.files));
         if (!fs.existsSync(path.resolve(__dirname, "site/static/public"))) {

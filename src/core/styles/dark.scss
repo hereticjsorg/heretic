@@ -178,6 +178,16 @@ html.heretic-dark .tabs>ul>li.is-active>a {
     border-bottom-color: $blue !important;
 }
 
+html.heretic-dark .tabs.is-toggle li a,
+html.heretic-dark .tabs.is-toggle li.is-active a {
+    border-color: transparent !important;
+    color: $heretic-dark-text-color-light !important;
+}
+
+html.heretic-dark .tabs.is-toggle li:not(.is-active) a {
+    background-color: darken($heretic-dark-grey-darker, 1%) !important;
+}
+
 // Pagination
 
 html.heretic-dark .pagination-link,
@@ -318,11 +328,15 @@ html.heretic-dark .card-content {
 
 html.heretic-dark .menu>.menu-list>li>a,
 html.heretic-dark .menu>.menu-list>li>a.is-active,
-html.heretic-dark .menu>.menu-list>li>a.is-active:hover {
+html.heretic-dark .menu>.menu-list>li>a.is-active:hover,
+html.heretic-dark .menu>.menu-list>li>ul>li>a,
+html.heretic-dark .menu>.menu-list>li>ul>li>a.is-active,
+html.heretic-dark .menu>.menu-list>li>ul>li>a.is-active:hover {
     color: $heretic-dark-text-color-light;
 }
 
-html.heretic-dark .menu>.menu-list>li>a:hover:not(.is-active) {
+html.heretic-dark .menu>.menu-list>li>a:hover:not(.is-active),
+html.heretic-dark .menu>.menu-list>li>ul>li>a:hover:not(.is-active) {
     background: $heretic-dark-text-color !important;
     color: $heretic-dark-grey-dark !important;
 }
