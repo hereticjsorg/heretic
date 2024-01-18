@@ -69,7 +69,7 @@ export default class {
         this.setState("ready", true);
         this.update();
         this.t = window.__heretic.t;
-        this.cookies = new Cookies(this.cookieOptions);
+        this.cookies = new Cookies(this.cookieOptions, this.siteId);
         this.query = new Query();
     }
 

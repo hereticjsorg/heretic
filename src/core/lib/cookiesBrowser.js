@@ -1,13 +1,15 @@
+import store from "store2";
 import cloneDeep from "lodash.clonedeep";
 
 export default class {
-    constructor(optionsConfig = {}) {
+    constructor(optionsConfig = {}, siteId = "") {
         const defaults = {
             path: "/",
             domain: "",
             expires: new Date(new Date().getTime() + 604800000),
             secure: undefined,
             sameSite: undefined,
+            userCheck: false,
         };
         const options = cloneDeep(optionsConfig);
         this.options = {
@@ -18,10 +20,15 @@ export default class {
             Object.keys(options).map(o => this.options[o] = options[o]);
             options.expires = options.expires.toUTCString();
         }
+        this.store = store.namespace(`heretic_${siteId}`);
+    }
+
+    isAllowed() {
+        return this.options.userCheck ? this.store.get("cookiesAllowed") === true : true;
     }
 
     set(name, value, optionsData) {
-        if (!name) {
+        if (!name || !this.isAllowed()) {
             return;
         }
         const options = cloneDeep(this.options);

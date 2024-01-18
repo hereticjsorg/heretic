@@ -1,0 +1,20 @@
+<if(state.visible)>
+    <div
+        class="hr-cs-wrap"
+        style={
+            display: state.visible ? "block" : "none",
+        }>
+        <div class="columns m-0 p-0 is-gapless">
+            <div class="column is-flex is-align-items-center">
+                <t>cookiesMessage</t>
+            </div>
+            <div class="column is-narrow hr-cs-buttons-wrap">
+                <div class="buttons hr-cs-buttons-wrap">
+                    <button class="button is-small is-rounded is-success" on-click("onCookiesAllowClick")>
+                        <t>cookiesAllow</t>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</if>

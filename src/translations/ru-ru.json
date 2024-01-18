@@ -231,5 +231,7 @@
     "confirmationModalButtonCancel": "Отмена",
     "profilePictureEditorModalTitle": "Изображение профиля",
     "profilePictureEditorLoadError": "Не удалось загрузить изображение",
-    "profilePictureEditorNoImage": "Изображение не выбрано"
+    "profilePictureEditorNoImage": "Изображение не выбрано",
+    "cookiesMessage": "Веб-сайт использует файлы cookies и работает некорректно без них.",
+    "cookiesAllow": "Разрешить cookies"
 }

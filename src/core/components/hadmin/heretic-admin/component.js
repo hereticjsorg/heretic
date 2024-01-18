@@ -132,7 +132,7 @@ export default class {
         await this.utils.waitForComponent("menu");
         await this.utils.waitForComponent("navbar");
         window.addEventListener("scroll", this.sideMenuToggle.bind());
-        this.cookies = new Cookies(this.cookieOptions);
+        this.cookies = new Cookies(this.cookieOptions, this.siteId);
         if (!this.userData || !this.userData.id) {
             this.cookies.delete(`${this.siteId}.authToken`);
         }

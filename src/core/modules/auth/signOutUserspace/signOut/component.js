@@ -64,7 +64,7 @@ export default class {
             return;
         }
         await this.utils.waitForComponent("loading");
-        this.cookies = new Cookies(this.cookieOptions);
+        this.cookies = new Cookies(this.cookieOptions, this.siteId);
         const currentToken = this.cookies.get(`${this.siteId}.authToken`);
         this.getComponent("loading").setActive(true);
         try {
