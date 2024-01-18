@@ -1,3 +1,15 @@
+## v1.1.140
+
+**Bugfixes** (2024-01-18)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-01-15 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-01-16 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-01-18 | Allow cookies control for end users |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-01-18 | NPM Modules update |
+
+
 ## v1.1.139
 
 **Bugfixes** (2024-01-12)
