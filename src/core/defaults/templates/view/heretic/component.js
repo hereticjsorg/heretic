@@ -124,7 +124,7 @@ export default class {
         } catch {
             // Ignore
         }
-        this.cookies = new Cookies(this.cookieOptions);
+        this.cookies = new Cookies(this.cookieOptions, this.siteId);
         if (!this.username) {
             this.cookies.delete(`${this.siteId}.authToken`);
         }

@@ -43,7 +43,7 @@ export default class {
             return;
         }
         this.t = window.__heretic.t;
-        this.cookies = new Cookies(this.cookieOptions);
+        this.cookies = new Cookies(this.cookieOptions, this.siteId);
         this.setState("view", "2fa");
         this.setState("ready", true);
     }

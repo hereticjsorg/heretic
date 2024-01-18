@@ -144,7 +144,7 @@ export default class {
     async onMount() {
         await this.utils.waitForLanguageData();
         await this.utils.loadLanguageData(moduleConfig.id);
-        this.cookies = new Cookies(this.cookieOptions);
+        this.cookies = new Cookies(this.cookieOptions, this.siteId);
         this.currentToken = this.cookies.get(`${this.siteId}.authToken`);
         if (!this.currentToken) {
             setTimeout(() => window.location.href = `${this.utils.getLocalizedURL(this.systemRoutes.signInAdmin)}`, 100);

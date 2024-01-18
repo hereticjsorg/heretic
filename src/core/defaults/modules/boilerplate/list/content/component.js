@@ -54,7 +54,7 @@ export default class {
         await this.utils.waitForLanguageData();
         await this.utils.loadLanguageData(moduleConfig.id);
         this.query = new Query();
-        this.cookies = new Cookies(this.cookieOptions);
+        this.cookies = new Cookies(this.cookieOptions, this.siteId);
         const currentToken = this.cookies.get(`${this.siteId}.authToken`);
         if (!currentToken) {
             setTimeout(() => window.location.href = `${this.getLocalizedURL(this.systemRoutes.signIn)}?r=${this.getLocalizedURL(moduleConfig.routes.userspace.list.path)}`, 100);

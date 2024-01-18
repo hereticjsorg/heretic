@@ -41,7 +41,7 @@ export default class {
         await this.utils.waitForLanguageData();
         await this.utils.loadLanguageData(moduleConfig.id);
         this.t = window.__heretic.t;
-        this.cookies = new Cookies(this.cookieOptions);
+        this.cookies = new Cookies(this.cookieOptions, this.siteId);
         const currentToken = this.cookies.get(`${this.siteId}.authToken`);
         if (currentToken) {
             setTimeout(() => window.location.href = this.utils.getLocalizedURL("/"), 1000);

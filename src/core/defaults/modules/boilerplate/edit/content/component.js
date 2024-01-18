@@ -101,7 +101,7 @@ export default class {
         await this.utils.loadLanguageData(moduleConfig.id);
         this.t = window.__heretic.t;
         this.query = new Query();
-        this.cookies = new Cookies(this.cookieOptions);
+        this.cookies = new Cookies(this.cookieOptions, this.siteId);
         const id = this.query.get("id");
         this.currentToken = this.cookies.get(`${this.siteId}.authToken`);
         if (!this.currentToken) {

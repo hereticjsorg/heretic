@@ -130,6 +130,7 @@ module.exports = {
         domain: "",
         secure: null,
         sameSite: null,
+        userCheck: true,
         ...conf.cookieOptions,
     },
     log: {

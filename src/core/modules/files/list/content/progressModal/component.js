@@ -36,7 +36,7 @@ export default class {
     }
 
     async onMount() {
-        this.cookies = new Cookies(this.cookieOptions);
+        this.cookies = new Cookies(this.cookieOptions, this.siteId);
         this.currentToken = this.cookies.get(`${this.siteId}.authToken`);
         this.setState("ready", true);
         window.addEventListener("keydown", this.onKeyDown.bind(this));

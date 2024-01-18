@@ -66,7 +66,7 @@ export default class {
             return;
         }
         this.t = window.__heretic.t;
-        this.cookies = new Cookies(this.cookieOptions);
+        this.cookies = new Cookies(this.cookieOptions, this.siteId);
         this.query = new Query();
         const currentToken = this.cookies.get(`${this.siteId}.authToken`);
         if (currentToken) {

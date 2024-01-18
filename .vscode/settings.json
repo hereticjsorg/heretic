@@ -127,5 +127,8 @@
         "zipball",
         "Каптча"
     ],
-    "git.ignoreLimitWarning": true
+    "git.ignoreLimitWarning": true,
+    "cSpell.enableFiletypes": [
+        "html"
+    ]
 }

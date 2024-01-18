@@ -231,5 +231,7 @@
     "confirmationModalButtonCancel": "Cancel",
     "profilePictureEditorModalTitle": "Profile Picture",
     "profilePictureEditorLoadError": "Could not load image",
-    "profilePictureEditorNoImage": "No image selected"
+    "profilePictureEditorNoImage": "No image selected",
+    "cookiesMessage": "The website uses cookies and does not function correctly without them.",
+    "cookiesAllow": "Allow Cookies"
 }
