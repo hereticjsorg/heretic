@@ -17,6 +17,7 @@ export default class {
         this.authOptions = out.global.authOptions;
         this.mongoEnabled = out.global.mongoEnabled;
         this.systemRoutes = out.global.systemRoutes;
+        this.demo = out.global.demo;
         if (process.browser) {
             window.__heretic = window.__heretic || {};
             window.__heretic.outGlobal = window.__heretic.outGlobal || out.global;
@@ -27,6 +28,7 @@ export default class {
             this.siteId = out.global.siteId || window.__heretic.outGlobal.siteId;
             this.cookieOptions = out.global.cookieOptions || window.__heretic.outGlobal.cookieOptions;
             this.systemRoutes = out.global.systemRoutes || window.__heretic.outGlobal.systemRoutes;
+            this.demo = out.global.demo || window.__heretic.outGlobal.demo;
             document.title = `${config.title[this.language]} – ${this.siteTitle}`;
         }
         this.utils = new Utils(this, this.language);
@@ -77,6 +79,12 @@ export default class {
         this.setState("ready", true);
         if (window.__heretic && window.__heretic.setTippy) {
             window.__heretic.setTippy();
+        }
+        if (this.demo) {
+            await this.utils.waitForComponent("signInForm");
+            const signInForm = this.getComponent("signInForm");
+            signInForm.setValue("username", "admin");
+            signInForm.setValue("password", "password");
         }
     }
 

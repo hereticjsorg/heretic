@@ -84,10 +84,10 @@
         "command-line-args": "^5.2.1",
         "compression-webpack-plugin": "^11.0.0",
         "copy-webpack-plugin": "^12.0.2",
-        "css-loader": "^6.9.0",
+        "css-loader": "^6.9.1",
         "css-minimizer-webpack-plugin": "^6.0.0",
         "csv": "^6.3.6",
-        "date-fns": "^3.2.0",
+        "date-fns": "^3.3.0",
         "destr": "^2.0.2",
         "documentation": "^14.0.2",
         "es6-promise": "^4.2.8",
@@ -108,7 +108,7 @@
         "lodash.debounce": "^4.0.8",
         "lodash.template": "^4.5.0",
         "lodash.throttle": "^4.1.1",
-        "marko": "^5.32.6",
+        "marko": "^5.32.7",
         "mime-types": "^2.1.35",
         "mini-css-extract-plugin": "^2.7.7",
         "nodemailer": "^6.9.8",
@@ -142,7 +142,7 @@
         "fastify": "^4.25.2",
         "mongodb": "^6.3.0",
         "sharp": "^0.33.2",
-        "systeminformation": "^5.21.22",
+        "systeminformation": "^5.21.23",
         "telegraf": "^4.15.3"
     }
 }
