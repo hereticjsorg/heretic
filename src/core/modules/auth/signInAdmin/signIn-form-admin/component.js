@@ -34,6 +34,7 @@ export default class {
         this.systemRoutes = out.global.systemRoutes;
         this.authOptions = out.global.authOptions;
         this.mongoEnabled = out.global.mongoEnabled;
+        this.demo = out.global.demo;
         if (process.browser) {
             window.__heretic = window.__heretic || {};
             window.__heretic.outGlobal = window.__heretic.outGlobal || out.global;
@@ -44,6 +45,7 @@ export default class {
             this.siteId = out.global.siteId || window.__heretic.outGlobal.siteId;
             this.cookieOptions = out.global.cookieOptions || window.__heretic.outGlobal.cookieOptions;
             this.systemRoutes = out.global.systemRoutes || window.__heretic.outGlobal.systemRoutes;
+            this.demo = out.global.demo || window.__heretic.outGlobal.demo;
         }
         this.utils = new Utils(this, this.language);
         await import( /* webpackChunkName: "bulma" */ "#site/view/bulma.scss");
@@ -71,6 +73,12 @@ export default class {
         this.t = window.__heretic.t;
         this.cookies = new Cookies(this.cookieOptions, this.siteId);
         this.query = new Query();
+        if (this.demo) {
+            await this.utils.waitForComponent("signInForm");
+            const signInForm = this.getComponent("signInForm");
+            signInForm.setValue("username", "admin");
+            signInForm.setValue("password", "password");
+        }
     }
 
     onLangDropdownClick(e) {
