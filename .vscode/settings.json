@@ -129,6 +129,7 @@
     ],
     "git.ignoreLimitWarning": true,
     "cSpell.enableFiletypes": [
-        "html"
+        "html",
+        "marko"
     ]
 }

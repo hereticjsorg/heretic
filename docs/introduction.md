@@ -23,7 +23,7 @@ Heretic is perfect use when you don't always need any of advanced [ZOIA](https:/
 
 ## Why Heretic?
 
-In the modern world, there are several standards, such as React and Vue , which have a number of disadvantages. The difficulty of implementing quick and simple projects using the SSR approach from scratch, as well as the need to learn special syntax such as JSX, has led to the emergence of new frameworks based on frameworks.
+In the modern world, there are several standards, such as React and Vue, which have a number of disadvantages. The difficulty of implementing quick and simple projects using the SSR approach from scratch, as well as the need to learn special syntax such as JSX, has led to the emergence of new frameworks based on frameworks.
 
 The syntax used by Marko does not differ at all from HTML, but, if desired, gives a lot of possibilities in order to create technically complex projects. Thus, in order to use Marko, a basic knowledge of HTML layout is sufficient.
 
