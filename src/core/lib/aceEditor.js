@@ -1,6 +1,7 @@
 /* eslint-disable import/no-webpack-loader-syntax */
 
-const ace = await import( /* webpackChunkName: "heretic-ace" */ "ace-builds/src-noconflict/ace");
+import ace from /* webpackChunkName: "heretic-ace" */ "ace-builds/src-noconflict/ace";
+
 ace.config.setModuleUrl("ace/theme/chrome", require("file-loader?name=npm.ace-builds.theme-chrome.[contenthash:8].js&esModule=false!ace-builds/src-noconflict/theme-chrome.js"));
 ace.config.setModuleUrl("ace/theme/ambiance", require("file-loader?name=npm.ace-builds.theme-ambiance.[contenthash:8].js&esModule=false!ace-builds/src-noconflict/theme-ambiance.js"));
 ace.config.setModuleUrl("ace/mode/html_worker", require("file-loader?name=npm.ace-builds.worker-html.[contenthash:8].js&esModule=false!ace-builds/src-noconflict/worker-html.js"));

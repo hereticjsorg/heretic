@@ -34,10 +34,7 @@ dist.backup/
 temp/
 src/marko.json
 src/**/marko.json
-site/**/lang-swtich
 src/**/lang-swtich
 src/meta.json
 src/**/meta.json
-site/meta.json
-site/**/meta.json
 .cache
