@@ -1,0 +1,11 @@
+import FormData from "./form"
+
+<if(state.ready)>
+    <div
+        class="hr-cn-wrap"
+        style={
+            display: state.ready ? "block" : "none",
+        }>
+        <hform key="contactForm" id="contactForm" data=(new FormData(process.browser && window.__heretic ? window.__heretic.t : out.global.t)) on-form-submit("onFormSubmit")/>
+    </div>
+</if>
