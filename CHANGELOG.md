@@ -1,3 +1,14 @@
+## v1.1.143
+
+**Bugfixes** (2024-01-29)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-01-28 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-01-29 | hcontact component WIP |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-01-29 | Bugfixes |
+
+
 ## v1.1.142
 
 **Bugfixes** (2024-01-25)
