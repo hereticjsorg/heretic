@@ -80,5 +80,10 @@
     "progress_runBuild": "Building Heretic (may take long time)…",
     "progress_complete": "Operation complete, restarting…",
     "rebuildNotice": "NPM modules will be updated before rebuilding the system. After the rebuild process is complete, Heretic will restart automatically.",
-    "buttonRebuild": "Rebuild Heretic"
+    "buttonRebuild": "Rebuild Heretic",
+    "contactSubject": "Message from Contact form",
+    "contactDesc": "You've just received a message from the feedback form on your website.",
+    "contactName": "Name",
+    "contactEmail": "E-mail",
+    "contactMessage": "Message"
 }

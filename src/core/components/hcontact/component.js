@@ -5,6 +5,7 @@ export default class {
     async onCreate(input, out) {
         this.state = {
             ready: false,
+            success: false,
         };
         if (input.admin) {
             await import( /* webpackChunkName: "hcontact-admin" */ "./style-admin.scss");

@@ -80,5 +80,9 @@
     "progress_runBuild": "Aufbau von Heretic (kann lange dauern)…",
     "progress_complete": "Vorgang abgeschlossen, Neustart…",
     "rebuildNotice": "Die NPM-Module werden vor dem Neuaufbau des Systems aktualisiert. Nachdem der Neuaufbau abgeschlossen ist, startet Heretic automatisch neu.",
-    "buttonRebuild": "Heretic wiederaufbauen"
+    "buttonRebuild": "Heretic wiederaufbauen",
+    "contactDesc": "Sie haben gerade eine Nachricht über das Feedback-Formular auf Ihrer Website erhalten.",
+    "contactName": "Name",
+    "contactEmail": "E-mail",
+    "contactMessage": "Nachricht"
 }

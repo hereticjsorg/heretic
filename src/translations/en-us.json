@@ -238,5 +238,6 @@
     "contactEmail": "Your e-mail address",
     "contactSubmitButton": "Submit",
     "contactMessage": "Message",
-    "contactCaptcha": "Verification code"
+    "contactCaptcha": "Verification code",
+    "contactMessageSent": "Your message has been successfully sent."
 }

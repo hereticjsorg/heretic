@@ -4,8 +4,8 @@ import Ajv from "ajv";
 // } from "uuid";
 import ContactForm from "#core/components/hcontact/form.js";
 import Captcha from "#lib/captcha";
-// import Email from "#lib/email";
-// import Utils from "#lib/componentUtils";
+import Email from "#lib/email";
+import emailContact from "../email/emailContact.marko";
 
 const ajv = new Ajv({
     allErrors: true,
@@ -37,11 +37,34 @@ export default () => ({
                     }],
                 });
             }
-            // const email = formData.email.toLowerCase();
-            // eslint-disable-next-line no-console
-            console.log(formData);
             if (!this.systemConfig.email.enabled) {
                 return rep.success({});
+            }
+            const email = formData.email.toLowerCase();
+            try {
+                const {
+                    language,
+                } = req.body;
+                const languageData = {
+                    ...this.languageData,
+                };
+                languageData[language] = {
+                    ...languageData[language],
+                    ...(await import(`../translations/${language}.json`)).default,
+                };
+                const t = (id, d = {}) => languageData[language] && typeof languageData[language][id] === "function" ? languageData[language][id](d) : languageData[language] ? languageData[language][id] : id;
+                const input = {
+                    t,
+                    name: formData.name,
+                    email: formData.email,
+                    message: formData.message,
+                };
+                const renderPage = await emailContact.render(input);
+                const renderText = (await import("../email/emailContact.js")).default(input);
+                const emailEngine = new Email(this);
+                await emailEngine.send(email, t("contactSubject"), renderPage.toString(), renderText);
+            } catch {
+                //
             }
             return rep.success({});
         } catch (e) {

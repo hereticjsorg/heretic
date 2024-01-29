@@ -4,8 +4,15 @@ import FormData from "./form"
     <div
         class="hr-cn-wrap"
         style={
-            display: state.ready ? "block" : "none",
+            display: state.ready ? "block" : "none"
         }>
-        <hform key="contactForm" id="contactForm" data=(new FormData(process.browser && window.__heretic ? window.__heretic.t : out.global.t)) on-form-submit("onFormSubmit")/>
+        <if(state.success)>
+            <div class="notification is-success">
+                <t>contactMessageSent</t>
+            </div>
+        </if>
+        <else>
+            <hform key="contactForm" id="contactForm" data=(new FormData(process.browser && window.__heretic ? window.__heretic.t : out.global.t)) on-form-submit("onFormSubmit")/>
+        </else>
     </div>
 </if>
