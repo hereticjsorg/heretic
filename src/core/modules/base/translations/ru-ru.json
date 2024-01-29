@@ -80,5 +80,9 @@
     "progress_runBuild": "Сборка Heretic (может занять много времени)…",
     "progress_complete": "Операция завершена, перезапуск…",
     "rebuildNotice": "Перед сборкой системы будут обновлены модули NPM. После завершения процесса сборки система Heretic будет автоматически перезапущена.",
-    "buttonRebuild": "Пересобрать Heretic"
+    "buttonRebuild": "Пересобрать Heretic",
+    "contactDesc": "Вам было отправлено сообщение с формы обратной связи на сайте.",
+    "contactName": "Имя",
+    "contactEmail": "E-mail",
+    "contactMessage": "Сообщение"
 }

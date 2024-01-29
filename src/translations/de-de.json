@@ -233,5 +233,11 @@
     "profilePictureEditorLoadError": "Bild konnte nicht geladen werden",
     "profilePictureEditorNoImage": "Kein Bild ausgewählt",
     "cookiesMessage": "Die Website verwendet Cookies und funktioniert ohne sie nicht korrekt.",
-    "cookiesAllow": "Cookies zulassen"
+    "cookiesAllow": "Cookies zulassen",
+    "contactName": "Ihr Name",
+    "contactEmail": "Ihre E-Mail Adresse",
+    "contactSubmitButton": "Senden",
+    "contactMessage": "Nachricht",
+    "contactCaptcha": "Verifizierungscode",
+    "contactMessageSent": "Ihre Nachricht wurde erfolgreich gesendet."
 }

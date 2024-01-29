@@ -14,8 +14,8 @@
     fill: $black-ter;
 }
 
-html.heretic-dark .hr-hicon {
-    fill: $white-ter;
+html.heretic-dark .hr-hicon:not(.hr-hicon-black)>svg>path {
+    fill: $white-ter !important;
 }
 
 .hr-hicon {
@@ -28,4 +28,8 @@ html.heretic-dark .hr-hicon {
     flex-direction: row;
     display: inline-flex;
     align-items: center;
+}
+
+html.heretic-dark .hr-icon-text {
+    color: $white-ter !important;
 }

@@ -1,0 +1,13 @@
+<email-template>
+    <email-paragraph>${input.t("contactDesc")}</email-paragraph>
+    <email-paragraph>
+        <strong>${input.t("contactName")}</strong>: ${input.name}<br/>
+        <strong>${input.t("contactEmail")}</strong>: ${input.email}
+    </email-paragraph>
+    <email-paragraph>
+        <strong>${input.t("contactMessage")}</strong>:<br/>
+    </email-paragraph>
+    <email-paragraph>
+        ${input.message}<br/>
+    </email-paragraph>
+</email-template>

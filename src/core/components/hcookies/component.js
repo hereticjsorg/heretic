@@ -7,9 +7,9 @@ export default class {
             visible: false,
         };
         if (input.admin) {
-            await import( /* webpackChunkName: "hnotify-admin" */ "./style-admin.scss");
+            await import( /* webpackChunkName: "hcookies-admin" */ "./style-admin.scss");
         } else {
-            await import( /* webpackChunkName: "hnotify-frontend" */ "./style-frontend.scss");
+            await import( /* webpackChunkName: "hcookies-frontend" */ "./style-frontend.scss");
         }
         this.siteId = out.global.siteId;
         this.cookiesUserCheck = out.global.cookiesUserCheck;

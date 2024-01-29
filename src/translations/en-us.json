@@ -233,5 +233,11 @@
     "profilePictureEditorLoadError": "Could not load image",
     "profilePictureEditorNoImage": "No image selected",
     "cookiesMessage": "The website uses cookies and does not function correctly without them.",
-    "cookiesAllow": "Allow Cookies"
+    "cookiesAllow": "Allow Cookies",
+    "contactName": "Your name",
+    "contactEmail": "Your e-mail address",
+    "contactSubmitButton": "Submit",
+    "contactMessage": "Message",
+    "contactCaptcha": "Verification code",
+    "contactMessageSent": "Your message has been successfully sent."
 }

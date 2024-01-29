@@ -1,0 +1,18 @@
+import FormData from "./form"
+
+<if(state.ready)>
+    <div
+        class="hr-cn-wrap"
+        style={
+            display: state.ready ? "block" : "none"
+        }>
+        <if(state.success)>
+            <div class="notification is-success">
+                <t>contactMessageSent</t>
+            </div>
+        </if>
+        <else>
+            <hform key="contactForm" id="contactForm" data=(new FormData(process.browser && window.__heretic ? window.__heretic.t : out.global.t)) on-form-submit("onFormSubmit")/>
+        </else>
+    </div>
+</if>

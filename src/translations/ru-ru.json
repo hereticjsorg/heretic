@@ -233,5 +233,11 @@
     "profilePictureEditorLoadError": "Не удалось загрузить изображение",
     "profilePictureEditorNoImage": "Изображение не выбрано",
     "cookiesMessage": "Веб-сайт использует файлы cookies и работает некорректно без них.",
-    "cookiesAllow": "Разрешить cookies"
+    "cookiesAllow": "Разрешить cookies",
+    "contactName": "Ваше имя",
+    "contactEmail": "Ваш e-mail",
+    "contactSubmitButton": "Отправить",
+    "contactMessage": "Сообщение",
+    "contactCaptcha": "Код проверки",
+    "contactMessageSent": "Ваше сообщение было успешно отправлено."
 }

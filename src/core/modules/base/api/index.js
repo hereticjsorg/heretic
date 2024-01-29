@@ -7,6 +7,7 @@ import apiRestart from "./apiRestart";
 import apiUpdate from "./apiUpdate";
 import apiRebuild from "./apiRebuild";
 import apiStatus from "./apiStatus";
+import apiContact from "./apiContact";
 
 export default fastify => {
     fastify.get("/api/captcha", apiCaptcha());
@@ -19,5 +20,6 @@ export default fastify => {
         fastify.get("/api/admin/update", apiUpdate());
         fastify.get("/api/admin/rebuild", apiRebuild());
         fastify.post("/api/admin/status", apiStatus());
+        fastify.post("/api/contact", apiContact());
     }
 };
