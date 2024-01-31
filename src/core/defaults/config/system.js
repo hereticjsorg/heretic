@@ -82,6 +82,7 @@ module.exports = {
     email: {
         enabled: false,
         from: "noreply@hereticjs.org",
+        admin: "admin@hereticjs.org",
         config: {},
     },
     webSockets: {
