@@ -37,7 +37,7 @@ export default () => ({
                     }],
                 });
             }
-            if (!this.systemConfig.email.enabled) {
+            if (!this.systemConfig.email.enabled || !this.systemConfig.email.admin) {
                 return rep.success({});
             }
             const email = formData.email.toLowerCase();
@@ -56,13 +56,13 @@ export default () => ({
                 const input = {
                     t,
                     name: formData.name,
-                    email: formData.email,
+                    email,
                     message: formData.message,
                 };
                 const renderPage = await emailContact.render(input);
                 const renderText = (await import("../email/emailContact.js")).default(input);
                 const emailEngine = new Email(this);
-                await emailEngine.send(email, t("contactSubject"), renderPage.toString(), renderText);
+                await emailEngine.send(this.systemConfig.email.admin, t("contactSubject"), renderPage.toString(), renderText);
             } catch {
                 //
             }

@@ -24,7 +24,8 @@ typings/
 /src/build
 /etc
 /site
-/logs
+/logs/*
+!/logs/.gitkeep
 .DS_Store
 src/bin/csv
 backup/
