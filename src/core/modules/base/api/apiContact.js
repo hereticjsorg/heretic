@@ -1,7 +1,4 @@
 import Ajv from "ajv";
-// import {
-//     v4 as uuid,
-// } from "uuid";
 import ContactForm from "#core/components/hcontact/form.js";
 import Captcha from "#lib/captcha";
 import Email from "#lib/email";
