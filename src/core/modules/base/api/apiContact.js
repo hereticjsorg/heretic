@@ -1,4 +1,7 @@
 import Ajv from "ajv";
+import {
+    convert,
+} from "html-to-text";
 import ContactForm from "#core/components/hcontact/form.js";
 import Captcha from "#lib/captcha";
 import Email from "#lib/email";
@@ -54,7 +57,7 @@ export default () => ({
                     t,
                     name: formData.name,
                     email,
-                    message: formData.message,
+                    message: convert(formData.message),
                 };
                 const renderPage = await emailContact.render({
                     ...input,

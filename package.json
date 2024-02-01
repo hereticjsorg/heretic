@@ -97,6 +97,7 @@
         "fastify-plugin": "^4.5.1",
         "file-loader": "^6.2.0",
         "fs-extra": "^11.2.0",
+        "html-to-text": "^9.0.5",
         "ignore-loader": "^0.1.2",
         "imask": "^7.3.0",
         "inquirer": "^9.2.13",
