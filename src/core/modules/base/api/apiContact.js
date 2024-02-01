@@ -1,7 +1,4 @@
 import Ajv from "ajv";
-// import {
-//     v4 as uuid,
-// } from "uuid";
 import ContactForm from "#core/components/hcontact/form.js";
 import Captcha from "#lib/captcha";
 import Email from "#lib/email";
@@ -59,7 +56,10 @@ export default () => ({
                     email,
                     message: formData.message,
                 };
-                const renderPage = await emailContact.render(input);
+                const renderPage = await emailContact.render({
+                    ...input,
+                    message: input.message.replace(/\n/, "<br/>"),
+                });
                 const renderText = (await import("../email/emailContact.js")).default(input);
                 const emailEngine = new Email(this);
                 await emailEngine.send(this.systemConfig.email.admin, t("contactSubject"), renderPage.toString(), renderText);
