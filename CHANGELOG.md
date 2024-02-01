@@ -1,3 +1,13 @@
+## v1.1.145
+
+**Bugfixes** (2024-02-01)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-01-31 | Update apiContact.js |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-02-01 | Bugfixes |
+
+
 ## v1.1.144
 
 **Bugfixes** (2024-01-31)
