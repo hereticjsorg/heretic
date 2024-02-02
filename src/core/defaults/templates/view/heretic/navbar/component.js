@@ -51,4 +51,9 @@ export default class {
         this.getComponent("hereticLogo").setDarkMode(flag);
         this.emit("dark-mode", flag);
     }
+
+    onItemTopClick(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
 }

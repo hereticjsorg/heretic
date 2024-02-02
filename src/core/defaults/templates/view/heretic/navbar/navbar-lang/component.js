@@ -1,4 +1,5 @@
 import Utils from "#lib/componentUtils";
+import languages from "#etc/languages.json";
 
 export default class {
     async onCreate(input, out) {
@@ -21,5 +22,25 @@ export default class {
     onLanguageClick(e) {
         e.preventDefault();
         this.setState("langOpen", !this.state.langOpen);
+    }
+
+    onItemTopClick(e) {
+        e.stopPropagation();
+        e.preventDefault();
+    }
+
+    onLanguageItemClick(e) {
+        e.preventDefault();
+        const {
+            lang,
+        } = e.target.closest("[data-lang]").dataset;
+        window.location.href = (lang === Object.keys(languages)[0] ? this.getCurrentURL() : `/${lang}${this.getCurrentURL()}`);
+    }
+
+    getCurrentURL() {
+        if (!process.browser) {
+            return "/";
+        }
+        return this.utils.getNonLocalizedURL(window.location.pathname).url;
     }
 }
