@@ -57,11 +57,11 @@ export default () => ({
                     t,
                     name: formData.name,
                     email,
-                    message: convert(formData.message),
+                    message: convert(formData.message.replace(/\n/gm, "<br/>")),
                 };
                 const renderPage = await emailContact.render({
                     ...input,
-                    message: input.message.replace(/\n/, "<br/>"),
+                    message: input.message.replace(/\n/gm, "<br/>"),
                 });
                 const renderText = (await import("../email/emailContact.js")).default(input);
                 const emailEngine = new Email(this);
