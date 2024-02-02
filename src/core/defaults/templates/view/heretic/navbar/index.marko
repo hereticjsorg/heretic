@@ -20,7 +20,8 @@ $ const i18nNavigation = out.global.i18nNavigation;
                 </if>
                 <else>
                     <div class=`navbar-item has-dropdown${state.navItemOpen === item.id ? " is-active" : ""}`>
-                        <a class=`navbar-link is-hidden-touch hr-navbar-item${state.navItemOpen === item.id ? " hr-navbar-item-open" : ""}` on-click("onNavbarItemClick") id=`hr_navbar_item_${item.id}`>${i18nNavigation[item.id]}</a>
+                        $ const subMenuIsActive = !!item.routes.find(i => state.route === i);
+                        <a class=`navbar-link is-hidden-touch hr-navbar-item${state.navItemOpen === item.id ? " hr-navbar-item-open" : ""}${subMenuIsActive ? " hr-navbar-item-active" : ""}` on-click("onNavbarItemClick") id=`hr_navbar_item_${item.id}`>${i18nNavigation[item.id]}</a>
                         <span on-click("onItemTopClick") class="navbar-link is-hidden-desktop is-arrowless is-hidden-desktop hr-navbar-item">${i18nNavigation[item.id]}</span>
                         <div class="navbar-dropdown hr-navbar-dropdown">
                             <for|subItem| of=item.routes>

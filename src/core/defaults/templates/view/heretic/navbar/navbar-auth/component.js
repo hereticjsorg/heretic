@@ -20,6 +20,7 @@ export default class {
 
     onAuthClick(e) {
         e.preventDefault();
+        e.stopPropagation();
         this.setState("authOpen", !this.state.authOpen);
     }
 }
