@@ -1,0 +1,21 @@
+<div class="rh1-hi-images-wrap">
+    <for|image, index| of=input.images>
+        <img
+            src=image
+            style={
+                display: state.imageIndex === index ? "block" : "none"
+            }
+            class=(input.imageClass || "")/>
+    </for>
+    <if(input.images.length > 1)>
+        <div class="rh1-hi-arrow rh1-hi-arrow-left" on-click("onLeftArrowClick")>&larr;</div>
+        <div class="rh1-hi-arrow rh1-hi-arrow-right" on-click("onRightArrowClick")>&rarr;</div>
+    </if>
+</div>
+<if(input.images.length > 1)>
+    <div class="rh1-hi-dots-wrap" on-click("onDotClick")>
+        <for|image, index| of=input.images>
+            <div data-id=index class=`rh1-hi-dot${index === state.imageIndex ? " rh1-hi-dot-active" : ""}`/>
+        </for>
+    </div>
+</if>
