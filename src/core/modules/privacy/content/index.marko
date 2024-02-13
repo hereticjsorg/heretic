@@ -1,0 +1,28 @@
+<if(state.ready)>
+    <h1 class="title is-3 has-text-weight-light">
+        <if(input.mode === "site")>
+            <t>privacyPolicy</t>
+        </if>
+        <else>
+            <t>cookiesPolicy</t>
+        </else>
+    </h1>
+    <if(state.error)>
+        <div class="notification is-danger">
+            <t>couldNotLoadData</t>
+        </div>
+    </if>
+    <else>
+        <if(state.policy === null)>
+            <div class="mt-4 ml-1">
+                <hloading-dots/>
+            </div>
+        </if>
+        <if(state.policy === false)>
+            <div class="mt-4">
+                <t>noPolicy</t>
+            </div>
+        </if>
+        <if(state.policy)>$!{state.policy}</if>
+    </else>
+</if>

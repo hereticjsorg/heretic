@@ -13,5 +13,10 @@
         "ru-ru": "Тестовый сайт, созданный на Heretic",
         "en-us": "Test site built on Heretic",
         "de-de": "Testseite auf Heretic erstellt"
+    },
+    "webmaster": {
+        "ru-ru": "Михаил Матвеев",
+        "en-us": "Mikhail Matveev",
+        "de-de": "Mikhail Matveev"
     }
 }

@@ -188,6 +188,8 @@ module.exports = {
         account: "/account",
         signUp: "/signUp",
         restorePassword: "/restorePassword",
+        privacyPolicy: "/privacy/site",
+        privacyCookies: "/privacy/cookies",
         ...conf.routes,
     },
     buildOptions: {

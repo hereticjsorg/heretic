@@ -239,5 +239,7 @@
     "contactSubmitButton": "Submit",
     "contactMessage": "Message",
     "contactCaptcha": "Verification code",
-    "contactMessageSent": "Your message has been successfully sent."
+    "contactMessageSent": "Your message has been successfully sent.",
+    "privacyPolicy": "Privacy Policy",
+    "cookiesPolicy": "Cookies Policy"
 }

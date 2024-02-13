@@ -6,16 +6,16 @@ Heretic uses *Webpack*, a static module bundler for modern JavaScript applicatio
 
 During build process, Heretic creates a *./dist* directory which contains everything you need to run your website (static bundles, server script etc.). There are following stages of website build:
 
-* generate internationalization loader to fetch translation files dynamically (*./src/build/i18n-loader.js*) in SPA mode
-* generate pages and modules loader used by SPA mode used to load data without page reload (*./src/build/modules-loader.js*)
-* generate configuration files used by build script (saved to *./src/build* directory)
+* generate internationalization loader to fetch translation files dynamically (*./site/.build/i18n-loader.js*) in SPA mode
+* generate pages and modules loader used by SPA mode used to load data without page reload (*./site/.build/modules-loader.js*)
+* generate configuration files used by build script (saved to *./site/.build* directory)
 * generate *sitemap.xml* file based on pages configuration
 * generate *site.webmanifest* (saved to *./src/static/site.webmanifest* directory)
 * generate *&lt;lang-switch/&gt;* components for each page where *langSwitchComponent* parameter is set to *true*
 * generate bundles and static assets (saved to *./dist/public*)
 * generate script to run as a web server (saved to *./dist/server.js*)
 
-The following directories are deleted and re-created every time you start the build process: *./dist*, *./src/build*.
+The following directories are deleted and re-created every time you start the build process: *./dist*, *./site/.build*.
 
 In *build-dev* mode:
 

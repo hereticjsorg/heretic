@@ -21,7 +21,6 @@ typings/
 .yarn-integrity
 .env
 /dist
-/src/build
 /etc
 /site
 /logs/*
