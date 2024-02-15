@@ -14,7 +14,7 @@
         "paths": {
             "#core/*": ["./src/core/*"],
             "#components/*": ["./src/core/components/*"],
-            "#build/*": ["./src/build/*"],
+            "#build/*": ["./site/.build/*"],
             "#lib/*": ["./src/core/lib/*"],
             "#site/*": ["./site/*"],
             "#etc/*": ["./site/etc/*"],

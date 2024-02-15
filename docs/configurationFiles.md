@@ -509,4 +509,4 @@ You will need to add a translation for *parentRouteName* to your user translatio
 
 ## Auto-Generated Files
 
-Some files are auto-generated during the build process. Most of them are located in the *./src/build* directory. There is no need to edit anything there because each file gets overwritten on every build.
+Some files are auto-generated during the build process. Most of them are located in the *./site/.build* directory. There is no need to edit anything there because each file gets overwritten on every build.

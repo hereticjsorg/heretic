@@ -1,18 +1,18 @@
 {
     "removeDirectories": [
-        "src/build",
+        "site/.build",
         "dist.new"
     ],
     "ensureDirectories": [
         "dist/public/heretic",
-        "src/build",
-        "src/build/loaders",
-        "src/build/components",
+        "site/.build",
+        "site/.build/loaders",
+        "site/.build/components",
         "logs",
         "backup",
         "dist",
         "dist.new/public/heretic",
-        "src/build/components/hicon-admin"
+        "site/.build/components/hicon-admin"
     ],
     "moduleDirectories": {
         "site": "site/modules",
