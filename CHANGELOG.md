@@ -1,3 +1,14 @@
+## v1.1.150
+
+**Bugfixes & Minor Improvements** (2024-02-15)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-02-13 | Minor improvements<br/>- Moving "build" directory to the "site" (instead of "src")<br/>- Implementing privacy and cookies policy (WIP)<br/>- Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-02-15 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-02-15 | Default policies added |
+
+
 ## v1.1.149
 
 **Bugfixes** (2024-02-12)
