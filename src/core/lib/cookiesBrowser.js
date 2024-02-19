@@ -23,7 +23,7 @@ export default class {
     }
 
     isAllowed() {
-        return this.options.userCheck ? this.get(`${this.siteId}.cookiesAllowed`) === true : true;
+        return this.options.userCheck ? String(this.get(`${this.siteId}.cookiesAllowed`)) === "true" : true;
     }
 
     set(name, value, optionsData) {
