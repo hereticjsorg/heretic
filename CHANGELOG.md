@@ -1,3 +1,12 @@
+## v1.1.152
+
+**Update cookiesBrowser.js** (2024-02-19)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-02-19 | Update cookiesBrowser.js |
+
+
 ## v1.1.151
 
 **Bugfixes** (2024-02-19)
