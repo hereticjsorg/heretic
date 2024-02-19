@@ -100,3 +100,78 @@ html.heretic-dark .hr-hld-loader-dot:before {
         transform: scale(1.0);
     }
 }
+
+.hr-hld-loader-line {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: block;
+    position: relative;
+    color: $grey-dark;
+    box-sizing: border-box;
+    animation: hr-hld-loader-line 2s linear infinite;
+    margin-left: 35px;
+}
+
+@keyframes hr-hld-loader-line {
+    0% {
+        box-shadow: 14px 0 0 -2px, 38px 0 0 -2px, -14px 0 0 -2px, -38px 0 0 -2px;
+    }
+
+    25% {
+        box-shadow: 14px 0 0 -2px, 38px 0 0 -2px, -14px 0 0 -2px, -38px 0 0 2px;
+    }
+
+    50% {
+        box-shadow: 14px 0 0 -2px, 38px 0 0 -2px, -14px 0 0 2px, -38px 0 0 -2px;
+    }
+
+    75% {
+        box-shadow: 14px 0 0 2px, 38px 0 0 -2px, -14px 0 0 -2px, -38px 0 0 -2px;
+    }
+
+    100% {
+        box-shadow: 14px 0 0 -2px, 38px 0 0 2px, -14px 0 0 -2px, -38px 0 0 -2px;
+    }
+}
+
+.hr-hld-loader-progress {
+    width: 100%;
+    height: 4.8px;
+    display: inline-block;
+    position: relative;
+    background: $grey-lighter;
+    overflow: hidden;
+}
+
+html.heretic-dark .hr-hld-loader-progress {
+    background: $grey;
+}
+
+html.heretic-dark .hr-hld-loader-progress::after {
+    background: $grey-lighter;
+}
+
+.hr-hld-loader-progress::after {
+    content: '';
+    width: 192px;
+    height: 4.8px;
+    background: $grey;
+    position: absolute;
+    top: 0;
+    left: 0;
+    box-sizing: border-box;
+    animation: hr-hld-loader-animationLoader2 2s linear infinite;
+}
+
+@keyframes hr-hld-loader-animationLoader2 {
+    0% {
+        left: 0;
+        transform: translateX(-100%);
+    }
+
+    100% {
+        left: 100%;
+        transform: translateX(0%);
+    }
+}
