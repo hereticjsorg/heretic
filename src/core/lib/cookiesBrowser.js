@@ -1,4 +1,3 @@
-import store from "store2";
 import cloneDeep from "lodash.clonedeep";
 
 export default class {
@@ -20,11 +19,11 @@ export default class {
             Object.keys(options).map(o => this.options[o] = options[o]);
             options.expires = options.expires.toUTCString();
         }
-        this.store = store.namespace(`heretic_${siteId}`);
+        this.siteId = siteId;
     }
 
     isAllowed() {
-        return this.options.userCheck ? this.store.get("cookiesAllowed") === true : true;
+        return this.options.userCheck ? this.get(`${this.siteId}.cookiesAllowed`) === true : true;
     }
 
     set(name, value, optionsData) {

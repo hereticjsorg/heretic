@@ -1,8 +1,16 @@
-<div class="hr-hld-loader">
-    <div class="hr-hld-loader-dot"/>
-    <div class="hr-hld-loader-dot"/>
-    <div class="hr-hld-loader-dot"/>
-    <div class="hr-hld-loader-dot"/>
-    <div class="hr-hld-loader-dot"/>
-    <div class="hr-hld-loader-dot"/>
-</div>
+<if(input.type === "line")>
+    <span class="hr-hld-loader-line"/>
+</if>
+<if(input.type === "progress")>
+    <span class="hr-hld-loader-progress"/>
+</if>
+<if(!input.type)>
+    <div class="hr-hld-loader">
+        <div class="hr-hld-loader-dot"/>
+        <div class="hr-hld-loader-dot"/>
+        <div class="hr-hld-loader-dot"/>
+        <div class="hr-hld-loader-dot"/>
+        <div class="hr-hld-loader-dot"/>
+        <div class="hr-hld-loader-dot"/>
+    </div>
+</if>

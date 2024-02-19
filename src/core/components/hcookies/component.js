@@ -1,4 +1,4 @@
-import store from "store2";
+import Cookies from "#lib/cookiesBrowser";
 import Utils from "#lib/componentUtils";
 
 export default class {
@@ -15,7 +15,6 @@ export default class {
         this.cookiesUserCheck = out.global.cookiesUserCheck;
         this.language = out.global.language;
         if (process.browser) {
-            this.store = store.namespace(`heretic_${this.siteId}`);
             window.__heretic = window.__heretic || {};
             window.__heretic.outGlobal = window.__heretic.outGlobal || out.global || {};
             this.siteId = out.global.siteId || window.__heretic.outGlobal.siteId;
@@ -24,7 +23,8 @@ export default class {
             if (!this.cookiesUserCheck) {
                 return;
             }
-            this.cookiesAllowed = this.store.get("cookiesAllowed");
+            this.cookies = new Cookies(this.cookieOptions, this.siteId);
+            this.cookiesAllowed = this.cookies.get(`${this.siteId}.cookiesAllowed`);
         }
     }
 
@@ -38,7 +38,7 @@ export default class {
 
     onCookiesAllowClick(e) {
         e.preventDefault();
-        this.store.set("cookiesAllowed", true);
+        this.cookies.set(`${this.siteId}.cookiesAllowed`, true);
         this.setState("visible", false);
     }
 }
