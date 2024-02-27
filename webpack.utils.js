@@ -160,7 +160,7 @@ module.exports = class {
             }
         }
         buildData.coreSetupFiles = fs.readdirSync(path.resolve(__dirname, "src", "core", "setup"));
-        fs.writeJSONSync(path.resolve(__dirname, "site", ".build", "build.json"), buildData, {
+        fs.writeJSONSync(path.resolve(__dirname, ".build", "build.json"), buildData, {
             spaces: "    ",
         });
         this.buildData = buildData;
@@ -173,22 +173,22 @@ module.exports = class {
 
     generateLoaders() {
         for (const type of ["userspace", "admin"]) {
-            fs.writeFileSync(path.resolve(__dirname, `site/.build/loaders/page-loader-${type}.js`), `/* eslint-disable import/no-useless-path-segments */\n\nmodule.exports = {
+            fs.writeFileSync(path.resolve(__dirname, `.build/loaders/page-loader-${type}.js`), `/* eslint-disable import/no-useless-path-segments */\n\nmodule.exports = {
     loadComponent: async route => {
         switch (route) {\n${this.pages.filter(i => i.type === type).map(p => `        case "${p.moduleId}_${p.id}":
-            return import(/* webpackChunkName: "page.${p.moduleId}_${p.id}" */ "../../../${p.path}/index.marko");\n`).join("")}        default:
-            return import(/* webpackChunkName: "page.${type}404" */ "../../../site/errors/404/index.marko");
+            return import(/* webpackChunkName: "page.${p.moduleId}_${p.id}" */ "../../${p.path}/index.marko");\n`).join("")}        default:
+            return import(/* webpackChunkName: "page.${type}404" */ "../../site/errors/404/index.marko");
         }
     },\n};\n`, "utf8");
         }
-        fs.writeFileSync(path.resolve(__dirname, "site", ".build", "loaders", "i18n-loader-core.js"), `/* eslint-disable import/no-useless-path-segments */\n\nmodule.exports = {\n    loadLanguageFile: async lang => {
+        fs.writeFileSync(path.resolve(__dirname, ".build", "loaders", "i18n-loader-core.js"), `/* eslint-disable import/no-useless-path-segments */\n\nmodule.exports = {\n    loadLanguageFile: async lang => {
         let translationCore;
         // eslint-disable-next-line prefer-const
         let translationUser = {};
         switch (lang) {
         ${Object.keys(this.languages).map(l => `case "${l}":
-            translationCore = await import(/* webpackChunkName: "lang-core-${l}" */ "../../../src/translations/${l}.json");${fs.existsSync(path.resolve(__dirname, "src", "translations", "user", `${l}.json`)) ? `
-            translationUser = await import(/* webpackChunkName: "lang-${l}" */ "../../../site/translations/${l}.json");` : ""}
+            translationCore = await import(/* webpackChunkName: "lang-core-${l}" */ "../../src/translations/${l}.json");${fs.existsSync(path.resolve(__dirname, "src", "translations", "user", `${l}.json`)) ? `
+            translationUser = await import(/* webpackChunkName: "lang-${l}" */ "../../site/translations/${l}.json");` : ""}
             break;
         `).join("")}default:
             return null;
@@ -203,12 +203,12 @@ module.exports = class {
         for (const item of this.pathsTranslated) {
             const id = Object.keys(item)[0];
             const pathTranslated = item[id];
-            fs.writeFileSync(path.resolve(__dirname, `site/.build/loaders/i18n-loader-${id}.js`), `/* eslint-disable import/no-useless-path-segments */\n\nmodule.exports = {
+            fs.writeFileSync(path.resolve(__dirname, `.build/loaders/i18n-loader-${id}.js`), `/* eslint-disable import/no-useless-path-segments */\n\nmodule.exports = {
     loadLanguageFile: async lang => {
         let translationPage = {};
         switch (lang) {
 ${Object.keys(this.languages).map(l => `        case "${l}":
-            translationPage = await import(/* webpackChunkName: "lang-${id}-${l}" */ "../../../${pathTranslated}/translations/${l}.json");
+            translationPage = await import(/* webpackChunkName: "lang-${id}-${l}" */ "../../${pathTranslated}/translations/${l}.json");
             break;\n`).join("")}        default:
             return null;
         }
@@ -257,8 +257,8 @@ ${Object.keys(this.languages).map(l => `        case "${l}":
 .hr-icon-admin {
     position: relative;
 }`;
-        fs.writeFileSync(path.resolve(__dirname, "site/.build/components/hicon-admin/index.marko"), code);
-        fs.writeFileSync(path.resolve(__dirname, "site/.build/components/hicon-admin/style.scss"), style);
+        fs.writeFileSync(path.resolve(__dirname, ".build/components/hicon-admin/index.marko"), code);
+        fs.writeFileSync(path.resolve(__dirname, ".build/components/hicon-admin/style.scss"), style);
     }
 
     generateSitemap() {

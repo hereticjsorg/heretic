@@ -38,3 +38,4 @@ src/**/lang-swtich
 src/meta.json
 src/**/meta.json
 .cache
+.build
