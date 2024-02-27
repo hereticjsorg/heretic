@@ -1,3 +1,15 @@
+## v1.1.153
+
+**Bugfixes** (2024-02-27)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-02-27 | Changed .build directory location |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-02-27 | Bugfixes |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-02-27 | Update webpack.utils.js |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-02-27 | Bugfixes |
+
+
 ## v1.1.152
 
 **Update cookiesBrowser.js** (2024-02-19)
