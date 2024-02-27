@@ -176,8 +176,8 @@ module.exports = class {
             fs.writeFileSync(path.resolve(__dirname, `.build/loaders/page-loader-${type}.js`), `/* eslint-disable import/no-useless-path-segments */\n\nmodule.exports = {
     loadComponent: async route => {
         switch (route) {\n${this.pages.filter(i => i.type === type).map(p => `        case "${p.moduleId}_${p.id}":
-            return import(/* webpackChunkName: "page.${p.moduleId}_${p.id}" */ "../../../${p.path}/index.marko");\n`).join("")}        default:
-            return import(/* webpackChunkName: "page.${type}404" */ "../../../site/errors/404/index.marko");
+            return import(/* webpackChunkName: "page.${p.moduleId}_${p.id}" */ "../../${p.path}/index.marko");\n`).join("")}        default:
+            return import(/* webpackChunkName: "page.${type}404" */ "../../site/errors/404/index.marko");
         }
     },\n};\n`, "utf8");
         }
@@ -187,8 +187,8 @@ module.exports = class {
         let translationUser = {};
         switch (lang) {
         ${Object.keys(this.languages).map(l => `case "${l}":
-            translationCore = await import(/* webpackChunkName: "lang-core-${l}" */ "../../../src/translations/${l}.json");${fs.existsSync(path.resolve(__dirname, "src", "translations", "user", `${l}.json`)) ? `
-            translationUser = await import(/* webpackChunkName: "lang-${l}" */ "../../../site/translations/${l}.json");` : ""}
+            translationCore = await import(/* webpackChunkName: "lang-core-${l}" */ "../../src/translations/${l}.json");${fs.existsSync(path.resolve(__dirname, "src", "translations", "user", `${l}.json`)) ? `
+            translationUser = await import(/* webpackChunkName: "lang-${l}" */ "../../site/translations/${l}.json");` : ""}
             break;
         `).join("")}default:
             return null;
@@ -208,7 +208,7 @@ module.exports = class {
         let translationPage = {};
         switch (lang) {
 ${Object.keys(this.languages).map(l => `        case "${l}":
-            translationPage = await import(/* webpackChunkName: "lang-${id}-${l}" */ "../../../${pathTranslated}/translations/${l}.json");
+            translationPage = await import(/* webpackChunkName: "lang-${id}-${l}" */ "../../${pathTranslated}/translations/${l}.json");
             break;\n`).join("")}        default:
             return null;
         }
