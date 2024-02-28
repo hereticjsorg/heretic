@@ -595,6 +595,7 @@ export default class {
         if (!e.target.closest("[data-path]")) {
             return;
         }
+        e.preventDefault();
         const {
             path,
         } = e.target.closest("[data-path]").dataset;

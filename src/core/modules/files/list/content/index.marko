@@ -24,9 +24,9 @@ import actions from "./actions.js"
         <div class="column m-0 p-0 is-narrow is-flex is-align-items-center">
             <t class="has-text-weight-semibold">currentDir</t>:
         </div>
-        <div class="column m-0 p-0 is-flex is-align-items-center">
+        <div class="column m-0 p-0 is-flex is-align-items-center" on-click("onBreadcrumbClick")>
             <if(state.dir)>
-                <nav class="breadcrumb hr-fs-dir-breadcrumb" on-click("onBreadcrumbClick")>
+                <nav class="breadcrumb hr-fs-dir-breadcrumb">
                     <ul>
                         $ let dirPath = "";
                         <for|d| of=state.dir.split("/")>
@@ -50,7 +50,7 @@ import actions from "./actions.js"
                 </nav>
             </if>
             <else>
-                <nav class="breadcrumb hr-fs-dir-breadcrumb" on-click("onBreadcrumbClick")>
+                <nav class="breadcrumb hr-fs-dir-breadcrumb">
                     <ul>
                         <li>
                             <a href="#" data-path="">
