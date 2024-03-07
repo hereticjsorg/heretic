@@ -93,9 +93,9 @@ export default class {
             this.language = this.language || window.__heretic.outGlobal.language;
         }
         if (input.admin) {
-            await import(/* webpackChunkName: "hform-admin" */ "./style-admin.scss");
+            await import( /* webpackChunkName: "hform-admin" */ "./style-admin.scss");
         } else {
-            await import(/* webpackChunkName: "hform-frontend" */ "./style-frontend.scss");
+            await import( /* webpackChunkName: "hform-frontend" */ "./style-frontend.scss");
         }
     }
 
@@ -129,6 +129,10 @@ export default class {
                 }
             }
         }
+    }
+
+    getActiveTab() {
+        return this.state.activeTab;
     }
 
     async onMount() {
@@ -504,6 +508,10 @@ export default class {
         if (this.state.activeTab === id) {
             return;
         }
+        this.emit("tab-click", {
+            old: this.state.activeTab,
+            current: id,
+        });
         this.setTab(id);
         this.clearErrors();
     }

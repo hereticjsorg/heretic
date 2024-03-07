@@ -1,0 +1,19 @@
+@import "~styles/variables.scss";
+
+.editModal-card-body>.hr-hf-wrap>.hr-hf-form>.hr-hf-area {
+    margin-bottom: 0 !important;
+}
+
+html.heretic-dark .editModal-card-body>.hr-hf-wrap>.hr-hf-form>.hr-hf-area {
+    border: 1px solid $grey;
+}
+
+._usersForm-errorNotification {
+    margin-top: 0 !important;
+}
+
+@media (max-width: 769px) {
+    .hr-users-edit-modal>.hr-hm-modal-card {
+        height: 100vh;
+    }
+}
