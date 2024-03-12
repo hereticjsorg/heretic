@@ -65,7 +65,7 @@ export default class {
         });
         this.setState("ready", true);
         await this.utils.waitForComponent(`${moduleConfig.id}List`);
-        // Show sucess notification when required
+        // Show success notification when required
         if (window.__heretic.routeExtra) {
             if (window.__heretic.routeExtra.success) {
                 await this.utils.waitForComponent(`notify_${moduleConfig.id}List`);

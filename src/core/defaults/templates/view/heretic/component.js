@@ -4,11 +4,13 @@ import tippy, {
 } from "tippy.js";
 import debounce from "lodash.debounce";
 import template from "lodash.template";
+import axios from "axios";
 import Cookies from "#lib/cookiesBrowser";
 import i18nLoader from "#build/loaders/i18n-loader-core";
 import pagesLoader from "#build/loaders/page-loader-userspace";
 import Utils from "#lib/componentUtils";
 import routesData from "#build/build.json";
+import contentPage from "#core/content/index.marko";
 
 export default class {
     async loadLanguageData() {
@@ -114,6 +116,17 @@ export default class {
         });
     }
 
+    interceptClickEvent(e) {
+        const target = e.target || e.srcElement;
+        if (target.tagName === "A") {
+            if (!target.getAttribute("route") && target.getAttribute("href").match(/^\//)) {
+                e.preventDefault();
+                // this.onRouteChange(false, target.getAttribute("href"));
+                window.__heretic.router.navigate(target.getAttribute("href"), this.language);
+            }
+        }
+    }
+
     async onMount() {
         window.__heretic = window.__heretic || {};
         window.__heretic.setTippy = debounce(this.setTippy, 100);
@@ -143,6 +156,7 @@ export default class {
                 window.__heretic.viewSettled = true;
             }
         }, 10);
+        document.addEventListener("click", this.interceptClickEvent.bind(this));
     }
 
     getAnimationTimer() {
@@ -188,25 +202,49 @@ export default class {
             }
             this.clearAnimationTimer(timer);
         }
-        if (this.state.routed && !routeData) {
+        if (this.state.routed && (!routeData || !routeData.id)) {
+            await this.utils.waitForLanguageData();
             const timer = this.getAnimationTimer();
+            const contentRenderWrap = document.getElementById("hr_content_render_wrap");
+            contentRenderWrap.innerHTML = "";
+            window.__heretic = window.__heretic || {};
             try {
-                component = await pagesLoader.loadComponent();
-                const renderedComponent = await component.default.render();
-                this.setState("routed", true);
+                try {
+                    const {
+                        data
+                    } = await axios({
+                        method: "post",
+                        url: "/api/content",
+                        data: {
+                            url: router.getLocationData().path,
+                            language: this.language,
+                        },
+                        headers: {},
+                    });
+                    window.__heretic.contentData = data;
+                } catch {
+                    // Ignore
+                }
                 await this.utils.waitForElement("hr_content_render_wrap");
-                const contentRenderWrap = document.getElementById("hr_content_render_wrap");
-                renderedComponent.replaceChildrenOf(contentRenderWrap);
-                this.componentsLoaded["404"] = true;
-                await this.utils.waitForComponent("navbar");
-                const navbarComponent = this.getComponent("navbar");
-                navbarComponent.setRoute();
+                if (window.__heretic.contentData) {
+                    const renderedComponent = await contentPage.render();
+                    renderedComponent.replaceChildrenOf(contentRenderWrap);
+                    this.componentsLoaded[router.getLocationData().path] = true;
+                } else {
+                    component = await pagesLoader.loadComponent();
+                    const renderedComponent = await component.default.render();
+                    renderedComponent.replaceChildrenOf(contentRenderWrap);
+                    this.componentsLoaded["404"] = true;
+                    await this.utils.waitForComponent("navbar");
+                    const navbarComponent = this.getComponent("navbar");
+                    navbarComponent.setRoute();
+                }
+                this.setState("routed", true);
+                this.clearAnimationTimer(timer);
             } catch (e) {
                 this.clearAnimationTimer(timer);
                 this.panicMode(e);
-                return;
             }
-            this.clearAnimationTimer(timer);
         }
     }
 

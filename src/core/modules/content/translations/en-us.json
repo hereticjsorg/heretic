@@ -11,5 +11,9 @@
     "pagePath": "Path",
     "btnSavePage": "Save",
     "btnSavePageAndClose": "Save & Close",
-    "btnCancel": "Cancel"
+    "btnPageCancel": "Close",
+    "edit": "Edit",
+    "delete": "Delete",
+    "loadingError": "Could not load page contents",
+    "saveSuccess": "Saved successfully"
 }

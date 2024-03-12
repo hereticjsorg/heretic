@@ -1,3 +1,6 @@
 const meta = require("./meta.json");
 
-module.exports = meta;
+module.exports = {
+    id: "contentEdit",
+    ...meta,
+};

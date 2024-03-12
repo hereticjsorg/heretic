@@ -99,6 +99,10 @@ export default class {
         }
     }
 
+    setData(data) {
+        this.setState("data", data);
+    }
+
     onErrorMessageClose() {
         this.setState("errorMessage", null);
     }
@@ -223,7 +227,7 @@ export default class {
                 }
                 const resultPasswords = [];
                 for (const id of Object.keys(data[tab])) {
-                    if (this.fieldsFlat[id].type === "password" && data[tab][id] !== this.passwordRepeat[tab][id]) {
+                    if (this.fieldsFlat[id] && this.fieldsFlat[id].type === "password" && data[tab][id] !== this.passwordRepeat[tab][id]) {
                         resultPasswords.push({
                             instancePath: `/${id}`,
                             keyword: "passwordsDoNotMatch",

@@ -1,4 +1,4 @@
-// import axios from "axios";
+import axios from "axios";
 import Utils from "#lib/componentUtils";
 import Query from "#lib/queryBrowser";
 import Cookies from "#lib/cookiesBrowser";
@@ -70,6 +70,14 @@ export default class {
         if (window.__heretic.webSocket) {
             window.__heretic.webSocket.addEventListener("message", this.onWebSocketMessage.bind(this));
         }
+        // Show success notification when required
+        if (window.__heretic.routeExtra) {
+            if (window.__heretic.routeExtra.success) {
+                await this.utils.waitForComponent(`notify_${pageConfig.id}`);
+                this.getComponent(`notify_${pageConfig.id}`).show(window.__heretic.t("saveSuccess"), "is-success");
+            }
+            window.__heretic.routeExtra = {};
+        }
     }
 
     async onTopButtonClick(id) {
@@ -78,19 +86,46 @@ export default class {
             const options = {
                 ...this.query.getStore(),
             };
-            options[`mode_${moduleConfig.id}Form`] = "edit";
+            options[`mode_${pageConfig.id}Form`] = "edit";
             window.__heretic.router.navigate(`${moduleConfig.id}_edit`, this.language, options);
             break;
         }
     }
 
     async onActionButtonClick(data) {
+        this.utils.waitForComponent(`notify_${pageConfig.id}`);
+        const notify = this.getComponent(`notify_${pageConfig.id}`);
+        this.utils.waitForComponent(`${pageConfig.id}List`);
+        const table = this.getComponent(`${pageConfig.id}List`);
         switch (data.buttonId) {
         case "edit":
-            await this.utils.waitForComponent(`${pageConfig.id}List`);
-            const table = this.getComponent(`${pageConfig.id}List`);
-            table.setLoading(true);
-            this.setState("currentId", data.itemId);
+            try {
+                table.setLoading(true);
+                const response = await axios({
+                    method: "post",
+                    url: `/api/${moduleConfig.id}/lock/check`,
+                    data: {
+                        id: data.itemId,
+                    },
+                    headers: this.state.headers,
+                });
+                if (response.data.lock) {
+                    notify.show(`${window.__heretic.t("lockedBy")}: ${response.data.lock.username}`, "is-danger");
+                    return;
+                }
+            } catch {
+                notify.show(window.__heretic.t("couldNotLoadLockData"), "is-danger");
+                return;
+            } finally {
+                table.setLoading(false);
+            }
+            this.query.buildStore();
+            const options = {
+                ...this.query.getStore(),
+                id: data.itemId,
+            };
+            options[`mode_${pageConfig.id}Form`] = "view";
+            window.__heretic.router.navigate(`${moduleConfig.id}_edit`, this.language, options);
             break;
         }
     }
@@ -106,10 +141,6 @@ export default class {
 
     onFormSubmit() {
         //
-    }
-
-    async onSaveSuccess() {
-        this.getComponent(`notify_${pageConfig.id}List`).show(window.__heretic.t("saveSuccess"), "is-success");
     }
 
     sendLockAction(action) {

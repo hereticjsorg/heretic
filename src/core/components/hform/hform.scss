@@ -41,6 +41,16 @@ html.heretic-dark .hr-hf-area {
     border: 1px solid transparent;
 }
 
+html.heretic-dark .hr-hf-tab {
+    border-width: 0px;
+    background: $heretic-dark-grey-darker;
+    color: $white;
+}
+
+html.heretic-dark .hr-hf-tab-active {
+    background-color: lighten($heretic-dark-grey-darker, 15%);
+}
+
 .hr-hf-f-area-label-wrap {
     margin-top: -24px;
     display: flex;

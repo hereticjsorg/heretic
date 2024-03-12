@@ -1,5 +1,6 @@
 import FormData from "../../data/contentForm"
-import moduleConfig from "../../module.js"
+// import moduleConfig from "../../module.js"
+import pageConfig from "../page.js"
 
 $ {
     const formData = new FormData(process.browser && window.__heretic ? window.__heretic.t : out.global.t);
@@ -7,8 +8,8 @@ $ {
 }
 <if(state.ready && component.mongoEnabled)>
     <hadmin-title admin=true title=(process.browser && window.__heretic ? window.__heretic.t("moduleTitleContent") : null)/>
-    <hflextable admin=true admin=true key=`${moduleConfig.id}List` id=`${moduleConfig.id}List` data=(new FormData(process.browser && window.__heretic ? window.__heretic.t : out.global.t)) on-top-button-click("onTopButtonClick") on-action-button-click("onActionButtonClick") on-unauthorized("onUnauthorized") autoLoad=true queryString=true headers=state.headers on-load-complete("onLoadComplete")/>
-    <hnotify admin=true key=`notify_${moduleConfig.id}List`/>
+    <hflextable admin=true admin=true key=`${pageConfig.id}List` id=`${pageConfig.id}List` data=(new FormData(process.browser && window.__heretic ? window.__heretic.t : out.global.t)) on-top-button-click("onTopButtonClick") on-action-button-click("onActionButtonClick") on-unauthorized("onUnauthorized") autoLoad=true queryString=true headers=state.headers on-load-complete("onLoadComplete")/>
+    <hnotify admin=true key=`notify_${pageConfig.id}`/>
 </if>
 <if(!state.ready && !state.failed && component.mongoEnabled)>
     <!-- <hloading admin=true active=true/> -->

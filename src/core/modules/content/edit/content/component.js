@@ -12,6 +12,7 @@ export default class {
             ready: !process.browser,
             loadingError: false,
             editorContent: {},
+            loading: false,
         };
         const editorContent = {};
         for (const k of Object.keys(languages)) {
@@ -80,14 +81,16 @@ export default class {
         await this.utils.waitForComponent(`${moduleConfig.id}Form`);
         const editForm = this.getComponent(`${moduleConfig.id}Form`);
         if (formData) {
-            editForm.deserializeData(formData);
+            editForm.setData(formData.item);
+            editForm.deserializeData(formData.item);
             if (editForm.getMode() === "edit" && this.currentId) {
                 this.sendLockAction("lock");
                 this.startLockMessaging();
             }
         }
         if (id) {
-            editForm.setTitle(`${window.__heretic.t("editPage")}: ${formData._default.id}`);
+            editForm.setTitle(`${window.__heretic.t("editPage")}: ${formData.title}`);
+            this.setState("editorContent", formData.content);
         } else {
             editForm.setTitle(window.__heretic.t("newPage"));
         }
@@ -107,9 +110,19 @@ export default class {
         }
         await this.loadFormData(id);
         const EditorJS = (await import("@editorjs/editorjs")).default;
+        const Header = (await import("@editorjs/header")).default;
         await this.utils.waitForElement("editorjs");
         this.editor = new EditorJS({
             holder: "editorjs",
+            tools: {
+                header: Header,
+            },
+            onReady: async () => {
+                if (id) {
+                    const editForm = this.getComponent(`${moduleConfig.id}Form`);
+                    this.editor.render(this.state.editorContent[editForm.getActiveTab()]);
+                }
+            }
         });
         setTimeout(() => this.getComponent(`${moduleConfig.id}Form`).focus());
     }
@@ -155,11 +168,16 @@ export default class {
         if (!serializedData) {
             return;
         }
+        const {
+            editorContent,
+        } = this.state;
+        editorContent[editForm.getActiveTab()] = await this.editor.save();
+        this.setState("editorContent", editorContent);
         const data = new FormData();
         data.append("tabs", JSON.stringify(serializedData.tabs));
         data.append("formTabs", JSON.stringify(serializedData.formTabs));
         data.append("formShared", JSON.stringify(serializedData.formShared));
-        data.append("editorContent", JSON.stringify(this.state.editorContent));
+        data.append("editorContent", JSON.stringify(editorContent));
         if (this.currentId) {
             data.append("id", this.currentId);
         }
@@ -169,6 +187,7 @@ export default class {
         editForm.setErrorMessage(null);
         editForm.setErrors(null);
         editForm.setLoading(true);
+        this.setState("loading", true);
         try {
             const submitResult = await axios({
                 method: "post",
@@ -184,9 +203,9 @@ export default class {
                 result.insertedId = submitResult.data.insertedId;
             }
             const {
-                id,
+                title,
             } = submitResult.data;
-            editForm.setTitle(`${window.__heretic.t("editRecord")}: ${id}`);
+            editForm.setTitle(`${window.__heretic.t("editPage")}: ${title}`);
             this.startLockMessaging();
             return result;
         } catch (e) {
@@ -203,46 +222,46 @@ export default class {
             editForm.setErrorMessage(message || this.t("hform_error_general"));
         } finally {
             editForm.setLoading(false);
+            this.setState("loading", false);
         }
         return false;
     }
 
+    closeForm(success = false) {
+        const queryStore = this.query.getStore();
+        delete queryStore.id;
+        window.__heretic.router.navigate(`${moduleConfig.id}_list`, this.language, queryStore, {
+            success,
+        });
+    }
+
     onButtonClick(btn) {
+        if (this.state.loading) {
+            return;
+        }
         switch (btn.id) {
         case "close":
-            const queryStore = this.query.getStore();
-            delete queryStore.id;
-            window.__heretic.router.navigate(`${moduleConfig.id}_list`, this.language, queryStore);
+            this.closeForm();
             break;
-        default:
-            this.saveClose = btn.id === "saveClose";
         }
     }
 
     async onFormSubmit() {
+        if (this.state.loading) {
+            return;
+        }
         const submitResult = await this.submitForm();
         if (!submitResult) {
             return;
         }
-        if (this.saveClose) {
-            const queryStore = this.query.getStore();
-            delete queryStore.id;
-            window.__heretic.router.navigate(`${moduleConfig.id}_list`, this.language, queryStore, {
-                success: true
-            });
-        } else {
-            await this.utils.waitForComponent(`notify_${moduleConfig.id}Edit`);
-            this.getComponent(`notify_${moduleConfig.id}Edit`).show(window.__heretic.t("saveSuccess"), "is-success");
-            if (submitResult.insertedId) {
-                this.currentId = submitResult.insertedId;
-                this.query.set("id", submitResult.insertedId);
-                this.sendLockAction("lock");
-                this.startLockMessaging();
-            }
-        }
+        await this.utils.waitForComponent(`notify_${pageConfig.id}`);
+        this.getComponent(`notify_${pageConfig.id}`).show(window.__heretic.t("saveSuccess"), "is-success");
     }
 
     onCancelClick() {
+        if (this.state.loading) {
+            return;
+        }
         const queryStore = this.query.getStore();
         delete queryStore.id;
         window.__heretic.router.navigate(`${moduleConfig.id}_list`, this.language, queryStore, {});
@@ -257,6 +276,9 @@ export default class {
     }
 
     async onTabClick(tabData) {
+        if (this.state.loading) {
+            return;
+        }
         const {
             editorContent,
         } = this.state;
@@ -265,6 +287,21 @@ export default class {
             await this.editor.render(editorContent[tabData.current]);
         } else {
             await this.editor.clear();
+        }
+    }
+
+    async onSaveAndCloseClick(e) {
+        e.preventDefault();
+        if (await this.submitForm()) {
+            this.closeForm(true);
+        }
+    }
+
+    async onSaveClick(e) {
+        e.preventDefault();
+        if (await this.submitForm()) {
+            await this.utils.waitForComponent(`notify_${pageConfig.id}`);
+            this.getComponent(`notify_${pageConfig.id}`).show(window.__heretic.t("saveSuccess"), "is-success");
         }
     }
 }

@@ -1,19 +1,31 @@
 import FormData from "../../data/contentForm"
 import moduleConfig from "../../module.js"
+import pageConfig from "../page.js"
 
 <if(state.ready)>
     <hadmin-title admin=true title=(process.browser && window.__heretic ? window.__heretic.t("moduleTitleEdit") : null)/>
     $ const formData = new FormData(process.browser && window.__heretic ? window.__heretic.t : out.global.t);
     <hform key=`${moduleConfig.id}Form` id=`${moduleConfig.id}Form` data=formData on-button-click("onButtonClick") on-form-submit("onFormSubmit") on-value-change("onFormValueChange") tabs=formData.getTabs() on-tab-click("onTabClick")/>
-    <div class="card">
+    <div class="card hr-hc-editor-wrap">
         <div id="editorjs" class="card-content" no-update/>
+        <if(state.loading)>
+            <div class="hr-hc-editor-spinner">
+                <hloading-dots admin=true/>
+            </div>
+        </if>
     </div>
     <div class="buttons mt-4">
-        <div class="button is-primary" on-click("submitForm")><t>btnSavePage</t></div>
-        <div class="button is-primary"><t>btnSavePageAndClose</t></div>
-        <div class="button is-light" on-click("onCancelClick")><t>btnCancel</t></div>
+        <div class="button is-primary" on-click("onSaveClick") disabled=state.loading>
+            <t>btnSavePage</t>
+        </div>
+        <div class="button is-primary" on-click("onSaveAndCloseClick") disabled=state.loading>
+            <t>btnSavePageAndClose</t>
+        </div>
+        <div class="button is-light" on-click("onCancelClick") disabled=state.loading>
+            <t>btnPageCancel</t>
+        </div>
     </div>
-    <hnotify key=`notify_${moduleConfig.id}Edit`/>
+    <hnotify key=`notify_${pageConfig.id}`/>
 </if>
 <if(state.loadingError)>
     <div class="notification is-danger">

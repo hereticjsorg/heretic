@@ -49,7 +49,7 @@ export default class {
                             maxLength: 32,
                         },
                         minItems: 0,
-                        uniqueItems: true,
+                        uniqueItems: false,
                     },
                     sortable: false,
                     searchable: false,
