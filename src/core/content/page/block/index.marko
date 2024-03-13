@@ -1,5 +1,27 @@
-<!-- Paragraph -->
+<!-- Start: Paragraph -->
 <if(input.item.type === "paragraph")>
     <p>$!{input.item.data.text}</p>
 </if>
-<!-- Paragraph -->
+<!-- End: Paragraph -->
+<!-- Start: Header -->
+<if(input.item.type === "header")>
+    <if(input.item.data.level === 1)>
+        <h1 class="title is-1">${input.item.data.text}</h1>
+    </if>
+    <if(input.item.data.level === 2)>
+        <h2 class="title is-2">${input.item.data.text}</h2>
+    </if>
+    <if(input.item.data.level === 3)>
+        <h3 class="title is-3">${input.item.data.text}</h3>
+    </if>
+    <if(input.item.data.level === 4)>
+        <h4 class="title is-4">${input.item.data.text}</h4>
+    </if>
+    <if(input.item.data.level === 5)>
+        <h5 class="title is-4">${input.item.data.text}</h5>
+    </if>
+    <if(input.item.data.level === 6)>
+        <h6 class="title is-6">${input.item.data.text}</h6>
+    </if>
+</if>
+<!-- End: Header -->

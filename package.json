@@ -66,7 +66,7 @@
         "@mdi/js": "^7.4.47",
         "@types/command-line-args": "^5.2.3",
         "@types/lodash.template": "^4.5.3",
-        "@types/node": "^20.11.26",
+        "@types/node": "^20.11.27",
         "@types/uuid": "^9.0.8",
         "@types/webpack-env": "^1.18.4",
         "@typescript-eslint/eslint-plugin": "^7.2.0",
@@ -102,7 +102,7 @@
         "html-to-text": "^9.0.5",
         "ignore-loader": "^0.1.2",
         "imask": "^7.5.0",
-        "inquirer": "^9.2.15",
+        "inquirer": "^9.2.16",
         "ioredis": "^5.3.2",
         "ip-num": "^1.5.1",
         "jest": "^29.7.0",
@@ -147,7 +147,7 @@
         "fastify": "^4.26.2",
         "mongodb": "^6.5.0",
         "sharp": "^0.33.2",
-        "systeminformation": "^5.22.0",
+        "systeminformation": "^5.22.1",
         "telegraf": "^4.16.3"
     }
 }
