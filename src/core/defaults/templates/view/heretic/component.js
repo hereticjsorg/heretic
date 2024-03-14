@@ -39,6 +39,7 @@ export default class {
             route: null,
             languageLoaded: false,
             routed: false,
+            contentData: out.global.contentData || null,
         };
         this.componentsLoaded = {};
         this.language = out.global.language;
@@ -118,11 +119,13 @@ export default class {
 
     interceptClickEvent(e) {
         const target = e.target || e.srcElement;
-        if (target.tagName === "A") {
-            if (!target.getAttribute("route") && target.getAttribute("href").match(/^\//)) {
+        if (!window.__heretic.routingStop && target.tagName === "A") {
+            let url = target.getAttribute("href");
+            if (!target.getAttribute("route") && url && url.match(/^\//)) {
                 e.preventDefault();
-                // this.onRouteChange(false, target.getAttribute("href"));
-                window.__heretic.router.navigate(target.getAttribute("href"), this.language);
+                const re = new RegExp(`^\\/${this.language}`, "gm");
+                url = url.replace(re, "");
+                window.__heretic.router.navigate(url, this.language);
             }
         }
     }
@@ -172,6 +175,7 @@ export default class {
     }
 
     async onRouteChange(router) {
+        window.__heretic = window.__heretic || {};
         let component = null;
         const route = router.getRoute();
         const routeData = routesData.routes.userspace.find(r => r.id === route.id) || null;
@@ -207,30 +211,49 @@ export default class {
             const timer = this.getAnimationTimer();
             const contentRenderWrap = document.getElementById("hr_content_render_wrap");
             contentRenderWrap.innerHTML = "";
-            window.__heretic = window.__heretic || {};
             try {
-                try {
-                    const {
-                        data
-                    } = await axios({
-                        method: "post",
-                        url: "/api/content",
-                        data: {
-                            url: router.getLocationData().path,
-                            language: this.language,
-                        },
-                        headers: {},
-                    });
-                    window.__heretic.contentData = data;
-                } catch {
-                    // Ignore
+                if (router.getLocationData().path === this.serverRoute && this.state.contentData) {
+                    window.__heretic.contentData = this.state.contentData;
+                    this.setState("contentData", null);
+                } else {
+                    try {
+                        const {
+                            data
+                        } = await axios({
+                            method: "post",
+                            url: "/api/content",
+                            data: {
+                                url: router.getLocationData().path,
+                                language: this.language,
+                            },
+                            headers: {},
+                        });
+                        window.__heretic.contentData = data;
+                    } catch {
+                        // Ignore
+                    }
                 }
                 await this.utils.waitForElement("hr_content_render_wrap");
                 if (window.__heretic.contentData) {
                     const renderedComponent = await contentPage.render();
                     renderedComponent.replaceChildrenOf(contentRenderWrap);
-                    this.componentsLoaded[router.getLocationData().path] = true;
+                    window.__heretic.contentData = null;
                 } else {
+                    try {
+                        const {
+                            pathname
+                        } = new URL(window.location.href.replace(window.location.search, ""));
+                        await axios({
+                            method: "get",
+                            url: pathname,
+                            headers: {},
+                        });
+                        window.__heretic.router.pushState({}, window.title, pathname);
+                        window.location.href = pathname;
+                        return;
+                    } catch {
+                        // Ignore
+                    }
                     component = await pagesLoader.loadComponent();
                     const renderedComponent = await component.default.render();
                     renderedComponent.replaceChildrenOf(contentRenderWrap);

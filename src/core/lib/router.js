@@ -178,6 +178,10 @@ module.exports = class {
                 routeItem.path = "";
             }
         }
+        for (const lang of this.languages) {
+            const re = new RegExp(`^\\/${lang}`, "gm");
+            routeItem.path = routeItem.path.replace(re, "");
+        }
         const lang = language === this.languages[0] ? "" : language;
         const url = `/${[lang, ...routeItem.path.split(/\//)].filter(i => i).join("/")}`;
         let queryString = "";
@@ -192,7 +196,7 @@ module.exports = class {
         this.route = this.getLocationData();
         window.__heretic.routeExtra = extra;
         if (this.routeChangeHandler) {
-            this.routeChangeHandler(this, extra);
+            this.routeChangeHandler(this, extra, url);
         }
     }
 };
