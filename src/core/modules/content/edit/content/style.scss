@@ -17,13 +17,21 @@
     align-items: center;
 }
 
+html.heretic-dark .cdx-search-field__input {
+    color: #fff;
+}
+
+html.heretic-dark .ce-popover-item:hover {
+    background-color: #050505 !important;
+}
+
 html.heretic-dark .cdx-block,
 html.heretic-dark .ce-header,
 html.heretic-dark .inlineToolButton,
 html.heretic-dark .ce-toolbar__plus,
 html.heretic-dark .ce-toolbar__settings-btn,
 html.heretic-dark .ce-popover__search {
-    background-color: #2b2b2b;
+    background-color: lighten($heretic-dark-grey-dark, 6%);
     color: white;
 }
 
@@ -36,7 +44,12 @@ html.heretic-dark .cdx-button {
 }
 
 html.heretic-dark .cdx-button:hover {
-    background-color: #2f2f2f;
+    background-color: #262626;
+}
+
+.ce-header {
+    font-size: 120%;
+    font-weight: 700;
 }
 
 html.heretic-dark .ce-popover,

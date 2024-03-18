@@ -111,13 +111,40 @@ export default class {
         await this.loadFormData(id);
         const EditorJS = (await import("@editorjs/editorjs")).default;
         const Header = (await import("@editorjs/header")).default;
+        const ImageTool = (await import("@editorjs/image")).default;
+        const DragDrop = (await import("editorjs-drag-drop")).default;
+        const Quote = (await import("@editorjs/quote")).default;
+        const Warning = (await import("@editorjs/warning")).default;
+        const List = (await import("@editorjs/list")).default;
+        const ChangeCase = (await import("editorjs-change-case")).default;
+        const RawTool = (await import("@editorjs/raw")).default;
+        const Table = (await import("@editorjs/table")).default;
         await this.utils.waitForElement("editorjs");
         this.editor = new EditorJS({
             holder: "editorjs",
             tools: {
                 header: Header,
+                quote: Quote,
+                warning: Warning,
+                list: List,
+                changeCase: ChangeCase,
+                rawTool: RawTool,
+                table: Table,
+                image: {
+                    class: ImageTool,
+                    config: {
+                        endpoints: {
+                            byFile: "/api/admin/upload/image",
+                            // byUrl: "http://localhost:8008/fetchUrl",
+                        },
+                        additionalRequestHeaders: {
+                            Authorization: `Bearer ${this.currentToken}`,
+                        },
+                    }
+                },
             },
             onReady: async () => {
+                new DragDrop(this.editor);
                 if (id) {
                     const editForm = this.getComponent(`${moduleConfig.id}Form`);
                     this.editor.render(this.state.editorContent[editForm.getActiveTab()]);
