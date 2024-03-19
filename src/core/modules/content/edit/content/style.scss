@@ -17,6 +17,10 @@
     align-items: center;
 }
 
+html.heretic-dark .hr-hc-editor-spinner {
+    background-color: rgba($heretic-theme-loading-background-color-dark, 0.5);
+}
+
 html.heretic-dark .cdx-search-field__input {
     color: #fff;
 }

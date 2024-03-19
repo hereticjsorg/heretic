@@ -119,6 +119,8 @@ export default class {
         const ChangeCase = (await import("editorjs-change-case")).default;
         const RawTool = (await import("@editorjs/raw")).default;
         const Table = (await import("@editorjs/table")).default;
+        const Delimiter = (await import("@editorjs/delimiter")).default;
+        const CodeTool = (await import("@rxpm/editor-js-code")).default;
         await this.utils.waitForElement("editorjs");
         this.editor = new EditorJS({
             holder: "editorjs",
@@ -130,6 +132,20 @@ export default class {
                 changeCase: ChangeCase,
                 rawTool: RawTool,
                 table: Table,
+                delimiter: Delimiter,
+                code: {
+                    class: CodeTool,
+                    config: {
+                        modes: {
+                            js: "JavaScript",
+                            py: "Python",
+                            go: "Go",
+                            cpp: "C++",
+                            cs: "C#",
+                            md: "Markdown",
+                        },
+                    }
+                },
                 image: {
                     class: ImageTool,
                     config: {

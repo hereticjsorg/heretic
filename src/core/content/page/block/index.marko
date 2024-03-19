@@ -25,3 +25,24 @@
     </if>
 </if>
 <!-- End: Header -->
+<!-- Start: List -->
+<if(input.item.type === "list")>
+    <div type="content">
+        <${input.item.data.style === "ordered" ? "ol" : "ul"} class="ml-5 mt-2 hr-ct-ul">
+            <for|i| of=input.item.data.items>
+                <li>${i}</li>
+            </for>
+        </>
+    </div>
+</if>
+<!-- End: List -->
+<!-- Start: Image -->
+<if(input.item.type === "image")>
+    <div class=`mt-2 mb-2 hr-ct-img-wrap`>
+        <img src=input.item.data.file.url/>
+        <if(input.item.data.caption)>
+            <span class="hr-ct-img-caption">${input.item.data.caption}</span>
+        </if>
+    </div>
+</if>
+<!-- End: Image -->
