@@ -28,4 +28,7 @@
 }, {
     "from": "../../core/defaults/config/languages.json",
     "to": "../../../site/etc/languages.json"
+}, {
+    "from": "../../core/defaults/content",
+    "to": "../../../site/content"
 }]

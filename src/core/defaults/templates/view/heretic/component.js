@@ -10,7 +10,7 @@ import i18nLoader from "#build/loaders/i18n-loader-core";
 import pagesLoader from "#build/loaders/page-loader-userspace";
 import Utils from "#lib/componentUtils";
 import routesData from "#build/build.json";
-import contentPage from "#core/content/index.marko";
+import contentPage from "#site/content/index.marko";
 
 export default class {
     async loadLanguageData() {
@@ -248,7 +248,6 @@ export default class {
                             url: pathname,
                             headers: {},
                         });
-                        window.__heretic.router.pushState({}, window.title, pathname);
                         window.location.href = pathname;
                         return;
                     } catch {
