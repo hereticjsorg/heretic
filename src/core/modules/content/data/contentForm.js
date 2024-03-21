@@ -31,8 +31,7 @@ export default class {
                     helpText: this.t("pageTitleHelpText"),
                     createIndex: true,
                     autoFocus: true,
-                    width: "auto",
-                    minWidth: 200,
+                    width: 250,
                 }, {
                     id: "pagePath",
                     type: "tags",
@@ -60,7 +59,16 @@ export default class {
                     enumOnly: false,
                     enumButton: false,
                     enumDropdown: false,
-                    width: 180,
+                }, {
+                    id: "pagePathText",
+                    type: "column",
+                    label: this.t("pagePath"),
+                    sortable: true,
+                    searchable: true,
+                    column: true,
+                    createIndex: true,
+                    width: "auto",
+                    minWidth: 200,
                 }]],
             }],
         };

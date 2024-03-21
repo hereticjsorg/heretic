@@ -15,5 +15,6 @@
     "edit": "Edit",
     "delete": "Delete",
     "loadingError": "Could not load page contents",
-    "saveSuccess": "Saved successfully"
+    "saveSuccess": "Saved successfully",
+    "duplicateRecord": "Path already exists"
 }

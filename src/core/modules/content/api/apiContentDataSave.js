@@ -53,8 +53,19 @@ export default () => ({
                     data[k].content = editorContent[k];
                 }
             }
+            data.pagePath = data.pagePath || [];
             data.pagePathHash = createHash("sha256").update(data.pagePath.join("/")).digest("base64");
+            data.pagePathText = `/${data.pagePath.join("/")}`;
+            const duplicateRecord = await collection.findOne({
+                pagePathHash: data.pagePathHash,
+            });
             if (data._id) {
+                if (duplicateRecord && String(duplicateRecord._id) !== String(data._id)) {
+                    return rep.error({
+                        duplicate: true,
+                        message: "duplicateRecord",
+                    });
+                }
                 const existingRecord = await collection.findOne({
                     _id: data._id,
                 });
@@ -70,6 +81,11 @@ export default () => ({
                     await formValidator.saveFiles(dataId, String(data._id));
                 }
             } else if (!this.systemConfig.demo) {
+                if (duplicateRecord) {
+                    return rep.error({
+                        duplicate: true,
+                    });
+                }
                 const insertResult = await collection.insertOne({
                     ...data,
                 });
