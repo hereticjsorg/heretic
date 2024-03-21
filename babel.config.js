@@ -12,7 +12,12 @@ module.exports = api => {
             ["@babel/transform-runtime", {
                 regenerator: true,
                 useESModules: true,
-            }]
+            }],
+            ["prismjs", {
+                languages: ["javascript", "css", "c", "cpp", "csharp", "markup", "html", "dart", "typescript", "perl", "php", "sql", "json", "java"],
+                plugins: ["line-numbers"],
+                css: false,
+            }],
         ],
         presets: [
             [
