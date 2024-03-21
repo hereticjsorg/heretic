@@ -1,3 +1,7 @@
+import Prism from "prismjs"
+import "prismjs/plugins/custom-class/prism-custom-class"
+
+$ Prism.plugins.customClass.map({ number: "prism-number", tag: "prism-tag" });
 <!-- Start: Paragraph -->
 <if(input.item.type === "paragraph")>
     <p>$!{input.item.data.text}</p>
@@ -38,11 +42,16 @@
 <!-- End: List -->
 <!-- Start: Image -->
 <if(input.item.type === "image")>
-    <div class=`mt-2 mb-2 hr-ct-img-wrap`>
-        <img src=input.item.data.file.url/>
+    <div class=`mt-2 mb-2 hr-ct-img-wrap${input.item.data.stretched ? "" : " hr-ct-img-no-stretch"}`>
+        <img src=input.item.data.file.url class=`${input.item.data.withBorder ? "hr-ct-img-border" : ""}`/>
         <if(input.item.data.caption)>
-            <span class="hr-ct-img-caption">${input.item.data.caption}</span>
+            <div class="hr-ct-img-caption">${input.item.data.caption}</div>
         </if>
     </div>
 </if>
 <!-- End: Image -->
+<!-- Start: Code -->
+<if(input.item.type === "code")>
+    <pre class="hr-ct-pre"><code class=`language-${input.item.data.mode}`>$!{Prism.highlight(input.item.data.code, Prism.languages[input.item.data.mode], input.item.data.mode)}</code></pre>
+</if>
+<!-- End: Code -->

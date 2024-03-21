@@ -1,9 +1,35 @@
+@import "~view/variables.scss";
+@import "./prism.scss";
+
 .hr-ct-ul {
     list-style-type: disc;
 }
 
 .hr-ct-img-wrap {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
+}
+
+.hr-ct-img-caption {
+    text-align: center;
+    font-size: 80%;
+}
+
+.hr-ct-img-border {
+    border: 1px solid $grey-lighter;
+    border-radius: $radius;
+}
+
+html.heretic-dark .hr-ct-img-border {
+    border: 1px solid $grey;
+}
+
+.hr-ct-img-no-stretch {
+    display: inline-block
+}
+
+html.heretic-dark .hr-ct-pre {
+    background: $grey-dark;
+    border-radius: $radius;
 }
