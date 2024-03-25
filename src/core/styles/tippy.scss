@@ -8,8 +8,8 @@
 
 .tippy-box {
     position: relative;
-    background-color: $heretic-light-tippy-background-color;
-    color: $heretic-light-tippy-text-color;
+    background-color: $theme-light-tippy-background-color;
+    color: $theme-light-tippy-text-color;
     border-radius: 4px;
     font-size: 14px;
     line-height: 1.4;
@@ -71,7 +71,7 @@
 .tippy-arrow {
     width: 16px;
     height: 16px;
-    color: $heretic-light-tippy-background-color;
+    color: $theme-light-tippy-background-color;
 }
 
 .tippy-arrow:before {
@@ -87,11 +87,11 @@
     z-index: 1;
 }
 
-html.heretic-dark .tippy-box {
-    background-color: $heretic-dark-tippy-background-color;
-    color: $heretic-dark-tippy-text-color;
+html.theme-dark .tippy-box {
+    background-color: $theme-dark-tippy-background-color;
+    color: $theme-dark-tippy-text-color;
 }
 
-html.heretic-dark .tippy-arrow {
-    color: $heretic-dark-tippy-background-color;
+html.theme-dark .tippy-arrow {
+    color: $theme-dark-tippy-background-color;
 }

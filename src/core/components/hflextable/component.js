@@ -189,7 +189,7 @@ export default class {
             const spacerColumnElements = document.querySelectorAll(`[data-hf-spacer='${this.input.id}']`);
             const rowElements = document.querySelectorAll(`[data-hf-row='${this.input.id}']`);
             const headElements = document.querySelectorAll(`[data-hf-head='${this.input.id}']`);
-            const actionsWidth = (this.state.actions.length * 30) + ((this.state.actions.length - 1) * 2) + 17;
+            const actionsWidth = (this.state.actions.length * 31) + ((this.state.actions.length - 1) * 2) + 17;
             // Scrollbar is visible
             if (wrap.scrollWidth > width && window.innerWidth > 768) {
                 for (const el of actionColumnElements) {

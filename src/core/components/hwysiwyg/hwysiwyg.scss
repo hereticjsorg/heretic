@@ -7,8 +7,8 @@
     flex-direction: column;
 }
 
-html.heretic-dark .hr-wy-wrap {
-    border: 1px solid darken($heretic-dark-grey, 20%);
+html.theme-dark .hr-wy-wrap {
+    border: 1px solid darken($theme-dark-grey, 20%);
 }
 
 .hr-wy-controls {
@@ -17,9 +17,9 @@ html.heretic-dark .hr-wy-wrap {
     border-bottom: 1px solid $grey-lighter;
 }
 
-html.heretic-dark .hr-wy-controls {
-    border-bottom: 1px solid darken($heretic-dark-grey, 20%);
-    background: darken($heretic-dark-grey-dark, 20%);
+html.theme-dark .hr-wy-controls {
+    border-bottom: 1px solid darken($theme-dark-grey, 20%);
+    background: darken($theme-dark-grey-dark, 20%);
 }
 
 .hr-wy-editor {
@@ -32,8 +32,8 @@ html.heretic-dark .hr-wy-controls {
     overflow: auto;
 }
 
-html.heretic-dark .hr-wy-editor {
-    background: $heretic-dark-grey-dark;
+html.theme-dark .hr-wy-editor {
+    background: $theme-dark-grey-dark;
 }
 
 .hr-wy-control-button {
@@ -52,16 +52,16 @@ html.heretic-dark .hr-wy-editor {
     margin-top: 1px;
 }
 
-html.heretic-dark .hr-wy-control-button {
-    background: lighten($heretic-dark-grey, 20%);
+html.theme-dark .hr-wy-control-button {
+    background: lighten($theme-dark-grey, 20%);
 }
 
 .hr-wy-control-button:hover {
     background: $grey-lightest;
 }
 
-html.heretic-dark .hr-wy-control-button:hover {
-    background: lighten($heretic-dark-grey, 25%);
+html.theme-dark .hr-wy-control-button:hover {
+    background: lighten($theme-dark-grey, 25%);
 }
 
 .hr-wy-control-button-selected {

@@ -140,8 +140,8 @@ pre[class*="language-"] {
 
 // Dark Theme
 
-html.heretic-dark code[class*="language-"],
-html.heretic-dark pre[class*="language-"] {
+html.theme-dark code[class*="language-"],
+html.theme-dark pre[class*="language-"] {
     color: white;
     background: none;
     text-shadow: 0 -.1em .2em black;
@@ -164,18 +164,18 @@ html.heretic-dark pre[class*="language-"] {
 
 @media print {
 
-    html.heretic-dark code[class*="language-"],
-    html.heretic-dark pre[class*="language-"] {
+    html.theme-dark code[class*="language-"],
+    html.theme-dark pre[class*="language-"] {
         text-shadow: none;
     }
 }
 
-html.heretic-dark pre[class*="language-"],
-html.heretic-dark:not(pre)>code[class*="language-"] {
+html.theme-dark pre[class*="language-"],
+html.theme-dark:not(pre)>code[class*="language-"] {
     background: hsl(30, 20%, 25%);
 }
 
-html.heretic-dark pre[class*="language-"] {
+html.theme-dark pre[class*="language-"] {
     padding: 1em;
     margin: .5em 0;
     overflow: auto;
@@ -184,7 +184,7 @@ html.heretic-dark pre[class*="language-"] {
     box-shadow: 1px 1px .5em black inset;
 }
 
-html.heretic-dark:not(pre)>code[class*="language-"] {
+html.theme-dark:not(pre)>code[class*="language-"] {
     padding: .15em .2em .05em;
     border-radius: .3em;
     border: .13em solid hsl(30, 20%, 40%);
@@ -192,72 +192,72 @@ html.heretic-dark:not(pre)>code[class*="language-"] {
     white-space: normal;
 }
 
-html.heretic-dark .token.comment,
-html.heretic-dark .token.prolog,
-html.heretic-dark .token.doctype,
-html.heretic-dark .token.cdata {
+html.theme-dark .token.comment,
+html.theme-dark .token.prolog,
+html.theme-dark .token.doctype,
+html.theme-dark .token.cdata {
     color: hsl(30, 20%, 50%);
 }
 
-html.heretic-dark .token.punctuation {
+html.theme-dark .token.punctuation {
     opacity: .7;
 }
 
-html.heretic-dark .token.namespace {
+html.theme-dark .token.namespace {
     opacity: .7;
 }
 
-html.heretic-dark .token.property,
-html.heretic-dark .token.prism-tag,
-html.heretic-dark .token.boolean,
-html.heretic-dark .token.number,
-html.heretic-dark .token.constant,
-html.heretic-dark .token.symbol {
+html.theme-dark .token.property,
+html.theme-dark .token.prism-tag,
+html.theme-dark .token.boolean,
+html.theme-dark .token.number,
+html.theme-dark .token.constant,
+html.theme-dark .token.symbol {
     color: hsl(350, 40%, 70%);
 }
 
-html.heretic-dark .token.selector,
-html.heretic-dark .token.attr-name,
-html.heretic-dark .token.string,
-html.heretic-dark .token.char,
-html.heretic-dark .token.builtin,
-html.heretic-dark .token.inserted {
+html.theme-dark .token.selector,
+html.theme-dark .token.attr-name,
+html.theme-dark .token.string,
+html.theme-dark .token.char,
+html.theme-dark .token.builtin,
+html.theme-dark .token.inserted {
     color: hsl(75, 70%, 60%);
 }
 
-html.heretic-dark .token.operator,
-html.heretic-dark .token.entity,
-html.heretic-dark .token.url,
-html.heretic-dark .language-css .token.string,
-html.heretic-dark .style .token.string,
-html.heretic-dark .token.variable {
+html.theme-dark .token.operator,
+html.theme-dark .token.entity,
+html.theme-dark .token.url,
+html.theme-dark .language-css .token.string,
+html.theme-dark .style .token.string,
+html.theme-dark .token.variable {
     color: hsl(40, 90%, 60%);
 }
 
-html.heretic-dark .token.atrule,
-html.heretic-dark .token.attr-value,
-html.heretic-dark .token.keyword {
+html.theme-dark .token.atrule,
+html.theme-dark .token.attr-value,
+html.theme-dark .token.keyword {
     color: hsl(350, 40%, 70%);
 }
 
-html.heretic-dark .token.regex,
-html.heretic-dark .token.important {
+html.theme-dark .token.regex,
+html.theme-dark .token.important {
     color: #e90;
 }
 
-html.heretic-dark .token.important,
-html.heretic-dark .token.bold {
+html.theme-dark .token.important,
+html.theme-dark .token.bold {
     font-weight: bold;
 }
 
-html.heretic-dark .token.italic {
+html.theme-dark .token.italic {
     font-style: italic;
 }
 
-html.heretic-dark .token.entity {
+html.theme-dark .token.entity {
     cursor: help;
 }
 
-html.heretic-dark .token.deleted {
+html.theme-dark .token.deleted {
     color: red;
 }

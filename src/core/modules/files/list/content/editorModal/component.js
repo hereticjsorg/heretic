@@ -59,7 +59,7 @@ export default class {
         document.body.style.position = "fixed";
         document.body.style.top = `-${scrollY}`;
         const aceOptions = {
-            theme: document.documentElement.classList.contains("heretic-dark") ? "ace/theme/ambiance" : "ace/theme/chrome",
+            theme: document.documentElement.classList.contains("theme-dark") ? "ace/theme/ambiance" : "ace/theme/chrome",
         };
         switch (mime) {
         case "text/html":

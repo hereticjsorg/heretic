@@ -1,3 +1,13 @@
-@import "~styles/variables.scss";
 @import "~fonts/source-sans-pro/source-sans-pro.css";
+@import "~styles/variables.scss";
 @import "~styles/bulma.scss";
+
+select:focus,
+select:focus-visible,
+input:focus,
+input:focus-visible {
+    outline: none !important;
+    border-color: var(--bulma-link) !important;
+    // box-shadow: 0px 0px 0px 0.125em lighten($link, 70%) !important;
+    box-shadow: var(--bulma-input-focus-shadow-size) hsla(var(--bulma-input-focus-h), var(--bulma-input-focus-s), var(--bulma-input-focus-l), var(--bulma-input-focus-shadow-alpha)) !important;
+}

@@ -28,7 +28,7 @@ $ const i18nNavigation = out.global.i18nNavigation;
         <div class="navbar-end">
             <if(Object.keys(languages).length > 1)>
                 <div class=`navbar-item has-dropdown${state.langOpen ? " is-active" : ""}`>
-                    <a class=`navbar-link hr-navbar-item-top is-arrowless${state.langOpen ? " hr-navbar-item-open" : ""}` on-click("onLanguageClick") id="hr_navbar_language">
+                    <a class=`navbar-link hr-navbar-item-admin hr-navbar-item-top is-arrowless${state.langOpen ? " hr-navbar-item-open" : ""}` on-click("onLanguageClick") id="hr_navbar_language">
                         <span class="is-hidden-touch is-flex is-justify-content-center is-align-content-center">
                             <span class="icon hr-navbar-icon-admin">
                                 <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
@@ -47,7 +47,7 @@ $ const i18nNavigation = out.global.i18nNavigation;
                     </div>
                 </div>
             </if>
-            <a class="navbar-item hr-navbar-item hr-navbar-item-admin hr-navbar-admin-mode" href="" on-click("onDarkModeSwitchClick")>
+            <a class="navbar-item hr-navbar-item-admin hr-navbar-item hr-navbar-admin-mode" href="" on-click("onDarkModeSwitchClick")>
                 <span class="icon hr-navbar-icon-admin is-hidden-touch">
                     <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
                         <path d=(state.darkMode ? mdiBrightness4 : mdiBrightness6)/>
@@ -58,7 +58,7 @@ $ const i18nNavigation = out.global.i18nNavigation;
                 </span>
             </a>
             <div class=`navbar-item has-dropdown${state.authOpen ? " is-active" : ""}`>
-                <a class=`navbar-link hr-navbar-item-top is-arrowless${state.authOpen ? " hr-navbar-item-open" : ""}` on-click("onAuthClick") id="hr_navbar_auth">
+                <a class=`navbar-link hr-navbar-item-admin hr-navbar-item-top is-arrowless${state.authOpen ? " hr-navbar-item-open" : ""}` on-click("onAuthClick") id="hr_navbar_auth">
                     ${out.global.userData.username}<span class="is-hidden-touch">&nbsp;&nbsp;▾</span>
                 </a>
                 <div class="navbar-dropdown is-right hr-navbar-dropdown">

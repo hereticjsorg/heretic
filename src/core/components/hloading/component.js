@@ -23,7 +23,8 @@ export default class {
     onMount() {
         this.store = store.namespace(`heretic_${this.siteId}`);
         const darkMode = !!this.store.get("darkMode");
-        document.documentElement.classList[darkMode ? "add" : "remove"]("heretic-dark");
+        document.documentElement.classList[darkMode ? "add" : "remove"]("theme-dark");
+        document.documentElement.classList[!darkMode ? "add" : "remove"]("theme-light");
         if (this.utils) {
             this.utils.setDarkTheme(darkMode);
         }

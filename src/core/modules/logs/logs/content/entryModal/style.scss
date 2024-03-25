@@ -1,7 +1,6 @@
 @import "~styles/variables.scss";
 
 .hr-enm-foot {
-    background: $white-bis !important;
     position: relative;
     order: 100;
 }
@@ -20,6 +19,6 @@
     border-bottom: dashed 1px $grey-lightest;
 }
 
-html.heretic-dark .hr-enm-col-line {
+html.theme-dark .hr-enm-col-line {
     border-bottom: dashed 1px $grey;
 }

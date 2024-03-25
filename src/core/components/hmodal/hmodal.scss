@@ -22,7 +22,6 @@
 }
 
 .hr-hm-modal-card-foot {
-    background: $white-bis !important;
     position: relative;
     order: 100;
 }
@@ -39,16 +38,16 @@
     background-color: rgba(10,10,10,.60) !important;
 }
 
-html.heretic-dark .hr-hm-tabs-wrap {
-    background: $heretic-dark-grey-dark !important;
+html.theme-dark .hr-hm-tabs-wrap {
+    background: $theme-dark-grey-dark !important;
 }
 
-html.heretic-dark .hr-hm-tabs>ul>li.is-active>a {
-    background: lighten($heretic-dark-grey-dark, 6%) !important;
-    color: $heretic-dark-text-color !important;
-    border-color: darken($heretic-dark-grey-dark, 20%) !important;
+html.theme-dark .hr-hm-tabs>ul>li.is-active>a {
+    background: lighten($theme-dark-grey-dark, 6%) !important;
+    color: $theme-dark-text-color !important;
+    border-color: darken($theme-dark-grey-dark, 20%) !important;
 }
 
-html.heretic-dark .hr-hm-tabs>ul>li>a {
-    color: $heretic-dark-text-color !important;
+html.theme-dark .hr-hm-tabs>ul>li>a {
+    color: $theme-dark-text-color !important;
 }

@@ -4,9 +4,9 @@
     background: $grey-lightest;
 }
 
-html.heretic-dark .hr-hdg-drop-area {
-    background: $heretic-dark-grey-dark;
-    border: 1px dashed darken($heretic-dark-grey-dark, 20%);
+html.theme-dark .hr-hdg-drop-area {
+    background: $theme-dark-grey-dark;
+    border: 1px dashed darken($theme-dark-grey-dark, 20%);
 }
 
 .hr-hdg-drop-area-over {
@@ -38,8 +38,8 @@ html.heretic-dark .hr-hdg-drop-area {
     border-radius: $radius;
 }
 
-html.heretic-dark .hr-hdg-columns-row:hover {
-    background: lighten($heretic-dark-grey-dark, 18%);
+html.theme-dark .hr-hdg-columns-row:hover {
+    background: lighten($theme-dark-grey-dark, 18%);
     border-radius: $radius;
 }
 

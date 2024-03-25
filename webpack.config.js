@@ -190,7 +190,7 @@ module.exports = async (env, argv) => {
                     siteFonts: path.join(__dirname, "site/fonts"),
                     styles: path.join(__dirname, "src/core/styles"),
                     view: path.join(__dirname, "site/view"),
-                    bulma: path.join(__dirname, "node_modules/bulma/sass"),
+                    bulma: path.join(__dirname, "node_modules/bulma"),
                 },
                 extensions: [".tsx", ".ts", ".js"],
             },

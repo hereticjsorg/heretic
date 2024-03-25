@@ -14,7 +14,7 @@
     cursor: pointer;
 }
 
-html.heretic-dark .rh1-hi-dot {
+html.theme-dark .rh1-hi-dot {
     background-color: $grey;
 }
 
@@ -22,11 +22,11 @@ html.heretic-dark .rh1-hi-dot {
     background-color: $grey-light;
 }
 
-html.heretic-dark .rh1-hi-dot:not(.rh1-hi-dot-active):hover {
+html.theme-dark .rh1-hi-dot:not(.rh1-hi-dot-active):hover {
     background-color: $grey-light;
 }
 
-html.heretic-dark .rh1-hi-dot-active {
+html.theme-dark .rh1-hi-dot-active {
     background-color: $grey-lighter;
 }
 
@@ -60,7 +60,7 @@ html.heretic-dark .rh1-hi-dot-active {
     box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
 }
 
-html.heretic-dark .rh1-hi-arrow {
+html.theme-dark .rh1-hi-arrow {
     color: $white !important;
 }
 

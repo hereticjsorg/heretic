@@ -1,0 +1,20 @@
+@use "./variables.scss"as hv;
+
+.modal-card-foot {
+    border-top: 1px solid $grey-lighter;
+}
+
+html.theme-dark .modal-card-foot {
+    border-top: 1px solid darken($grey, 10%);
+}
+
+@media screen and (min-width: 1024px) {
+
+    html.theme-light .dropdown-divider {
+        background-color: $grey-lighter !important;
+    }
+
+    html.theme-dark .dropdown-divider {
+        background-color: var(--bulma-navbar-dropdown-border-color) !important;
+    }
+}

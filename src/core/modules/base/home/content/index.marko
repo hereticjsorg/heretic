@@ -29,7 +29,7 @@ $ const capitalizeFirst = s => s.charAt(0).toUpperCase() + s.slice(1);
                             <p class="heading">
                                 <t>hereticVersion</t>
                             </p>
-                            <p class="title">${state.info.hereticVersion}</p>
+                            <p class="title has-text-weight-medium">${state.info.hereticVersion}</p>
                         </div>
                     </div>
                     <div class="level-item has-text-centered">
@@ -37,7 +37,7 @@ $ const capitalizeFirst = s => s.charAt(0).toUpperCase() + s.slice(1);
                             <p class="heading">
                                 <t>operatingSystem</t>
                             </p>
-                            <p class="title">${window.__heretic.t(state.info.siOSInfo.platform)}</p>
+                            <p class="title has-text-weight-medium">${window.__heretic.t(state.info.siOSInfo.platform)}</p>
                         </div>
                     </div>
                     <div class="level-item has-text-centered">
@@ -45,7 +45,7 @@ $ const capitalizeFirst = s => s.charAt(0).toUpperCase() + s.slice(1);
                             <p class="heading">
                                 <t>ram</t>
                             </p>
-                            <p class="title">${formatSize(state.info.siMem.total)}</p>
+                            <p class="title has-text-weight-medium">${formatSize(state.info.siMem.total)}</p>
                         </div>
                     </div>
                 </nav>
@@ -383,7 +383,7 @@ $ const capitalizeFirst = s => s.charAt(0).toUpperCase() + s.slice(1);
                                         </div>
                                         <div class="control mr-2">
                                             <div class="tags has-addons">
-                                                <t class="tag is-light">systemInfo_diskUsed</t>
+                                                <t class="tag hr-ah-tag-par">systemInfo_diskUsed</t>
                                                 <span class="tag is-dark">${formatSize(i.used)} / ${formatSize(i.size)}</span>
                                             </div>
                                         </div>
@@ -419,7 +419,7 @@ $ const capitalizeFirst = s => s.charAt(0).toUpperCase() + s.slice(1);
                                         <if(i.mac)>
                                             <div class="control mr-2">
                                                 <div class="tags has-addons">
-                                                    <t class="tag is-light">systemInfo_mac</t>
+                                                    <t class="tag hr-ah-tag-par">systemInfo_mac</t>
                                                     <span class="tag is-dark">${i.mac}</span>
                                                 </div>
                                             </div>
@@ -427,7 +427,7 @@ $ const capitalizeFirst = s => s.charAt(0).toUpperCase() + s.slice(1);
                                         <if(i.ip4)>
                                             <div class="control mr-2">
                                                 <div class="tags has-addons">
-                                                    <t class="tag is-light">systemInfo_ip4</t>
+                                                    <t class="tag hr-ah-tag-par">systemInfo_ip4</t>
                                                     <span class="tag is-dark">${i.ip4}</span>
                                                 </div>
                                             </div>
@@ -435,7 +435,7 @@ $ const capitalizeFirst = s => s.charAt(0).toUpperCase() + s.slice(1);
                                         <if(i.ip6)>
                                             <div class="control mr-2">
                                                 <div class="tags has-addons">
-                                                    <t class="tag is-light">systemInfo_ip6</t>
+                                                    <t class="tag hr-ah-tag-par">systemInfo_ip6</t>
                                                     <span class="tag is-dark">${i.ip6}</span>
                                                 </div>
                                             </div>

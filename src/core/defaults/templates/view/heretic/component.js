@@ -10,7 +10,7 @@ import i18nLoader from "#build/loaders/i18n-loader-core";
 import pagesLoader from "#build/loaders/page-loader-userspace";
 import Utils from "#lib/componentUtils";
 import routesData from "#build/build.json";
-import contentPage from "#site/content/index.marko";
+import contentPage from "#site/contentRender/index.marko";
 
 export default class {
     async loadLanguageData() {
@@ -146,7 +146,8 @@ export default class {
         }
         this.store = store.namespace(`heretic_${this.siteId}`);
         const darkMode = this.store.get("darkMode") || false;
-        document.documentElement.classList[darkMode ? "add" : "remove"]("heretic-dark");
+        document.documentElement.classList[darkMode ? "add" : "remove"]("theme-dark");
+        document.documentElement.classList[!darkMode ? "add" : "remove"]("theme-light");
         this.utils.setDarkTheme(darkMode);
         document.documentElement.style.transition = "all 0.6s ease";
         this.cookies.set(`${this.siteId}.language`, this.language);

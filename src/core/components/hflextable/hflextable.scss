@@ -5,6 +5,7 @@
     scrollbar-width: none;
     // border: 1px solid $grey-light;
     border-radius: $radius-large;
+    box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
 }
 
 .hr-hft-wrap::-webkit-scrollbar {
@@ -42,13 +43,13 @@
     }
 }
 
-html.heretic-dark .hr-hft-cell-data {
+html.theme-dark .hr-hft-cell-data {
     &:after {
         background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba($grey-dark, 1) 100%);
     }
 }
 
-html.heretic-dark .hr-hft-row-odd>.hr-hft-cell-data {
+html.theme-dark .hr-hft-row-odd>.hr-hft-cell-data {
     &:after {
         background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba($grey-darker, 1) 100%);
     }
@@ -72,7 +73,7 @@ html.heretic-dark .hr-hft-row-odd>.hr-hft-cell-data {
     }
 }
 
-html.heretic-dark .hr-hft-cell-head-data {
+html.theme-dark .hr-hft-cell-head-data {
     &:after {
         background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(lighten($grey-dark, 5%), 1) 100%);
     }
@@ -86,11 +87,11 @@ html.heretic-dark .hr-hft-cell-head-data {
     border-left: 1px solid darken($grey-light, 5%);
 }
 
-html.heretic-dark .hr-hft-cell-border-left {
+html.theme-dark .hr-hft-cell-border-left {
     border-left: 1px solid darken($grey-dark, 5%);
 }
 
-html.heretic-dark .hr-hft-cell-border-head-left {
+html.theme-dark .hr-hft-cell-border-head-left {
     border-left: 1px solid darken($grey-dark, 5%);
 }
 
@@ -102,11 +103,11 @@ html.heretic-dark .hr-hft-cell-border-head-left {
     background-color: $grey-lightest;
 }
 
-html.heretic-dark .hr-hft-row {
+html.theme-dark .hr-hft-row {
     background-color: $grey-dark;
 }
 
-html.heretic-dark .hr-hft-row-odd {
+html.theme-dark .hr-hft-row-odd {
     background-color: $grey-darker;
 }
 
@@ -123,7 +124,7 @@ html.heretic-dark .hr-hft-row-odd {
     user-select: none;
 }
 
-html.heretic-dark .hr-hft-head {
+html.theme-dark .hr-hft-head {
     background-color: lighten($grey-dark, 5%);
 }
 
@@ -142,13 +143,13 @@ html.heretic-dark .hr-hft-head {
     position: absolute;
     left: 0;
     top: 0;
-    background: rgba($heretic-theme-loading-background-color, 0.7);
+    background: rgba($theme-light-loading-background, 0.7);
     backdrop-filter: grayscale(200%);
     z-index: 25;
 }
 
-html.heretic-dark .hr-hft-loading-wrap {
-    background: rgba($heretic-theme-loading-background-color-dark, 0.7);
+html.theme-dark .hr-hft-loading-wrap {
+    background: rgba($theme-dark-loading-background, 0.7);
 }
 
 .hr-hft-cell-head-data {
@@ -170,7 +171,7 @@ html.heretic-dark .hr-hft-loading-wrap {
     height: 29px !important;
 }
 
-html.heretic-dark .hr-hft-action-button {
+html.theme-dark .hr-hft-action-button {
     width: 30px !important;
 }
 
@@ -243,16 +244,16 @@ html.heretic-dark .hr-hft-action-button {
     background: $white-ter;
 }
 
-html.heretic-dark .hr-hft-search-button,
-html.heretic-dark .hr-hft-search-button:hover {
-    border-top: 1px solid lighten($heretic-dark-grey-darker, 8%) !important;
-    border-right: 1px solid lighten($heretic-dark-grey-darker, 8%) !important;
-    border-bottom: 1px solid lighten($heretic-dark-grey-darker, 8%) !important;
+html.theme-dark .hr-hft-search-button,
+html.theme-dark .hr-hft-search-button:hover {
+    border-top: 1px solid lighten($theme-dark-grey-darker, 8%) !important;
+    border-right: 1px solid lighten($theme-dark-grey-darker, 8%) !important;
+    border-bottom: 1px solid lighten($theme-dark-grey-darker, 8%) !important;
     border-left: unset;
 }
 
-html.heretic-dark .hr-hft-search-button:hover {
-    background: lighten($heretic-dark-grey-darker, 5%) !important;
+html.theme-dark .hr-hft-search-button:hover {
+    background: lighten($theme-dark-grey-darker, 5%) !important;
 }
 
 .hr-hft-form-icon,
@@ -289,10 +290,10 @@ html.heretic-dark .hr-hft-search-button:hover {
     background: $grey-lightest;
 }
 
-html.heretic-dark .hr-hft-settings-columns-drop-area,
-html.heretic-dark .hr-hft-export-columns-drop-area {
-    background: $heretic-dark-grey-dark;
-    border: 1px dashed darken($heretic-dark-grey-dark, 20%);
+html.theme-dark .hr-hft-settings-columns-drop-area,
+html.theme-dark .hr-hft-export-columns-drop-area {
+    background: $theme-dark-grey-dark;
+    border: 1px dashed darken($theme-dark-grey-dark, 20%);
 }
 
 .hr-hft-settings-columns-drop-area-over,
@@ -324,11 +325,11 @@ html.heretic-dark .hr-hft-export-columns-drop-area {
     border-radius: $radius;
 }
 
-html.heretic-dark .hr-hft-settings-columns-row:hover,
-html.heretic-dark .hr-hft-settings-filters-row:hover,
-html.heretic-dark .hr-hft-settings-bulk-row:hover,
-html.heretic-dark .hr-hft-export-columns-row:hover {
-    background: lighten($heretic-dark-grey-dark, 18%);
+html.theme-dark .hr-hft-settings-columns-row:hover,
+html.theme-dark .hr-hft-settings-filters-row:hover,
+html.theme-dark .hr-hft-settings-bulk-row:hover,
+html.theme-dark .hr-hft-export-columns-row:hover {
+    background: lighten($theme-dark-grey-dark, 18%);
     border-radius: $radius;
 }
 
@@ -339,10 +340,10 @@ html.heretic-dark .hr-hft-export-columns-row:hover {
     background: $grey-lightest;
 }
 
-html.heretic-dark .hr-hft-settings-columns-drop-area,
-html.heretic-dark .hr-hft-export-columns-drop-area {
-    background: $heretic-dark-grey-dark;
-    border: 1px dashed darken($heretic-dark-grey-dark, 20%);
+html.theme-dark .hr-hft-settings-columns-drop-area,
+html.theme-dark .hr-hft-export-columns-drop-area {
+    background: $theme-dark-grey-dark;
+    border: 1px dashed darken($theme-dark-grey-dark, 20%);
 }
 
 .hr-hft-settings-columns-drop-area-over,
@@ -395,6 +396,19 @@ html.heretic-dark .hr-hft-export-columns-drop-area {
 
 .hr-hft-lock-icon>svg>path {
     fill: $grey !important;
+}
+
+.hr-hft-stats-label {
+    font-size: 0.75em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+@media (min-width: 769px) {
+    .hr-hft-search-control {
+        margin-left: 20px;
+    }
 }
 
 @media (max-width: 768px) {

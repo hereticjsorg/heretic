@@ -2,7 +2,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    background: rgba($heretic-theme-loading-background-color, 0.8);
+    background: rgba($theme-light-loading-background, 0.8);
     z-index: 160;
     width: 100%;
     height: 100%;
@@ -11,6 +11,6 @@
     justify-content: center;
 }
 
-html.heretic-dark .hr-loader-overlay {
-    background: rgba($heretic-theme-loading-background-color-dark, 0.8);
+html.theme-dark .hr-loader-overlay {
+    background: rgba($theme-dark-loading-background, 0.8);
 }

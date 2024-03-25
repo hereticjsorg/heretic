@@ -23,21 +23,25 @@
                     }>
                     <div class="column is-auto">
                         <if(input.actions)>
-                            <for|action| of=input.actions>
-                                <button disabled=state.loading class=action.class data-id=action.id on-click("onActionButtonClick") data-close=!!action.close id=`${input.id}_${action.id}`>
-                                    <t>${action.label}</t>
-                                </button>
-                            </for>
+                            <div class="buttons">
+                                <for|action| of=input.actions>
+                                    <button disabled=state.loading class=action.class data-id=action.id on-click("onActionButtonClick") data-close=!!action.close id=`${input.id}_${action.id}`>
+                                        <t>${action.label}</t>
+                                    </button>
+                                </for>
+                            </div>
                         </if>
                     </div>
                     <if(input.actionsRight)>
                         <div class="column is-auto">
                             <div class="is-flex is-justify-content-right">
-                                <for|action| of=input.actionsRight>
-                                    <button disabled=state.loading class=action.class data-id=action.id on-click("onActionButtonClick") data-close=!!action.close id=`${input.id}_${action.id}`>
-                                        <t>${action.label}</t>
-                                    </button>
-                                </for>
+                                <div class="buttons">
+                                    <for|action| of=input.actionsRight>
+                                        <button disabled=state.loading class=action.class data-id=action.id on-click("onActionButtonClick") data-close=!!action.close id=`${input.id}_${action.id}`>
+                                            <t>${action.label}</t>
+                                        </button>
+                                    </for>
+                                </div>
                             </div>
                         </div>
                     </if>

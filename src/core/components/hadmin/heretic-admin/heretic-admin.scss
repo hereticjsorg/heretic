@@ -5,8 +5,17 @@
 @import "~styles/tippy.scss";
 @import "~styles/checkboxes.scss";
 @import "~styles/dark.scss";
+@import "~styles/common.scss";
 
 // Template-related styles
+
+[data-color-scheme="dark"] {
+    color-scheme: dark;
+}
+
+[data-color-scheme="light"] {
+    color-scheme: light;
+}
 
 .hr-header-wrap {
     height: 40px;
@@ -24,25 +33,23 @@
 }
 
 .hr-footer {
-    color: $grey-darker;
     font-size: 80%;
     background: $white;
     user-select: none;
     box-shadow: 0 .2em 1em -.05em rgba($grey-darker, .1), 0 0 0 1px rgba($grey-darker, .02) !important;
 }
 
-html.heretic-dark .hr-footer {
-    color: $heretic-dark-text-color !important;
-    background: $heretic-dark-black-bis !important;
-    border-top: 1px solid darken($heretic-dark-grey-darker, 2%);
+.hr-menu-wrap {
+    background-color: $grey-lightest;
 }
 
-.hr-footer>*>a,
-.hr-footer>*>a:hover,
-.hr-footer>*>a:active {
-    color: $grey-darker;
-    text-decoration: none;
-    border-bottom: 1px solid $grey-darker;
+html.theme-dark .hr-menu-wrap {
+    background-color: $grey-dark;
+}
+
+html.theme-dark .hr-footer {
+    background: $theme-dark-black-bis !important;
+    border-top: 1px solid darken($theme-dark-grey-darker, 2%);
 }
 
 .hr-content-area-wrap {
@@ -83,7 +90,7 @@ html.heretic-dark .hr-footer {
     opacity: 0.7;
 }
 
-html.heretic-dark .hr-demo-notice {
+html.theme-dark .hr-demo-notice {
     color: $black-bis;
 }
 

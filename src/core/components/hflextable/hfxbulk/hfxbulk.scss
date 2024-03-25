@@ -3,7 +3,7 @@
     padding: 10px;
 }
 
-html.heretic-dark .hr-hfb-modal-notification {
+html.theme-dark .hr-hfb-modal-notification {
     background-color: darken($blue, 20%);
     color: $grey-light;
 }
@@ -48,7 +48,7 @@ html.heretic-dark .hr-hfb-modal-notification {
     height: 29px !important;
 }
 
-html.heretic-dark .hr-hfb-action-button {
+html.theme-dark .hr-hfb-action-button {
     width: 30px !important;
 }
 
@@ -65,12 +65,12 @@ html.heretic-dark .hr-hfb-action-button {
     fill: $white !important;
 }
 
-html.heretic-dark .hr-hfb-settings-bulk-row:hover {
-    background: lighten($heretic-dark-grey-dark, 18%);
+html.theme-dark .hr-hfb-settings-bulk-row:hover {
+    background: lighten($theme-dark-grey-dark, 18%);
     border-radius: $radius;
 }
 
-html.heretic-dark .hr-hfi-hr {
+html.theme-dark .hr-hfi-hr {
     background-color: $grey;
 }
 

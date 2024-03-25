@@ -7,7 +7,6 @@
         --focus: 1px #{$grey};
         --border: #{$grey-lighter};
         --border-hover: #{$grey-lighter};
-        ;
         --background: #{$white};
         --disabled: #{$white-ter};
         --disabled-inner: #{$grey-lightest};
@@ -161,8 +160,8 @@
 
 @supports(-webkit-appearance: none) or (-moz-appearance: none) {
 
-    html.heretic-dark input[type='checkbox'],
-    html.heretic-dark input[type='radio'] {
+    html.theme-dark input[type='checkbox'],
+    html.theme-dark input[type='radio'] {
         --active: #{lighten($primary, 10%)};
         --active-inner: #{$grey-darker};
         --focus: 1px #{$grey};
@@ -251,7 +250,7 @@
         }
     }
 
-    html.heretic-dark input[type='checkbox'] {
+    html.theme-dark input[type='checkbox'] {
         &:not(.switch) {
             border-radius: 7px;
 
@@ -300,7 +299,7 @@
         }
     }
 
-    html.heretic-dark input[type='radio'] {
+    html.theme-dark input[type='radio'] {
         border-radius: 50%;
 
         &:after {

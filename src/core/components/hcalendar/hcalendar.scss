@@ -6,8 +6,8 @@
     background: $grey-light;
 }
 
-html.heretic-dark .hr-mc-dow {
-    background: $heretic-dark-grey-darker;
+html.theme-dark .hr-mc-dow {
+    background: $theme-dark-grey-darker;
 }
 
 .hr-mc-cell {
@@ -36,8 +36,8 @@ html.heretic-dark .hr-mc-dow {
     background: $grey-lightest;
 }
 
-html.heretic-dark .hr-mc-cell-day-side {
-    background: $heretic-dark-grey-dark;
+html.theme-dark .hr-mc-cell-day-side {
+    background: $theme-dark-grey-dark;
 }
 
 .hr-mc-cell-day-today {
@@ -104,20 +104,20 @@ html.heretic-dark .hr-mc-cell-day-side {
     cursor: pointer;
 }
 
-html.heretic-dark .hr-mc-control {
-    border-top: 1px solid $heretic-dark-grey;
+html.theme-dark .hr-mc-control {
+    border-top: 1px solid $theme-dark-grey;
 }
 
 .hr-mc-control:hover {
     background: $white-bis;
 }
 
-html.heretic-dark .hr-mc-control:hover {
-    background: lighten($heretic-dark-grey-dark, 18%);
+html.theme-dark .hr-mc-control:hover {
+    background: lighten($theme-dark-grey-dark, 18%);
 }
 
-html.heretic-dark .hr-mc-control.has-text-primary {
-    color: $heretic-dark-text-color !important;
+html.theme-dark .hr-mc-control.has-text-primary {
+    color: $theme-dark-text-color !important;
 }
 
 .hr-mc-cell-wrap {
@@ -131,8 +131,8 @@ html.heretic-dark .hr-mc-control.has-text-primary {
     align-self: center;
 }
 
-html.heretic-dark .hr-mc-action-icon>svg>path {
-    fill: $heretic-dark-text-color-light;
+html.theme-dark .hr-mc-action-icon>svg>path {
+    fill: $theme-dark-text-color-light;
 }
 
 .hr-mc-action-icon svg {

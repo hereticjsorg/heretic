@@ -46,7 +46,7 @@
     height: 29px !important;
 }
 
-html.heretic-dark .hr-ht-action-button {
+html.theme-dark .hr-ht-action-button {
     width: 30px !important;
 }
 
@@ -250,15 +250,15 @@ html.heretic-dark .hr-ht-action-button {
     // border-left: 1px solid $grey-lighter;
 }
 
-html.heretic-dark .hr-ht-action-cell-control {
-    border-bottom: 1px solid lighten($heretic-dark-grey-dark, 10%);
+html.theme-dark .hr-ht-action-cell-control {
+    border-bottom: 1px solid lighten($theme-dark-grey-dark, 10%);
 }
 
 .hr-ht-loading-wrap {
     position: absolute;
     left: 0;
     top: 0;
-    background: rgba($heretic-theme-loading-background-color, 0.7);
+    background: rgba($theme-light-loading-background, 0.7);
     backdrop-filter: grayscale(200%);
     z-index: 60;
 }
@@ -297,11 +297,11 @@ html.heretic-dark .hr-ht-action-cell-control {
     border-radius: $radius;
 }
 
-html.heretic-dark .hr-ht-settings-columns-row:hover,
-html.heretic-dark .hr-ht-settings-filters-row:hover,
-html.heretic-dark .hr-ht-settings-bulk-row:hover,
-html.heretic-dark .hr-ht-export-columns-row:hover {
-    background: lighten($heretic-dark-grey-dark, 18%);
+html.theme-dark .hr-ht-settings-columns-row:hover,
+html.theme-dark .hr-ht-settings-filters-row:hover,
+html.theme-dark .hr-ht-settings-bulk-row:hover,
+html.theme-dark .hr-ht-export-columns-row:hover {
+    background: lighten($theme-dark-grey-dark, 18%);
     border-radius: $radius;
 }
 
@@ -321,10 +321,10 @@ html.heretic-dark .hr-ht-export-columns-row:hover {
     background: $grey-lightest;
 }
 
-html.heretic-dark .hr-ht-settings-columns-drop-area,
-html.heretic-dark .hr-ht-export-columns-drop-area {
-    background: $heretic-dark-grey-dark;
-    border: 1px dashed darken($heretic-dark-grey-dark, 20%);
+html.theme-dark .hr-ht-settings-columns-drop-area,
+html.theme-dark .hr-ht-export-columns-drop-area {
+    background: $theme-dark-grey-dark;
+    border: 1px dashed darken($theme-dark-grey-dark, 20%);
 }
 
 .hr-ht-settings-columns-drop-area-over,
@@ -337,8 +337,8 @@ html.heretic-dark .hr-ht-export-columns-drop-area {
     height: 40px;
 }
 
-html.heretic-dark .hr-hm-tabs-wrap {
-    background-color: $heretic-dark-grey-dark !important;
+html.theme-dark .hr-hm-tabs-wrap {
+    background-color: $theme-dark-grey-dark !important;
 }
 
 .hr-hm-tabs>ul {
@@ -401,10 +401,10 @@ html.heretic-dark .hr-hm-tabs-wrap {
         -20px -20px 60px #ffffff;
 }
 
-html.heretic-dark .hr-ht-export-form-wrap {
-    background: lighten($heretic-dark-grey-dark, 3%) !important;
+html.theme-dark .hr-ht-export-form-wrap {
+    background: lighten($theme-dark-grey-dark, 3%) !important;
     box-shadow: unset !important;
-    border-bottom: 1px solid $heretic-dark-grey-dark;
+    border-bottom: 1px solid $theme-dark-grey-dark;
 }
 
 .hr-ht-recycleBin-pagination-wrap {
@@ -412,8 +412,8 @@ html.heretic-dark .hr-ht-export-form-wrap {
     background: $white;
 }
 
-html.heretic-dark .hr-ht-recycleBin-pagination-wrap {
-    background: $heretic-dark-grey-dark;
+html.theme-dark .hr-ht-recycleBin-pagination-wrap {
+    background: $theme-dark-grey-dark;
 }
 
 .hr-ht-recycleBin-pagination-wrap>nav {
@@ -450,44 +450,44 @@ html.heretic-dark .hr-ht-recycleBin-pagination-wrap {
     width: 20px;
 }
 
-html.heretic-dark .hr-ht-tbody>.hr-ht-tr:nth-child(even)>.hr-ht-td>.hr-ht-table-cell-wrap>.hr-ht-table-cell-fade {
-    background: linear-gradient(90deg, transparent, darken($heretic-dark-grey-darker, 5%));
+html.theme-dark .hr-ht-tbody>.hr-ht-tr:nth-child(even)>.hr-ht-td>.hr-ht-table-cell-wrap>.hr-ht-table-cell-fade {
+    background: linear-gradient(90deg, transparent, darken($theme-dark-grey-darker, 5%));
 }
 
-html.heretic-dark .hr-ht-tbody>.hr-ht-tr:nth-child(odd)>.hr-ht-td>.hr-ht-table-cell-wrap>.hr-ht-table-cell-fade {
-    background: linear-gradient(90deg, transparent, darken($heretic-dark-grey-darker, 1%));
+html.theme-dark .hr-ht-tbody>.hr-ht-tr:nth-child(odd)>.hr-ht-td>.hr-ht-table-cell-wrap>.hr-ht-table-cell-fade {
+    background: linear-gradient(90deg, transparent, darken($theme-dark-grey-darker, 1%));
 }
 
-html.heretic-dark .hr-ht-tbody>.hr-ht-tr:nth-child(even):hover>.hr-ht-td>.hr-ht-table-cell-wrap>.hr-ht-table-cell-fade {
-    background: linear-gradient(90deg, transparent, lighten($heretic-dark-grey-darker, 5%));
+html.theme-dark .hr-ht-tbody>.hr-ht-tr:nth-child(even):hover>.hr-ht-td>.hr-ht-table-cell-wrap>.hr-ht-table-cell-fade {
+    background: linear-gradient(90deg, transparent, lighten($theme-dark-grey-darker, 5%));
 }
 
-html.heretic-dark .hr-ht-tbody>.hr-ht-tr:nth-child(odd):hover>.hr-ht-td>.hr-ht-table-cell-wrap>.hr-ht-table-cell-fade {
-    background: linear-gradient(90deg, transparent, lighten($heretic-dark-grey-darker, 5%));
+html.theme-dark .hr-ht-tbody>.hr-ht-tr:nth-child(odd):hover>.hr-ht-td>.hr-ht-table-cell-wrap>.hr-ht-table-cell-fade {
+    background: linear-gradient(90deg, transparent, lighten($theme-dark-grey-darker, 5%));
 }
 
-html.heretic-dark .hr-ht-action-cell-odd {
-    background: darken($heretic-dark-grey-darker, 5%);
+html.theme-dark .hr-ht-action-cell-odd {
+    background: darken($theme-dark-grey-darker, 5%);
 }
 
-html.heretic-dark .hr-ht-action-cell-even {
+html.theme-dark .hr-ht-action-cell-even {
     background: $grey-darker;
 }
 
-html.heretic-dark .hr-ht-action-cell {
-    border-left: 1px solid lighten($heretic-dark-grey-dark, 10%);
-    border-right: 1px solid lighten($heretic-dark-grey-dark, 10%);
+html.theme-dark .hr-ht-action-cell {
+    border-left: 1px solid lighten($theme-dark-grey-dark, 10%);
+    border-right: 1px solid lighten($theme-dark-grey-dark, 10%);
 }
 
-html.heretic-dark .hr-ht-action-cell-control {
-    border-left: 1px solid lighten($heretic-dark-grey-dark, 10%);
-    border-right: 1px solid lighten($heretic-dark-grey-dark, 10%);
-    background: $heretic-dark-grey-dark;
-    color: $heretic-dark-text-color-light !important;
+html.theme-dark .hr-ht-action-cell-control {
+    border-left: 1px solid lighten($theme-dark-grey-dark, 10%);
+    border-right: 1px solid lighten($theme-dark-grey-dark, 10%);
+    background: $theme-dark-grey-dark;
+    color: $theme-dark-text-color-light !important;
 }
 
-html.heretic-dark .hr-ht-loading-wrap {
-    background: rgba($heretic-theme-loading-background-color-dark, 0.7);
+html.theme-dark .hr-ht-loading-wrap {
+    background: rgba($theme-dark-loading-background, 0.7);
 }
 
 .hr-ht-row-warning {
@@ -516,16 +516,16 @@ html.heretic-dark .hr-ht-loading-wrap {
     background: $white-ter;
 }
 
-html.heretic-dark .hr-ht-search-button,
-html.heretic-dark .hr-ht-search-button:hover {
-    border-top: 1px solid lighten($heretic-dark-grey-darker, 8%) !important;
-    border-right: 1px solid lighten($heretic-dark-grey-darker, 8%) !important;
-    border-bottom: 1px solid lighten($heretic-dark-grey-darker, 8%) !important;
+html.theme-dark .hr-ht-search-button,
+html.theme-dark .hr-ht-search-button:hover {
+    border-top: 1px solid lighten($theme-dark-grey-darker, 8%) !important;
+    border-right: 1px solid lighten($theme-dark-grey-darker, 8%) !important;
+    border-bottom: 1px solid lighten($theme-dark-grey-darker, 8%) !important;
     border-left: unset;
 }
 
-html.heretic-dark .hr-ht-search-button:hover {
-    background: lighten($heretic-dark-grey-darker, 5%) !important;
+html.theme-dark .hr-ht-search-button:hover {
+    background: lighten($theme-dark-grey-darker, 5%) !important;
 }
 
 @media (max-width: 1023px) {
