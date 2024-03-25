@@ -1,3 +1,531 @@
+## v1.1.157
+
+**Bugfixes** (2024-03-04)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-03-04 | Bugfixes |
+
+
+## v1.1.156
+
+**Bugfixes** (2024-02-29)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-02-29 | Bugfixes |
+
+
+## v1.1.155
+
+**Bugfixes** (2024-02-28)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-02-28 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-02-28 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-02-28 | Bugfixes |
+
+
+## v1.1.154
+
+**Bugfixes** (2024-02-27)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-02-27 | Bugfixes |
+
+
+## v1.1.153
+
+**Bugfixes** (2024-02-27)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-02-27 | Changed .build directory location |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-02-27 | Bugfixes |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-02-27 | Update webpack.utils.js |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-02-27 | Bugfixes |
+
+
+## v1.1.152
+
+**Update cookiesBrowser.js** (2024-02-19)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-02-19 | Update cookiesBrowser.js |
+
+
+## v1.1.151
+
+**Bugfixes** (2024-02-19)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-02-19 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-02-19 | Bugfixes |
+
+
+## v1.1.150
+
+**Bugfixes & Minor Improvements** (2024-02-15)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-02-13 | Minor improvements<br/>- Moving "build" directory to the "site" (instead of "src")<br/>- Implementing privacy and cookies policy (WIP)<br/>- Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-02-15 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-02-15 | Default policies added |
+
+
+## v1.1.149
+
+**Bugfixes** (2024-02-12)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-02-05 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-02-12 | Bugfixes |
+
+
+## v1.1.148
+
+**Minor bugfixes** (2024-02-02)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-02-02 | Minor bugfixes |
+
+
+## v1.1.147
+
+**Bugfixes** (2024-02-02)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-02-02 | Bugfixes |
+
+
+## v1.1.146
+
+**Bugfixes** (2024-02-01)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-02-01 | Bugfixes |
+
+
+## v1.1.145
+
+**Bugfixes** (2024-02-01)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-01-31 | Update apiContact.js |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-02-01 | Bugfixes |
+
+
+## v1.1.144
+
+**Bugfixes** (2024-01-31)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-01-29 | Keep logs dir |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-01-31 | Bugfixes |
+
+
+## v1.1.143
+
+**Bugfixes** (2024-01-29)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-01-28 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-01-29 | hcontact component WIP |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-01-29 | Bugfixes |
+
+
+## v1.1.142
+
+**Bugfixes** (2024-01-25)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-01-24 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-01-25 | Bugfixes |
+
+
+## v1.1.141
+
+**Bugfixes** (2024-01-21)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-01-21 | Bugfixes |
+
+
+## v1.1.140
+
+**Bugfixes** (2024-01-18)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-01-15 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-01-16 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-01-18 | Allow cookies control for end users |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-01-18 | NPM Modules update |
+
+
+## v1.1.139
+
+**Bugfixes** (2024-01-12)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-01-11 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-01-12 | Bugfixes |
+
+
+## v1.1.138
+
+**Bugfixes** (2024-01-09)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-01-09 | Bugfixes |
+
+
+## v1.1.137
+
+**Bugfixes** (2024-01-06)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-01-03 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-01-04 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-01-04 | Update route404.js |
+
+
+## v1.1.136
+
+**Bugfixes** (2024-01-03)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-12-25 | NPM Modules upgrade |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-01-02 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-01-03 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-01-03 | Directory refactoring, Bugfixes<br/>- Moving "etc" directory to "site" directory<br/>- Moving "src/core/errors" directory to "site" directory<br/>- Bugfixes |
+
+
+## v1.1.135
+
+**NPM Modules update** (2023-12-19)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-12-08 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-12-19 | NPM Modules update |
+
+
+## v1.1.134
+
+**Bugfixes** (2023-11-28)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-28 | Docs updated |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-28 | Bugfixes |
+
+
+## v1.1.133
+
+**Docs updated** (2023-11-26)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-26 | Docs updated |
+
+
+## v1.1.132
+
+**Bugfixes** (2023-11-25)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-25 | Bugfixes |
+
+
+## v1.1.131
+
+**Update index.marko** (2023-11-25)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-25 | Update index.marko |
+
+
+## v1.1.130
+
+**Restart/rebuild/update functions implemented** (2023-11-25)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-21 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-21 | Implementing tabs on Admin home |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-22 | Admin Panel work-in-progress |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-23 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-23 | Update script work-in-progress |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-23 | Update apiUpdate.js |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-23 | Update apiUpdate.js |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-23 | Update manager work-in-progress |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-23 | Update script work-in-progress |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-23 | Update module work-in-progress |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-24 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-24 | Update, rebuild and restart functions |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-25 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-25 | Restart/update/rebuild functions implemented |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-25 | Update system.js |
+
+
+## v1.1.129
+
+**NPM Modules update** (2023-11-20)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-20 | NPM Modules update |
+
+
+## v1.1.128
+
+**Update dark.scss** (2023-11-19)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-11-19 | Update dark.scss |
+
+
+## v1.1.127
+
+**Bugfixes** (2023-11-19)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-11-18 | NPM Modules update |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-11-19 | Fixed dark theme for a tag |
+
+
+## v1.1.126
+
+**Bugfixes** (2023-11-18)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-11-18 | Bugfixes |
+
+
+## v1.1.125
+
+**NPM Modules update** (2023-11-17)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-11-17 | NPM Modules update |
+
+
+## v1.1.124
+
+**NPM Modules update** (2023-11-17)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-15 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-17 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-17 | NPM Modules update |
+
+
+## v1.1.123
+
+**Bugfixes and minor improvements** (2023-11-14)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-14 | Docs updated |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-14 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-14 | Minor fixes |
+
+
+## v1.1.122
+
+**Bugfixes** (2023-11-13)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-13 | Bugfixes |
+
+
+## v1.1.121
+
+**Implemented Flextable** (2023-11-13)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-11-12 | Fixing Flextable |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-13 | Implemented flextable for all modules |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-13 | Bugfixes |
+
+
+## v1.1.120
+
+**Update component.js** (2023-11-12)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-11-12 | Update component.js |
+
+
+## v1.1.119
+
+**Bugfixes** (2023-11-12)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-12 | Update hdraglist.scss |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-11-12 | Update configurationFiles.md |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-11-12 | Fixed drag-and-drop problem with Safari |
+
+
+## v1.1.118
+
+**Not showing selected label when in no checkboxes mode** (2023-11-11)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-11 | Not showing selected label when in no checkboxes mode |
+
+
+## v1.1.117
+
+**Bugfixes** (2023-11-11)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-11 | Bugfixes |
+
+
+## v1.1.116
+
+**Handling orientation change in hflextable** (2023-11-11)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-11 | Handling orientationchange in hflextable |
+
+
+## v1.1.115
+
+**Update hfxsettings.scss** (2023-11-11)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-11 | Update hfxsettings.scss |
+
+
+## v1.1.114
+
+**Bugfixes** (2023-11-11)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-11 | Bugfixes |
+
+
+## v1.1.113
+
+**Bugfixes** (2023-11-11)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-10 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-11 | Bugfixes |
+
+
+## v1.1.112
+
+**Bugfixes** (2023-11-10)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-10 | Bugfixes |
+
+
+## v1.1.111
+
+**Introducing hflextable component** (2023-11-10)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-10-10 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-10-10 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-10-28 | Working on hflextable |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-10-28 | Typos fixed |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-10-28 | NPM Modules Update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-10-28 | Update componentUtils.js |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-10-28 | Update requestDecorators.js |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-10-31 | hflextable work-in-progress |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-07 | flextable work-in-progress |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-07 | Flextable work-in-progress |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-08 | hflextable Work-in-prorgess |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-09 | Flextable work-in-progress |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-10 | Flextable-related changes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-10 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-11-10 | Code cleanup |
+
+
+## v1.1.110
+
+**Logs Module work-in-progress** (2023-10-08)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-10-02 | Docs updated |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-10-02 | Docs updated |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-10-02 | NPM Modules update |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-10-03 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-10-05 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2023-10-05 | Logs Module work-in-progress |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-10-06 | Logs Module work-in-progress |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-10-06 | Logs Module work-in-progress |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-10-06 | NPM Modules update |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-10-06 | Update dark theme for Logs Module |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-10-08 | NPM Modules update |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-10-08 | Fixed modal dialog prefix |
+
+
+## v1.1.109
+
+**Fixed archive creation in demo mode** (2023-10-01)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-10-01 | Fixed archive creation in demo mode |
+
+
+## v1.1.108
+
+**Files Manager module implemented** (2023-10-01)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-09-29 | Files Module work-in-progress |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-09-30 | Typos |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-09-30 | NPM Modules update |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-09-30 | File Manager work-in-progress |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2023-10-01 | Files Module<br/>Archive & download features implemented |
+
+
 ## v1.1.107
 
 **Users + group tab revamp (adjustment + scrns)** (2023-09-29)
