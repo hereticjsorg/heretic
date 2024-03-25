@@ -1,3 +1,29 @@
+## v1.2.1
+
+**Version 1.2** (2024-03-25)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-03-07 | Content module WIP |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-03-12 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-03-12 | Content module work-in-progress |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-03-13 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-03-14 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-03-14 | Router-related changes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-03-18 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-03-18 | Content module WIP |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-03-19 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-03-19 | Content Module WIP |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-03-20 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-03-21 | Bugfixes + PrismJS added |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-03-21 | PrismJS Plugin added |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-03-21 | Content blocks WIP |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-03-21 | Content module WIP |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-03-21 | Moving "content" module to the site area |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-03-25 | Version 1.2 |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-03-25 | Merge branch 'master' into dev1 |
+
+
 ## v1.1.157
 
 **Bugfixes** (2024-03-04)
