@@ -23,7 +23,11 @@ export default class {
             if (!this.cookiesUserCheck) {
                 return;
             }
-            this.cookies = new Cookies(this.cookieOptions, this.siteId);
+            const expires = new Date(new Date().setFullYear(new Date().getFullYear() + 1));
+            this.cookies = new Cookies({
+                ...this.cookieOptions,
+                expires,
+            }, this.siteId);
             this.cookiesAllowed = this.cookies.get(`${this.siteId}.cookiesAllowed`);
         }
     }

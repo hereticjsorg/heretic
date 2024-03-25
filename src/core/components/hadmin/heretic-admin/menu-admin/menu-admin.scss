@@ -13,24 +13,15 @@
 .hr-menu-wrap {
     width: 250px;
     min-width: 250px;
-    // background: $white-ter;
     padding: 10px;
     margin-top: 1px;
     display: flex;
     user-select: none;
 }
 
-// html.theme-dark .hr-menu-wrap {
-//     background: darken($theme-dark-grey-darker, 10%);
-// }
-
-// html.theme-dark .hr-menu-card {
-//     background: lighten($theme-dark-grey-darker, 10%) !important;
-// }
-
-// html.theme-dark .hr-icon-admin-wrap>svg>path {
-//     fill: $theme-dark-text-color-light;
-// }
+html.theme-dark .hr-icon-admin-wrap>svg>path {
+    fill: $theme-dark-text-color-light;
+}
 
 .hr-menu-wrap>aside {
     width: 100%;
