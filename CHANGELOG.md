@@ -1,3 +1,13 @@
+## v1.2.2
+
+**Bugfixes** (2024-03-25)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-03-25 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-03-25 | Merge branch 'dev1' of https://github.com/hereticjsorg/heretic into dev1 |
+
+
 ## v1.2.1
 
 **Version 1.2** (2024-03-25)
