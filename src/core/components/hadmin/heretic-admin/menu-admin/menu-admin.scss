@@ -7,49 +7,41 @@
 
 .hr-menu-card {
     width: 230px;
-    padding: 4px 5px 5px 5px;
+    padding: 6px 5px 6px 6px;
 }
 
 .hr-menu-wrap {
     width: 250px;
     min-width: 250px;
-    background: $white-ter;
+    // background: $white-ter;
     padding: 10px;
     margin-top: 1px;
     display: flex;
     user-select: none;
 }
 
-html.heretic-dark .hr-menu-wrap {
-    background: darken($heretic-dark-grey-darker, 10%);
-}
+// html.theme-dark .hr-menu-wrap {
+//     background: darken($theme-dark-grey-darker, 10%);
+// }
 
-html.heretic-dark .hr-menu-card {
-    background: lighten($heretic-dark-grey-darker, 10%) !important;
-}
+// html.theme-dark .hr-menu-card {
+//     background: lighten($theme-dark-grey-darker, 10%) !important;
+// }
 
-html.heretic-dark .hr-icon-admin-wrap>svg>path {
-    fill: $heretic-dark-text-color-light;
-}
+// html.theme-dark .hr-icon-admin-wrap>svg>path {
+//     fill: $theme-dark-text-color-light;
+// }
 
 .hr-menu-wrap>aside {
     width: 100%;
 }
 
-.hr-menu-wrap * .menu-label {
-    color: $grey-lighter;
-}
-
-.hr-menu-wrap * a:not(.is-active) {
-    color: $grey-darker;
-}
-
-.hr-menu-wrap>*>.menu-list>*>a:hover:not(.is-active) {
-    color: $grey-darker;
-}
-
 .hr-menu-icon>svg>path {
     fill: $grey-darker;
+}
+
+.hr-menu-item {
+    border-radius: var(--bulma-card-radius) !important;
 }
 
 .hr-menu-item.is-active,
@@ -57,14 +49,7 @@ html.heretic-dark .hr-icon-admin-wrap>svg>path {
     background: $primary !important;
 }
 
-.hr-menu-item:not(.is-active):hover {
-    background: $grey-lighter !important;
-}
-
-.hr-menu-item:hover:not(.is-active)>.hr-menu-icon>svg>path {
-    fill: $grey-darker;
-}
-
-.hr-menu-item.is-active>.hr-menu-icon>svg>path {
-    fill: $white;
+.hr-menu-item.is-active>.hr-menu-icon>svg>path,
+html.theme-dark .hr-menu-item>.hr-menu-icon>svg>path {
+    fill: $white-ter;
 }

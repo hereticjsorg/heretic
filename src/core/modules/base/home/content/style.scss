@@ -11,7 +11,7 @@
     border: 1px solid $grey-lighter;
 }
 
-html.heretic-dark .hr-ah-systemInfo-table {
+html.theme-dark .hr-ah-systemInfo-table {
     border: 1px solid lighten($grey-dark, 10%);
 }
 
@@ -19,19 +19,19 @@ html.heretic-dark .hr-ah-systemInfo-table {
     background-color: $white-ter;
 }
 
-html.heretic-dark .hr-ah-systemInfo-table>tbody>tr:hover {
+html.theme-dark .hr-ah-systemInfo-table>tbody>tr:hover {
     background-color: $grey-dark;
 }
 
 .hr-ah-systemInfo-td-par {
     border-right: 1px solid $grey-lighter !important;
-    background: $grey-lighter;
+    background-color: $grey-lighter !important;
     text-align: right !important;
 }
 
-html.heretic-dark .hr-ah-systemInfo-td-par {
+html.theme-dark .hr-ah-systemInfo-td-par {
     border-right: 1px solid $grey-dark !important;
-    background: $grey-dark;
+    background-color: $grey-dark !important;
 }
 
 .hr-ah-systemInfo-table>tbody:first-child tr:first-child td:first-child {
@@ -53,7 +53,7 @@ html.heretic-dark .hr-ah-systemInfo-td-par {
     fill: $grey-darker;
 }
 
-html.heretic-dark .hr-ah-tab-icon>path {
+html.theme-dark .hr-ah-tab-icon>path {
     fill: $grey;
 }
 
@@ -64,36 +64,46 @@ html.heretic-dark .hr-ah-tab-icon>path {
     border-bottom-right-radius: $radius;
 }
 
-html.heretic-dark .hr-ah-data-wrap {
+html.theme-dark .hr-ah-data-wrap {
     border-color: darken($grey, 10%);
 }
 
-html.heretic-dark .hr-ah-tabs>ul {
+html.theme-dark .hr-ah-tabs>ul {
     border-bottom-color: darken($grey, 10%) !important; 
 }
 
-html.heretic-dark .hr-ah-tab.is-active>a {
+html.theme-dark .hr-ah-tab.is-active>a {
     border-color: darken($grey, 10%) !important;
     background-color: $black-bis !important;
 }
 
-html.heretic-dark .hr-ah-tab>a {
+html.theme-dark .hr-ah-tab>a {
     background: transparent !important;
     border-bottom: unset !important;
     color: $grey-lighter !important
 }
 
-html.heretic-dark .hr-ah-tab.is-active>a>span {
+html.theme-dark .hr-ah-tab.is-active>a>span {
     margin-top: -2px;
 }
 
-html.heretic-dark .hr-ah-tab:not(.is-active) {
+html.theme-dark .hr-ah-tab:not(.is-active) {
     margin-top: -2px;
 }
 
-html.heretic-dark .hr-ah-tab:not(.is-active)>a:hover {
+html.theme-dark .hr-ah-tab:not(.is-active)>a:hover {
     background: $grey-dark !important;
     border-bottom: 1px solid darken($grey, 10%);
+}
+
+.hr-ah-tag-par {
+    background-color: $grey-light !important;
+    color: $black-bis;
+}
+
+html.theme-dark .hr-ah-tag-par {
+    background-color: $grey-dark !important;
+    color: $white;
 }
 
 @keyframes hr-ah-blink-animation {

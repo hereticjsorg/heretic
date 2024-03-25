@@ -52,6 +52,9 @@ export default {
         };
         if (this.body.sortField && this.body.sortDirection) {
             options.sort[this.body.sortField] = this.body.sortDirection === "asc" ? 1 : -1;
+            if (formData.getTabs) {
+                options.sort[`${this.body.language}.${this.body.sortField}`] = this.body.sortDirection === "asc" ? 1 : -1;
+            }
         } else {
             delete options.sort;
         }
@@ -59,6 +62,11 @@ export default {
         options.limit = this.body.itemsPerPage;
         options.projection = {};
         columns.map(c => options.projection[c] = 1);
+        if (formData.getTabs) {
+            for (const tab of formData.getTabs()) {
+                columns.map(c => options.projection[`${tab.id}.${c}`] = 1);
+            }
+        }
         return options;
     },
     validateRecycleBinList: function () {

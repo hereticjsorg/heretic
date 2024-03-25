@@ -5,8 +5,8 @@
     border-radius: $radius;
 }
 
-html.heretic-dark .hr-hfe-settings-filters-row:hover {
-    background: lighten($heretic-dark-grey-dark, 18%);
+html.theme-dark .hr-hfe-settings-filters-row:hover {
+    background: lighten($theme-dark-grey-dark, 18%);
     border-radius: $radius;
 }
 
@@ -15,24 +15,20 @@ html.heretic-dark .hr-hfe-settings-filters-row:hover {
     height: 40px;
 }
 
-html.heretic-dark .hr-hfe-tabs-wrap {
-    background-color: $heretic-dark-grey-dark !important;
-}
+// html.theme-dark .hr-hfe-tabs>ul>li.is-active>a {
+//     background: lighten($theme-dark-grey-dark, 6%) !important;
+//     color: $theme-dark-text-color !important;
+//     border-color: darken($theme-dark-grey-dark, 20%) !important;
+// }
 
-html.heretic-dark .hr-hfe-tabs>ul>li.is-active>a {
-    background: lighten($heretic-dark-grey-dark, 6%) !important;
-    color: $heretic-dark-text-color !important;
-    border-color: darken($heretic-dark-grey-dark, 20%) !important;
-}
+// .hr-hfe-tabs>ul {
+//     position: absolute;
+//     top: 5px;
+// }
 
-.hr-hfe-tabs>ul {
-    position: absolute;
-    top: 5px;
-}
-
-.hr-hfe-tabs>ul>li:not(.is-active)>a:hover {
-    background: unset !important;
-}
+// .hr-hfe-tabs>ul>li:not(.is-active)>a:hover {
+//     background: unset !important;
+// }
 
 .hr-hfe-tabs a,
 .hr-hfe-tabs ul {
@@ -41,12 +37,12 @@ html.heretic-dark .hr-hfe-tabs>ul>li.is-active>a {
 
 .hr-hfe-tabs-wrap {
     border-radius: 0 !important;
-    background: $white-bis !important;
+    // background: $white-bis !important;
 }
 
-html.heretic-dark .hr-hfe-tabs-wrap {
-    background-color: $heretic-dark-grey-dark !important;
-}
+// html.theme-dark .hr-hfe-tabs-wrap {
+//     background-color: $theme-dark-grey-dark !important;
+// }
 
 .hr-hfe-settings-body {
     margin: 0 !important;
@@ -71,7 +67,7 @@ html.heretic-dark .hr-hfe-tabs-wrap {
     height: 29px !important;
 }
 
-html.heretic-dark .hr-hfe-action-button {
+html.theme-dark .hr-hfe-action-button {
     width: 30px !important;
 }
 
@@ -84,11 +80,11 @@ html.heretic-dark .hr-hfe-action-button {
     margin-top: 3px !important;
 }
 
-html.heretic-dark .hr-hs-wrap {
+html.theme-dark .hr-hs-wrap {
     border-color: $grey;
 }
 
-html.heretic-dark .hr-hs-wrap>div>label:hover {
+html.theme-dark .hr-hs-wrap>div>label:hover {
     color: $grey-lighter;
 }
 

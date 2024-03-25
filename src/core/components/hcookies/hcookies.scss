@@ -8,9 +8,9 @@
     box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
 }
 
-html.heretic-dark .hr-cs-wrap {
-    background: lighten($heretic-dark-grey-dark, 12%);
-    color: $heretic-dark-text-color-light;
+html.theme-dark .hr-cs-wrap {
+    background: lighten($theme-dark-grey-dark, 12%);
+    color: $theme-dark-text-color-light;
 }
 
 @media (max-width: 768px) {

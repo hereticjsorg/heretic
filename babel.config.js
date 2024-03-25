@@ -5,14 +5,19 @@ module.exports = api => {
     return {
         sourceType: "unambiguous",
         plugins: [
-            "@babel/plugin-proposal-class-properties",
-            "@babel/plugin-proposal-object-rest-spread",
+            "@babel/plugin-transform-class-properties",
+            "@babel/plugin-transform-object-rest-spread",
             "@babel/plugin-transform-async-to-generator",
             "@babel/plugin-syntax-import-assertions",
             ["@babel/transform-runtime", {
                 regenerator: true,
                 useESModules: true,
-            }]
+            }],
+            ["prismjs", {
+                languages: ["javascript", "css", "c", "cpp", "csharp", "markup", "html", "dart", "typescript", "perl", "php", "sql", "json", "java"],
+                plugins: ["line-numbers"],
+                css: false,
+            }],
         ],
         presets: [
             [

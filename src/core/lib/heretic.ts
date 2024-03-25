@@ -13,6 +13,7 @@ import commandLineArgs from "command-line-args";
 
 import template from "lodash.template";
 import routePageUserspace from "./routes/routePageUserspace.js";
+import routePageContent from "./routes/routePageContent.js";
 import route404 from "./routes/route404";
 import route500 from "./routes/route500";
 import apiRoute404 from "./routes/route404-api";
@@ -140,9 +141,16 @@ export default class {
             this.fastify.decorateReply(decorateItem, replyDecorators[decorateItem as keyof typeof replyDecorators]);
         }
         this.fastify.addHook("preHandler", (request: { auth: Auth; fastify: any; }, reply: any, done: () => void) => {
-            request.auth = new Auth(this.fastify, request);
-            request.fastify = this.fastify;
+            // Do something if we need to
             done();
+        });
+        this.fastify.addHook("onRequest", async (req: any, rep: any) => {
+            req.auth = new Auth(this.fastify, req);
+            req.fastify = this.fastify;
+            const contentResponse = await routePageContent(this.fastify, req);
+            if (contentResponse) {
+                rep.code(200).type("text/html").send(contentResponse);
+            }
         });
         try {
             this.options = commandLineArgs([{

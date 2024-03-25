@@ -76,9 +76,9 @@
     background-color: $white;
 }
 
-html.heretic-dark .hr-hf-captcha-image {
+html.theme-dark .hr-hf-captcha-image {
     border: unset;
-    background-color: $heretic-dark-grey-dark;
+    background-color: $theme-dark-grey-dark;
 }
 
 .hr-hf-captcha-image-reload {
@@ -100,9 +100,9 @@ html.heretic-dark .hr-hf-captcha-image {
     border-radius: 4px;
 }
 
-html.heretic-dark .hr-hf-calendar-wrap {
-    border: 1px solid $heretic-dark-grey;
-    background: lighten($heretic-dark-grey-dark, 6%);
+html.theme-dark .hr-hf-calendar-wrap {
+    border: 1px solid $theme-dark-grey;
+    background: lighten($theme-dark-grey-dark, 6%);
 }
 
 .hr-hf-date-input {
@@ -117,12 +117,12 @@ html.heretic-dark .hr-hf-calendar-wrap {
     border-radius: 50% !important;
 }
 
-html:not(.heretic-dark) .hr-hf-action-button {
+html:not(.theme-dark) .hr-hf-action-button {
     height: 29px !important;
     width: 29px !important;
 }
 
-html.heretic-dark .hr-hf-action-button {
+html.theme-dark .hr-hf-action-button {
     height: 29px !important;
     width: 30px !important;
 }
@@ -135,7 +135,7 @@ html.heretic-dark .hr-hf-action-button {
     position: relative;
 }
 
-html.heretic-dark .hr-hf-settings-icon svg {
+html.theme-dark .hr-hf-settings-icon svg {
     height: 30px !important;
     width: 30px !important;
 }
@@ -158,11 +158,11 @@ html.heretic-dark .hr-hf-settings-icon svg {
     border-radius: $radius;
 }
 
-html.heretic-dark .hr-hf-keyValue-row:hover {
-    background: darken($heretic-dark-grey, 20%);
+html.theme-dark .hr-hf-keyValue-row:hover {
+    background: darken($theme-dark-grey, 20%);
 }
 
-html:not(.heretic-dark) .hr-hf-tags-wrap {
+html:not(.theme-dark) .hr-hf-tags-wrap {
     height: unset !important;
     min-height: 2.5em;
     margin-left: 0 !important;
@@ -174,30 +174,32 @@ html:not(.heretic-dark) .hr-hf-tags-wrap {
     margin-right: 3px !important;
 }
 
-html.heretic-dark .hr-hf-tag-delete {
-    background: $heretic-dark-grey;
-    color: $heretic-dark-black-bis;
+html.theme-dark .hr-hf-tag-delete {
+    background: $theme-dark-grey;
+    color: $theme-dark-black-bis;
 }
 
-html.heretic-dark .hr-hf-tag-delete:hover {
-    background: lighten($heretic-dark-grey, 3%) !important;
-    color: $heretic-dark-black-bis !important;
+html.theme-dark .hr-hf-tag-delete:hover {
+    background: lighten($theme-dark-grey, 3%) !important;
+    color: $theme-dark-black-bis !important;
 }
 
-html:not(.heretic-dark) .hr-hf-tags-wrap-focus {
+html:not(.theme-dark) .hr-hf-tags-wrap-focus {
     border-color: $link !important;
+    margin-left: 0 !important;
     box-shadow: 0 0 0 0.125em rgba($link, 0.25) !important;
 }
 
-html.heretic-dark .hr-hf-tags-wrap {
-    background: $heretic-dark-grey-dark !important;
-    box-shadow: inset 0 0.0625em 0.125em $heretic-dark-black !important;
-    border: 1px solid lighten($heretic-dark-grey-darker, 8%);
-    color: $heretic-dark-text-color-light !important;
+html.theme-dark .hr-hf-tags-wrap {
+    box-shadow: inset 0 0.0625em 0.125em $theme-dark-black !important;
+    border: 1px solid lighten($theme-dark-grey-darker, 8%);
+    color: $theme-dark-text-color-light !important;
     outline: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
 }
 
-html.heretic-dark .hr-hf-tags-wrap-focus {
+html.theme-dark .hr-hf-tags-wrap-focus {
     border: 1px solid lighten($grey-darker, 22%) !important;
 }
 
@@ -214,6 +216,7 @@ html.heretic-dark .hr-hf-tags-wrap-focus {
     min-width: 80px;
     border-radius: 0 !important;
     margin-top: 1px !important;
+    outline: none;
 }
 
 .hr-hf-tag-wrap {

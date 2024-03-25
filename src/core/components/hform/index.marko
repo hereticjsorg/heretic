@@ -104,10 +104,10 @@ $ {
                     </div>
                 </if>
             </div>
-            $ const tab = input.tabs.find(i => i.id == state.activeTab);
+            <!-- $ const tab = input.tabs.find(i => i.id == state.activeTab);
             <if(tab)>
                 <div class="mb-4 is-size-4 has-text-weight-light">${input.tabs.find(i => i.id == state.activeTab).label}</div>
-            </if>
+            </if> -->
         </if>
         <for|a| of=input.data.getData().form>
             <div class=(a.css || "") id=(a.label ? `hr_hf_${input.id}_area_${a.id}` : null)>
@@ -454,7 +454,7 @@ $ {
         style={
             order: "2"
         }>
-        <hform admin=input.admin admin=input.admin key=`logForm_${input.id}` id=`logForm_${input.id}` data=logFormData on-form-submit("onLogFormSubmit")/>
+        <hform admin=input.admin key=`logForm_${input.id}` id=`logForm_${input.id}` data=logFormData on-form-submit("onLogFormSubmit")/>
     </section>
 </hmodal>
 <hmodal

@@ -18,7 +18,7 @@
                 justify-content: center;
             }
 
-            html.heretic-dark body {
+            html.theme-dark body {
                 background: #000;
             }
 
@@ -48,7 +48,7 @@
                 animation: hr-hld-loader-dot-before 2.0s infinite ease-in-out both;
             }
 
-            html.heretic-dark .hr-hld-loader-dot:before {
+            html.theme-dark .hr-hld-loader-dot:before {
                 background-color: #ccc;
             }
 
@@ -56,7 +56,7 @@
                 padding: 10px;
             }
 
-            html.heretic-dark .content {
+            html.theme-dark .content {
                 color: #fff;
             }
 
@@ -154,7 +154,8 @@
             }
             const language = getCookie("${input.id}.language");
             const darkMode = getCookie("${input.id}.darkMode");
-            document.documentElement.classList[darkMode === "true" ? "add" : "remove"]("heretic-dark");
+            document.documentElement.classList[darkMode === "true" ? "add" : "remove"]("theme-dark");
+            document.documentElement.classList[darkMode === "false" ? "add" : "remove"]("theme-light");
             document.documentElement.style.transition = "all 0.6s ease";
             document.documentElement.style.overflow = "hidden";
             document.documentElement.setAttribute(

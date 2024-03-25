@@ -14,7 +14,7 @@
     fill: $black-ter;
 }
 
-html.heretic-dark .hr-hicon:not(.hr-hicon-black)>svg>path {
+html.theme-dark .hr-hicon:not(.hr-hicon-black)>svg>path {
     fill: $white-ter !important;
 }
 
@@ -30,6 +30,6 @@ html.heretic-dark .hr-hicon:not(.hr-hicon-black)>svg>path {
     align-items: center;
 }
 
-html.heretic-dark .hr-icon-text {
+html.theme-dark .hr-icon-text {
     color: $white-ter !important;
 }

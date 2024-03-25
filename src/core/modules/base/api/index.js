@@ -8,6 +8,7 @@ import apiUpdate from "./apiUpdate";
 import apiRebuild from "./apiRebuild";
 import apiStatus from "./apiStatus";
 import apiContact from "./apiContact";
+import apiUploadImage from "./apiUploadImage";
 
 export default fastify => {
     fastify.get("/api/captcha", apiCaptcha());
@@ -21,5 +22,6 @@ export default fastify => {
         fastify.get("/api/admin/rebuild", apiRebuild());
         fastify.post("/api/admin/status", apiStatus());
         fastify.post("/api/contact", apiContact());
+        fastify.post("/api/admin/upload/image", apiUploadImage());
     }
 };

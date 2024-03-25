@@ -9,10 +9,10 @@
         -20px -20px 60px #ffffff;
 }
 
-html.heretic-dark .hr-he-export-form-wrap {
-    background: lighten($heretic-dark-grey-dark, 3%) !important;
+html.theme-dark .hr-he-export-form-wrap {
+    background: lighten($theme-dark-grey-dark, 3%) !important;
     box-shadow: unset !important;
-    border-bottom: 1px solid $heretic-dark-grey-dark;
+    border-bottom: 1px solid $theme-dark-grey-dark;
 }
 
 .hr-he-settings-body {
@@ -24,7 +24,7 @@ html.heretic-dark .hr-he-export-form-wrap {
     background: $white-bis;
 }
 
-html.heretic-dark .hr-he-modal-notification {
+html.theme-dark .hr-he-modal-notification {
     background-color: darken($blue, 20%);
     color: $grey-light;
 }

@@ -119,12 +119,14 @@ html.heretic-dark .hr-browserError-overlay {
     color: $white;
     font-weight: 100;
     font-size: 1.7em;
+    width: 100% !important;
 }
 
 .hr-glitch {
     position: relative;
     color: #fff;
-    animation: hr-glitch-skew 1s infinite linear alternate-reverse
+    animation: hr-glitch-skew 1s infinite linear alternate-reverse;
+    text-align: center;
 }
 
 .hr-glitch::before {

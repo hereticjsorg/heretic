@@ -1,0 +1,72 @@
+@import "~styles/variables.scss";
+
+.hr-hc-editor-wrap {
+    position: relative;
+}
+
+html.theme-dark .hr-hc-editor-wrap {
+    background-color: rgb(48, 44, 44) !important;
+}
+
+.hr-hc-editor-spinner {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background-color: rgba($theme-light-loading-background, 0.5);
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+html.theme-dark .hr-hc-editor-spinner {
+    background-color: rgba($theme-dark-loading-background, 0.5);
+}
+
+html.theme-dark .cdx-search-field__input {
+    color: #fff;
+}
+
+html.theme-dark .ce-popover-item:hover {
+    background-color: #050505 !important;
+}
+
+html.theme-dark .cdx-block,
+html.theme-dark .ce-header,
+html.theme-dark .inlineToolButton,
+html.theme-dark .ce-toolbar__plus,
+html.theme-dark .ce-toolbar__settings-btn,
+html.theme-dark .ce-popover__search {
+    background-color: lighten($theme-dark-grey-dark, 6%);
+    color: white;
+}
+
+html.theme-dark .ce-toolbar__plus:hover,
+html.theme-dark .ce-toolbar__settings-btn:hover,
+html.theme-dark .cdx-loader,
+html.theme-dark .cdx-button {
+    color: white;
+    background-color: #262626;
+}
+
+html.theme-dark .cdx-button:hover {
+    background-color: #262626;
+}
+
+.ce-header {
+    font-size: 120%;
+    font-weight: 700;
+}
+
+html.theme-dark .ce-popover,
+html.theme-dark .ce-popover-item,
+html.theme-dark .ce-popover-item__icon,
+html.theme-dark .ce-popover-items,
+html.theme-dark .ce-popover-item:hover {
+    --color-background-item-hover: #2f2f2f;
+    background-color: #262626;
+    color: white;
+    border: none;
+}

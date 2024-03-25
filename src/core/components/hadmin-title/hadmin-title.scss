@@ -12,8 +12,8 @@
         0 0 0 1px rgba($grey-darker, .02) !important;
 }
 
-html.heretic-dark .hr-hat-wrap {
-    color: $heretic-dark-text-color-light !important;
-    background: darken($heretic-dark-grey-darker, 6%) !important;
-    box-shadow: 0 .2em 1em -.05em rgba($heretic-dark-black-bis, .7), 0 0 0 1px rgba($heretic-dark-black-bis, .8) !important;
+html.theme-dark .hr-hat-wrap {
+    color: $theme-dark-text-color-light !important;
+    background: darken($theme-dark-grey-darker, 6%) !important;
+    box-shadow: 0 .2em 1em -.05em rgba($theme-dark-black-bis, .7), 0 0 0 1px rgba($theme-dark-black-bis, .8) !important;
 }

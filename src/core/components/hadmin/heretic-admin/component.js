@@ -143,7 +143,8 @@ export default class {
         }
         this.store = store.namespace(`heretic_${this.siteId}`);
         const darkMode = !!this.store.get("darkMode");
-        document.documentElement.classList[darkMode ? "add" : "remove"]("heretic-dark");
+        document.documentElement.classList[darkMode ? "add" : "remove"]("theme-dark");
+        document.documentElement.classList[!darkMode ? "add" : "remove"]("theme-light");
         this.utils.setDarkTheme(darkMode);
         document.documentElement.style.transition = "all 0.6s ease";
         this.cookies.set(`${this.siteId}.language`, this.language);

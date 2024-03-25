@@ -93,10 +93,14 @@ export default class {
             this.language = this.language || window.__heretic.outGlobal.language;
         }
         if (input.admin) {
-            await import(/* webpackChunkName: "hform-admin" */ "./style-admin.scss");
+            await import( /* webpackChunkName: "hform-admin" */ "./style-admin.scss");
         } else {
-            await import(/* webpackChunkName: "hform-frontend" */ "./style-frontend.scss");
+            await import( /* webpackChunkName: "hform-frontend" */ "./style-frontend.scss");
         }
+    }
+
+    setData(data) {
+        this.setState("data", data);
     }
 
     onErrorMessageClose() {
@@ -129,6 +133,10 @@ export default class {
                 }
             }
         }
+    }
+
+    getActiveTab() {
+        return this.state.activeTab;
     }
 
     async onMount() {
@@ -219,7 +227,7 @@ export default class {
                 }
                 const resultPasswords = [];
                 for (const id of Object.keys(data[tab])) {
-                    if (this.fieldsFlat[id].type === "password" && data[tab][id] !== this.passwordRepeat[tab][id]) {
+                    if (this.fieldsFlat[id] && this.fieldsFlat[id].type === "password" && data[tab][id] !== this.passwordRepeat[tab][id]) {
                         resultPasswords.push({
                             instancePath: `/${id}`,
                             keyword: "passwordsDoNotMatch",
@@ -504,6 +512,10 @@ export default class {
         if (this.state.activeTab === id) {
             return;
         }
+        this.emit("tab-click", {
+            old: this.state.activeTab,
+            current: id,
+        });
         this.setTab(id);
         this.clearErrors();
     }

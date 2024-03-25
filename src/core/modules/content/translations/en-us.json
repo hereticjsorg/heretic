@@ -1,0 +1,20 @@
+{
+    "moduleTitleContent": "Content",
+    "moduleTitleEdit": "Edit Page",
+    "pageTitle": "Page Title",
+    "pageTitleHelpText": "A page title which is displayed in the browser window",
+    "newItem": "New Page",
+    "deleteSelected": "Delete",
+    "newPage": "New Page",
+    "editPage": "Edit Page",
+    "pagePathHelpText": "Use keywords to define the path",
+    "pagePath": "Path",
+    "btnSavePage": "Save",
+    "btnSavePageAndClose": "Save & Close",
+    "btnPageCancel": "Close",
+    "edit": "Edit",
+    "delete": "Delete",
+    "loadingError": "Could not load page contents",
+    "saveSuccess": "Saved successfully",
+    "duplicateRecord": "Path already exists"
+}

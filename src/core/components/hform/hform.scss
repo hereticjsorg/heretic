@@ -22,8 +22,8 @@
     box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
 }
 
-html.heretic-dark .hr-hf-area {
-    border: 1px solid $heretic-dark-grey;
+html.theme-dark .hr-hf-area {
+    border: 1px solid $theme-dark-grey;
 }
 
 .hr-hf-tab {
@@ -39,6 +39,16 @@ html.heretic-dark .hr-hf-area {
     background-color: $grey-lighter;
     color: $black-ter;
     border: 1px solid transparent;
+}
+
+html.theme-dark .hr-hf-tab {
+    border-width: 0px;
+    background: $theme-dark-grey-darker;
+    color: $white;
+}
+
+html.theme-dark .hr-hf-tab-active {
+    background-color: lighten($theme-dark-grey-darker, 15%);
 }
 
 .hr-hf-f-area-label-wrap {
@@ -64,16 +74,16 @@ html.heretic-dark .hr-hf-area {
     // border-radius: $radius-large;
 }
 
-html.heretic-dark .hr-hf-f-area-label {
-    background: $heretic-dark-black-bis;
-    color: $heretic-dark-text-color;
+html.theme-dark .hr-hf-f-area-label {
+    background: $theme-dark-black-bis;
+    color: $theme-dark-text-color;
 }
 
 .hr-hf-loader-overlay {
     position: absolute;
     top: 0;
     left: 0;
-    // background: rgba($heretic-theme-loading-background-color, 0.8);
+    // background: rgba($theme-light-loading-background, 0.8);
     backdrop-filter: grayscale(200%);
     z-index: 40;
     width: 100%;
@@ -83,8 +93,8 @@ html.heretic-dark .hr-hf-f-area-label {
     justify-content: center;
 }
 
-// html.heretic-dark .hr-hf-loader-overlay {
-//     background: rgba($heretic-theme-loading-background-color-dark, 0.8);
+// html.theme-dark .hr-hf-loader-overlay {
+//     background: rgba($theme-dark-loading-background, 0.8);
 // }
 
 .hr-hf-form {
@@ -148,9 +158,9 @@ html.heretic-dark .hr-hf-f-area-label {
     box-decoration-break: slice;
 }
 
-html.heretic-dark .hr-hf-history-tag {
-    background-color: lighten($heretic-dark-grey-darker, 5%);
-    border: 1px solid darken($heretic-dark-grey, 5%);
+html.theme-dark .hr-hf-history-tag {
+    background-color: lighten($theme-dark-grey-darker, 5%);
+    border: 1px solid darken($theme-dark-grey, 5%);
 }
 
 .hr-hf-history-tag-null {
@@ -169,10 +179,10 @@ html.heretic-dark .hr-hf-history-tag {
     user-select: auto;
 }
 
-html.heretic-dark .hr-hf-history-wysiwyg,
-html.heretic-dark .hr-hf-history-files {
-    background-color: lighten($heretic-dark-grey-darker, 5%);
-    border: 1px solid darken($heretic-dark-grey, 5%);
+html.theme-dark .hr-hf-history-wysiwyg,
+html.theme-dark .hr-hf-history-files {
+    background-color: lighten($theme-dark-grey-darker, 5%);
+    border: 1px solid darken($theme-dark-grey, 5%);
 }
 
 .hr-hf-history-to-right {
@@ -200,9 +210,9 @@ html.heretic-dark .hr-hf-history-files {
     box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
 }
 
-html.heretic-dark .hr-hf-history-changes-wrap {
-    border: 1px solid $heretic-dark-grey;
-    background: $heretic-dark-grey-darker;
+html.theme-dark .hr-hf-history-changes-wrap {
+    border: 1px solid $theme-dark-grey;
+    background: $theme-dark-grey-darker;
 }
 
 .hr-hf-tags-filter-wrap {
@@ -211,9 +221,9 @@ html.heretic-dark .hr-hf-history-changes-wrap {
     border-bottom: 1px solid $grey-lightest;
 }
 
-html.heretic-dark .hr-hf-tags-filter-wrap {
-    background: $heretic-dark-grey-darker;
-    border-bottom: 1px solid darken($heretic-dark-grey-darker, 11%);
+html.theme-dark .hr-hf-tags-filter-wrap {
+    background: $theme-dark-grey-darker;
+    border-bottom: 1px solid darken($theme-dark-grey-darker, 11%);
 }
 
 .hr-hf-tagAddModal {
@@ -281,9 +291,9 @@ html.heretic-dark .hr-hf-tags-filter-wrap {
     text-overflow: ellipsis;
 }
 
-html.heretic-dark .hr-hf-view-input {
-    background: lighten($heretic-dark-grey-dark, 6%);
-    color: $heretic-dark-text-color;
+html.theme-dark .hr-hf-view-input {
+    background: lighten($theme-dark-grey-dark, 6%);
+    color: $theme-dark-text-color;
 }
 
 .hr-hf-date-input {

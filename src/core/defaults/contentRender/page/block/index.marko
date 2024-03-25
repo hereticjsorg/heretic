@@ -1,0 +1,57 @@
+import Prism from "prismjs"
+import "prismjs/plugins/custom-class/prism-custom-class"
+
+$ Prism.plugins.customClass.map({ number: "prism-number", tag: "prism-tag" });
+<!-- Start: Paragraph -->
+<if(input.item.type === "paragraph")>
+    <p>$!{input.item.data.text}</p>
+</if>
+<!-- End: Paragraph -->
+<!-- Start: Header -->
+<if(input.item.type === "header")>
+    <if(input.item.data.level === 1)>
+        <h1 class="title is-1">${input.item.data.text}</h1>
+    </if>
+    <if(input.item.data.level === 2)>
+        <h2 class="title is-2">${input.item.data.text}</h2>
+    </if>
+    <if(input.item.data.level === 3)>
+        <h3 class="title is-3">${input.item.data.text}</h3>
+    </if>
+    <if(input.item.data.level === 4)>
+        <h4 class="title is-4">${input.item.data.text}</h4>
+    </if>
+    <if(input.item.data.level === 5)>
+        <h5 class="title is-4">${input.item.data.text}</h5>
+    </if>
+    <if(input.item.data.level === 6)>
+        <h6 class="title is-6">${input.item.data.text}</h6>
+    </if>
+</if>
+<!-- End: Header -->
+<!-- Start: List -->
+<if(input.item.type === "list")>
+    <div type="content">
+        <${input.item.data.style === "ordered" ? "ol" : "ul"} class="ml-5 mt-2 hr-ct-ul">
+            <for|i| of=input.item.data.items>
+                <li>${i}</li>
+            </for>
+        </>
+    </div>
+</if>
+<!-- End: List -->
+<!-- Start: Image -->
+<if(input.item.type === "image")>
+    <div class=`mt-2 mb-2 hr-ct-img-wrap${input.item.data.stretched ? "" : " hr-ct-img-no-stretch"}`>
+        <img src=input.item.data.file.url class=`${input.item.data.withBorder ? "hr-ct-img-border" : ""}`/>
+        <if(input.item.data.caption)>
+            <div class="hr-ct-img-caption">${input.item.data.caption}</div>
+        </if>
+    </div>
+</if>
+<!-- End: Image -->
+<!-- Start: Code -->
+<if(input.item.type === "code")>
+    <pre class="hr-ct-pre"><code class=`language-${input.item.data.mode}`>$!{Prism.highlight(input.item.data.code, Prism.languages[input.item.data.mode], input.item.data.mode)}</code></pre>
+</if>
+<!-- End: Code -->

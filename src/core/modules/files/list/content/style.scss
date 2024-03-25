@@ -11,7 +11,7 @@ $folder-dark: #594D36;
     user-select: none;
 }
 
-html.heretic-dark .hr-fs-head {
+html.theme-dark .hr-fs-head {
     background-color: $grey-darker;
     color: $white;
 }
@@ -29,20 +29,20 @@ html.heretic-dark .hr-fs-head {
     background-color: darken($folder, 15%);
 }
 
-html.heretic-dark .hr-fs-dir {
+html.theme-dark .hr-fs-dir {
     background-color: darken($folder-dark, 5%);
 }
 
-html.heretic-dark .hr-fs-dir-odd {
+html.theme-dark .hr-fs-dir-odd {
     background-color: $folder-dark;
 }
 
-html.heretic-dark .hr-fs-dir:hover,
-html.heretic-dark .hr-fs-dir-odd:hover {
+html.theme-dark .hr-fs-dir:hover,
+html.theme-dark .hr-fs-dir-odd:hover {
     background-color: lighten($folder-dark, 10%);
 }
 
-html.heretic-dark .hr-fs-dir>.column {
+html.theme-dark .hr-fs-dir>.column {
     color: $grey-lightest;
 }
 
@@ -63,16 +63,16 @@ html.heretic-dark .hr-fs-dir>.column {
     background-color: darken($grey-lighter, 10%);
 }
 
-html.heretic-dark .hr-fs-file {
+html.theme-dark .hr-fs-file {
     background-color: $grey-dark;
 }
 
-html.heretic-dark .hr-fs-file-odd {
+html.theme-dark .hr-fs-file-odd {
     background-color: $grey-darker;
 }
 
-html.heretic-dark .hr-fs-file:hover,
-html.heretic-dark .hr-fs-file-odd:hover {
+html.theme-dark .hr-fs-file:hover,
+html.theme-dark .hr-fs-file-odd:hover {
     background-color: lighten($grey-dark, 20%);
 }
 
@@ -81,7 +81,7 @@ html.heretic-dark .hr-fs-file-odd:hover {
     border-bottom-left-radius: $radius;
 }
 
-html.heretic-dark .hr-fs-file-icon>svg>path {
+html.theme-dark .hr-fs-file-icon>svg>path {
     fill: $white-ter;
 }
 
@@ -106,7 +106,7 @@ html.heretic-dark .hr-fs-file-icon>svg>path {
     border-radius: $radius;
 }
 
-html.heretic-dark .hr-fs-files-loading {
+html.theme-dark .hr-fs-files-loading {
     background-color: rgba($black, 0.5);
 }
 
@@ -201,12 +201,8 @@ html.heretic-dark .hr-fs-files-loading {
     background-color: $grey-lightest;
 }
 
-html.heretic-dark .hr-fs-panel {
+html.theme-dark .hr-fs-panel {
     background-color: $grey-dark;
-}
-
-html.heretic-dark .hr-fs-panel * {
-    color: $grey-light;
 }
 
 .hr-fs-dir-breadcrumb a {
@@ -217,11 +213,11 @@ html.heretic-dark .hr-fs-panel * {
     border-bottom: 1px dashed lighten($grey, 5%);
 }
 
-html.heretic-dark .hr-fs-dir-breadcrumb a>span {
+html.theme-dark .hr-fs-dir-breadcrumb a>span {
     border-bottom: 1px dashed $grey;
 }
 
-html.heretic-dark .hr-fs-tag {
+html.theme-dark .hr-fs-tag {
     background-color: $grey;
     color: $white-ter;
 }

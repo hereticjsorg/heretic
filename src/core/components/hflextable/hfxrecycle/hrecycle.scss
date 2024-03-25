@@ -9,7 +9,7 @@
     border-bottom: 1px solid $grey-lighter;
 }
 
-html.heretic-dark .hr-hr-actions-body {
+html.theme-dark .hr-hr-actions-body {
     background-color: $grey-dark;
     border-bottom: 1px solid $grey-darker;
 }
@@ -19,8 +19,8 @@ html.heretic-dark .hr-hr-actions-body {
     background: $white;
 }
 
-html.heretic-dark .hr-hr-recycleBin-pagination-wrap {
-    background: $heretic-dark-grey-dark;
+html.theme-dark .hr-hr-recycleBin-pagination-wrap {
+    background: $theme-dark-grey-dark;
 }
 
 .hr-hr-recycleBin-pagination-wrap>nav {
@@ -36,7 +36,7 @@ html.heretic-dark .hr-hr-recycleBin-pagination-wrap {
     height: 29px !important;
 }
 
-html.heretic-dark .hr-hr-action-button {
+html.theme-dark .hr-hr-action-button {
     width: 30px !important;
 }
 

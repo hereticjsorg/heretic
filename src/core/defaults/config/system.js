@@ -177,6 +177,7 @@ module.exports = {
         activation: "activation",
         captcha: "captcha",
         jobs: "jobs",
+        content: "content",
         ...conf.collections,
     },
     routes: {

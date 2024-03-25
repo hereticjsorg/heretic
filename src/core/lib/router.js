@@ -13,7 +13,7 @@ module.exports = class {
         this.init();
     }
 
-    getLocationData() {
+    getCurrentPath() {
         const {
             pathname
         } = new URL(window.location.href.replace(window.location.search, ""));
@@ -32,11 +32,25 @@ module.exports = class {
         let path = parts.join("/") || "";
         path = path.charAt(0) === "/" ? path : `/${path}`;
         path = path === "/" ? "" : path;
+        return {
+            data,
+            path,
+        };
+    }
+
+    getLocationData() {
+        const {
+            data,
+            path,
+        } = this.getCurrentPath();
         const route = this.routes.find(r => r.path === path);
         if (route) {
             data.id = route.id;
         }
-        return data;
+        return {
+            ...data,
+            path,
+        };
     }
 
     init() {
@@ -151,14 +165,24 @@ module.exports = class {
     }
 
     navigate(routeId, language = this.languages[0], params = {}, extra = {}) {
-        const routeItem = this.routes.find(r => r.id === routeId) || {
-            id: "404",
-            path: "/404",
-        };
-        const lang = language === this.languages[0] ? "" : language;
-        if (routeItem.id === this.home) {
-            routeItem.path = "";
+        let routeItem = {};
+        if (routeId.match(/^\//)) {
+            routeItem.id = null;
+            routeItem.path = routeId;
+        } else {
+            routeItem = this.routes.find(r => r.id === routeId) || {
+                id: "404",
+                path: "/404",
+            };
+            if (routeItem.id === this.home) {
+                routeItem.path = "";
+            }
         }
+        for (const lang of this.languages) {
+            const re = new RegExp(`^\\/${lang}`, "gm");
+            routeItem.path = routeItem.path.replace(re, "");
+        }
+        const lang = language === this.languages[0] ? "" : language;
         const url = `/${[lang, ...routeItem.path.split(/\//)].filter(i => i).join("/")}`;
         let queryString = "";
         if (params && Object.keys(params).length) {
@@ -172,7 +196,7 @@ module.exports = class {
         this.route = this.getLocationData();
         window.__heretic.routeExtra = extra;
         if (this.routeChangeHandler) {
-            this.routeChangeHandler(this, extra);
+            this.routeChangeHandler(this, extra, url);
         }
     }
 };

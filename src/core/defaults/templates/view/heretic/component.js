@@ -4,11 +4,13 @@ import tippy, {
 } from "tippy.js";
 import debounce from "lodash.debounce";
 import template from "lodash.template";
+import axios from "axios";
 import Cookies from "#lib/cookiesBrowser";
 import i18nLoader from "#build/loaders/i18n-loader-core";
 import pagesLoader from "#build/loaders/page-loader-userspace";
 import Utils from "#lib/componentUtils";
 import routesData from "#build/build.json";
+import contentPage from "#site/contentRender/index.marko";
 
 export default class {
     async loadLanguageData() {
@@ -37,6 +39,7 @@ export default class {
             route: null,
             languageLoaded: false,
             routed: false,
+            contentData: out.global.contentData || null,
         };
         this.componentsLoaded = {};
         this.language = out.global.language;
@@ -114,6 +117,19 @@ export default class {
         });
     }
 
+    interceptClickEvent(e) {
+        const target = e.target || e.srcElement;
+        if (!window.__heretic.routingStop && target.tagName === "A") {
+            let url = target.getAttribute("href");
+            if (!target.getAttribute("route") && url && url.match(/^\//)) {
+                e.preventDefault();
+                const re = new RegExp(`^\\/${this.language}`, "gm");
+                url = url.replace(re, "");
+                window.__heretic.router.navigate(url, this.language);
+            }
+        }
+    }
+
     async onMount() {
         window.__heretic = window.__heretic || {};
         window.__heretic.setTippy = debounce(this.setTippy, 100);
@@ -130,7 +146,8 @@ export default class {
         }
         this.store = store.namespace(`heretic_${this.siteId}`);
         const darkMode = this.store.get("darkMode") || false;
-        document.documentElement.classList[darkMode ? "add" : "remove"]("heretic-dark");
+        document.documentElement.classList[darkMode ? "add" : "remove"]("theme-dark");
+        document.documentElement.classList[!darkMode ? "add" : "remove"]("theme-light");
         this.utils.setDarkTheme(darkMode);
         document.documentElement.style.transition = "all 0.6s ease";
         this.cookies.set(`${this.siteId}.language`, this.language);
@@ -143,6 +160,7 @@ export default class {
                 window.__heretic.viewSettled = true;
             }
         }, 10);
+        document.addEventListener("click", this.interceptClickEvent.bind(this));
     }
 
     getAnimationTimer() {
@@ -158,6 +176,7 @@ export default class {
     }
 
     async onRouteChange(router) {
+        window.__heretic = window.__heretic || {};
         let component = null;
         const route = router.getRoute();
         const routeData = routesData.routes.userspace.find(r => r.id === route.id) || null;
@@ -188,25 +207,67 @@ export default class {
             }
             this.clearAnimationTimer(timer);
         }
-        if (this.state.routed && !routeData) {
+        if (this.state.routed && (!routeData || !routeData.id)) {
+            await this.utils.waitForLanguageData();
             const timer = this.getAnimationTimer();
+            const contentRenderWrap = document.getElementById("hr_content_render_wrap");
+            contentRenderWrap.innerHTML = "";
             try {
-                component = await pagesLoader.loadComponent();
-                const renderedComponent = await component.default.render();
-                this.setState("routed", true);
+                if (router.getLocationData().path === this.serverRoute && this.state.contentData) {
+                    window.__heretic.contentData = this.state.contentData;
+                    this.setState("contentData", null);
+                } else {
+                    try {
+                        const {
+                            data
+                        } = await axios({
+                            method: "post",
+                            url: "/api/content",
+                            data: {
+                                url: router.getLocationData().path,
+                                language: this.language,
+                            },
+                            headers: {},
+                        });
+                        window.__heretic.contentData = data;
+                    } catch {
+                        // Ignore
+                    }
+                }
                 await this.utils.waitForElement("hr_content_render_wrap");
-                const contentRenderWrap = document.getElementById("hr_content_render_wrap");
-                renderedComponent.replaceChildrenOf(contentRenderWrap);
-                this.componentsLoaded["404"] = true;
-                await this.utils.waitForComponent("navbar");
-                const navbarComponent = this.getComponent("navbar");
-                navbarComponent.setRoute();
+                if (window.__heretic.contentData) {
+                    const renderedComponent = await contentPage.render();
+                    renderedComponent.replaceChildrenOf(contentRenderWrap);
+                    window.__heretic.contentData = null;
+                } else {
+                    try {
+                        const {
+                            pathname
+                        } = new URL(window.location.href.replace(window.location.search, ""));
+                        await axios({
+                            method: "get",
+                            url: pathname,
+                            headers: {},
+                        });
+                        window.location.href = pathname;
+                        return;
+                    } catch {
+                        // Ignore
+                    }
+                    component = await pagesLoader.loadComponent();
+                    const renderedComponent = await component.default.render();
+                    renderedComponent.replaceChildrenOf(contentRenderWrap);
+                    this.componentsLoaded["404"] = true;
+                    await this.utils.waitForComponent("navbar");
+                    const navbarComponent = this.getComponent("navbar");
+                    navbarComponent.setRoute();
+                }
+                this.setState("routed", true);
+                this.clearAnimationTimer(timer);
             } catch (e) {
                 this.clearAnimationTimer(timer);
                 this.panicMode(e);
-                return;
             }
-            this.clearAnimationTimer(timer);
         }
     }
 

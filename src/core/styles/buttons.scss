@@ -1,8 +1,4 @@
-// Light
-
 .button.is-light {
-    background: $white-ter;
-    background: linear-gradient(180deg, lighten($white-ter, 1%) 0%, $white-ter 45%, darken($white-ter, 1%) 100%);
     border-top: 1px solid darken($white-ter, 3%);
     border-left: 1px solid darken($white-ter, 8%);
     border-right: 1px solid darken($white-ter, 8%);
@@ -11,63 +7,42 @@
     color: $grey-darker;
 }
 
-.button.is-light:hover:enabled,
-.button.is-light:focus:enabled,
-.button.is-light:active:enabled {
-    background: darken($white-ter, 2%);
+.button.is-light:hover:enabled {
     border-top: 1px solid darken($white-ter, 4%);
     border-left: 1px solid darken($white-ter, 9%);
     border-right: 1px solid darken($white-ter, 9%);
     border-bottom: unset;
-    box-shadow: 0 2px 0 0 darken($white-ter, 23%), 1px 10px 16px -16px lighten($black, 25%) !important;
+    box-shadow: 0 2px 0 0 darken($white-ter, 23%), 1px 10px 16px -16px lighten($black, 25%), rgba(50, 50, 93, 0.15) 0px 6px 12px -2px, rgba(0, 0, 0, 0.1) 0px 3px 7px -3px !important;
 }
 
 .button.is-primary {
-    background: $primary;
-    background: linear-gradient(180deg, lighten($primary, 1%) 0%, lighten($primary, 3%) 45%, lighten($primary, 5%) 100%);
-    box-shadow: 0 2px 0 0 darken($primary, 15%), 1px 6px 16px -16px lighten($black, 15%);
-    color: $grey-lightest;
+    box-shadow: 0 2px 0 0 lighten($primary, 15%), 1px 6px 16px -16px lighten($black, 15%) !important;
+    border-bottom: darken($primary, 25%) !important;
+    color: $grey-lightest !important;
 }
 
-.button.is-primary:hover:enabled,
-.button.is-primary:focus:enabled,
-.button.is-primary:active:enabled {
-    background: darken($primary, 2%);
-    box-shadow: 0 2px 0 0 darken($primary, 20%), 1px 10px 16px -16px lighten($black, 25%) !important;
+.button.is-primary:hover:enabled {
+    box-shadow: 0 2px 0 0 lighten($primary, 15%), 1px 6px 16px -16px lighten($black, 15%), rgba(50, 50, 93, 0.15) 0px 6px 12px -2px, rgba(0, 0, 0, 0.1) 0px 3px 7px -3px !important
 }
 
 .button.is-link {
-    background: $grey;
-    background: linear-gradient(180deg, lighten($grey, 1%) 0%, lighten($grey, 3%) 45%, lighten($grey, 5%) 100%);
     box-shadow: 0 2px 0 0 darken($grey, 15%), 1px 6px 16px -16px lighten($black, 15%);
     color: $grey-lightest;
 }
 
-.button.is-link:hover:enabled,
-.button.is-link:focus:enabled,
-.button.is-link:active:enabled {
-    background: darken($grey, 2%);
-    box-shadow: 0 2px 0 0 darken($grey, 20%), 1px 10px 16px -16px lighten($black, 25%) !important;
+.button.is-link:hover:enabled {
+    box-shadow: 0 2px 0 0 darken($grey, 20%), 1px 10px 16px -16px lighten($black, 25%), rgba(50, 50, 93, 0.15) 0px 6px 12px -2px, rgba(0, 0, 0, 0.1) 0px 3px 7px -3px !important;
 }
 
 .button.is-info {
-    background: $blue;
-    background: linear-gradient(180deg, lighten($blue, 1%) 0%, $blue 45%, darken($blue, 1%) 100%);
     box-shadow: 0 2px 0 0 darken($blue, 20%), 1px 6px 16px -16px lighten($black, 15%);
-    color: $grey-lightest;
 }
 
-.button.is-info:hover:enabled,
-.button.is-info:focus:enabled,
-.button.is-info:active:enabled {
-    background: darken($blue, 2%);
-    box-shadow: 0 2px 0 0 darken($blue, 23%), 1px 10px 16px -16px lighten($black, 25%) !important;
-    color: $grey-lightest !important;
+.button.is-info:hover:enabled {
+    box-shadow: 0 2px 0 0 darken($blue, 23%), 1px 10px 16px -16px lighten($black, 25%), rgba(50, 50, 93, 0.15) 0px 6px 12px -2px, rgba(0, 0, 0, 0.1) 0px 3px 7px -3px !important;
 }
 
 .button.is-success {
-    background: $green;
-    background: linear-gradient(180deg, lighten($green, 1%) 0%, $green 45%, darken($green, 1%) 100%);
     box-shadow: 0 2px 0 0 darken($green, 20%), 1px 6px 16px -16px lighten($black, 15%) !important;
     color: $white-bis;
 }
@@ -76,173 +51,34 @@
     fill: $white-bis !important;
 }
 
-.button.is-success:hover:enabled,
-.button.is-success:focus:enabled,
-.button.is-success:active:enabled {
-    background: darken($green, 2%);
-    box-shadow: 0 2px 0 0 darken($green, 23%), 1px 10px 16px -16px lighten($black, 25%) !important;
+.button.is-success:hover:enabled {
+    box-shadow: 0 2px 0 0 darken($green, 23%), 1px 10px 16px -16px lighten($black, 25%), rgba(50, 50, 93, 0.15) 0px 6px 12px -2px, rgba(0, 0, 0, 0.1) 0px 3px 7px -3px !important;
     color: $white-bis !important;
 }
 
 .button.is-warning {
-    background: $yellow;
-    background: linear-gradient(180deg, lighten($yellow, 1%) 0%, lighten($yellow, 3%) 45%, lighten($yellow, 5%) 100%);
     box-shadow: 0 2px 0 0 darken($yellow, 22%), 1px 6px 16px -16px lighten($black, 15%);
     color: lighten($grey-dark, 5%);
 }
 
-html.heretic-dark .button.is-warning>span>svg>path {
+html.theme-dark .button.is-warning>span>svg>path {
     fill: lighten($grey-dark, 5%) !important;
 }
 
-.button.is-warning:hover:enabled,
-.button.is-warning:focus:enabled,
-.button.is-warning:active:enabled {
-    background: darken($yellow, 5%) !important;
-    box-shadow: 0 2px 0 0 darken($yellow, 27%), 1px 10px 16px -16px lighten($black, 25%) !important;
+.button.is-warning:hover:enabled {
+    box-shadow: 0 2px 0 0 darken($yellow, 27%), 1px 10px 16px -16px lighten($black, 25%), rgba(50, 50, 93, 0.15) 0px 6px 12px -2px, rgba(0, 0, 0, 0.1) 0px 3px 7px -3px !important;
     color: lighten($grey-dark, 5%) !important;
 }
 
 .button.is-danger {
-    background: $red;
-    background: linear-gradient(180deg, lighten($red, 1%) 0%, lighten($red, 3%) 45%, lighten($red, 5%) 100%);
     box-shadow: 0 2px 0 0 darken($red, 20%), 1px 6px 16px -16px lighten($black, 15%);
     color: $white-bis;
 }
 
-.button.is-danger:hover:enabled,
-.button.is-danger:active:enabled,
-.button.is-danger:focus:enabled {
-    background: darken($red, 5%) !important;
-    box-shadow: 0 2px 0 0 darken($red, 25%), 1px 10px 16px -16px lighten($black, 25%) !important;
+.button.is-danger:hover:enabled {
+    box-shadow: 0 2px 0 0 darken($red, 25%), 1px 10px 16px -16px lighten($black, 25%), rgba(50, 50, 93, 0.15) 0px 6px 12px -2px, rgba(0, 0, 0, 0.1) 0px 3px 7px -3px !important;
 }
 
-// Dark
-
-html.heretic-dark .button.is-light {
-    background: $grey;
-    background: linear-gradient(180deg, lighten($grey, 1%) 0%, $grey 45%, darken($grey, 1%) 100%);
-    border-top: 1px solid darken($grey, 3%);
-    border-left: 1px solid darken($grey, 8%);
-    border-right: 1px solid darken($grey, 8%);
-    border-bottom: unset;
-    box-shadow: 0 2px 0 0 darken($grey, 20%), 1px 6px 16px -16px lighten($black, 15%);
-    color: $white-ter;
-}
-
-html.heretic-dark .button {
-    background: $grey-darker;
-    color: $white-ter;
-    border: 1px solid darken($grey, 10%);
-}
-
-html.heretic-dark .button.is-light>span>svg>path {
-    fill: $white-ter !important;
-}
-
-html.heretic-dark .button.is-light:hover:enabled,
-html.heretic-dark .button.is-light:focus:enabled,
-html.heretic-dark .button.is-light:active:enabled {
-    background: darken($grey, 4%);
-    border-top: 1px solid darken($grey, 4%);
-    border-left: 1px solid darken($grey, 9%);
-    border-right: 1px solid darken($grey, 9%);
-    border-bottom: unset;
-    box-shadow: 0 2px 0 0 darken($grey, 23%), 1px 10px 16px -16px $black !important;
-}
-
-html.heretic-dark .button.is-primary {
-    background: $primary !important;
-    box-shadow: 0px 1px 0px 0px darken($primary, 10%), 0px 5px 5px -5px darken($primary, 20%), 0px 2px 0px 0px darken($primary, 10%) !important;
-    color: $grey-lighter;
-    border: unset !important;
-}
-
-html.heretic-dark .button.is-primary:hover:enabled,
-html.heretic-dark .button.is-primary:focus:enabled,
-html.heretic-dark .button.is-primary:active:enabled {
-    background: darken($primary, 3%) !important;
-    box-shadow: 0 2px 0 0 darken($primary, 15%), 1px 10px 16px -16px lighten($black, 25%) !important;
-}
-
-html.heretic-dark .button.is-link {
-    background: darken($grey, 10%) !important;
-    box-shadow: 0 2px 0 0 darken($grey, 25%), 1px 6px 16px -16px lighten($black, 10%);
-    color: $grey-lighter;
-    border: unset !important;
-}
-
-html.heretic-dark .button.is-link:hover:enabled,
-html.heretic-dark .button.is-link:focus:enabled,
-html.heretic-dark .button.is-link:active:enabled {
-    background: darken($grey, 15%) !important;
-    box-shadow: 0 2px 0 0 darken($grey, 30%), 1px 10px 16px -16px $black !important;
-}
-
-html.heretic-dark .button.is-info {
-    background: darken($blue, 5%) !important;
-    box-shadow: 0 2px 0 0 darken($blue, 20%), 1px 6px 16px -16px lighten($black, 10%);
-    color: $grey-lightest;
-    border: unset !important;
-}
-
-html.heretic-dark .button.is-info:hover:enabled,
-html.heretic-dark .button.is-info:focus:enabled,
-html.heretic-dark .button.is-info:active:enabled {
-    background: darken($blue, 10%) !important;
-    box-shadow: 0 2px 0 0 darken($blue, 25%), 1px 10px 16px -16px $black !important;
-}
-
-html.heretic-dark .button.is-success {
-    background: darken($green, 5%) !important;
-    box-shadow: 0 2px 0 0 darken($green, 20%), 1px 6px 16px -16px lighten($black, 10%);
-    color: $grey-lightest;
-    border: unset !important;
-}
-
-html.heretic-dark .button.is-success:hover:enabled,
-html.heretic-dark .button.is-success:focus:enabled,
-html.heretic-dark .button.is-success:active:enabled {
-    background: darken($green, 10%) !important;
-    box-shadow: 0 2px 0 0 darken($green, 25%), 1px 10px 16px -16px $black !important;
-}
-
-html.heretic-dark .button.is-warning {
-    background: darken($yellow, 15%) !important;
-    box-shadow: 0 2px 0 0 darken($yellow, 35%), 1px 6px 16px -16px lighten($black, 10%);
-    color: lighten($grey-dark, 5%);
-    border: unset !important;
-}
-
-html.heretic-dark .button.is-warning:hover:enabled,
-html.heretic-dark .button.is-warning:focus:enabled,
-html.heretic-dark .button.is-warning:active:enabled {
-    background: darken($yellow, 20%) !important;
-    box-shadow: 0 2px 0 0 darken($yellow, 40%), 1px 10px 16px -16px $black !important;
-}
-
-html.heretic-dark .button.is-danger {
-    background: darken($red, 10%) !important;
-    box-shadow: 0 2px 0 0 darken($red, 25%), 1px 6px 16px -16px lighten($black, 10%);
-    color: $white-ter;
-    border: unset !important;
-}
-
-html.heretic-dark .button.is-danger:hover:enabled,
-html.heretic-dark .button.is-danger:active:enabled,
-html.heretic-dark .button.is-danger:focus:enabled {
-    background: darken($red, 15%) !important;
-    box-shadow: 0 2px 0 0 darken($red, 30%), 1px 10px 16px -16px $black !important;
-}
-
-html.heretic-dark .button.is-ghost {
-    border: unset !important;
-    background: transparent !important;
-    color: $grey-light;
-}
-
-html.heretic-dark .button.is-ghost:hover,
-html.heretic-dark .button.is-ghost:active,
-html.heretic-dark .button.is-ghost:focus {
-    color: $grey-lightest !important;
+.button.is-small {
+    height: 31px;
 }

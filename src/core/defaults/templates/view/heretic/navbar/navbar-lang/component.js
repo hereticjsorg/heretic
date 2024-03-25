@@ -34,6 +34,8 @@ export default class {
         const {
             lang,
         } = e.target.closest("[data-lang]").dataset;
+        window.__heretic = window.__heretic || {};
+        window.__heretic.routingStop = true;
         window.location.href = (lang === Object.keys(languages)[0] ? this.getCurrentURL() : `/${lang}${this.getCurrentURL()}`);
     }
 

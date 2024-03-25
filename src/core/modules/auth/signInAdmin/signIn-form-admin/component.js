@@ -66,7 +66,8 @@ export default class {
         });
         this.store = store.namespace(`heretic_${this.siteId}`);
         const darkMode = !!this.store.get("darkMode");
-        document.documentElement.classList[darkMode ? "add" : "remove"]("heretic-dark");
+        document.documentElement.classList[darkMode ? "add" : "remove"]("theme-dark");
+        document.documentElement.classList[!darkMode ? "add" : "remove"]("theme-light");
         this.utils.setDarkTheme(darkMode);
         this.setState("ready", true);
         this.update();

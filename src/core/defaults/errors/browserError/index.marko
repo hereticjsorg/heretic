@@ -2,15 +2,7 @@
     <div class="hr-browserError-overlay">
         <div class="columns is-gapless is-mobile">
             <div class="column is-narrow hr-browserError-message">
-                <div class="hr-glitch" data-text=(process.browser ? window.__heretic.t("somethingWentWrong") : "")>${process.browser ? window.__heretic.t("somethingWentWrong") : ""}</div>
-                <div
-                    style={
-                        "margin-top": "-15px"
-                    }
-                    class="hr-glitch"
-                    data-text=(process.browser ? window.__heretic.t("tryToRefresh") : "")>
-                    ${process.browser ? window.__heretic.t("tryToRefresh") : ""}
-                </div>
+                <div class="hr-glitch ml-5 mr-5" data-text=(process.browser ? window.__heretic.t("somethingWentWrong") : "")>${process.browser ? window.__heretic.t("somethingWentWrong") : ""}</div>
             </div>
         </div>
     </div>
