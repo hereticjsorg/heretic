@@ -479,6 +479,9 @@ export default class {
         const indexCreate = {};
         fields.map((i: string | number) => {
             (indexCreate as Record<string | number, number>)[i] = direction === "asc" ? 1 : -1;
+            for (const lang of Object.keys(languages)) {
+                (indexCreate as Record<string | number, number>)[`${lang}.${i}`] = direction === "asc" ? 1 : -1;
+            }
         });
         this.fastify.log.info(`Dropping index: ${collection}_${direction}...`);
         try {

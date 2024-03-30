@@ -34,5 +34,6 @@ html.theme-dark .navbar-burger {
 .hr-navbar-item-active:focus,
 .hr-navbar-item-active:active {
     background: $primary !important;
+    background-color: $primary !important;
     color: $white !important;
 }

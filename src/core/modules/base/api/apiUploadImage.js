@@ -21,9 +21,11 @@ export default () => ({
                     message: "Invalid image",
                 });
             }
-            await fs.ensureDir(path.resolve(__dirname, "public/images"));
-            const filename = `${uuidv4()}${path.extname(multipartData.files.image.filename)}`;
-            await fs.move(multipartData.files.image.filePath, path.resolve(__dirname, `public/images/${filename}`));
+            const filename = this.systemConfig.demo ? "" : `${uuidv4()}${path.extname(multipartData.files.image.filename)}`;
+            if (!this.systemConfig.demo) {
+                await fs.ensureDir(path.resolve(__dirname, "public/images"));
+                await fs.move(multipartData.files.image.filePath, path.resolve(__dirname, `public/images/${filename}`));
+            }
             await req.removeMultipartTempFiles();
             return rep.code(200).send({
                 success: 1,

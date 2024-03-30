@@ -167,6 +167,7 @@ const extensionsText = [
     "mkd",
     "mkdn",
     "mkdown",
+    "marko",
     "ml",
     "mli",
     "mm",

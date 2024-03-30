@@ -1,6 +1,6 @@
 {
     "content": {
-        "asc": [],
-        "desc":  []
+        "asc": ["pagePath", "pagePathHash", "pagePathText", "title"],
+        "desc": ["pagePath", "pagePathHash", "pagePathText", "title"]
     }
 }

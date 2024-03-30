@@ -231,14 +231,13 @@ export default class {
                         });
                         window.__heretic.contentData = data;
                     } catch {
-                        // Ignore
+                        window.__heretic.contentData = null;
                     }
                 }
                 await this.utils.waitForElement("hr_content_render_wrap");
                 if (window.__heretic.contentData) {
                     const renderedComponent = await contentPage.render();
                     renderedComponent.replaceChildrenOf(contentRenderWrap);
-                    window.__heretic.contentData = null;
                 } else {
                     try {
                         const {

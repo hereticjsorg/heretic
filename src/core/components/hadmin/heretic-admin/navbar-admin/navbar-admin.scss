@@ -61,6 +61,15 @@
     background-color: transparent;
 }
 
+.hr-navbar-item-active,
+.hr-navbar-item-active:hover,
+.hr-navbar-item-active:focus,
+.hr-navbar-item-active:active {
+    background: $primary !important;
+    background-color: $primary !important;
+    color: $white !important;
+}
+
 @media (max-width: 1023px) {
     .hr-navbar-menu {
         background-color: var(--bulma-scheme-main) !important;
