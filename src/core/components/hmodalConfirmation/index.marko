@@ -11,12 +11,14 @@
                 </if>
             </header>
             <footer class=`modal-card-foot hr-hm-modal-card-foot p-3 ${input.footClass || ""}`>
-                <button class="button is-primary" on-click("onConfirmClick")>
-                    <t>confirmationModalButtonConfirm</t>
-                </button>
-                <button class="button is-light" on-click("onClose")>
-                    <t>confirmationModalButtonCancel</t>
-                </button>
+                <div class="buttons">
+                    <button class="button is-primary" on-click("onConfirmClick")>
+                        <t>confirmationModalButtonConfirm</t>
+                    </button>
+                    <button class="button is-light" on-click("onClose")>
+                        <t>confirmationModalButtonCancel</t>
+                    </button>
+                </div>
             </footer>
             <section
                 class="modal-card-body"
