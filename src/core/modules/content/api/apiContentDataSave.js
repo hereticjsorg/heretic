@@ -84,6 +84,7 @@ export default () => ({
                 if (duplicateRecord) {
                     return rep.error({
                         duplicate: true,
+                        message: "duplicateRecord",
                     });
                 }
                 const insertResult = await collection.insertOne({

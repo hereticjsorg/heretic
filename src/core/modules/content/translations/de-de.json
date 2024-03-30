@@ -1,1 +1,20 @@
-{}
+{
+    "moduleTitleContent": "Inhalt",
+    "moduleTitleEdit": "Seite bearbeiten",
+    "pageTitle": "Seite Titel",
+    "pageTitleHelpText": "Ein Seitentitel, der im Browserfenster angezeigt wird",
+    "newItem": "Neue Seite",
+    "deleteSelected": "Löschen",
+    "newPage": "Neue Seite",
+    "editPage": "Seite bearbeiten",
+    "pagePathHelpText": "Verwenden Sie Schlüsselwörter, um den Pfad zu definieren",
+    "pagePath": "Pfad",
+    "btnSavePage": "Speichern",
+    "btnSavePageAndClose": "Speichern & Schließen",
+    "btnPageCancel": "Schließen",
+    "edit": "Bearbeiten",
+    "delete": "Löschen",
+    "loadingError": "Seiteninhalt konnte nicht geladen werden",
+    "saveSuccess": "Erfolgreich gespeichert",
+    "duplicateRecord": "Pfad existiert bereits"
+}

@@ -21,7 +21,7 @@
         cursor: pointer;
         border: 1px solid var(--bc, var(--border));
         background: var(--b, var(--background));
-        transition: background .3s, border-color .3s, box-shadow .2s;
+        transition: background .1s, border-color .1s, box-shadow .1s;
 
         &:after {
             content: '';
@@ -29,7 +29,7 @@
             left: 0;
             top: 0;
             position: absolute;
-            transition: transform var(--d-t, .3s) var(--d-t-e, ease), opacity var(--d-o, .2s);
+            transition: transform var(--d-t, .1s) var(--d-t-e, ease), opacity var(--d-o, .1s);
         }
 
         &:checked {
@@ -168,7 +168,7 @@
         --border: #{$grey-dark};
         --border-hover: #{$grey-darker};
         ;
-        --background: #{lighten($black-bis, 20%)};
+        --background: #{lighten($black-bis, 10%)};
         --disabled: #{$grey};
         --disabled-inner: #{$grey-light};
         -webkit-appearance: none;
@@ -182,7 +182,7 @@
         cursor: pointer;
         border: 1px solid var(--bc, var(--border));
         background: var(--b, var(--background));
-        transition: background .3s, border-color .3s, box-shadow .2s;
+        transition: background .1s, border-color .1s, box-shadow .1s;
 
         &:after {
             content: '';

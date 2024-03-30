@@ -1,1 +1,20 @@
-{}
+{
+    "moduleTitleContent": "Контент",
+    "moduleTitleEdit": "Редактирование",
+    "pageTitle": "Заголовок страницы",
+    "pageTitleHelpText": "Заголовок страницы (отображается в окне браузера)",
+    "newItem": "Новая страница",
+    "deleteSelected": "Удалить",
+    "newPage": "Новая страница",
+    "editPage": "Правка",
+    "pagePathHelpText": "Используйте ключевые слова для определения пути",
+    "pagePath": "Путь",
+    "btnSavePage": "Сохранить",
+    "btnSavePageAndClose": "Сохранить и закрыть",
+    "btnPageCancel": "Закрыть",
+    "edit": "Редактировать",
+    "delete": "Удалить",
+    "loadingError": "Не удалось загрузить содержимое страницы",
+    "saveSuccess": "Сохранено успешно",
+    "duplicateRecord": "Путь уже существует"
+}
