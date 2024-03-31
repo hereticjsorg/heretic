@@ -33,7 +33,7 @@
     "desc404": "The link is broken or the page has been moved.",
     "internalServerErrorTitle": "Internal Server Error",
     "internalServerErrorMessage": "There is an error on the server side. Please try to refresh this page.",
-    "somethingWentWrong": "Something went wrong. Try to refresh the page.",
+    "somethingWentWrong": "Something went wrong. Please try to refresh the page.",
     "poweredByHeretic": "Powered by",
     "mMatveev": "Mikhail A. Matveev",
     "mitLicense": "Licensed under",

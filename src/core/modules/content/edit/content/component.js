@@ -168,10 +168,11 @@ export default class {
                 },
             },
             onReady: async () => {
-                new DragDrop(this.editor);
+                await this.utils.waitForComponent(`${moduleConfig.id}Form`);
+                setTimeout(() => new DragDrop(this.editor));
                 if (id) {
                     const editForm = this.getComponent(`${moduleConfig.id}Form`);
-                    this.editor.render(this.state.editorContent[editForm.getActiveTab()]);
+                    setTimeout(() => this.editor.render(this.state.editorContent[editForm.getActiveTab()]));
                 }
             }
         });
