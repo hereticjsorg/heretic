@@ -32,9 +32,9 @@ $ Prism.plugins.customClass.map({ number: "prism-number", tag: "prism-tag" });
 <!-- Start: List -->
 <if(input.item.type === "list")>
     <div type="content">
-        <${input.item.data.style === "ordered" ? "ol" : "ul"} class="ml-5 mt-2 hr-ct-ul">
+        <${input.item.data.style === "ordered" ? "ol" : "ul"} class=`ml-5 mt-2 hr-ct-${input.item.data.style === "ordered" ? "ol" : "ul"}`>
             <for|i| of=input.item.data.items>
-                <li>${i}</li>
+                <li>${i} ${input.item.data.style}</li>
             </for>
         </>
     </div>
@@ -55,3 +55,58 @@ $ Prism.plugins.customClass.map({ number: "prism-number", tag: "prism-tag" });
     <pre class="hr-ct-pre"><code class=`language-${input.item.data.mode}`>$!{Prism.highlight(input.item.data.code, Prism.languages[input.item.data.mode], input.item.data.mode)}</code></pre>
 </if>
 <!-- End: Code -->
+<!-- Start: Table -->
+<if(input.item.type === "table")>
+    <table class="table is-striped is-hoverable is-fullwidth hr-ct-table">
+        <for|row, index| of=input.item.data.content>
+            <if(input.item.data.withHeadings)>
+                <if(index === 0)>
+                    <thead>
+                        <tr>
+                            <for|col| of=row>
+                                <th class="hr-ct-th">${col}</th>
+                            </for>
+                        </tr>
+                    </thead>
+                </if>
+                <else>
+                    <tr>
+                        <for|col| of=row>
+                            <td class="hr-ct-td">${col}</td>
+                        </for>
+                    </tr>
+                </else>
+            </if>
+            <else>
+                <tr>
+                    <for|col| of=row>
+                        <td class="hr-ct-td">${col}</td>
+                    </for>
+                </tr>
+            </else>
+        </for>
+    </table>
+</if>
+<!-- End: Table -->
+<!-- Start: Raw HTML -->
+<if(input.item.type === "rawTool")>$!{input.item.data.html}</if>
+<!-- End: Raw HTML -->
+<!-- Start: Quote -->
+<if(input.item.type === "quote")>
+    <article class="message">
+        <div class="message-body">$!{input.item.data.text}</div>
+    </article>
+</if>
+<!-- End: Quote -->
+<!-- Start: Warning -->
+<if(input.item.type === "warning")>
+    <article class="message is-danger">
+        <div class="message-header">
+            <p>$!{input.item.data.title}</p>
+        </div>
+        <div class="message-body">
+            <p>$!{input.item.data.message}</p>
+        </div>
+    </article>
+</if>
+<!-- End: Warning -->
