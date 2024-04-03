@@ -145,6 +145,7 @@ export default class {
             modalDialog.setTitle(this.t("newRecord"));
             modalDialog.setActive(true).setCloseAllowed(true).setBackgroundCloseAllowed(false).setLoading(false);
             await this.utils.waitForComponent(`${pageConfig.id}Form`);
+            document.getElementById("usersEditModal_disable2fa").style.display = "none";
             break;
         }
     }

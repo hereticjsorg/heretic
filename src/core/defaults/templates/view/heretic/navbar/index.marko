@@ -16,7 +16,7 @@ $ const i18nNavigation = out.global.i18nNavigation;
         <div class="navbar-start">
             <for|item| of=navigation.userspace.routes>
                 <if(typeof item === "string")>
-                    <hrouter-link route=item class=`navbar-item hr-navbar-item${state.route === item ? " hr-navbar-item-active" : ""}`>${i18nNavigation[item]}</hrouter-link>
+                    <hrouter-link route=item class=`navbar-item hr-navbar-item${state.route === item || (!state.route && process.browser && item === window.location.pathname) ? " hr-navbar-item-active" : ""}`>${i18nNavigation[item]}</hrouter-link>
                 </if>
                 <else>
                     <div class=`navbar-item has-dropdown${state.navItemOpen === item.id ? " is-active" : ""}`>

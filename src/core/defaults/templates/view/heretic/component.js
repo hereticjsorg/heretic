@@ -180,6 +180,8 @@ export default class {
         let component = null;
         const route = router.getRoute();
         const routeData = routesData.routes.userspace.find(r => r.id === route.id) || null;
+        await this.utils.waitForComponent("navbar");
+        const navbarComponent = this.getComponent("navbar");
         if (route.id !== this.serverRoute || this.state.routed) {
             const timer = this.getAnimationTimer();
             try {
@@ -196,8 +198,6 @@ export default class {
                 contentRenderWrap.style.display = "none";
                 renderedComponent.replaceChildrenOf(contentRenderWrap);
                 this.componentsLoaded[route.id] = true;
-                await this.utils.waitForComponent("navbar");
-                const navbarComponent = this.getComponent("navbar");
                 navbarComponent.setRoute();
                 contentRenderWrap.style.display = "block";
             } catch (e) {
@@ -230,6 +230,7 @@ export default class {
                             headers: {},
                         });
                         window.__heretic.contentData = data;
+                        navbarComponent.setRoute(router.getLocationData().path);
                     } catch {
                         window.__heretic.contentData = null;
                     }
@@ -258,8 +259,7 @@ export default class {
                     renderedComponent.replaceChildrenOf(contentRenderWrap);
                     this.componentsLoaded["404"] = true;
                     await this.utils.waitForComponent("navbar");
-                    const navbarComponent = this.getComponent("navbar");
-                    navbarComponent.setRoute();
+                    navbarComponent.setRoute(router.getLocationData().path);
                 }
                 this.setState("routed", true);
                 this.clearAnimationTimer(timer);

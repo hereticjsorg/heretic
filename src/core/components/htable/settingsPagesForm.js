@@ -18,7 +18,7 @@ export default class {
                             maximum: 9999,
                         },
                         convert: "integer",
-                        css: "hr-hf-field-medium",
+                        css: "hr-hf-field-large",
                     }]
                 ],
             }],

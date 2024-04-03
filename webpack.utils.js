@@ -68,6 +68,11 @@ module.exports = class {
         };
         const t = {};
         for (const lang of Object.keys(languages)) {
+            if (fs.existsSync(path.resolve(__dirname, `site/translations/${lang}.json`))) {
+                t[lang] = fs.readJSONSync(path.resolve(__dirname, `site/translations/${lang}.json`));
+            }
+        }
+        for (const lang of Object.keys(languages)) {
             buildData.i18nNavigation[lang] = {};
             for (const r of navigationConfig.userspace.routes) {
                 buildData.i18nNavigation[lang][typeof r === "string" ? r : r.id] = "";
@@ -86,7 +91,10 @@ module.exports = class {
                     const moduleConfig = require(path.resolve(__dirname, `${modulePath}/${module}/module.js`));
                     for (const lang of Object.keys(languages)) {
                         if (fs.existsSync(path.resolve(__dirname, `${modulePath}/${module}/translations/${lang}.json`))) {
-                            t[lang] = fs.readJSONSync(path.resolve(__dirname, `${modulePath}/${module}/translations/${lang}.json`));
+                            t[lang] = {
+                                ...t[lang],
+                                ...fs.readJSONSync(path.resolve(__dirname, `${modulePath}/${module}/translations/${lang}.json`)),
+                            };
                         }
                     }
                     const moduleData = {
