@@ -1,3 +1,19 @@
+## v1.2.4
+
+**Bugfixes** (2024-04-03)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-03-30 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-03-30 | Bugfixes |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-03-31 | Bugfixes |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-03-31 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-03-31 | Merge branch 'dev1' of https://github.com/hereticjsorg/heretic into dev1 |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-01 | Content module work in progress |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-02 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-03 | Bugfixes |
+
+
 ## v1.2.3
 
 **Bugfixes** (2024-03-30)
