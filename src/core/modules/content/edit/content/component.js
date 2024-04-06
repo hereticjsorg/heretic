@@ -52,7 +52,7 @@ export default class {
                     },
                 });
                 if (response.data.lock) {
-                    this.setState("loadingError", `${window.__heretic.t("lockedBy")}: ${response.data.lock.username}`);
+                    this.setState("loadingError", `${this.t("lockedBy")}: ${response.data.lock.username}`);
                     return;
                 }
             } catch {
@@ -89,10 +89,10 @@ export default class {
             }
         }
         if (id) {
-            editForm.setTitle(`${window.__heretic.t("editPage")}: ${formData.title}`);
+            editForm.setTitle(`${this.t("editPage")}: ${formData.title}`);
             this.setState("editorContent", formData.content);
         } else {
-            editForm.setTitle(window.__heretic.t("newPage"));
+            editForm.setTitle(this.t("newPage"));
         }
     }
 
@@ -174,7 +174,32 @@ export default class {
                     const editForm = this.getComponent(`${moduleConfig.id}Form`);
                     setTimeout(() => this.editor.render(this.state.editorContent[editForm.getActiveTab()]));
                 }
-            }
+            },
+            i18n: {
+                messages: {
+                    toolbar: {
+                        toolbox: {
+                            Add: this.t("ejsToolboxAdd"),
+                        },
+                    },
+                    toolNames: {
+                        Text: this.t("ejsText"),
+                        Heading: this.t("ejsHeading"),
+                        List: this.t("ejsList"),
+                        Warning: this.t("ejsWarning"),
+                        Quote: this.t("ejsQuote"),
+                        Code: this.t("ejsCode"),
+                        Delimiter: this.t("ejsDelimiter"),
+                        "Raw HTML": this.t("ejsRawHTML"),
+                        Table: this.t("ejsTable"),
+                        Link: this.t("ejsLink"),
+                        Marker: this.t("ejsMarker"),
+                        Bold: this.t("ejsBold"),
+                        Italic: this.t("ejsItalic"),
+                        InlineCode: this.t("ejsInline"),
+                    },
+                },
+            },
         });
         setTimeout(() => this.getComponent(`${moduleConfig.id}Form`).focus());
     }
@@ -257,7 +282,7 @@ export default class {
             const {
                 title,
             } = submitResult.data;
-            editForm.setTitle(`${window.__heretic.t("editPage")}: ${title}`);
+            editForm.setTitle(`${this.t("editPage")}: ${title}`);
             this.startLockMessaging();
             return result;
         } catch (e) {
@@ -307,7 +332,7 @@ export default class {
             return;
         }
         await this.utils.waitForComponent(`notify_${pageConfig.id}`);
-        this.getComponent(`notify_${pageConfig.id}`).show(window.__heretic.t("saveSuccess"), "is-success");
+        this.getComponent(`notify_${pageConfig.id}`).show(this.t("saveSuccess"), "is-success");
         if (submitResult.insertedId) {
             this.currentId = submitResult.insertedId;
             this.query.set("id", submitResult.insertedId);

@@ -16,5 +16,20 @@
     "delete": "Удалить",
     "loadingError": "Не удалось загрузить содержимое страницы",
     "saveSuccess": "Сохранено успешно",
-    "duplicateRecord": "Путь уже существует"
+    "duplicateRecord": "Путь уже существует",
+    "ejsList": "Список",
+    "ejsText": "Параграф",
+    "ejsHeading": "Заголовок",
+    "ejsWarning": "Предупреждение",
+    "ejsQuote": "Цитата",
+    "ejsCode": "Код",
+    "ejsDelimiter": "Разделитель",
+    "ejsRawHTML": "HTML код",
+    "ejsTable": "Таблица",
+    "ejsLink": "Ссылка",
+    "ejsMarker": "Маркер",
+    "ejsBold": "Полужирный",
+    "ejsItalic": "Наклонный",
+    "ejsInline": "Моноширинный",
+    "ejsToolboxAdd": "Добавить"
 }

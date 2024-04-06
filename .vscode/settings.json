@@ -109,6 +109,7 @@
         "registerrouteapi",
         "registerrouteerrors",
         "registerroutepages",
+        "rxpm",
         "semibold",
         "serializers",
         "servestaticcontent",
