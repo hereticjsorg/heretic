@@ -16,5 +16,20 @@
     "delete": "Delete",
     "loadingError": "Could not load page contents",
     "saveSuccess": "Saved successfully",
-    "duplicateRecord": "Path already exists"
+    "duplicateRecord": "Path already exists",
+    "ejsList": "List",
+    "ejsText": "Paragraph",
+    "ejsHeading": "Heading",
+    "ejsWarning": "Warning",
+    "ejsQuote": "Quote",
+    "ejsCode": "Code",
+    "ejsDelimiter": "Delimiter",
+    "ejsRawHTML": "Raw HTML",
+    "ejsTable": "Table",
+    "ejsLink": "Link",
+    "ejsMarker": "Marker",
+    "ejsBold": "Bold",
+    "ejsItalic": "Italic",
+    "ejsInline": "Inline",
+    "ejsToolboxAdd": "Add"
 }
