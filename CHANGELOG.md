@@ -1,3 +1,12 @@
+## v1.2.6
+
+**Downgrade to Marko version 5.33.13** (2024-04-06)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-06 | Downgrade to Marko version 5.33.13 |
+
+
 ## v1.2.5
 
 **Bugfixes** (2024-04-06)
