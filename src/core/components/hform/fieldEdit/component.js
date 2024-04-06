@@ -456,6 +456,11 @@ export default class {
         input.className = input.className.replace(/(?:^|\s)hr-hf-tags-wrap-focus(?!\S)/gm, "");
     }
 
+    onTagsInputFocusOut(e) {
+        e.preventDefault();
+        this.onTagsInputKeyDown(e, true);
+    }
+
     animateErrorField(id) {
         const element = document.getElementById(id);
         if (!element) {
@@ -497,11 +502,11 @@ export default class {
         this.onTagsInputKeyPress();
     }
 
-    onTagsInputKeyDown(e) {
+    onTagsInputKeyDown(e, enter = false) {
         const inputField = document.getElementById(`hr_hf_el_${this.input.formId}_${this.input.id}`);
         const value = inputField.value ? inputField.value.trim() : null;
         if (value) {
-            if (e.keyCode === 13) {
+            if (e.keyCode === 13 || enter === true) {
                 e.preventDefault();
                 this.addTag(value);
                 inputField.value = "";

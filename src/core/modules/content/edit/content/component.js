@@ -308,6 +308,12 @@ export default class {
         }
         await this.utils.waitForComponent(`notify_${pageConfig.id}`);
         this.getComponent(`notify_${pageConfig.id}`).show(window.__heretic.t("saveSuccess"), "is-success");
+        if (submitResult.insertedId) {
+            this.currentId = submitResult.insertedId;
+            this.query.set("id", submitResult.insertedId);
+            this.sendLockAction("lock");
+            this.startLockMessaging();
+        }
     }
 
     onCancelClick() {
@@ -351,9 +357,6 @@ export default class {
 
     async onSaveClick(e) {
         e.preventDefault();
-        if (await this.submitForm()) {
-            await this.utils.waitForComponent(`notify_${pageConfig.id}`);
-            this.getComponent(`notify_${pageConfig.id}`).show(window.__heretic.t("saveSuccess"), "is-success");
-        }
+        this.onFormSubmit();
     }
 }

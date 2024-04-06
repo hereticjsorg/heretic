@@ -360,7 +360,7 @@ import { format } from "date-fns"
                             </div>
                         </for>
                         <div class="column is-auto p-0">
-                            <input id=`hr_hf_el_${input.formId}_${input.id}` on-focus("onTagsInputFocus") on-blur("onTagsInputBlur") on-keydown("onTagsInputKeyDown") on-keypress("onTagsInputKeyPress") class="input hr-hf-tags-input p-0" no-update/>
+                            <input id=`hr_hf_el_${input.formId}_${input.id}` on-focus("onTagsInputFocus") on-blur("onTagsInputBlur") on-keydown("onTagsInputKeyDown") on-keypress("onTagsInputKeyPress") class="input hr-hf-tags-input p-0" on-focusout("onTagsInputFocusOut") no-update/>
                             <if(input.enumDropdown && state.enumList && state.enumList.length)>
                                 <div class="hr-hf-tags-enum-wrap">
                                     <div class="menu">
