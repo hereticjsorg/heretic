@@ -177,9 +177,26 @@ export default class {
             },
             i18n: {
                 messages: {
-                    toolbar: {
-                        toolbox: {
-                            Add: this.t("ejsToolboxAdd"),
+                    ui: {
+                        blockTunes: {
+                            toggler: {
+                                "Click to tune": this.t("ejsClickToTune"),
+                                "or drag to move": this.t("ejsDragToMove")
+                            },
+                        },
+                        inlineToolbar: {
+                            converter: {
+                                "Convert to": this.t("ejsConvertTo")
+                            }
+                        },
+                        toolbar: {
+                            toolbox: {
+                                Add: this.t("ejsToolboxAdd"),
+                            },
+                        },
+                        popover: {
+                            Filter: this.t("ejsFilter"),
+                            "Nothing found": this.t("ejsFilterNothing"),
                         },
                     },
                     toolNames: {
@@ -197,6 +214,56 @@ export default class {
                         Bold: this.t("ejsBold"),
                         Italic: this.t("ejsItalic"),
                         InlineCode: this.t("ejsInline"),
+                        Image: this.t("ejsImage"),
+                    },
+                    tools: {
+                        warning: {
+                            Title: this.t("ejsWarningTitle"),
+                            Message: this.t("ejsWarningMessage"),
+                        },
+                        link: {
+                            "Add a link": this.t("ejsLinkInsert"),
+                        },
+                        stub: {
+                            "The block can not be displayed correctly.": this.t("ejsStubIncorrectBlock"),
+                        },
+                        image: {
+                            Caption: this.t("ejsImageCaption"),
+                            "Select an Image": this.t("ejsImageSelectImage"),
+                            "With border": this.t("ejsImageBorder"),
+                            "Stretch image": this.t("ejsImageStretch"),
+                            "With background": this.t("ejsImageBackground"),
+                        },
+                        code: {
+                            "Enter a code": this.t("ejsCodeContent"),
+                        },
+                        linkTool: {
+                            Link: this.t("ejsLink"),
+                            "Couldn't fetch the link data": this.t("ejsLinkFetchError"),
+                            "Couldn't get this link data, try the other one": this.t("ejsLinkFetchDataError"),
+                            "Wrong response format from the server": this.t("ejsLinkServerError"),
+                        },
+                        header: {
+                            Header: this.t("ejsHeader"),
+                        },
+                        paragraph: {
+                            "Enter something": this.t("ejsParagraph"),
+                        },
+                        list: {
+                            Ordered: this.t("ejsListOrdered"),
+                            Unordered: this.t("ejsListUnordered"),
+                        },
+                    },
+                    blockTunes: {
+                        delete: {
+                            Delete: this.t("ejsDelete"),
+                        },
+                        moveUp: {
+                            "Move up": this.t("ejsMoveUp"),
+                        },
+                        moveDown: {
+                            "Move down": this.t("ejsMoveDown"),
+                        }
                     },
                 },
             },

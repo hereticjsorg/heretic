@@ -32,7 +32,7 @@ $ Prism.plugins.customClass.map({ number: "prism-number", tag: "prism-tag" });
 <!-- Start: List -->
 <if(input.item.type === "list")>
     <div type="content">
-        <${input.item.data.style === "ordered" ? "ol" : "ul"} class=`ml-5 mt-2 hr-ct-${input.item.data.style === "ordered" ? "ol" : "ul"}`>
+        <${input.item.data.style === "ordered" ? "ol" : "ul"} class=`ml-5 mt-2 hr-ct-list hr-ct-${input.item.data.style === "ordered" ? "ol" : "ul"}`>
             <for|i| of=input.item.data.items>
                 <li>${i}</li>
             </for>

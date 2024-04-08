@@ -77,7 +77,7 @@ $ {
             style={
                 display: "none"
             }/>
-        <if(input.tabs)>
+        <if(input.tabs && input.tabs.length > 1)>
             <div class="columns mb-4 is-gapless is-multiline">
                 <for|t| of=state.tabs>
                     $ const tab = input.tabs.find(i => i.id == t);
