@@ -1,6 +1,10 @@
 @import "~view/variables.scss";
 @import "./prism.scss";
 
+.hr-ct-list {
+    list-style-position: inside;
+}
+
 .hr-ct-ul {
     list-style-type: disc;
 }
