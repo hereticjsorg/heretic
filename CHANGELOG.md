@@ -1,3 +1,13 @@
+## v1.2.7
+
+**Bugfixes** (2024-04-08)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-08 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-08 | Content module work-in-progress |
+
+
 ## v1.2.6
 
 **Downgrade to Marko version 5.33.13** (2024-04-06)
