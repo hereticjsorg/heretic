@@ -1,9 +1,10 @@
 class Splitter {
     constructor({
-        // data,
+        data,
         api
     }) {
         this.api = api;
+        this.data = data;
     }
 
     static get toolbox() {
@@ -20,6 +21,7 @@ class Splitter {
         input.step = 1;
         input.classList.add("hr-hc-splitter-input");
         input.placeholder = this.api.i18n.t("Height");
+        input.value = this.data && this.data.height ? String(this.data.height) : "0";
         const tagLabel = document.createElement("span");
         tagLabel.classList.add("tag");
         tagLabel.innerHTML = this.api.i18n.t("Splitter");
@@ -30,8 +32,9 @@ class Splitter {
     }
 
     save(blockContent) {
+        const input = blockContent.querySelector("input");
         return {
-            url: blockContent.value
+            height: parseInt(input.value || "0", 10),
         };
     }
 }
