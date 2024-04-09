@@ -121,6 +121,7 @@ export default class {
         const Table = (await import("@editorjs/table")).default;
         const Delimiter = (await import("@editorjs/delimiter")).default;
         const CodeTool = (await import("@rxpm/editor-js-code")).default;
+        const Splitter = (await import("./editorjs/splitter/splitter.js")).default;
         await this.utils.waitForElement("editorjs");
         this.editor = new EditorJS({
             holder: "editorjs",
@@ -166,6 +167,7 @@ export default class {
                         },
                     }
                 },
+                splitter: Splitter,
             },
             onReady: async () => {
                 await this.utils.waitForComponent(`${moduleConfig.id}Form`);
@@ -215,8 +217,28 @@ export default class {
                         Italic: this.t("ejsItalic"),
                         InlineCode: this.t("ejsInline"),
                         Image: this.t("ejsImage"),
+                        Splitter: this.t("ejsSplitter"),
                     },
                     tools: {
+                        table: {
+                            "With headings": this.t("ejsWithHeadings"),
+                            "Without headings": this.t("ejsWithoutHeadings"),
+                            "Add row above": this.t("ejsAddRowAbove"),
+                            "Add row below": this.t("ejsAddRowBelow"),
+                            "Delete row": this.t("ejsDeleteRow"),
+                            "Add column to left": this.t("ejsAddColumnLeft"),
+                            "Add column to right": this.t("ejsAddColumnRight"),
+                            "Delete column": this.t("ejsColumnDelete"),
+                        },
+                        header: {
+                            Header: this.t("ejsHeader"),
+                            "Heading 1": this.t("ejsHeading1"),
+                            "Heading 2": this.t("ejsHeading2"),
+                            "Heading 3": this.t("ejsHeading3"),
+                            "Heading 4": this.t("ejsHeading4"),
+                            "Heading 5": this.t("ejsHeading5"),
+                            "Heading 6": this.t("ejsHeading6"),
+                        },
                         warning: {
                             Title: this.t("ejsWarningTitle"),
                             Message: this.t("ejsWarningMessage"),
@@ -243,9 +265,6 @@ export default class {
                             "Couldn't get this link data, try the other one": this.t("ejsLinkFetchDataError"),
                             "Wrong response format from the server": this.t("ejsLinkServerError"),
                         },
-                        header: {
-                            Header: this.t("ejsHeader"),
-                        },
                         paragraph: {
                             "Enter something": this.t("ejsParagraph"),
                         },
@@ -253,10 +272,16 @@ export default class {
                             Ordered: this.t("ejsListOrdered"),
                             Unordered: this.t("ejsListUnordered"),
                         },
+                        splitter: {
+                            Splitter: this.t("ejsSplitter"),
+                            px: this.t("ejsSplitterPixels"),
+                            Height: this.t("ejsSplitterHeight"),
+                        },
                     },
                     blockTunes: {
                         delete: {
                             Delete: this.t("ejsDelete"),
+                            "Click to delete": this.t("ejsClickToDelete"),
                         },
                         moveUp: {
                             "Move up": this.t("ejsMoveUp"),

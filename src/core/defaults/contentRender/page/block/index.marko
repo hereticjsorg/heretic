@@ -110,3 +110,10 @@ $ Prism.plugins.customClass.map({ number: "prism-number", tag: "prism-tag" });
     </article>
 </if>
 <!-- End: Warning -->
+<!-- Start: Splitter -->
+<if(input.item.type === "splitter")>
+    <div style={
+        height: `${input.item.data.height}px`
+    }/>
+</if>
+<!-- End: Splitter -->
