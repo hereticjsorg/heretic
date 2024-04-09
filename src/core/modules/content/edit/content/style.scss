@@ -39,7 +39,7 @@ html.theme-dark .inlineToolButton,
 html.theme-dark .ce-toolbar__plus,
 html.theme-dark .ce-toolbar__settings-btn,
 html.theme-dark .ce-popover__search {
-    background-color: lighten($theme-dark-grey-dark, 6%);
+    background-color: transparent;
     color: white;
 }
 
@@ -69,4 +69,27 @@ html.theme-dark .ce-popover-item:hover {
     background-color: #262626;
     color: white;
     border: none;
+}
+
+/*
+
+splitter
+
+*/
+
+.hr-hc-splitter-input::-webkit-outer-spin-button,
+.hr-hc-splitter-input::-webkit-inner-spin-button,
+.hr-hc-splitter-input {
+    -moz-appearance: textfield;
+    -webkit-appearance: none;
+}
+
+.hr-hc-splitter-input {
+    border: unset;
+    width: 60px;
+    text-align: right;
+    margin-right: 10px;
+    margin-left: 10px;
+    background-color: transparent;
+    border-bottom: 1px solid $text-weak;
 }
