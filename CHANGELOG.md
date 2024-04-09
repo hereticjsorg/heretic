@@ -1,3 +1,14 @@
+## v1.2.8
+
+**Bugfixes & Content module updates** (2024-04-09)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-09 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-09 | Content editor updates |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-09 | Content module updates |
+
+
 ## v1.2.7
 
 **Bugfixes** (2024-04-08)
