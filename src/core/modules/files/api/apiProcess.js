@@ -3,7 +3,7 @@ import path from "path";
 import archiver from "archiver";
 import throttle from "lodash.throttle";
 import zlib from "node:zlib";
-import tar from "tar";
+import * as tar from "tar";
 import stream from "stream";
 import unzip from "#lib/3rdparty/unzip-stream/unzip";
 import FormData from "../data/process";
@@ -519,7 +519,7 @@ export default () => ({
                                     callback(null, chunk);
                                 }
                             }))
-                            .pipe(new tar.Parse())
+                            .pipe(new tar.Parser())
                             .on("entry", async entry => {
                                 onUntarEntry(entry);
                             })
