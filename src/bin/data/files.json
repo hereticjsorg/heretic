@@ -26,6 +26,12 @@
     "from": "../../core/defaults/config/system.js",
     "to": "../../../site/etc/system.js"
 }, {
+    "from": "../../core/defaults/config/oauth2.js",
+    "to": "../../../site/etc/oauth2.js"
+}, {
+    "from": "../../core/defaults/config/_utils.js",
+    "to": "../../../site/etc/_utils.js"
+}, {
     "from": "../../core/defaults/config/languages.json",
     "to": "../../../site/etc/languages.json"
 }, {

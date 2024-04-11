@@ -1,48 +1,9 @@
 const {
-    parse,
-} = require("@lukeed/ms");
-const secure = require("./secure.json");
-
-const conf = {
-    server: {},
-    auth: {},
-    mongo: {},
-    redis: {},
-    email: {},
-    webSockets: {},
-    token: {},
-    oauth2: [],
-    passwordPolicy: {},
-    cookieOptions: {},
-    log: {},
-    rateLimit: {},
-    directories: {},
-    collections: {},
-    routes: {},
-    buildOptions: {},
-    test: {},
-    heretic: {},
-    system: {},
-};
-
-if (!process.browser) {
-    for (const k of Object.keys(conf)) {
-        try {
-            conf[k] = require(`${__dirname}/conf.d/${k}.json`);
-        } catch {
-            // Ignore
-        }
-        if (!conf[k] || (Array.isArray(conf[k]) && !conf[k].length)) {
-            try {
-                conf[k] = require(`${__dirname}/conf.d/${k}.js`);
-            } catch {
-                // Ignore
-            }
-        }
-    }
-}
-
-const sessionTTL = parseInt(parse("7 days") / 1000, 10);
+    secure,
+    sessionTTL,
+    conf,
+    oauth2,
+} = require(`./_utils.js`);
 
 module.exports = {
     id: "heretic",
@@ -57,13 +18,13 @@ module.exports = {
         ...conf.server,
     },
     auth: {
-        admin: false,
-        signIn: false,
-        signUp: false,
+        admin: true,
+        signIn: true,
+        signUp: true,
         ...conf.auth,
     },
     mongo: {
-        enabled: false,
+        enabled: true,
         url: "mongodb://0.0.0.0:27017",
         dbName: "heretic",
         options: {
@@ -72,7 +33,7 @@ module.exports = {
         ...conf.mongo,
     },
     redis: {
-        enabled: false,
+        enabled: true,
         host: "127.0.0.1",
         port: 6379,
         connectTimeout: 500,
@@ -86,7 +47,7 @@ module.exports = {
         config: {},
     },
     webSockets: {
-        enabled: false,
+        enabled: true,
         url: "ws://127.0.0.1:3001/ws",
         options: {
             maxPayload: 1048576,
@@ -107,22 +68,8 @@ module.exports = {
         numbers: true,
         special: true,
     },
-    oauth2: [{
-            enabled: false,
-            name: "oa2google",
-            scope: ["profile", "email"],
-            credentials: {
-                client: {
-                    id: "",
-                    secret: "",
-                },
-                auth: process.browser ? null : require("@fastify/oauth2").GOOGLE_CONFIGURATION,
-            },
-            startRedirectPath: "/oauth2/google",
-            callbackUri: "https://demo.hereticjs.org/oauth2/google/callback",
-            callbackPath: "/oauth2/google/callback",
-            icon: "M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z",
-        },
+    oauth2: [
+        ...oauth2,
         ...(conf.oauth2 || []),
     ],
     cookieOptions: {
@@ -214,4 +161,5 @@ module.exports = {
     },
     ...conf.system,
     sessionTTL,
+    demo: true,
 };
