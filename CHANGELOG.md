@@ -1,3 +1,16 @@
+## v1.2.9
+
+**Bugfixes** (2024-04-11)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-10 | Update style.scss |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-10 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-11 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-11 | Changed demo notice positioning |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-11 | Config file syntax updates |
+
+
 ## v1.2.8
 
 **Bugfixes & Content module updates** (2024-04-09)
