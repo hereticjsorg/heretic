@@ -1,5 +1,5 @@
 @use "./variables.scss" as hv;
-@use "~bulma/sass" with (
+@use "~styles/bulma/_index.scss" with (
     $black: hv.$black,
     $black-bis: hv.$black-bis,
     $black-ter: hv.$black-ter,
