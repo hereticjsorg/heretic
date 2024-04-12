@@ -1,3 +1,15 @@
+## v1.2.10
+
+**Bugfixes** (2024-04-12)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-12 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-12 | Update bulma-admin.scss |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-12 | Added Bulma as a part of library |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-12 | Bugfixes |
+
+
 ## v1.2.9
 
 **Bugfixes** (2024-04-11)
