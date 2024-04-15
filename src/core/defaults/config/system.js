@@ -18,13 +18,13 @@ module.exports = {
         ...conf.server,
     },
     auth: {
-        admin: true,
-        signIn: true,
-        signUp: true,
+        admin: false,
+        signIn: false,
+        signUp: false,
         ...conf.auth,
     },
     mongo: {
-        enabled: true,
+        enabled: false,
         url: "mongodb://0.0.0.0:27017",
         dbName: "heretic",
         options: {
@@ -33,7 +33,7 @@ module.exports = {
         ...conf.mongo,
     },
     redis: {
-        enabled: true,
+        enabled: false,
         host: "127.0.0.1",
         port: 6379,
         connectTimeout: 500,
@@ -47,7 +47,7 @@ module.exports = {
         config: {},
     },
     webSockets: {
-        enabled: true,
+        enabled: false,
         url: "ws://127.0.0.1:3001/ws",
         options: {
             maxPayload: 1048576,

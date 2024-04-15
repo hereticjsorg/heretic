@@ -78,5 +78,6 @@
     "couldNotCopy": "Could not copy",
     "copied": "Copied to clipboard",
     "profilePictureClear": "Clear",
-    "profilePictureSaveNotice": "You have changed your profile picture. Please remember to click the \"Submit\" button to apply the changes."
+    "profilePictureSaveNotice": "You have changed your profile picture. Please remember to click the \"Submit\" button to apply the changes.",
+    "cookiesAreNotAllowed": "Authorization on the site is not possible until you confirm your consent to the use of cookies. This is because this technology is used to store an authorization token in your browser."
 }

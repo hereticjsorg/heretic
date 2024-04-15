@@ -78,5 +78,6 @@
     "couldNotCopy": "Kann nicht kopieren",
     "copied": "In die Zwischenablage kopiert",
     "profilePictureClear": "Löschen",
-    "profilePictureSaveNotice": "Sie haben Ihr Profilbild geändert. Bitte denken Sie daran, auf die Schaltfläche \"Senden\" zu klicken, um die Änderungen zu übernehmen."
+    "profilePictureSaveNotice": "Sie haben Ihr Profilbild geändert. Bitte denken Sie daran, auf die Schaltfläche \"Senden\" zu klicken, um die Änderungen zu übernehmen.",
+    "cookiesAreNotAllowed": "Autorisierung auf der Website ist erst möglich, wenn Sie Ihre Zustimmung zur Verwendung von Cookies bestätigen. Dies liegt daran, dass diese Technologie verwendet wird, um ein Autorisierungs-Token in Ihrem Browser zu speichern."
 }
