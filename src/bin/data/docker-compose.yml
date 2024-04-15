@@ -1,4 +1,3 @@
-version: '3'
 services:
   $ID-app:
     container_name: $ID-app
@@ -14,7 +13,6 @@ services:
     volumes:
       - $DIST_DIR:/heretic/dist
       - $SITE_DIR:/heretic/site
-      - $SRC_DIR:/heretic/src
       - $LOGS_DIR:/heretic/logs
       - $BACKUP_DIR:/heretic/backup
 
@@ -32,7 +30,7 @@ services:
     image: redis:latest
     restart: always
     networks:
-      - $ID-network
+      - $ID
 
 networks:
-  $ID-network:
+  $ID:

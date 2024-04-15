@@ -8,7 +8,7 @@ if ! [ -x "$(command -v curl)" ]; then
     exit 1
 fi
 echo "Downloading template file..."
-COMPOSE_TEMPLATE=$(curl -s -D -i $DOCKER_COMPOSE_XML)
+COMPOSE_TEMPLATE=$(curl -s $DOCKER_COMPOSE_XML)
 # Site ID
 ID="-"
 while [[ ! ($ID == "" || $ID =~ ^[A-Za-z0-9_]+$) ]]; do
@@ -21,12 +21,6 @@ while [[ ! ($HERETIC_PORT == "" || $HERETIC_PORT =~ ^[0-9]+$) ]]; do
     read -p "Please enter site port [3001]: " HERETIC_PORT
 done
 HERETIC_PORT=$([ "$HERETIC_PORT" == "" ] && echo "3001" || echo "$HERETIC_PORT")
-# Directory: ./src
-SRC_DIR="*"
-while [[ ! ($SRC_DIR == "" || $SRC_DIR =~ ^[^*]+$) ]]; do
-    read -p "Please define \"src\" directory path [./src]: " SRC_DIR
-done
-SRC_DIR=$([ "$SRC_DIR" == "" ] && echo "./src" || echo "$SRC_DIR")
 # Directory: ./dist
 DIST_DIR="*"
 while [[ ! ($DIST_DIR == "" || $DIST_DIR =~ ^[^*]+$) ]]; do
