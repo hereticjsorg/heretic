@@ -929,13 +929,22 @@ module.exports = class {
             name: "heretic-port",
             type: String,
         }, {
-            name: "mongo-port",
+            name: "dist-dir",
             type: String,
         }, {
-            name: "redis-port",
+            name: "site-dir",
             type: String,
         }, {
-            name: "public-dir",
+            name: "src-dir",
+            type: String,
+        }, {
+            name: "backup-dir",
+            type: String,
+        }, {
+            name: "logs-dir",
+            type: String,
+        }, {
+            name: "mongo-dir",
             type: String,
         }, {
             name: "demo",

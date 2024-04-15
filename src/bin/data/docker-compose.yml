@@ -12,11 +12,11 @@ services:
     networks:
       - $ID-network
     volumes:
-      - $PUBLIC_DIR:/heretic/dist/public
-      - $ETC_DIR:/heretic/etc
+      - $DIST_DIR:/heretic/dist
       - $SITE_DIR:/heretic/site
-      - $FILES_DIR:/heretic/files
+      - $SRC_DIR:/heretic/src
       - $LOGS_DIR:/heretic/logs
+      - $BACKUP_DIR:/heretic/backup
 
   $ID-mongo:
     container_name: $ID-mongo

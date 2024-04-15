@@ -39,3 +39,4 @@ src/meta.json
 src/**/meta.json
 .cache
 .build
+docker-compose.yml
