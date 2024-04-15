@@ -1,3 +1,12 @@
+## v1.2.11
+
+**Bugfixes** (2024-04-15)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-15 | Bugfixes |
+
+
 ## v1.2.10
 
 **Bugfixes** (2024-04-12)
