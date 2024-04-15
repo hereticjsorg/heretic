@@ -31,7 +31,6 @@ binUtils.printLogo();
         const redisPort = options["redis-port"] || 6379;
         const distDir = options["dist-dir"] || "./dist";
         const siteDir = options["site-dir"] || "./site";
-        const srcDir = options["src-dir"] || "./src";
         const backupDir = options["backup-dir"] || "./backup";
         const logsDir = options["logs-dir"] || "./logs";
         const mongoDir = options["mongo-dir"] || "./mongo";
@@ -44,7 +43,6 @@ binUtils.printLogo();
             .replace(/\$REDIS_PORT/gm, redisPort)
             .replace(/\$DIST_DIR/gm, distDir)
             .replace(/\$SITE_DIR/gm, siteDir)
-            .replace(/\$SRC_DIR/gm, srcDir)
             .replace(/\$LOGS_DIR/gm, logsDir)
             .replace(/\$BACKUP_DIR/gm, backupDir)
             .replace(/\$MONGO_DIR/gm, mongoDir)

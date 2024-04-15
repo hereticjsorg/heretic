@@ -935,9 +935,6 @@ module.exports = class {
             name: "site-dir",
             type: String,
         }, {
-            name: "src-dir",
-            type: String,
-        }, {
             name: "backup-dir",
             type: String,
         }, {
