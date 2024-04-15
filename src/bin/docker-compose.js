@@ -29,11 +29,12 @@ binUtils.printLogo();
         const hereticPort = options["heretic-port"] || 3001;
         const mongoPort = options["heretic-port"] || 27020;
         const redisPort = options["redis-port"] || 6379;
-        const publicDir = options["public-dir"] || "./public";
-        const etcDir = options["etc-dir"] || "./etc";
+        const distDir = options["dist-dir"] || "./dist";
         const siteDir = options["site-dir"] || "./site";
-        const filesDir = options["files-dir"] || "./files";
+        const srcDir = options["src-dir"] || "./src";
+        const backupDir = options["backup-dir"] || "./backup";
         const logsDir = options["logs-dir"] || "./logs";
+        const mongoDir = options["mongo-dir"] || "./mongo";
         const demo = !!options.demo;
         binUtils.log("Processing templates...");
         const dockerComposeTemplate = (await fs.readFile(path.resolve(__dirname, "data/docker-compose.yml"), "utf8"))
@@ -41,11 +42,12 @@ binUtils.printLogo();
             .replace(/\$HERETIC_PORT/gm, hereticPort)
             .replace(/\$MONGO_PORT/gm, mongoPort)
             .replace(/\$REDIS_PORT/gm, redisPort)
-            .replace(/\$PUBLIC_DIR/gm, publicDir)
-            .replace(/\$ETC_DIR/gm, etcDir)
+            .replace(/\$DIST_DIR/gm, distDir)
             .replace(/\$SITE_DIR/gm, siteDir)
-            .replace(/\$FILES_DIR/gm, filesDir)
+            .replace(/\$SRC_DIR/gm, srcDir)
             .replace(/\$LOGS_DIR/gm, logsDir)
+            .replace(/\$BACKUP_DIR/gm, backupDir)
+            .replace(/\$MONGO_DIR/gm, mongoDir)
             .replace(/\$DEMO/gm, demo);
         binUtils.log("Writing docker-compose.yml...");
         await fs.writeFile(path.resolve(__dirname, "../../docker-compose.yml"), dockerComposeTemplate, "utf8");
