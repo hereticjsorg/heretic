@@ -1,3 +1,13 @@
+## v1.2.12
+
+**Docker-related changes & Bugfixes** (2024-04-15)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-15 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-15 | Docker-related changes |
+
+
 ## v1.2.11
 
 **Bugfixes** (2024-04-15)
