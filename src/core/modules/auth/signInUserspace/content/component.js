@@ -6,13 +6,22 @@ import Query from "#lib/queryBrowser";
 import moduleConfig from "../../module.js";
 
 export default class {
+    checkIfCookiesAreAllowed() {
+        if (this.cookiesUserCheck) {
+            return !!this.cookiesCheck.get(`${this.siteId}.cookiesAllowed`);
+        }
+        return true;
+    }
+
     onCreate(input, out) {
-        this.state = {
+        const state = {
             ready: !process.browser,
+            allowed: true,
         };
         this.language = out.global.language;
         this.siteTitle = out.global.siteTitle;
         this.siteId = out.global.siteId;
+        this.cookiesUserCheck = out.global.cookiesUserCheck;
         this.cookieOptions = out.global.cookieOptions;
         this.authOptions = out.global.authOptions;
         this.mongoEnabled = out.global.mongoEnabled;
@@ -26,12 +35,20 @@ export default class {
             this.language = this.language || window.__heretic.outGlobal.language;
             this.siteTitle = out.global.siteTitle || window.__heretic.outGlobal.siteTitle;
             this.siteId = out.global.siteId || window.__heretic.outGlobal.siteId;
+            this.cookiesUserCheck = out.global.cookiesUserCheck || window.__heretic.outGlobal.cookiesUserCheck;
             this.cookieOptions = out.global.cookieOptions || window.__heretic.outGlobal.cookieOptions;
             this.systemRoutes = out.global.systemRoutes || window.__heretic.outGlobal.systemRoutes;
             this.demo = out.global.demo || window.__heretic.outGlobal.demo;
             document.title = `${config.title[this.language]} – ${this.siteTitle}`;
+            const expires = new Date(new Date().setFullYear(new Date().getFullYear() + 1));
+            this.cookiesCheck = new Cookies({
+                ...this.cookieOptions,
+                expires,
+            }, this.siteId);
+            state.allowed = this.checkIfCookiesAreAllowed();
         }
         this.utils = new Utils(this, this.language);
+        this.state = state;
     }
 
     getLocalizedURL(url) {
@@ -86,6 +103,21 @@ export default class {
             signInForm.setValue("username", "admin");
             signInForm.setValue("password", "password");
         }
+        if (!this.state.allowed) {
+            await this.utils.waitForElement("hr_hf_el_signInForm_buttons_btnSubmit");
+            document.getElementById("hr_hf_el_signInForm_buttons_btnSubmit").disabled = true;
+        }
+        window.addEventListener("click", async () => {
+            if (!this.state.allowed && this.checkIfCookiesAreAllowed()) {
+                this.setState("allowed", true);
+                try {
+                    await this.utils.waitForElement("hr_hf_el_signInForm_buttons_btnSubmit");
+                    document.getElementById("hr_hf_el_signInForm_buttons_btnSubmit").disabled = false;
+                } catch {
+                    //
+                }
+            }
+        });
     }
 
     async authErrorHandler(signInForm, e) {
@@ -105,6 +137,9 @@ export default class {
     }
 
     async onFormSubmit() {
+        if (!this.state.allowed) {
+            return;
+        }
         this.utils.waitForComponent("signInForm");
         const signInForm = this.getComponent("signInForm");
         signInForm.setErrors(false);
