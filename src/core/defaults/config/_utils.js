@@ -59,7 +59,7 @@ const processConfig = config => {
         ...config,
         ...conf["system"],
     };
-    return config
+    return config;
 };
 
 module.exports = {
