@@ -43,8 +43,6 @@ Define the options to run the build-in Web server based on Fastify:
 * *ip* - IP address your server should listen to (use *0.0.0.0* to listen to all interfaces)
 * *port* - port on which Fastify is listening to
 * *static* - serve static content using internal server (disable for production)
-* *trustProxy* - set to *true* if your instance is being served by a trusted proxy; read more [here](https://fastify.dev/docs/latest/Reference/Server/#trustproxy).
-* *ignoreTrailingSlash* - ignore trailing slashes for routing
 
 Example:
 
@@ -53,8 +51,6 @@ server: {
     ip: "0.0.0.0",
     port: 3001,
     static: true,
-    trustProxy: true,
-    ignoreTrailingSlash: true,
 }
 ```
 

@@ -45,9 +45,27 @@ if (!process.browser) {
 
 const sessionTTL = parseInt(parse("7 days") / 1000, 10);
 
+const processConfig = config => {
+    for (const k of Object.keys(conf).filter(i => i !== "system")) {
+        config[k] = Array.isArray(config[k]) ? [
+            ...config[k],
+            ...conf[k],
+        ] : {
+            ...config[k],
+            ...conf[k],
+        };
+    }
+    config = {
+        ...config,
+        ...conf["system"],
+    };
+    return config;
+};
+
 module.exports = {
     secure,
     sessionTTL,
     conf,
     oauth2,
+    processConfig,
 };

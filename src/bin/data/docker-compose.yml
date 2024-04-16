@@ -30,7 +30,7 @@ services:
     image: redis:latest
     restart: always
     networks:
-      - $ID
+      - $ID-network
 
 networks:
-  $ID:
+  $ID-network:
