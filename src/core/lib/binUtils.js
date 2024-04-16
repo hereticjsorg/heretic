@@ -851,6 +851,9 @@ module.exports = class {
     async executeCommand(command = "", options = {}) {
         return new Promise((resolve, reject) => {
             try {
+                if (!this.config) {
+                    this.readConfig();
+                }
                 const res = {
                     stdout: "",
                     exitCode: 1,
@@ -863,7 +866,7 @@ module.exports = class {
                 const result = spawn(cmd, commandArr, {
                     env: {
                         ...process.env,
-                        MARKO_DEBUG: false,
+                        MARKO_DEBUG: this.config.heretic.markoDebug || false,
                     }
                 });
                 result.stdout.on("data", data => {
