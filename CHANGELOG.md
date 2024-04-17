@@ -1,3 +1,12 @@
+## v1.2.18
+
+**Bugfixes** (2024-04-17)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-17 | Bugfixes |
+
+
 ## v1.2.17
 
 **Update Dockerfile** (2024-04-17)
