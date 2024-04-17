@@ -1,3 +1,14 @@
+## v1.2.16
+
+**Bugfixes** (2024-04-17)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-17 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-17 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-17 | Update 30-login.test.js |
+
+
 ## v1.2.15
 
 **Bugfixes** (2024-04-16)
