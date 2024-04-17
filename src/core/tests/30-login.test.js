@@ -60,6 +60,11 @@ test("Login", async () => {
     await helpers.initBrowser();
     const browser = helpers.getBrowser();
     const authPage = await browser.newPage();
+    await authPage.setCookie({
+        name: `${systemConfig.id}.cookiesAllowed`,
+        value: "true",
+        domain: "127.0.0.1",
+    });
     await authPage.goto(`${websiteConfig.url}${systemConfig.routes.signIn}?r=/_status`);
     await authPage.waitForSelector("#hr_hf_el_signInForm_username", {
         visible: true,
