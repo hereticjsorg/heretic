@@ -1,7 +1,7 @@
 import {
     v4 as uuidv4,
 } from "uuid";
-import cloneDeep from "lodash.clonedeep";
+import cloneDeep from "lodash/cloneDeep";
 import Utils from "#lib/componentUtils";
 
 export default class {

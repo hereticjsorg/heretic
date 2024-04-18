@@ -1,6 +1,6 @@
 import axios from "axios";
 import store from "store2";
-import template from "lodash.template";
+import template from "lodash/template";
 import i18nLoader from "#build/loaders/i18n-loader-core";
 import Utils from "#lib/componentUtils";
 import Cookies from "#lib/cookiesBrowser";

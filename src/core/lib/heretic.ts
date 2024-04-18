@@ -11,7 +11,7 @@ import {
 import oauthPlugin from "@fastify/oauth2";
 import commandLineArgs from "command-line-args";
 
-import template from "lodash.template";
+import template from "lodash/template";
 import routePageUserspace from "./routes/routePageUserspace.js";
 import routePageContent from "./routes/routePageContent.js";
 import route404 from "./routes/route404";
