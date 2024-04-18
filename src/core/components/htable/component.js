@@ -1,7 +1,7 @@
 import store from "store2";
 import axios from "axios";
-import cloneDeep from "lodash.clonedeep";
-import debounce from "lodash.debounce";
+import cloneDeep from "lodash/cloneDeep";
+import debounce from "lodash/debounce";
 import {
     v4 as uuidv4,
 } from "uuid";

@@ -1,4 +1,4 @@
-import cloneDeep from "lodash.clonedeep";
+import cloneDeep from "lodash/cloneDeep";
 import axios from "axios";
 import {
     v4 as uuid,

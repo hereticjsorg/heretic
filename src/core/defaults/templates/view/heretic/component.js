@@ -2,8 +2,8 @@ import store from "store2";
 import tippy, {
     hideAll,
 } from "tippy.js";
-import debounce from "lodash.debounce";
-import template from "lodash.template";
+import debounce from "lodash/debounce";
+import template from "lodash/template";
 import axios from "axios";
 import Cookies from "#lib/cookiesBrowser";
 import i18nLoader from "#build/loaders/i18n-loader-core";

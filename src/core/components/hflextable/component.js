@@ -1,8 +1,8 @@
-import throttle from "lodash.throttle";
-import debounce from "lodash.debounce";
+import throttle from "lodash/throttle";
+import debounce from "lodash/debounce";
 import store from "store2";
 import axios from "axios";
-import cloneDeep from "lodash.clonedeep";
+import cloneDeep from "lodash/cloneDeep";
 import Utils from "#lib/componentUtils";
 import Query from "#lib/queryBrowser";
 

@@ -1,4 +1,4 @@
-import template from "lodash.template";
+import template from "lodash/template";
 import languagesList from "#etc/languages.json";
 
 export default class {

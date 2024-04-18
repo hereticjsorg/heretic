@@ -1,7 +1,7 @@
-// import cloneDeep from "lodash.clonedeep";
+// import cloneDeep from "lodash/cloneDeep";
 import axios from "axios";
-// import throttle from "lodash.throttle";
-// import debounce from "lodash.debounce";
+// import throttle from "lodash/throttle";
+// import debounce from "lodash/debounce";
 import Utils from "#lib/componentUtils";
 import Query from "#lib/queryBrowser";
 import Cookies from "#lib/cookiesBrowser";

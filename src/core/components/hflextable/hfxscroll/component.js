@@ -1,4 +1,4 @@
-import debounce from "lodash.debounce";
+import debounce from "lodash/debounce";
 import Utils from "#lib/componentUtils";
 
 export default class {

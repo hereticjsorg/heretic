@@ -3,8 +3,8 @@ import {
     v4 as uuid
 } from "uuid";
 import axios from "axios";
-import debounce from "lodash.debounce";
-import cloneDeep from "lodash.clonedeep";
+import debounce from "lodash/debounce";
+import cloneDeep from "lodash/cloneDeep";
 import {
     format,
     parse,

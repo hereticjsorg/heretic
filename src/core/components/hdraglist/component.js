@@ -1,4 +1,4 @@
-import cloneDeep from "lodash.clonedeep";
+import cloneDeep from "lodash/cloneDeep";
 import Utils from "#lib/componentUtils";
 
 export default class {

@@ -1,4 +1,4 @@
-import cloneDeep from "lodash.clonedeep";
+import cloneDeep from "lodash/cloneDeep";
 
 export default class {
     constructor(optionsConfig = {}, siteId = "") {

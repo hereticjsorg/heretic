@@ -1,7 +1,7 @@
 import fs from "fs-extra";
 import path from "path";
 import archiver from "archiver";
-import throttle from "lodash.throttle";
+import throttle from "lodash/throttle";
 import zlib from "node:zlib";
 import * as tar from "tar";
 import stream from "stream";

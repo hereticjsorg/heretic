@@ -1,4 +1,4 @@
-import template from "lodash.template";
+import template from "lodash/template";
 import buildConfig from "#build/build.json";
 
 export default class {

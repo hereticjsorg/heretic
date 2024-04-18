@@ -1,4 +1,4 @@
-// import cloneDeep from "lodash.clonedeep";
+// import cloneDeep from "lodash/cloneDeep";
 import axios from "axios";
 import Utils from "#lib/componentUtils";
 
