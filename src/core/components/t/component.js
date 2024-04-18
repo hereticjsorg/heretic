@@ -1,4 +1,5 @@
 import template from "lodash.template";
+import buildConfig from "#build/build.json";
 
 export default class {
     async onCreate(input, out) {
@@ -10,6 +11,12 @@ export default class {
                 ...require(`#src/translations/${this.language}.json`),
                 ...require(`#site/translations/${this.language}.json`)
             };
+            for (const m of buildConfig.modules.filter(i => i.translations)) {
+                this.languageData = {
+                    ...this.languageData,
+                    ...require(`#src/../${m.path}/translations/${this.language}.json`),
+                };
+            }
             Object.keys(this.languageData).map(i => this.languageData[i] = template(this.languageData[i]));
         }
         this.pluralRules = new Intl.PluralRules(this.language);
