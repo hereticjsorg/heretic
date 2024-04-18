@@ -59,7 +59,7 @@ export default () => ({
                         if (this.systemConfig.demo) {
                             await delay(5000);
                         } else {
-                            const installResult = await binUtils.executeCommand("npm i");
+                            const installResult = await binUtils.executeCommand("npm run install-modules");
                             if (installResult.exitCode !== 0) {
                                 throw new Error("installError");
                             }
