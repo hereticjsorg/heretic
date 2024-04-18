@@ -85,7 +85,7 @@ export default class {
             window.__heretic.translationsLoaded[page] = true;
             const languageData = {
                 ...window.__heretic.languageData,
-                ...await i18nLoader.loadLanguageFile(this.language)
+                ...await i18nLoader.loadLanguageFile(this.language),
             };
             Object.keys(languageData).map(i => languageData[i] = typeof languageData[i] === "string" ? template(languageData[i]) : languageData[i]);
             window.__heretic.languageData = languageData;
