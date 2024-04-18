@@ -15,20 +15,21 @@
         "#src/*": "./src/*"
     },
     "scripts": {
-        "server": "node dist/server",
+        "install-modules": "npm install && npm i --include=optional sharp",
         "configure": "node src/bin/configure",
         "cli": "node src/bin/cli",
+        "cli-interactive": "node src/bin/cli-interactive",
+        "server": "node dist/server",
         "backup": "node src/bin/backup",
         "restore": "node src/bin/restore",
         "update": "node src/bin/update",
-        "cli-interactive": "node src/bin/cli-interactive",
-        "cleanup-dev": "node src/bin/cleanup",
+        "cleanup": "node src/bin/cleanup",
         "build": "node src/bin/build",
         "build-dev": "webpack --mode development",
         "build-production": "webpack --mode production",
         "test": "jest --runInBand",
-        "doc": "documentation build src/core/*.ts -f md -o docs/core.md",
-        "docker-compose": "node src/bin/docker-compose"
+        "compose": "node src/bin/docker-compose",
+        "doc": "documentation build src/core/*.ts -f md -o docs/core.md"
     },
     "keywords": [
         "heretic",

@@ -17,7 +17,7 @@ git clone --depth 1 --branch master https://github.com/hereticjsorg/heretic.git
 Then, you will need to install the required NPM modules and start the build process:
 
 ```
-npm i
+npm run install-modules
 ```
 
 When successful, the required modules will be downloaded to *./node_modules* directory.

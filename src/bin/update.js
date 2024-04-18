@@ -83,7 +83,7 @@ binUtils.printLogo();
             success: true,
         });
         if (!options["npm-install"]) {
-            binUtils.log("Please run 'npm install' in order to update NPM modules");
+            binUtils.log("Please run 'npm run install-modules' in order to update NPM modules");
         }
         if (!options["rebuild-dev"] && !options["rebuild-production"]) {
             binUtils.log("Please run 'npm run build' in order to rebuild Heretic");

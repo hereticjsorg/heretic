@@ -57,7 +57,7 @@ fi
 echo "Cloned successfully"
 cd heretic
 echo "Installing NPM modules, please wait..."
-npm i &> /dev/null &
+npm run install-modules &> /dev/null &
 if [ $? -ne 0 ]; then
     echo "Could not install required NPM modules"
     exit 1
