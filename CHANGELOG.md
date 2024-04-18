@@ -1,3 +1,12 @@
+## v1.2.22
+
+**Code cleanup** (2024-04-18)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-18 | Code cleanup |
+
+
 ## v1.2.21
 
 **Fixed problems with sharp package** (2024-04-18)
