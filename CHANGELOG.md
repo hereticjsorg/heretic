@@ -1,3 +1,12 @@
+## v1.2.19
+
+**Internationalization fixed** (2024-04-18)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-18 | Internationalization fixed |
+
+
 ## v1.2.18
 
 **Bugfixes** (2024-04-17)
