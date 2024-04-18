@@ -33,6 +33,17 @@ import navigation from "#etc/navigation.json";
 import packageJson from "#root/package.json";
 import routePageAdmin from "./routes/routePageAdmin";
 
+delete packageJson.dependencies;
+delete packageJson.devDependencies;
+delete packageJson.imports;
+delete packageJson.scripts;
+delete packageJson.description;
+delete packageJson.keywords;
+delete packageJson.author;
+delete packageJson.license;
+delete packageJson.main;
+delete packageJson.name;
+
 /*
  * Main Heretic class used to load configs,
  * initialize Fastify and its plugins
