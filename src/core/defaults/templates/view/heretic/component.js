@@ -51,7 +51,6 @@ export default class {
         this.utils = new Utils(this, this.language);
         await import( /* webpackChunkName: "bulma" */ "../bulma.scss");
         await import( /* webpackChunkName: "heretic" */ "../heretic.scss");
-        await this.loadLanguageData();
         this.setGlobalVariables(out);
     }
 
@@ -134,6 +133,7 @@ export default class {
         window.__heretic = window.__heretic || {};
         window.__heretic.setTippy = debounce(this.setTippy, 100);
         window.__heretic.tippyHideAll = hideAll;
+        await this.loadLanguageData();
         await this.utils.waitForLanguageData();
         try {
             await this.connectWebSocket();

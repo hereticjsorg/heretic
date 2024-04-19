@@ -1,8 +1,12 @@
 import template from "lodash/template";
+import Utils from "#lib/componentUtils";
 import buildConfig from "#build/build.json";
 
 export default class {
     async onCreate(input, out) {
+        this.state = {
+            ready: !process.browser,
+        };
         this.language = out.global.language;
         this.languageData = {};
         if (!process.browser) {
@@ -20,6 +24,8 @@ export default class {
             Object.keys(this.languageData).map(i => this.languageData[i] = template(this.languageData[i]));
         }
         this.pluralRules = new Intl.PluralRules(this.language);
+        this.utils = new Utils();
+        this.utils.waitForLanguageData().then(() => this.state.ready = true);
     }
 
     translate() {
