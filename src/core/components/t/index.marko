@@ -4,5 +4,5 @@ $ delete attrs.activeClass;
 $ delete attrs.parentElement;
 $ delete attrs.data;
 <span ...attrs>
-    <if(input.renderBody)>${component.translate()}</if>
+    <if(state.ready && input.renderBody)>${component.translate()}</if>
 </span>
