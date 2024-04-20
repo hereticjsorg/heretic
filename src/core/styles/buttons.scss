@@ -16,6 +16,7 @@
 }
 
 .button.is-primary {
+    background-color: $primary;
     box-shadow: 0 2px 0 0 darken($primary, 10%), 1px 6px 16px -16px lighten($black, 15%) !important;
     border-bottom: darken($primary, 25%) !important;
     color: $grey-lightest !important;
