@@ -9,6 +9,10 @@
     border: 1px solid $grey-lighter;
 }
 
+.theme-dark .hr-hft-wrap {
+    border: 1px solid $grey-dark;
+}
+
 .hr-hft-wrap::-webkit-scrollbar {
     display: none;
 }
