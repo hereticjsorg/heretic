@@ -1,3 +1,13 @@
+## v1.2.24
+
+**Minor fixes** (2024-04-20)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-20 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-20 | Minor style fixes |
+
+
 ## v1.2.23
 
 **Bugfixes** (2024-04-19)
