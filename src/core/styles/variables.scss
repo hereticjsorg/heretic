@@ -1,4 +1,4 @@
-@use "./utils.scss"as fn;
+@use "~styles/utils.scss" as fn;
 
 // Colors
 
@@ -26,43 +26,6 @@ $blue: hsl(226, 52%, 45%) !default;
 $purple: hsl(271, 100%, 71%) !default;
 $red: hsl(0, 77.99%, 59.02%) !default;
 
-// Typography
-
-$family-sans-serif: "Source Sans Pro",
-system-ui,
-"SF Pro",
-"Segoe UI",
-"Roboto",
-"Oxygen",
-"Ubuntu",
-"Helvetica Neue",
-"Helvetica",
-"Arial",
-sans-serif !default;
-$family-monospace: "Inconsolata",
-"Hack",
-"SF Mono",
-"Roboto Mono",
-"Source Code Pro",
-"Ubuntu Mono",
-monospace !default;
-$render-mode: optimizeLegibility !default;
-
-$size-1: 3rem !default;
-$size-2: 2.5rem !default;
-$size-3: 2rem !default;
-$size-4: 1.5rem !default;
-$size-5: 1.25rem !default;
-$size-6: 1rem !default;
-$size-7: 0.75rem !default;
-
-$weight-light: 300 !default;
-$weight-normal: 400 !default;
-$weight-medium: 500 !default;
-$weight-semibold: 600 !default;
-$weight-bold: 700 !default;
-$weight-extrabold: 800 !default;
-
 // Spacing
 
 $block-spacing: 1.5rem !default;
@@ -84,21 +47,16 @@ $aspect-ratios: ((1, 1),
 
 // Responsiveness
 
-// The container horizontal gap, which acts as the offset for breakpoints
-$gap: 32px !default;
+$gap: 32px !default; // The container horizontal gap, which acts as the offset for breakpoints
 
-// 960, 1152, and 1344 have been chosen because they are divisible by both 12 and 16
-$tablet: 769px !default;
+$tablet: 769px !default; // 960, 1152, and 1344 have been chosen because they are divisible by both 12 and 16
 
-// 960px container + 4rem
-$desktop: 960px+2 * $gap !default;
+$desktop: 960px+2 * $gap !default; // 960px container + 4rem
 
-// 1152px container + 4rem
-$widescreen: 1152px+2 * $gap !default;
+$widescreen: 1152px+2 * $gap !default; // 1152px container + 4rem
 $widescreen-enabled: true !default;
 
-// 1344px container + 4rem
-$fullhd: 1344px+2 * $gap !default;
+$fullhd: 1344px+2 * $gap !default; // 1344px container + 4rem
 $fullhd-enabled: true !default;
 $breakpoints: ("mobile": ("until": $tablet,
     ),
@@ -149,11 +107,9 @@ $cssvars-prefix: "bulma-" !default;
 $helpers-prefix: "is-" !default;
 $helpers-has-prefix: "has-" !default;
 
+// Typography
 
-//////////////////////////////////////////////
-
-$family-sans-serif: "Source Sans Pro",
-sans-serif;
+$family-sans-serif: "Source Sans Pro", sans-serif;
 $family-monospace: monospace !default;
 $render-mode: optimizeLegibility !default;
 $size-1: 3rem !default;
@@ -168,6 +124,7 @@ $weight-normal: 400 !default;
 $weight-medium: 500 !default;
 $weight-semibold: 600 !default;
 $weight-bold: 700 !default;
+$weight-extrabold: 800 !default;
 $family-primary: $family-sans-serif !default;
 $family-secondary: $family-sans-serif !default;
 $family-code: $family-monospace !default;
@@ -220,22 +177,12 @@ $code-background: $background !default;
 $pre: $text !default;
 $pre-background: $background !default;
 
-// Typography
-
-$family-primary: $family-sans-serif !default;
-$family-secondary: $family-sans-serif !default;
-$family-code: $family-monospace !default;
-
-$size-small: $size-7 !default;
-$size-normal: $size-6 !default;
-$size-medium: $size-5 !default;
-$size-large: $size-4 !default;
-
 // Effects
 
 $shadow-color: $black !default;
 
 // Lists and maps
+
 $custom-colors: null !default;
 $custom-shades: null !default;
 
@@ -275,7 +222,6 @@ $shades: fn.mergeColorMaps(("black-bis": $black-bis,
 
 $sizes: $size-1 $size-2 $size-3 $size-4 $size-5 $size-6 $size-7 !default;
 
-//////////////////////////////////////////////
 // Navbar
 
 $navbar-background-color: transparent !default;
@@ -320,7 +266,6 @@ $navbar-divider-background-l: var(--bulma-navbar-item-color) !default;
 $navbar-divider-height: 0.125em !default;
 $navbar-bottom-box-shadow-size: 0 -0.125em 0 0 !default;
 
-//////////////////////////////////////////////
 // Box
 
 $box-background-color: var(--bulma-scheme-main) !default;
@@ -333,7 +278,6 @@ $box-link-hover-shadow: 0 0.5em 1em -0.125em hsla(var(--bulma-scheme-h), var(--b
 $box-link-active-shadow: 0 0.5em 1em -0.125em hsla(var(--bulma-scheme-h), var(--bulma-scheme-s), var(--bulma-scheme-invert-l), 0.1),
 0 0 0 1px var(--bulma-link) !default;
 
-//////////////////////////////////////////////
 // Button
 
 $button-weight: var(--bulma-weight-medium) !default;
@@ -401,14 +345,12 @@ $content-table-body-last-row-cell-border-bottom-width: 0 !default;
 $content-table-foot-cell-border-width: 2px 0 0 !default;
 $content-table-foot-cell-color:var(--bulma-text-strong) !default;
 
-//////////////////////////////////////////////
 // Notification
 
 $notification-code-background-color: var(--bulma-scheme-main) !default;
 $notification-radius: var(--bulma-radius) !default;
 $notification-padding: 1.375em 1.5em !default;
 
-//////////////////////////////////////////////
 // Progress bar
 
 $progress-bar-background-color: var(--bulma-border-weak) !default;
@@ -416,7 +358,6 @@ $progress-value-background-color: var(--bulma-text) !default;
 $progress-border-radius: var(--bulma-radius-rounded) !default;
 $progress-indeterminate-duration: 1.5s !default;
 
-//////////////////////////////////////////////
 // Table
 
 $table-color: var(--bulma-text-strong) !default;
@@ -440,13 +381,13 @@ $table-row-active-color: var(--bulma-primary-invert) !default;
 $table-striped-row-even-background-color: var(--bulma-scheme-main-bis) !default;
 $table-striped-row-even-hover-background-color: var(--bulma-scheme-main-ter) !default;
 
-//////////////////////////////////////////////
 // Tag
+
 $tag-radius: var(--bulma-radius) !default;
 $tag-delete-margin: 1px !default;
 
-//////////////////////////////////////////////
 // Title
+
 $title-color: var(--bulma-text-strong) !default;
 $title-family: false !default;
 $title-size: var(--bulma-size-3) !default;
@@ -464,7 +405,6 @@ $subtitle-line-height: 1.25 !default;
 $subtitle-strong-color: var(--bulma-text-strong) !default;
 $subtitle-strong-weight: var(--bulma-weight-semibold) !default;
 
-//////////////////////////////////////////////
 // Breadcrumb
 
 $breadcrumb-item-color: var(--bulma-link-text) !default;
@@ -474,7 +414,6 @@ $breadcrumb-item-padding-vertical: 0 !default;
 $breadcrumb-item-padding-horizontal: 0.75em !default;
 $breadcrumb-item-separator-color: var(--bulma-border) !default;
 
-//////////////////////////////////////////////
 // Card
 
 $card-color: var(--bulma-text) !default;
@@ -496,7 +435,6 @@ $card-footer-border-top: 1px solid var(--bulma-border-weak) !default;
 $card-footer-padding: 0.75rem !default;
 $card-media-margin: var(--bulma-block-spacing) !default;
 
-//////////////////////////////////////////////
 // Dropdown
 
 $dropdown-menu-min-width: 12rem !default;
@@ -509,7 +447,6 @@ $dropdown-content-shadow: var(--bulma-shadow) !default;
 $dropdown-content-z: 20 !default;
 $dropdown-divider-background-color: var(--bulma-border-weak) !default;
 
-//////////////////////////////////////////////
 // Menu
 
 $menu-item-radius: var(--bulma-radius-small) !default;
@@ -523,7 +460,6 @@ $menu-label-font-size: 0.75em !default;
 $menu-label-letter-spacing: 0.1em !default;
 $menu-label-spacing: 1em !default;
 
-//////////////////////////////////////////////
 // Modal
 
 $modal-z: 40 !default;
@@ -551,7 +487,6 @@ $modal-card-body-background-color: var(--bulma-scheme-main) !default;
 $modal-card-body-padding: 2rem !default;
 $modal-breakpoint: $tablet !default;
 
-//////////////////////////////////////////////
 // Pagination
 
 $pagination-margin: -0.25rem !default;
@@ -576,7 +511,6 @@ $pagination-shadow-inset: inset 0 0.0625em 0.125em hsla(var(--bulma-scheme-h),
     var(--bulma-scheme-invert-l),
     0.2) !default;
 
-//////////////////////////////////////////////
 // Message
 
 $message-border-l-delta: -20% !default;
@@ -591,7 +525,6 @@ $message-body-radius: var(--bulma-radius-small) !default;
 $message-body-pre-code-background-color: transparent !default;
 $message-header-body-border-width: 0 !default;
 
-//////////////////////////////////////////////
 // Panel
 
 $panel-margin: var(--bulma-block-spacing) !default;
@@ -617,7 +550,6 @@ $panel-block-active-color: var(--bulma-link-active) !default;
 $panel-block-active-icon-color: var(--bulma-link) !default;
 $panel-icon-color: var(--bulma-text-weak) !default;
 
-//////////////////////////////////////////////
 // Tabs
 
 $tabs-border-bottom-color: var(--bulma-border) !default;
@@ -645,7 +577,6 @@ $tabs-toggle-link-active-background-color: var(--bulma-link) !default;
 $tabs-toggle-link-active-border-color: var(--bulma-link) !default;
 $tabs-toggle-link-active-color: var(--bulma-link-invert) !default;
 
-//////////////////////////////////////////////
 // File
 
 $file-radius: var(--bulma-radius) !default;
@@ -657,13 +588,11 @@ $file-name-border-style: solid !default;
 $file-name-border-width: 1px 1px 1px 0 !default;
 $file-name-max-width: 16em !default;
 
-//////////////////////////////////////////////
 // Container
 
 $container-offset: 2 * $gap;
 $container-max-width: $fullhd;
 
-//////////////////////////////////////////////
 // Hero
 
 $hero-body-padding: 3rem 1.5rem !default;
@@ -672,12 +601,10 @@ $hero-body-padding-small: 1.5rem !default;
 $hero-body-padding-medium: 9rem 4.5rem !default;
 $hero-body-padding-large: 18rem 6rem !default;
 
-//////////////////////////////////////////////
 // Icons
 
 $mdi-font-path: "~@mdi/font/fonts";
 
-//////////////////////////////////////////////
 // Heretic Theme Variables
 
 $theme-light-loading-background: $white;
@@ -692,7 +619,6 @@ $theme-dark-grey: $grey;
 $theme-dark-grey-darker: $grey-darker;
 $theme-dark-black: $black;
 
-//////////////////////////////////////////////
 // Dark theme: Tippy
 
 $theme-light-tippy-background-color: $grey-dark;
