@@ -1,3 +1,12 @@
+## v1.2.26
+
+**Small fixes** (2024-04-23)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-23 | Small fixes |
+
+
 ## v1.2.25
 
 **Update hflextable.scss** (2024-04-20)
