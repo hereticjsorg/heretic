@@ -1,3 +1,17 @@
+## v1.2.27
+
+**Bugfixes & AOS Library** (2024-05-02)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-25 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-25 | Update package-lock.json |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-25 | Update package.json |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-26 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-05-02 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-05-02 | AOS library refactored & added |
+
+
 ## v1.2.26
 
 **Small fixes** (2024-04-23)
