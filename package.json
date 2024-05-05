@@ -155,6 +155,6 @@
         "argon2": "^0.40.1",
         "mongodb": "^6.6.0",
         "sharp": "^0.33.3",
-        "systeminformation": "^5.22.7"
+        "systeminformation": "^5.22.8"
     }
 }
