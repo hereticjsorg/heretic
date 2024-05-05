@@ -61,5 +61,15 @@ COMPOSE_TEMPLATE=${COMPOSE_TEMPLATE//\$LOGS_DIR/$LOGS_DIR}
 COMPOSE_TEMPLATE=${COMPOSE_TEMPLATE//\$BACKUP_DIR/$BACKUP_DIR}
 COMPOSE_TEMPLATE=${COMPOSE_TEMPLATE//\$SRC_DIR/$SRC_DIR}
 COMPOSE_TEMPLATE=${COMPOSE_TEMPLATE//\$MONGO_DIR/$MONGO_DIR}
+echo "Generating docker-compose.yml..."
 echo "$COMPOSE_TEMPLATE" > "./docker-compose.yml"
-
+echo "Generating update-app.sh..."
+echo "#!/usr/bin/env bash" > update-app.sh
+echo "" >> update-app.sh
+echo "docker exec -it ${ID}-app npm run update" >> update-app.sh
+echo "docker exec -it ${ID}-app npm run install-modules" >> update-app.sh
+echo "docker exec -it ${ID}-app npm run build" >> update-app.sh
+echo "docker exec -it ${ID}-app pm2 restart ${ID}" >> update-app.sh
+echo "rm -rf ./dist/public/heretic" >> update-app.sh
+echo "docker cp ${ID}-app:/heretic/dist/public/heretic ./dist/public" >> update-app.sh
+echo "All done. Have a nice day!"
