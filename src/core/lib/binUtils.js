@@ -524,6 +524,9 @@ module.exports = class {
     }
 
     async geoCleanUp() {
+        if (!this.config.mongo.enabled) {
+            return;
+        }
         if (!this.db) {
             await this.connectDatabase();
         }
@@ -534,6 +537,9 @@ module.exports = class {
     }
 
     async geoImportBlocksV4() {
+        if (!this.config.mongo.enabled) {
+            return;
+        }
         if (!this.db) {
             await this.connectDatabase();
         }
@@ -600,6 +606,9 @@ module.exports = class {
     }
 
     async geoImportBlocksV6() {
+        if (!this.config.mongo.enabled) {
+            return;
+        }
         if (!this.db) {
             await this.connectDatabase();
         }
@@ -666,6 +675,9 @@ module.exports = class {
     }
 
     async geoImportCountries() {
+        if (!this.config.mongo.enabled) {
+            return;
+        }
         if (!this.db) {
             await this.connectDatabase();
         }
@@ -748,6 +760,9 @@ module.exports = class {
     }
 
     async geoImportCities() {
+        if (!this.config.mongo.enabled) {
+            return;
+        }
         if (!this.db) {
             await this.connectDatabase();
         }
@@ -823,6 +838,9 @@ module.exports = class {
     }
 
     async geoEnsureIndexes() {
+        if (!this.config.mongo.enabled) {
+            return;
+        }
         if (!this.db) {
             await this.connectDatabase();
         }
