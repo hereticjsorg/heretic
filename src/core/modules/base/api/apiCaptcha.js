@@ -11,6 +11,11 @@ export default () => ({
             const code = Math.random().toString().substring(2, 6);
             const imageSecret = uuid();
             const imageData = captcha.createCaptcha(code);
+            if (!this.systemConfig.redis.enabled && this.systemConfig.mongo.enabled) {
+                return rep.error({
+                    message: "No MongoDB or Redis enabled",
+                });
+            }
             if (this.redis) {
                 await this.redis.set(`${this.siteConfig.id}_captcha_${imageSecret}}`, code, "ex", 300);
             } else {
