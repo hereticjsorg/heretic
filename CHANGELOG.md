@@ -1,3 +1,13 @@
+## v1.2.31
+
+**Bugfixes** (2024-05-05)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-05-05 | Update Dockerfile |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-05-05 | Bugfixes |
+
+
 ## v1.2.30
 
 **Bugfixes** (2024-05-05)
