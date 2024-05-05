@@ -1,3 +1,12 @@
+## v1.2.29
+
+**Update startup.sh** (2024-05-05)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-05-05 | Update startup.sh |
+
+
 ## v1.2.28
 
 **Bugfixes** (2024-05-05)
