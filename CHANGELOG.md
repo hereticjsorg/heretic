@@ -1,3 +1,13 @@
+## v1.2.28
+
+**Bugfixes** (2024-05-05)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-05-05 | Bugfixes |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-05-05 | Library added: swipe-listener |
+
+
 ## v1.2.27
 
 **Bugfixes & AOS Library** (2024-05-02)
