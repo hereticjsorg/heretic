@@ -74,6 +74,7 @@
     border-bottom-right-radius: $radius;
     cursor: pointer;
     background-color: $white;
+    z-index: 1;
 }
 
 html.theme-dark .hr-hf-captcha-image {
@@ -86,6 +87,7 @@ html.theme-dark .hr-hf-captcha-image {
     margin-left: -14px;
     opacity: 0.6;
     cursor: pointer;
+    z-index: 2;
 }
 
 .hr-hf-calendar-wrap {

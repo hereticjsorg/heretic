@@ -116,7 +116,7 @@ const config = {
         /*
             Connection time-out
         */
-        connectTimeout: 500,
+        connectTimeout: 2500,
         /*
             Number of maximum retries per request
         */
