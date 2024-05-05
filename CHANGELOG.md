@@ -1,3 +1,13 @@
+## v1.2.32
+
+**Bugfixes** (2024-05-05)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-05-05 | Update docker-compose.sh |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-05-05 | Update docker-compose.sh |
+
+
 ## v1.2.31
 
 **Bugfixes** (2024-05-05)
