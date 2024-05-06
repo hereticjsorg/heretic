@@ -68,30 +68,50 @@ while [[ ! ($DIST_DIR == "" || $DIST_DIR =~ ^[^*]+$) ]]; do
     read -p "Please define \"dist\" directory path [./dist]: " DIST_DIR
 done
 DIST_DIR=$([ "$DIST_DIR" == "" ] && echo "./dist" || echo "$DIST_DIR")
+if [ ! -d "${DIST_DIR}" ]
+then
+    mkdir "${DIST_DIR}"
+fi
 # Directory: ./site
 SITE_DIR="*"
 while [[ ! ($SITE_DIR == "" || $SITE_DIR =~ ^[^*]+$) ]]; do
     read -p "Please define \"site\" directory path [./site]: " SITE_DIR
 done
 SITE_DIR=$([ "$SITE_DIR" == "" ] && echo "./site" || echo "$SITE_DIR")
+if [ ! -d "${SITE_DIR}" ]
+then
+    mkdir "${SITE_DIR}"
+fi
 # Directory: ./logs
 LOGS_DIR="*"
 while [[ ! ($LOGS_DIR == "" || $LOGS_DIR =~ ^[^*]+$) ]]; do
     read -p "Please define \"logs\" directory path [./logs]: " LOGS_DIR
 done
 LOGS_DIR=$([ "$LOGS_DIR" == "" ] && echo "./logs" || echo "$LOGS_DIR")
+if [ ! -d "${LOGS_DIR}" ]
+then
+    mkdir "${LOGS_DIR}"
+fi
 # Directory: ./backup
 BACKUP_DIR="*"
 while [[ ! ($BACKUP_DIR == "" || $BACKUP_DIR =~ ^[^*]+$) ]]; do
     read -p "Please define \"backup\" directory path [./backup]: " BACKUP_DIR
 done
 BACKUP_DIR=$([ "$BACKUP_DIR" == "" ] && echo "./backup" || echo "$BACKUP_DIR")
+if [ ! -d "${BACKUP_DIR}" ]
+then
+    mkdir "${BACKUP_DIR}"
+fi
 # Directory: ./mongo
 MONGO_DIR="*"
 while [[ ! ($MONGO_DIR == "" || $MONGO_DIR =~ ^[^*]+$) ]]; do
     read -p "Please define \"mongo\" directory path [./mongo]: " MONGO_DIR
 done
 MONGO_DIR=$([ "$MONGO_DIR" == "" ] && echo "./mongo" || echo "$MONGO_DIR")
+if [ ! -d "${MONGO_DIR}" ]
+then
+    mkdir "${MONGO_DIR}"
+fi
 #
 COMPOSE_TEMPLATE=${COMPOSE_TEMPLATE//\$ID/$ID}
 COMPOSE_TEMPLATE=${COMPOSE_TEMPLATE//\$HERETIC_PORT/$HERETIC_PORT}
