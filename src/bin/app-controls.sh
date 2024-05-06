@@ -17,23 +17,23 @@ PS3=$'\n'"Choose command to execute: "
 select lng in "Rebuild" "Update" "CLI" "Backup" "Shell" "Quit this Script"; do
     case $lng in
     "Rebuild")
-        docker exec -it ${ID}-app npm run build
-        docker exec -it ${ID}-app pm2 restart ${ID}
+        docker exec -it $ID-app npm run build
+        docker exec -it $ID-app pm2 restart $ID
         ;;
     "Update")
-        docker exec -it ${ID}-app npm run update
-        docker exec -it ${ID}-app npm run install-modules
-        docker exec -it ${ID}-app npm run build
-        docker exec -it ${ID}-app pm2 restart ${ID}
+        docker exec -it $ID-app npm run update
+        docker exec -it $ID-app npm run install-modules
+        docker exec -it $ID-app npm run build
+        docker exec -it $ID-app pm2 restart $ID
         ;;
     "Backup")
-        docker exec -it ${ID}-app npm run backup
+        docker exec -it $ID-app npm run backup
         ;;
     "CLI")
-        docker exec -it ${ID}-app npm run cli-interactive
+        docker exec -it $ID-app npm run cli-interactive
         ;;
     "Shell")
-        docker exec -it ${ID}-app npm run /bin/bash
+        docker exec -it $ID-app npm run /bin/bash
         ;;
     "Quit this Script")
         exit
