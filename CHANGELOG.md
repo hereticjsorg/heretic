@@ -1,3 +1,12 @@
+## v1.2.33
+
+**Bugfixes** (2024-05-06)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-05-06 | Bugfixes |
+
+
 ## v1.2.32
 
 **Bugfixes** (2024-05-05)
