@@ -33,7 +33,7 @@ select lng in "Rebuild" "Update" "CLI" "Backup" "Shell" "Quit this Script"; do
         docker exec -it $ID-app npm run cli-interactive
         ;;
     "Shell")
-        docker exec -it $ID-app npm run /bin/bash
+        docker exec -it $ID-app /bin/bash
         ;;
     "Quit this Script")
         exit
