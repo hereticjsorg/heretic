@@ -71,5 +71,5 @@ echo "docker exec -it ${ID}-app npm run update" >> update-app.sh
 echo "docker exec -it ${ID}-app npm run install-modules" >> update-app.sh
 echo "docker exec -it ${ID}-app npm run build" >> update-app.sh
 echo "docker exec -it ${ID}-app pm2 restart ${ID}" >> update-app.sh
-echo "# docker cp ${ID}-app:/heretic/dist/public/heretic ./dist/public" >> update-app.sh
+echo "docker cp ${ID}-app:/heretic/dist/public/heretic ./dist/public" >> update-app.sh
 echo "All done. Have a nice day!"
