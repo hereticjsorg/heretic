@@ -1,3 +1,12 @@
+## v1.2.38
+
+**Update app-controls.sh** (2024-05-06)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-05-06 | Update app-controls.sh |
+
+
 ## v1.2.37
 
 **Update app-controls.sh** (2024-05-06)
