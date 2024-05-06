@@ -1,0 +1,26 @@
+services:
+  $ID-app:
+    container_name: $ID-app
+    restart: always
+    image: hereticjsorg/heretic:latest
+    ports:
+      - "$HERETIC_PORT:3001"
+    depends_on:
+      - $ID-redis
+    networks:
+      - $ID-network
+    volumes:
+      - $DIST_DIR:/heretic/dist
+      - $SITE_DIR:/heretic/site
+      - $LOGS_DIR:/heretic/logs
+      - $BACKUP_DIR:/heretic/backup
+
+  $ID-redis:
+    container_name: $ID-redis
+    image: redis:latest
+    restart: always
+    networks:
+      - $ID-network
+
+networks:
+  $ID-network:

@@ -1,12 +1,53 @@
 #!/usr/bin/env bash
 
-DOCKER_COMPOSE_XML="https://raw.githubusercontent.com/hereticjsorg/heretic/master/src/bin/data/docker-compose.yml"
+DOCKER_COMPOSE_XML_BASE="https://raw.githubusercontent.com/hereticjsorg/heretic/master/src/bin/data"
 
-echo "This script will generate a docker-compose.yml file for you."
+R="\e[31m"
+G="\e[32m"
+W="\e[97m"
+E="\e[0m"
+
+echo ""
+echo -e $(printf "${G}HERETIC${E}")
+echo -e $(printf "${W}Docker Installation Script${E}")
+echo ""
+echo "This script will generate docker-compose.yml file for you."
+echo ""
+
 if ! [ -x "$(command -v curl)" ]; then
     echo "Could not find curl, exiting"
     exit 1
 fi
+
+PS3=$'\n'"Choose your Heretic setup: "
+
+select lng in Full Redis MongoDB "Heretic Only" Quit; do
+    case $lng in
+    "Full")
+        DOCKER_COMPOSE_XML="${DOCKER_COMPOSE_XML_BASE}/docker-compose.yml"
+        break
+        ;;
+    "Redis")
+        DOCKER_COMPOSE_XML="${DOCKER_COMPOSE_XML_BASE}/docker-compose-heretic-redis.yml"
+        break
+        ;;
+    "MongoDB")
+        DOCKER_COMPOSE_XML="${DOCKER_COMPOSE_XML_BASE}/docker-compose-heretic-mongo.yml"
+        break
+        ;;
+    "Heretic Only")
+        DOCKER_COMPOSE_XML="${DOCKER_COMPOSE_XML_BASE}/docker-compose-heretic.yml"
+        break
+        ;;    
+    "Quit")
+        exit
+        ;;
+    *)
+        echo "Please select 1-5"
+        ;;
+    esac
+done
+
 echo "Downloading template file..."
 COMPOSE_TEMPLATE=$(curl -s $DOCKER_COMPOSE_XML)
 # Site ID
@@ -65,11 +106,11 @@ echo "Generating docker-compose.yml..."
 echo "$COMPOSE_TEMPLATE" > "./docker-compose.yml"
 echo "Generating update-app.sh..."
 echo "#!/usr/bin/env bash" > update-app.sh
-echo "" >> update-app.sh
-echo "rm -rf ./dist/public/heretic" >> update-app.sh
-echo "docker exec -it ${ID}-app npm run update" >> update-app.sh
-echo "docker exec -it ${ID}-app npm run install-modules" >> update-app.sh
-echo "docker exec -it ${ID}-app npm run build" >> update-app.sh
-echo "docker exec -it ${ID}-app pm2 restart ${ID}" >> update-app.sh
-echo "docker cp ${ID}-app:/heretic/dist/public/heretic ./dist/public" >> update-app.sh
+cat << EOF >> update-app.sh
+
+docker exec -it ${ID}-app npm run update
+docker exec -it ${ID}-app npm run install-modules
+docker exec -it ${ID}-app npm run build
+docker exec -it ${ID}-app pm2 restart ${ID}
+EOF
 echo "All done. Have a nice day!"
