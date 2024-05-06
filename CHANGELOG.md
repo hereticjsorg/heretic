@@ -1,3 +1,12 @@
+## v1.2.36
+
+**Docker-related updates** (2024-05-06)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-05-06 | Docker-related updates |
+
+
 ## v1.2.35
 
 **Update docker-compose.sh** (2024-05-06)
