@@ -36,13 +36,11 @@ const BinUtils = require("#lib/binUtils.js");
         });
         if (isSuccess) {
             binUtils.log("Cleaning up...");
-            await fs.remove(path.join(__dirname, "../../dist/public/heretic"));
-            await fs.remove(path.join(__dirname, "../../dist/data"));
+            await fs.emptyDir(path.join(__dirname, "../../dist/public/heretic"));
+            await fs.emptyDir(path.join(__dirname, "../../dist/data"));
             await fs.remove(path.join(__dirname, "../../dist/server.js"));
             binUtils.log("Replacing files and directories...");
-            await fs.remove(path.join(__dirname, "../../dist/public/heretic"));
             await fs.copy(path.join(__dirname, "../../dist.new/public/heretic"), path.join(__dirname, "../../dist/public/heretic"));
-            await fs.remove(path.join(__dirname, "../../dist/data"));
             await fs.copy(path.join(__dirname, "../../dist.new/data"), path.join(__dirname, "../../dist/data"));
             await fs.remove(path.join(__dirname, "../../dist/server.js"));
             await fs.copy(path.join(__dirname, "../../dist.new/server.js"), path.join(__dirname, "../../dist/server.js"));
