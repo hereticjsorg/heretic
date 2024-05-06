@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 DOCKER_COMPOSE_XML_BASE="https://raw.githubusercontent.com/hereticjsorg/heretic/master/src/bin/data"
+APP_CONTROLS_SCRIPT="https://raw.githubusercontent.com/hereticjsorg/heretic/master/src/bin/app-controls.sh"
 
 R="\e[31m"
 G="\e[32m"
@@ -15,7 +16,7 @@ echo "This script will generate docker-compose.yml file for you."
 echo ""
 
 if ! [ -x "$(command -v curl)" ]; then
-    echo "Could not find curl, exiting"
+    echo -e $(printf "${R}Could not find curl, exiting${E}")
     exit 1
 fi
 
@@ -50,6 +51,8 @@ done
 
 echo "Downloading template file..."
 COMPOSE_TEMPLATE=$(curl -s $DOCKER_COMPOSE_XML)
+echo "Downloading app-controls.sh script..."
+APP_CONTROLS=$(curl -s $APP_CONTROLS_SCRIPT)
 # Site ID
 ID="-"
 while [[ ! ($ID == "" || $ID =~ ^[A-Za-z0-9_]+$) ]]; do
@@ -124,13 +127,7 @@ COMPOSE_TEMPLATE=${COMPOSE_TEMPLATE//\$SRC_DIR/$SRC_DIR}
 COMPOSE_TEMPLATE=${COMPOSE_TEMPLATE//\$MONGO_DIR/$MONGO_DIR}
 echo "Generating docker-compose.yml..."
 echo "$COMPOSE_TEMPLATE" > "./docker-compose.yml"
-echo "Generating update-app.sh..."
-echo "#!/usr/bin/env bash" > update-app.sh
-cat << EOF >> update-app.sh
-
-docker exec -it ${ID}-app npm run update
-docker exec -it ${ID}-app npm run install-modules
-docker exec -it ${ID}-app npm run build
-docker exec -it ${ID}-app pm2 restart ${ID}
-EOF
+APP_CONTROLS=${APP_CONTROLS//\$ID/$ID}
+echo "Generating app-controls.sh..."
+echo "$APP_CONTROLS" > "./app-controls.sh"
 echo "All done. Have a nice day!"
