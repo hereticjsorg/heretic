@@ -2,14 +2,15 @@
 
 R="\e[31m"
 G="\e[32m"
+M="\e[35m"
 W="\e[97m"
 E="\e[0m"
 
 echo ""
 echo -e $(printf "${G}HERETIC${E}")
-echo -e $(printf "${W}Application Controls${E}")
+echo -e $(printf "${W}Application Controls for${E}: ${M}$ID${E}")
 echo ""
-echo "This script will execute commands in App container."
+echo "This script will execute commands in $ID-app container."
 echo ""
 
 PS3=$'\n'"Choose command to execute: "
