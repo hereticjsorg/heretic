@@ -3,14 +3,21 @@
 DOCKER_COMPOSE_XML_BASE="https://raw.githubusercontent.com/hereticjsorg/heretic/master/src/bin/data"
 APP_CONTROLS_SCRIPT="https://raw.githubusercontent.com/hereticjsorg/heretic/master/src/bin/app-controls.sh"
 
+B="\e[30m"
+BB="\e[40m"
 R="\e[31m"
 G="\e[32m"
+GB="\e[42m"
+M="\e[35m"
 W="\e[97m"
 E="\e[0m"
 
 echo ""
-echo -e $(printf "${G}HERETIC${E}")
-echo -e $(printf "${W}Docker Installation Script${E}")
+echo $(printf "${GB}                 ${E}")
+echo -e $(printf "${GB}  ${B}H E R E T I C  ${E}")
+echo $(printf "${GB}                 ${E}")
+echo ""
+echo -e $(printf "${BB}${W}Docker-Compose Configuration${E}")
 echo ""
 echo "This script will generate docker-compose.yml file for you."
 echo ""
