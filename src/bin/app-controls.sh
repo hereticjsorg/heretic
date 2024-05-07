@@ -5,7 +5,6 @@ R="\e[31m"
 G="\e[32m"
 GB="\e[42m"
 M="\e[35m"
-W="\e[97m"
 E="\e[0m"
 
 echo ""
@@ -13,7 +12,7 @@ echo $(printf "${GB}                 ${E}")
 echo -e $(printf "${GB}  ${B}H E R E T I C  ${E}")
 echo $(printf "${GB}                 ${E}")
 echo ""
-echo -e $(printf "${BB}${W}Application Controls for${E}: ${M}$ID${E}")
+echo -e $(printf "Application Controls for: ${M}$ID${E}")
 echo ""
 echo "This script will execute commands in $ID-app container."
 

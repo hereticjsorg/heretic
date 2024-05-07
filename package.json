@@ -66,7 +66,7 @@
         "@fastify/mongodb": "^8.0.0",
         "@fastify/oauth2": "^7.8.1",
         "@fastify/rate-limit": "^9.1.0",
-        "@fastify/static": "^7.0.3",
+        "@fastify/static": "^7.0.4",
         "@jest/globals": "^29.7.0",
         "@lukeed/ms": "^2.0.2",
         "@marko/webpack": "^9.3.7",
