@@ -1,3 +1,14 @@
+## v1.2.44
+
+**Update webpack.utils.js** (2024-05-08)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-05-08 | Update webpack.utils.js |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-05-08 | Update webpack.utils.js |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-05-08 | Update server-prerequisite.test.js |
+
+
 ## v1.2.43
 
 **Bugfixes** (2024-05-08)
