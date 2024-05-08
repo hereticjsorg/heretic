@@ -400,7 +400,7 @@ ${Object.keys(this.languages).map(l => `        case "${l}":
     processMetaJsonFile(p) {
         const filename = path.basename(p);
         const dirname = path.dirname(p);
-        if (filename === "meta.src.json" && !fs.existsSync(path.resolve(`${dirname}/meta.json`))) {
+        if (filename === "meta.src.json") { //  && !fs.existsSync(path.resolve(`${dirname}/meta.json`))
             fs.copySync(path.resolve(`${dirname}/meta.src.json`), path.resolve(`${dirname}/meta.json`));
         }
     }
