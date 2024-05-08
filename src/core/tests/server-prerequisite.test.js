@@ -38,5 +38,5 @@ test("Create test page", async () => {
         await helpers.ensureDir(`site/modules/${routeId}/page/content/lang-${language}`);
         await helpers.writeFile(`site/modules/${routeId}/page/content/lang-${language}/index.marko`, `<div>site-content-${language}</div>\n`);
     }
-    await helpers.writeJSON(`site/modules/${routeId}/page/meta.json`, testMeta);
+    await helpers.writeJSON(`site/modules/${routeId}/page/meta.src.json`, testMeta);
 });
