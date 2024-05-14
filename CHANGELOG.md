@@ -1,3 +1,13 @@
+## v1.2.45
+
+**Bugfixes** (2024-05-14)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-05-13 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-05-14 | Bugfixes |
+
+
 ## v1.2.44
 
 **Update webpack.utils.js** (2024-05-08)
