@@ -6,12 +6,14 @@ import { format } from "date-fns"
     <if(input.type === "text")>
         <div>
             <div class="field">
-                <label class="label hr-hf-label">
-                    ${input.label || ""}<span>:</span>
-                    <if(input.mandatory)>
-                        &nbsp;<span class="hr-hf-label-mandatory">✱</span>
-                    </if>
-                </label>
+                <if(!input.noLabel)>
+                    <label class="label hr-hf-label">
+                        ${input.label || ""}<span>:</span>
+                        <if(input.mandatory)>
+                            &nbsp;<span class="hr-hf-label-mandatory">✱</span>
+                        </if>
+                    </label>
+                </if>
                 <div class="control" no-update>
                     <input id=`hr_hf_el_${input.formId}_${input.id}` class="input hr-hf-text-input" type=(input.fieldType || "text") placeholder=(input.placeholder || "")/>
                 </div>
@@ -31,12 +33,14 @@ import { format } from "date-fns"
     <if(input.type === "textarea")>
         <div>
             <div class="field">
-                <label class=`label hr-hf-label${state.error ? " has-text-danger" : ""}`>
-                    ${input.label || ""}<span>:</span>
-                    <if(input.mandatory)>
-                        &nbsp;<span class="hr-hf-label-mandatory">✱</span>
-                    </if>
-                </label>
+                <if(!input.noLabel)>
+                    <label class=`label hr-hf-label${state.error ? " has-text-danger" : ""}`>
+                        ${input.label || ""}<span>:</span>
+                        <if(input.mandatory)>
+                            &nbsp;<span class="hr-hf-label-mandatory">✱</span>
+                        </if>
+                    </label>
+                </if>
                 <div class="control" no-update>
                     <textarea id=`hr_hf_el_${input.formId}_${input.id}` class=`input hr-hf-text-input ${input.elementStyle || ""}` placeholder=(input.placeholder || "")/>
                 </div>
@@ -65,12 +69,14 @@ import { format } from "date-fns"
     <if(input.type === "select")>
         <div>
             <div class="field">
-                <label class="label hr-hf-label">
-                    ${input.label || ""}<span>:</span>
-                    <if(input.mandatory)>
-                        &nbsp;<span class="hr-hf-label-mandatory">✱</span>
-                    </if>
-                </label>
+                <if(!input.noLabel)>
+                    <label class="label hr-hf-label">
+                        ${input.label || ""}<span>:</span>
+                        <if(input.mandatory)>
+                            &nbsp;<span class="hr-hf-label-mandatory">✱</span>
+                        </if>
+                    </label>
+                </if>
                 <div class="control">
                     <div class="select is-fullwidth">
                         <select id=`hr_hf_el_${input.formId}_${input.id}` on-change("onSelectChange") value=state.value>
@@ -96,12 +102,14 @@ import { format } from "date-fns"
     <if(input.type === "files")>
         <div>
             <div class="field">
-                <label class="label hr-hf-label">
-                    ${input.label || ""}<span>:</span>
-                    <if(input.mandatory)>
-                        &nbsp;<span class="hr-hf-label-mandatory">✱</span>
-                    </if>
-                </label>
+                <if(!input.noLabel)>
+                    <label class="label hr-hf-label">
+                        ${input.label || ""}<span>:</span>
+                        <if(input.mandatory)>
+                            &nbsp;<span class="hr-hf-label-mandatory">✱</span>
+                        </if>
+                    </label>
+                </if>
                 <div
                     class="control"
                     style={
@@ -143,12 +151,14 @@ import { format } from "date-fns"
     <if(input.type === "captcha")>
         <div>
             <div class="field">
-                <label class="label hr-hf-label">
-                    ${input.label || ""}<span>:</span>
-                    <if(input.mandatory)>
-                        &nbsp;<span class="hr-hf-label-mandatory">✱</span>
-                    </if>
-                </label>
+                <if(!input.noLabel)>
+                    <label class="label hr-hf-label">
+                        ${input.label || ""}<span>:</span>
+                        <if(input.mandatory)>
+                            &nbsp;<span class="hr-hf-label-mandatory">✱</span>
+                        </if>
+                    </label>
+                </if>
                 <div class="field has-addons mb-1">
                     <div class="control" no-update>
                         <input id=`hr_hf_el_${input.formId}_${input.id}` class="input hr-hf-text-input hr-hf-captcha-input" type="text" placeholder=(input.placeholder || "")/>
@@ -176,12 +186,14 @@ import { format } from "date-fns"
     <if(input.type === "date")>
         <div>
             <div class="field">
-                <label class="label hr-hf-label">
-                    ${input.label || ""}<span>:</span>
-                    <if(input.mandatory)>
-                        &nbsp;<span class="hr-hf-label-mandatory">✱</span>
-                    </if>
-                </label>
+                <if(!input.noLabel)>
+                    <label class="label hr-hf-label">
+                        ${input.label || ""}<span>:</span>
+                        <if(input.mandatory)>
+                            &nbsp;<span class="hr-hf-label-mandatory">✱</span>
+                        </if>
+                    </label>
+                </if>
                 <div class="control" id=`hr_hf_el_${input.formId}_${input.id}_input_wrap` no-update>
                     <input on-focus("onDateInputFocus") id=`hr_hf_el_${input.formId}_${input.id}` class="input hr-hf-text-input input hr-hf-date-input" type="text" on-keypress("onCalendarInputKeypress") on-keydown("onCalendarInputKeydown")/>
                 </div>
@@ -206,12 +218,14 @@ import { format } from "date-fns"
     <if(input.type === "wysiwyg")>
         <div>
             <div class="field">
-                <label class="label hr-hf-label">
-                    ${input.label || ""}<span>:</span>
-                    <if(input.mandatory)>
-                        &nbsp;<span class="hr-hf-label-mandatory">✱</span>
-                    </if>
-                </label>
+                <if(!input.noLabel)>
+                    <label class="label hr-hf-label">
+                        ${input.label || ""}<span>:</span>
+                        <if(input.mandatory)>
+                            &nbsp;<span class="hr-hf-label-mandatory">✱</span>
+                        </if>
+                    </label>
+                </if>
                 <div class="control">
                     <hwysiwyg admin=input.admin key=`hr_hf_el_${input.formId}_${input.id}_wysiwyg` on-value-change("onWYSIWYGValueChange") formId=input.formId id=input.id/>
                 </div>
@@ -231,12 +245,14 @@ import { format } from "date-fns"
     <if(input.type === "password")>
         <div>
             <div class="field">
-                <label class="label hr-hf-label">
-                    ${input.label || ""}<span>:</span>
-                    <if(input.mandatory)>
-                        &nbsp;<span class="hr-hf-label-mandatory">✱</span>
-                    </if>
-                </label>
+                <if(!input.noLabel)>
+                    <label class="label hr-hf-label">
+                        ${input.label || ""}<span>:</span>
+                        <if(input.mandatory)>
+                            &nbsp;<span class="hr-hf-label-mandatory">✱</span>
+                        </if>
+                    </label>
+                </if>
                 <div class="control">
                     <div class="columns is-variable is-1 is-mobile" no-update>
                         <div class="column">
@@ -270,12 +286,14 @@ import { format } from "date-fns"
     <if(input.type === "keyValue")>
         <div>
             <div class="field">
-                <label class="label hr-hf-label">
-                    ${input.label || ""}<span>:</span>
-                    <if(input.mandatory)>
-                        &nbsp;<span class="hr-hf-label-mandatory">✱</span>
-                    </if>
-                </label>
+                <if(!input.noLabel)>
+                    <label class="label hr-hf-label">
+                        ${input.label || ""}<span>:</span>
+                        <if(input.mandatory)>
+                            &nbsp;<span class="hr-hf-label-mandatory">✱</span>
+                        </if>
+                    </label>
+                </if>
                 <div class="control">
                     <button on-click("onKeyValueAddClick") class="button is-small is-light">
                         <span class="hr-hf-top-button-icon">
@@ -393,12 +411,14 @@ import { format } from "date-fns"
     <if(input.type === "log")>
         <div>
             <div class="field">
-                <label class="label hr-hf-label">
-                    ${input.label || ""}<span>:</span>
-                    <if(input.mandatory)>
-                        &nbsp;<span class="hr-hf-label-mandatory">✱</span>
-                    </if>
-                </label>
+                <if(!input.noLabel)>
+                    <label class="label hr-hf-label">
+                        ${input.label || ""}<span>:</span>
+                        <if(input.mandatory)>
+                            &nbsp;<span class="hr-hf-label-mandatory">✱</span>
+                        </if>
+                    </label>
+                </if>
                 <div class="control">
                     <button on-click("onLogAddClick") class="button is-small is-light">
                         <span class="hr-hf-top-button-icon">
@@ -458,7 +478,7 @@ import { format } from "date-fns"
     <if(input.type === "div")>
         <div>
             <div class="field">
-                <if(input.label)>
+                <if(input.label && !input.noLabel)>
                     <label class="label hr-hf-label">
                         ${input.label || ""}<span>:</span>
                         <if(input.mandatory)>
@@ -492,14 +512,16 @@ import { format } from "date-fns"
     <if(input.type === "checkbox")>
         <div>
             <div class="field">
-                <div class="control" no-update>
-                    <label class="checkbox">
-                        <input id=`hr_hf_el_${input.formId}_${input.id}` class="hr-hf-form-checkbox" type="checkbox"/>
-                        ${input.label || ""}<if(input.mandatory)>
-                            &nbsp;<span class="hr-hf-label-mandatory">✱</span>
-                        </if>
-                    </label>
-                </div>
+                <if(!input.noLabel)>
+                    <div class="control" no-update>
+                        <label class="checkbox">
+                            <input id=`hr_hf_el_${input.formId}_${input.id}` class="hr-hf-form-checkbox" type="checkbox"/>
+                            ${input.label || ""}<if(input.mandatory)>
+                                &nbsp;<span class="hr-hf-label-mandatory">✱</span>
+                            </if>
+                        </label>
+                    </div>
+                </if>
                 <if(state.error)>
                     <div class="hr-hf-error-wrap">
                         <p class="tag is-danger hr-hf-error-tag">${state.error}</p>
