@@ -1,3 +1,13 @@
+## v1.2.47
+
+**Bugfixes & hfrom improvements** (2024-05-20)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-05-20 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-05-20 | Added noLabel option for hform |
+
+
 ## v1.2.46
 
 **Bugfixes** (2024-05-17)
