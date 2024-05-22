@@ -14,7 +14,7 @@ module.exports = api => {
                 useESModules: true,
             }],
             ["prismjs", {
-                languages: ["javascript", "css", "c", "cpp", "csharp", "markup", "html", "dart", "typescript", "perl", "php", "sql", "json", "java"],
+                languages: ["javascript", "css", "c", "cpp", "csharp", "markup", "html", "dart", "typescript", "perl", "php", "sql", "json", "java", "bash", "nginx"],
                 plugins: ["line-numbers"],
                 css: false,
             }],
