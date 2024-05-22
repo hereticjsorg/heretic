@@ -1,3 +1,14 @@
+## v1.2.48
+
+**Minor updates and bugfixes** (2024-05-22)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-05-22 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-05-22 | Added "nginx" word |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-05-22 | Added bash and nginx to Prism languages |
+
+
 ## v1.2.47
 
 **Bugfixes & hfrom improvements** (2024-05-20)
