@@ -105,7 +105,7 @@
         "es6-promise": "^4.2.8",
         "eslint": "^8.57.0",
         "eslint-config-airbnb-base": "^15.0.0",
-        "eslint-webpack-plugin": "^4.1.0",
+        "eslint-webpack-plugin": "^4.2.0",
         "fastify": "^4.27.0",
         "fastify-plugin": "^4.5.1",
         "file-loader": "^6.2.0",
