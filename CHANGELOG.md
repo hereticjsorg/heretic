@@ -1,3 +1,12 @@
+## v1.2.50
+
+**NPM Module updates** (2024-05-25)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-05-25 | NPM Module updates |
+
+
 ## v1.2.49
 
 **Minor bugfixes and updates** (2024-05-24)
