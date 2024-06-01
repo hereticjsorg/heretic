@@ -40,6 +40,7 @@ export default (m, page, languageData, language) => ({
                     route: true,
                     oa2: true,
                     packageJson: true,
+                    queryString: true,
                 },
                 oa2: this.systemConfig.oauth2 && Array.isArray(this.systemConfig.oauth2) ? this.systemConfig.oauth2.map(i => ({
                     name: i.name,
@@ -70,6 +71,7 @@ export default (m, page, languageData, language) => ({
                 demo: this.systemConfig.demo,
                 route: `${m.id}_${page.id}`,
                 packageJson: this.packageJson,
+                queryString: req.query,
             },
         });
         rep.type("text/html");

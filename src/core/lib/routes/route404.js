@@ -25,6 +25,7 @@ export default async (req, rep, languageData, language, siteConfig, systemConfig
                 cookiesUserCheck: true,
                 passwordPolicy: true,
                 packageJson: true,
+                queryString: true,
             },
             passwordPolicy: systemConfig.passwordPolicy,
             darkModeEnabled: systemConfig.darkModeEnabled || systemConfig.heretic.darkModeEnabled,
@@ -45,6 +46,7 @@ export default async (req, rep, languageData, language, siteConfig, systemConfig
             webSockets: systemConfig.webSockets || {},
             demo: systemConfig.demo,
             packageJson,
+            queryString: req.query,
         },
     });
     rep.type("text/html");
