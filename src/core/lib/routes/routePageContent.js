@@ -53,6 +53,7 @@ export default async (fastify, req) => {
                             oa2: true,
                             packageJson: true,
                             contentData: true,
+                            queryString: true,
                         },
                         oa2: fastify.systemConfig.oauth2 && Array.isArray(fastify.systemConfig.oauth2) ? fastify.systemConfig.oauth2.map(i => ({
                             name: i.name,
@@ -82,6 +83,7 @@ export default async (fastify, req) => {
                         demo: fastify.systemConfig.demo,
                         packageJson: fastify.packageJson,
                         contentData: page[language],
+                        queryString: req.query,
                     },
                 });
                 return renderPage.getOutput();

@@ -29,6 +29,7 @@ export default (m, page, languageData, language) => ({
                     passwordPolicy: true,
                     oa2: true,
                     packageJson: true,
+                    queryString: true,
                 },
                 oa2: this.systemConfig.oauth2 && Array.isArray(this.systemConfig.oauth2) ? this.systemConfig.oauth2.map(i => ({
                     name: i.name,
@@ -57,6 +58,7 @@ export default (m, page, languageData, language) => ({
                 webSockets: this.systemConfig.webSockets || {},
                 demo: this.systemConfig.demo,
                 packageJson: this.packageJson,
+                queryString: req.query,
             },
         });
         rep.type("text/html");
