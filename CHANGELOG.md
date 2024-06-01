@@ -1,3 +1,14 @@
+## v1.2.51
+
+**Minor Updates & Bugfixes** (2024-06-01)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-05-29 | NPM Module updates |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-01 | Added global queryString to page routes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-01 | NPM Module updates |
+
+
 ## v1.2.50
 
 **NPM Module updates** (2024-05-25)
