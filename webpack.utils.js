@@ -88,6 +88,15 @@ module.exports = class {
             const modulePath = buildConfig.moduleDirectories[mk];
             for (const module of siteModules[mk]) {
                 try {
+                    const dynamicPath = path.resolve(__dirname, `${modulePath}/${module}/dynamic.js`);
+                    if (fs.existsSync(dynamicPath)) {
+                        try {
+                            const dynamicGenerator = require(dynamicPath);
+                            await dynamicGenerator();
+                        } catch {
+                            // Ignore
+                        }
+                    }
                     const moduleConfig = require(path.resolve(__dirname, `${modulePath}/${module}/module.js`));
                     for (const lang of Object.keys(languages)) {
                         if (fs.existsSync(path.resolve(__dirname, `${modulePath}/${module}/translations/${lang}.json`))) {
