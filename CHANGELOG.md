@@ -1,3 +1,12 @@
+## v1.2.52
+
+**Applying dynamic code patches for modules** (2024-06-02)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-02 | Applying dynamic code patches for modules |
+
+
 ## v1.2.51
 
 **Minor Updates & Bugfixes** (2024-06-01)
