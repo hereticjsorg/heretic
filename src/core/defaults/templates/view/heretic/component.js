@@ -161,6 +161,7 @@ export default class {
             }
         }, 10);
         document.addEventListener("click", this.interceptClickEvent.bind(this));
+        window.addEventListener("hrpanicmode", this.panicMode.bind(this));
     }
 
     getAnimationTimer() {
