@@ -1,3 +1,14 @@
+## v1.2.53
+
+**Minor Fixes & Updates** (2024-06-03)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-02 | Update Dockerfile |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-03 | NPM Module updates |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-03 | Catch "hrpanicmode" global window event |
+
+
 ## v1.2.52
 
 **Applying dynamic code patches for modules** (2024-06-02)
