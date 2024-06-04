@@ -16,7 +16,7 @@ echo $(printf "${GB}                 ${E}")
 echo -e $(printf "${GB}  ${B}H E R E T I C  ${E}")
 echo $(printf "${GB}                 ${E}")
 echo ""
-echo "Docker Compose Configuration"
+echo "Docker Compose Configuration, version ${HERETIC_VERSION}"
 echo ""
 echo "This script will generate compose configuration files."
 echo ""
