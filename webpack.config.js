@@ -18,6 +18,7 @@ module.exports = async (env, argv) => {
     webpackUtils.initDirectories();
     await webpackUtils.processMetaJson();
     await webpackUtils.generateConfig();
+    webpackUtils.processBinScript()
     webpackUtils.generateLoaders();
     webpackUtils.generateAdminIconsComponent();
     webpackUtils.generateSitemap();
