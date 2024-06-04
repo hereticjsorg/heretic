@@ -1,3 +1,14 @@
+## v1.2.55
+
+**Minor Updates & Bugfixes** (2024-06-04)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-04 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-04 | Updating bin scripts during build |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-04 | Added Heretic version |
+
+
 ## v1.2.54
 
 **Listening to hrrouternavigate event in router** (2024-06-04)
