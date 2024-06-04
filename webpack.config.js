@@ -18,7 +18,7 @@ module.exports = async (env, argv) => {
     webpackUtils.initDirectories();
     await webpackUtils.processMetaJson();
     await webpackUtils.generateConfig();
-    webpackUtils.processBinScript()
+    webpackUtils.processBinScript();
     webpackUtils.generateLoaders();
     webpackUtils.generateAdminIconsComponent();
     webpackUtils.generateSitemap();
@@ -100,7 +100,7 @@ module.exports = async (env, argv) => {
                                 ...babelConfig(),
                             }
                         }],
-                    }
+                    },
                 ]
             },
             optimization: {
@@ -210,7 +210,7 @@ module.exports = async (env, argv) => {
             },
             module: {
                 rules: [{
-                    test: /\.txt/,
+                    test: /\.(txt|sh)$/,
                     type: "asset/source",
                 }, {
                     test: /\.tsx?$/,
