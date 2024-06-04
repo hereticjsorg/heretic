@@ -1,3 +1,13 @@
+## v1.2.54
+
+**Listening to hrrouternavigate event in router** (2024-06-04)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-06-03 | Call router by emitting the custom event |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-06-03 | Update settings.json |
+
+
 ## v1.2.53
 
 **Minor Fixes & Updates** (2024-06-03)
