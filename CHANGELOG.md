@@ -1,3 +1,13 @@
+## v1.2.56
+
+**Bugfixes** (2024-06-04)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-04 | Bugfixes<br/>This reverts commit c96ace7e77d2fef3f375fba9723d8dcdbb8729ad. |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-06-04 | Added version number to docker-compose scripts |
+
+
 ## v1.2.55
 
 **Minor Updates & Bugfixes** (2024-06-04)
