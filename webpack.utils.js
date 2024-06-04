@@ -425,4 +425,9 @@ ${Object.keys(this.languages).map(l => `        case "${l}":
             this.processMetaJsonFile(p);
         }
     }
+
+    processBinScript() {
+        const dockerComposeSrc = fs.readFileSync(path.resolve(__dirname, "src/bin/docker-compose.src.sh"), "utf8").replace(/\[HERETIC_VERSION\]/gm, packageJson.version);
+        fs.writeFileSync(path.resolve(__dirname, "src/bin/docker-compose.sh"), dockerComposeSrc);
+    }
 };
