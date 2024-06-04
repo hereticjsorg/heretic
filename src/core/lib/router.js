@@ -71,6 +71,7 @@ module.exports = class {
         this.states.push(firstState);
         this.stateIndex = 1;
         window.addEventListener("popstate", this.handlePopState.bind(this));
+        window.addEventListener("hrrouternavigate", e => this.navigate(e.detail.routeId, e.detail.language, {}, {}, false));
     }
 
     buildState(historyState, index) {
@@ -164,7 +165,10 @@ module.exports = class {
         return this.route;
     }
 
-    navigate(routeId, language = this.languages[0], params = {}, extra = {}) {
+    navigate(routeId, language = this.languages[0], params = {}, extra = {}, doPushState = true) {
+        if (this.route && this.route.id === routeId) {
+            return;
+        }
         let routeItem = {};
         if (routeId.match(/^\//)) {
             routeItem.id = null;
@@ -192,7 +196,9 @@ module.exports = class {
             }
             queryString = `?${queryArr.join("&")}`;
         }
-        this.pushState({}, window.title, `${url}${queryString}`);
+        if (doPushState) {
+            this.pushState({}, window.title, `${url}${queryString}`);
+        }
         this.route = this.getLocationData();
         window.__heretic.routeExtra = extra;
         if (this.routeChangeHandler) {
