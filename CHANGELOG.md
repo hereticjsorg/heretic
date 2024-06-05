@@ -1,3 +1,12 @@
+## v1.2.57
+
+**NPM Module updates** (2024-06-05)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-05 | NPM Module updates |
+
+
 ## v1.2.56
 
 **Bugfixes** (2024-06-04)
