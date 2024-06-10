@@ -1,3 +1,12 @@
+## v1.2.59
+
+**Fixed problem with cookie options** (2024-06-10)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-10 | Fixed problem with cookie options |
+
+
 ## v1.2.58
 
 **Minor updates** (2024-06-10)
