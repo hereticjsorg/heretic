@@ -57,6 +57,8 @@ module.exports = {
         "no-restricted-syntax": "off",
         "no-continue": "off",
         "space-in-parens": "off",
+        "no-trailing-spaces": "off",
+        "eol-last": "off",
     },
     overrides: [{
         files: ["**/*.ts", "**/*.tsx"],
