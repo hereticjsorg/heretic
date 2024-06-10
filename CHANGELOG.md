@@ -1,3 +1,12 @@
+## v1.2.60
+
+**Update component.js** (2024-06-10)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-10 | Update component.js |
+
+
 ## v1.2.59
 
 **Fixed problem with cookie options** (2024-06-10)
