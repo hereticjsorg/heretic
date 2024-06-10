@@ -26,8 +26,8 @@ export default class {
         return this.options.userCheck ? String(this.get(`${this.siteId}.cookiesAllowed`)) === "true" : true;
     }
 
-    set(name, value, optionsData) {
-        if (!name || !this.isAllowed()) {
+    set(name, value, optionsData, force = false) {
+        if (!name || (!this.isAllowed() && !force)) {
             return;
         }
         const options = cloneDeep(this.options);
