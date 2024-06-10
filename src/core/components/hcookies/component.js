@@ -26,6 +26,11 @@ export default class {
                 return;
             }
             const expires = new Date(new Date().setFullYear(new Date().getFullYear() + 1));
+            // eslint-disable-next-line no-console
+            console.log({
+                ...this.cookieOptions,
+                expires,
+            });
             this.cookies = new Cookies({
                 ...this.cookieOptions,
                 expires,
