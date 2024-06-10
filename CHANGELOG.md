@@ -1,3 +1,13 @@
+## v1.2.58
+
+**Minor updates** (2024-06-10)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-06-09 | Updates |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-10 | Docs are now a part of the official website ;-) |
+
+
 ## v1.2.57
 
 **NPM Module updates** (2024-06-05)
