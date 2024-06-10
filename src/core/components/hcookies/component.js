@@ -13,12 +13,14 @@ export default class {
         }
         this.siteId = out.global.siteId;
         this.cookiesUserCheck = out.global.cookiesUserCheck;
+        this.cookieOptions = out.global.cookieOptions;
         this.language = out.global.language;
         if (process.browser) {
             window.__heretic = window.__heretic || {};
             window.__heretic.outGlobal = window.__heretic.outGlobal || out.global || {};
             this.siteId = out.global.siteId || window.__heretic.outGlobal.siteId;
             this.cookiesUserCheck = out.global.cookiesUserCheck || window.__heretic.outGlobal.cookiesUserCheck;
+            this.cookieOptions = out.global.cookieOptions || window.__heretic.outGlobal.cookieOptions;
             this.language = this.language || window.__heretic.outGlobal.language;
             if (!this.cookiesUserCheck) {
                 return;
