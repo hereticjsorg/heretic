@@ -1,3 +1,13 @@
+## v1.2.61
+
+**Bugfixes** (2024-06-10)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-10 | Less restrictive lint rules |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-10 | Cookie-related fixes |
+
+
 ## v1.2.60
 
 **Update component.js** (2024-06-10)
