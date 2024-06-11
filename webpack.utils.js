@@ -67,7 +67,25 @@ module.exports = class {
             },
         };
         const t = {};
+        let unusedLanguageFiles = false;
+        let defaultLanguageData = {};
+        if (fs.existsSync(path.resolve(__dirname, `site/translations/${Object.keys(languages)[0]}.json`))) {
+            defaultLanguageData = fs.readJSONSync(path.resolve(__dirname, `site/translations/${Object.keys(languages)[0]}.json`));
+        }
+        const languageFiles = fs.readdirSync(path.resolve(__dirname, `site/translations`)).map(i => i.replace(/\.json$/, ""));
+        for (const lang of languageFiles) {
+            if (Object.keys(languages).indexOf(lang) < 0) {
+                unusedLanguageFiles = true;
+            }
+        }
         for (const lang of Object.keys(languages)) {
+            if (defaultLanguageData && !fs.existsSync(path.resolve(__dirname, `site/translations/${lang}.json`))) {
+                fs.writeJSONSync(path.resolve(__dirname, `site/translations/${lang}.json`), defaultLanguageData, {
+                    spaces: "  ",
+                });
+                // eslint-disable-next-line no-console
+                console.log(`[Warning] Created new file: site/translations/${lang}.json`);
+            }
             if (fs.existsSync(path.resolve(__dirname, `site/translations/${lang}.json`))) {
                 t[lang] = fs.readJSONSync(path.resolve(__dirname, `site/translations/${lang}.json`));
             }
@@ -98,7 +116,23 @@ module.exports = class {
                         }
                     }
                     const moduleConfig = require(path.resolve(__dirname, `${modulePath}/${module}/module.js`));
+                    let defaultModuleLanguageData = {};
+                    if (fs.existsSync(path.resolve(__dirname, `${modulePath}/${module}/translations/${Object.keys(languages)[0]}.json`))) {
+                        defaultModuleLanguageData = fs.readJSONSync(path.resolve(__dirname, `${modulePath}/${module}/translations/${Object.keys(languages)[0]}.json`));
+                    }
+                    for (const lang of languageFiles) {
+                        if (Object.keys(languages).indexOf(lang) < 0) {
+                            unusedLanguageFiles = true;
+                        }
+                    }
                     for (const lang of Object.keys(languages)) {
+                        if (defaultModuleLanguageData && !fs.existsSync(path.resolve(__dirname, `${modulePath}/${module}/translations/${lang}.json`))) {
+                            fs.writeJSONSync(path.resolve(__dirname, `${modulePath}/${module}/translations/${lang}.json`), defaultModuleLanguageData, {
+                                spaces: "  ",
+                            });
+                            // eslint-disable-next-line no-console
+                            console.log(`[Warning] Created new file: ${modulePath}/${module}/translations/${lang}.json`);
+                        }
                         if (fs.existsSync(path.resolve(__dirname, `${modulePath}/${module}/translations/${lang}.json`))) {
                             t[lang] = {
                                 ...t[lang],
@@ -186,6 +220,10 @@ module.exports = class {
         }, {
             spaces: "  ",
         });
+        if (unusedLanguageFiles) {
+            // eslint-disable-next-line no-console
+            console.log("Warning: unused translation files found");
+        }
     }
 
     generateLoaders() {
@@ -368,18 +406,6 @@ ${Object.keys(this.languages).map(l => `        case "${l}":
         }
     }
 
-    // eslint-disable-next-line generator-star-spacing
-    async *walkDir(dir) {
-        for await (const d of await fs.promises.opendir(dir)) {
-            const entry = path.join(dir, d.name);
-            if (d.isDirectory()) {
-                yield* await this.walkDir(entry);
-            } else if (d.isFile()) {
-                yield entry;
-            }
-        }
-    }
-
     processMarkoJsonFile(p) {
         const filename = path.basename(p);
         const dirname = path.dirname(p);
@@ -397,11 +423,20 @@ ${Object.keys(this.languages).map(l => `        case "${l}":
         }
     }
 
+    async processJunkFiles() {
+        for await (const p of this.binUtils.walkDir(path.join(__dirname))) {
+            const filename = path.basename(p);
+            if (filename === ".DS_Store") {
+                fs.unlinkSync(p);
+            }
+        }
+    }
+
     async processMarkoJson() {
-        for await (const p of this.walkDir(path.join(__dirname, "site"))) {
+        for await (const p of this.binUtils.walkDir(path.join(__dirname, "site"))) {
             this.processMarkoJsonFile(p);
         }
-        for await (const p of this.walkDir(path.join(__dirname, "src"))) {
+        for await (const p of this.binUtils.walkDir(path.join(__dirname, "src"))) {
             this.processMarkoJsonFile(p);
         }
     }
@@ -418,10 +453,10 @@ ${Object.keys(this.languages).map(l => `        case "${l}":
     }
 
     async processMetaJson() {
-        for await (const p of this.walkDir(path.join(__dirname, "site"))) {
+        for await (const p of this.binUtils.walkDir(path.join(__dirname, "site"))) {
             this.processMetaJsonFile(p);
         }
-        for await (const p of this.walkDir(path.join(__dirname, "src"))) {
+        for await (const p of this.binUtils.walkDir(path.join(__dirname, "src"))) {
             this.processMetaJsonFile(p);
         }
     }
