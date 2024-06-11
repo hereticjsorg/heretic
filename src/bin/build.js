@@ -25,6 +25,9 @@ const BinUtils = require("#lib/binUtils.js");
     }
     binUtils.printLogo();
     try {
+        if (!fs.existsSync(path.resolve(__dirname, "site"))) {
+            throw new Error(`Fatal: "site" directory is missing. Please run "npm run configure" to set up the defaults.`)
+        }
         const startTime = new Date().getTime();
         binUtils.log(`Building Heretic in ${options.dev ? "development" : "production"} mode${options.dev ? "" : " (may take a long time!)"}...`);
         const data = await binUtils.executeCommand(`npm${os.platform() === "win32" ? ".cmd" : ""} run build-${options.dev ? "dev" : "production"} -- --no-color`);
