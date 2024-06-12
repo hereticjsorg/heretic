@@ -25,7 +25,7 @@ const BinUtils = require("#lib/binUtils.js");
     }
     binUtils.printLogo();
     try {
-        if (!fs.existsSync(path.resolve(__dirname, "site"))) {
+        if (!fs.existsSync(path.resolve(__dirname, "../../site"))) {
             throw new Error(`Fatal: "site" directory is missing. Please run "npm run configure" to set up the defaults.`)
         }
         const startTime = new Date().getTime();
