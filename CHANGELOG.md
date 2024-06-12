@@ -1,3 +1,21 @@
+## v1.2.62
+
+**Bugfixes & Minor Updates** (2024-06-12)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-11 | Processing missing/unused translation files |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-11 | Processing junk files on every build |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-11 | Error message if there is no "site" dir |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-11 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-12 | Fixed directory path |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-12 | NPM Module updates |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-12 | Don't panic if there is no "captcha.ttf" file |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-12 | Don't panic if contentRender is missing |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-12 | Adding webpackIgnore flag for e-mails |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-12 | Remove commented code |
+
+
 ## v1.2.61
 
 **Bugfixes** (2024-06-10)
