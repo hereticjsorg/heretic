@@ -6,7 +6,6 @@ import RestorePasswordForm from "../data/restorePasswordForm";
 import Captcha from "#lib/captcha";
 import Email from "#lib/email";
 import Utils from "#lib/componentUtils";
-import restorePasswordNotificationTemplate from "../email/restorePasswordNotification.marko";
 import languagesData from "#etc/languages.json";
 
 const ajv = new Ajv({
@@ -20,6 +19,7 @@ const restorePasswordFormValidation = ajv.compile(restorePasswordFormValidationS
 export default () => ({
     async handler(req, rep) {
         try {
+            const restorePasswordNotificationTemplate = (await import( /* webpackIgnore: true */ "../email/restorePasswordNotification.marko")).default;
             const validationResult = restorePasswordFormValidation(req.body);
             if (!validationResult) {
                 return rep.error({
