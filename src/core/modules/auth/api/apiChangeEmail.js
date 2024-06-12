@@ -5,7 +5,6 @@ import {
 import EmailForm from "../data/emailForm";
 import Email from "#lib/email";
 import Utils from "#lib/componentUtils";
-import emailChangeNotificationTemplate from "../email/emailChangeNotification.marko";
 
 const ajv = new Ajv({
     allErrors: true,
@@ -18,6 +17,7 @@ const emailFormValidation = ajv.compile(emailFormValidationSchema);
 export default () => ({
     async handler(req, rep) {
         try {
+            const emailChangeNotificationTemplate = (await import( /* webpackIgnore: true */ "../email/emailChangeNotification.marko")).default;
             const authData = await req.auth.getData(req.auth.methods.HEADERS);
             if (!authData) {
                 return rep.error({

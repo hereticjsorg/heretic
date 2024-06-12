@@ -25,6 +25,7 @@ module.exports = async (env, argv) => {
     webpackUtils.generateManifest();
     webpackUtils.generateLangSwitchComponents();
     await webpackUtils.processMarkoJson();
+    await webpackUtils.processJunkFiles();
     return ([{
             context: path.resolve(`${__dirname}`),
             performance: {

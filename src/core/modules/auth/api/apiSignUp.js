@@ -7,7 +7,6 @@ import SignUpForm from "../data/signUpForm";
 import Captcha from "#lib/captcha";
 import Email from "#lib/email";
 import Utils from "#lib/componentUtils";
-import emailChangeNotificationTemplate from "../email/signUpNotification.marko";
 import languagesData from "#etc/languages.json";
 
 const ajv = new Ajv({
@@ -21,6 +20,7 @@ const signUpFormValidation = ajv.compile(signUpFormValidationSchema);
 export default () => ({
     async handler(req, rep) {
         try {
+            const emailChangeNotificationTemplate = (await import( /* webpackIgnore: true */ "../email/signUpNotification.marko")).default;
             const validationResult = signUpFormValidation(req.body);
             if (!validationResult) {
                 return rep.error({

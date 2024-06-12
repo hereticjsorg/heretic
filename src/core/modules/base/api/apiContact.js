@@ -5,7 +5,6 @@ import {
 import ContactForm from "#core/components/hcontact/form.js";
 import Captcha from "#lib/captcha";
 import Email from "#lib/email";
-import emailContact from "../email/emailContact.marko";
 
 const ajv = new Ajv({
     allErrors: true,
@@ -18,6 +17,7 @@ const contactFormValidation = ajv.compile(contactFormValidationSchema);
 export default () => ({
     async handler(req, rep) {
         try {
+            const emailContact = (await import( /* webpackIgnore: true */ "../email/emailContact.marko")).default;
             const validationResult = contactFormValidation(req.body);
             if (!validationResult) {
                 return rep.error({
