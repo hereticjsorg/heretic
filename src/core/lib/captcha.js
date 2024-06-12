@@ -12,7 +12,11 @@ export default class {
             noise: 5,
             ...options,
         };
-        this.font = opentype.loadSync(path.join(__dirname, "data", "captcha.ttf"));
+        try {
+            this.font = opentype.loadSync(path.join(__dirname, "data", "captcha.ttf"));
+        } catch {
+            // Ignore
+        }
         this.fastify = fastify;
     }
 
@@ -70,8 +74,7 @@ export default class {
         }
         rgbColor = rgbColor.slice(1);
         if (rgbColor.length === 3) {
-            rgbColor = rgbColor[0] + rgbColor[0]
-                + rgbColor[1] + rgbColor[1] + rgbColor[2] + rgbColor[2];
+            rgbColor = rgbColor[0] + rgbColor[0] + rgbColor[1] + rgbColor[1] + rgbColor[2] + rgbColor[2];
         }
         const hexColor = parseInt(rgbColor, 16);
         // eslint-disable-next-line no-bitwise
