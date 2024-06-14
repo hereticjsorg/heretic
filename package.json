@@ -1,6 +1,6 @@
 {
     "name": "heretic",
-    "version": "1.2.62",
+    "version": "1.2.63",
     "description": "Heretic",
     "main": "dist/server.js",
     "imports": {
