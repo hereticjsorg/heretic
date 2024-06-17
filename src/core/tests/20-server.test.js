@@ -40,7 +40,7 @@ test("Server availability (200)", async () => {
     } catch {
         // Ignore
     }
-    helpers.killProcess(childProcess.pid);
+    helpers.killProcess(childProcess);
     expect(response ? response.status : 0).toBe(200);
     serverPid = serverPid.filter(i => i !== childProcess.pid);
 });
@@ -64,7 +64,7 @@ test("Server availability (404)", async () => {
     } catch (e) {
         expect(e && e.response ? e.response.status : 0).toBe(404);
     }
-    helpers.killProcess(childProcess.pid);
+    helpers.killProcess(childProcess);
     serverPid = serverPid.filter(i => i !== childProcess.pid);
 });
 
@@ -88,14 +88,14 @@ test("Test Page", async () => {
         expect(response.data).toMatch(`site-description-${language}`);
         expect(response.data).toMatch(`site-content-${language}`);
     }
-    helpers.killProcess(childProcess.pid);
+    helpers.killProcess(childProcess);
     serverPid = serverPid.filter(i => i !== childProcess.pid);
 });
 
 afterAll(async () => {
     for (const pid of serverPid) {
         try {
-            helpers.killProcess(pid);
+            helpers.killProcess(null, pid);
         } catch {
             // Ignore
         }
