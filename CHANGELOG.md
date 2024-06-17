@@ -1,3 +1,12 @@
+## v1.2.64
+
+**Method for killing child processes for Windows was corrected** (2024-06-17)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| IuliiaStrakhova<br/>yuliastrahova@yandex.ru | 2023-07-30 | Method for killing child processes for Windows was corrected<br/>Destroy methods were added for output and error of childProcesses to TestHelpers, detached option was commented in execObj in TestHelpers;<br/>According to this changes were corrected tests in 30-login.test and 20-server.test |
+
+
 ## v1.2.63
 
 **Minor Updates & Bugfixes** (2024-06-14)
