@@ -1,3 +1,19 @@
+## v1.2.66
+
+**Some new features + bugfixes** (2024-06-24)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-06-16 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-24 | Getting back to JavaScript<br/>Well, I will be back to TypeScript later :) |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-24 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-24 | Typos fixed |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-24 | Added Redis-Stack options<br/>And replaced host + port by URL |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-24 | Added fastifyMongo as standalone library |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-24 | Better Multipart Data handling |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-24 | Implementing full text search using Redis Stack |
+
+
 ## v1.2.65
 
 **bug fix regarding empty object in defaultModuleLanguageData** (2024-06-24)
