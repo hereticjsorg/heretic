@@ -1,10 +1,13 @@
 import Fastify from "fastify";
-import Redis from "ioredis";
 import path from "path";
 import crypto from "crypto";
 import {
     MongoClient
 } from "mongodb";
+import {
+    createClient,
+    SchemaFieldTypes,
+} from "redis";
 import {
     v4 as uuid,
 } from "uuid";
@@ -14,24 +17,24 @@ import commandLineArgs from "command-line-args";
 import template from "lodash/template";
 import routePageUserspace from "./routes/routePageUserspace.js";
 import routePageContent from "./routes/routePageContent.js";
-import route404 from "./routes/route404";
-import route500 from "./routes/route500";
-import apiRoute404 from "./routes/route404-api";
-import apiRoute500 from "./routes/route500-api";
+import route404 from "./routes/route404.js";
+import route500 from "./routes/route500.js";
+import apiRoute404 from "./routes/route404-api.js";
+import apiRoute500 from "./routes/route500-api.js";
 import buildData from "#build/build.json";
-import Logger from "./logger";
-import Utils from "./utils";
-import Auth from "./auth";
-import fastifyDecorators from "./fastifyDecorators";
-import replyDecorators from "./replyDecorators";
-import requestDecorators from "./requestDecorators";
-import fastifyURLData from "./urlData";
-import fastifyMultipart from "./multipart";
+import Logger from "./logger.js";
+import Utils from "./utils.js";
+import Auth from "./auth.js";
+import fastifyDecorators from "./fastifyDecorators.js";
+import replyDecorators from "./replyDecorators.js";
+import requestDecorators from "./requestDecorators.js";
+import fastifyURLData from "./urlData.js";
+import fastifyMultipart from "./multipart.js";
 import i18nCore from "#build/loaders/i18n-loader-core.js";
 import languages from "#etc/languages.json";
 import navigation from "#etc/navigation.json";
 import packageJson from "#root/package.json";
-import routePageAdmin from "./routes/routePageAdmin";
+import routePageAdmin from "./routes/routePageAdmin.js";
 
 delete packageJson.dependencies;
 delete packageJson.devDependencies;
@@ -49,39 +52,36 @@ delete packageJson.name;
  * initialize Fastify and its plugins
  */
 export default class {
-    utils: Utils;
-
-    systemConfig: any;
-
-    siteConfig: any;
-
-    fastify: any;
-
-    defaultLanguage: any;
-
-    wsHandlers: any[];
-
-    options: commandLineArgs.CommandLineOptions;
-
-    languageData: any;
-
-    languages: string[];
-
-    initRedis() {
+    async initRedis() {
         if (this.systemConfig.redis && this.systemConfig.redis.enabled) {
-            const redis = new Redis(this.systemConfig.redis);
-            redis.on("error", e => {
-                this.fastify.log.error(`Redis ${e}`);
-                process.exit(1);
-            });
-            redis.on("connect", () => this.fastify.log.info(`Connected to Redis Server at ${this.systemConfig.redis.host}:${this.systemConfig.redis.port}`));
-            this.fastify.decorate("redis", redis);
+            const clientUrl = this.systemConfig.redis.url || `redis://${this.systemConfig.redis.host}:${this.systemConfig.redis.port}`;
+            const client = await createClient({
+                    url: clientUrl,
+                    socket: this.systemConfig.redis.socket || undefined,
+                    username: this.systemConfig.redis.username || undefined,
+                    password: this.systemConfig.redis.password || undefined,
+                    name: this.systemConfig.redis.name || undefined,
+                    database: this.systemConfig.redis.database || undefined,
+                    modules: this.systemConfig.redis.modules || undefined,
+                    readonly: !!this.systemConfig.redis.readonly,
+                    legacyMode: !!this.systemConfig.redis.legacyMode,
+                    pingInterval: this.systemConfig.redis.pingInterval || undefined,
+                })
+                .on("error", e => {
+                    this.fastify.log.error(`Redis ${e}`);
+                    process.exit(1);
+                })
+                .connect();
+            this.fastify.log.info(`Connected to Redis Server at ${clientUrl}`);
+            this.fastify.decorate("redis", client);
         }
     }
 
     async initRateLimit() {
         if (this.systemConfig.rateLimit && this.systemConfig.rateLimit.enabled) {
-            const config = { ...this.systemConfig.rateLimit.global, };
+            const config = {
+                ...this.systemConfig.rateLimit.global,
+            };
             if (this.fastify.redis) {
                 config.redis = this.fastify.redis;
             }
@@ -141,21 +141,21 @@ export default class {
         this.fastify.decorate("packageJson", packageJson);
         const fastifyDecoratorsList = fastifyDecorators.list();
         for (const decorateItem of fastifyDecoratorsList) {
-            this.fastify.decorate(decorateItem, fastifyDecorators[decorateItem as keyof typeof fastifyDecorators]);
+            this.fastify.decorate(decorateItem, fastifyDecorators[decorateItem]);
         }
         const requestDecoratorsList = requestDecorators.list();
         for (const decorateItem of requestDecoratorsList) {
-            this.fastify.decorateRequest(decorateItem, requestDecorators[decorateItem as keyof typeof requestDecorators]);
+            this.fastify.decorateRequest(decorateItem, requestDecorators[decorateItem]);
         }
         const replyDecoratorsList = replyDecorators.list();
         for (const decorateItem of replyDecoratorsList) {
-            this.fastify.decorateReply(decorateItem, replyDecorators[decorateItem as keyof typeof replyDecorators]);
+            this.fastify.decorateReply(decorateItem, replyDecorators[decorateItem]);
         }
-        this.fastify.addHook("preHandler", (request: { auth: Auth; fastify: any; }, reply: any, done: () => void) => {
+        this.fastify.addHook("preHandler", (request, reply, done) => {
             // Do something if we need to
             done();
         });
-        this.fastify.addHook("onRequest", async (req: any, rep: any) => {
+        this.fastify.addHook("onRequest", async (req, rep) => {
             req.auth = new Auth(this.fastify, req);
             req.fastify = this.fastify;
             const contentResponse = await routePageContent(this.fastify, req);
@@ -193,19 +193,19 @@ export default class {
         this.languageData = {};
         const languagesList = Object.keys(languages);
         for (const lang of languagesList) {
-            (this.languageData as Record<string, object>)[lang] = await i18nCore.loadLanguageFile(lang);
+            (this.languageData)[lang] = await i18nCore.loadLanguageFile(lang);
             for (const m of buildData.modules) {
                 try {
-                const i18nLoader = await import(`#build/loaders/i18n-loader-${m.id}.js`);
-                (this.languageData as Record<string, object>)[lang] = {
-                    ...(this.languageData as Record<string, object>)[lang],
-                    ...await i18nLoader.loadLanguageFile(lang),
-                };
+                    const i18nLoader = await import(`#build/loaders/i18n-loader-${m.id}.js`);
+                    (this.languageData)[lang] = {
+                        ...(this.languageData)[lang],
+                        ...await i18nLoader.loadLanguageFile(lang),
+                    };
                 } catch {
                     // Ignore
                 }
             }
-            Object.keys(this.languageData[lang]).map((i: any) => this.languageData[lang][i] = template(this.languageData[lang][i]));
+            Object.keys(this.languageData[lang]).map(i => this.languageData[lang][i] = template(this.languageData[lang][i]));
         }
         this.fastify.decorate("languageData", this.languageData);
     }
@@ -284,13 +284,13 @@ export default class {
     registerRouteErrors() {
         this.fastify.setNotFoundHandler({
             preHandler: this.fastify.rateLimit ? this.fastify.rateLimit() : undefined,
-          }, async (req: any, rep: any) => {
+        }, async (req, rep) => {
             const language = this.utils.getLanguageFromUrl(req.url);
             const output = req.urlData(null, req).path.match(/^\/api\//) ? apiRoute404(rep, this.languageData, language) : await route404(req, rep, this.languageData, language, this.siteConfig, this.systemConfig, buildData.i18nNavigation);
             rep.code(404);
             rep.send(output);
         });
-        this.fastify.setErrorHandler(async (err: any, req: any, rep: any) => {
+        this.fastify.setErrorHandler(async (err, req, rep) => {
             this.fastify.log.error(err);
             const language = this.utils.getLanguageFromUrl(req.url);
             const output = req.urlData(null, req).path.match(/^\/api\//) ? apiRoute500(err, rep, this.languageData, language) : await route500(err, rep, this.languageData, language, this.siteConfig);
@@ -330,10 +330,10 @@ export default class {
                 }
             }
         }
-        this.fastify.register(async (fastify: any) => {
+        this.fastify.register(async (fastify) => {
             fastify.get("/ws", {
                 websocket: true,
-            }, async (connection: any, req: any) => {
+            }, async (connection, req) => {
                 const authData = await req.auth.getData(req.auth.methods.COOKIE);
                 for (const handler of this.wsHandlers) {
                     if (!authData) {
@@ -363,7 +363,7 @@ export default class {
                         // Ignore
                     }
                 }
-                connection.socket.on("message", async (message: any) => {
+                connection.socket.on("message", async (message) => {
                     for (const handler of this.wsHandlers) {
                         handler.onMessage(connection, req, message);
                     }
@@ -412,13 +412,11 @@ export default class {
             });
             await mongoClient.connect();
             this.fastify.decorate("mongoClient", mongoClient);
-            this.fastify.log.info(`Connected to Mongo Server: (${this.systemConfig.mongo.url}/${this.systemConfig.mongo.dbName})`);
+            this.fastify.log.info(`Connected to Mongo Server: ${this.systemConfig.mongo.url}/${this.systemConfig.mongo.dbName}`);
             // Register MongoDB for Fastify
-            this.fastify.register(require("@fastify/mongodb"), {
+            this.fastify.register(require("#lib/fastifyMongo.js"), {
                 client: mongoClient,
                 database: this.systemConfig.mongo.dbName,
-            }).register(async (ff: any, opts: any, next: () => void) => {
-                next();
             });
         }
     }
@@ -469,13 +467,13 @@ export default class {
                 if (m.provider) {
                     const Provider = (await import(`#site/../${m.path}/data/provider`)).default;
                     const provider = new Provider();
-                    (dataProviders as Record<typeof m.id, typeof provider>)[m.id] = provider;
+                    (dataProviders)[m.id] = provider;
                 }
                 for (const p of m.pages) {
                     if (p.provider) {
                         const ProviderPage = (await import(`#site/../${m.path}/${p.id}/provider`)).default;
                         const providerPage = new ProviderPage();
-                        (dataProviders as Record<typeof m.id, typeof providerPage>)[`${m.id}_${p.id}`] = providerPage;
+                        (dataProviders)[`${m.id}_${p.id}`] = providerPage;
                     }
                 }
             } catch {
@@ -485,13 +483,13 @@ export default class {
         this.fastify.decorate("dataProviders", dataProviders);
     }
 
-    async createIndex(id: any, collection: any, fields: any[], direction = "asc") {
+    async createIndex(id, collection, fields, direction = "asc") {
         const db = this.fastify.mongoClient.db(this.fastify.systemConfig.mongo.dbName);
         const indexCreate = {};
-        fields.map((i: string | number) => {
-            (indexCreate as Record<string | number, number>)[i] = direction === "asc" ? 1 : -1;
+        fields.map(i => {
+            (indexCreate)[i] = direction === "asc" ? 1 : -1;
             for (const lang of Object.keys(languages)) {
-                (indexCreate as Record<string | number, number>)[`${lang}.${i}`] = direction === "asc" ? 1 : -1;
+                (indexCreate)[`${lang}.${i}`] = direction === "asc" ? 1 : -1;
             }
         });
         this.fastify.log.info(`Dropping index: ${collection}_${direction}...`);
@@ -510,10 +508,10 @@ export default class {
         }
     }
 
-    async createExpireIndex(id: any, collection: any, field: string | number, seconds: string) {
+    async createExpireIndex(id, collection, field, seconds) {
         const db = this.fastify.mongoClient.db(this.fastify.systemConfig.mongo.dbName);
         const indexExpire = {};
-        (indexExpire as Record<typeof field, number>)[field] = 1;
+        (indexExpire)[field] = 1;
         this.fastify.log.info(`Dropping index: ${collection}_expire...`);
         try {
             await db.collection(collection).dropIndex(`${collection}_expire}`);
@@ -531,7 +529,7 @@ export default class {
         }
     }
 
-    async updateSetupVersion(_id: string) {
+    async updateSetupVersion(_id) {
         const db = this.fastify.mongoClient.db(this.fastify.systemConfig.mongo.dbName);
         await db.collection(this.fastify.systemConfig.collections.version).findOneAndUpdate({
             _id,
@@ -544,7 +542,7 @@ export default class {
         });
     }
 
-    async setup(installedVersions: { [x: string]: any; core?: any; }, options: commandLineArgs.CommandLineOptions) {
+    async setup(installedVersions, options) {
         for (const m of buildData.modules.filter(i => i.setup)) {
             if (!installedVersions[m.id] || options.setup) {
                 let Setup;
@@ -566,13 +564,70 @@ export default class {
         }
     }
 
+    async index() {
+        if (!this.systemConfig.redis || !this.systemConfig.redis.enabled || !this.systemConfig.redis.stack) {
+            return;
+        }
+        const indexData = [];
+        for (const m of buildData.modules.filter(i => i.index)) {
+            let Index;
+            try {
+                Index = (await import(`#site/../${m.path}/index.js`)).default;
+            } catch {
+                // Ignore
+            }
+            if (Index) {
+                this.fastify.log.info(`Indexing module: ${m.id}...`);
+                const index = new Index(m.id, this.fastify);
+                indexData.push(...await index.process());
+            }
+        }
+        let currentIndex;
+        try {
+            currentIndex = await this.fastify.redis.ft.info(`idx:${this.fastify.systemConfig.id}_fulltext`);
+        } catch {
+            //
+        }
+        if (!currentIndex) {
+            try {
+                await this.fastify.redis.ft.create(`${this.fastify.systemConfig.id}-fulltext`, {
+                    route: SchemaFieldTypes.TEXT,
+                    url: SchemaFieldTypes.TEXT,
+                    language: SchemaFieldTypes.TEXT,
+                    title: SchemaFieldTypes.TEXT,
+                    content: SchemaFieldTypes.TEXT,
+                }, {
+                    ON: "HASH",
+                    PREFIX: `${this.fastify.systemConfig.id}-fulltext`,
+                    LANGUAGE_FIELD: "language",
+                });
+            } catch {
+                //
+            }
+        }
+        for (const i of indexData) {
+            const {
+                id,
+            } = i;
+            delete i.id;
+            await this.fastify.redis.hSet(`${this.fastify.systemConfig.id}-fulltext:${id}`, i);
+        }
+        try {
+            await this.fastify.redis.ft.dropIndex(`${this.fastify.systemConfig.id}-fulltext`, {
+                DD: true,
+            });
+        } catch {
+            //
+        }
+    }
+
     async installedDbVersions() {
         const db = this.fastify.mongoClient.db(this.fastify.systemConfig.mongo.dbName);
         try {
             const versionData = {};
             const versionDataDb = (await db.collection(this.fastify.systemConfig.collections.version).find({}).toArray()) || [];
             for (const item of versionDataDb) {
-                (versionData as Record<typeof item._id, typeof item._id>)[item._id] = item.value;
+                (versionData)[item._id] = item.value;
             }
             return versionData;
         } catch {

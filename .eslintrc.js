@@ -8,9 +8,7 @@ module.exports = {
             jsx: false
         }
     },
-    plugins: [
-        "@typescript-eslint"
-    ],
+    plugins: [],
     extends: "airbnb-base",
     env: {
         es6: true,
@@ -60,19 +58,5 @@ module.exports = {
         "no-trailing-spaces": "off",
         "eol-last": "off",
     },
-    overrides: [{
-        files: ["**/*.ts", "**/*.tsx"],
-        plugins: [
-            "@typescript-eslint",
-        ],
-        extends: ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
-        parser: "@typescript-eslint/parser",
-        parserOptions: {
-            project: [`${__dirname}/tsconfig.json`],
-        },
-        rules: {
-            "@typescript-eslint/no-explicit-any": "off",
-            "@typescript-eslint/no-var-requires": "off",
-        }
-    }],
+    overrides: [],
 };
