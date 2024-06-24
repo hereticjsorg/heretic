@@ -127,7 +127,7 @@ module.exports = class {
                     }
                     for (const lang of Object.keys(languages)) {
                         if (Object.keys(defaultModuleLanguageData).length && !fs.existsSync(path.resolve(__dirname, `${modulePath}/${module}/translations/${lang}.json`))) {
-                            fs.existsSync(path.resolve(__dirname, `${modulePath}/${module}/translations/${lang}.json`), defaultModuleLanguageData, {
+                            fs.writeJSONSync(path.resolve(__dirname, `${modulePath}/${module}/translations/${lang}.json`), defaultModuleLanguageData, {
                                 spaces: "  ",
                             });
                             // eslint-disable-next-line no-console
