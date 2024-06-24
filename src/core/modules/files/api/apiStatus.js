@@ -10,7 +10,15 @@ export default () => ({
             if (!authData) {
                 return rep.error({}, 403);
             }
-            const multipartData = await req.processMultipart();
+            let multipartData;
+            try {
+                multipartData = await req.processMultipart();
+            } catch (e) {
+                await req.removeMultipartTempFiles();
+                return rep.error({
+                    message: e.message,
+                });
+            }
             const {
                 id,
             } = multipartData.fields;

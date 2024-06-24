@@ -103,24 +103,28 @@ const config = {
         */
         enabled: false,
         /*
-            Define your Redis hostname here. In case you're running it on
-            a local machine, you need to set it to "127.0.0.1".
+            Define your Redis connection URL here. In case you're running 
+            it on a local machine, you need to set it to "127.0.0.1".
             For a default Docker Compose setup, you may use the following:
             "[ID]-redis" (replace ID by your site ID)
         */
-        host: "127.0.0.1",
+        url: "redis://127.0.0.1:6379",
         /*
-            Redis port
+            Set to "true" if the Redis Stack Server is available
         */
-        port: 6379,
+        stack: false,
         /*
-            Connection time-out
+            Redis createClient configuration
         */
-        connectTimeout: 2500,
-        /*
-            Number of maximum retries per request
-        */
-        maxRetriesPerRequest: 1,
+        socket: undefined,
+        username: undefined,
+        password: undefined,
+        name: undefined,
+        database: undefined,
+        modules: undefined,
+        readonly: false,
+        legacyMode: false,
+        pingInterval: undefined,
     },
     /*
         E-mail related configuration
@@ -437,6 +441,11 @@ const config = {
             Enable MARKO_DEBUG mode, not recommended
         */
         markoDebug: false,
+        /*
+            Enable full text search capabilites.
+            Required: Redis Stack
+        */
+        fullTextSearch: false,
     },
     /*
         Do not change values below ;-)

@@ -18,7 +18,15 @@ export default () => ({
             }
             const formData = new FormData();
             const formValidator = new FormValidator(formData.getValidationSchema(), formData.getFieldsFlat(), this);
-            const multipartData = await req.processMultipart();
+            let multipartData;
+            try {
+                multipartData = await req.processMultipart();
+            } catch (e) {
+                await req.removeMultipartTempFiles();
+                return rep.error({
+                    message: e.message,
+                });
+            }
             const {
                 data,
             } = formValidator.parseMultipartData(multipartData);

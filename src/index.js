@@ -1,4 +1,4 @@
-import Heretic from "./core/lib/heretic.ts";
+import Heretic from "./core/lib/heretic";
 
 (async () => {
     const heretic = new Heretic();
@@ -20,6 +20,7 @@ import Heretic from "./core/lib/heretic.ts";
                 process.exit(1);
             }
         }
+        await heretic.index();
         await heretic.initDataProviders();
         heretic.registerModules();
         heretic.registerRouteErrors();

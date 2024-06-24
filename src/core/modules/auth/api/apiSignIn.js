@@ -9,7 +9,15 @@ export default () => ({
         try {
             const signInForm = new SignInForm();
             const formValidator = new FormValidator(signInForm.getValidationSchema(), signInForm.getFieldsFlat(), this);
-            const multipartData = await req.processMultipart();
+            let multipartData;
+            try {
+                multipartData = await req.processMultipart();
+            } catch (e) {
+                await req.removeMultipartTempFiles();
+                return rep.error({
+                    message: e.message,
+                });
+            }
             const {
                 data
             } = formValidator.parseMultipartData(multipartData);
