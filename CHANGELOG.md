@@ -1,3 +1,13 @@
+## v1.2.65
+
+**bug fix regarding empty object in defaultModuleLanguageData** (2024-06-24)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| IuliiaStrakhova<br/>yuliastrahova@yandex.ru | 2024-06-24 | bug fix regarding empty object in defaultModuleLanguageData |
+| IuliiaStrakhova<br/>yuliastrahova@yandex.ru | 2024-06-24 | corrected - fs.existsSync changed to fs.writeJsonSync again |
+
+
 ## v1.2.64
 
 **Method for killing child processes for Windows was corrected** (2024-06-17)
