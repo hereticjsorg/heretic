@@ -9,6 +9,7 @@ import apiRebuild from "./apiRebuild";
 import apiStatus from "./apiStatus";
 import apiContact from "./apiContact";
 import apiUploadImage from "./apiUploadImage";
+import apiSearchEngine from "./apiSearchEngine";
 
 export default fastify => {
     fastify.get("/api/captcha", apiCaptcha());
@@ -23,5 +24,8 @@ export default fastify => {
         fastify.post("/api/admin/status", apiStatus());
         fastify.post("/api/contact", apiContact());
         fastify.post("/api/admin/upload/image", apiUploadImage());
+    }
+    if (fastify.systemConfig.redis.enabled && fastify.systemConfig.redis.stack) {
+        fastify.post("/api/search", apiSearchEngine());
     }
 };

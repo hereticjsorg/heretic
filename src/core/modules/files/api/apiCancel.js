@@ -10,7 +10,15 @@ export default () => ({
             if (!authData) {
                 return rep.error({}, 403);
             }
-            const multipartData = await req.processMultipart();
+            let multipartData;
+            try {
+                multipartData = await req.processMultipart();
+            } catch (e) {
+                await req.removeMultipartTempFiles();
+                return rep.error({
+                    message: e.message,
+                });
+            }
             if (typeof multipartData.fields.id !== "string" || !multipartData.fields.id.match(/^[a-f\d]{24}$/i)) {
                 return rep.error({
                     message: "Invalid job ID",
