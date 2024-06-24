@@ -20,7 +20,15 @@ export default () => ({
                     message: "Access Denied",
                 }, 403);
             }
-            const multipartData = await req.processMultipart();
+            let multipartData;
+            try {
+                multipartData = await req.processMultipart();
+            } catch (e) {
+                await req.removeMultipartTempFiles();
+                return rep.error({
+                    message: e.message,
+                });
+            }
             const formData = new FormData();
             if (multipartData && multipartData.fields && multipartData.fields.id) {
                 formData.data.form[0].fields.find(i => i.id === "password").mandatory = false;
