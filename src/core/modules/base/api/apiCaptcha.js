@@ -17,7 +17,7 @@ export default () => ({
                 });
             }
             if (this.redis) {
-                await this.redis.set(`${this.siteConfig.id}_captcha_${imageSecret}}`, code, "ex", 300);
+                await this.redis.set(`${this.systemConfig.id}_captcha_${imageSecret}}`, code, "ex", 300);
             } else {
                 await this.mongo.db.collection(this.systemConfig.collections.captcha).insertOne({
                     _id: imageSecret,

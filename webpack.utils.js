@@ -387,7 +387,7 @@ ${Object.keys(this.languages).map(l => `        case "${l}":
         manifest.name = this.siteConfig.title[language];
         manifest.short_name = this.siteConfig.shortTitle[language];
         manifest.description = this.siteConfig.description[language];
-        manifest.id = this.siteConfig.id;
+        manifest.id = this.systemConfig.id;
         fs.writeJSONSync(path.resolve(__dirname, "dist.new/public/heretic/site.webmanifest"), manifest, this.production ? {} : {
             spaces: "  ",
         });
