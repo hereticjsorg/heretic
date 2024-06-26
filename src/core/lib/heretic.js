@@ -73,6 +73,7 @@ export default class {
                 })
                 .connect();
             this.fastify.log.info(`Connected to Redis Server at ${clientUrl}`);
+            client.hereticId = this.systemConfig.id;
             this.fastify.decorate("redis", client);
         }
     }
@@ -85,7 +86,7 @@ export default class {
             if (this.fastify.redis) {
                 config.redis = this.fastify.redis;
             }
-            await this.fastify.register(import("@fastify/rate-limit"), config);
+            await this.fastify.register(import("./rateLimit.js"), config);
         }
     }
 
@@ -358,7 +359,7 @@ export default class {
                 connection.uid = uuid();
                 if (fastify.redis) {
                     try {
-                        await fastify.redis.set(`${fastify.siteConfig.id}_user_${authData._id.toString()}_${connection.uid.replace(/-/gm, "_")}`, Math.floor(Date.now() / 1000), "ex", 120);
+                        await fastify.redis.set(`${fastify.systemConfig.id}_user_${authData._id.toString()}_${connection.uid.replace(/-/gm, "_")}`, Math.floor(Date.now() / 1000), "ex", 120);
                     } catch {
                         // Ignore
                     }
@@ -371,7 +372,7 @@ export default class {
                 connection.socket.on("close", async () => {
                     if (fastify.redis) {
                         try {
-                            await fastify.redis.del(`${fastify.siteConfig.id}_user_${authData._id.toString()}_${connection.uid.replace(/-/gm, "_")}`);
+                            await fastify.redis.del(`${fastify.systemConfig.id}_user_${authData._id.toString()}_${connection.uid.replace(/-/gm, "_")}`);
                         } catch {
                             // Ignore
                         }
