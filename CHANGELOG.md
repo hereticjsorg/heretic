@@ -1,3 +1,15 @@
+## v1.2.67
+
+**Minor updates and Bugfixes** (2024-06-26)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-26 | Redis-related fixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-26 | Incorrect system ID source fixed |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-26 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-26 | Local version of Rate Limiting stores |
+
+
 ## v1.2.66
 
 **Some new features + bugfixes** (2024-06-24)
