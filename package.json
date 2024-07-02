@@ -70,7 +70,7 @@
         "@mdi/js": "^7.4.47",
         "@rxpm/editor-js-code": "^0.0.1",
         "@types/webpack-env": "^1.18.5",
-        "ace-builds": "^1.35.1",
+        "ace-builds": "^1.35.2",
         "ajv": "^8.16.0",
         "archiver": "^7.0.1",
         "axios": "^1.7.2",
