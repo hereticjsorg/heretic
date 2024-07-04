@@ -25,7 +25,7 @@ export default class {
             if (!this.cookiesUserCheck) {
                 return;
             }
-            const expires = new Date(new Date().setFullYear(new Date().getFullYear() + 1));
+            const expires = new Date(new Date().setFullYear(new Date().getFullYear() + 1)).getTime() / 1000;
             this.cookies = new Cookies({
                 ...this.cookieOptions,
                 expires,
