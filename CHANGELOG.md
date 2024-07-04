@@ -1,3 +1,12 @@
+## v1.2.71
+
+**Safari Cookie fixes** (2024-07-04)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-04 | Safari-related Cookie fixes |
+
+
 ## v1.2.70
 
 **Minor updates & Bugfixes** (2024-07-04)
