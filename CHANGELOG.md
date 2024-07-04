@@ -1,3 +1,16 @@
+## v1.2.70
+
+**Minor updates & Bugfixes** (2024-07-04)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-02 | Updated Bulma to 1.0.1 |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-02 | Update mixins.scss |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-02 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-04 | UI-related fixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-04 | NPM Modules update |
+
+
 ## v1.2.69
 
 **NPM Modules update** (2024-07-01)
