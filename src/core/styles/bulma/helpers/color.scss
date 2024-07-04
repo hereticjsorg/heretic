@@ -346,7 +346,7 @@ $digits: (
 
     @each $digit in $digits {
       --#{$digit}-l: #{cv.getVar($name, "", "-#{$digit}-l")};
-      --color-#{$digit}: hsl(var(--h), var(--s), #{cv.getVar($name, "", "-#{$digit}-l")});
+      --color-#{$digit}: hsl(var(--h), var(--s), var(--#{$digit}-l));
     }
   }
 }
