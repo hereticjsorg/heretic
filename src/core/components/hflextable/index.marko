@@ -291,7 +291,11 @@ import { mdiReload, mdiPlus, mdiMagnify, mdiCogOutline, mdiPencilOutline, mdiTra
             </div>
         </div>
     </else>
-    <if(state.loading)>
+    <div style={
+        position: state.loading ? "unset" : "absolute",
+        left: state.loading ? "unset" : "-999999px",
+        clip: state.loading ? "unset" : "rect(0 0 0 0)",
+    }>
         <div
             class="hr-hft-loading-wrap"
             id=`hr_hft_loading_wrap_${input.id}`
@@ -302,7 +306,7 @@ import { mdiReload, mdiPlus, mdiMagnify, mdiCogOutline, mdiPencilOutline, mdiTra
                 <hloading-dots admin=input.admin/>
             </div>
         </div>
-    </if>
+    </div>
 </div>
 <hfxscroll key=`hr_hft_scroll_bottom_${input.id}` id=`bottom_${input.id}` on-wrap-scroll("onWrapScroll")/>
 <if(!state.loading)>
