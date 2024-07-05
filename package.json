@@ -104,7 +104,7 @@
         "html-to-text": "^9.0.5",
         "ignore-loader": "^0.1.2",
         "imask": "^7.6.1",
-        "inquirer": "^9.3.3",
+        "inquirer": "^9.3.4",
         "ip-num": "^1.5.1",
         "jest": "^29.7.0",
         "lodash": "^4.17.21",
