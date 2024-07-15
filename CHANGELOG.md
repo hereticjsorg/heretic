@@ -1,3 +1,16 @@
+## v1.2.72
+
+**Minor Updates & Bugfixes** (2024-07-15)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-05 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-15 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-15 | Added quietDeps: true for sass-loader |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-15 | Dynamic content related fixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-15 | Loading spinner fixes |
+
+
 ## v1.2.71
 
 **Safari Cookie fixes** (2024-07-04)
