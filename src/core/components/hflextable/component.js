@@ -258,7 +258,7 @@ export default class {
             this.setState("loading", true);
             try {
                 await this.utils.waitForElement(`hr_hft_loading_wrap_${this.input.id}`);
-                setTimeout(() => this.positionSpinner(), 100);
+                this.positionSpinner();
             } catch {
                 // Ignore
             }
