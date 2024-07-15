@@ -144,6 +144,7 @@ export default class {
         if (!this.username) {
             this.cookies.delete(`${this.siteId}.authToken`);
         }
+        await this.utils.waitForElement("heretic_content_wrap");
         this.store = store.namespace(`heretic_${this.siteId}`);
         const darkMode = this.store.get("darkMode") || false;
         document.documentElement.classList[darkMode ? "add" : "remove"]("theme-dark");
@@ -197,7 +198,9 @@ export default class {
                 await this.utils.waitForElement("hr_content_render_wrap");
                 const contentRenderWrap = document.getElementById("hr_content_render_wrap");
                 contentRenderWrap.style.display = "none";
-                renderedComponent.replaceChildrenOf(contentRenderWrap);
+                if (route.id) {
+                    renderedComponent.replaceChildrenOf(contentRenderWrap);
+                }
                 this.componentsLoaded[route.id] = true;
                 navbarComponent.setRoute();
                 contentRenderWrap.style.display = "block";

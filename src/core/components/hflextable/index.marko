@@ -294,15 +294,22 @@ import { mdiReload, mdiPlus, mdiMagnify, mdiCogOutline, mdiPencilOutline, mdiTra
     <div style={
         position: state.loading ? "unset" : "absolute",
         left: state.loading ? "unset" : "-999999px",
-        clip: state.loading ? "unset" : "rect(0 0 0 0)",
+        clip: state.loading ? "unset" : "rect(0 0 0 0)"
     }>
         <div
             class="hr-hft-loading-wrap"
             id=`hr_hft_loading_wrap_${input.id}`
             style={
-                opacity: 0
+                opacity: 0,
+                width: "100%",
             }>
-            <div class="hr-hft-loading" id=`hr_hft_loading_${input.id}`>
+            <div
+                class="hr-hft-loading"
+                id=`hr_hft_loading_${input.id}`
+                style={
+                    position: "absolute",
+                    left: "-999999px",
+                }>
                 <hloading-dots admin=input.admin/>
             </div>
         </div>

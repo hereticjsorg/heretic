@@ -27,7 +27,7 @@ export default async (fastify, req) => {
             });
             if (page && page[language]) {
                 const authData = req.auth ? await req.auth.getData(req.auth.methods.COOKIE) : null;
-                const pageData = (await import( /* webpackIgnore: true */ `#site/contentRender/server.marko`)).default;
+                const pageData = (await import(`#site/contentRender/server.marko`)).default;
                 const renderPage = await pageData.render({
                     $global: {
                         serializedGlobals: {

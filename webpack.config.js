@@ -43,12 +43,11 @@ module.exports = async (env, argv) => {
                 rules: [{
                         test: /\.tsx?$/,
                         use: [{
-                                loader: "ts-loader",
-                                options: {
-                                    exclude: /node_modules/,
-                                }
+                            loader: "ts-loader",
+                            options: {
+                                exclude: /node_modules/,
                             }
-                        ],
+                        }],
                     }, {
                         test: /\.(woff(2)?|ttf|eot|otf|png|jpg|jpeg|svg|mp4|webm|mp3)(\?v=\d+\.\d+\.\d+)?$/,
                         type: "asset/resource",
@@ -76,7 +75,12 @@ module.exports = async (env, argv) => {
                                 },
                             },
                             {
-                                loader: "sass-loader"
+                                loader: "sass-loader",
+                                options: {
+                                    sassOptions: {
+                                        quietDeps: true,
+                                    },
+                                },
                             },
                         ].filter(i => i !== null),
                     },

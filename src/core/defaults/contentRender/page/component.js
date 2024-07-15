@@ -7,7 +7,9 @@ export default class {
         }
         this.state = {
             ready: !process.browser,
-            contentData: process.browser ? window.__heretic.contentData : out.global.contentData,
+            contentData: process.browser ? window.__heretic.contentData || {
+                blocks: [],
+            } : out.global.contentData,
         };
         this.language = out.global.language;
         this.siteTitle = out.global.siteTitle;
