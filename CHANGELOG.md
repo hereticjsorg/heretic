@@ -1,3 +1,12 @@
+## v1.2.74
+
+**Loading spinner fixes** (2024-07-16)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-16 | Loading spinner fixes |
+
+
 ## v1.2.73
 
 **NPM Modules update** (2024-07-16)
