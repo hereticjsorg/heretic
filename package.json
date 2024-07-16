@@ -40,7 +40,7 @@
     "author": "Mikhail Matveev <xtreme@rh1.ru>",
     "license": "MIT",
     "devDependencies": {
-        "@babel/core": "^7.24.8",
+        "@babel/core": "^7.24.9",
         "@babel/eslint-parser": "^7.24.8",
         "@babel/plugin-syntax-import-assertions": "^7.24.7",
         "@babel/plugin-transform-async-to-generator": "^7.24.7",
