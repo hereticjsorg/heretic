@@ -1,11 +1,26 @@
 <if(input.type === "line")>
-    <span class="hr-hld-loader-line"/>
+    <span
+        class="hr-hld-loader-line"
+        id=state.cid
+        style={
+            opacity: "0"
+        }/>
 </if>
 <if(input.type === "progress")>
-    <span class="hr-hld-loader-progress"/>
+    <span
+        class="hr-hld-loader-progress"
+        id=state.cid
+        style={
+            opacity: "0"
+        }/>
 </if>
 <if(!input.type)>
-    <div class="hr-hld-loader">
+    <div
+        class="hr-hld-loader"
+        id=state.cid
+        style={
+            opacity: "0"
+        }>
         <div class="hr-hld-loader-dot"/>
         <div class="hr-hld-loader-dot"/>
         <div class="hr-hld-loader-dot"/>

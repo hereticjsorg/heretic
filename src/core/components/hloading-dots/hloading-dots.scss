@@ -3,6 +3,7 @@
     height: 40px;
     position: relative;
     animation: hr-hld-loader 2.5s infinite linear both;
+    transition: opacity 0.3s ease-in-out;
 }
 
 .hr-hld-loader-dot {
@@ -12,6 +13,7 @@
     left: 0;
     top: 0;
     animation: hr-hld-loader-dot 2.0s infinite ease-in-out both;
+    transition: opacity 0.3s ease-in-out;
 }
 
 .hr-hld-loader-dot:before {
@@ -111,6 +113,7 @@ html.theme-dark .hr-hld-loader-dot:before {
     box-sizing: border-box;
     animation: hr-hld-loader-line 2s linear infinite;
     margin-left: 35px;
+    transition: opacity 0.3s ease-in-out;
 }
 
 @keyframes hr-hld-loader-line {
