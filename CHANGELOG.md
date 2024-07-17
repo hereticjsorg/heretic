@@ -1,3 +1,13 @@
+## v1.2.75
+
+**Improved page rendering & minor bugfixes** (2024-07-17)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-17 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-17 | Improved page rendering |
+
+
 ## v1.2.74
 
 **Loading spinner fixes** (2024-07-16)
