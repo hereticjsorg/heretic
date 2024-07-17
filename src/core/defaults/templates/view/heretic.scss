@@ -46,6 +46,10 @@
     background-color: transparent !important;
 }
 
+#heretic_dummy {
+    opacity: 0;
+}
+
 @media (max-width: 1023px) {
     .hr-navbar-wrap {
         padding-top: 5px;

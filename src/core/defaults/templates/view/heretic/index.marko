@@ -1,10 +1,11 @@
 import languages from "#etc/languages.json"
 
+<hloading key="loading"/>
 <div style={
     position: state.mounted ? "unset" : "absolute",
-    clip: state.mounted ? "unset" : "rect(0 0 0 0)"
+    clip: state.mounted ? "unset" : "rect(0 0 0 0)",
+    opacity: state.mounted ? "1" : "0",
 }>
-    <hloading key="loading"/>
     <div
         id="heretic_content_wrap"
         class="container hr-wrap"

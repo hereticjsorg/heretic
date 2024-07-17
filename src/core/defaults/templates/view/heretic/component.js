@@ -35,6 +35,7 @@ export default class {
 
     async onCreate(input, out) {
         this.state = {
+            ready: false,
             mounted: false,
             route: null,
             languageLoaded: false,
@@ -130,6 +131,9 @@ export default class {
     }
 
     async onMount() {
+        const timer = this.getAnimationTimer();
+        await this.utils.waitForElement("heretic_dummy");
+        await this.utils.waitForStyle("heretic_dummy", "opacity", 0);
         window.__heretic = window.__heretic || {};
         window.__heretic.setTippy = debounce(this.setTippy, 100);
         window.__heretic.tippyHideAll = hideAll;
@@ -153,7 +157,8 @@ export default class {
         document.documentElement.style.transition = "all 0.6s ease";
         this.cookies.set(`${this.siteId}.language`, this.language);
         this.cookies.set(`${this.siteId}.darkMode`, darkMode);
-        this.setState("mounted", true);
+        setTimeout(() => this.setState("mounted", true), 500);
+        this.clearAnimationTimer(timer);
         const hereticContentWidth = document.getElementById("heretic_content").clientWidth;
         const hereticContentInterval = setInterval(async () => {
             if (document.getElementById("heretic_dummy").clientWidth !== hereticContentWidth && document.getElementById("heretic_content").clientWidth > hereticContentWidth) {
