@@ -61,6 +61,24 @@ export default class {
         return new Promise(wait);
     }
 
+    waitForStyle(id, property, value) {
+        const timeout = 5000;
+        const start = Date.now();
+        const wait = (resolve, reject) => {
+            if (!process.browser) {
+                resolve();
+            }
+            if (String(window.getComputedStyle(document.getElementById(id))[property]) === String(value)) {
+                resolve();
+            } else if (timeout && (Date.now() - start) >= timeout) {
+                reject(new Error(`Style property timeout: ${id}`));
+            } else {
+                setTimeout(wait.bind(this, resolve, reject), 30);
+            }
+        };
+        return new Promise(wait);
+    }
+
     waitForViewSettled() {
         const timeout = 5000;
         const start = Date.now();
