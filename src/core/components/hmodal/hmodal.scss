@@ -21,6 +21,11 @@
     order: 1;
 }
 
+html.theme-dark .hr-hm-modal-card-head {
+    box-shadow: 0 0.5em 1em -0.125em hsla(0, 0%, 0%, 0.1), 0 0px 0 1px hsla(0, 0%, 0%, 0.02) !important;
+    border-bottom: 1px solid #111;
+}
+
 .hr-hm-modal-card-foot {
     position: relative;
     order: 100;
