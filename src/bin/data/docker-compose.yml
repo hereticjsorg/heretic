@@ -27,7 +27,7 @@ services:
 
   $ID-redis:
     container_name: $ID-redis
-    image: redis:latest
+    image: redis/redis-stack-server:latest
     restart: always
     networks:
       - $ID-network
