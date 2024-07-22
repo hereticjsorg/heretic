@@ -106,6 +106,10 @@ html.theme-dark .hr-ah-tag-par {
     color: $white;
 }
 
+html.theme-dark strong {
+    color: $grey-light;
+}
+
 @keyframes hr-ah-blink-animation {
     to {
         visibility: hidden;

@@ -70,6 +70,10 @@
     color: $white !important;
 }
 
+.hr-navbar-logo-wrap:focus {
+    background: transparent !important;
+}
+
 @media (max-width: 1023px) {
     .hr-navbar-menu {
         background-color: var(--bulma-scheme-main) !important;
