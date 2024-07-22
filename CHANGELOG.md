@@ -1,3 +1,16 @@
+## v1.2.78
+
+**NPM Modules update** (2024-07-22)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-19 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-19 | Using redis-stack-server |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-19 | Minor UI fixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-22 | Updated FROM in Dockerfile |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-22 | Updated package versions |
+
+
 ## v1.2.77
 
 **NPM Modules update** (2024-07-18)
