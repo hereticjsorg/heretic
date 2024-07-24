@@ -107,7 +107,7 @@
         "ip-num": "^1.5.1",
         "jest": "^29.7.0",
         "lodash": "^4.17.21",
-        "marko": "^5.35.5",
+        "marko": "^5.35.6",
         "mime-types": "^2.1.35",
         "mini-css-extract-plugin": "^2.9.0",
         "mkdirp": "^3.0.1",
