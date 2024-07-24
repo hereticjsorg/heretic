@@ -1,3 +1,15 @@
+## v1.2.81
+
+**Minor updates and fixes** (2024-07-24)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-24 | Added spinner to default template |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-24 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-24 | Search engine work-in-progress |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-24 | NPM Modules update |
+
+
 ## v1.2.80
 
 **NPM Modules update** (2024-07-23)
