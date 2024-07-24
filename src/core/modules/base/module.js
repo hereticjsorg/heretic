@@ -6,7 +6,10 @@ module.exports = {
         userspace: {
             status: {
                 path: "/_status"
-            }
+            },
+            search: {
+                path: "/search"
+            },
         },
         admin: {
             home: {
