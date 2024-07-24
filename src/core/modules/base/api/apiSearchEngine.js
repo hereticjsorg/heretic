@@ -16,6 +16,7 @@ export default () => ({
             let {
                 // eslint-disable-next-line prefer-const
                 query,
+                // eslint-disable-next-line prefer-const
                 language,
                 limit,
                 offset,
@@ -27,7 +28,7 @@ export default () => ({
             }
             limit = typeof limit === "string" && limit.match(/^[0-9]{1,3}$/) ? limit : "10";
             offset = typeof offset === "string" && offset.match(/^[0-9]{1,6}$/) ? offset : "0";
-            language = redisLanguages[language.split(/-/)[0]];
+            const languageFull = redisLanguages[language.split(/-/)[0]];
             const words = query
                 .replace(/[`~!@#$%^&*()|+?;:'",.<>{}[\]\\/]/gi, "")
                 .replace(/\s\s+/g, " ")
@@ -36,8 +37,8 @@ export default () => ({
                 .join(" ");
             let result = {};
             try {
-                result = await this.redis.ft.search(`${this.systemConfig.id}-fulltext`, words, {
-                    LANGUAGE: language,
+                result = await this.redis.ft.search(`${this.systemConfig.id}-fulltext`, `@content|title:(${words}) @language:(${language.split(/-/)[0]})`, {
+                    LANGUAGE: languageFull,
                     SUMMARIZE: {
                         FIELDS: ["content"],
                     },

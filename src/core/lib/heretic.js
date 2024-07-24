@@ -171,6 +171,9 @@ export default class {
             }, {
                 name: "setup",
                 type: Boolean,
+            }, {
+                name: "index",
+                type: Boolean,
             }], {
                 stopAtFirstUnknown: true,
             });
@@ -569,11 +572,18 @@ export default class {
         if (!this.systemConfig.redis || !this.systemConfig.redis.enabled || !this.systemConfig.redis.stack) {
             return;
         }
+        try {
+            await this.fastify.redis.ft.dropIndex(`${this.fastify.systemConfig.id}-fulltext`, {
+                DD: true,
+            });
+        } catch {
+            //
+        }
         const indexData = [];
-        for (const m of buildData.modules.filter(i => i.index)) {
+        for (const m of buildData.modules.filter(i => i.search)) {
             let Index;
             try {
-                Index = (await import(`#site/../${m.path}/index.js`)).default;
+                Index = (await import(`#site/../${m.path}/search.js`)).default;
             } catch {
                 // Ignore
             }
@@ -612,13 +622,6 @@ export default class {
             } = i;
             delete i.id;
             await this.fastify.redis.hSet(`${this.fastify.systemConfig.id}-fulltext:${id}`, i);
-        }
-        try {
-            await this.fastify.redis.ft.dropIndex(`${this.fastify.systemConfig.id}-fulltext`, {
-                DD: true,
-            });
-        } catch {
-            //
         }
     }
 

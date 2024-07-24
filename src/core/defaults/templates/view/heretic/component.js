@@ -157,7 +157,11 @@ export default class {
         document.documentElement.style.transition = "all 0.6s ease";
         this.cookies.set(`${this.siteId}.language`, this.language);
         this.cookies.set(`${this.siteId}.darkMode`, darkMode);
-        setTimeout(() => this.setState("mounted", true), 500);
+        setTimeout(async () => {
+            await this.utils.waitForElement("hr_view_loading_wrap");
+            document.getElementById("hr_view_loading_wrap").remove();
+            this.setState("mounted", true);
+        }, 900);
         this.clearAnimationTimer(timer);
         const hereticContentWidth = document.getElementById("heretic_content").clientWidth;
         const hereticContentInterval = setInterval(async () => {

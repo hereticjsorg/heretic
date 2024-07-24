@@ -3,27 +3,58 @@
     <head>
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <link
-            rel="apple-touch-icon"
-            sizes="180x180"
-            href="/heretic/apple-touch-icon.png"/>
-        <link
-            rel="icon"
-            type="image/png"
-            sizes="32x32"
-            href="/heretic/favicon-32x32.png"/>
-        <link
-            rel="icon"
-            type="image/png"
-            sizes="16x16"
-            href="/heretic/favicon-16x16.png"/>
+        <link rel="apple-touch-icon" sizes="180x180" href="/heretic/apple-touch-icon.png"/>
+        <link rel="icon" type="image/png" sizes="32x32" href="/heretic/favicon-32x32.png"/>
+        <link rel="icon" type="image/png" sizes="16x16" href="/heretic/favicon-16x16.png"/>
         <link rel="manifest" href="/heretic/site.webmanifest"/>
         <title>${out.global.title} – ${out.global.siteTitle}</title>
         <if(out.global.description)>
             <meta name="description" content=out.global.description/>
         </if>
+        <!--
+            body, html {
+                height: 100%;
+            }
+            body {
+                margin: 0;
+            }
+            .hr-view-loading-wrap {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100%;
+            }
+            .hr-view-loading {
+                width: 50px;
+                aspect-ratio: 1;
+                border-radius: 50%;
+                border: 8px solid #999;
+                animation:
+                    hr-view-loading-frames-1 0.8s infinite linear alternate,
+                    hr-view-loading-frames-2 1.6s infinite linear;
+            }
+            @keyframes hr-view-loading-frames-1{
+                0%    {clip-path: polygon(50% 50%,0       0,  50%   0%,  50%    0%, 50%    0%, 50%    0%, 50%    0% )}
+                12.5% {clip-path: polygon(50% 50%,0       0,  50%   0%,  100%   0%, 100%   0%, 100%   0%, 100%   0% )}
+                25%   {clip-path: polygon(50% 50%,0       0,  50%   0%,  100%   0%, 100% 100%, 100% 100%, 100% 100% )}
+                50%   {clip-path: polygon(50% 50%,0       0,  50%   0%,  100%   0%, 100% 100%, 50%  100%, 0%   100% )}
+                62.5% {clip-path: polygon(50% 50%,100%    0, 100%   0%,  100%   0%, 100% 100%, 50%  100%, 0%   100% )}
+                75%   {clip-path: polygon(50% 50%,100% 100%, 100% 100%,  100% 100%, 100% 100%, 50%  100%, 0%   100% )}
+                100%  {clip-path: polygon(50% 50%,50%  100%,  50% 100%,   50% 100%,  50% 100%, 50%  100%, 0%   100% )}
+            }
+            @keyframes hr-view-loading-frames-2{ 
+                0%    {transform:scaleY(1)  rotate(0deg)}
+                49.99%{transform:scaleY(1)  rotate(135deg)}
+                50%   {transform:scaleY(-1) rotate(0deg)}
+                100%  {transform:scaleY(-1) rotate(-135deg)}
+            }
+        -->
+        <style type="text/css">body,html{height:100%}body{margin:0}.hr-view-loading-wrap{display:flex;justify-content:center;align-items:center;height:100%}.hr-view-loading{width:50px;aspect-ratio:1;border-radius:50%;border:2px solid #999;animation:hr-view-loading-frames-1 .8s infinite linear alternate,hr-view-loading-frames-2 1.6s infinite linear}@keyframes hr-view-loading-frames-1{0%{clip-path:polygon(50% 50%,0 0,50% 0%,50% 0%,50% 0%,50% 0%,50% 0%)}12.5%{clip-path:polygon(50% 50%,0 0,50% 0%,100% 0%,100% 0%,100% 0%,100% 0%)}25%{clip-path:polygon(50% 50%,0 0,50% 0%,100% 0%,100% 100%,100% 100%,100% 100%)}50%{clip-path:polygon(50% 50%,0 0,50% 0%,100% 0%,100% 100%,50% 100%,0% 100%)}62.5%{clip-path:polygon(50% 50%,100% 0,100% 0%,100% 0%,100% 100%,50% 100%,0% 100%)}75%{clip-path:polygon(50% 50%,100% 100%,100% 100%,100% 100%,100% 100%,50% 100%,0% 100%)}100%{clip-path:polygon(50% 50%,50% 100%,50% 100%,50% 100%,50% 100%,50% 100%,0% 100%)}}@keyframes hr-view-loading-frames-2{0%{transform:scaleY(1) rotate(0deg)}49.99%{transform:scaleY(1) rotate(135deg)}50%{transform:scaleY(-1) rotate(0deg)}100%{transform:scaleY(-1) rotate(-135deg)}}</style>
     </head>
     <body>
+        <div class="hr-view-loading-wrap" id="hr_view_loading_wrap">
+            <div class="hr-view-loading"/>
+        </div>
         <heretic>
             <${input.renderBody}/>
         </heretic>

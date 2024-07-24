@@ -146,6 +146,7 @@ module.exports = class {
                         pages: [],
                         translations: fs.existsSync(path.resolve(__dirname, `${modulePath}/${module}/translations`)),
                         setup: fs.existsSync(path.resolve(__dirname, modulePath, module, "setup.js")),
+                        search: fs.existsSync(path.resolve(__dirname, modulePath, module, "search.js")),
                     };
                     if (moduleData.translations) {
                         const tp = {};

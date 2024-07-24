@@ -20,7 +20,10 @@ import Heretic from "./core/lib/heretic";
                 process.exit(1);
             }
         }
-        await heretic.index();
+        if (heretic.getOptions().index) {
+            await heretic.index();
+            process.exit(0);
+        }
         await heretic.initDataProviders();
         heretic.registerModules();
         heretic.registerRouteErrors();
