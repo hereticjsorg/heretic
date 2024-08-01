@@ -1,1 +1,44 @@
 @import "~styles/variables.scss";
+
+.hr-sr-query {
+    height: 42px !important;
+}
+
+.hr-sr-query,
+.hr-sr-query:focus,
+.hr-sr-query:active,
+.hr-sr-query:hover {
+    border-right-color: $primary !important;
+}
+
+.hr-sr-query:focus {
+    box-shadow: unset !important;
+}
+
+.hr-sr-query-wrap:focus-within {
+    box-shadow: 0 0 0em 2px hsla(var(--bulma-scheme-h), var(--bulma-scheme-s), var(--bulma-scheme-invert-l), .05);
+    border-radius: $radius;
+}
+
+.hr-sr-d-title:hover {
+    text-decoration: underline;
+}
+
+.hr-sr-wrap {
+    position: relative;
+}
+
+.hr-sr-loading-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba($theme-light-loading-background, 0.7);
+}
+
+html.theme-dark .hr-sr-loading-wrap {
+    background-color: rgba($theme-dark-loading-background, 0.7);
+}

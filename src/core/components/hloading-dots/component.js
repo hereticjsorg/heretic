@@ -1,6 +1,7 @@
 import {
     v4 as uuid,
 } from "uuid";
+import Utils from "#lib/componentUtils";
 
 export default class {
     async onCreate(input) {
@@ -12,9 +13,13 @@ export default class {
         } else {
             await import( /* webpackChunkName: "hloading-dots-frontend" */ "./style-frontend.scss");
         }
+        this.utils = new Utils(this, this.language);
     }
 
     onMount() {
-        setTimeout(() => document.getElementById(this.state.cid).style.opacity = "1", 300);
+        setTimeout(async () => {
+            await this.utils.waitForElement(this.state.cid);
+            document.getElementById(this.state.cid).style.opacity = "1";
+        }, 300);
     }
 }
