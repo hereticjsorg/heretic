@@ -18,8 +18,12 @@ export default class {
 
     onMount() {
         setTimeout(async () => {
-            await this.utils.waitForElement(this.state.cid);
-            document.getElementById(this.state.cid).style.opacity = "1";
+            try {
+                await this.utils.waitForElement(this.state.cid);
+                document.getElementById(this.state.cid).style.opacity = "1";
+            } catch {
+                // Ignore
+            }
         }, 300);
     }
 }
