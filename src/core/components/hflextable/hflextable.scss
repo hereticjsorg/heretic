@@ -31,32 +31,48 @@
     position: relative;
 
     &:after {
-        content: '';
+        content: "";
         position: absolute;
         top: 0;
         right: 0;
         width: 15px;
         height: 42px;
         pointer-events: none;
-        background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba($grey-lighter, 1) 100%);
+        background: linear-gradient(
+            90deg,
+            rgba(0, 0, 0, 0) 0%,
+            rgba($grey-lighter, 1) 100%
+        );
     }
 }
 
-.hr-hft-row-odd>.hr-hft-cell-data {
+.hr-hft-row-odd > .hr-hft-cell-data {
     &:after {
-        background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba($grey-lightest, 1) 100%);
+        background: linear-gradient(
+            90deg,
+            rgba(0, 0, 0, 0) 0%,
+            rgba($grey-lightest, 1) 100%
+        );
     }
 }
 
 html.theme-dark .hr-hft-cell-data {
     &:after {
-        background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba($grey-dark, 1) 100%);
+        background: linear-gradient(
+            90deg,
+            rgba(0, 0, 0, 0) 0%,
+            rgba($grey-dark, 1) 100%
+        );
     }
 }
 
-html.theme-dark .hr-hft-row-odd>.hr-hft-cell-data {
+html.theme-dark .hr-hft-row-odd > .hr-hft-cell-data {
     &:after {
-        background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba($grey-darker, 1) 100%);
+        background: linear-gradient(
+            90deg,
+            rgba(0, 0, 0, 0) 0%,
+            rgba($grey-darker, 1) 100%
+        );
     }
 }
 
@@ -67,20 +83,28 @@ html.theme-dark .hr-hft-row-odd>.hr-hft-cell-data {
     padding: 8px;
 
     &:after {
-        content: '';
+        content: "";
         position: absolute;
         top: 0;
         right: 0;
         width: 15px;
         height: 42px;
         pointer-events: none;
-        background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba($grey-light, 1) 100%);
+        background: linear-gradient(
+            90deg,
+            rgba(0, 0, 0, 0) 0%,
+            rgba($grey-light, 1) 100%
+        );
     }
 }
 
 html.theme-dark .hr-hft-cell-head-data {
     &:after {
-        background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(lighten($grey-dark, 5%), 1) 100%);
+        background: linear-gradient(
+            90deg,
+            rgba(0, 0, 0, 0) 0%,
+            rgba(lighten($grey-dark, 5%), 1) 100%
+        );
     }
 }
 
@@ -198,11 +222,11 @@ html.theme-dark .hr-hft-action-button {
     position: relative;
 }
 
-.hr-hft-action-icon svg>path {
+.hr-hft-action-icon svg > path {
     fill: $grey-darker !important;
 }
 
-.hr-hft-action-icon-danger svg>path {
+.hr-hft-action-icon-danger svg > path {
     fill: $white !important;
 }
 
@@ -225,11 +249,11 @@ html.theme-dark .hr-hft-action-button {
     position: relative;
 }
 
-.hr-hft-top-button-icon svg>path {
+.hr-hft-top-button-icon svg > path {
     fill: $grey-darker;
 }
 
-.hr-hft-top-button-icon-danger svg>path {
+.hr-hft-top-button-icon-danger svg > path {
     fill: $white !important;
 }
 
@@ -275,11 +299,11 @@ html.theme-dark .hr-hft-search-button:hover {
     position: relative;
 }
 
-.hr-hft-form-icon svg>path {
+.hr-hft-form-icon svg > path {
     fill: $grey-light !important;
 }
 
-.hr-hft-search-close-icon svg>path {
+.hr-hft-search-close-icon svg > path {
     fill: darken($grey, 5%) !important;
 }
 
@@ -318,7 +342,7 @@ html.theme-dark .hr-hft-export-columns-drop-area {
     position: relative;
 }
 
-.hr-hft-drag-icon svg>path {
+.hr-hft-drag-icon svg > path {
     fill: $grey !important;
 }
 
@@ -363,7 +387,7 @@ html.theme-dark .hr-hft-export-columns-drop-area {
     position: relative;
 }
 
-.hr-hft-top-button-submenu-icon svg>path {
+.hr-hft-top-button-submenu-icon svg > path {
     fill: $grey !important;
 }
 
@@ -380,7 +404,7 @@ html.theme-dark .hr-hft-export-columns-drop-area {
     position: relative;
 }
 
-.hr-hft-top-info-icon svg>path {
+.hr-hft-top-info-icon svg > path {
     fill: $primary !important;
     margin-left: 10px;
 }
@@ -399,7 +423,7 @@ html.theme-dark .hr-hft-export-columns-drop-area {
     position: relative;
 }
 
-.hr-hft-lock-icon>svg>path {
+.hr-hft-lock-icon > svg > path {
     fill: $grey !important;
 }
 
@@ -417,7 +441,6 @@ html.theme-dark .hr-hft-export-columns-drop-area {
 }
 
 @media (max-width: 768px) {
-
     .hr-hft-top-button-icon,
     .hr-hft-top-button-icon-danger {
         margin-right: 0;

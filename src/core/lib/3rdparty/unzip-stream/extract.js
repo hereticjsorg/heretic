@@ -3,9 +3,7 @@ const fs = require("fs");
 const path = require("path");
 const util = require("util");
 const mkdirp = require("mkdirp");
-const {
-    Transform,
-} = require("stream");
+const { Transform } = require("stream");
 const UnzipStream = require("./unzip-stream");
 
 function Extract(opts) {

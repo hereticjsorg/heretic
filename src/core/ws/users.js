@@ -18,9 +18,14 @@ export default class {
             }
             this.data = data;
             switch (data.action) {
-            case "ping":
-                await this.fastify.redis.set(`${this.fastify.systemConfig.id}_user_${authData._id.toString()}_${connection.uid.replace(/-/gm, "_")}`, Math.floor(Date.now() / 1000), "ex", 120);
-                break;
+                case "ping":
+                    await this.fastify.redis.set(
+                        `${this.fastify.systemConfig.id}_user_${authData._id.toString()}_${connection.uid.replace(/-/gm, "_")}`,
+                        Math.floor(Date.now() / 1000),
+                        "ex",
+                        120,
+                    );
+                    break;
             }
         } catch {
             // Ignore

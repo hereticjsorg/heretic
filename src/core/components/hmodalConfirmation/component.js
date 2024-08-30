@@ -7,9 +7,13 @@ export default class {
             message: input.message || "",
         };
         if (input.admin) {
-            await import( /* webpackChunkName: "hmodal-admin" */ "./style-admin.scss");
+            await import(
+                /* webpackChunkName: "hmodal-admin" */ "./style-admin.scss"
+            );
         } else {
-            await import( /* webpackChunkName: "hmodal-frontend" */ "./style-frontend.scss");
+            await import(
+                /* webpackChunkName: "hmodal-frontend" */ "./style-frontend.scss"
+            );
         }
     }
 

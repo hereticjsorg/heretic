@@ -17,7 +17,13 @@ function Entry() {
 inherits(Entry, stream.PassThrough);
 
 Entry.prototype.autodrain = function () {
-    return this.pipe(new stream.Transform({ transform(d, e, cb) { cb(); } }));
+    return this.pipe(
+        new stream.Transform({
+            transform(d, e, cb) {
+                cb();
+            },
+        }),
+    );
 };
 
 module.exports = Entry;

@@ -8,9 +8,7 @@
         "moduleResolution": "node",
         "allowSyntheticDefaultImports": true,
         "resolveJsonModule": true,
-        "types": [
-            "node", "webpack-env"
-        ],
+        "types": ["node", "webpack-env"],
         "paths": {
             "#core/*": ["./src/core/*"],
             "#components/*": ["./src/core/components/*"],

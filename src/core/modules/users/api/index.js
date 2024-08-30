@@ -16,7 +16,7 @@ import apiGroupsDataExport from "./apiGroupsDataExport";
 import apiGroupsLockCheck from "./apiGroupsLockCheck.js";
 import apiGroupsLockList from "./apiGroupsLockList.js";
 
-export default fastify => {
+export default (fastify) => {
     if (fastify.systemConfig.auth.admin) {
         fastify.post(`/api/users/list`, apiUsersTableList());
         fastify.post(`/api/users/load`, apiUsersDataLoad());

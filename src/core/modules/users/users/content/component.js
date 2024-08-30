@@ -22,14 +22,24 @@ export default class {
         this.mongoEnabled = out.global.mongoEnabled;
         if (process.browser) {
             window.__heretic = window.__heretic || {};
-            window.__heretic.outGlobal = window.__heretic.outGlobal || out.global;
-            this.authOptions = this.authOptions || window.__heretic.outGlobal.authOptions;
-            this.mongoEnabled = this.mongoEnabled || window.__heretic.outGlobal.mongoEnabled;
-            this.language = this.language || window.__heretic.outGlobal.language;
-            this.siteTitle = out.global.siteTitle || window.__heretic.outGlobal.siteTitle;
-            this.siteId = out.global.siteId || window.__heretic.outGlobal.siteId;
-            this.cookieOptions = out.global.cookieOptions || window.__heretic.outGlobal.cookieOptions;
-            this.systemRoutes = out.global.systemRoutes || window.__heretic.outGlobal.systemRoutes;
+            window.__heretic.outGlobal =
+                window.__heretic.outGlobal || out.global;
+            this.authOptions =
+                this.authOptions || window.__heretic.outGlobal.authOptions;
+            this.mongoEnabled =
+                this.mongoEnabled || window.__heretic.outGlobal.mongoEnabled;
+            this.language =
+                this.language || window.__heretic.outGlobal.language;
+            this.siteTitle =
+                out.global.siteTitle || window.__heretic.outGlobal.siteTitle;
+            this.siteId =
+                out.global.siteId || window.__heretic.outGlobal.siteId;
+            this.cookieOptions =
+                out.global.cookieOptions ||
+                window.__heretic.outGlobal.cookieOptions;
+            this.systemRoutes =
+                out.global.systemRoutes ||
+                window.__heretic.outGlobal.systemRoutes;
             document.title = `${pageConfig.title[this.language]} – ${this.siteTitle}`;
         }
         this.utils = new Utils(this, this.language);
@@ -62,7 +72,7 @@ export default class {
                 url: `/api/${pageConfig.id}/save`,
                 data,
                 headers: this.state.headers,
-                onUploadProgress: () => {}
+                onUploadProgress: () => {},
             });
             this.onSaveSuccess();
         } catch (e) {
@@ -92,7 +102,10 @@ export default class {
                 const data = JSON.parse(e.data);
                 await this.utils.waitForComponent(`${pageConfig.id}List`);
                 const table = this.getComponent(`${pageConfig.id}List`);
-                table.setLock(data.id, data.action === "locked" ? data.username : null);
+                table.setLock(
+                    data.id,
+                    data.action === "locked" ? data.username : null,
+                );
             } catch {
                 // Ignore
             }
@@ -110,17 +123,19 @@ export default class {
         this.cookies = new Cookies(this.cookieOptions, this.siteId);
         const currentToken = this.cookies.get(`${this.siteId}.authToken`);
         if (!currentToken) {
-            setTimeout(() => window.location.href = `${this.utils.getLocalizedURL(this.systemRoutes.signInAdmin)}`, 100);
+            setTimeout(
+                () =>
+                    (window.location.href = `${this.utils.getLocalizedURL(this.systemRoutes.signInAdmin)}`),
+                100,
+            );
             return;
         }
         const headers = {
-            Authorization: `Bearer ${currentToken}`
+            Authorization: `Bearer ${currentToken}`,
         };
         this.setState("headers", headers);
         try {
-            const {
-                data,
-            } = await axios({
+            const { data } = await axios({
                 method: "get",
                 headers,
                 url: "/api/admin/groups",
@@ -132,89 +147,124 @@ export default class {
         }
         this.setState("ready", true);
         if (window.__heretic.webSocket) {
-            window.__heretic.webSocket.addEventListener("message", this.onWebSocketMessage.bind(this));
+            window.__heretic.webSocket.addEventListener(
+                "message",
+                this.onWebSocketMessage.bind(this),
+            );
         }
     }
 
     async onTopButtonClick(id) {
         switch (id) {
-        case "newItem":
-            this.setState("currentId", null);
-            await this.utils.waitForComponent(`${pageConfig.id}EditModal`);
-            const modalDialog = await this.getComponent(`${pageConfig.id}EditModal`);
-            modalDialog.setTitle(this.t("newRecord"));
-            modalDialog.setActive(true).setCloseAllowed(true).setBackgroundCloseAllowed(false).setLoading(false);
-            await this.utils.waitForComponent(`${pageConfig.id}Form`);
-            document.getElementById("usersEditModal_disable2fa").style.display = "none";
-            break;
+            case "newItem":
+                this.setState("currentId", null);
+                await this.utils.waitForComponent(`${pageConfig.id}EditModal`);
+                const modalDialog = await this.getComponent(
+                    `${pageConfig.id}EditModal`,
+                );
+                modalDialog.setTitle(this.t("newRecord"));
+                modalDialog
+                    .setActive(true)
+                    .setCloseAllowed(true)
+                    .setBackgroundCloseAllowed(false)
+                    .setLoading(false);
+                await this.utils.waitForComponent(`${pageConfig.id}Form`);
+                document.getElementById(
+                    "usersEditModal_disable2fa",
+                ).style.display = "none";
+                break;
         }
     }
 
     async onActionButtonClick(data) {
         switch (data.buttonId) {
-        case "edit":
-            await this.utils.waitForComponent(`${pageConfig.id}List`);
-            const table = this.getComponent(`${pageConfig.id}List`);
-            table.setLoading(true);
-            let responseData;
-            try {
+            case "edit":
+                await this.utils.waitForComponent(`${pageConfig.id}List`);
+                const table = this.getComponent(`${pageConfig.id}List`);
+                table.setLoading(true);
+                let responseData;
                 try {
+                    try {
+                        const response = await axios({
+                            method: "post",
+                            url: `/api/${pageConfig.id}/lock/check`,
+                            data: {
+                                id: data.itemId,
+                            },
+                            headers: this.state.headers,
+                        });
+                        if (response.data.lock) {
+                            this.getComponent(
+                                `notify_${pageConfig.id}List`,
+                            ).show(
+                                `${window.__heretic.t("lockedBy")}: ${response.data.lock.username}`,
+                                "is-danger",
+                            );
+                            return;
+                        }
+                    } catch {
+                        this.getComponent(`notify_${pageConfig.id}List`).show(
+                            window.__heretic.t("couldNotLoadLockData"),
+                            "is-danger",
+                        );
+                        return;
+                    }
                     const response = await axios({
                         method: "post",
-                        url: `/api/${pageConfig.id}/lock/check`,
+                        url: `/api/${pageConfig.id}/load`,
                         data: {
                             id: data.itemId,
                         },
                         headers: this.state.headers,
                     });
-                    if (response.data.lock) {
-                        this.getComponent(`notify_${pageConfig.id}List`).show(`${window.__heretic.t("lockedBy")}: ${response.data.lock.username}`, "is-danger");
-                        return;
-                    }
+                    responseData = response.data;
                 } catch {
-                    this.getComponent(`notify_${pageConfig.id}List`).show(window.__heretic.t("couldNotLoadLockData"), "is-danger");
+                    this.getComponent(`notify_${pageConfig.id}List`).show(
+                        window.__heretic.t("loadingError"),
+                        "is-danger",
+                    );
                     return;
+                } finally {
+                    table.setLoading(false);
                 }
-                const response = await axios({
-                    method: "post",
-                    url: `/api/${pageConfig.id}/load`,
-                    data: {
-                        id: data.itemId,
-                    },
-                    headers: this.state.headers,
-                });
-                responseData = response.data;
-            } catch {
-                this.getComponent(`notify_${pageConfig.id}List`).show(window.__heretic.t("loadingError"), "is-danger");
-                return;
-            } finally {
-                table.setLoading(false);
-            }
-            this.setState("currentId", data.itemId);
-            await this.utils.waitForComponent(`${pageConfig.id}EditModal`);
-            const modalDialog = await this.getComponent(`${pageConfig.id}EditModal`);
-            modalDialog.setTitle(this.t("editRecord"));
-            modalDialog.setActive(true).setCloseAllowed(true).setBackgroundCloseAllowed(false).setLoading(false);
-            await this.utils.waitForComponent(`${pageConfig.id}Form`);
-            const form = this.getComponent(`${pageConfig.id}Form`);
-            await form.deserializeView(responseData._default);
-            await this.utils.waitForElement("usersEditModal_disable2fa");
-            const disable2faButton = document.getElementById("usersEditModal_disable2fa");
-            disable2faButton.style.display = responseData.tfa ? "inline-flex" : "none";
-            this.sendLockAction("lock");
-            this.startLockMessaging();
-            break;
+                this.setState("currentId", data.itemId);
+                await this.utils.waitForComponent(`${pageConfig.id}EditModal`);
+                const modalDialog = await this.getComponent(
+                    `${pageConfig.id}EditModal`,
+                );
+                modalDialog.setTitle(this.t("editRecord"));
+                modalDialog
+                    .setActive(true)
+                    .setCloseAllowed(true)
+                    .setBackgroundCloseAllowed(false)
+                    .setLoading(false);
+                await this.utils.waitForComponent(`${pageConfig.id}Form`);
+                const form = this.getComponent(`${pageConfig.id}Form`);
+                await form.deserializeView(responseData._default);
+                await this.utils.waitForElement("usersEditModal_disable2fa");
+                const disable2faButton = document.getElementById(
+                    "usersEditModal_disable2fa",
+                );
+                disable2faButton.style.display = responseData.tfa
+                    ? "inline-flex"
+                    : "none";
+                this.sendLockAction("lock");
+                this.startLockMessaging();
+                break;
         }
     }
 
     async onFormMountComplete() {
         const formConfig = this.formData.data.form[0];
-        formConfig.fields.find(i => i.id === "password").mandatory = (this.state.currentId === null);
-        formConfig.fields.find(i => i.id === "password").validation.type = (this.state.currentId === null) ? ["string"] : ["string", "null"];
-        formConfig.fields.find(i => i.id === "groups").enumValues = this.groupsData.map(i => ({
-            id: i,
-            label: i,
-        }));
+        formConfig.fields.find((i) => i.id === "password").mandatory =
+            this.state.currentId === null;
+        formConfig.fields.find((i) => i.id === "password").validation.type =
+            this.state.currentId === null ? ["string"] : ["string", "null"];
+        formConfig.fields.find((i) => i.id === "groups").enumValues =
+            this.groupsData.map((i) => ({
+                id: i,
+                label: i,
+            }));
         await this.utils.waitForComponent(`${pageConfig.id}Form`);
         const form = this.getComponent(`${pageConfig.id}Form`);
         form.initValidation({
@@ -224,7 +274,13 @@ export default class {
 
     onUnauthorized() {
         this.setState("ready", false);
-        setTimeout(() => window.location.href = this.utils.getLocalizedURL(this.systemRoutes.signInAdmin), 100);
+        setTimeout(
+            () =>
+                (window.location.href = this.utils.getLocalizedURL(
+                    this.systemRoutes.signInAdmin,
+                )),
+            100,
+        );
     }
 
     onFormSubmit() {
@@ -238,7 +294,10 @@ export default class {
         await this.utils.waitForComponent(`${pageConfig.id}List`);
         const table = this.getComponent(`${pageConfig.id}List`);
         await table.loadData();
-        this.getComponent(`notify_${pageConfig.id}List`).show(window.__heretic.t("saveSuccess"), "is-success");
+        this.getComponent(`notify_${pageConfig.id}List`).show(
+            window.__heretic.t("saveSuccess"),
+            "is-success",
+        );
         if (this.state.currentId) {
             this.sendLockAction("unlock");
             this.setState("currentId", null);
@@ -247,16 +306,23 @@ export default class {
 
     async onModalButtonClick(button) {
         switch (button) {
-        case "save":
-            await this.formSave();
-            break;
-        case "disable2fa":
-            if (document.getElementById("usersEditModal_disable2fa").style.display === "none") {
+            case "save":
+                await this.formSave();
                 break;
-            }
-            await this.utils.waitForComponent(`${pageConfig.id}2faConfirmationModal`);
-            this.getComponent(`${pageConfig.id}2faConfirmationModal`).setActive(true);
-            break;
+            case "disable2fa":
+                if (
+                    document.getElementById("usersEditModal_disable2fa").style
+                        .display === "none"
+                ) {
+                    break;
+                }
+                await this.utils.waitForComponent(
+                    `${pageConfig.id}2faConfirmationModal`,
+                );
+                this.getComponent(
+                    `${pageConfig.id}2faConfirmationModal`,
+                ).setActive(true);
+                break;
         }
     }
 
@@ -282,15 +348,25 @@ export default class {
     }
 
     startLockMessaging() {
-        if (window.__heretic.webSocket && this.state.currentId && !this.socketInterval) {
-            this.socketInterval = setInterval(() => this.sendLockAction("lock"), 20000);
+        if (
+            window.__heretic.webSocket &&
+            this.state.currentId &&
+            !this.socketInterval
+        ) {
+            this.socketInterval = setInterval(
+                () => this.sendLockAction("lock"),
+                20000,
+            );
         }
     }
 
     onDestroy() {
         if (window.__heretic.webSocket) {
             try {
-                window.__heretic.webSocket.removeEventListener("message", this.onWebSocketMessage.bind(this));
+                window.__heretic.webSocket.removeEventListener(
+                    "message",
+                    this.onWebSocketMessage.bind(this),
+                );
             } catch {
                 // Ignore
             }
@@ -335,12 +411,23 @@ export default class {
                 url: `/api/${pageConfig.id}/disable2FA`,
                 data: {},
                 headers: this.state.headers,
-                onUploadProgress: () => {}
+                onUploadProgress: () => {},
             });
-            this.getComponent(`notify_${pageConfig.id}List`).show(window.__heretic.t("disable2faSuccess"), "is-success");
-            setTimeout(() => document.getElementById("usersEditModal_disable2fa").style.display = "none");
+            this.getComponent(`notify_${pageConfig.id}List`).show(
+                window.__heretic.t("disable2faSuccess"),
+                "is-success",
+            );
+            setTimeout(
+                () =>
+                    (document.getElementById(
+                        "usersEditModal_disable2fa",
+                    ).style.display = "none"),
+            );
         } catch {
-            this.getComponent(`notify_${pageConfig.id}List`).show(window.__heretic.t("disable2faError"), "is-danger");
+            this.getComponent(`notify_${pageConfig.id}List`).show(
+                window.__heretic.t("disable2faError"),
+                "is-danger",
+            );
         } finally {
             editModal.setLoading(false).setCloseAllowed(true);
         }

@@ -18,13 +18,21 @@ export default class {
         this.systemRoutes = out.global.systemRoutes;
         if (process.browser) {
             window.__heretic = window.__heretic || {};
-            window.__heretic.outGlobal = window.__heretic.outGlobal || out.global || {};
-            this.language = this.language || window.__heretic.outGlobal.language;
-            this.siteTitle = out.global.siteTitle || window.__heretic.outGlobal.siteTitle;
+            window.__heretic.outGlobal =
+                window.__heretic.outGlobal || out.global || {};
+            this.language =
+                this.language || window.__heretic.outGlobal.language;
+            this.siteTitle =
+                out.global.siteTitle || window.__heretic.outGlobal.siteTitle;
             document.title = `${pageConfig.title[this.language]} – ${this.siteTitle}`;
-            this.siteId = out.global.siteId || window.__heretic.outGlobal.siteId;
-            this.cookieOptions = out.global.cookieOptions || window.__heretic.outGlobal.cookieOptions;
-            this.systemRoutes = out.global.systemRoutes || window.__heretic.outGlobal.systemRoutes;
+            this.siteId =
+                out.global.siteId || window.__heretic.outGlobal.siteId;
+            this.cookieOptions =
+                out.global.cookieOptions ||
+                window.__heretic.outGlobal.cookieOptions;
+            this.systemRoutes =
+                out.global.systemRoutes ||
+                window.__heretic.outGlobal.systemRoutes;
         }
         this.utils = new Utils(this, this.language);
     }
@@ -35,9 +43,7 @@ export default class {
         document.title = `${window.__heretic.t(this.state.mode === "site" ? "privacyPolicy" : "cookiesPolicy")}  – ${this.siteTitle}`;
         this.setState("ready", true);
         try {
-            const {
-                data,
-            } = await axios({
+            const { data } = await axios({
                 method: "post",
                 url: "/api/privacy/policy",
                 data: {

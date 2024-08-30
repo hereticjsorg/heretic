@@ -29,14 +29,16 @@
 }
 
 .hr-content {
-    flex: 1
+    flex: 1;
 }
 
 .hr-footer {
     font-size: 80%;
     background: $white;
     user-select: none;
-    box-shadow: 0 .2em 1em -.05em rgba($grey-darker, .1), 0 0 0 1px rgba($grey-darker, .02) !important;
+    box-shadow:
+        0 0.2em 1em -0.05em rgba($grey-darker, 0.1),
+        0 0 0 1px rgba($grey-darker, 0.02) !important;
 }
 
 .hr-menu-wrap {
@@ -85,7 +87,10 @@ html.theme-dark .hr-footer {
     z-index: 35;
     font-size: 90%;
     text-align: center;
-    box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
+    box-shadow:
+        rgba(17, 17, 26, 0.1) 0px 1px 0px,
+        rgba(17, 17, 26, 0.1) 0px 8px 24px,
+        rgba(17, 17, 26, 0.1) 0px 16px 48px;
     color: $black;
 }
 

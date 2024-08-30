@@ -1,4 +1,4 @@
-@use "./variables.scss"as hv;
+@use "./variables.scss" as hv;
 
 .modal-card-foot {
     border-top: 1px solid $grey-lighter;
@@ -9,7 +9,6 @@ html.theme-dark .modal-card-foot {
 }
 
 @media screen and (min-width: 1024px) {
-
     html.theme-light .dropdown-divider {
         background-color: $grey-lighter !important;
     }

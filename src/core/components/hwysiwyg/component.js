@@ -6,9 +6,13 @@ export default class {
         this.state = {};
         this.maskedInput = null;
         if (input.admin) {
-            await import(/* webpackChunkName: "hwysiwyg-admin" */ "./style-admin.scss");
+            await import(
+                /* webpackChunkName: "hwysiwyg-admin" */ "./style-admin.scss"
+            );
         } else {
-            await import(/* webpackChunkName: "hwysiwyg-frontend" */ "./style-frontend.scss");
+            await import(
+                /* webpackChunkName: "hwysiwyg-frontend" */ "./style-frontend.scss"
+            );
         }
     }
 
@@ -18,11 +22,17 @@ export default class {
 
     actionStateHandler() {
         this.editor.focus();
-        Object.keys(this.actions).map(a => {
+        Object.keys(this.actions).map((a) => {
             const action = this.actions[a];
             if (action.state) {
                 const state = this.getActionState(a);
-                document.getElementById(`hr_wy_el_${this.input.formId}_${this.input.id}_control_${a}`).classList[state ? "add" : "remove"]("hr-wy-control-button-selected");
+                document
+                    .getElementById(
+                        `hr_wy_el_${this.input.formId}_${this.input.id}_control_${a}`,
+                    )
+                    .classList[
+                        state ? "add" : "remove"
+                    ]("hr-wy-control-button-selected");
             }
         });
     }
@@ -32,48 +42,46 @@ export default class {
         if (!e.target.closest("[data-action]")) {
             return;
         }
-        const {
-            action,
-        } = e.target.closest("[data-action]").dataset;
+        const { action } = e.target.closest("[data-action]").dataset;
         this.editor.focus();
         switch (action) {
-        case "heading1":
-            document.execCommand("formatBlock", false, "<h1>");
-            break;
-        case "heading2":
-            document.execCommand("formatBlock", false, "<h1>");
-            break;
-        case "paragraph":
-            document.execCommand("formatBlock", false, "<p>");
-            break;
-        case "blockquote":
-            document.execCommand("formatBlock", false, "<blockquote>");
-            break;
-        case "orderedList":
-            document.execCommand("insertOrderedList", false, null);
-            break;
-        case "unorderedList":
-            document.execCommand("insertUnorderedList", false, null);
-            break;
-        case "line":
-            document.execCommand("insertHorizontalRule", false, null);
-            break;
-        case "code":
-            document.execCommand("formatBlock", false, "<pre>");
-            break;
-        default:
-            document.execCommand(action, false, null);
+            case "heading1":
+                document.execCommand("formatBlock", false, "<h1>");
+                break;
+            case "heading2":
+                document.execCommand("formatBlock", false, "<h1>");
+                break;
+            case "paragraph":
+                document.execCommand("formatBlock", false, "<p>");
+                break;
+            case "blockquote":
+                document.execCommand("formatBlock", false, "<blockquote>");
+                break;
+            case "orderedList":
+                document.execCommand("insertOrderedList", false, null);
+                break;
+            case "unorderedList":
+                document.execCommand("insertUnorderedList", false, null);
+                break;
+            case "line":
+                document.execCommand("insertHorizontalRule", false, null);
+                break;
+            case "code":
+                document.execCommand("formatBlock", false, "<pre>");
+                break;
+            default:
+                document.execCommand(action, false, null);
         }
         this.actionStateHandler();
     }
 
-    onEditorInput({
-        target: {
-            firstChild,
-        }
-    }) {
+    onEditorInput({ target: { firstChild } }) {
         if (firstChild && firstChild.nodeType === 2) {
-            document.execCommand("formatBlock", false, `<${this.paragraphSeparator}>`);
+            document.execCommand(
+                "formatBlock",
+                false,
+                `<${this.paragraphSeparator}>`,
+            );
         } else if (this.editor.innerHTML === "<br>") {
             this.editor.innerHTML = "";
         }
@@ -81,8 +89,19 @@ export default class {
     }
 
     onEditorKeydown(e) {
-        if (e.key === "Enter" && document.queryCommandValue("formatBlock)") === "blockquote") {
-            setTimeout(() => document.execCommand("formatBlock", false, `<${this.paragraphSeparator}>`), 0);
+        if (
+            e.key === "Enter" &&
+            document.queryCommandValue("formatBlock)") === "blockquote"
+        ) {
+            setTimeout(
+                () =>
+                    document.execCommand(
+                        "formatBlock",
+                        false,
+                        `<${this.paragraphSeparator}>`,
+                    ),
+                0,
+            );
         }
     }
 
@@ -115,44 +134,50 @@ export default class {
             },
             heading1: {
                 icon: icons.formatHeading1,
-                title: window.__heretic.t("hwysiwyg_heading1")
+                title: window.__heretic.t("hwysiwyg_heading1"),
             },
             heading2: {
                 icon: icons.formatHeading2,
-                title: window.__heretic.t("hwysiwyg_heading2")
+                title: window.__heretic.t("hwysiwyg_heading2"),
             },
             _s2: {
                 separator: true,
             },
             paragraph: {
                 icon: icons.formatParagraph,
-                title: window.__heretic.t("hwysiwyg_paragraph")
+                title: window.__heretic.t("hwysiwyg_paragraph"),
             },
             blockquote: {
                 icon: icons.formatBlockquote,
-                title: window.__heretic.t("hwysiwyg_blockquote")
+                title: window.__heretic.t("hwysiwyg_blockquote"),
             },
             orderedList: {
                 icon: icons.formatOrderedList,
-                title: window.__heretic.t("hwysiwyg_orderedList")
+                title: window.__heretic.t("hwysiwyg_orderedList"),
             },
             unorderedList: {
                 icon: icons.formatUnorderedList,
-                title: window.__heretic.t("hwysiwyg_unorderedList")
+                title: window.__heretic.t("hwysiwyg_unorderedList"),
             },
             line: {
                 icon: icons.formatLine,
-                title: window.__heretic.t("hwysiwyg_line")
+                title: window.__heretic.t("hwysiwyg_line"),
             },
             code: {
                 icon: icons.formatCode,
-                title: window.__heretic.t("hwysiwyg_code")
+                title: window.__heretic.t("hwysiwyg_code"),
             },
         };
-        await this.utils.waitForElement(`hr_wy_el_${this.input.formId}_${this.input.id}`);
-        this.editor = document.getElementById(`hr_wy_el_${this.input.formId}_${this.input.id}`);
+        await this.utils.waitForElement(
+            `hr_wy_el_${this.input.formId}_${this.input.id}`,
+        );
+        this.editor = document.getElementById(
+            `hr_wy_el_${this.input.formId}_${this.input.id}`,
+        );
         this.editor.contentEditable = "true";
-        const controls = document.getElementById(`hr_wy_el_${this.input.formId}_${this.input.id}_controls`);
+        const controls = document.getElementById(
+            `hr_wy_el_${this.input.formId}_${this.input.id}_controls`,
+        );
         for (const a of Object.keys(this.actions)) {
             const action = this.actions[a];
             if (action.separator) {
@@ -172,10 +197,19 @@ export default class {
             }
         }
         controls.addEventListener("click", this.onControlClick.bind(this));
-        this.editor.addEventListener("keyup", this.actionStateHandler.bind(this));
-        this.editor.addEventListener("mouseup", this.actionStateHandler.bind(this));
+        this.editor.addEventListener(
+            "keyup",
+            this.actionStateHandler.bind(this),
+        );
+        this.editor.addEventListener(
+            "mouseup",
+            this.actionStateHandler.bind(this),
+        );
         this.editor.addEventListener("input", this.onEditorInput.bind(this));
-        this.editor.addEventListener("keydown", this.onEditorKeydown.bind(this));
+        this.editor.addEventListener(
+            "keydown",
+            this.onEditorKeydown.bind(this),
+        );
     }
 
     setValue(value) {

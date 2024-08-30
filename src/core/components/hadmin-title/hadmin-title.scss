@@ -8,12 +8,15 @@
     border-right: 0 !important;
     color: $grey !important;
     padding-left: 15px !important;
-    box-shadow: 0 .2em 1em -.05em rgba($grey-darker, .1),
-        0 0 0 1px rgba($grey-darker, .02) !important;
+    box-shadow:
+        0 0.2em 1em -0.05em rgba($grey-darker, 0.1),
+        0 0 0 1px rgba($grey-darker, 0.02) !important;
 }
 
 html.theme-dark .hr-hat-wrap {
     color: $theme-dark-text-color-light !important;
     background: darken($theme-dark-grey-darker, 6%) !important;
-    box-shadow: 0 .2em 1em -.05em rgba($theme-dark-black-bis, .7), 0 0 0 1px rgba($theme-dark-black-bis, .8) !important;
+    box-shadow:
+        0 0.2em 1em -0.05em rgba($theme-dark-black-bis, 0.7),
+        0 0 0 1px rgba($theme-dark-black-bis, 0.8) !important;
 }

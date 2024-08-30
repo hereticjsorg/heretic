@@ -10,14 +10,22 @@ export default class {
             title: input.title,
         };
         if (input.admin) {
-            await import(/* webpackChunkName: "hmodal-admin" */ "./style-admin.scss");
+            await import(
+                /* webpackChunkName: "hmodal-admin" */ "./style-admin.scss"
+            );
         } else {
-            await import(/* webpackChunkName: "hmodal-frontend" */ "./style-frontend.scss");
+            await import(
+                /* webpackChunkName: "hmodal-frontend" */ "./style-frontend.scss"
+            );
         }
     }
 
     onKeyDown(e) {
-        if (e.key === "Escape" && this.state.active && this.state.closeAllowed) {
+        if (
+            e.key === "Escape" &&
+            this.state.active &&
+            this.state.closeAllowed
+        ) {
             e.preventDefault();
             e.stopPropagation();
             this.onClose(e);
@@ -80,10 +88,7 @@ export default class {
         if (this.state.loading) {
             return;
         }
-        const {
-            id,
-            close,
-        } = e.target.closest("[data-id]").dataset;
+        const { id, close } = e.target.closest("[data-id]").dataset;
         this.emit("button-click", id);
         if (close !== undefined) {
             this.onClose(e);

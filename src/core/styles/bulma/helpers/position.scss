@@ -3,17 +3,17 @@
 
 .#{iv.$helpers-prefix}overlay,
 .#{iv.$helpers-prefix}overlay {
-  @extend %overlay;
+    @extend %overlay;
 }
 
 .#{iv.$helpers-prefix}relative {
-  position: relative !important;
+    position: relative !important;
 }
 
 $positions: absolute fixed relative static sticky;
 
 @each $position in $positions {
-  .#{iv.$helpers-prefix}position-#{$position} {
-    position: $position !important;
-  }
+    .#{iv.$helpers-prefix}position-#{$position} {
+        position: $position !important;
+    }
 }

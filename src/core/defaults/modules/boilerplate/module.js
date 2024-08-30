@@ -11,7 +11,7 @@ module.exports = {
                 path: `/${id}/edit`,
             },
         },
-        admin: {}
+        admin: {},
     },
     collections: {
         main: id,

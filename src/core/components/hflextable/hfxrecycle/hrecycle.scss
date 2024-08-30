@@ -23,7 +23,7 @@ html.theme-dark .hr-hr-recycleBin-pagination-wrap {
     background: $theme-dark-grey-dark;
 }
 
-.hr-hr-recycleBin-pagination-wrap>nav {
+.hr-hr-recycleBin-pagination-wrap > nav {
     margin-top: 0 !important;
 }
 
@@ -66,7 +66,7 @@ html.theme-dark .hr-hr-action-button {
     position: relative;
 }
 
-.hr-hr-lock-icon>svg>path {
+.hr-hr-lock-icon > svg > path {
     fill: $grey !important;
 }
 
@@ -83,11 +83,11 @@ html.theme-dark .hr-hr-action-button {
     position: relative;
 }
 
-.hr-hr-action-icon svg>path {
+.hr-hr-action-icon svg > path {
     fill: $grey-darker;
 }
 
-.hr-hr-action-icon-danger svg>path {
+.hr-hr-action-icon-danger svg > path {
     fill: $white !important;
 }
 
@@ -105,12 +105,13 @@ html.theme-dark .hr-hr-action-button {
     position: relative;
 }
 
-.hr-hr-top-button-icon svg>path {
+.hr-hr-top-button-icon svg > path {
     fill: $grey-darker;
 }
 
-.hr-hr-top-button-icon-danger svg>path {
+.hr-hr-top-button-icon-danger svg > path {
     fill: $white !important;
 }
 
-@media (max-width: 768px) {}
+@media (max-width: 768px) {
+}

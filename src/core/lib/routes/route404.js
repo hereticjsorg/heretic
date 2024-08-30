@@ -1,7 +1,15 @@
 import error404 from "#site/errors/404/server.marko";
 import packageJson from "#root/package.json";
 
-export default async (req, rep, languageData, language, siteConfig, systemConfig, i18nNavigation) => {
+export default async (
+    req,
+    rep,
+    languageData,
+    language,
+    siteConfig,
+    systemConfig,
+    i18nNavigation,
+) => {
     const authData = await req.auth.getData(req.auth.methods.COOKIE);
     const renderPage = await error404.render({
         $global: {
@@ -28,7 +36,9 @@ export default async (req, rep, languageData, language, siteConfig, systemConfig
                 queryString: true,
             },
             passwordPolicy: systemConfig.passwordPolicy,
-            darkModeEnabled: systemConfig.darkModeEnabled || systemConfig.heretic.darkModeEnabled,
+            darkModeEnabled:
+                systemConfig.darkModeEnabled ||
+                systemConfig.heretic.darkModeEnabled,
             cookiesUserCheck: systemConfig.cookieOptions.userCheck || false,
             authOptions: systemConfig.auth,
             mongoEnabled: systemConfig.mongo.enabled,
@@ -39,7 +49,12 @@ export default async (req, rep, languageData, language, siteConfig, systemConfig
             siteUrl: siteConfig.url,
             i18nNavigation: i18nNavigation[language],
             username: authData ? authData.username : null,
-            isAdmin: authData && authData.groupData && authData.groupData.find(i => i.id === "admin" && i.value === true),
+            isAdmin:
+                authData &&
+                authData.groupData &&
+                authData.groupData.find(
+                    (i) => i.id === "admin" && i.value === true,
+                ),
             systemRoutes: systemConfig.routes,
             siteId: systemConfig.id,
             cookieOptions: systemConfig.cookieOptions,

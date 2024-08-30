@@ -1,6 +1,4 @@
-import {
-    ObjectId
-} from "mongodb";
+import { ObjectId } from "mongodb";
 import moduleConfig from "../module.js";
 import utils from "./utils";
 
@@ -14,32 +12,46 @@ export default () => ({
             // Just allow one item to be restored at once
             if (!req.validateDataDelete() || req.body.ids.length > 1) {
                 return rep.error({
-                    message: "validation_error"
+                    message: "validation_error",
                 });
             }
             const query = {
                 _id: new ObjectId(req.body.ids[0]),
             };
-            const dbItem = await this.mongo.db.collection(this.systemConfig.collections.history).findOne(query);
+            const dbItem = await this.mongo.db
+                .collection(this.systemConfig.collections.history)
+                .findOne(query);
             if (!dbItem) {
-                return rep.error({
-                    message: "notFound"
-                }, 404);
+                return rep.error(
+                    {
+                        message: "notFound",
+                    },
+                    404,
+                );
             }
             const queryRef = {
-                $and: [{
-                    _id: new ObjectId(dbItem.recordId),
-                }],
+                $and: [
+                    {
+                        _id: new ObjectId(dbItem.recordId),
+                    },
+                ],
             };
             queryRef.$and.push(utils.filter({}, authData) || {});
-            const refItem = await this.mongo.db.collection(moduleConfig.collections.main).findOne(queryRef);
+            const refItem = await this.mongo.db
+                .collection(moduleConfig.collections.main)
+                .findOne(queryRef);
             if (!refItem) {
-                return rep.error({
-                    message: "notFound"
-                }, 404);
+                return rep.error(
+                    {
+                        message: "notFound",
+                    },
+                    404,
+                );
             }
             if (!this.systemConfig.demo) {
-                const deleteResult = await this.mongo.db.collection(this.systemConfig.collections.history).deleteMany(query);
+                const deleteResult = await this.mongo.db
+                    .collection(this.systemConfig.collections.history)
+                    .deleteMany(query);
                 return rep.code(200).send({
                     count: deleteResult.deletedCount,
                 });
@@ -51,5 +63,5 @@ export default () => ({
             this.log.error(e);
             return Promise.reject(e);
         }
-    }
+    },
 });

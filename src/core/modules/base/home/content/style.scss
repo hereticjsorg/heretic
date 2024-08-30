@@ -15,11 +15,11 @@ html.theme-dark .hr-ah-systemInfo-table {
     border: 1px solid lighten($grey-dark, 10%);
 }
 
-.hr-ah-systemInfo-table>tbody>tr:hover {
+.hr-ah-systemInfo-table > tbody > tr:hover {
     background-color: $white-ter;
 }
 
-html.theme-dark .hr-ah-systemInfo-table>tbody>tr:hover {
+html.theme-dark .hr-ah-systemInfo-table > tbody > tr:hover {
     background-color: $grey-dark;
 }
 
@@ -34,11 +34,11 @@ html.theme-dark .hr-ah-systemInfo-td-par {
     background-color: $grey-dark !important;
 }
 
-.hr-ah-systemInfo-table>tbody:first-child tr:first-child td:first-child {
+.hr-ah-systemInfo-table > tbody:first-child tr:first-child td:first-child {
     border-radius: $radius 0 0 0;
 }
 
-.hr-ah-systemInfo-table>tbody:last-child tr:last-child td:first-child {
+.hr-ah-systemInfo-table > tbody:last-child tr:last-child td:first-child {
     border-radius: 0 0 0 $radius;
 }
 
@@ -49,11 +49,11 @@ html.theme-dark .hr-ah-systemInfo-td-par {
     position: relative;
 }
 
-.hr-ah-tab-icon>path {
+.hr-ah-tab-icon > path {
     fill: $grey-darker;
 }
 
-html.theme-dark .hr-ah-tab-icon>path {
+html.theme-dark .hr-ah-tab-icon > path {
     fill: $grey-light;
 }
 
@@ -68,22 +68,22 @@ html.theme-dark .hr-ah-data-wrap {
     border-color: darken($grey, 10%);
 }
 
-html.theme-dark .hr-ah-tabs>ul {
-    border-bottom-color: darken($grey, 10%) !important; 
+html.theme-dark .hr-ah-tabs > ul {
+    border-bottom-color: darken($grey, 10%) !important;
 }
 
-html.theme-dark .hr-ah-tab.is-active>a {
+html.theme-dark .hr-ah-tab.is-active > a {
     border-color: darken($grey, 10%) !important;
     background-color: $black-bis !important;
 }
 
-html.theme-dark .hr-ah-tab>a {
+html.theme-dark .hr-ah-tab > a {
     background: transparent !important;
     border-bottom: unset !important;
-    color: $grey-lighter !important
+    color: $grey-lighter !important;
 }
 
-html.theme-dark .hr-ah-tab.is-active>a>span {
+html.theme-dark .hr-ah-tab.is-active > a > span {
     margin-top: -2px;
 }
 
@@ -91,7 +91,7 @@ html.theme-dark .hr-ah-tab:not(.is-active) {
     margin-top: -2px;
 }
 
-html.theme-dark .hr-ah-tab:not(.is-active)>a:hover {
+html.theme-dark .hr-ah-tab:not(.is-active) > a:hover {
     background: $grey-dark !important;
     border-bottom: 1px solid darken($grey, 10%);
 }

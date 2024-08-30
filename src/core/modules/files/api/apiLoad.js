@@ -8,7 +8,11 @@ export default () => ({
     async handler(req, rep) {
         const utils = new Utils(this);
         const formData = new FormData();
-        const formValidator = new FormValidator(formData.getValidationSchema(), formData.getFieldsFlat(), this);
+        const formValidator = new FormValidator(
+            formData.getValidationSchema(),
+            formData.getFieldsFlat(),
+            this,
+        );
         try {
             const authData = await req.auth.getData(req.auth.methods.HEADERS);
             if (!authData) {
@@ -23,9 +27,7 @@ export default () => ({
                     message: e.message,
                 });
             }
-            const {
-                data,
-            } = formValidator.parseMultipartData(multipartData);
+            const { data } = formValidator.parseMultipartData(multipartData);
             const validationResult = formValidator.validate();
             if (validationResult) {
                 return rep.error({
@@ -33,14 +35,20 @@ export default () => ({
                 });
             }
             const requestData = data._default;
-            const filePath = utils.getPath(`${requestData.dir}/${requestData.filename}`);
+            const filePath = utils.getPath(
+                `${requestData.dir}/${requestData.filename}`,
+            );
             if (!utils.fileExists(filePath)) {
                 return rep.error({
                     message: "File not found",
                 });
             }
             const stats = await fs.lstat(filePath);
-            if (!stats.isFile() || await (utils.isBinary(requestData.filename)) || stats.size > moduleConfig.maxFileEditSizeBytes) {
+            if (
+                !stats.isFile() ||
+                (await utils.isBinary(requestData.filename)) ||
+                stats.size > moduleConfig.maxFileEditSizeBytes
+            ) {
                 return rep.error({
                     message: "Not a file or is not editable",
                 });
@@ -53,5 +61,5 @@ export default () => ({
             this.log.error(e);
             return Promise.reject(e);
         }
-    }
+    },
 });

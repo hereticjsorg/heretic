@@ -4,7 +4,7 @@
     margin-top: 7px;
 }
 
-.heretic2faImageWrap>svg {
+.heretic2faImageWrap > svg {
     width: 120px;
     height: 120px;
 }
@@ -29,7 +29,7 @@ html.theme-dark .heretic2faSecretWrap {
     color: $grey-lighter;
 }
 
-.hr-copy-icon>svg>path {
+.hr-copy-icon > svg > path {
     fill: $grey !important;
 }
 
@@ -69,8 +69,8 @@ html.theme-dark .heretic2faSecretWrap {
     display: flex;
     justify-content: center;
     align-items: center;
-    opacity: .8;
-    transition: opacity .5s;
+    opacity: 0.8;
+    transition: opacity 0.5s;
 }
 
 .profilePictureWrapIcon:hover {

@@ -13,7 +13,9 @@ export default class {
             ...options,
         };
         try {
-            this.font = opentype.loadSync(path.join(__dirname, "data", "captcha.ttf"));
+            this.font = opentype.loadSync(
+                path.join(__dirname, "data", "captcha.ttf"),
+            );
         } catch {
             // Ignore
         }
@@ -21,23 +23,23 @@ export default class {
     }
 
     rndPathCmd(cmd) {
-        const r = (Math.random() * 0.2) - 0.1;
+        const r = Math.random() * 0.2 - 0.1;
         switch (cmd.type) {
-        case "M":
-        case "L":
-            cmd.x += r;
-            cmd.y += r;
-            break;
-        case "Q":
-        case "C":
-            cmd.x += r;
-            cmd.y += r;
-            cmd.x1 += r;
-            cmd.y1 += r;
-            break;
-        default:
-            // Close path cmd
-            break;
+            case "M":
+            case "L":
+                cmd.x += r;
+                cmd.y += r;
+                break;
+            case "Q":
+            case "C":
+                cmd.x += r;
+                cmd.y += r;
+                cmd.x1 += r;
+                cmd.y1 += r;
+                break;
+            default:
+                // Close path cmd
+                break;
         }
         return cmd;
     }
@@ -46,9 +48,9 @@ export default class {
         const fontScale = fontSize / font.unitsPerEm;
         const glyph = font.charToGlyph(char);
         const width = glyph.advanceWidth ? glyph.advanceWidth * fontScale : 0;
-        const left = x - (width / 2);
+        const left = x - width / 2;
         const height = (font.ascender + font.descender) * fontScale;
-        const top = y + (height / 2);
+        const top = y + height / 2;
         const glyphPath = glyph.getPath(left, top, fontSize);
         glyphPath.commands.forEach(this.rndPathCmd);
         return glyphPath.toPathData();
@@ -63,7 +65,7 @@ export default class {
             return q;
         }
         if (h * 3 < 2) {
-            return p + (q - p) * ((2 / 3) - h) * 6;
+            return p + (q - p) * (2 / 3 - h) * 6;
         }
         return p;
     }
@@ -74,7 +76,13 @@ export default class {
         }
         rgbColor = rgbColor.slice(1);
         if (rgbColor.length === 3) {
-            rgbColor = rgbColor[0] + rgbColor[0] + rgbColor[1] + rgbColor[1] + rgbColor[2] + rgbColor[2];
+            rgbColor =
+                rgbColor[0] +
+                rgbColor[0] +
+                rgbColor[1] +
+                rgbColor[1] +
+                rgbColor[2] +
+                rgbColor[2];
         }
         const hexColor = parseInt(rgbColor, 16);
         // eslint-disable-next-line no-bitwise
@@ -98,29 +106,32 @@ export default class {
         } else {
             lightness = baseLightness + 0.3 + Math.random() * 0.2;
         }
-        const q = lightness < 0.5 ? lightness * (lightness + saturation) : lightness + saturation - (lightness * saturation);
-        const p = (2 * lightness) - q;
-        const r = Math.floor(this.hue2rgb(p, q, hue + (1 / 3)) * 255);
+        const q =
+            lightness < 0.5
+                ? lightness * (lightness + saturation)
+                : lightness + saturation - lightness * saturation;
+        const p = 2 * lightness - q;
+        const r = Math.floor(this.hue2rgb(p, q, hue + 1 / 3) * 255);
         const g = Math.floor(this.hue2rgb(p, q, hue) * 255);
-        const b = Math.floor(this.hue2rgb(p, q, hue - (1 / 3)) * 255);
+        const b = Math.floor(this.hue2rgb(p, q, hue - 1 / 3) * 255);
         // eslint-disable-next-line no-mixed-operators, no-bitwise
-        const c = ((b | g << 8 | r << 16) | 1 << 24).toString(16).slice(1);
-        return `#${ c}`;
+        const c = (b | (g << 8) | (r << 16) | (1 << 24)).toString(16).slice(1);
+        return `#${c}`;
     }
 
     mathExpr() {
         const left = this.randomInt(1, 9);
         const right = this.randomInt(1, 9);
         const text = (left + right).toString();
-        const equation = `${left }+${ right}`;
+        const equation = `${left}+${right}`;
         return {
             text,
-            equation
+            equation,
         };
     }
 
     randomInt(min, max) {
-        return Math.round(min + (Math.random() * (max - min)));
+        return Math.round(min + Math.random() * (max - min));
     }
 
     captchaText() {
@@ -142,10 +153,12 @@ export default class {
         while (++i < noise) {
             const start = `${this.randomInt(1, 21)} ${this.randomInt(1, height - 1)}`;
             const end = `${this.randomInt(width - 21, width - 1)} ${this.randomInt(1, height - 1)}`;
-            const mid1 = `${this.randomInt((width / 2) - 21, (width / 2) + 21)} ${this.randomInt(1, height - 1)}`;
-            const mid2 = `${this.randomInt((width / 2) - 21, (width / 2) + 21)} ${this.randomInt(1, height - 1)}`;
+            const mid1 = `${this.randomInt(width / 2 - 21, width / 2 + 21)} ${this.randomInt(1, height - 1)}`;
+            const mid2 = `${this.randomInt(width / 2 - 21, width / 2 + 21)} ${this.randomInt(1, height - 1)}`;
             const color = this.invertColor(background);
-            noiseLines.push(`<path d="M${start} C${mid1},${mid2},${end}" stroke="${color}" fill="none"/>`);
+            noiseLines.push(
+                `<path d="M${start} C${mid1},${mid2},${end}" stroke="${color}" fill="none"/>`,
+            );
         }
         return noiseLines;
     }
@@ -167,14 +180,14 @@ export default class {
     }
 
     createCaptcha(text) {
-        const {
-            width,
-            height,
-            noise,
-            background
-        } = this.options;
-        const bgRect = background ? `<rect width="100%" height="100%" fill="${background}"/>` : "";
-        const paths = [].concat(this.getLineNoise(width, height, noise, background)).concat(this.getText(text, width, height)).join("");
+        const { width, height, noise, background } = this.options;
+        const bgRect = background
+            ? `<rect width="100%" height="100%" fill="${background}"/>`
+            : "";
+        const paths = []
+            .concat(this.getLineNoise(width, height, noise, background))
+            .concat(this.getText(text, width, height))
+            .join("");
         const start = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">`;
         return `${start}${bgRect}${paths}</svg>`;
     }
@@ -182,22 +195,34 @@ export default class {
     async verifyCaptcha(imageSecret, code) {
         let codeDb;
         if (this.fastify.redis) {
-            codeDb = await this.fastify.redis.get(`${this.fastify.systemConfig.id}_captcha_${imageSecret}}`);
-            await this.fastify.redis.del(`${this.fastify.systemConfig.id}_captcha_${imageSecret}}`);
+            codeDb = await this.fastify.redis.get(
+                `${this.fastify.systemConfig.id}_captcha_${imageSecret}}`,
+            );
+            await this.fastify.redis.del(
+                `${this.fastify.systemConfig.id}_captcha_${imageSecret}}`,
+            );
         } else {
-            const dbData = await this.fastify.mongo.db.collection(this.fastify.systemConfig.collections.captcha).findOne({
-                _id: imageSecret,
-            });
-            if (dbData) {
-                await this.fastify.mongo.db.collection(this.fastify.systemConfig.collections.captcha).updateOne({
+            const dbData = await this.fastify.mongo.db
+                .collection(this.fastify.systemConfig.collections.captcha)
+                .findOne({
                     _id: imageSecret,
-                }, {
-                    $set: {
-                        code: null,
-                    },
-                }, {
-                    upsert: false,
                 });
+            if (dbData) {
+                await this.fastify.mongo.db
+                    .collection(this.fastify.systemConfig.collections.captcha)
+                    .updateOne(
+                        {
+                            _id: imageSecret,
+                        },
+                        {
+                            $set: {
+                                code: null,
+                            },
+                        },
+                        {
+                            upsert: false,
+                        },
+                    );
                 codeDb = dbData.code;
             }
         }

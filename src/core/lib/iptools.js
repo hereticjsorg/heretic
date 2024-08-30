@@ -15,7 +15,10 @@ module.exports = class {
 
     isIP(value) {
         return (
-            (value && typeof value === "string" && this._regexes.ipv4.test(value)) || this._regexes.ipv6.test(value)
+            (value &&
+                typeof value === "string" &&
+                this._regexes.ipv4.test(value)) ||
+            this._regexes.ipv6.test(value)
         );
     }
 
@@ -93,9 +96,11 @@ module.exports = class {
         if (req.info && this.isIP(req.info.remoteAddress)) {
             return req.info.remoteAddress;
         }
-        if (req.requestContext
-            && req.requestContext.identity
-            && this.isIP(req.requestContext.identity.sourceIp)) {
+        if (
+            req.requestContext &&
+            req.requestContext.identity &&
+            this.isIP(req.requestContext.identity.sourceIp)
+        ) {
             return req.requestContext.identity.sourceIp;
         }
         if (req.headers) {

@@ -18,7 +18,7 @@ const offset = function (el) {
 
     return {
         top: _y,
-        left: _x
+        left: _x,
     };
 };
 

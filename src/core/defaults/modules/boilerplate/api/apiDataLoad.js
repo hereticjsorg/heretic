@@ -1,6 +1,4 @@
-import {
-    ObjectId
-} from "mongodb";
+import { ObjectId } from "mongodb";
 import FormData from "../data/form";
 import moduleConfig from "../module";
 import utils from "./utils";
@@ -17,28 +15,46 @@ export default () => ({
                     message: "validation_error",
                 });
             }
-            const formData = new FormData();
-            const query = utils.filter({
-                _id: new ObjectId(req.body.id),
-            }, authData);
+            const formData = newFormData();
+            const query = utils.filter(
+                {
+                    _id: new ObjectId(req.body.id),
+                },
+                authData,
+            );
             const options = {
                 projection: {},
             };
-            const restrictedFields = formData.getRestrictedFields ? formData.getRestrictedFields() : [];
-            const restrictedAreas = formData.getRestrictedAreas ? formData.getRestrictedAreas() : [];
-            const {
-                access,
-                areas,
-            } = utils.getAccessData(restrictedFields, restrictedAreas, formData.getFieldsArea ? formData.getFieldsArea() : {}, authData, options);
-            const item = await this.mongo.db.collection(moduleConfig.collections.main).findOne(query, options);
+            const restrictedFields = formData.getRestrictedFields
+                ? formData.getRestrictedFields()
+                : [];
+            const restrictedAreas = formData.getRestrictedAreas
+                ? formData.getRestrictedAreas()
+                : [];
+            const { access, areas } = utils.getAccessData(
+                restrictedFields,
+                restrictedAreas,
+                formData.getFieldsArea ? formData.getFieldsArea() : {},
+                authData,
+                options,
+            );
+            const item = await this.mongo.db
+                .collection(moduleConfig.collections.main)
+                .findOne(query, options);
             if (!item) {
                 return rep.error({}, 404);
             }
-            const data = req.processFormData({
-                _default: item,
-            }, formData.getFieldsFlat(), [{
-                id: "_default",
-            }]);
+            const data = req.processFormData(
+                {
+                    _default: item,
+                },
+                formData.getFieldsFlat(),
+                [
+                    {
+                        id: "_default",
+                    },
+                ],
+            );
             data._access = access;
             data._areas = areas;
             return rep.code(200).send(data);
@@ -46,5 +62,5 @@ export default () => ({
             this.log.error(e);
             return Promise.reject(e);
         }
-    }
+    },
 });

@@ -1,10 +1,7 @@
 /* eslint-disable no-console */
 const fs = require("fs-extra");
 const path = require("path");
-const {
-    IPv4CidrRange,
-    IPv6CidrRange,
-} = require("ip-num/IPRange");
+const { IPv4CidrRange, IPv6CidrRange } = require("ip-num/IPRange");
 const zlib = require("zlib");
 
 const geoLocales = {
@@ -27,7 +24,9 @@ const getCountryData = () => {
     if (!fs.existsSync(pathLocationsCountry)) {
         throw new Error(`File is missing: ${pathLocationsCountry}`);
     }
-    const csvLocationsCountry = fs.readFileSync(pathLocationsCountry, "utf8").split(/\n/);
+    const csvLocationsCountry = fs
+        .readFileSync(pathLocationsCountry, "utf8")
+        .split(/\n/);
     const countryData = {};
     for (const line of csvLocationsCountry) {
         const [geonameId, , , , countryISOCode] = line.split(/,/);
@@ -99,7 +98,10 @@ const generateCityBlocksBinaryV4 = () => {
     }
     const headBuf = Buffer.alloc(4);
     headBuf.writeUInt32BE(data.length);
-    fs.writeFileSync(path.join(__dirname, "/data/geoNetworksV4.hgd"), Buffer.concat([headBuf, ...data]));
+    fs.writeFileSync(
+        path.join(__dirname, "/data/geoNetworksV4.hgd"),
+        Buffer.concat([headBuf, ...data]),
+    );
 };
 
 const generateCityBlocksBinaryV6 = () => {
@@ -125,7 +127,10 @@ const generateCityBlocksBinaryV6 = () => {
         buf.writeUInt32BE(parseInt(geoNameIdCity, 10), pos);
         buf.writeUInt32BE(parseInt(geoNameIdCountry, 10), pos + 4);
         const partOne = lastPartString.slice(0, lastPartString.length / 2);
-        const partTwo = lastPartString.slice(lastPartString.length / 2, lastPartString.length);
+        const partTwo = lastPartString.slice(
+            lastPartString.length / 2,
+            lastPartString.length,
+        );
         buf.writeBigUint64BE(BigInt(partOne), pos + 8);
         buf.writeBigUint64BE(BigInt(partTwo), pos + 16);
         pos += 24;
@@ -148,7 +153,10 @@ const generateCityBlocksBinaryV6 = () => {
     }
     const headBuf = Buffer.alloc(4);
     headBuf.writeUInt32BE(data.length);
-    fs.writeFileSync(path.join(__dirname, "/data/geoNetworksV6.hgd"), Buffer.concat([headBuf, ...data]));
+    fs.writeFileSync(
+        path.join(__dirname, "/data/geoNetworksV6.hgd"),
+        Buffer.concat([headBuf, ...data]),
+    );
 };
 
 const generateCityDataBinary = () => {
@@ -162,7 +170,8 @@ const generateCityDataBinary = () => {
         const csvCityData = fs.readFileSync(pathCityData, "utf8").split(/\n/);
         for (const line of csvCityData) {
             // eslint-disable-next-line prefer-const
-            let [geoNameId, , continentCode, , countryCode, , , , , , city] = line.split(/,/);
+            let [geoNameId, , continentCode, , countryCode, , , , , , city] =
+                line.split(/,/);
             if (!geoNameId || geoNameId === "geoname_id") {
                 continue;
             }
@@ -180,18 +189,22 @@ const generateCityDataBinary = () => {
     for (const k of Object.keys(cities)) {
         const dataArr = [];
         for (const kk of Object.keys(cities[k])) {
-            if (["countryCode", "geoNameId", "hash", "continentCode"].indexOf(kk) !== -1) {
+            if (
+                ["countryCode", "geoNameId", "hash", "continentCode"].indexOf(
+                    kk,
+                ) !== -1
+            ) {
                 continue;
             }
             dataArr.push(kk);
             dataArr.push(cities[k][kk]);
         }
         const dataStr = dataArr.join("\t");
-        const citiesDataBuf = Buffer.alloc(4 + 4 + (dataStr.length * 2));
+        const citiesDataBuf = Buffer.alloc(4 + 4 + dataStr.length * 2);
         let offset = 0;
         citiesDataBuf.writeUInt32BE(k, offset);
         offset += 4;
-        citiesDataBuf.writeUInt16BE((dataStr.length * 2), offset);
+        citiesDataBuf.writeUInt16BE(dataStr.length * 2, offset);
         offset += 4;
         citiesDataBuf.write(dataStr, offset, "utf8");
         const headBuf = Buffer.alloc(4);
@@ -202,7 +215,10 @@ const generateCityDataBinary = () => {
     }
     const headBuf = Buffer.alloc(4);
     headBuf.writeUInt32BE(citiesBufArr.length);
-    fs.writeFileSync(path.join(__dirname, "/data/geoCities.hgd"), Buffer.concat([headBuf, ...citiesBufArr]));
+    fs.writeFileSync(
+        path.join(__dirname, "/data/geoCities.hgd"),
+        Buffer.concat([headBuf, ...citiesBufArr]),
+    );
 };
 
 const generateCountryDataBinary = () => {
@@ -213,10 +229,21 @@ const generateCountryDataBinary = () => {
         if (!fs.existsSync(pathCountryData)) {
             throw new Error(`File is missing: ${fileNameCountryData}`);
         }
-        const csvCountryData = fs.readFileSync(pathCountryData, "utf8").split(/\n/);
+        const csvCountryData = fs
+            .readFileSync(pathCountryData, "utf8")
+            .split(/\n/);
         for (const line of csvCountryData) {
-            // eslint-disable-next-line prefer-const
-            let [geoNameId, , continentCode, continentName, countryCode, countryName, isEU] = line.split(/,/);
+            let [
+                geoNameId,
+                ,
+                // eslint-disable-next-line prefer-const
+                continentCode,
+                continentName,
+                // eslint-disable-next-line prefer-const
+                countryCode,
+                countryName,
+                isEU,
+            ] = line.split(/,/);
             if (!geoNameId || geoNameId === "geoname_id") {
                 continue;
             }
@@ -229,20 +256,22 @@ const generateCountryDataBinary = () => {
             countries[geoNameId].countryCode = countryCode || "";
             countries[geoNameId].eu = isEU;
             countries[geoNameId][geoLocales[lang]] = {};
-            countries[geoNameId][geoLocales[lang]].continentName = continentName || "";
-            countries[geoNameId][geoLocales[lang]].countryName = countryName || "";
+            countries[geoNameId][geoLocales[lang]].continentName =
+                continentName || "";
+            countries[geoNameId][geoLocales[lang]].countryName =
+                countryName || "";
         }
     }
     const countriesBufArr = [];
     for (const k of Object.keys(countries)) {
-        const {
-            continentCode,
-            countryCode,
-            eu,
-        } = countries[k];
+        const { continentCode, countryCode, eu } = countries[k];
         const dataArr = [];
         for (const kk of Object.keys(countries[k])) {
-            if (["countryCode", "geoNameId", "eu", "continentCode"].indexOf(kk) !== -1) {
+            if (
+                ["countryCode", "geoNameId", "eu", "continentCode"].indexOf(
+                    kk,
+                ) !== -1
+            ) {
                 continue;
             }
             dataArr.push(kk);
@@ -250,7 +279,9 @@ const generateCountryDataBinary = () => {
             dataArr.push(countries[k][kk].countryName);
         }
         const dataStr = dataArr.join("\t");
-        const countryDataBuf = Buffer.alloc(4 + 2 + 2 + 1 + 4 + (dataStr.length * 2));
+        const countryDataBuf = Buffer.alloc(
+            4 + 2 + 2 + 1 + 4 + dataStr.length * 2,
+        );
         let offset = 0;
         countryDataBuf.writeUInt32BE(k, offset);
         offset += 4;
@@ -260,7 +291,7 @@ const generateCountryDataBinary = () => {
         offset += 2;
         countryDataBuf.writeUInt8(eu, offset);
         offset += 1;
-        countryDataBuf.writeUInt16BE((dataStr.length * 2), offset);
+        countryDataBuf.writeUInt16BE(dataStr.length * 2, offset);
         offset += 4;
         countryDataBuf.write(dataStr, offset, "utf8");
         const headBuf = Buffer.alloc(4);
@@ -271,7 +302,10 @@ const generateCountryDataBinary = () => {
     }
     const headBuf = Buffer.alloc(4);
     headBuf.writeUInt32BE(countriesBufArr.length);
-    fs.writeFileSync(path.join(__dirname, "/data/geoCountries.hgd"), Buffer.concat([headBuf, ...countriesBufArr]));
+    fs.writeFileSync(
+        path.join(__dirname, "/data/geoCountries.hgd"),
+        Buffer.concat([headBuf, ...countriesBufArr]),
+    );
 };
 
 fs.ensureDirSync(path.join(__dirname, "data"));

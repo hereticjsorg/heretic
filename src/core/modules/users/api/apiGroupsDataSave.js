@@ -10,10 +10,19 @@ export default () => ({
         let formValidator;
         try {
             const authData = await req.auth.getData(req.auth.methods.HEADERS);
-            if (!authData || !authData.groupData || !authData.groupData.find(i => i.id === "admin" && i.value === true)) {
-                return rep.error({
-                    message: "Access Denied",
-                }, 403);
+            if (
+                !authData ||
+                !authData.groupData ||
+                !authData.groupData.find(
+                    (i) => i.id === "admin" && i.value === true,
+                )
+            ) {
+                return rep.error(
+                    {
+                        message: "Access Denied",
+                    },
+                    403,
+                );
             }
             let multipartData;
             try {
@@ -25,10 +34,12 @@ export default () => ({
                 });
             }
             const formData = new FormData();
-            formValidator = new FormValidator(formData.getValidationSchema(), formData.getFieldsFlat(), this);
-            const {
-                data,
-            } = formValidator.parseMultipartData(multipartData);
+            formValidator = new FormValidator(
+                formData.getValidationSchema(),
+                formData.getFieldsFlat(),
+                this,
+            );
+            const { data } = formValidator.parseMultipartData(multipartData);
             const validationResult = formValidator.validate();
             if (validationResult) {
                 await formValidator.cleanUpFiles();
@@ -36,9 +47,13 @@ export default () => ({
                     form: validationResult,
                 });
             }
-            const collection = this.mongo.db.collection(moduleConfig.collections.groups);
+            const collection = this.mongo.db.collection(
+                moduleConfig.collections.groups,
+            );
             const result = {};
-            data._default.group = data._default.group ? data._default.group.toLowerCase() : null;
+            data._default.group = data._default.group
+                ? data._default.group.toLowerCase()
+                : null;
             if (data._id) {
                 const existingRecord = await collection.findOne({
                     _id: data._id,
@@ -46,23 +61,36 @@ export default () => ({
                 if (!existingRecord) {
                     throw new Error("Not found");
                 }
-                const duplicateErrors = await this.findDatabaseDuplicates(moduleConfig.collections.groups, uniqueFields, data._default, existingRecord);
+                const duplicateErrors = await this.findDatabaseDuplicates(
+                    moduleConfig.collections.groups,
+                    uniqueFields,
+                    data._default,
+                    existingRecord,
+                );
                 if (duplicateErrors) {
                     return rep.error(duplicateErrors);
                 }
                 if (!this.systemConfig.demo) {
-                    await collection.updateOne({
-                        _id: data._id,
-                    }, {
-                        $set: data._default,
-                    });
+                    await collection.updateOne(
+                        {
+                            _id: data._id,
+                        },
+                        {
+                            $set: data._default,
+                        },
+                    );
                     await formValidator.saveFiles(dataId, String(data._id));
                     await formValidator.unlinkRemovedFiles({
                         _default: existingRecord,
                     });
                 }
             } else {
-                const duplicateErrors = await this.findDatabaseDuplicates(moduleConfig.collections.groups, uniqueFields, data._default, null);
+                const duplicateErrors = await this.findDatabaseDuplicates(
+                    moduleConfig.collections.groups,
+                    uniqueFields,
+                    data._default,
+                    null,
+                );
                 if (duplicateErrors) {
                     return rep.error(duplicateErrors);
                 }
@@ -71,7 +99,10 @@ export default () => ({
                         ...data._default,
                     });
                     result.insertedId = insertResult.insertedId;
-                    await formValidator.saveFiles(dataId, String(result.insertedId));
+                    await formValidator.saveFiles(
+                        dataId,
+                        String(result.insertedId),
+                    );
                 }
             }
             return rep.code(200).send(result);
@@ -82,5 +113,5 @@ export default () => ({
             this.log.error(e);
             return Promise.reject(e);
         }
-    }
+    },
 });

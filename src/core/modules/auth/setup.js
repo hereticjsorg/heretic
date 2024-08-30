@@ -13,6 +13,12 @@ export default class {
     }
 
     async process() {
-        await fs.ensureDir(path.resolve(__dirname, "public", moduleConfig.profilePicture.directory));
+        await fs.ensureDir(
+            path.resolve(
+                __dirname,
+                "public",
+                moduleConfig.profilePicture.directory,
+            ),
+        );
     }
 }

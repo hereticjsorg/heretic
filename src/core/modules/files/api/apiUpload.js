@@ -7,10 +7,19 @@ export default () => ({
         const utils = new Utils(this);
         try {
             const authData = await req.auth.getData(req.auth.methods.HEADERS);
-            if (!authData || !authData.groupData || !authData.groupData.find(i => i.id === "admin" && i.value === true)) {
-                return rep.error({
-                    message: "Access Denied",
-                }, 403);
+            if (
+                !authData ||
+                !authData.groupData ||
+                !authData.groupData.find(
+                    (i) => i.id === "admin" && i.value === true,
+                )
+            ) {
+                return rep.error(
+                    {
+                        message: "Access Denied",
+                    },
+                    403,
+                );
             }
             let multipartData;
             try {
@@ -37,8 +46,15 @@ export default () => ({
             if (!this.systemConfig.demo) {
                 for (const k of Object.keys(multipartData.files)) {
                     const item = multipartData.files[k];
-                    if (!item.filename.match(/^(~|\.\.|con|prn|aux|nul|com[0-9]|lpt[0-9])$|([<>:"/\\|?*])|(\.|\s)$/igm)) {
-                        await fs.move(item.filePath, path.resolve(dir, item.filename));
+                    if (
+                        !item.filename.match(
+                            /^(~|\.\.|con|prn|aux|nul|com[0-9]|lpt[0-9])$|([<>:"/\\|?*])|(\.|\s)$/gim,
+                        )
+                    ) {
+                        await fs.move(
+                            item.filePath,
+                            path.resolve(dir, item.filename),
+                        );
                     }
                 }
             }
@@ -49,5 +65,5 @@ export default () => ({
             this.log.error(e);
             return Promise.reject(e);
         }
-    }
+    },
 });

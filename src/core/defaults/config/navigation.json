@@ -1,11 +1,7 @@
 {
     "userspace": {
         "home": "sample_home",
-        "routes": [
-            "sample_home",
-            "sample_license",
-            "boilerplate_list"
-        ]
+        "routes": ["sample_home", "sample_license", "boilerplate_list"]
     },
     "admin": [
         "base_home",

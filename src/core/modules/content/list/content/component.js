@@ -22,14 +22,24 @@ export default class {
         this.mongoEnabled = out.global.mongoEnabled;
         if (process.browser) {
             window.__heretic = window.__heretic || {};
-            window.__heretic.outGlobal = window.__heretic.outGlobal || out.global;
-            this.authOptions = this.authOptions || window.__heretic.outGlobal.authOptions;
-            this.mongoEnabled = this.mongoEnabled || window.__heretic.outGlobal.mongoEnabled;
-            this.language = this.language || window.__heretic.outGlobal.language;
-            this.siteTitle = out.global.siteTitle || window.__heretic.outGlobal.siteTitle;
-            this.siteId = out.global.siteId || window.__heretic.outGlobal.siteId;
-            this.cookieOptions = out.global.cookieOptions || window.__heretic.outGlobal.cookieOptions;
-            this.systemRoutes = out.global.systemRoutes || window.__heretic.outGlobal.systemRoutes;
+            window.__heretic.outGlobal =
+                window.__heretic.outGlobal || out.global;
+            this.authOptions =
+                this.authOptions || window.__heretic.outGlobal.authOptions;
+            this.mongoEnabled =
+                this.mongoEnabled || window.__heretic.outGlobal.mongoEnabled;
+            this.language =
+                this.language || window.__heretic.outGlobal.language;
+            this.siteTitle =
+                out.global.siteTitle || window.__heretic.outGlobal.siteTitle;
+            this.siteId =
+                out.global.siteId || window.__heretic.outGlobal.siteId;
+            this.cookieOptions =
+                out.global.cookieOptions ||
+                window.__heretic.outGlobal.cookieOptions;
+            this.systemRoutes =
+                out.global.systemRoutes ||
+                window.__heretic.outGlobal.systemRoutes;
             document.title = `${pageConfig.title[this.language]} – ${this.siteTitle}`;
         }
         this.utils = new Utils(this, this.language);
@@ -41,7 +51,10 @@ export default class {
                 const data = JSON.parse(e.data);
                 await this.utils.waitForComponent(`${pageConfig.id}List`);
                 const table = this.getComponent(`${pageConfig.id}List`);
-                table.setLock(data.id, data.action === "locked" ? data.username : null);
+                table.setLock(
+                    data.id,
+                    data.action === "locked" ? data.username : null,
+                );
             } catch {
                 // Ignore
             }
@@ -59,22 +72,32 @@ export default class {
         this.cookies = new Cookies(this.cookieOptions, this.siteId);
         const currentToken = this.cookies.get(`${this.siteId}.authToken`);
         if (!currentToken) {
-            setTimeout(() => window.location.href = `${this.utils.getLocalizedURL(this.systemRoutes.signInAdmin)}`, 100);
+            setTimeout(
+                () =>
+                    (window.location.href = `${this.utils.getLocalizedURL(this.systemRoutes.signInAdmin)}`),
+                100,
+            );
             return;
         }
         const headers = {
-            Authorization: `Bearer ${currentToken}`
+            Authorization: `Bearer ${currentToken}`,
         };
         this.setState("headers", headers);
         this.setState("ready", true);
         if (window.__heretic.webSocket) {
-            window.__heretic.webSocket.addEventListener("message", this.onWebSocketMessage.bind(this));
+            window.__heretic.webSocket.addEventListener(
+                "message",
+                this.onWebSocketMessage.bind(this),
+            );
         }
         // Show success notification when required
         if (window.__heretic.routeExtra) {
             if (window.__heretic.routeExtra.success) {
                 await this.utils.waitForComponent(`notify_${pageConfig.id}`);
-                this.getComponent(`notify_${pageConfig.id}`).show(window.__heretic.t("saveSuccess"), "is-success");
+                this.getComponent(`notify_${pageConfig.id}`).show(
+                    window.__heretic.t("saveSuccess"),
+                    "is-success",
+                );
             }
             window.__heretic.routeExtra = {};
         }
@@ -82,13 +105,17 @@ export default class {
 
     async onTopButtonClick(id) {
         switch (id) {
-        case "newItem":
-            const options = {
-                ...this.query.getStore(),
-            };
-            options[`mode_${pageConfig.id}Form`] = "edit";
-            window.__heretic.router.navigate(`${moduleConfig.id}_edit`, this.language, options);
-            break;
+            case "newItem":
+                const options = {
+                    ...this.query.getStore(),
+                };
+                options[`mode_${pageConfig.id}Form`] = "edit";
+                window.__heretic.router.navigate(
+                    `${moduleConfig.id}_edit`,
+                    this.language,
+                    options,
+                );
+                break;
         }
     }
 
@@ -98,35 +125,45 @@ export default class {
         this.utils.waitForComponent(`${pageConfig.id}List`);
         const table = this.getComponent(`${pageConfig.id}List`);
         switch (data.buttonId) {
-        case "edit":
-            try {
-                table.setLoading(true);
-                const response = await axios({
-                    method: "post",
-                    url: `/api/${moduleConfig.id}/lock/check`,
-                    data: {
-                        id: data.itemId,
-                    },
-                    headers: this.state.headers,
-                });
-                if (response.data.lock) {
-                    notify.show(`${window.__heretic.t("lockedBy")}: ${response.data.lock.username}`, "is-danger");
+            case "edit":
+                try {
+                    table.setLoading(true);
+                    const response = await axios({
+                        method: "post",
+                        url: `/api/${moduleConfig.id}/lock/check`,
+                        data: {
+                            id: data.itemId,
+                        },
+                        headers: this.state.headers,
+                    });
+                    if (response.data.lock) {
+                        notify.show(
+                            `${window.__heretic.t("lockedBy")}: ${response.data.lock.username}`,
+                            "is-danger",
+                        );
+                        return;
+                    }
+                } catch {
+                    notify.show(
+                        window.__heretic.t("couldNotLoadLockData"),
+                        "is-danger",
+                    );
                     return;
+                } finally {
+                    table.setLoading(false);
                 }
-            } catch {
-                notify.show(window.__heretic.t("couldNotLoadLockData"), "is-danger");
-                return;
-            } finally {
-                table.setLoading(false);
-            }
-            this.query.buildStore();
-            const options = {
-                ...this.query.getStore(),
-                id: data.itemId,
-            };
-            options[`mode_${pageConfig.id}Form`] = "view";
-            window.__heretic.router.navigate(`${moduleConfig.id}_edit`, this.language, options);
-            break;
+                this.query.buildStore();
+                const options = {
+                    ...this.query.getStore(),
+                    id: data.itemId,
+                };
+                options[`mode_${pageConfig.id}Form`] = "view";
+                window.__heretic.router.navigate(
+                    `${moduleConfig.id}_edit`,
+                    this.language,
+                    options,
+                );
+                break;
         }
     }
 
@@ -136,7 +173,13 @@ export default class {
 
     onUnauthorized() {
         this.setState("ready", false);
-        setTimeout(() => window.location.href = this.utils.getLocalizedURL(this.systemRoutes.signInAdmin), 100);
+        setTimeout(
+            () =>
+                (window.location.href = this.utils.getLocalizedURL(
+                    this.systemRoutes.signInAdmin,
+                )),
+            100,
+        );
     }
 
     onFormSubmit() {
@@ -165,15 +208,25 @@ export default class {
     }
 
     startLockMessaging() {
-        if (window.__heretic.webSocket && this.state.currentId && !this.socketInterval) {
-            this.socketInterval = setInterval(() => this.sendLockAction("lock"), 20000);
+        if (
+            window.__heretic.webSocket &&
+            this.state.currentId &&
+            !this.socketInterval
+        ) {
+            this.socketInterval = setInterval(
+                () => this.sendLockAction("lock"),
+                20000,
+            );
         }
     }
 
     onDestroy() {
         if (window.__heretic.webSocket) {
             try {
-                window.__heretic.webSocket.removeEventListener("message", this.onWebSocketMessage.bind(this));
+                window.__heretic.webSocket.removeEventListener(
+                    "message",
+                    this.onWebSocketMessage.bind(this),
+                );
             } catch {
                 // Ignore
             }

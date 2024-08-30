@@ -1,7 +1,5 @@
 import Ajv from "ajv";
-import {
-    convert,
-} from "html-to-text";
+import { convert } from "html-to-text";
 import ContactForm from "#core/components/hcontact/form.js";
 import Captcha from "#lib/captcha";
 import Email from "#lib/email";
@@ -17,7 +15,11 @@ const contactFormValidation = ajv.compile(contactFormValidationSchema);
 export default () => ({
     async handler(req, rep) {
         try {
-            const emailContact = (await import( /* webpackIgnore: true */ "../email/emailContact.marko")).default;
+            const emailContact = (
+                await import(
+                    /* webpackIgnore: true */ "../email/emailContact.marko"
+                )
+            ).default;
             const validationResult = contactFormValidation(req.body);
             if (!validationResult) {
                 return rep.error({
@@ -27,32 +29,45 @@ export default () => ({
             const formData = req.body.formTabs._default;
             const captcha = new Captcha(this);
             const [code, imageSecret] = formData.captcha.split(/_/);
-            const captchaValidationResult = await captcha.verifyCaptcha(imageSecret, code);
+            const captchaValidationResult = await captcha.verifyCaptcha(
+                imageSecret,
+                code,
+            );
             if (!captchaValidationResult) {
                 return rep.error({
-                    form: [{
-                        instancePath: "captcha",
-                        keyword: "invalidCaptcha",
-                        tab: "_default",
-                    }],
+                    form: [
+                        {
+                            instancePath: "captcha",
+                            keyword: "invalidCaptcha",
+                            tab: "_default",
+                        },
+                    ],
                 });
             }
-            if (!this.systemConfig.email.enabled || !this.systemConfig.email.admin) {
+            if (
+                !this.systemConfig.email.enabled ||
+                !this.systemConfig.email.admin
+            ) {
                 return rep.success({});
             }
             const email = formData.email.toLowerCase();
             try {
-                const {
-                    language,
-                } = req.body;
+                const { language } = req.body;
                 const languageData = {
                     ...this.languageData,
                 };
                 languageData[language] = {
                     ...languageData[language],
-                    ...(await import(`../translations/${language}.json`)).default,
+                    ...(await import(`../translations/${language}.json`))
+                        .default,
                 };
-                const t = (id, d = {}) => languageData[language] && typeof languageData[language][id] === "function" ? languageData[language][id](d) : languageData[language] ? languageData[language][id] : id;
+                const t = (id, d = {}) =>
+                    languageData[language] &&
+                    typeof languageData[language][id] === "function"
+                        ? languageData[language][id](d)
+                        : languageData[language]
+                          ? languageData[language][id]
+                          : id;
                 const input = {
                     t,
                     name: formData.name,
@@ -63,9 +78,16 @@ export default () => ({
                     ...input,
                     message: input.message.replace(/\n/gm, "<br/>"),
                 });
-                const renderText = (await import("../email/emailContact.js")).default(input);
+                const renderText = (
+                    await import("../email/emailContact.js")
+                ).default(input);
                 const emailEngine = new Email(this);
-                await emailEngine.send(this.systemConfig.email.admin, t("contactSubject"), renderPage.toString(), renderText);
+                await emailEngine.send(
+                    this.systemConfig.email.admin,
+                    t("contactSubject"),
+                    renderPage.toString(),
+                    renderText,
+                );
             } catch {
                 //
             }
@@ -74,5 +96,5 @@ export default () => ({
             this.log.error(e);
             return Promise.reject(e);
         }
-    }
+    },
 });

@@ -17,16 +17,22 @@ if (options["no-color"]) {
 binUtils.printLogo();
 
 (async () => {
-    if (!Object.keys(options).length || (Object.keys(options).length === 1 && options["no-color"])) {
-        binUtils.log(`Usage:\n\nnpm run cli -- --addModule <id> [--addNavigation] - create a new page [add navigation]
+    if (
+        !Object.keys(options).length ||
+        (Object.keys(options).length === 1 && options["no-color"])
+    ) {
+        binUtils.log(
+            `Usage:\n\nnpm run cli -- --addModule <id> [--addNavigation] - create a new page [add navigation]
                --removeModule <id> - delete existing page
                --addLanguage <id:name> - add new language (example: de-de:Deutsch)
                --removeLanguage <id> - delete existing language
                --importGeoData - import geo database
                --createAdmin - create or update "admin" user and corresponding group
-               --resetPassword <username> - create user or reset password to "password"\n`, {
-            noDate: true,
-        });
+               --resetPassword <username> - create user or reset password to "password"\n`,
+            {
+                noDate: true,
+            },
+        );
         process.exit(0);
     }
 

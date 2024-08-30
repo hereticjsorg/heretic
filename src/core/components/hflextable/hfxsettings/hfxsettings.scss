@@ -84,17 +84,17 @@ html.theme-dark .hr-hs-wrap {
     border-color: $grey;
 }
 
-html.theme-dark .hr-hs-wrap>div>label:hover {
+html.theme-dark .hr-hs-wrap > div > label:hover {
     color: $grey-lighter;
 }
 
-.hr-hfe-action-icon-danger svg>path {
+.hr-hfe-action-icon-danger svg > path {
     fill: $white !important;
 }
 
 @media (max-width: 768px) {
-    .hr-hfe-tabs>ul {
+    .hr-hfe-tabs > ul {
         position: relative;
         top: 0;
-    }    
+    }
 }

@@ -1,18 +1,8 @@
 import Ajv from "ajv";
-import {
-    cloneDeep,
-} from "lodash";
-import {
-    startOfDay,
-    endOfDay,
-} from "date-fns";
-import {
-    ObjectId
-} from "mongodb";
-import {
-    IPv4,
-    IPv6,
-} from "ip-num/IPNumber";
+import { cloneDeep } from "lodash";
+import { startOfDay, endOfDay } from "date-fns";
+import { ObjectId } from "mongodb";
+import { IPv4, IPv6 } from "ip-num/IPNumber";
 import IpTools from "./iptools";
 import listValidationSchema from "./data/listValidationSchema.json";
 import recycleBinListValidationSchema from "./data/recycleBinListValidationSchema.json";
@@ -34,15 +24,40 @@ const ipTools = new IpTools();
 /* eslint-disable func-names */
 export default {
     list: function () {
-        return ["validateTableList", "validateDataLoad", "validateDataDelete", "validateDataBulk", "validateDataExport", "validateRecycleBinList", "validateHistoryList", "generateQuery", "getFilterData", "bulkUpdateQuery", "processFormData", "processDataList", "findUpdates", "addEvent"];
+        return [
+            "validateTableList",
+            "validateDataLoad",
+            "validateDataDelete",
+            "validateDataBulk",
+            "validateDataExport",
+            "validateRecycleBinList",
+            "validateHistoryList",
+            "generateQuery",
+            "getFilterData",
+            "bulkUpdateQuery",
+            "processFormData",
+            "processDataList",
+            "findUpdates",
+            "addEvent",
+        ];
     },
     validateTableList: function (formData) {
         const columns = Object.keys(formData.getTableColumns());
-        const columnsSortable = Object.keys(Object.fromEntries(Object.entries(formData.getTableColumns()).filter(([, value]) => !!value.sortable)));
+        const columnsSortable = Object.keys(
+            Object.fromEntries(
+                Object.entries(formData.getTableColumns()).filter(
+                    ([, value]) => !!value.sortable,
+                ),
+            ),
+        );
         const listValidationSchemaClone = cloneDeep(listValidationSchema);
         listValidationSchemaClone.properties.fields.items.enum = columns;
-        listValidationSchemaClone.properties.sortField.enum = [...columnsSortable, "null"];
-        listValidationSchemaClone.properties.language.enum = Object.keys(languages);
+        listValidationSchemaClone.properties.sortField.enum = [
+            ...columnsSortable,
+            "null",
+        ];
+        listValidationSchemaClone.properties.language.enum =
+            Object.keys(languages);
         const validate = ajv.compile(listValidationSchemaClone);
         if (!validate(this.body)) {
             return null;
@@ -51,9 +66,11 @@ export default {
             sort: {},
         };
         if (this.body.sortField && this.body.sortDirection) {
-            options.sort[this.body.sortField] = this.body.sortDirection === "asc" ? 1 : -1;
+            options.sort[this.body.sortField] =
+                this.body.sortDirection === "asc" ? 1 : -1;
             if (formData.getTabs) {
-                options.sort[`${this.body.language}.${this.body.sortField}`] = this.body.sortDirection === "asc" ? 1 : -1;
+                options.sort[`${this.body.language}.${this.body.sortField}`] =
+                    this.body.sortDirection === "asc" ? 1 : -1;
             }
         } else {
             delete options.sort;
@@ -61,16 +78,18 @@ export default {
         options.skip = (this.body.page - 1) * this.body.itemsPerPage;
         options.limit = this.body.itemsPerPage;
         options.projection = {};
-        columns.map(c => options.projection[c] = 1);
+        columns.map((c) => (options.projection[c] = 1));
         if (formData.getTabs) {
             for (const tab of formData.getTabs()) {
-                columns.map(c => options.projection[`${tab.id}.${c}`] = 1);
+                columns.map((c) => (options.projection[`${tab.id}.${c}`] = 1));
             }
         }
         return options;
     },
     validateRecycleBinList: function () {
-        const recycleBinListSchema = ajv.compile(recycleBinListValidationSchema);
+        const recycleBinListSchema = ajv.compile(
+            recycleBinListValidationSchema,
+        );
         if (!recycleBinListSchema(this.body)) {
             return null;
         }
@@ -102,11 +121,13 @@ export default {
     generateQuery: function (formData) {
         const query = {
             $or: [],
-            $and: [{
-                deleted: {
-                    $exists: false,
+            $and: [
+                {
+                    deleted: {
+                        $exists: false,
+                    },
                 },
-            }],
+            ],
         };
         if (this.body.searchText && this.body.searchText.length > 1) {
             for (const k of Object.keys(formData.getFieldsFlat())) {
@@ -136,396 +157,25 @@ export default {
             for (const filter of this.body.filters) {
                 const queryItem = {};
                 switch (filter.mode) {
-                case "eq":
-                    queryItem.$or = queryItem.$or || [];
-                    const qeq = {};
-                    qeq[filter.id] = filter.value;
-                    queryItem.$or.push(qeq);
-                    if (typeof filter.value === "string" && filter.value.match(/^[0-9]+$/)) {
-                        const qeqn = {};
-                        qeqn[filter.id] = parseInt(filter.value, 10);
-                        queryItem.$or.push(qeqn);
-                    }
-                    break;
-                case "is":
-                    queryItem.$or = queryItem.$or || [];
-                    const qis = {};
-                    qis[filter.id] = Boolean(filter.value);
-                    queryItem.$or.push(qis);
-                    break;
-                case "neq":
-                    queryItem.$and = queryItem.$and || [];
-                    const qneq = {};
-                    qneq[filter.id] = {
-                        $ne: filter.value,
-                    };
-                    queryItem.$and.push(qneq);
-                    if (typeof filter.value === "string" && filter.value.match(/^[0-9]+$/)) {
-                        const qneqn = {};
-                        qneqn[filter.id] = parseInt(filter.value, 10);
-                        queryItem.$and.push(qneqn);
-                    }
-                    break;
-                case "rex":
-                    if (filter.value.length > 1) {
-                        queryItem[filter.id] = {
-                            $regex: `(.*)?${filter.value}(.*)?`,
-                            $options: "i",
-                        };
-                    }
-                    break;
-                case "nrex":
-                    if (filter.value.length > 1) {
-                        queryItem[filter.id] = {
-                            $not: {
-                                $regex: `(.*)?${filter.value}(.*)?`,
-                                $options: "i",
-                            }
-                        };
-                    }
-                    break;
-                case "oof":
-                    if (Array.isArray(filter.value)) {
-                        queryItem.$or = queryItem.$or || [];
-                        for (const item of filter.value) {
-                            const qi = {};
-                            qi[filter.id] = item;
-                            queryItem.$or.push(qi);
-                            if (typeof item === "string" && item.match(/^[0-9]+$/)) {
-                                const qin = {};
-                                qin[filter.id] = parseInt(item, 10);
-                                queryItem.$or.push(qin);
-                            }
-                        }
-                    }
-                    break;
-                case "nof":
-                    if (Array.isArray(filter.value)) {
-                        for (const item of filter.value) {
-                            const qi = {};
-                            qi[filter.id] = {
-                                $ne: item,
-                            };
-                            query.$and.push(qi);
-                            if (typeof item === "string" && item.match(/^[0-9]+$/)) {
-                                const qin = {};
-                                qin[filter.id] = {
-                                    $ne: parseInt(item, 10),
-                                };
-                                query.$and.push(qin);
-                            }
-                        }
-                    }
-                    break;
-                case "deq":
-                    if (filter.value) {
-                        const deqDate = new Date(filter.value * 1000);
-                        const deqDateStart = startOfDay(deqDate);
-                        const deqDateEnd = endOfDay(deqDate);
-                        const deqDateStartQuery = {};
-                        deqDateStartQuery[filter.id] = {
-                            $gte: deqDateStart,
-                        };
-                        const deqDateEndQuery = {};
-                        deqDateEndQuery[filter.id] = {
-                            $lte: deqDateEnd,
-                        };
-                        query.$and.push(deqDateStartQuery);
-                        query.$and.push(deqDateEndQuery);
-                    } else {
-                        const deqDateNullQuery = {};
-                        deqDateNullQuery[filter.id] = {
-                            $eq: null,
-                        };
-                        query.$and.push(deqDateNullQuery);
-                    }
-                    break;
-                case "dlt":
-                    if (filter.value) {
-                        const dltDate = new Date(filter.value * 1000);
-                        const dltDateStart = startOfDay(dltDate);
-                        const dltDateStartQuery = {};
-                        dltDateStartQuery[filter.id] = {
-                            $lt: dltDateStart,
-                        };
-                        query.$and.push(dltDateStartQuery);
-                    } else {
-                        const dltDateNullQuery = {};
-                        dltDateNullQuery[filter.id] = {
-                            $eq: null,
-                        };
-                        query.$and.push(dltDateNullQuery);
-                    }
-                    break;
-                case "dlte":
-                    if (filter.value) {
-                        const dlteDate = new Date(filter.value * 1000);
-                        const dlteDateStart = endOfDay(dlteDate);
-                        const dlteDateStartQuery = {};
-                        dlteDateStartQuery[filter.id] = {
-                            $lte: dlteDateStart,
-                        };
-                        query.$and.push(dlteDateStartQuery);
-                    } else {
-                        const dlteDateNullQuery = {};
-                        dlteDateNullQuery[filter.id] = {
-                            $eq: null,
-                        };
-                        query.$and.push(dlteDateNullQuery);
-                    }
-                    break;
-                case "dgt":
-                    if (filter.value) {
-                        const dgtDate = new Date(filter.value * 1000);
-                        const dgtDateStart = endOfDay(dgtDate);
-                        const dgtDateStartQuery = {};
-                        dgtDateStartQuery[filter.id] = {
-                            $gt: dgtDateStart,
-                        };
-                        query.$and.push(dgtDateStartQuery);
-                    } else {
-                        const dgtDateNullQuery = {};
-                        dgtDateNullQuery[filter.id] = {
-                            $eq: null,
-                        };
-                        query.$and.push(dgtDateNullQuery);
-                    }
-                    break;
-                case "dgte":
-                    if (filter.value) {
-                        const dgteDate = new Date(filter.value * 1000);
-                        const dgteDateStart = startOfDay(dgteDate);
-                        const dgteDateStartQuery = {};
-                        dgteDateStartQuery[filter.id] = {
-                            $gte: dgteDateStart,
-                        };
-                        query.$and.push(dgteDateStartQuery);
-                    } else {
-                        const dgteDateNullQuery = {};
-                        dgteDateNullQuery[filter.id] = {
-                            $eq: null,
-                        };
-                        query.$and.push(dgteDateNullQuery);
-                    }
-                    break;
-                }
-                if (Object.keys(queryItem).length) {
-                    query.$and.push(queryItem);
-                }
-            }
-        }
-        if (!query.$or.length) {
-            delete query.$or;
-        }
-        return query;
-    },
-    getFilterData: function (formData, data) {
-        let result = String(this.body.searchText).trim().length === 0;
-        if (this.body.searchText && this.body.searchText.length > 1) {
-            for (const k of Object.keys(formData.getFieldsFlat())) {
-                const field = formData.getFieldsFlat()[k];
-                if (field.searchable && String(data[k]).match(this.body.searchText)) {
-                    result = true;
-                }
-            }
-        }
-        if (!result) {
-            return false;
-        }
-        result = false;
-        /* */
-        if (this.body.filters && Array.isArray(this.body.filters) && this.body.filters.length) {
-            for (const filter of this.body.filters) {
-                switch (filter.mode) {
-                case "eq":
-                    result = String(data[filter.id]) === filter.value;
-                    break;
-                case "is":
-                    result = data[filter.id] === Boolean(filter.value);
-                    break;
-                case "neq":
-                    result = String(data[filter.id]) !== filter.value;
-                    break;
-                case "rex":
-                    result = !!String(data[filter.id]).match(new RegExp(`(.*)?${filter.value}(.*)?`), "i");
-                    break;
-                case "nrex":
-                    result = !(String(data[filter.id]).match(new RegExp(`(.*)?${filter.value}(.*)?`), "i"));
-                    break;
-                case "oof":
-                    if (Array.isArray(filter.value)) {
-                        for (const item of filter.value) {
-                            if (item === String(data[filter.id])) {
-                                result = true;
-                                break;
-                            }
-                        }
-                    }
-                    break;
-                case "nof":
-                    if (Array.isArray(filter.value)) {
-                        result = true;
-                        for (const item of filter.value) {
-                            if (item === String(data[filter.id])) {
-                                result = false;
-                                break;
-                            }
-                        }
-                    }
-                    break;
-                case "deq":
-                    if (filter.value) {
-                        if (!data[filter.id]) {
-                            result = false;
-                            break;
-                        }
-                        const dateValue = new Date(data[filter.id] * 1000).getTime();
-                        const deqDate = new Date(filter.value * 1000).getTime();
-                        const deqDateStart = startOfDay(deqDate).getTime();
-                        const deqDateEnd = endOfDay(deqDate).getTime();
-                        result = dateValue >= deqDateStart && dateValue <= deqDateEnd;
-                    } else {
-                        result = !filter.value;
-                    }
-                    break;
-                case "dlt":
-                    if (filter.value) {
-                        if (!data[filter.id]) {
-                            result = false;
-                            break;
-                        }
-                        const dateValue = new Date(data[filter.id] * 1000).getTime();
-                        const deqDate = new Date(filter.value * 1000).getTime();
-                        const deqDateStart = startOfDay(deqDate).getTime();
-                        result = dateValue < deqDateStart;
-                    }
-                    break;
-                case "dlte":
-                    if (filter.value) {
-                        if (!data[filter.id]) {
-                            result = false;
-                            break;
-                        }
-                        const dateValue = new Date(data[filter.id] * 1000).getTime();
-                        const deqDate = new Date(filter.value * 1000).getTime();
-                        const deqDateEnd = endOfDay(deqDate).getTime();
-                        result = dateValue <= deqDateEnd;
-                    }
-                    break;
-                case "dgt":
-                    if (filter.value) {
-                        if (!data[filter.id]) {
-                            result = false;
-                            break;
-                        }
-                        const dateValue = new Date(data[filter.id] * 1000).getTime();
-                        const deqDate = new Date(filter.value * 1000).getTime();
-                        const deqDateEnd = endOfDay(deqDate).getTime();
-                        result = dateValue >= deqDateEnd;
-                    }
-                    break;
-                case "dgte":
-                    if (filter.value) {
-                        if (!data[filter.id]) {
-                            result = false;
-                            break;
-                        }
-                        const dateValue = new Date(data[filter.id] * 1000).getTime();
-                        const deqDate = new Date(filter.value * 1000).getTime();
-                        const deqDateStart = startOfDay(deqDate).getTime();
-                        result = dateValue >= deqDateStart;
-                    }
-                    break;
-                }
-            }
-        } else {
-            result = true;
-        }
-        /* */
-        return result;
-    },
-    processFormData: function (data, fields, tabs = [{
-        id: "_default",
-    }]) {
-        for (const tab of tabs) {
-            if (data[tab.id]) {
-                for (const k of Object.keys(data[tab.id])) {
-                    if (fields[k]) {
-                        switch (fields[k].type) {
-                        case "date":
-                            data[tab.id][k] = data[tab.id][k] && data[tab.id][k].getTime ? data[tab.id][k].getTime() / 1000 : null;
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-        return data;
-    },
-    processDataList: function (data, fields) {
-        for (const item of data) {
-            for (const k of Object.keys(item)) {
-                if (fields[k]) {
-                    switch (fields[k].type) {
-                    case "date":
-                        item[k] = item[k] && item[k].getTime ? item[k].getTime() / 1000 : null;
-                        break;
-                    }
-                }
-            }
-        }
-        return data;
-    },
-    bulkUpdateQuery: function (formData) {
-        const query = {
-            $or: [],
-            $and: [],
-        };
-        if (this.body.selected && this.body.selected.length) {
-            for (const item of this.body.selected) {
-                query.$or.push({
-                    _id: new ObjectId(item),
-                });
-            }
-        } else {
-            if (this.body.searchText && this.body.searchText.length > 1) {
-                for (const k of Object.keys(formData.getFieldsFlat())) {
-                    const field = formData.getFieldsFlat()[k];
-                    if (field.searchable) {
-                        const s = {};
-                        s[k] = {
-                            $regex: this.body.searchText,
-                            $options: "i",
-                        };
-                        query.$or.push(s);
-                        if (formData.getTabs) {
-                            const tabs = formData.getTabs();
-                            for (const tab of tabs) {
-                                const st = {};
-                                st[`${tab.id}.${k}`] = {
-                                    $regex: this.body.searchText,
-                                    $options: "i",
-                                };
-                                query.$or.push(st);
-                            }
-                        }
-                    }
-                }
-            }
-            if (this.body.filters && Array.isArray(this.body.filters)) {
-                for (const filter of this.body.filters) {
-                    const queryItem = {};
-                    switch (filter.mode) {
                     case "eq":
                         queryItem.$or = queryItem.$or || [];
                         const qeq = {};
                         qeq[filter.id] = filter.value;
                         queryItem.$or.push(qeq);
-                        if (typeof filter.value === "string" && filter.value.match(/^[0-9]+$/)) {
+                        if (
+                            typeof filter.value === "string" &&
+                            filter.value.match(/^[0-9]+$/)
+                        ) {
                             const qeqn = {};
                             qeqn[filter.id] = parseInt(filter.value, 10);
                             queryItem.$or.push(qeqn);
                         }
+                        break;
+                    case "is":
+                        queryItem.$or = queryItem.$or || [];
+                        const qis = {};
+                        qis[filter.id] = Boolean(filter.value);
+                        queryItem.$or.push(qis);
                         break;
                     case "neq":
                         queryItem.$and = queryItem.$and || [];
@@ -534,7 +184,10 @@ export default {
                             $ne: filter.value,
                         };
                         queryItem.$and.push(qneq);
-                        if (typeof filter.value === "string" && filter.value.match(/^[0-9]+$/)) {
+                        if (
+                            typeof filter.value === "string" &&
+                            filter.value.match(/^[0-9]+$/)
+                        ) {
                             const qneqn = {};
                             qneqn[filter.id] = parseInt(filter.value, 10);
                             queryItem.$and.push(qneqn);
@@ -554,7 +207,7 @@ export default {
                                 $not: {
                                     $regex: `(.*)?${filter.value}(.*)?`,
                                     $options: "i",
-                                }
+                                },
                             };
                         }
                         break;
@@ -565,6 +218,14 @@ export default {
                                 const qi = {};
                                 qi[filter.id] = item;
                                 queryItem.$or.push(qi);
+                                if (
+                                    typeof item === "string" &&
+                                    item.match(/^[0-9]+$/)
+                                ) {
+                                    const qin = {};
+                                    qin[filter.id] = parseInt(item, 10);
+                                    queryItem.$or.push(qin);
+                                }
                             }
                         }
                         break;
@@ -576,6 +237,16 @@ export default {
                                     $ne: item,
                                 };
                                 query.$and.push(qi);
+                                if (
+                                    typeof item === "string" &&
+                                    item.match(/^[0-9]+$/)
+                                ) {
+                                    const qin = {};
+                                    qin[filter.id] = {
+                                        $ne: parseInt(item, 10),
+                                    };
+                                    query.$and.push(qin);
+                                }
                             }
                         }
                         break;
@@ -670,6 +341,421 @@ export default {
                             query.$and.push(dgteDateNullQuery);
                         }
                         break;
+                }
+                if (Object.keys(queryItem).length) {
+                    query.$and.push(queryItem);
+                }
+            }
+        }
+        if (!query.$or.length) {
+            delete query.$or;
+        }
+        return query;
+    },
+    getFilterData: function (formData, data) {
+        let result = String(this.body.searchText).trim().length === 0;
+        if (this.body.searchText && this.body.searchText.length > 1) {
+            for (const k of Object.keys(formData.getFieldsFlat())) {
+                const field = formData.getFieldsFlat()[k];
+                if (
+                    field.searchable &&
+                    String(data[k]).match(this.body.searchText)
+                ) {
+                    result = true;
+                }
+            }
+        }
+        if (!result) {
+            return false;
+        }
+        result = false;
+        /* */
+        if (
+            this.body.filters &&
+            Array.isArray(this.body.filters) &&
+            this.body.filters.length
+        ) {
+            for (const filter of this.body.filters) {
+                switch (filter.mode) {
+                    case "eq":
+                        result = String(data[filter.id]) === filter.value;
+                        break;
+                    case "is":
+                        result = data[filter.id] === Boolean(filter.value);
+                        break;
+                    case "neq":
+                        result = String(data[filter.id]) !== filter.value;
+                        break;
+                    case "rex":
+                        result = !!String(data[filter.id]).match(
+                            new RegExp(`(.*)?${filter.value}(.*)?`),
+                            "i",
+                        );
+                        break;
+                    case "nrex":
+                        result = !String(data[filter.id]).match(
+                            new RegExp(`(.*)?${filter.value}(.*)?`),
+                            "i",
+                        );
+                        break;
+                    case "oof":
+                        if (Array.isArray(filter.value)) {
+                            for (const item of filter.value) {
+                                if (item === String(data[filter.id])) {
+                                    result = true;
+                                    break;
+                                }
+                            }
+                        }
+                        break;
+                    case "nof":
+                        if (Array.isArray(filter.value)) {
+                            result = true;
+                            for (const item of filter.value) {
+                                if (item === String(data[filter.id])) {
+                                    result = false;
+                                    break;
+                                }
+                            }
+                        }
+                        break;
+                    case "deq":
+                        if (filter.value) {
+                            if (!data[filter.id]) {
+                                result = false;
+                                break;
+                            }
+                            const dateValue = new Date(
+                                data[filter.id] * 1000,
+                            ).getTime();
+                            const deqDate = new Date(
+                                filter.value * 1000,
+                            ).getTime();
+                            const deqDateStart = startOfDay(deqDate).getTime();
+                            const deqDateEnd = endOfDay(deqDate).getTime();
+                            result =
+                                dateValue >= deqDateStart &&
+                                dateValue <= deqDateEnd;
+                        } else {
+                            result = !filter.value;
+                        }
+                        break;
+                    case "dlt":
+                        if (filter.value) {
+                            if (!data[filter.id]) {
+                                result = false;
+                                break;
+                            }
+                            const dateValue = new Date(
+                                data[filter.id] * 1000,
+                            ).getTime();
+                            const deqDate = new Date(
+                                filter.value * 1000,
+                            ).getTime();
+                            const deqDateStart = startOfDay(deqDate).getTime();
+                            result = dateValue < deqDateStart;
+                        }
+                        break;
+                    case "dlte":
+                        if (filter.value) {
+                            if (!data[filter.id]) {
+                                result = false;
+                                break;
+                            }
+                            const dateValue = new Date(
+                                data[filter.id] * 1000,
+                            ).getTime();
+                            const deqDate = new Date(
+                                filter.value * 1000,
+                            ).getTime();
+                            const deqDateEnd = endOfDay(deqDate).getTime();
+                            result = dateValue <= deqDateEnd;
+                        }
+                        break;
+                    case "dgt":
+                        if (filter.value) {
+                            if (!data[filter.id]) {
+                                result = false;
+                                break;
+                            }
+                            const dateValue = new Date(
+                                data[filter.id] * 1000,
+                            ).getTime();
+                            const deqDate = new Date(
+                                filter.value * 1000,
+                            ).getTime();
+                            const deqDateEnd = endOfDay(deqDate).getTime();
+                            result = dateValue >= deqDateEnd;
+                        }
+                        break;
+                    case "dgte":
+                        if (filter.value) {
+                            if (!data[filter.id]) {
+                                result = false;
+                                break;
+                            }
+                            const dateValue = new Date(
+                                data[filter.id] * 1000,
+                            ).getTime();
+                            const deqDate = new Date(
+                                filter.value * 1000,
+                            ).getTime();
+                            const deqDateStart = startOfDay(deqDate).getTime();
+                            result = dateValue >= deqDateStart;
+                        }
+                        break;
+                }
+            }
+        } else {
+            result = true;
+        }
+        /* */
+        return result;
+    },
+    processFormData: function (
+        data,
+        fields,
+        tabs = [
+            {
+                id: "_default",
+            },
+        ],
+    ) {
+        for (const tab of tabs) {
+            if (data[tab.id]) {
+                for (const k of Object.keys(data[tab.id])) {
+                    if (fields[k]) {
+                        switch (fields[k].type) {
+                            case "date":
+                                data[tab.id][k] =
+                                    data[tab.id][k] && data[tab.id][k].getTime
+                                        ? data[tab.id][k].getTime() / 1000
+                                        : null;
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+        return data;
+    },
+    processDataList: function (data, fields) {
+        for (const item of data) {
+            for (const k of Object.keys(item)) {
+                if (fields[k]) {
+                    switch (fields[k].type) {
+                        case "date":
+                            item[k] =
+                                item[k] && item[k].getTime
+                                    ? item[k].getTime() / 1000
+                                    : null;
+                            break;
+                    }
+                }
+            }
+        }
+        return data;
+    },
+    bulkUpdateQuery: function (formData) {
+        const query = {
+            $or: [],
+            $and: [],
+        };
+        if (this.body.selected && this.body.selected.length) {
+            for (const item of this.body.selected) {
+                query.$or.push({
+                    _id: new ObjectId(item),
+                });
+            }
+        } else {
+            if (this.body.searchText && this.body.searchText.length > 1) {
+                for (const k of Object.keys(formData.getFieldsFlat())) {
+                    const field = formData.getFieldsFlat()[k];
+                    if (field.searchable) {
+                        const s = {};
+                        s[k] = {
+                            $regex: this.body.searchText,
+                            $options: "i",
+                        };
+                        query.$or.push(s);
+                        if (formData.getTabs) {
+                            const tabs = formData.getTabs();
+                            for (const tab of tabs) {
+                                const st = {};
+                                st[`${tab.id}.${k}`] = {
+                                    $regex: this.body.searchText,
+                                    $options: "i",
+                                };
+                                query.$or.push(st);
+                            }
+                        }
+                    }
+                }
+            }
+            if (this.body.filters && Array.isArray(this.body.filters)) {
+                for (const filter of this.body.filters) {
+                    const queryItem = {};
+                    switch (filter.mode) {
+                        case "eq":
+                            queryItem.$or = queryItem.$or || [];
+                            const qeq = {};
+                            qeq[filter.id] = filter.value;
+                            queryItem.$or.push(qeq);
+                            if (
+                                typeof filter.value === "string" &&
+                                filter.value.match(/^[0-9]+$/)
+                            ) {
+                                const qeqn = {};
+                                qeqn[filter.id] = parseInt(filter.value, 10);
+                                queryItem.$or.push(qeqn);
+                            }
+                            break;
+                        case "neq":
+                            queryItem.$and = queryItem.$and || [];
+                            const qneq = {};
+                            qneq[filter.id] = {
+                                $ne: filter.value,
+                            };
+                            queryItem.$and.push(qneq);
+                            if (
+                                typeof filter.value === "string" &&
+                                filter.value.match(/^[0-9]+$/)
+                            ) {
+                                const qneqn = {};
+                                qneqn[filter.id] = parseInt(filter.value, 10);
+                                queryItem.$and.push(qneqn);
+                            }
+                            break;
+                        case "rex":
+                            if (filter.value.length > 1) {
+                                queryItem[filter.id] = {
+                                    $regex: `(.*)?${filter.value}(.*)?`,
+                                    $options: "i",
+                                };
+                            }
+                            break;
+                        case "nrex":
+                            if (filter.value.length > 1) {
+                                queryItem[filter.id] = {
+                                    $not: {
+                                        $regex: `(.*)?${filter.value}(.*)?`,
+                                        $options: "i",
+                                    },
+                                };
+                            }
+                            break;
+                        case "oof":
+                            if (Array.isArray(filter.value)) {
+                                queryItem.$or = queryItem.$or || [];
+                                for (const item of filter.value) {
+                                    const qi = {};
+                                    qi[filter.id] = item;
+                                    queryItem.$or.push(qi);
+                                }
+                            }
+                            break;
+                        case "nof":
+                            if (Array.isArray(filter.value)) {
+                                for (const item of filter.value) {
+                                    const qi = {};
+                                    qi[filter.id] = {
+                                        $ne: item,
+                                    };
+                                    query.$and.push(qi);
+                                }
+                            }
+                            break;
+                        case "deq":
+                            if (filter.value) {
+                                const deqDate = new Date(filter.value * 1000);
+                                const deqDateStart = startOfDay(deqDate);
+                                const deqDateEnd = endOfDay(deqDate);
+                                const deqDateStartQuery = {};
+                                deqDateStartQuery[filter.id] = {
+                                    $gte: deqDateStart,
+                                };
+                                const deqDateEndQuery = {};
+                                deqDateEndQuery[filter.id] = {
+                                    $lte: deqDateEnd,
+                                };
+                                query.$and.push(deqDateStartQuery);
+                                query.$and.push(deqDateEndQuery);
+                            } else {
+                                const deqDateNullQuery = {};
+                                deqDateNullQuery[filter.id] = {
+                                    $eq: null,
+                                };
+                                query.$and.push(deqDateNullQuery);
+                            }
+                            break;
+                        case "dlt":
+                            if (filter.value) {
+                                const dltDate = new Date(filter.value * 1000);
+                                const dltDateStart = startOfDay(dltDate);
+                                const dltDateStartQuery = {};
+                                dltDateStartQuery[filter.id] = {
+                                    $lt: dltDateStart,
+                                };
+                                query.$and.push(dltDateStartQuery);
+                            } else {
+                                const dltDateNullQuery = {};
+                                dltDateNullQuery[filter.id] = {
+                                    $eq: null,
+                                };
+                                query.$and.push(dltDateNullQuery);
+                            }
+                            break;
+                        case "dlte":
+                            if (filter.value) {
+                                const dlteDate = new Date(filter.value * 1000);
+                                const dlteDateStart = endOfDay(dlteDate);
+                                const dlteDateStartQuery = {};
+                                dlteDateStartQuery[filter.id] = {
+                                    $lte: dlteDateStart,
+                                };
+                                query.$and.push(dlteDateStartQuery);
+                            } else {
+                                const dlteDateNullQuery = {};
+                                dlteDateNullQuery[filter.id] = {
+                                    $eq: null,
+                                };
+                                query.$and.push(dlteDateNullQuery);
+                            }
+                            break;
+                        case "dgt":
+                            if (filter.value) {
+                                const dgtDate = new Date(filter.value * 1000);
+                                const dgtDateStart = endOfDay(dgtDate);
+                                const dgtDateStartQuery = {};
+                                dgtDateStartQuery[filter.id] = {
+                                    $gt: dgtDateStart,
+                                };
+                                query.$and.push(dgtDateStartQuery);
+                            } else {
+                                const dgtDateNullQuery = {};
+                                dgtDateNullQuery[filter.id] = {
+                                    $eq: null,
+                                };
+                                query.$and.push(dgtDateNullQuery);
+                            }
+                            break;
+                        case "dgte":
+                            if (filter.value) {
+                                const dgteDate = new Date(filter.value * 1000);
+                                const dgteDateStart = startOfDay(dgteDate);
+                                const dgteDateStartQuery = {};
+                                dgteDateStartQuery[filter.id] = {
+                                    $gte: dgteDateStart,
+                                };
+                                query.$and.push(dgteDateStartQuery);
+                            } else {
+                                const dgteDateNullQuery = {};
+                                dgteDateNullQuery[filter.id] = {
+                                    $eq: null,
+                                };
+                                query.$and.push(dgteDateNullQuery);
+                            }
+                            break;
                     }
                     if (Object.keys(queryItem).length) {
                         query.$and.push(queryItem);
@@ -686,18 +772,29 @@ export default {
         return query;
     },
     findUpdates: async function (formData, oldRecord, newRecord, options = {}) {
-        const tabs = formData.getTabs ? formData.getTabs() : [{
-            id: "_default",
-        }];
+        const tabs = formData.getTabs
+            ? formData.getTabs()
+            : [
+                  {
+                      id: "_default",
+                  },
+              ];
         const modifiedItems = [];
         for (const tab of tabs) {
             const dataOld = tab.id === "_default" ? oldRecord : oldRecord[tab];
             const dataNew = tab.id === "_default" ? newRecord : newRecord[tab];
             for (const item of Object.keys(dataOld)) {
-                if (options && options.ignore && options.ignore.indexOf(item) > -1) {
+                if (
+                    options &&
+                    options.ignore &&
+                    options.ignore.indexOf(item) > -1
+                ) {
                     continue;
                 }
-                if (JSON.stringify(dataOld[item]) !== JSON.stringify(dataNew[item])) {
+                if (
+                    JSON.stringify(dataOld[item]) !==
+                    JSON.stringify(dataNew[item])
+                ) {
                     modifiedItems.push({
                         tab: tab.id,
                         id: item,
@@ -719,21 +816,30 @@ export default {
         let geoNameIdCountry = null;
         if (clientIp && ipTools.isIP(clientIp) && clientIp !== "127.0.0.1") {
             const clientIpVersion = ipTools.getIPVersion(clientIp);
-            const clientIpData = clientIpVersion === 6 ? new IPv6(clientIp) : new IPv4(clientIp);
-            clientIpInt = clientIpVersion === 6 ? clientIpData.value : parseInt(clientIpData.value, 10);
-            const geoRecord = await this.fastify.mongo.db.collection(this.fastify.systemConfig.collections.geoNetworks).findOne({
-                blockEnd: {
-                    $gte: clientIpInt,
-                },
-            }, {
-                sort: {
-                    blockEnd: 1,
-                },
-                projection: {
-                    geoNameIdCity: 1,
-                    geoNameIdCountry: 1,
-                },
-            });
+            const clientIpData =
+                clientIpVersion === 6 ? new IPv6(clientIp) : new IPv4(clientIp);
+            clientIpInt =
+                clientIpVersion === 6
+                    ? clientIpData.value
+                    : parseInt(clientIpData.value, 10);
+            const geoRecord = await this.fastify.mongo.db
+                .collection(this.fastify.systemConfig.collections.geoNetworks)
+                .findOne(
+                    {
+                        blockEnd: {
+                            $gte: clientIpInt,
+                        },
+                    },
+                    {
+                        sort: {
+                            blockEnd: 1,
+                        },
+                        projection: {
+                            geoNameIdCity: 1,
+                            geoNameIdCountry: 1,
+                        },
+                    },
+                );
             if (geoRecord) {
                 if (geoRecord.geoNameIdCity) {
                     geoNameIdCity = geoRecord.geoNameIdCity;
@@ -743,15 +849,18 @@ export default {
                 }
             }
         }
-        await this.fastify.mongo.db.collection(this.fastify.systemConfig.collections.events).insertOne({
-            event,
-            userId: authData && authData._id ? String(authData._id) : null,
-            username: authData && authData.username ? authData.username : null,
-            date: new Date(),
-            ip: clientIp,
-            geoNameIdCity,
-            geoNameIdCountry,
-            extras: Object.keys(extras).length ? extras : null,
-        });
-    }
+        await this.fastify.mongo.db
+            .collection(this.fastify.systemConfig.collections.events)
+            .insertOne({
+                event,
+                userId: authData && authData._id ? String(authData._id) : null,
+                username:
+                    authData && authData.username ? authData.username : null,
+                date: new Date(),
+                ip: clientIp,
+                geoNameIdCity,
+                geoNameIdCountry,
+                extras: Object.keys(extras).length ? extras : null,
+            });
+    },
 };

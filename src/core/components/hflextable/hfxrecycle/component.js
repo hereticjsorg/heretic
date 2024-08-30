@@ -15,9 +15,13 @@ export default class {
             page: 1,
         };
         if (input.admin) {
-            await import( /* webpackChunkName: "hfxrecycle-admin" */ "./style-admin.scss");
+            await import(
+                /* webpackChunkName: "hfxrecycle-admin" */ "./style-admin.scss"
+            );
         } else {
-            await import( /* webpackChunkName: "hfxrecycle-frontend" */ "./style-frontend.scss");
+            await import(
+                /* webpackChunkName: "hfxrecycle-frontend" */ "./style-frontend.scss"
+            );
         }
         this.language = out.global.language;
         this.siteTitle = out.global.siteTitle;
@@ -28,14 +32,24 @@ export default class {
         this.mongoEnabled = out.global.mongoEnabled;
         if (process.browser) {
             window.__heretic = window.__heretic || {};
-            window.__heretic.outGlobal = window.__heretic.outGlobal || out.global || {};
-            this.authOptions = this.authOptions || window.__heretic.outGlobal.authOptions;
-            this.mongoEnabled = this.mongoEnabled || window.__heretic.outGlobal.mongoEnabled;
-            this.language = this.language || window.__heretic.outGlobal.language;
-            this.siteTitle = out.global.siteTitle || window.__heretic.outGlobal.siteTitle;
-            this.siteId = out.global.siteId || window.__heretic.outGlobal.siteId;
-            this.cookieOptions = out.global.cookieOptions || window.__heretic.outGlobal.cookieOptions;
-            this.systemRoutes = out.global.systemRoutes || window.__heretic.outGlobal.systemRoutes;
+            window.__heretic.outGlobal =
+                window.__heretic.outGlobal || out.global || {};
+            this.authOptions =
+                this.authOptions || window.__heretic.outGlobal.authOptions;
+            this.mongoEnabled =
+                this.mongoEnabled || window.__heretic.outGlobal.mongoEnabled;
+            this.language =
+                this.language || window.__heretic.outGlobal.language;
+            this.siteTitle =
+                out.global.siteTitle || window.__heretic.outGlobal.siteTitle;
+            this.siteId =
+                out.global.siteId || window.__heretic.outGlobal.siteId;
+            this.cookieOptions =
+                out.global.cookieOptions ||
+                window.__heretic.outGlobal.cookieOptions;
+            this.systemRoutes =
+                out.global.systemRoutes ||
+                window.__heretic.outGlobal.systemRoutes;
         }
     }
 
@@ -44,14 +58,25 @@ export default class {
     }
 
     generateRecycleBinPagination() {
-        const center = [this.state.currentRecycleBinListPage - 2, this.state.currentRecycleBinListPage - 1, this.state.currentRecycleBinListPage, this.state.currentRecycleBinListPage + 1, this.state.currentRecycleBinListPage + 2];
-        const filteredCenter = center.filter((p) => p > 1 && p < this.state.recycleBinTotalPages);
+        const center = [
+            this.state.currentRecycleBinListPage - 2,
+            this.state.currentRecycleBinListPage - 1,
+            this.state.currentRecycleBinListPage,
+            this.state.currentRecycleBinListPage + 1,
+            this.state.currentRecycleBinListPage + 2,
+        ];
+        const filteredCenter = center.filter(
+            (p) => p > 1 && p < this.state.recycleBinTotalPages,
+        );
         // includeThreeLeft
         if (this.state.currentRecycleBinListPage === 5) {
             filteredCenter.unshift(2);
         }
         // includeThreeRight
-        if (this.state.currentRecycleBinListPage === this.state.recycleBinTotalPages - 4) {
+        if (
+            this.state.currentRecycleBinListPage ===
+            this.state.recycleBinTotalPages - 4
+        ) {
             filteredCenter.push(this.state.recycleBinTotalPages - 1);
         }
         // includeLeftDots
@@ -59,11 +84,18 @@ export default class {
             filteredCenter.unshift("...");
         }
         // includeRightDots
-        if (this.state.currentRecycleBinListPage < this.state.recycleBinTotalPages - 4) {
+        if (
+            this.state.currentRecycleBinListPage <
+            this.state.recycleBinTotalPages - 4
+        ) {
             filteredCenter.push("...");
         }
         // Finalize
-        const pagination = [1, ...filteredCenter, this.state.recycleBinTotalPages];
+        const pagination = [
+            1,
+            ...filteredCenter,
+            this.state.recycleBinTotalPages,
+        ];
         if (pagination.join(",") === "1,1") {
             pagination.pop();
         }
@@ -71,12 +103,22 @@ export default class {
         this.setState("recycleBinPagination", pagination);
     }
 
-    async loadRecycleBinData(input = {
-        page: this.state.currentRecycleBinListPage,
-    }) {
-        await this.utils.waitForComponent(`recycleBinModal_hf_${this.input.id}`);
-        const recycleBinModal = this.getComponent(`recycleBinModal_hf_${this.input.id}`);
-        recycleBinModal.setActive(true).setCloseAllowed(false).setBackgroundCloseAllowed(true).setLoading(true);
+    async loadRecycleBinData(
+        input = {
+            page: this.state.currentRecycleBinListPage,
+        },
+    ) {
+        await this.utils.waitForComponent(
+            `recycleBinModal_hf_${this.input.id}`,
+        );
+        const recycleBinModal = this.getComponent(
+            `recycleBinModal_hf_${this.input.id}`,
+        );
+        recycleBinModal
+            .setActive(true)
+            .setCloseAllowed(false)
+            .setBackgroundCloseAllowed(true)
+            .setLoading(true);
         try {
             const response = await axios({
                 method: "post",
@@ -88,7 +130,12 @@ export default class {
                 headers: this.input.headers || {},
             });
             this.setState("recycleBinList", response.data.items);
-            this.setState("recycleBinTotalPages", response.data.total < this.state.itemsPerPage ? 1 : Math.ceil(response.data.total / this.state.itemsPerPage));
+            this.setState(
+                "recycleBinTotalPages",
+                response.data.total < this.state.itemsPerPage
+                    ? 1
+                    : Math.ceil(response.data.total / this.state.itemsPerPage),
+            );
             if (input.page !== this.state.currentRecycleBinListPage) {
                 this.setState("currentRecycleBinListPage", input.page);
             }
@@ -109,9 +156,15 @@ export default class {
     }
 
     async show() {
-        await this.utils.waitForComponent(`recycleBinModal_hf_${this.input.id}`);
+        await this.utils.waitForComponent(
+            `recycleBinModal_hf_${this.input.id}`,
+        );
         const modal = this.getComponent(`recycleBinModal_hf_${this.input.id}`);
-        modal.setActive(true).setCloseAllowed(true).setBackgroundCloseAllowed(true).setLoading(false);
+        modal
+            .setActive(true)
+            .setCloseAllowed(true)
+            .setBackgroundCloseAllowed(true)
+            .setLoading(false);
         this.loadRecycleBinData();
     }
 
@@ -126,11 +179,13 @@ export default class {
 
     async onRecycleBinRestoreClick(event) {
         event.preventDefault();
-        const {
-            id,
-        } = event.target.closest("[data-id]").dataset;
-        await this.utils.waitForComponent(`recycleBinModal_hf_${this.input.id}`);
-        const recycleBinModal = this.getComponent(`recycleBinModal_hf_${this.input.id}`);
+        const { id } = event.target.closest("[data-id]").dataset;
+        await this.utils.waitForComponent(
+            `recycleBinModal_hf_${this.input.id}`,
+        );
+        const recycleBinModal = this.getComponent(
+            `recycleBinModal_hf_${this.input.id}`,
+        );
         recycleBinModal.setActive(true).setCloseAllowed(false).setLoading(true);
         try {
             const restoreResult = await axios({
@@ -142,9 +197,12 @@ export default class {
                 headers: this.input.headers || {},
             });
             await this.loadRecycleBinData({
-                page: 1
+                page: 1,
             });
-            await this.notify(`${window.__heretic.t("htable_restoreSuccess")}: ${restoreResult.data.count}`, "is-success");
+            await this.notify(
+                `${window.__heretic.t("htable_restoreSuccess")}: ${restoreResult.data.count}`,
+                "is-success",
+            );
             this.emit("success");
         } catch (e) {
             if (e && e.response && e.response.status === 403) {
@@ -159,19 +217,26 @@ export default class {
 
     async onRecycleBinDeleteClick(e) {
         e.preventDefault();
-        const {
-            id,
-        } = e.target.closest("[data-id]").dataset;
+        const { id } = e.target.closest("[data-id]").dataset;
         const recycleDeleteItems = [];
-        const title = this.state.recycleBinList.find(i => i._id === id)[this.input.recycleBin.title];
+        const title = this.state.recycleBinList.find((i) => i._id === id)[
+            this.input.recycleBin.title
+        ];
         recycleDeleteItems.push({
             id,
             title,
         });
         this.setState("recycleDeleteItems", recycleDeleteItems);
-        await this.utils.waitForComponent(`deleteRecycleConfirmation_hf_${this.input.id}`);
-        const deleteConfirmation = this.getComponent(`deleteRecycleConfirmation_hf_${this.input.id}`);
-        deleteConfirmation.setActive(true).setCloseAllowed(true).setLoading(false);
+        await this.utils.waitForComponent(
+            `deleteRecycleConfirmation_hf_${this.input.id}`,
+        );
+        const deleteConfirmation = this.getComponent(
+            `deleteRecycleConfirmation_hf_${this.input.id}`,
+        );
+        deleteConfirmation
+            .setActive(true)
+            .setCloseAllowed(true)
+            .setLoading(false);
     }
 
     onRecycleBinPageClick(pageStr) {
@@ -186,78 +251,95 @@ export default class {
 
     async onDeleteRecycleConfirmationButtonClick(button) {
         switch (button) {
-        case "delete":
-            await this.utils.waitForComponent(`deleteRecycleConfirmation_hf_${this.input.id}`);
-            const deleteConfirmation = this.getComponent(`deleteRecycleConfirmation_hf_${this.input.id}`);
-            deleteConfirmation.setCloseAllowed(false).setLoading(true);
-            try {
-                const deleteResult = await axios({
-                    method: "post",
-                    url: this.input.recycleBin.url.delete,
-                    data: {
-                        ids: this.state.recycleDeleteItems.map(i => i.id),
-                    },
-                    headers: this.input.headers || {},
-                });
-                await this.loadRecycleBinData({
-                    page: 1
-                });
-                deleteConfirmation.setActive(false);
-                await this.notify(`${window.__heretic.t("htable_deleteSuccess")}: ${deleteResult.data.count}`);
-            } catch (e) {
-                if (e && e.response && e.response.status === 403) {
-                    this.emit("unauthorized");
-                    return;
+            case "delete":
+                await this.utils.waitForComponent(
+                    `deleteRecycleConfirmation_hf_${this.input.id}`,
+                );
+                const deleteConfirmation = this.getComponent(
+                    `deleteRecycleConfirmation_hf_${this.input.id}`,
+                );
+                deleteConfirmation.setCloseAllowed(false).setLoading(true);
+                try {
+                    const deleteResult = await axios({
+                        method: "post",
+                        url: this.input.recycleBin.url.delete,
+                        data: {
+                            ids: this.state.recycleDeleteItems.map((i) => i.id),
+                        },
+                        headers: this.input.headers || {},
+                    });
+                    await this.loadRecycleBinData({
+                        page: 1,
+                    });
+                    deleteConfirmation.setActive(false);
+                    await this.notify(
+                        `${window.__heretic.t("htable_deleteSuccess")}: ${deleteResult.data.count}`,
+                    );
+                } catch (e) {
+                    if (e && e.response && e.response.status === 403) {
+                        this.emit("unauthorized");
+                        return;
+                    }
+                    await this.notify("htable_loadingError", "is-danger");
+                } finally {
+                    deleteConfirmation.setLoading(false).setCloseAllowed(true);
                 }
-                await this.notify("htable_loadingError", "is-danger");
-            } finally {
-                deleteConfirmation.setLoading(false).setCloseAllowed(true);
-            }
-            break;
+                break;
         }
     }
 
     onReloadClick(e) {
         e.preventDefault();
         this.loadRecycleBinData({
-            page: 1
+            page: 1,
         });
     }
 
     async onDeleteAllRecycleConfirmationButtonClick(button) {
         switch (button) {
-        case "delete":
-            await this.utils.waitForComponent(`deleteAllRecycleConfirmation_hf_${this.input.id}`);
-            const deleteConfirmation = this.getComponent(`deleteAllRecycleConfirmation_hf_${this.input.id}`);
-            deleteConfirmation.setCloseAllowed(false).setLoading(true);
-            try {
-                await axios({
-                    method: "post",
-                    url: this.input.recycleBin.url.deleteAll,
-                    data: {},
-                    headers: this.input.headers || {},
-                });
-                await this.loadRecycleBinData({
-                    page: 1
-                });
-                deleteConfirmation.setActive(false);
-                await this.notify("htable_deleteSuccess");
-            } catch (e) {
-                if (e && e.response && e.response.status === 403) {
-                    this.emit("unauthorized");
-                    return;
+            case "delete":
+                await this.utils.waitForComponent(
+                    `deleteAllRecycleConfirmation_hf_${this.input.id}`,
+                );
+                const deleteConfirmation = this.getComponent(
+                    `deleteAllRecycleConfirmation_hf_${this.input.id}`,
+                );
+                deleteConfirmation.setCloseAllowed(false).setLoading(true);
+                try {
+                    await axios({
+                        method: "post",
+                        url: this.input.recycleBin.url.deleteAll,
+                        data: {},
+                        headers: this.input.headers || {},
+                    });
+                    await this.loadRecycleBinData({
+                        page: 1,
+                    });
+                    deleteConfirmation.setActive(false);
+                    await this.notify("htable_deleteSuccess");
+                } catch (e) {
+                    if (e && e.response && e.response.status === 403) {
+                        this.emit("unauthorized");
+                        return;
+                    }
+                    await this.notify("htable_loadingError", "is-danger");
+                } finally {
+                    deleteConfirmation.setLoading(false).setCloseAllowed(true);
                 }
-                await this.notify("htable_loadingError", "is-danger");
-            } finally {
-                deleteConfirmation.setLoading(false).setCloseAllowed(true);
-            }
-            break;
+                break;
         }
     }
 
     async onDeleteAllClick() {
-        await this.utils.waitForComponent(`deleteAllRecycleConfirmation_hf_${this.input.id}`);
-        const deleteConfirmation = this.getComponent(`deleteAllRecycleConfirmation_hf_${this.input.id}`);
-        deleteConfirmation.setActive(true).setCloseAllowed(true).setLoading(false);
+        await this.utils.waitForComponent(
+            `deleteAllRecycleConfirmation_hf_${this.input.id}`,
+        );
+        const deleteConfirmation = this.getComponent(
+            `deleteAllRecycleConfirmation_hf_${this.input.id}`,
+        );
+        deleteConfirmation
+            .setActive(true)
+            .setCloseAllowed(true)
+            .setLoading(false);
     }
 }

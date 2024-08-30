@@ -26,29 +26,58 @@ const BinUtils = require("#lib/binUtils.js");
     binUtils.printLogo();
     try {
         if (!fs.existsSync(path.resolve(__dirname, "../../site"))) {
-            throw new Error(`Fatal: "site" directory is missing. Please run "npm run configure" to set up the defaults.`)
+            throw new Error(
+                `Fatal: "site" directory is missing. Please run "npm run configure" to set up the defaults.`,
+            );
         }
         const startTime = new Date().getTime();
-        binUtils.log(`Building Heretic in ${options.dev ? "development" : "production"} mode${options.dev ? "" : " (may take a long time!)"}...`);
-        const data = await binUtils.executeCommand(`npm${os.platform() === "win32" ? ".cmd" : ""} run build-${options.dev ? "dev" : "production"} -- --no-color`);
-        const buildResultMatch = data && data.exitCode === 0 ? data.stdout.match(/compiled successfully/gm) : [];
-        const isSuccess = buildResultMatch && Array.isArray(buildResultMatch) && buildResultMatch.length === 2;
-        binUtils.log(isSuccess ? "Build successful." : `Error while building Heretic.`, {
-            success: isSuccess,
-            error: !isSuccess,
-        });
+        binUtils.log(
+            `Building Heretic in ${options.dev ? "development" : "production"} mode${options.dev ? "" : " (may take a long time!)"}...`,
+        );
+        const data = await binUtils.executeCommand(
+            `npm${os.platform() === "win32" ? ".cmd" : ""} run build-${options.dev ? "dev" : "production"} -- --no-color`,
+        );
+        const buildResultMatch =
+            data && data.exitCode === 0
+                ? data.stdout.match(/compiled successfully/gm)
+                : [];
+        const isSuccess =
+            buildResultMatch &&
+            Array.isArray(buildResultMatch) &&
+            buildResultMatch.length === 2;
+        binUtils.log(
+            isSuccess ? "Build successful." : `Error while building Heretic.`,
+            {
+                success: isSuccess,
+                error: !isSuccess,
+            },
+        );
         if (isSuccess) {
             binUtils.log("Cleaning up...");
-            await fs.emptyDir(path.join(__dirname, "../../dist/public/heretic"));
+            await fs.emptyDir(
+                path.join(__dirname, "../../dist/public/heretic"),
+            );
             await fs.emptyDir(path.join(__dirname, "../../dist/data"));
             await fs.remove(path.join(__dirname, "../../dist/server.js"));
             binUtils.log("Replacing files and directories...");
-            await fs.copy(path.join(__dirname, "../../dist.new/public/heretic"), path.join(__dirname, "../../dist/public/heretic"));
-            await fs.copy(path.join(__dirname, "../../dist.new/data"), path.join(__dirname, "../../dist/data"));
+            await fs.copy(
+                path.join(__dirname, "../../dist.new/public/heretic"),
+                path.join(__dirname, "../../dist/public/heretic"),
+            );
+            await fs.copy(
+                path.join(__dirname, "../../dist.new/data"),
+                path.join(__dirname, "../../dist/data"),
+            );
             await fs.remove(path.join(__dirname, "../../dist/server.js"));
-            await fs.copy(path.join(__dirname, "../../dist.new/server.js"), path.join(__dirname, "../../dist/server.js"));
+            await fs.copy(
+                path.join(__dirname, "../../dist.new/server.js"),
+                path.join(__dirname, "../../dist/server.js"),
+            );
             await fs.remove(path.join(__dirname, "../../dist.new"));
-            const buildTime = parseInt((new Date().getTime() - startTime) / 1000, 10);
+            const buildTime = parseInt(
+                (new Date().getTime() - startTime) / 1000,
+                10,
+            );
             binUtils.log(`All done. Build time: ${buildTime} second(s).`, {
                 success: true,
             });

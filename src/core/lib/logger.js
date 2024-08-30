@@ -17,7 +17,7 @@ export default class {
                         remoteAddress: request.ip,
                         remotePort: request.socket.remotePort,
                     };
-                }
+                },
             },
         });
     }

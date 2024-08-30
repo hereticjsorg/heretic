@@ -13,11 +13,14 @@ function MatcherStream(patternDesc, matchFn) {
 
     Transform.call(this);
 
-    const p = typeof patternDesc === "object" ? patternDesc.pattern : patternDesc;
+    const p =
+        typeof patternDesc === "object" ? patternDesc.pattern : patternDesc;
 
     this.pattern = Buffer.isBuffer(p) ? p : Buffer.from(p);
     this.requiredLength = this.pattern.length;
-    if (patternDesc.requiredExtraSize) this.requiredLength += patternDesc.requiredExtraSize;
+    if (patternDesc.requiredExtraSize) {
+        this.requiredLength += patternDesc.requiredExtraSize;
+    }
 
     this.data = Buffer.from("");
     this.bytesSoFar = 0;
@@ -29,10 +32,15 @@ util.inherits(MatcherStream, Transform);
 
 MatcherStream.prototype.checkDataChunk = function (ignoreMatchZero) {
     const enoughData = this.data.length >= this.requiredLength; // strict more than ?
-    if (!enoughData) { return; }
+    if (!enoughData) {
+        return;
+    }
 
     const matchIndex = this.data.indexOf(this.pattern, ignoreMatchZero ? 1 : 0);
-    if (matchIndex >= 0 && matchIndex + this.requiredLength > this.data.length) {
+    if (
+        matchIndex >= 0 &&
+        matchIndex + this.requiredLength > this.data.length
+    ) {
         if (matchIndex > 0) {
             var packet = this.data.slice(0, matchIndex);
             this.push(packet);
@@ -60,7 +68,9 @@ MatcherStream.prototype.checkDataChunk = function (ignoreMatchZero) {
         this.bytesSoFar += matchIndex;
     }
 
-    const finished = this.matchFn ? this.matchFn(this.data, this.bytesSoFar) : true;
+    const finished = this.matchFn
+        ? this.matchFn(this.data, this.bytesSoFar)
+        : true;
     if (finished) {
         this.data = Buffer.from("");
         return;

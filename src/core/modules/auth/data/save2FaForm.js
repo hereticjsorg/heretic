@@ -2,29 +2,31 @@ import utils from "#lib/formValidatorUtils";
 
 export default class {
     constructor(t) {
-        this.t = t || (id => id);
+        this.t = t || ((id) => id);
         this.data = {
-            form: [{
-                fields: [
-                    {
-                        id: "code",
-                        type: "text",
-                        validation: {
-                            type: ["string"],
-                            maxLength: 6,
-                            pattern: "[0-9]{6}",
+            form: [
+                {
+                    fields: [
+                        {
+                            id: "code",
+                            type: "text",
+                            validation: {
+                                type: ["string"],
+                                maxLength: 6,
+                                pattern: "[0-9]{6}",
+                            },
                         },
-                    },
-                    {
-                        id: "secret",
-                        type: "text",
-                        validation: {
-                            type: ["string"],
-                            maxLength: 32,
+                        {
+                            id: "secret",
+                            type: "text",
+                            validation: {
+                                type: ["string"],
+                                maxLength: 32,
+                            },
                         },
-                    },
-                ],
-            }],
+                    ],
+                },
+            ],
         };
         this.validationData = utils.getValidationData(this.data.form);
         this.validationRequired = ["code", "secret"];

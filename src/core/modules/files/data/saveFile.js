@@ -2,32 +2,35 @@ import utils from "#lib/formValidatorUtils";
 
 export default class {
     constructor(t) {
-        this.t = t || (id => id);
+        this.t = t || ((id) => id);
         this.data = {
-            form: [{
-                fields: [{
-                        id: "dir",
-                        type: "text",
-                        validation: {
-                            type: ["string"],
+            form: [
+                {
+                    fields: [
+                        {
+                            id: "dir",
+                            type: "text",
+                            validation: {
+                                type: ["string"],
+                            },
                         },
-                    },
-                    {
-                        id: "filename",
-                        type: "text",
-                        validation: {
-                            type: ["string"],
+                        {
+                            id: "filename",
+                            type: "text",
+                            validation: {
+                                type: ["string"],
+                            },
                         },
-                    },
-                    {
-                        id: "content",
-                        type: "text",
-                        validation: {
-                            type: ["string"],
+                        {
+                            id: "content",
+                            type: "text",
+                            validation: {
+                                type: ["string"],
+                            },
                         },
-                    },
-                ],
-            }],
+                    ],
+                },
+            ],
         };
         this.validationData = utils.getValidationData(this.data.form);
         this.validationRequired = ["dir", "filename", "content"];

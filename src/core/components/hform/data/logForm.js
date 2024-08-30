@@ -2,55 +2,62 @@ import utils from "#lib/formValidatorUtils";
 
 export default class {
     constructor(t) {
-        this.t = t || (id => id);
+        this.t = t || ((id) => id);
         this.data = {
-            form: [{
-                fields: [
-                    [{
-                        id: "logValue",
-                        type: "text",
-                        label: this.t("hform_logValue"),
-                        validation: {
-                            type: ["string", "null"],
+            form: [
+                {
+                    fields: [
+                        [
+                            {
+                                id: "logValue",
+                                type: "text",
+                                label: this.t("hform_logValue"),
+                                validation: {
+                                    type: ["string", "null"],
+                                },
+                                autoFocus: true,
+                            },
+                            {
+                                id: "logDate",
+                                type: "date",
+                                label: this.t("hform_logDate"),
+                                validation: {
+                                    type: ["integer", "null"],
+                                },
+                                convert: "integer",
+                                calendarWrapClass: "hr-hf-calendar-wrap-right",
+                                css: "hr-hf-field-date",
+                            },
+                        ],
+                        {
+                            id: "logStatus",
+                            type: "select",
+                            label: this.t("hform_logStatus"),
+                            mandatory: false,
+                            validation: {
+                                type: ["string", "null"],
+                                enum: [null, ""],
+                            },
+                            options: [
+                                {
+                                    value: "",
+                                    label: "—",
+                                },
+                            ],
+                            defaultValue: "",
                         },
-                        autoFocus: true,
-                    }, {
-                        id: "logDate",
-                        type: "date",
-                        label: this.t("hform_logDate"),
-                        validation: {
-                            type: ["integer", "null"]
+                        {
+                            id: "logComments",
+                            type: "textarea",
+                            validation: {
+                                type: ["string", "null"],
+                            },
+                            elementStyle: "hr-hf-textarea-log",
+                            label: this.t("hform_logComments"),
                         },
-                        convert: "integer",
-                        calendarWrapClass: "hr-hf-calendar-wrap-right",
-                        css: "hr-hf-field-date",
-                    }],
-                    {
-                        id: "logStatus",
-                        type: "select",
-                        label: this.t("hform_logStatus"),
-                        mandatory: false,
-                        validation: {
-                            type: ["string", "null"],
-                            enum: [null, ""],
-                        },
-                        options: [{
-                            value: "",
-                            label: "—"
-                        }],
-                        defaultValue: "",
-                    },
-                    {
-                        id: "logComments",
-                        type: "textarea",
-                        validation: {
-                            type: ["string", "null"],
-                        },
-                        elementStyle: "hr-hf-textarea-log",
-                        label: this.t("hform_logComments"),
-                    }
-                ],
-            }],
+                    ],
+                },
+            ],
         };
         this.validationData = utils.getValidationData(this.data.form);
         this.modeChangeAllowed = false;
@@ -91,8 +98,8 @@ export default class {
 
     processTableCell(id, row) {
         switch (id) {
-        default:
-            return row[id];
+            default:
+                return row[id];
         }
     }
 
@@ -101,10 +108,12 @@ export default class {
     }
 
     getTabs() {
-        return [{
-            id: "_default",
-            label: "",
-        }];
+        return [
+            {
+                id: "_default",
+                label: "",
+            },
+        ];
     }
 
     getTabsStart() {

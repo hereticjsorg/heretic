@@ -34,9 +34,9 @@ $red: hsl(348, 100%, 70%) !default;
 // Typography
 
 $family-sans-serif: "Inter", "SF Pro", "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
-  "Helvetica Neue", "Helvetica", "Arial", sans-serif !default;
+    "Helvetica Neue", "Helvetica", "Arial", sans-serif !default;
 $family-monospace: "Inconsolata", "Hack", "SF Mono", "Roboto Mono",
-  "Source Code Pro", "Ubuntu Mono", monospace !default;
+    "Source Code Pro", "Ubuntu Mono", monospace !default;
 $render-mode: optimizeLegibility !default;
 
 $size-1: 3rem !default;
@@ -58,21 +58,21 @@ $weight-extrabold: 800 !default;
 
 $block-spacing: 1.5rem !default;
 $aspect-ratios: (
-  (1, 1),
-  (5, 4),
-  (4, 3),
-  (3, 2),
-  (5, 3),
-  (16, 9),
-  (2, 1),
-  (3, 1),
-  (4, 5),
-  (3, 4),
-  (2, 3),
-  (3, 5),
-  (9, 16),
-  (1, 2),
-  (1, 3)
+    (1, 1),
+    (5, 4),
+    (4, 3),
+    (3, 2),
+    (5, 3),
+    (16, 9),
+    (2, 1),
+    (3, 1),
+    (4, 5),
+    (3, 4),
+    (2, 3),
+    (3, 5),
+    (9, 16),
+    (1, 2),
+    (1, 3)
 ) !default;
 
 // Responsiveness
@@ -94,42 +94,42 @@ $widescreen-enabled: true !default;
 $fullhd: 1344px + 2 * $gap !default;
 $fullhd-enabled: true !default;
 $breakpoints: (
-  "mobile": (
-    "until": $tablet,
-  ),
-  "tablet": (
-    "from": $tablet,
-  ),
-  "tablet-only": (
-    "from": $tablet,
-    "until": $desktop,
-  ),
-  "touch": (
-    "from": $desktop,
-  ),
-  "desktop": (
-    "from": $desktop,
-  ),
-  "desktop-only": (
-    "from": $desktop,
-    "until": $widescreen,
-  ),
-  "until-widescreen": (
-    "until": $widescreen,
-  ),
-  "widescreen": (
-    "from": $widescreen,
-  ),
-  "widescreen-only": (
-    "from": $widescreen,
-    "until": $fullhd,
-  ),
-  "until-fullhd": (
-    "until": $fullhd,
-  ),
-  "fullhd": (
-    "from": $fullhd,
-  ),
+    "mobile": (
+        "until": $tablet,
+    ),
+    "tablet": (
+        "from": $tablet,
+    ),
+    "tablet-only": (
+        "from": $tablet,
+        "until": $desktop,
+    ),
+    "touch": (
+        "from": $desktop,
+    ),
+    "desktop": (
+        "from": $desktop,
+    ),
+    "desktop-only": (
+        "from": $desktop,
+        "until": $widescreen,
+    ),
+    "until-widescreen": (
+        "until": $widescreen,
+    ),
+    "widescreen": (
+        "from": $widescreen,
+    ),
+    "widescreen-only": (
+        "from": $widescreen,
+        "until": $fullhd,
+    ),
+    "until-fullhd": (
+        "until": $fullhd,
+    ),
+    "fullhd": (
+        "from": $fullhd,
+    ),
 ) !default;
 
 // Miscellaneous

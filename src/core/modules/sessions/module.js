@@ -10,7 +10,7 @@ module.exports = {
             sessions: {
                 path: "/sessions",
             },
-        }
+        },
     },
     collections: {
         sessions: siteConfig.collections.sessions,

@@ -7,7 +7,7 @@ import apiDataExport from "./apiDataExport";
 import apiLockCheck from "./apiLockCheck.js";
 import apiLockList from "./apiLockList.js";
 
-export default fastify => {
+export default (fastify) => {
     if (fastify.systemConfig.auth.admin) {
         fastify.post(`/api/${moduleConfig.id}/list`, apiTableList());
         fastify.post(`/api/${moduleConfig.id}/load`, apiDataLoad());

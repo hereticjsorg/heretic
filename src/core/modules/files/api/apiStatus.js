@@ -1,6 +1,4 @@
-import {
-    ObjectId,
-} from "mongodb";
+import { ObjectId } from "mongodb";
 import moduleConfig from "../module.js";
 
 export default () => ({
@@ -19,9 +17,7 @@ export default () => ({
                     message: e.message,
                 });
             }
-            const {
-                id,
-            } = multipartData.fields;
+            const { id } = multipartData.fields;
             const query = {
                 userId: authData._id,
                 module: moduleConfig.id,
@@ -32,17 +28,21 @@ export default () => ({
             if (!query._id) {
                 query.status = "processing";
             }
-            const jobData = (await this.mongo.db.collection(this.systemConfig.collections.jobs).findOne(query));
+            const jobData = await this.mongo.db
+                .collection(this.systemConfig.collections.jobs)
+                .findOne(query);
             if (jobData) {
                 jobData.id = String(jobData._id);
                 delete jobData._id;
             }
-            return rep.code(200).send(jobData || {
-                status: "cancelled",
-            });
+            return rep.code(200).send(
+                jobData || {
+                    status: "cancelled",
+                },
+            );
         } catch (e) {
             this.log.error(e);
             return Promise.reject(e);
         }
-    }
+    },
 });

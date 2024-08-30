@@ -1,5 +1,5 @@
 import apiPolicy from "./apiPolicy";
 
-export default fastify => {
+export default (fastify) => {
     fastify.post("/api/privacy/policy", apiPolicy());
 };

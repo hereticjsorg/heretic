@@ -4,15 +4,7 @@
     "global.timeFormatShort": "HH:mm",
     "global.langCode": "de-de",
     "global.weekStart": "1",
-    "global.weekDays": [
-        "Mo",
-        "Di",
-        "Mi",
-        "Do",
-        "Fr",
-        "Sa",
-        "So"
-    ],
+    "global.weekDays": ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"],
     "global.monthsFull": [
         "Januar",
         "Februar",

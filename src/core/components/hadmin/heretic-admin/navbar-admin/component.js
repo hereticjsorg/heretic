@@ -13,22 +13,43 @@ export default class {
         };
         this.siteId = out.global.siteId;
         this.state = state;
-        await import(/* webpackChunkName: "navbar-admin" */ "./navbar-admin.scss");
+        await import(
+            /* webpackChunkName: "navbar-admin" */ "./navbar-admin.scss"
+        );
         this.utils = new Utils();
     }
 
     onMount() {
-        window.addEventListener("click", e => {
-            if (document.getElementById("hr_navbar_language") && !document.getElementById("hr_navbar_language").contains(e.target)) {
+        window.addEventListener("click", (e) => {
+            if (
+                document.getElementById("hr_navbar_language") &&
+                !document
+                    .getElementById("hr_navbar_language")
+                    .contains(e.target)
+            ) {
                 this.setState("langOpen", false);
             }
-            if (document.getElementById("hr_navbar_auth") && !document.getElementById("hr_navbar_auth").contains(e.target)) {
+            if (
+                document.getElementById("hr_navbar_auth") &&
+                !document.getElementById("hr_navbar_auth").contains(e.target)
+            ) {
                 this.setState("authOpen", false);
             }
-            if (document.getElementById("hr_navbar_burger") && !document.getElementById("hr_navbar_burger").contains(e.target)) {
+            if (
+                document.getElementById("hr_navbar_burger") &&
+                !document.getElementById("hr_navbar_burger").contains(e.target)
+            ) {
                 this.setState("navOpen", false);
             }
-            if (this.state.navItemOpen && document.getElementById(`hr_navbar_item_${this.state.navItemOpen}`) && !document.getElementById(`hr_navbar_item_${this.state.navItemOpen}`).contains(e.target)) {
+            if (
+                this.state.navItemOpen &&
+                document.getElementById(
+                    `hr_navbar_item_${this.state.navItemOpen}`,
+                ) &&
+                !document
+                    .getElementById(`hr_navbar_item_${this.state.navItemOpen}`)
+                    .contains(e.target)
+            ) {
                 this.setState("navItemOpen", "");
             }
         });
@@ -39,7 +60,16 @@ export default class {
     }
 
     setRoute(name) {
-        this.setState("route", name || (window && window.__heretic && window.__heretic.router && window.__heretic.router.getRoute ? window.__heretic.router.getRoute().id : null));
+        this.setState(
+            "route",
+            name ||
+                (window &&
+                window.__heretic &&
+                window.__heretic.router &&
+                window.__heretic.router.getRoute
+                    ? window.__heretic.router.getRoute().id
+                    : null),
+        );
     }
 
     onLanguageClick(e) {
@@ -74,8 +104,12 @@ export default class {
         this.store.set("darkMode", darkMode);
         this.setState("darkMode", darkMode);
         this.emit("dark-mode", darkMode);
-        document.documentElement.classList[darkMode ? "add" : "remove"]("theme-dark");
-        document.documentElement.classList[!darkMode ? "add" : "remove"]("theme-light");
+        document.documentElement.classList[darkMode ? "add" : "remove"](
+            "theme-dark",
+        );
+        document.documentElement.classList[!darkMode ? "add" : "remove"](
+            "theme-light",
+        );
         this.utils.setDarkTheme(darkMode);
     }
 }

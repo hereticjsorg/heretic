@@ -11,8 +11,11 @@ export default class {
     }
 
     onMount() {
-        window.addEventListener("click", e => {
-            if (document.getElementById("hr_navbar_auth") && !document.getElementById("hr_navbar_auth").contains(e.target)) {
+        window.addEventListener("click", (e) => {
+            if (
+                document.getElementById("hr_navbar_auth") &&
+                !document.getElementById("hr_navbar_auth").contains(e.target)
+            ) {
                 this.setState("authOpen", false);
             }
         });

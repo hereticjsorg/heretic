@@ -6,7 +6,7 @@ import apiContentDataLoad from "./apiContentDataLoad";
 import apiContentDataDelete from "./apiContentDataDelete";
 import apiContent from "./apiContent";
 
-export default fastify => {
+export default (fastify) => {
     if (fastify.systemConfig.auth.admin) {
         fastify.post(`/api/content/list`, apiContentTableList());
         fastify.post(`/api/content/save`, apiContentDataSave());

@@ -1,7 +1,5 @@
 import Element from "./element";
-import {
-    styles
-} from "../config/default";
+import { styles } from "../config/default";
 import Context from "../objects/context";
 
 /**

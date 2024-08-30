@@ -36,15 +36,27 @@ export default class {
         this.demo = out.global.demo;
         if (process.browser) {
             window.__heretic = window.__heretic || {};
-            window.__heretic.outGlobal = window.__heretic.outGlobal || out.global;
-            this.authOptions = this.authOptions || window.__heretic.outGlobal.authOptions;
-            this.mongoEnabled = this.mongoEnabled || window.__heretic.outGlobal.mongoEnabled;
-            this.language = this.language || window.__heretic.outGlobal.language;
-            this.siteTitle = out.global.siteTitle || window.__heretic.outGlobal.siteTitle;
-            this.siteId = out.global.siteId || window.__heretic.outGlobal.siteId;
-            this.cookieOptions = out.global.cookieOptions || window.__heretic.outGlobal.cookieOptions;
-            this.systemRoutes = out.global.systemRoutes || window.__heretic.outGlobal.systemRoutes;
-            this.passwordPolicy = out.global.passwordPolicy || window.__heretic.outGlobal.passwordPolicy;
+            window.__heretic.outGlobal =
+                window.__heretic.outGlobal || out.global;
+            this.authOptions =
+                this.authOptions || window.__heretic.outGlobal.authOptions;
+            this.mongoEnabled =
+                this.mongoEnabled || window.__heretic.outGlobal.mongoEnabled;
+            this.language =
+                this.language || window.__heretic.outGlobal.language;
+            this.siteTitle =
+                out.global.siteTitle || window.__heretic.outGlobal.siteTitle;
+            this.siteId =
+                out.global.siteId || window.__heretic.outGlobal.siteId;
+            this.cookieOptions =
+                out.global.cookieOptions ||
+                window.__heretic.outGlobal.cookieOptions;
+            this.systemRoutes =
+                out.global.systemRoutes ||
+                window.__heretic.outGlobal.systemRoutes;
+            this.passwordPolicy =
+                out.global.passwordPolicy ||
+                window.__heretic.outGlobal.passwordPolicy;
             this.demo = out.global.demo || window.__heretic.outGlobal.demo;
             document.title = `${pageConfig.title[this.language]} – ${this.siteTitle}`;
         }
@@ -66,13 +78,15 @@ export default class {
         this.query = new Query();
         this.currentToken = this.cookies.get(`${this.siteId}.authToken`);
         if (!this.currentToken) {
-            setTimeout(() => window.location.href = `${this.getLocalizedURL(this.systemRoutes.signIn)}?r=${this.getLocalizedURL(moduleConfig.routes.userspace.account.path)}`, 100);
+            setTimeout(
+                () =>
+                    (window.location.href = `${this.getLocalizedURL(this.systemRoutes.signIn)}?r=${this.getLocalizedURL(moduleConfig.routes.userspace.account.path)}`),
+                100,
+            );
             return;
         }
         try {
-            const {
-                data,
-            } = await axios({
+            const { data } = await axios({
                 method: "get",
                 url: moduleConfig.api.getData,
                 data: {},
@@ -100,7 +114,9 @@ export default class {
         setTimeout(() => profileForm.focus());
         if (this.profilePicturePath) {
             this.setState("profilePictureLoaded", true);
-            document.getElementById("profilePictureWrap").style.backgroundImage = `url(${this.profilePicturePath})`;
+            document.getElementById(
+                "profilePictureWrap",
+            ).style.backgroundImage = `url(${this.profilePicturePath})`;
         }
     }
 
@@ -111,12 +127,15 @@ export default class {
         profileForm.setErrorMessage(false);
         const validationResult = profileForm.validate(profileForm.saveView());
         if (validationResult) {
-            return profileForm.setErrors(profileForm.getErrorData(validationResult));
+            return profileForm.setErrors(
+                profileForm.getErrorData(validationResult),
+            );
         }
         profileForm.setLoading(true);
         const formData = profileForm.serializeData();
         if (this.state.profilePicture) {
-            formData.formTabs._default.profilePicture = this.state.profilePicture;
+            formData.formTabs._default.profilePicture =
+                this.state.profilePicture;
         }
         if (this.clearAvatarFlag) {
             formData.formTabs._default.profilePicture = "clear";
@@ -132,10 +151,15 @@ export default class {
             });
             this.clearAvatarFlag = false;
             this.setState("profilePictureChanged", false);
-            this.getComponent("notify").show(this.t("saveSuccess"), "is-success");
+            this.getComponent("notify").show(
+                this.t("saveSuccess"),
+                "is-success",
+            );
         } catch (e) {
             if (e && e.response && e.response.data && e.response.data.form) {
-                profileForm.setErrors(profileForm.getErrorData(e.response.data.form));
+                profileForm.setErrors(
+                    profileForm.getErrorData(e.response.data.form),
+                );
             } else {
                 profileForm.setErrorMessage(this.t("couldNotSaveData"));
             }
@@ -151,7 +175,9 @@ export default class {
         passwordForm.setErrorMessage(false);
         const validationResult = passwordForm.validate(passwordForm.saveView());
         if (validationResult) {
-            return passwordForm.setErrors(passwordForm.getErrorData(validationResult));
+            return passwordForm.setErrors(
+                passwordForm.getErrorData(validationResult),
+            );
         }
         passwordForm.setLoading(true);
         const formData = passwordForm.serializeData();
@@ -164,15 +190,26 @@ export default class {
                     Authorization: `Bearer ${this.currentToken}`,
                 },
             });
-            this.getComponent("notify").show(this.t("saveSuccess"), "is-success");
+            this.getComponent("notify").show(
+                this.t("saveSuccess"),
+                "is-success",
+            );
             this.cookies.delete(`${this.siteId}.authToken`);
-            setTimeout(() => window.location.href = `${this.getLocalizedURL(this.systemRoutes.signIn)}?r=${this.getLocalizedURL(moduleConfig.routes.userspace.account.path)}`, 100);
+            setTimeout(
+                () =>
+                    (window.location.href = `${this.getLocalizedURL(this.systemRoutes.signIn)}?r=${this.getLocalizedURL(moduleConfig.routes.userspace.account.path)}`),
+                100,
+            );
         } catch (e) {
             passwordForm.setLoading(false);
             if (e && e.response && e.response.data && e.response.data.form) {
-                passwordForm.setErrors(passwordForm.getErrorData(e.response.data.form));
+                passwordForm.setErrors(
+                    passwordForm.getErrorData(e.response.data.form),
+                );
                 if (e.response.data.policyErrors) {
-                    passwordForm.setErrorMessage(`${this.t("passwordPolicyViolation")}: ${e.response.data.policyErrors.map(i => this.t(i)).join(", ")}`);
+                    passwordForm.setErrorMessage(
+                        `${this.t("passwordPolicyViolation")}: ${e.response.data.policyErrors.map((i) => this.t(i)).join(", ")}`,
+                    );
                 }
             } else {
                 passwordForm.setErrorMessage(this.t("couldNotSaveData"));
@@ -187,7 +224,9 @@ export default class {
         emailForm.setErrorMessage(false);
         const validationResult = emailForm.validate(emailForm.saveView());
         if (validationResult) {
-            return emailForm.setErrors(emailForm.getErrorData(validationResult));
+            return emailForm.setErrors(
+                emailForm.getErrorData(validationResult),
+            );
         }
         emailForm.setLoading(true);
         const formData = emailForm.serializeData();
@@ -203,10 +242,15 @@ export default class {
                     Authorization: `Bearer ${this.currentToken}`,
                 },
             });
-            this.getComponent("changeEmailModal").setActive(true).setCloseAllowed(true).setLoading(false);
+            this.getComponent("changeEmailModal")
+                .setActive(true)
+                .setCloseAllowed(true)
+                .setLoading(false);
         } catch (e) {
             if (e && e.response && e.response.data && e.response.data.form) {
-                emailForm.setErrors(emailForm.getErrorData(e.response.data.form));
+                emailForm.setErrors(
+                    emailForm.getErrorData(e.response.data.form),
+                );
             } else {
                 emailForm.setErrorMessage(this.t("couldNotSaveData"));
             }
@@ -217,9 +261,7 @@ export default class {
 
     async onAccountTabsClick(e) {
         e.preventDefault();
-        const {
-            id,
-        } = e.target.closest("[data-id]").dataset;
+        const { id } = e.target.closest("[data-id]").dataset;
         this.setState("currentAccountTab", id);
         if (id !== "2fa") {
             await this.utils.waitForComponent(`${id}Form`);
@@ -231,14 +273,15 @@ export default class {
     async setup2FA(e) {
         e.preventDefault();
         await this.utils.waitForComponent("setup2faModal");
-        this.getComponent("setup2faModal").setActive(true).setCloseAllowed(false).setLoading(true);
+        this.getComponent("setup2faModal")
+            .setActive(true)
+            .setCloseAllowed(false)
+            .setLoading(true);
         await this.utils.waitForElement("heretic_2fa_image_wrap");
         this.setState("qrCode", "");
         this.setState("secret", "");
         try {
-            const {
-                data,
-            } = await axios({
+            const { data } = await axios({
                 method: "get",
                 url: moduleConfig.api.getData2FA,
                 data: {},
@@ -246,7 +289,9 @@ export default class {
                     Authorization: `Bearer ${this.currentToken}`,
                 },
             });
-            this.getComponent("setup2faModal").setCloseAllowed(true).setLoading(false);
+            this.getComponent("setup2faModal")
+                .setCloseAllowed(true)
+                .setLoading(false);
             const svgData = await qrcode.toString(data.url, {
                 type: "svg",
                 margin: 0,
@@ -256,7 +301,10 @@ export default class {
             this.setState("secret", data.secret);
         } catch (err) {
             this.getComponent("setup2faModal").setActive(false);
-            this.getComponent("notify").show(this.t("setup2faError"), "is-danger");
+            this.getComponent("notify").show(
+                this.t("setup2faError"),
+                "is-danger",
+            );
         }
     }
 
@@ -270,15 +318,13 @@ export default class {
             return otpForm.setErrors(otpForm.getErrorData(validationResult));
         }
         const formData = otpForm.serializeData();
-        const {
-            code,
-        } = formData.formTabs._default;
+        const { code } = formData.formTabs._default;
         await this.utils.waitForComponent("setup2faModal");
-        this.getComponent("setup2faModal").setCloseAllowed(false).setLoading(true);
+        this.getComponent("setup2faModal")
+            .setCloseAllowed(false)
+            .setLoading(true);
         try {
-            const {
-                data,
-            } = await axios({
+            const { data } = await axios({
                 method: "post",
                 url: moduleConfig.api.setData2FA,
                 data: {
@@ -289,39 +335,54 @@ export default class {
                     Authorization: `Bearer ${this.currentToken}`,
                 },
             });
-            this.getComponent("notify").show(this.t("setup2faSuccess"), "is-success");
+            this.getComponent("notify").show(
+                this.t("setup2faSuccess"),
+                "is-success",
+            );
             this.getComponent("setup2faModal").setActive(false);
             this.setState("tfaConfigured", true);
             this.setState("recoveryCode", data.recoveryCode);
             await this.utils.waitForComponent("recoveryCodeModal");
-            this.getComponent("recoveryCodeModal").setActive(true).setCloseAllowed(true).setLoading(false);
+            this.getComponent("recoveryCodeModal")
+                .setActive(true)
+                .setCloseAllowed(true)
+                .setLoading(false);
         } catch (err) {
             let errorMessage = "setup2faError";
-            if (err && err.response && err.response.data && err.response.data.reason) {
+            if (
+                err &&
+                err.response &&
+                err.response.data &&
+                err.response.data.reason
+            ) {
                 switch (err.response.data.reason) {
-                case 1:
-                    errorMessage = "setup2faErrorAlreadySet";
-                    break;
-                case 2:
-                    otpForm.setErrors([{
-                        id: "code",
-                        tab: "_default",
-                    }]);
-                    otpForm.clearValues();
-                    errorMessage = "setup2faErrorInvalidCode";
-                    break;
+                    case 1:
+                        errorMessage = "setup2faErrorAlreadySet";
+                        break;
+                    case 2:
+                        otpForm.setErrors([
+                            {
+                                id: "code",
+                                tab: "_default",
+                            },
+                        ]);
+                        otpForm.clearValues();
+                        errorMessage = "setup2faErrorInvalidCode";
+                        break;
                 }
             }
             this.getComponent("notify").show(this.t(errorMessage), "is-danger");
-            this.getComponent("setup2faModal").setCloseAllowed(true).setLoading(false);
+            this.getComponent("setup2faModal")
+                .setCloseAllowed(true)
+                .setLoading(false);
         }
     }
 
     onSetup2FAButtonClick(id) {
         switch (id) {
-        case "save":
-            this.onOtpFormSubmit();
-            break;
+            case "save":
+                this.onOtpFormSubmit();
+                break;
         }
     }
 
@@ -349,18 +410,26 @@ export default class {
                 },
             });
             tfaModal.setCloseAllowed(true).setLoading(false).setActive(false);
-            this.getComponent("notify").show(this.t("remove2faSuccess"), "is-success");
+            this.getComponent("notify").show(
+                this.t("remove2faSuccess"),
+                "is-success",
+            );
             this.setState("tfaConfigured", false);
         } catch (err) {
             let errorMessage = "setup2faError";
-            if (err && err.response && err.response.data && err.response.data.reason) {
+            if (
+                err &&
+                err.response &&
+                err.response.data &&
+                err.response.data.reason
+            ) {
                 switch (err.response.data.reason) {
-                case 1:
-                    errorMessage = "setup2faErrorUnset";
-                    break;
-                case 2:
-                    errorMessage = "setup2faErrorInvalidCode";
-                    break;
+                    case 1:
+                        errorMessage = "setup2faErrorUnset";
+                        break;
+                    case 2:
+                        errorMessage = "setup2faErrorInvalidCode";
+                        break;
                 }
             }
             this.getComponent("notify").show(this.t(errorMessage), "is-danger");
@@ -372,20 +441,24 @@ export default class {
         await this.utils.waitForComponent("tfaModal");
         const tfaModal = await this.getComponent("tfaModal").getModalInstance();
         tfaModal.setCloseAllowed(true).setLoading(false).setActive(false);
-        this.getComponent("notify").show(this.t("remove2faSuccess"), "is-success");
+        this.getComponent("notify").show(
+            this.t("remove2faSuccess"),
+            "is-success",
+        );
         this.setState("tfaConfigured", false);
     }
 
     async onSecretCopyClick(e) {
         e.preventDefault();
         try {
-            const {
-                secret,
-            } = e.target.closest("[data-secret]").dataset;
+            const { secret } = e.target.closest("[data-secret]").dataset;
             await navigator.clipboard.writeText(secret);
             this.getComponent("notify").show(this.t("copied"), "is-success");
         } catch {
-            this.getComponent("notify").show(this.t("couldNotCopy"), "is-danger");
+            this.getComponent("notify").show(
+                this.t("couldNotCopy"),
+                "is-danger",
+            );
         }
     }
 
@@ -397,7 +470,8 @@ export default class {
 
     async onProfilePictureImageData(data) {
         await this.utils.waitForComponent("accountProfilePictureEditor");
-        document.getElementById("profilePictureWrap").style.backgroundImage = `url(${data})`;
+        document.getElementById("profilePictureWrap").style.backgroundImage =
+            `url(${data})`;
         this.clearAvatarFlag = false;
         this.setState("profilePictureLoaded", true);
         this.setState("profilePictureChanged", true);
@@ -411,7 +485,8 @@ export default class {
         this.setState("profilePictureLoaded", false);
         this.setState("profilePicture", null);
         this.setState("profilePictureChanged", true);
-        document.getElementById("profilePictureWrap").style.backgroundImage = "unset";
+        document.getElementById("profilePictureWrap").style.backgroundImage =
+            "unset";
     }
 
     onProfilePictureChangeNoticeClick(e) {

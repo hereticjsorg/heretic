@@ -1,16 +1,23 @@
-import {
-    ObjectId,
-} from "mongodb";
+import { ObjectId } from "mongodb";
 import moduleConfig from "../module.js";
 
 export default () => ({
     async handler(req, rep) {
         try {
             const authData = await req.auth.getData(req.auth.methods.HEADERS);
-            if (!authData || !authData.groupData || !authData.groupData.find(i => i.id === "admin" && i.value === true)) {
-                return rep.error({
-                    message: "Access Denied",
-                }, 403);
+            if (
+                !authData ||
+                !authData.groupData ||
+                !authData.groupData.find(
+                    (i) => i.id === "admin" && i.value === true,
+                )
+            ) {
+                return rep.error(
+                    {
+                        message: "Access Denied",
+                    },
+                    403,
+                );
             }
             let multipartData;
             try {
@@ -21,9 +28,7 @@ export default () => ({
                     message: e.message,
                 });
             }
-            const {
-                id,
-            } = multipartData.fields;
+            const { id } = multipartData.fields;
             const query = {
                 userId: authData._id,
                 module: moduleConfig.id,
@@ -34,22 +39,28 @@ export default () => ({
             if (!query._id) {
                 query.status = "processing";
             }
-            const jobData = (await this.mongo.db.collection(this.systemConfig.collections.jobs).findOne(query));
+            const jobData = await this.mongo.db
+                .collection(this.systemConfig.collections.jobs)
+                .findOne(query);
             if (jobData.status === "complete") {
-                await this.mongo.db.collection(this.systemConfig.collections.jobs).deleteOne({
-                    _id: jobData._id,
-                });
+                await this.mongo.db
+                    .collection(this.systemConfig.collections.jobs)
+                    .deleteOne({
+                        _id: jobData._id,
+                    });
             }
             if (jobData) {
                 jobData.id = String(jobData._id);
                 delete jobData._id;
             }
-            return rep.code(200).send(jobData || {
-                status: "cancelled",
-            });
+            return rep.code(200).send(
+                jobData || {
+                    status: "cancelled",
+                },
+            );
         } catch (e) {
             this.log.error(e);
             return Promise.reject(e);
         }
-    }
+    },
 });

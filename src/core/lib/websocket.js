@@ -4,9 +4,7 @@ MIT License
 Copyright (c) 2017 Fastify
 */
 
-const {
-    ServerResponse,
-} = require("http");
+const { ServerResponse } = require("http");
 const fp = require("fastify-plugin");
 const WebSocket = require("ws");
 
@@ -22,9 +20,12 @@ function fastifyWebsocket(fastify, opts, next) {
     fastify.decorateRequest("ws", null);
     let closing = false;
     function noHandle(connection, rawRequest) {
-        this.log.info({
-            path: rawRequest.url,
-        }, "Closing incoming websocket connection for path with no WebSocket handler");
+        this.log.info(
+            {
+                path: rawRequest.url,
+            },
+            "Closing incoming websocket connection for path with no WebSocket handler",
+        );
         connection.socket.close();
     }
     function defaultErrorHandler(error, conn, request) {
@@ -44,14 +45,20 @@ function fastifyWebsocket(fastify, opts, next) {
         errorHandler = opts.errorHandler;
     }
     if (opts.options && opts.options.noServer) {
-        return next(new Error("fastify-websocket doesn't support the ws noServer option. If you want to create a websocket server detatched from fastify, use the ws library directly."));
+        return next(
+            new Error(
+                "fastify-websocket doesn't support the ws noServer option. If you want to create a websocket server detatched from fastify, use the ws library directly.",
+            ),
+        );
     }
     const wssOptions = {
         noServer: true,
-        ...opts.options
+        ...opts.options,
     };
     if (wssOptions.path) {
-        fastify.log.warn("ws server path option shouldn't be provided, use a route instead");
+        fastify.log.warn(
+            "ws server path option shouldn't be provided, use a route instead",
+        );
     }
     // We always handle upgrading ourselves in this library so that we can dispatch through the fastify stack before actually upgrading
     // For this reason, we run the WebSocket.Server in noServer mode, and prevent the user from passing in a http.Server instance for it to attach to.
@@ -61,20 +68,28 @@ function fastifyWebsocket(fastify, opts, next) {
     const wss = new WebSocket.Server(wssOptions);
     fastify.decorate("websocketServer", wss);
     const handleUpgrade = (rawRequest, callback) => {
-        wss.handleUpgrade(rawRequest, rawRequest[kWs], rawRequest[kWsHead], (socket) => {
-            wss.emit("connection", socket, rawRequest);
-            const connection = WebSocket.createWebSocketStream(socket, opts.connectionOptions);
-            connection.socket = socket;
-            connection.on("error", (error) => {
-                fastify.log.error(error);
-            });
-            connection.socket.on("newListener", event => {
-                if (event === "message") {
-                    connection.resume();
-                }
-            });
-            callback(connection);
-        });
+        wss.handleUpgrade(
+            rawRequest,
+            rawRequest[kWs],
+            rawRequest[kWsHead],
+            (socket) => {
+                wss.emit("connection", socket, rawRequest);
+                const connection = WebSocket.createWebSocketStream(
+                    socket,
+                    opts.connectionOptions,
+                );
+                connection.socket = socket;
+                connection.on("error", (error) => {
+                    fastify.log.error(error);
+                });
+                connection.socket.on("newListener", (event) => {
+                    if (event === "message") {
+                        connection.resume();
+                    }
+                });
+                callback(connection);
+            },
+        );
     };
     websocketListenServer.on("upgrade", (rawRequest, socket, head) => {
         // Save a reference to the socket and then dispatch the request through the normal fastify router so that it will invoke hooks and then eventually a route handler that might upgrade the socket.
@@ -91,7 +106,8 @@ function fastifyWebsocket(fastify, opts, next) {
             fastify.routing(rawRequest, rawResponse);
         }
     });
-    fastify.addHook("onRequest", (request, reply, done) => { // this adds req.ws to the Request object
+    fastify.addHook("onRequest", (request, reply, done) => {
+        // this adds req.ws to the Request object
         if (request.raw[kWs]) {
             request.ws = true;
         } else {
@@ -105,20 +121,18 @@ function fastifyWebsocket(fastify, opts, next) {
         }
         done();
     });
-    fastify.addHook("onRoute", routeOptions => {
+    fastify.addHook("onRoute", (routeOptions) => {
         let isWebsocketRoute = false;
-        let {
-            wsHandler,
-        } = routeOptions;
-        let {
-            handler
-        } = routeOptions;
+        let { wsHandler } = routeOptions;
+        let { handler } = routeOptions;
         if (routeOptions.websocket || routeOptions.wsHandler) {
             if (routeOptions.method === "HEAD") {
                 return;
             }
             if (routeOptions.method !== "GET") {
-                throw new Error("websocket handler can only be declared in GET method");
+                throw new Error(
+                    "websocket handler can only be declared in GET method",
+                );
             }
             isWebsocketRoute = true;
             if (routeOptions.websocket) {
@@ -139,7 +153,7 @@ function fastifyWebsocket(fastify, opts, next) {
             // within the route handler, we check if there has been a connection upgrade by looking at request.raw[kWs]. we need to dispatch the normal HTTP handler if not, and hijack to dispatch the websocket handler if so
             if (request.raw[kWs]) {
                 reply.hijack();
-                handleUpgrade(request.raw, connection => {
+                handleUpgrade(request.raw, (connection) => {
                     let result;
                     try {
                         if (isWebsocketRoute) {
@@ -148,11 +162,25 @@ function fastifyWebsocket(fastify, opts, next) {
                             result = noHandle.call(this, connection, request);
                         }
                     } catch (err) {
-                        return errorHandler.call(this, err, connection, request, reply);
+                        return errorHandler.call(
+                            this,
+                            err,
+                            connection,
+                            request,
+                            reply,
+                        );
                     }
 
                     if (result && typeof result.catch === "function") {
-                        result.catch(err => errorHandler.call(this, err, connection, request, reply));
+                        result.catch((err) =>
+                            errorHandler.call(
+                                this,
+                                err,
+                                connection,
+                                request,
+                                reply,
+                            ),
+                        );
                     }
                 });
             } else {

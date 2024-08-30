@@ -5,7 +5,8 @@
 
 .hr-he-export-form-wrap {
     background: $white-ter;
-    box-shadow: 20px 20px 60px #bebebe,
+    box-shadow:
+        20px 20px 60px #bebebe,
         -20px -20px 60px #ffffff;
 }
 
@@ -14,13 +15,12 @@ html.theme-dark .hr-he-export-form-wrap {
     box-shadow: unset !important;
     border-bottom: 1px solid $theme-dark-grey-dark;
 }
-
-.hr-he-settings-body {
+s .hr-he-settings-body {
     margin: 0 !important;
     padding: 0 !important;
 }
 
-.hr-he-settings-body>.tabs>ul>li.is-active {
+.hr-he-settings-body > .tabs > ul > li.is-active {
     background: $white-bis;
 }
 

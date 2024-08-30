@@ -21,7 +21,7 @@
     user-select: none;
 }
 
-.hr-admin-icon>svg>path {
+.hr-admin-icon > svg > path {
     fill: $white-ter !important;
 }
 
@@ -49,7 +49,7 @@
     position: relative;
 }
 
-.hr-navbar-icon-admin svg>path {
+.hr-navbar-icon-admin svg > path {
     fill: $white-ter !important;
 }
 
@@ -57,7 +57,7 @@
     color: $white-ter !important;
 }
 
-.navbar-brand>.navbar-item>.navbar-item:hover {
+.navbar-brand > .navbar-item > .navbar-item:hover {
     background-color: transparent;
 }
 
@@ -81,7 +81,6 @@
 }
 
 @media (min-width: 1024px) {
-
     html.theme-light .hr-navbar-item-admin:hover,
     html.theme-light .hr-navbar-item-admin:focus,
     html.theme-light .hr-navbar-item-admin:active {
@@ -93,5 +92,4 @@
     html.theme-light .hr-navbar-item-admin {
         color: $white-ter !important;
     }
-
 }

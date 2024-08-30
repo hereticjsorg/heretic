@@ -66,8 +66,8 @@ html.theme-dark .hr-hf-tab-active {
     padding-left: 5px;
     padding-right: 5px;
     background: $background !important;
-    font-size: .75em;
-    letter-spacing: .1em;
+    font-size: 0.75em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     color: $grey;
     // border-bottom: 1px solid $grey-lighter;
@@ -118,7 +118,7 @@ html.theme-dark .hr-hf-f-area-label {
     position: relative;
 }
 
-.hr-hf-top-button-icon svg>path {
+.hr-hf-top-button-icon svg > path {
     fill: $grey-darker !important;
 }
 
@@ -129,11 +129,11 @@ html.theme-dark .hr-hf-f-area-label {
     position: relative;
 }
 
-.hr-hf-history-button-icon svg>path {
+.hr-hf-history-button-icon svg > path {
     fill: $grey-darker !important;
 }
 
-.hr-hf-top-button-active-icon svg>path {
+.hr-hf-top-button-active-icon svg > path {
     fill: $white !important;
 }
 
@@ -142,7 +142,7 @@ html.theme-dark .hr-hf-f-area-label {
     background: $white;
 }
 
-.hr-hf-history-pagination-wrap>nav {
+.hr-hf-history-pagination-wrap > nav {
     margin-top: 0 !important;
 }
 
@@ -153,7 +153,7 @@ html.theme-dark .hr-hf-f-area-label {
     border-radius: $radius;
     margin-top: 3px;
     margin-bottom: 3px;
-    font-size: .75rem;
+    font-size: 0.75rem;
     user-select: text;
     box-decoration-break: slice;
 }
@@ -318,7 +318,7 @@ html.theme-dark .hr-hf-view-input {
     user-select: text;
 }
 
-.hr-hf-log-values-table-view>tbody>tr>td {
+.hr-hf-log-values-table-view > tbody > tr > td {
     vertical-align: middle;
 }
 
@@ -327,7 +327,6 @@ html.theme-dark .hr-hf-view-input {
 }
 
 @media (max-width: 769px) {
-
     .hr-hf-field-xxlarge,
     .hr-hf-field-xlarge,
     .hr-hf-field-large,

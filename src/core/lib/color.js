@@ -51,7 +51,10 @@ module.exports = class {
             bgCyanBright: [106, 49],
             bgWhiteBright: [107, 49],
         };
-        this.isColorSupported = process.platform === "win32" || process.argv.includes("--color") || require("tty").isatty(1);
+        this.isColorSupported =
+            process.platform === "win32" ||
+            process.argv.includes("--color") ||
+            require("tty").isatty(1);
     }
 
     get(text, colorTypes) {

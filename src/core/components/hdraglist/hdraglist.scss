@@ -25,7 +25,7 @@ html.theme-dark .hr-hdg-drop-area {
     position: relative;
 }
 
-.hr-hdg-drag-icon svg>path {
+.hr-hdg-drag-icon svg > path {
     fill: $grey !important;
 }
 
@@ -43,4 +43,5 @@ html.theme-dark .hr-hdg-columns-row:hover {
     border-radius: $radius;
 }
 
-@media (max-width: 768px) {}
+@media (max-width: 768px) {
+}

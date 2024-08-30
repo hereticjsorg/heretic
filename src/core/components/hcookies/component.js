@@ -7,9 +7,13 @@ export default class {
             visible: false,
         };
         if (input.admin) {
-            await import( /* webpackChunkName: "hcookies-admin" */ "./style-admin.scss");
+            await import(
+                /* webpackChunkName: "hcookies-admin" */ "./style-admin.scss"
+            );
         } else {
-            await import( /* webpackChunkName: "hcookies-frontend" */ "./style-frontend.scss");
+            await import(
+                /* webpackChunkName: "hcookies-frontend" */ "./style-frontend.scss"
+            );
         }
         this.siteId = out.global.siteId;
         this.cookiesUserCheck = out.global.cookiesUserCheck;
@@ -17,20 +21,35 @@ export default class {
         this.language = out.global.language;
         if (process.browser) {
             window.__heretic = window.__heretic || {};
-            window.__heretic.outGlobal = window.__heretic.outGlobal || out.global || {};
-            this.siteId = out.global.siteId || window.__heretic.outGlobal.siteId;
-            this.cookiesUserCheck = out.global.cookiesUserCheck || window.__heretic.outGlobal.cookiesUserCheck;
-            this.cookieOptions = out.global.cookieOptions || window.__heretic.outGlobal.cookieOptions;
-            this.language = this.language || window.__heretic.outGlobal.language;
+            window.__heretic.outGlobal =
+                window.__heretic.outGlobal || out.global || {};
+            this.siteId =
+                out.global.siteId || window.__heretic.outGlobal.siteId;
+            this.cookiesUserCheck =
+                out.global.cookiesUserCheck ||
+                window.__heretic.outGlobal.cookiesUserCheck;
+            this.cookieOptions =
+                out.global.cookieOptions ||
+                window.__heretic.outGlobal.cookieOptions;
+            this.language =
+                this.language || window.__heretic.outGlobal.language;
             if (!this.cookiesUserCheck) {
                 return;
             }
-            const expires = new Date(new Date().setFullYear(new Date().getFullYear() + 1)).getTime() / 1000;
-            this.cookies = new Cookies({
-                ...this.cookieOptions,
-                expires,
-            }, this.siteId);
-            this.cookiesAllowed = this.cookies.get(`${this.siteId}.cookiesAllowed`);
+            const expires =
+                new Date(
+                    new Date().setFullYear(new Date().getFullYear() + 1),
+                ).getTime() / 1000;
+            this.cookies = new Cookies(
+                {
+                    ...this.cookieOptions,
+                    expires,
+                },
+                this.siteId,
+            );
+            this.cookiesAllowed = this.cookies.get(
+                `${this.siteId}.cookiesAllowed`,
+            );
         }
     }
 

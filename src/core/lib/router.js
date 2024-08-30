@@ -14,14 +14,14 @@ module.exports = class {
     }
 
     getCurrentPath() {
-        const {
-            pathname
-        } = new URL(window.location.href.replace(window.location.search, ""));
+        const { pathname } = new URL(
+            window.location.href.replace(window.location.search, ""),
+        );
         const data = {
             language: this.languages[0],
             id: null,
         };
-        const parts = pathname.split(/\//).filter(i => i);
+        const parts = pathname.split(/\//).filter((i) => i);
         for (const language of this.languages) {
             if (parts[0] === language) {
                 parts.splice(0, 1);
@@ -39,11 +39,8 @@ module.exports = class {
     }
 
     getLocationData() {
-        const {
-            data,
-            path,
-        } = this.getCurrentPath();
-        const route = this.routes.find(r => r.path === path);
+        const { data, path } = this.getCurrentPath();
+        const route = this.routes.find((r) => r.path === path);
         if (route) {
             data.id = route.id;
         }
@@ -71,7 +68,9 @@ module.exports = class {
         this.states.push(firstState);
         this.stateIndex = 1;
         window.addEventListener("popstate", this.handlePopState.bind(this));
-        window.addEventListener("hrrouternavigate", e => this.navigate(e.detail.routeId, e.detail.language, {}, {}, false));
+        window.addEventListener("hrrouternavigate", (e) =>
+            this.navigate(e.detail.routeId, e.detail.language, {}, {}, false),
+        );
     }
 
     buildState(historyState, index) {
@@ -91,11 +90,15 @@ module.exports = class {
         if (!newState.hRouter && Object.keys(newState).length !== 0) {
             return;
         }
-        const action = this.actions.length === 0 ? null : this.actions.splice(0, 1)[0];
+        const action =
+            this.actions.length === 0 ? null : this.actions.splice(0, 1)[0];
         this.stateIndex = newState.index || 1;
         if (action && action.type === "CLEAN_FORWARD_HISTORY") {
             this.stateIndex += 1;
-            this.states.splice(this.stateIndex + 1, this.states.length - (this.stateIndex + 1));
+            this.states.splice(
+                this.stateIndex + 1,
+                this.states.length - (this.stateIndex + 1),
+            );
             window.history.pushState(action.payload, null, null);
             return;
         }
@@ -117,7 +120,11 @@ module.exports = class {
     pushState(state, title, url) {
         this.stateIndex += 1;
         const newState = this.buildState(state, this.stateIndex);
-        this.states.splice(this.stateIndex, this.states.length - this.stateIndex, newState);
+        this.states.splice(
+            this.stateIndex,
+            this.states.length - this.stateIndex,
+            newState,
+        );
         window.history.pushState(newState, title, url);
     }
 
@@ -132,27 +139,30 @@ module.exports = class {
         this.stateIndex += delta;
         this.actions.push({
             type: "GO",
-            payload: null
+            payload: null,
         });
         window.history.go(delta);
     }
 
     forward(...params) {
-        const distance = params.length > 0 && params[0] !== undefined ? params[0] : 1;
+        const distance =
+            params.length > 0 && params[0] !== undefined ? params[0] : 1;
         return this.go(distance);
     }
 
     back(...params) {
-        const distance = params.length > 0 && params[0] !== undefined ? params[0] : 1;
+        const distance =
+            params.length > 0 && params[0] !== undefined ? params[0] : 1;
         return this.go(-distance);
     }
 
     clearForwardHistory(...params) {
-        const delta = params.length > 0 && params[0] !== undefined ? params[0] : 0;
+        const delta =
+            params.length > 0 && params[0] !== undefined ? params[0] : 0;
         // HACK because successive calls may overlap
         this.actions.push({
             type: "CLEAN_FORWARD_HISTORY",
-            payload: this.states[this.stateIndex + delta]
+            payload: this.states[this.stateIndex + delta],
         });
         window.history.go(-1 + delta);
     }
@@ -165,7 +175,13 @@ module.exports = class {
         return this.route;
     }
 
-    navigate(routeId, language = this.languages[0], params = {}, extra = {}, doPushState = true) {
+    navigate(
+        routeId,
+        language = this.languages[0],
+        params = {},
+        extra = {},
+        doPushState = true,
+    ) {
         if (this.route && this.route.id === routeId) {
             return;
         }
@@ -174,7 +190,7 @@ module.exports = class {
             routeItem.id = null;
             routeItem.path = routeId;
         } else {
-            routeItem = this.routes.find(r => r.id === routeId) || {
+            routeItem = this.routes.find((r) => r.id === routeId) || {
                 id: "404",
                 path: "/404",
             };
@@ -187,7 +203,7 @@ module.exports = class {
             routeItem.path = routeItem.path.replace(re, "");
         }
         const lang = language === this.languages[0] ? "" : language;
-        const url = `/${[lang, ...routeItem.path.split(/\//)].filter(i => i).join("/")}`;
+        const url = `/${[lang, ...routeItem.path.split(/\//)].filter((i) => i).join("/")}`;
         let queryString = "";
         if (params && Object.keys(params).length) {
             const queryArr = [];

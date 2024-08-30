@@ -2,9 +2,7 @@ import validateNode from "../validators/node";
 import validateConfig from "../validators/config";
 import validateDimension from "../validators/dimension";
 import validateCallback from "../validators/callback";
-import {
-    defaultDimensions
-} from "../config/default";
+import { defaultDimensions } from "../config/default";
 import Canvas from "../components/canvas";
 import Image from "../components/image";
 import Slider from "../components/slider";
@@ -144,7 +142,7 @@ export default class Cropper {
         if (!file) {
             throw Error("Image data is not passed.");
         }
-        return this._image.loadData(file).then(image => {
+        return this._image.loadData(file).then((image) => {
             this._canvas.setImage(image);
             this._canvas.draw();
             this._slider.setValue(0);
@@ -153,12 +151,16 @@ export default class Cropper {
     }
 
     resetImage() {
-        return this._image.loadDataBase64("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAfQAAAAyCAQAAAAAGeEcAAAAhElEQVR42u3TAQ0AAAzCsOPf9B0ggLQSliwHzIsEYHTA6IDRAaMDRgeMDhgdMDoYHTA6YHTA6IDRAaMDRgeMDkYHjA4YHTA6YHTA6IDRAaOD0QGjA0YHjA4YHTA6YHTA6IDRweiA0QGjA0YHjA4YHTA6YHQwOmB0wOiA0QGjA0YHjA40Dz4hADO28OxKAAAAAElFTkSuQmCC").then(image => {
-            this._canvas.setImage(image);
-            this._canvas.draw();
-            this._slider.setValue(0);
-            return this;
-        });
+        return this._image
+            .loadDataBase64(
+                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAfQAAAAyCAQAAAAAGeEcAAAAhElEQVR42u3TAQ0AAAzCsOPf9B0ggLQSliwHzIsEYHTA6IDRAaMDRgeMDhgdMDoYHTA6YHTA6IDRAaMDRgeMDkYHjA4YHTA6YHTA6IDRAaOD0QGjA0YHjA4YHTA6YHTA6IDRweiA0QGjA0YHjA4YHTA6YHQwOmB0wOiA0QGjA0YHjA40Dz4hADO28OxKAAAAAElFTkSuQmCC",
+            )
+            .then((image) => {
+                this._canvas.setImage(image);
+                this._canvas.draw();
+                this._slider.setValue(0);
+                return this;
+            });
     }
 
     /**
@@ -210,9 +212,7 @@ export default class Cropper {
      * @returns {Cropper} - An Cropper instance.
      */
     setData(data) {
-        const {
-            zoom
-        } = this._canvas.setData(data);
+        const { zoom } = this._canvas.setData(data);
         this._slider.setValue(zoom * 100);
         return this;
     }

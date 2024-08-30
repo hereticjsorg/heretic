@@ -1,20 +1,20 @@
-.hr-hicon-white>svg>path {
+.hr-hicon-white > svg > path {
     fill: $white-ter !important;
 }
 
-.hr-hicon-black>svg>path {
+.hr-hicon-black > svg > path {
     fill: $black-ter !important;
 }
 
-.hr-hicon>svg {
+.hr-hicon > svg {
     margin-right: 5px;
 }
 
-.hr-hicon>svg>path {
+.hr-hicon > svg > path {
     fill: $black-ter;
 }
 
-html.theme-dark .hr-hicon:not(.hr-hicon-black)>svg>path {
+html.theme-dark .hr-hicon:not(.hr-hicon-black) > svg > path {
     fill: $white-ter !important;
 }
 

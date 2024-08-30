@@ -11,7 +11,7 @@ import apiContact from "./apiContact";
 import apiUploadImage from "./apiUploadImage";
 import apiSearchEngine from "./apiSearchEngine";
 
-export default fastify => {
+export default (fastify) => {
     fastify.get("/api/captcha", apiCaptcha());
     if (fastify.systemConfig.auth.admin) {
         fastify.get("/api/admin/groups", apiGroups());
@@ -25,7 +25,10 @@ export default fastify => {
         fastify.post("/api/contact", apiContact());
         fastify.post("/api/admin/upload/image", apiUploadImage());
     }
-    if (fastify.systemConfig.redis.enabled && fastify.systemConfig.redis.stack) {
+    if (
+        fastify.systemConfig.redis.enabled &&
+        fastify.systemConfig.redis.stack
+    ) {
         fastify.post("/api/search", apiSearchEngine());
     }
 };

@@ -1,5 +1,5 @@
 module.exports = {
-    getValidationData: formData => {
+    getValidationData: (formData) => {
         const validationSchema = {};
         const fieldsFlat = {};
         const fieldsArea = {};
@@ -42,41 +42,41 @@ module.exports = {
             const id = instanceArr[instanceArr.length - 1];
             let errorCode = null;
             switch (item.keyword) {
-            case "type":
-                errorCode = "hform_error_type";
-                break;
-            case "maximum":
-                errorCode = "hform_error_max";
-                break;
-            case "minLength":
-                errorCode = "hform_error_minLength";
-                break;
-            case "maxLength":
-                errorCode = "hform_error_maxLength";
-                break;
-            case "pattern":
-            case "format":
-            case "anyOf":
-            case "enum":
-                errorCode = "hform_error_format";
-                break;
-            case "filesMinCount":
-                errorCode = "hform_error_filesMinCount";
-                break;
-            case "filesMaxCount":
-                errorCode = "hform_error_filesMaxCount";
-                break;
-            case "filesMaxSize":
-                errorCode = "hform_error_filesMaxSize";
-                break;
-            case "filesBadExtension":
-                errorCode = "hform_error_filesBadExtension";
-                break;
-            case "passwordsDoNotMatch":
-                errorCode = "hform_error_passwordsDoNotMatch";
-                break;
-            default:
-                errorCode = `hform_error_${item.keyword || "generic"}`;
+                case "type":
+                    errorCode = "hform_error_type";
+                    break;
+                case "maximum":
+                    errorCode = "hform_error_max";
+                    break;
+                case "minLength":
+                    errorCode = "hform_error_minLength";
+                    break;
+                case "maxLength":
+                    errorCode = "hform_error_maxLength";
+                    break;
+                case "pattern":
+                case "format":
+                case "anyOf":
+                case "enum":
+                    errorCode = "hform_error_format";
+                    break;
+                case "filesMinCount":
+                    errorCode = "hform_error_filesMinCount";
+                    break;
+                case "filesMaxCount":
+                    errorCode = "hform_error_filesMaxCount";
+                    break;
+                case "filesMaxSize":
+                    errorCode = "hform_error_filesMaxSize";
+                    break;
+                case "filesBadExtension":
+                    errorCode = "hform_error_filesBadExtension";
+                    break;
+                case "passwordsDoNotMatch":
+                    errorCode = "hform_error_passwordsDoNotMatch";
+                    break;
+                default:
+                    errorCode = `hform_error_${item.keyword || "generic"}`;
             }
             errorData.push({
                 id,
@@ -86,5 +86,5 @@ module.exports = {
             });
         }
         return errorData;
-    }
+    },
 };

@@ -6,7 +6,11 @@ import utils from "./utils";
 export default () => ({
     async handler(req, rep) {
         const formData = new FormData();
-        const formValidator = new FormValidator(formData.getValidationSchema(), formData.getFieldsFlat(), this);
+        const formValidator = new FormValidator(
+            formData.getValidationSchema(),
+            formData.getFieldsFlat(),
+            this,
+        );
         try {
             const authData = await req.auth.getData(req.auth.methods.HEADERS);
             if (!authData) {
@@ -14,51 +18,77 @@ export default () => ({
             }
             if (!req.validateDataBulk()) {
                 return rep.error({
-                    message: "validation_error"
+                    message: "validation_error",
                 });
             }
             if (!this.systemConfig.demo) {
                 const query = {
-                    $and: [{
-                        ...(req.bulkUpdateQuery(formData) || {}),
-                    }, {
-                        ...(utils.filter({}, authData) || {}),
-                    }],
+                    $and: [
+                        {
+                            ...(req.bulkUpdateQuery(formData) || {}),
+                        },
+                        {
+                            ...(utils.filter({}, authData) || {}),
+                        },
+                    ],
                 };
                 const fields = formData.getFieldsFlat();
-                const tabs = formData.getTabs ? formData.getTabs().map(i => i) : ["_default"];
+                const tabs = formData.getTabs
+                    ? formData.getTabs().map((i) => i)
+                    : ["_default"];
                 const data = {};
                 for (const item of req.body.bulkItems) {
                     for (const tab of item.tabs) {
                         const field = fields[item.id];
-                        if (field && tabs.find(i => i.id === tab)) {
+                        if (field && tabs.find((i) => i.id === tab)) {
                             if (tab === "_default") {
-                                data[item.id] = formValidator.processValue(fields[item.id].type, item.value);
+                                data[item.id] = formValidator.processValue(
+                                    fields[item.id].type,
+                                    item.value,
+                                );
                             } else {
-                                data[`${tab}.${item.id}`] = formValidator.processValue(fields[item.id].type, item.value);
+                                data[`${tab}.${item.id}`] =
+                                    formValidator.processValue(
+                                        fields[item.id].type,
+                                        item.value,
+                                    );
                             }
                         }
                     }
                 }
                 if (data && Object.keys(data).length) {
-                    const collection = this.mongo.db.collection(moduleConfig.collections.main);
-                    const restrictedFields = formData.getRestrictedFields ? formData.getRestrictedFields() : [];
-                    const restrictedAreas = formData.getRestrictedAreas ? formData.getRestrictedAreas() : [];
-                    const {
-                        access,
-                    } = utils.getAccessData(restrictedFields, restrictedAreas, formData.getFieldsArea ? formData.getFieldsArea() : {}, authData, {
-                        projection: {},
-                    });
+                    const collection = this.mongo.db.collection(
+                        moduleConfig.collections.main,
+                    );
+                    const restrictedFields = formData.getRestrictedFields
+                        ? formData.getRestrictedFields()
+                        : [];
+                    const restrictedAreas = formData.getRestrictedAreas
+                        ? formData.getRestrictedAreas()
+                        : [];
+                    const { access } = utils.getAccessData(
+                        restrictedFields,
+                        restrictedAreas,
+                        formData.getFieldsArea ? formData.getFieldsArea() : {},
+                        authData,
+                        {
+                            projection: {},
+                        },
+                    );
                     for (const k of Object.keys(access)) {
                         if (access[k] === false) {
                             delete data[k];
                         }
                     }
-                    await collection.updateMany(query, {
-                        $set: data,
-                    }, {
-                        upsert: false,
-                    });
+                    await collection.updateMany(
+                        query,
+                        {
+                            $set: data,
+                        },
+                        {
+                            upsert: false,
+                        },
+                    );
                 }
             }
             return rep.code(200).send({});
@@ -66,5 +96,5 @@ export default () => ({
             this.log.error(e);
             return Promise.reject(e);
         }
-    }
+    },
 });

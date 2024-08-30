@@ -13,14 +13,14 @@ const defaultHeaders = {
     rateLimit: "x-ratelimit-limit",
     rateRemaining: "x-ratelimit-remaining",
     rateReset: "x-ratelimit-reset",
-    retryAfter: "retry-after"
+    retryAfter: "retry-after",
 };
 
 const draftSpecHeaders = {
     rateLimit: "ratelimit-limit",
     rateRemaining: "ratelimit-remaining",
     rateReset: "ratelimit-reset",
-    retryAfter: "retry-after"
+    retryAfter: "retry-after",
 };
 
 const defaultKeyGenerator = (req) => req.ip;
@@ -33,9 +33,12 @@ const defaultErrorResponse = (req, context) => {
 
 async function fastifyRateLimit(fastify, settings) {
     const globalParams = {
-        global: (typeof settings.global === "boolean") ? settings.global : true,
+        global: typeof settings.global === "boolean" ? settings.global : true,
     };
-    if (typeof settings.enableDraftSpec === "boolean" && settings.enableDraftSpec) {
+    if (
+        typeof settings.enableDraftSpec === "boolean" &&
+        settings.enableDraftSpec
+    ) {
         globalParams.enableDraftSpec = true;
         globalParams.labels = draftSpecHeaders;
     } else {
@@ -47,26 +50,55 @@ async function fastifyRateLimit(fastify, settings) {
         [globalParams.labels.rateRemaining]: true,
         [globalParams.labels.rateReset]: true,
         [globalParams.labels.retryAfter]: true,
-        ...settings.addHeaders
+        ...settings.addHeaders,
     };
     globalParams.addHeadersOnExceeding = {
         [globalParams.labels.rateLimit]: true,
         [globalParams.labels.rateRemaining]: true,
         [globalParams.labels.rateReset]: true,
-        ...settings.addHeadersOnExceeding
+        ...settings.addHeadersOnExceeding,
     };
     // Global maximum allowed requests
-    globalParams.max = ((typeof settings.max === "number" && Number.isFinite(settings.max) && (settings.max = Math.trunc(settings.max)) >= 0) || typeof settings.max === "function") ? settings.max : defaultMax;
+    globalParams.max =
+        (typeof settings.max === "number" &&
+            Number.isFinite(settings.max) &&
+            (settings.max = Math.trunc(settings.max)) >= 0) ||
+        typeof settings.max === "function"
+            ? settings.max
+            : defaultMax;
     // Global time window
-    globalParams.timeWindow = typeof settings.timeWindow === "string" ? ms.parse(settings.timeWindow) : typeof settings.timeWindow === "number" && Number.isFinite(settings.timeWindow) && settings.timeWindow >= 0 ? Math.trunc(settings.timeWindow) : defaultTimeWindow;
+    globalParams.timeWindow =
+        typeof settings.timeWindow === "string"
+            ? ms.parse(settings.timeWindow)
+            : typeof settings.timeWindow === "number" &&
+                Number.isFinite(settings.timeWindow) &&
+                settings.timeWindow >= 0
+              ? Math.trunc(settings.timeWindow)
+              : defaultTimeWindow;
     globalParams.hook = settings.hook || defaultHook;
     globalParams.allowList = settings.allowList || settings.whitelist || null;
-    globalParams.ban = typeof settings.ban === "number" && Number.isFinite(settings.ban) && settings.ban >= 0 ? Math.trunc(settings.ban) : -1;
-    globalParams.onBanReach = typeof settings.onBanReach === "function" ? settings.onBanReach : null;
-    globalParams.onExceeding = typeof settings.onExceeding === "function" ? settings.onExceeding : null;
-    globalParams.onExceeded = typeof settings.onExceeded === "function" ? settings.onExceeded : null;
-    globalParams.continueExceeding = typeof settings.continueExceeding === "boolean" ? settings.continueExceeding : false;
-    globalParams.keyGenerator = typeof settings.keyGenerator === "function" ? settings.keyGenerator : defaultKeyGenerator;
+    globalParams.ban =
+        typeof settings.ban === "number" &&
+        Number.isFinite(settings.ban) &&
+        settings.ban >= 0
+            ? Math.trunc(settings.ban)
+            : -1;
+    globalParams.onBanReach =
+        typeof settings.onBanReach === "function" ? settings.onBanReach : null;
+    globalParams.onExceeding =
+        typeof settings.onExceeding === "function"
+            ? settings.onExceeding
+            : null;
+    globalParams.onExceeded =
+        typeof settings.onExceeded === "function" ? settings.onExceeded : null;
+    globalParams.continueExceeding =
+        typeof settings.continueExceeding === "boolean"
+            ? settings.continueExceeding
+            : false;
+    globalParams.keyGenerator =
+        typeof settings.keyGenerator === "function"
+            ? settings.keyGenerator
+            : defaultKeyGenerator;
     if (typeof settings.errorResponseBuilder === "function") {
         globalParams.errorResponseBuilder = settings.errorResponseBuilder;
         globalParams.isCustomErrorMessage = true;
@@ -74,29 +106,50 @@ async function fastifyRateLimit(fastify, settings) {
         globalParams.errorResponseBuilder = defaultErrorResponse;
         globalParams.isCustomErrorMessage = false;
     }
-    globalParams.skipOnError = typeof settings.skipOnError === "boolean" ? settings.skipOnError : false;
+    globalParams.skipOnError =
+        typeof settings.skipOnError === "boolean"
+            ? settings.skipOnError
+            : false;
     const pluginComponent = {
         rateLimitRan: Symbol("fastify.request.rateLimitRan"),
-        store: null
+        store: null,
     };
     if (settings.store) {
         const Store = settings.store;
         pluginComponent.store = new Store(globalParams);
     } else if (settings.redis) {
-        pluginComponent.store = new RedisStore(settings.redis, globalParams.timeWindow, settings.continueExceeding, settings.nameSpace || "fastify-rate-limit-");
+        pluginComponent.store = new RedisStore(
+            settings.redis,
+            globalParams.timeWindow,
+            settings.continueExceeding,
+            settings.nameSpace || "fastify-rate-limit-",
+        );
     } else {
-        pluginComponent.store = new LocalStore(settings.cache, globalParams.timeWindow, settings.continueExceeding);
+        pluginComponent.store = new LocalStore(
+            settings.cache,
+            globalParams.timeWindow,
+            settings.continueExceeding,
+        );
     }
     fastify.decorateRequest(pluginComponent.rateLimitRan, false);
     if (!fastify.hasDecorator("rateLimit")) {
         fastify.decorate("rateLimit", (options) => {
             if (typeof options === "object") {
                 const newPluginComponent = Object.create(pluginComponent);
-                const mergedRateLimitParams = mergeParams(globalParams, options, {
-                    routeInfo: {}
-                });
-                newPluginComponent.store = newPluginComponent.store.child(mergedRateLimitParams);
-                return rateLimitRequestHandler(newPluginComponent, mergedRateLimitParams);
+                const mergedRateLimitParams = mergeParams(
+                    globalParams,
+                    options,
+                    {
+                        routeInfo: {},
+                    },
+                );
+                newPluginComponent.store = newPluginComponent.store.child(
+                    mergedRateLimitParams,
+                );
+                return rateLimitRequestHandler(
+                    newPluginComponent,
+                    mergedRateLimitParams,
+                );
             }
             return rateLimitRequestHandler(pluginComponent, globalParams);
         });
@@ -105,13 +158,25 @@ async function fastifyRateLimit(fastify, settings) {
         if (routeOptions.config?.rateLimit !== undefined) {
             if (typeof routeOptions.config.rateLimit === "object") {
                 const newPluginComponent = Object.create(pluginComponent);
-                const mergedRateLimitParams = mergeParams(globalParams, routeOptions.config.rateLimit, {
-                    routeInfo: routeOptions
-                });
-                newPluginComponent.store = pluginComponent.store.child(mergedRateLimitParams);
-                addRouteRateHook(newPluginComponent, mergedRateLimitParams, routeOptions);
+                const mergedRateLimitParams = mergeParams(
+                    globalParams,
+                    routeOptions.config.rateLimit,
+                    {
+                        routeInfo: routeOptions,
+                    },
+                );
+                newPluginComponent.store = pluginComponent.store.child(
+                    mergedRateLimitParams,
+                );
+                addRouteRateHook(
+                    newPluginComponent,
+                    mergedRateLimitParams,
+                    routeOptions,
+                );
             } else if (routeOptions.config.rateLimit !== false) {
-                throw new Error("Unknown value for route rate-limit configuration");
+                throw new Error(
+                    "Unknown value for route rate-limit configuration",
+                );
             }
         } else if (globalParams.global) {
             // As the endpoint does not have a custom configuration, use the global one
@@ -124,18 +189,30 @@ function mergeParams(...params) {
     const result = Object.assign({}, ...params);
     if (typeof result.timeWindow === "string") {
         result.timeWindow = ms.parse(result.timeWindow);
-    } else if (typeof result.timeWindow === "number" && Number.isFinite(result.timeWindow) && result.timeWindow >= 0) {
+    } else if (
+        typeof result.timeWindow === "number" &&
+        Number.isFinite(result.timeWindow) &&
+        result.timeWindow >= 0
+    ) {
         result.timeWindow = Math.trunc(result.timeWindow);
     } else {
         result.timeWindow = defaultTimeWindow;
     }
-    if (typeof result.max === "number" && Number.isFinite(result.max) && result.max >= 0) {
+    if (
+        typeof result.max === "number" &&
+        Number.isFinite(result.max) &&
+        result.max >= 0
+    ) {
         result.max = Math.trunc(result.max);
     } else if (typeof result.max !== "function") {
         result.max = defaultMax;
     }
 
-    if (typeof result.ban === "number" && Number.isFinite(result.ban) && result.ban >= 0) {
+    if (
+        typeof result.ban === "number" &&
+        Number.isFinite(result.ban) &&
+        result.ban >= 0
+    ) {
         result.ban = Math.trunc(result.ban);
     } else {
         result.ban = -1;
@@ -156,10 +233,7 @@ function addRouteRateHook(pluginComponent, params, routeOptions) {
 }
 
 function rateLimitRequestHandler(pluginComponent, params) {
-    const {
-        rateLimitRan,
-        store
-    } = pluginComponent;
+    const { rateLimitRan, store } = pluginComponent;
     const timeWindowString = ms.format(params.timeWindow, true);
     return async (req, res) => {
         if (req[rateLimitRan]) {
@@ -178,7 +252,10 @@ function rateLimitRequestHandler(pluginComponent, params) {
                 return;
             }
         }
-        const max = typeof params.max === "number" ? params.max : await params.max(req, key);
+        const max =
+            typeof params.max === "number"
+                ? params.max
+                : await params.max(req, key);
         let current = 0;
         let ttl = 0;
         let timeLeftInSeconds = 0;
@@ -186,9 +263,14 @@ function rateLimitRequestHandler(pluginComponent, params) {
         // We increment the rate limit for the current request
         try {
             const incRes = await new Promise((resolve, reject) => {
-                store.incr(key, (err, r) => {
-                    err ? reject(err) : resolve(r);
-                }, max, params.ban);
+                store.incr(
+                    key,
+                    (err, r) => {
+                        err ? reject(err) : resolve(r);
+                    },
+                    max,
+                    params.ban,
+                );
             });
             current = incRes.current;
             ttl = res.ttl;
@@ -230,7 +312,7 @@ function rateLimitRequestHandler(pluginComponent, params) {
             ban,
             max,
             ttl,
-            after: timeWindowString
+            after: timeWindowString,
         };
         if (ban) {
             respCtx.statusCode = 403;
@@ -242,7 +324,7 @@ function rateLimitRequestHandler(pluginComponent, params) {
 
 module.exports = fp(fastifyRateLimit, {
     fastify: "4.x",
-    name: "rateLimit"
+    name: "rateLimit",
 });
 module.exports.default = fastifyRateLimit;
 module.exports.fastifyRateLimit = fastifyRateLimit;

@@ -1,7 +1,5 @@
 import Ajv from "ajv";
-import {
-    v4 as uuid,
-} from "uuid";
+import { v4 as uuid } from "uuid";
 import Password from "#lib/password";
 import SignUpForm from "../data/signUpForm";
 import Captcha from "#lib/captcha";
@@ -20,7 +18,11 @@ const signUpFormValidation = ajv.compile(signUpFormValidationSchema);
 export default () => ({
     async handler(req, rep) {
         try {
-            const emailChangeNotificationTemplate = (await import( /* webpackIgnore: true */ "../email/signUpNotification.marko")).default;
+            const emailChangeNotificationTemplate = (
+                await import(
+                    /* webpackIgnore: true */ "../email/signUpNotification.marko"
+                )
+            ).default;
             const validationResult = signUpFormValidation(req.body);
             if (!validationResult) {
                 return rep.error({
@@ -30,27 +32,36 @@ export default () => ({
             const formData = req.body.formTabs._default;
             const captcha = new Captcha(this);
             const [code, imageSecret] = formData.captcha.split(/_/);
-            const captchaValidationResult = await captcha.verifyCaptcha(imageSecret, code);
+            const captchaValidationResult = await captcha.verifyCaptcha(
+                imageSecret,
+                code,
+            );
             if (!captchaValidationResult) {
                 return rep.error({
-                    form: [{
-                        instancePath: "captcha",
-                        keyword: "invalidCaptcha",
-                        tab: "_default",
-                    }],
+                    form: [
+                        {
+                            instancePath: "captcha",
+                            keyword: "invalidCaptcha",
+                            tab: "_default",
+                        },
+                    ],
                 });
             }
             const username = formData.username.toLowerCase();
             const email = formData.email.toLowerCase();
-            const userDb = await this.mongo.db.collection(this.systemConfig.collections.users).find({
-                $or: [{
-                        username
-                    },
-                    {
-                        email
-                    },
-                ]
-            }).toArray();
+            const userDb = await this.mongo.db
+                .collection(this.systemConfig.collections.users)
+                .find({
+                    $or: [
+                        {
+                            username,
+                        },
+                        {
+                            email,
+                        },
+                    ],
+                })
+                .toArray();
             if (userDb) {
                 const form = [];
                 const duplicates = {};
@@ -83,38 +94,46 @@ export default () => ({
             if (check.errors.length) {
                 return rep.error({
                     message: "passwordPolicyViolation",
-                    form: [{
-                        instancePath: "password",
-                        keyword: "invalidPassword",
-                        tab: "_default",
-                    }],
+                    form: [
+                        {
+                            instancePath: "password",
+                            keyword: "invalidPassword",
+                            tab: "_default",
+                        },
+                    ],
                     policyErrors: check.errors,
                 });
             }
             if (!this.systemConfig.demo) {
-                const passwordHash = await req.auth.createHash(`${formData.password}${this.systemConfig.secret}`);
-                const insertResult = await this.mongo.db.collection(this.systemConfig.collections.users).insertOne({
-                    username,
-                    email,
-                    password: passwordHash,
-                    groups: null,
-                    displayName: null,
-                    active: false,
-                    signUpAt: new Date(),
-                });
-                const {
-                    insertedId,
-                } = insertResult;
+                const passwordHash = await req.auth.createHash(
+                    `${formData.password}${this.systemConfig.secret}`,
+                );
+                const insertResult = await this.mongo.db
+                    .collection(this.systemConfig.collections.users)
+                    .insertOne({
+                        username,
+                        email,
+                        password: passwordHash,
+                        groups: null,
+                        displayName: null,
+                        active: false,
+                        signUpAt: new Date(),
+                    });
+                const { insertedId } = insertResult;
                 const uid = uuid();
-                await this.mongo.db.collection(this.systemConfig.collections.activation).insertOne({
-                    _id: uid,
-                    type: "user",
-                    userId: String(insertedId),
-                });
-                let {
-                    language,
-                } = req.body;
-                if (!language || typeof language !== "string" || !Object.keys(languagesData).find(i => language === i)) {
+                await this.mongo.db
+                    .collection(this.systemConfig.collections.activation)
+                    .insertOne({
+                        _id: uid,
+                        type: "user",
+                        userId: String(insertedId),
+                    });
+                let { language } = req.body;
+                if (
+                    !language ||
+                    typeof language !== "string" ||
+                    !Object.keys(languagesData).find((i) => language === i)
+                ) {
                     [language] = Object.keys(languagesData);
                 }
                 const utils = new Utils(null, language);
@@ -123,22 +142,39 @@ export default () => ({
                 };
                 languageData[language] = {
                     ...languageData[language],
-                    ...(await import(`../translations/${language}.json`)).default,
+                    ...(await import(`../translations/${language}.json`))
+                        .default,
                 };
-                const t = (id, d = {}) => languageData[language] && typeof languageData[language][id] === "function" ? languageData[language][id](d) : languageData[language] ? languageData[language][id] : id;
+                const t = (id, d = {}) =>
+                    languageData[language] &&
+                    typeof languageData[language][id] === "function"
+                        ? languageData[language][id](d)
+                        : languageData[language]
+                          ? languageData[language][id]
+                          : id;
                 const input = {
                     t,
-                    activationUrl: utils.getLocalizedFullURL(`${this.siteConfig.url}/activate?id=${uid}`),
+                    activationUrl: utils.getLocalizedFullURL(
+                        `${this.siteConfig.url}/activate?id=${uid}`,
+                    ),
                 };
-                const renderPage = await emailChangeNotificationTemplate.render(input);
-                const renderText = (await import("../email/signUpNotification.js")).default(input);
+                const renderPage =
+                    await emailChangeNotificationTemplate.render(input);
+                const renderText = (
+                    await import("../email/signUpNotification.js")
+                ).default(input);
                 const em = new Email(this);
-                await em.send(email, t("signUp"), renderPage.toString(), renderText);
+                await em.send(
+                    email,
+                    t("signUp"),
+                    renderPage.toString(),
+                    renderText,
+                );
             }
             return rep.success({});
         } catch (e) {
             this.log.error(e);
             return Promise.reject(e);
         }
-    }
+    },
 });

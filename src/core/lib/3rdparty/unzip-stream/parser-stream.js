@@ -33,7 +33,9 @@ ParserStream.prototype._transform = function (chunk, encoding, cb) {
 ParserStream.prototype._flush = function (cb) {
     const self = this;
     this.unzipStream.end(() => {
-        process.nextTick(() => { self.emit("close"); });
+        process.nextTick(() => {
+            self.emit("close");
+        });
         cb();
     });
 };
@@ -47,7 +49,14 @@ ParserStream.prototype.on = function (eventName, fn) {
 
 ParserStream.prototype.drainAll = function () {
     this.unzipStream.drainAll();
-    return this.pipe(new Transform({ objectMode: true, transform(d, e, cb) { cb(); } }));
+    return this.pipe(
+        new Transform({
+            objectMode: true,
+            transform(d, e, cb) {
+                cb();
+            },
+        }),
+    );
 };
 
 module.exports = ParserStream;

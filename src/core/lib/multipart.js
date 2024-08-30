@@ -1,13 +1,9 @@
 import fastifyPlugin from "fastify-plugin";
 import busboy from "busboy";
-import {
-    PassThrough
-} from "stream";
+import { PassThrough } from "stream";
 import fs from "fs-extra";
 import path from "path";
-import {
-    v4 as uuid
-} from "uuid";
+import { v4 as uuid } from "uuid";
 import os from "os";
 
 const kMultipart = Symbol("multipart");
@@ -17,7 +13,7 @@ const setMultipart = (req, payload, done) => {
     done();
 };
 
-const getBusboyInstance = options => {
+const getBusboyInstance = (options) => {
     try {
         return busboy(options);
     } catch (e) {
@@ -29,12 +25,13 @@ const getBusboyInstance = options => {
 
 const fastifyMultipart = (fastify, options, done) => {
     // Function: Save file
-    const saveFile = (file, filePath) => new Promise((resolve, reject) => {
-        const fileStream = fs.createWriteStream(filePath);
-        file.pipe(fileStream);
-        fileStream.on("finish", () => resolve());
-        fileStream.on("error", e => reject(e));
-    });
+    const saveFile = (file, filePath) =>
+        new Promise((resolve, reject) => {
+            const fileStream = fs.createWriteStream(filePath);
+            file.pipe(fileStream);
+            fileStream.on("finish", () => resolve());
+            fileStream.on("error", (e) => reject(e));
+        });
     // Function: Process multipart request
     function processMultipartRequest() {
         const request = this.raw;
@@ -45,14 +42,14 @@ const fastifyMultipart = (fastify, options, done) => {
             let filesProcessed = 0;
             // Get Busboy instance
             const busboyInstance = getBusboyInstance({
-                headers: request.headers
+                headers: request.headers,
             });
             // Resolve Files
             const resolveFiles = async () => {
                 if (filesProcessed === filesCount) {
                     resolve({
                         fields: multipartFields,
-                        files: multipartFiles
+                        files: multipartFiles,
                     });
                 }
             };
@@ -61,7 +58,13 @@ const fastifyMultipart = (fastify, options, done) => {
                 filesCount += 1;
                 const tempName = uuid();
                 try {
-                    const filePath = fastify.systemConfig.directories.tmp ? path.resolve(__dirname, fastify.systemConfig.directories.tmp, tempName) : path.join(os.tmpdir(), tempName);
+                    const filePath = fastify.systemConfig.directories.tmp
+                        ? path.resolve(
+                              __dirname,
+                              fastify.systemConfig.directories.tmp,
+                              tempName,
+                          )
+                        : path.join(os.tmpdir(), tempName);
                     await saveFile(file, filePath);
                     const fileStat = await fs.stat(filePath);
                     multipartFiles[fieldName] = {
@@ -70,7 +73,7 @@ const fastifyMultipart = (fastify, options, done) => {
                         tempName,
                         encoding: fileData.encoding,
                         mimeType: fileData.mimeType,
-                        size: fileStat.size
+                        size: fileStat.size,
                     };
                     filesProcessed += 1;
                     await resolveFiles();
@@ -80,11 +83,12 @@ const fastifyMultipart = (fastify, options, done) => {
                 }
             };
             // onField Handler
-            const onField = (fieldName, val) => { // , fieldNameTruncated, valTruncated, encoding, mimetype
+            const onField = (fieldName, val) => {
+                // , fieldNameTruncated, valTruncated, encoding, mimetype
                 multipartFields[fieldName] = val;
             };
             // onError Handler
-            const onError = e => reject(e);
+            const onError = (e) => reject(e);
             // Request close handler
             const cleanup = async () => {
                 request.removeListener("close", cleanup);
@@ -98,7 +102,7 @@ const fastifyMultipart = (fastify, options, done) => {
                 if (!filesCount) {
                     resolve({
                         fields: multipartFields,
-                        files: multipartFiles
+                        files: multipartFiles,
                     });
                 }
             };
@@ -113,14 +117,16 @@ const fastifyMultipart = (fastify, options, done) => {
     }
     // Remove temporary files
     const removeTemporaryFiles = async (multipartFiles = {}) => {
-        await Promise.allSettled(Object.keys(multipartFiles).map(async f => {
-            const file = multipartFiles[f];
-            try {
-                await fs.unlink(file.filePath);
-            } catch {
-                // Ignore
-            }
-        }));
+        await Promise.allSettled(
+            Object.keys(multipartFiles).map(async (f) => {
+                const file = multipartFiles[f];
+                try {
+                    await fs.unlink(file.filePath);
+                } catch {
+                    // Ignore
+                }
+            }),
+        );
     };
     // Add handlers
     fastify.addContentTypeParser("multipart", setMultipart);
@@ -131,5 +137,5 @@ const fastifyMultipart = (fastify, options, done) => {
 
 export default fastifyPlugin(fastifyMultipart, {
     fastify: ">= 3.0.0",
-    name: "fastify-multipart"
+    name: "fastify-multipart",
 });

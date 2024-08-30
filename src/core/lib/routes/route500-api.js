@@ -7,7 +7,7 @@ export default (err, rep, languageData, language) => {
             break;
         default:
             errorMessage = languageData[language].internalServerErrorMessage;
-        }
+    }
     return {
         error: 500,
         errorMessage,

@@ -9,12 +9,21 @@ const languages = Object.keys(require("#etc/languages.json"));
 
 export default class {
     async loadLanguageData() {
-        if (process.browser && (!window.__heretic || !window.__heretic.languageData)) {
+        if (
+            process.browser &&
+            (!window.__heretic || !window.__heretic.languageData)
+        ) {
             window.__heretic = window.__heretic || {};
             if (!window.__heretic.languageData) {
-                window.__heretic.languageData = await i18nLoader.loadLanguageFile(this.language);
+                window.__heretic.languageData =
+                    await i18nLoader.loadLanguageFile(this.language);
             }
-            window.__heretic.t = id => window.__heretic.languageData[id] ? typeof window.__heretic.languageData[id] === "function" ? window.__heretic.languageData[id]() : window.__heretic.languageData[id] : id;
+            window.__heretic.t = (id) =>
+                window.__heretic.languageData[id]
+                    ? typeof window.__heretic.languageData[id] === "function"
+                        ? window.__heretic.languageData[id]()
+                        : window.__heretic.languageData[id]
+                    : id;
             window.__heretic.translationsLoaded = {};
             this.setState("languageLoaded", true);
         }
@@ -43,13 +52,22 @@ export default class {
         this.mongoEnabled = out.global.mongoEnabled;
         if (process.browser) {
             window.__heretic = window.__heretic || {};
-            window.__heretic.outGlobal = window.__heretic.outGlobal || out.global;
-            this.mongoEnabled = this.mongoEnabled || window.__heretic.outGlobal.mongoEnabled;
-            this.language = this.language || window.__heretic.outGlobal.language;
-            this.siteTitle = out.global.siteTitle || window.__heretic.outGlobal.siteTitle;
-            this.siteId = out.global.siteId || window.__heretic.outGlobal.siteId;
-            this.cookieOptions = out.global.cookieOptions || window.__heretic.outGlobal.cookieOptions;
-            this.systemRoutes = out.global.systemRoutes || window.__heretic.outGlobal.systemRoutes;
+            window.__heretic.outGlobal =
+                window.__heretic.outGlobal || out.global;
+            this.mongoEnabled =
+                this.mongoEnabled || window.__heretic.outGlobal.mongoEnabled;
+            this.language =
+                this.language || window.__heretic.outGlobal.language;
+            this.siteTitle =
+                out.global.siteTitle || window.__heretic.outGlobal.siteTitle;
+            this.siteId =
+                out.global.siteId || window.__heretic.outGlobal.siteId;
+            this.cookieOptions =
+                out.global.cookieOptions ||
+                window.__heretic.outGlobal.cookieOptions;
+            this.systemRoutes =
+                out.global.systemRoutes ||
+                window.__heretic.outGlobal.systemRoutes;
             document.title = `${pageConfig.title[this.language]} – ${this.siteTitle}`;
         }
         await import(/* webpackChunkName: "bulma" */ "#site/view/bulma.scss");
@@ -81,6 +99,11 @@ export default class {
             this.setState("failed", true);
             return;
         }
-        setTimeout(() => window.location.href = languages[0] === this.language ? "/" : `/${this.language}`, 1000);
+        setTimeout(
+            () =>
+                (window.location.href =
+                    languages[0] === this.language ? "/" : `/${this.language}`),
+            1000,
+        );
     }
 }

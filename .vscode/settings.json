@@ -141,8 +141,5 @@
         "Каптча"
     ],
     "git.ignoreLimitWarning": true,
-    "cSpell.enableFiletypes": [
-        "html",
-        "marko"
-    ]
+    "cSpell.enableFiletypes": ["html", "marko"]
 }

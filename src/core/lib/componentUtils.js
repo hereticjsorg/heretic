@@ -16,7 +16,7 @@ export default class {
             }
             if (window.__heretic && window.__heretic.t) {
                 resolve();
-            } else if (timeout && (Date.now() - start) >= timeout) {
+            } else if (timeout && Date.now() - start >= timeout) {
                 reject(new Error("Language data not loaded"));
             } else {
                 setTimeout(wait.bind(this, resolve, reject), 30);
@@ -34,7 +34,7 @@ export default class {
             }
             if (this.component.getComponent(id)) {
                 resolve();
-            } else if (timeout && (Date.now() - start) >= timeout) {
+            } else if (timeout && Date.now() - start >= timeout) {
                 reject(new Error(`Component not found: ${id}`));
             } else {
                 setTimeout(wait.bind(this, resolve, reject), 30);
@@ -52,7 +52,7 @@ export default class {
             }
             if (document.getElementById(id)) {
                 resolve();
-            } else if (timeout && (Date.now() - start) >= timeout) {
+            } else if (timeout && Date.now() - start >= timeout) {
                 reject(new Error(`Element not found: ${id}`));
             } else {
                 setTimeout(wait.bind(this, resolve, reject), 30);
@@ -68,9 +68,15 @@ export default class {
             if (!process.browser) {
                 resolve();
             }
-            if (String(window.getComputedStyle(document.getElementById(id))[property]) === String(value)) {
+            if (
+                String(
+                    window.getComputedStyle(document.getElementById(id))[
+                        property
+                    ],
+                ) === String(value)
+            ) {
                 resolve();
-            } else if (timeout && (Date.now() - start) >= timeout) {
+            } else if (timeout && Date.now() - start >= timeout) {
                 reject(new Error(`Style property timeout: ${id}`));
             } else {
                 setTimeout(wait.bind(this, resolve, reject), 30);
@@ -88,7 +94,7 @@ export default class {
             }
             if (window.__heretic && window.__heretic.viewSettled) {
                 resolve();
-            } else if (timeout && (Date.now() - start) >= timeout) {
+            } else if (timeout && Date.now() - start >= timeout) {
                 reject(new Error("View is not settled"));
             } else {
                 setTimeout(wait.bind(this, resolve, reject), 30);
@@ -98,14 +104,25 @@ export default class {
     }
 
     async loadLanguageData(page) {
-        if (process.browser && window.__heretic && window.__heretic.languageData) { // && !window.__heretic.translationsLoaded[page]
+        if (
+            process.browser &&
+            window.__heretic &&
+            window.__heretic.languageData
+        ) {
+            // && !window.__heretic.translationsLoaded[page]
             const i18nLoader = require(`#build/loaders/i18n-loader-${page}`);
             window.__heretic.translationsLoaded[page] = true;
             const languageData = {
                 ...window.__heretic.languageData,
-                ...await i18nLoader.loadLanguageFile(this.language),
+                ...(await i18nLoader.loadLanguageFile(this.language)),
             };
-            Object.keys(languageData).map(i => languageData[i] = typeof languageData[i] === "string" ? template(languageData[i]) : languageData[i]);
+            Object.keys(languageData).map(
+                (i) =>
+                    (languageData[i] =
+                        typeof languageData[i] === "string"
+                            ? template(languageData[i])
+                            : languageData[i]),
+            );
             window.__heretic.languageData = languageData;
         }
     }
@@ -127,27 +144,41 @@ export default class {
                 [data.language] = languages;
             }
             data.url = urlParts.join("/") || "/";
-            data.url = data.url.length > 1 ? data.url.replace(/\/$/, "") : data.url;
+            data.url =
+                data.url.length > 1 ? data.url.replace(/\/$/, "") : data.url;
         } else {
             data.url = "";
             [data.language] = languages;
         }
         data.parts = urlParts;
         data.base = `${urlParts[0]}//${urlParts[2]}`;
-        data.dir = urlParts.length > 3 ? urlParts.filter((_, i) => i > 2).join("/") : "";
+        data.dir =
+            urlParts.length > 3
+                ? urlParts.filter((_, i) => i > 2).join("/")
+                : "";
         return data;
     }
 
     getLocalizedURL(url) {
         const nonLocalizedURL = this.getNonLocalizedURL(url);
-        const resultURL = this.language === Object.keys(languagesList)[0] ? nonLocalizedURL.url : `/${this.language}${nonLocalizedURL.url}`;
-        return resultURL.endsWith("/") && resultURL.length > 1 ? resultURL.slice(0, -1) : resultURL;
+        const resultURL =
+            this.language === Object.keys(languagesList)[0]
+                ? nonLocalizedURL.url
+                : `/${this.language}${nonLocalizedURL.url}`;
+        return resultURL.endsWith("/") && resultURL.length > 1
+            ? resultURL.slice(0, -1)
+            : resultURL;
     }
 
     getLocalizedFullURL(url) {
         const nonLocalizedURL = this.getNonLocalizedURL(url);
-        const resultURL = this.language === Object.keys(languagesList)[0] ? nonLocalizedURL.url : `${nonLocalizedURL.base}/${this.language}/${nonLocalizedURL.dir}`;
-        return resultURL.endsWith("/") && resultURL.length > 1 ? resultURL.slice(0, -1) : resultURL;
+        const resultURL =
+            this.language === Object.keys(languagesList)[0]
+                ? nonLocalizedURL.url
+                : `${nonLocalizedURL.base}/${this.language}/${nonLocalizedURL.dir}`;
+        return resultURL.endsWith("/") && resultURL.length > 1
+            ? resultURL.slice(0, -1)
+            : resultURL;
     }
 
     showOAuthPopup(path) {
@@ -165,12 +196,12 @@ export default class {
                 if (value === "auto") {
                     if (key === "top") {
                         const v = Math.round(
-                            window.innerHeight / 2 - features.height / 2
+                            window.innerHeight / 2 - features.height / 2,
                         );
                         str += `top=${v},`;
                     } else if (key === "left") {
                         const v = Math.round(
-                            window.innerWidth / 2 - features.width / 2
+                            window.innerWidth / 2 - features.width / 2,
                         );
                         str += `left=${v},`;
                     }
@@ -185,7 +216,14 @@ export default class {
 
     isElementInViewport(el) {
         const rect = el.getBoundingClientRect();
-        return rect.top >= 0 && rect.left >= 0 && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && rect.right <= (window.innerWidth || document.documentElement.clientWidth);
+        return (
+            rect.top >= 0 &&
+            rect.left >= 0 &&
+            rect.bottom <=
+                (window.innerHeight || document.documentElement.clientHeight) &&
+            rect.right <=
+                (window.innerWidth || document.documentElement.clientWidth)
+        );
     }
 
     setDarkTheme(isDark) {

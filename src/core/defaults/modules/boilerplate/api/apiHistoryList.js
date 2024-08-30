@@ -1,6 +1,4 @@
-import {
-    ObjectId
-} from "mongodb";
+import { ObjectId } from "mongodb";
 import FormData from "../data/form";
 import moduleConfig from "../module";
 import utils from "./utils";
@@ -19,12 +17,16 @@ export default () => ({
             }
             const formData = new FormData();
             const queryRef = {
-                $and: [{
-                    _id: new ObjectId(req.body.id),
-                }],
+                $and: [
+                    {
+                        _id: new ObjectId(req.body.id),
+                    },
+                ],
             };
             queryRef.$and.push(utils.filter({}, authData) || {});
-            const refDb = await this.mongo.db.collection(moduleConfig.collections.main).findOne(queryRef);
+            const refDb = await this.mongo.db
+                .collection(moduleConfig.collections.main)
+                .findOne(queryRef);
             if (!refDb) {
                 return rep.error({
                     message: "notFound",
@@ -45,20 +47,37 @@ export default () => ({
                 },
                 sort: {
                     updated: -1,
-                }
+                },
             };
-            const restrictedFields = formData.getRestrictedFields ? formData.getRestrictedFields() : [];
-            const restrictedAreas = formData.getRestrictedAreas ? formData.getRestrictedAreas() : [];
-            const {
-                access,
-            } = utils.getAccessData(restrictedFields, restrictedAreas, formData.getFieldsArea ? formData.getFieldsArea() : {}, authData, options);
-            const total = await this.mongo.db.collection(this.systemConfig.collections.history).countDocuments(query);
-            const items = (await this.mongo.db.collection(this.systemConfig.collections.history).find(query, options).toArray()).map(i => {
+            const restrictedFields = formData.getRestrictedFields
+                ? formData.getRestrictedFields()
+                : [];
+            const restrictedAreas = formData.getRestrictedAreas
+                ? formData.getRestrictedAreas()
+                : [];
+            const { access } = utils.getAccessData(
+                restrictedFields,
+                restrictedAreas,
+                formData.getFieldsArea ? formData.getFieldsArea() : {},
+                authData,
+                options,
+            );
+            const total = await this.mongo.db
+                .collection(this.systemConfig.collections.history)
+                .countDocuments(query);
+            const items = (
+                await this.mongo.db
+                    .collection(this.systemConfig.collections.history)
+                    .find(query, options)
+                    .toArray()
+            ).map((i) => {
                 if (i.changes && Array.isArray(i.changes)) {
                     for (const item of i.changes) {
                         if (access[item.id] === false) {
-                            item.valueOld = formData.getMagicStringAccessDenied();
-                            item.valueNew = formData.getMagicStringAccessDenied();
+                            item.valueOld =
+                                formData.getMagicStringAccessDenied();
+                            item.valueNew =
+                                formData.getMagicStringAccessDenied();
                         }
                     }
                 }
@@ -67,16 +86,21 @@ export default () => ({
             const usersQuery = {
                 $or: [],
             };
-            [...new Set(items.map(i => i.userId))].map(i => usersQuery.$or.push({
-                _id: new ObjectId(i),
-            }));
+            [...new Set(items.map((i) => i.userId))].map((i) =>
+                usersQuery.$or.push({
+                    _id: new ObjectId(i),
+                }),
+            );
             if (usersQuery.$or.length) {
-                const users = await this.mongo.db.collection(this.systemConfig.collections.users).find(usersQuery, {
-                    projection: {
-                        _id: 1,
-                        username: 1,
-                    },
-                }).toArray();
+                const users = await this.mongo.db
+                    .collection(this.systemConfig.collections.users)
+                    .find(usersQuery, {
+                        projection: {
+                            _id: 1,
+                            username: 1,
+                        },
+                    })
+                    .toArray();
                 const usersData = {};
                 for (const user of users) {
                     usersData[user._id.toString()] = user.username;
@@ -94,5 +118,5 @@ export default () => ({
             this.log.error(e);
             return Promise.reject(e);
         }
-    }
+    },
 });

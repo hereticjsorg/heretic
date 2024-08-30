@@ -142,11 +142,11 @@ html.theme-dark .hr-hf-settings-icon svg {
     width: 30px !important;
 }
 
-.hr-hf-action-icon svg>path {
+.hr-hf-action-icon svg > path {
     fill: $grey-darker !important;
 }
 
-.hr-hf-action-icon-danger svg>path {
+.hr-hf-action-icon-danger svg > path {
     fill: $white !important;
 }
 
@@ -269,7 +269,7 @@ html.theme-dark .hr-hf-tags-wrap-focus {
     background-color: $white-ter !important;
 }
 
-.hr-hf-log-values-table>tbody>tr>td {
+.hr-hf-log-values-table > tbody > tr > td {
     vertical-align: middle;
 }
 
@@ -317,7 +317,7 @@ html.theme-dark .hr-hf-tags-wrap-focus {
 
 .hr-hf-error-bounce {
     animation-name: hr-hf-error-bounce;
-    animation-duration: .5s;
+    animation-duration: 0.5s;
     // animation-delay: 0.25s;
 }
 

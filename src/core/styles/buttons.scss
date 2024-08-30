@@ -3,7 +3,9 @@
     border-left: 1px solid darken($white-ter, 8%);
     border-right: 1px solid darken($white-ter, 8%);
     border-bottom: unset;
-    box-shadow: 0 2px 0 0 darken($white-ter, 20%), 1px 6px 16px -16px lighten($black, 15%);
+    box-shadow:
+        0 2px 0 0 darken($white-ter, 20%),
+        1px 6px 16px -16px lighten($black, 15%);
     color: $grey-darker;
 }
 
@@ -12,72 +14,112 @@
     border-left: 1px solid darken($white-ter, 9%);
     border-right: 1px solid darken($white-ter, 9%);
     border-bottom: unset;
-    box-shadow: 0 2px 0 0 darken($white-ter, 23%), 1px 10px 16px -16px lighten($black, 25%), rgba(50, 50, 93, 0.15) 0px 6px 12px -2px, rgba(0, 0, 0, 0.1) 0px 3px 7px -3px !important;
+    box-shadow:
+        0 2px 0 0 darken($white-ter, 23%),
+        1px 10px 16px -16px lighten($black, 25%),
+        rgba(50, 50, 93, 0.15) 0px 6px 12px -2px,
+        rgba(0, 0, 0, 0.1) 0px 3px 7px -3px !important;
 }
 
 .button.is-primary {
     background-color: $primary;
-    box-shadow: 0 2px 0 0 darken($primary, 10%), 1px 6px 16px -16px lighten($black, 15%) !important;
+    box-shadow:
+        0 2px 0 0 darken($primary, 10%),
+        1px 6px 16px -16px lighten($black, 15%) !important;
     border-bottom: darken($primary, 25%) !important;
     color: $grey-lightest !important;
 }
 
 .button.is-primary:hover:enabled {
-    box-shadow: 0 2px 0 0 darken($primary, 20%), 1px 6px 16px -16px lighten($black, 15%), rgba(50, 50, 93, 0.15) 0px 6px 12px -2px, rgba(0, 0, 0, 0.1) 0px 3px 7px -3px !important
+    box-shadow:
+        0 2px 0 0 darken($primary, 20%),
+        1px 6px 16px -16px lighten($black, 15%),
+        rgba(50, 50, 93, 0.15) 0px 6px 12px -2px,
+        rgba(0, 0, 0, 0.1) 0px 3px 7px -3px !important;
 }
 
 .button.is-link {
-    box-shadow: 0 2px 0 0 darken($grey, 15%), 1px 6px 16px -16px lighten($black, 15%);
+    box-shadow:
+        0 2px 0 0 darken($grey, 15%),
+        1px 6px 16px -16px lighten($black, 15%);
     color: $grey-lightest;
 }
 
 .button.is-link:hover:enabled {
-    box-shadow: 0 2px 0 0 darken($grey, 20%), 1px 10px 16px -16px lighten($black, 25%), rgba(50, 50, 93, 0.15) 0px 6px 12px -2px, rgba(0, 0, 0, 0.1) 0px 3px 7px -3px !important;
+    box-shadow:
+        0 2px 0 0 darken($grey, 20%),
+        1px 10px 16px -16px lighten($black, 25%),
+        rgba(50, 50, 93, 0.15) 0px 6px 12px -2px,
+        rgba(0, 0, 0, 0.1) 0px 3px 7px -3px !important;
 }
 
 .button.is-info {
-    box-shadow: 0 2px 0 0 darken($blue, 20%), 1px 6px 16px -16px lighten($black, 15%);
+    box-shadow:
+        0 2px 0 0 darken($blue, 20%),
+        1px 6px 16px -16px lighten($black, 15%);
 }
 
 .button.is-info:hover:enabled {
-    box-shadow: 0 2px 0 0 darken($blue, 23%), 1px 10px 16px -16px lighten($black, 25%), rgba(50, 50, 93, 0.15) 0px 6px 12px -2px, rgba(0, 0, 0, 0.1) 0px 3px 7px -3px !important;
+    box-shadow:
+        0 2px 0 0 darken($blue, 23%),
+        1px 10px 16px -16px lighten($black, 25%),
+        rgba(50, 50, 93, 0.15) 0px 6px 12px -2px,
+        rgba(0, 0, 0, 0.1) 0px 3px 7px -3px !important;
 }
 
 .button.is-success {
-    box-shadow: 0 2px 0 0 darken($green, 20%), 1px 6px 16px -16px lighten($black, 15%) !important;
+    box-shadow:
+        0 2px 0 0 darken($green, 20%),
+        1px 6px 16px -16px lighten($black, 15%) !important;
     color: $white-bis;
 }
 
-.button.is-success>span>svg>path {
+.button.is-success > span > svg > path {
     fill: $white-bis !important;
 }
 
 .button.is-success:hover:enabled {
-    box-shadow: 0 2px 0 0 darken($green, 23%), 1px 10px 16px -16px lighten($black, 25%), rgba(50, 50, 93, 0.15) 0px 6px 12px -2px, rgba(0, 0, 0, 0.1) 0px 3px 7px -3px !important;
+    box-shadow:
+        0 2px 0 0 darken($green, 23%),
+        1px 10px 16px -16px lighten($black, 25%),
+        rgba(50, 50, 93, 0.15) 0px 6px 12px -2px,
+        rgba(0, 0, 0, 0.1) 0px 3px 7px -3px !important;
     color: $white-bis !important;
 }
 
 .button.is-warning {
-    box-shadow: 0 2px 0 0 darken($yellow, 22%), 1px 6px 16px -16px lighten($black, 15%);
+    box-shadow:
+        0 2px 0 0 darken($yellow, 22%),
+        1px 6px 16px -16px lighten($black, 15%);
     color: lighten($grey-dark, 5%);
 }
 
-html.theme-dark .button.is-warning>span>svg>path {
+html.theme-dark .button.is-warning > span > svg > path {
     fill: lighten($grey-dark, 5%) !important;
 }
 
 .button.is-warning:hover:enabled {
-    box-shadow: 0 2px 0 0 darken($yellow, 27%), 1px 10px 16px -16px lighten($black, 25%), rgba(50, 50, 93, 0.15) 0px 6px 12px -2px, rgba(0, 0, 0, 0.1) 0px 3px 7px -3px !important;
+    box-shadow:
+        0 2px 0 0 darken($yellow, 27%),
+        1px 10px 16px -16px lighten($black, 25%),
+        rgba(50, 50, 93, 0.15) 0px 6px 12px -2px,
+        rgba(0, 0, 0, 0.1) 0px 3px 7px -3px !important;
     color: lighten($grey-dark, 5%) !important;
 }
 
 .button.is-danger {
-    box-shadow: 0 2px 0 0 darken($red, 20%), 1px 6px 16px -16px lighten($black, 15%);
+    box-shadow:
+        0 2px 0 0 darken($red, 20%),
+        1px 6px 16px -16px lighten($black, 15%);
     color: $white-bis;
 }
 
 .button.is-danger:hover:enabled {
-    box-shadow: 0 2px 0 0 darken($red, 25%), 1px 10px 16px -16px lighten($black, 25%), rgba(50, 50, 93, 0.15) 0px 6px 12px -2px, rgba(0, 0, 0, 0.1) 0px 3px 7px -3px !important;
+    box-shadow:
+        0 2px 0 0 darken($red, 25%),
+        1px 10px 16px -16px lighten($black, 25%),
+        rgba(50, 50, 93, 0.15) 0px 6px 12px -2px,
+        rgba(0, 0, 0, 0.1) 0px 3px 7px -3px !important;
 }
 
 .button.is-small {

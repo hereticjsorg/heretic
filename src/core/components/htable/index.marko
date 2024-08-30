@@ -19,7 +19,7 @@ import SettingsPagesForm from "./settingsPagesForm"
                             </if>
                         </button>
                     </for>
-                    <if(state.loadConfig && state.loadConfig.url)>
+             s       <if(state.loadConfig && state.loadConfig.url)>
                         <button data-tippy-content=(process.browser && state.clientWidth < 1023 && window.__heretic ? window.__heretic.t("htable_reloadButton") : null) on-click("onReloadClick") class="button is-light" disabled=(!state.init || state.loading)>
                             <span class="hr-ht-top-button-icon icon">
                                 <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">

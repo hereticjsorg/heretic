@@ -8,6 +8,6 @@ module.exports = {
             logs: {
                 path: "/logs",
             },
-        }
+        },
     },
 };

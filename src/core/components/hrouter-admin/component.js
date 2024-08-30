@@ -12,7 +12,10 @@ export default class {
     }
 
     onMount() {
-        const router = new Router(routesData.routes.admin, Object.keys(languages));
+        const router = new Router(
+            routesData.routes.admin,
+            Object.keys(languages),
+        );
         router.setOnRouteChangeHandler(this.onRouteChangeHandler.bind(this));
         this.emit("route-change", router);
         window.__heretic = window.__heretic || {};

@@ -28,7 +28,7 @@ export default class Context {
      * @param {String|Object} style - A CSS <color> value, Canvas gradient or Canvas pattern
      */
     fillStyle(style) {
-        return this._context.fillStyle = style;
+        return (this._context.fillStyle = style);
     }
 
     /**

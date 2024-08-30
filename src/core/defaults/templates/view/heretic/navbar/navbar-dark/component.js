@@ -23,8 +23,12 @@ export default class {
         const darkMode = !this.state.darkMode;
         this.store.set("darkMode", darkMode);
         this.setState("darkMode", darkMode);
-        document.documentElement.classList[darkMode ? "add" : "remove"]("theme-dark");
-        document.documentElement.classList[!darkMode ? "add" : "remove"]("theme-light");
+        document.documentElement.classList[darkMode ? "add" : "remove"](
+            "theme-dark",
+        );
+        document.documentElement.classList[!darkMode ? "add" : "remove"](
+            "theme-light",
+        );
         this.utils.setDarkTheme(darkMode);
         this.emit("dark-mode", darkMode);
     }

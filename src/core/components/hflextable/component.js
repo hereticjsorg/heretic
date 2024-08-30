@@ -8,7 +8,9 @@ import Query from "#lib/queryBrowser";
 
 export default class {
     async onCreate(input, out) {
-        this.defaultSortData = input.data.getTableDefaultSortColumn ? input.data.getTableDefaultSortColumn() : {};
+        this.defaultSortData = input.data.getTableDefaultSortColumn
+            ? input.data.getTableDefaultSortColumn()
+            : {};
         this.state = {
             initComplete: false,
             loadConfig: input.data.getTableLoadConfig(),
@@ -31,24 +33,42 @@ export default class {
             sortDirection: this.defaultSortData.direction || null,
             actions: input.data.getActions ? input.data.getActions() : [],
             checked: [],
-            topButtons: input.data.getTopButtons ? input.data.getTopButtons() : [],
+            topButtons: input.data.getTopButtons
+                ? input.data.getTopButtons()
+                : [],
             clientWidth: 0,
             filtersEnabledCount: 0,
-            bulkUpdateConfig: input.data.getTableBulkUpdateConfig ? input.data.getTableBulkUpdateConfig() : null,
-            exportConfig: input.data.getTableExportConfig ? input.data.getTableExportConfig() : null,
-            importConfig: input.data.getTableImportConfig ? input.data.getTableImportConfig() : null,
-            recycleBin: input.data.getRecycleBinConfig ? input.data.getRecycleBinConfig() : null,
-            deleteConfig: input.data.getTableLoadConfig ? input.data.getTableDeleteConfig() : null,
+            bulkUpdateConfig: input.data.getTableBulkUpdateConfig
+                ? input.data.getTableBulkUpdateConfig()
+                : null,
+            exportConfig: input.data.getTableExportConfig
+                ? input.data.getTableExportConfig()
+                : null,
+            importConfig: input.data.getTableImportConfig
+                ? input.data.getTableImportConfig()
+                : null,
+            recycleBin: input.data.getRecycleBinConfig
+                ? input.data.getRecycleBinConfig()
+                : null,
+            deleteConfig: input.data.getTableLoadConfig
+                ? input.data.getTableDeleteConfig()
+                : null,
             deleteItems: [],
             dataOpen: false,
             lockedItems: {},
-            tabs: input.data.getTabs ? input.data.getTabs : [{
-                id: "_default",
-                label: null,
-            }],
+            tabs: input.data.getTabs
+                ? input.data.getTabs
+                : [
+                      {
+                          id: "_default",
+                          label: null,
+                      },
+                  ],
         };
         if (input.admin) {
-            await import( /* webpackChunkName: "hflextable-admin" */ "./style-admin.scss");
+            await import(
+                /* webpackChunkName: "hflextable-admin" */ "./style-admin.scss"
+            );
             // await import( /* webpackChunkName: "hfxbulk-admin" */ "./hfxbulk/style-admin.scss");
             // await import( /* webpackChunkName: "hfxexport-admin" */ "./hfxexport/style-admin.scss");
             // await import( /* webpackChunkName: "hfximport-admin" */ "./hfximport/style-admin.scss");
@@ -56,7 +76,9 @@ export default class {
             // await import( /* webpackChunkName: "hfxscroll-admin" */ "./hfxscroll/style-admin.scss");
             // await import( /* webpackChunkName: "hfxsettings-admin" */ "./hfxsettings/style-admin.scss");
         } else {
-            await import( /* webpackChunkName: "hflextable-frontend" */ "./style-frontend.scss");
+            await import(
+                /* webpackChunkName: "hflextable-frontend" */ "./style-frontend.scss"
+            );
             // await import( /* webpackChunkName: "hfxbulk-frontend" */ "./hfxbulk/style-frontend.scss");
             // await import( /* webpackChunkName: "hfxexport-frontend" */ "./hfxexport/style-frontend.scss");
             // await import( /* webpackChunkName: "hfximport-frontend" */ "./hfximport/style-frontend.scss");
@@ -74,17 +96,33 @@ export default class {
         if (process.browser) {
             window.__heretic = window.__heretic || {};
             window.__heretic.initComplete = window.__heretic.initComplete || {};
-            window.__heretic.outGlobal = window.__heretic.outGlobal || out.global || {};
-            this.authOptions = this.authOptions || window.__heretic.outGlobal.authOptions;
-            this.mongoEnabled = this.mongoEnabled || window.__heretic.outGlobal.mongoEnabled;
-            this.language = this.language || window.__heretic.outGlobal.language;
-            this.siteTitle = out.global.siteTitle || window.__heretic.outGlobal.siteTitle;
-            this.siteId = out.global.siteId || window.__heretic.outGlobal.siteId;
-            this.cookieOptions = out.global.cookieOptions || window.__heretic.outGlobal.cookieOptions;
-            this.systemRoutes = out.global.systemRoutes || window.__heretic.outGlobal.systemRoutes;
+            window.__heretic.outGlobal =
+                window.__heretic.outGlobal || out.global || {};
+            this.authOptions =
+                this.authOptions || window.__heretic.outGlobal.authOptions;
+            this.mongoEnabled =
+                this.mongoEnabled || window.__heretic.outGlobal.mongoEnabled;
+            this.language =
+                this.language || window.__heretic.outGlobal.language;
+            this.siteTitle =
+                out.global.siteTitle || window.__heretic.outGlobal.siteTitle;
+            this.siteId =
+                out.global.siteId || window.__heretic.outGlobal.siteId;
+            this.cookieOptions =
+                out.global.cookieOptions ||
+                window.__heretic.outGlobal.cookieOptions;
+            this.systemRoutes =
+                out.global.systemRoutes ||
+                window.__heretic.outGlobal.systemRoutes;
         }
         if (process.browser) {
-            this.setState("clientWidth", Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0));
+            this.setState(
+                "clientWidth",
+                Math.max(
+                    document.documentElement.clientWidth || 0,
+                    window.innerWidth || 0,
+                ),
+            );
         }
     }
 
@@ -102,8 +140,16 @@ export default class {
     }
 
     generatePagination() {
-        const center = [this.state.currentPage - 2, this.state.currentPage - 1, this.state.currentPage, this.state.currentPage + 1, this.state.currentPage + 2];
-        const filteredCenter = center.filter((p) => p > 1 && p < this.state.totalPages);
+        const center = [
+            this.state.currentPage - 2,
+            this.state.currentPage - 1,
+            this.state.currentPage,
+            this.state.currentPage + 1,
+            this.state.currentPage + 2,
+        ];
+        const filteredCenter = center.filter(
+            (p) => p > 1 && p < this.state.totalPages,
+        );
         // includeThreeLeft
         if (this.state.currentPage === 5) {
             filteredCenter.unshift(2);
@@ -131,21 +177,28 @@ export default class {
 
     async positionSpinner() {
         const wrap = document.getElementById(`hr_hft_wrap_${this.input.id}`);
-        const spinnerWrap = document.getElementById(`hr_hft_loading_wrap_${this.input.id}`);
+        const spinnerWrap = document.getElementById(
+            `hr_hft_loading_wrap_${this.input.id}`,
+        );
         if (wrap && spinnerWrap) {
             const wrapBoundingRect = wrap.getBoundingClientRect();
-            let {
-                width,
-            } = wrapBoundingRect;
+            let { width } = wrapBoundingRect;
             if (!width) {
-                const dummy = document.getElementById(`hr_hft_dummy_${this.input.id}`);
-                width = this.state.clientWidth > 768 && this.state.data.length ? dummy.getBoundingClientRect().width - 10 : dummy.getBoundingClientRect().width;
+                const dummy = document.getElementById(
+                    `hr_hft_dummy_${this.input.id}`,
+                );
+                width =
+                    this.state.clientWidth > 768 && this.state.data.length
+                        ? dummy.getBoundingClientRect().width - 10
+                        : dummy.getBoundingClientRect().width;
             }
             spinnerWrap.style.left = `${wrapBoundingRect.left}px`;
             spinnerWrap.style.top = `${wrapBoundingRect.top}px`;
             spinnerWrap.style.width = `${width}px`;
             spinnerWrap.style.height = `${wrapBoundingRect.height}px`;
-            const spinner = document.getElementById(`hr_hft_loading_${this.input.id}`);
+            const spinner = document.getElementById(
+                `hr_hft_loading_${this.input.id}`,
+            );
             spinner.style.left = `${width / 2 - 20}px`;
             spinnerWrap.style.opacity = "1";
         }
@@ -156,26 +209,35 @@ export default class {
             return;
         }
         this.setWrapWidthRunning = true;
-        this.setState("clientWidth", Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0));
+        this.setState(
+            "clientWidth",
+            Math.max(
+                document.documentElement.clientWidth || 0,
+                window.innerWidth || 0,
+            ),
+        );
         await this.utils.waitForElement(`hr_hft_wrap_${this.input.id}`);
         const wrap = document.getElementById(`hr_hft_wrap_${this.input.id}`);
         try {
             try {
-                await this.utils.waitForComponent(`hr_hft_scroll_bottom_${this.input.id}`);
+                await this.utils.waitForComponent(
+                    `hr_hft_scroll_bottom_${this.input.id}`,
+                );
             } catch {
                 //
             }
-            const scrollBottom = this.getComponent(`hr_hft_scroll_bottom_${this.input.id}`);
+            const scrollBottom = this.getComponent(
+                `hr_hft_scroll_bottom_${this.input.id}`,
+            );
             if (scrollBottom) {
                 scrollBottom.setDisplay("none");
             }
             wrap.style.display = "none";
             await this.utils.waitForElement(`hr_hft_dummy_${this.input.id}`);
-            const dummy = document.getElementById(`hr_hft_dummy_${this.input.id}`);
-            const {
-                left,
-                width,
-            } = dummy.getBoundingClientRect();
+            const dummy = document.getElementById(
+                `hr_hft_dummy_${this.input.id}`,
+            );
+            const { left, width } = dummy.getBoundingClientRect();
             // wrap.style.width = `${this.state.clientWidth > 768 && this.state.data.length ? width - 10 : width}px`;
             wrap.style.width = `${width}px`;
             if (scrollBottom) {
@@ -185,11 +247,22 @@ export default class {
             if (scrollBottom) {
                 scrollBottom.setDisplay("block");
             }
-            const actionColumnElements = document.querySelectorAll(`[data-hf-action='${this.input.id}']`);
-            const spacerColumnElements = document.querySelectorAll(`[data-hf-spacer='${this.input.id}']`);
-            const rowElements = document.querySelectorAll(`[data-hf-row='${this.input.id}']`);
-            const headElements = document.querySelectorAll(`[data-hf-head='${this.input.id}']`);
-            const actionsWidth = (this.state.actions.length * 31) + ((this.state.actions.length - 1) * 2) + 17;
+            const actionColumnElements = document.querySelectorAll(
+                `[data-hf-action='${this.input.id}']`,
+            );
+            const spacerColumnElements = document.querySelectorAll(
+                `[data-hf-spacer='${this.input.id}']`,
+            );
+            const rowElements = document.querySelectorAll(
+                `[data-hf-row='${this.input.id}']`,
+            );
+            const headElements = document.querySelectorAll(
+                `[data-hf-head='${this.input.id}']`,
+            );
+            const actionsWidth =
+                this.state.actions.length * 31 +
+                (this.state.actions.length - 1) * 2 +
+                17;
             // Scrollbar is visible
             if (wrap.scrollWidth > width && window.innerWidth > 768) {
                 for (const el of actionColumnElements) {
@@ -222,7 +295,7 @@ export default class {
                 }
             } else {
                 for (const el of headElements) {
-                    const { width: elWidth, } = el.dataset;
+                    const { width: elWidth } = el.dataset;
                     el.style.width = elWidth ? `${elWidth}px` : "unset";
                 }
             }
@@ -249,7 +322,9 @@ export default class {
 
     onScroll() {
         const wrap = document.getElementById(`hr_hft_wrap_${this.input.id}`);
-        const scrollBottom = this.getComponent(`hr_hft_scroll_bottom_${this.input.id}`);
+        const scrollBottom = this.getComponent(
+            `hr_hft_scroll_bottom_${this.input.id}`,
+        );
         scrollBottom.setScrollLeft(wrap.scrollLeft);
     }
 
@@ -257,7 +332,9 @@ export default class {
         if (flag) {
             this.setState("loading", true);
             try {
-                await this.utils.waitForElement(`hr_hft_loading_wrap_${this.input.id}`);
+                await this.utils.waitForElement(
+                    `hr_hft_loading_wrap_${this.input.id}`,
+                );
                 this.positionSpinner();
             } catch {
                 // Ignore
@@ -270,7 +347,10 @@ export default class {
     async notify(message, className = "is-success") {
         await this.utils.waitForComponent(`notify_hf_${this.input.id}`);
         if (this.getComponent(`notify_hf_${this.input.id}`)) {
-            this.getComponent(`notify_hf_${this.input.id}`).show(window.__heretic.t(message), className);
+            this.getComponent(`notify_hf_${this.input.id}`).show(
+                window.__heretic.t(message),
+                className,
+            );
         }
     }
 
@@ -289,13 +369,18 @@ export default class {
                         method: "post",
                         url: this.state.loadConfig.url,
                         data: {
-                            searchText: input.searchText || this.state.searchText,
+                            searchText:
+                                input.searchText || this.state.searchText,
                             fields: Object.keys(this.state.columns),
                             sortField: input.sortField || this.state.sortField,
-                            sortDirection: input.sortDirection || this.state.sortDirection,
-                            itemsPerPage: input.itemsPerPage || this.state.itemsPerPage,
+                            sortDirection:
+                                input.sortDirection || this.state.sortDirection,
+                            itemsPerPage:
+                                input.itemsPerPage || this.state.itemsPerPage,
                             page: input.currentPage || this.state.currentPage,
-                            filters: this.state.filters.filter(i => i.enabled),
+                            filters: this.state.filters.filter(
+                                (i) => i.enabled,
+                            ),
                             language: this.language,
                         },
                         headers: this.input.headers || {},
@@ -313,7 +398,14 @@ export default class {
                         }
                         this.setState("columns", columns);
                     }
-                    this.setState("totalPages", response.data.total < this.state.itemsPerPage ? 1 : Math.ceil(response.data.total / this.state.itemsPerPage));
+                    this.setState(
+                        "totalPages",
+                        response.data.total < this.state.itemsPerPage
+                            ? 1
+                            : Math.ceil(
+                                  response.data.total / this.state.itemsPerPage,
+                              ),
+                    );
                     this.setState("total", response.data.total);
                     this.setState("grandTotal", response.data.grandTotal);
                     if (input.currentPage) {
@@ -322,7 +414,10 @@ export default class {
                     for (const k of Object.keys(input)) {
                         this.setState(k, input[k]);
                         if (this.queryStringShorthands[k]) {
-                            this.query.set(this.queryStringShorthands[k], input[k]);
+                            this.query.set(
+                                this.queryStringShorthands[k],
+                                input[k],
+                            );
                         }
                     }
                     this.setState("checked", []);
@@ -330,14 +425,27 @@ export default class {
                     this.setState("dataLoaded", true);
                     if (input && input.focusOnSearch) {
                         setTimeout(async () => {
-                            await this.utils.waitForElement(`hr_hft_table_search_${this.input.id}`);
-                            document.getElementById(`hr_hft_table_search_${this.input.id}`).focus();
+                            await this.utils.waitForElement(
+                                `hr_hft_table_search_${this.input.id}`,
+                            );
+                            document
+                                .getElementById(
+                                    `hr_hft_table_search_${this.input.id}`,
+                                )
+                                .focus();
                         });
                     }
-                    if ((window.__heretic.initComplete && window.__heretic.initComplete[this.input.id]) || window.__heretic.viewSettled) {
+                    if (
+                        (window.__heretic.initComplete &&
+                            window.__heretic.initComplete[this.input.id]) ||
+                        window.__heretic.viewSettled
+                    ) {
                         setTimeout(() => this.setWrapWidthDebounced());
                     }
-                    this.setState("currentPage", input.currentPage || this.state.currentPage || 1);
+                    this.setState(
+                        "currentPage",
+                        input.currentPage || this.state.currentPage || 1,
+                    );
                     this.generatePagination();
                     if (window.__heretic && window.__heretic.setTippy) {
                         setTimeout(() => window.__heretic.setTippy());
@@ -370,14 +478,28 @@ export default class {
             searchText: "s",
         };
         const columns = this.store.get("columns") || {};
-        if (Object.keys(columns).length !== Object.keys(this.state.columnData).length) {
-            Object.keys(this.state.columnData).map(c => columns[c] = this.state.columnData[c].column && !this.state.columnData[c].hidden);
+        if (
+            Object.keys(columns).length !==
+            Object.keys(this.state.columnData).length
+        ) {
+            Object.keys(this.state.columnData).map(
+                (c) =>
+                    (columns[c] =
+                        this.state.columnData[c].column &&
+                        !this.state.columnData[c].hidden),
+            );
         }
         this.setState("columns", columns);
         this.setState("filters", this.store.get("filters") || []);
-        this.setState("filtersEnabledCount", this.state.filters.reduce((a, c) => a += c.enabled ? 1 : 0, 0));
+        this.setState(
+            "filtersEnabledCount",
+            this.state.filters.reduce((a, c) => (a += c.enabled ? 1 : 0), 0),
+        );
         if (this.store.get("itemsPerPage")) {
-            this.setState("itemsPerPage", parseInt(this.store.get("itemsPerPage"), 10));
+            this.setState(
+                "itemsPerPage",
+                parseInt(this.store.get("itemsPerPage"), 10),
+            );
         }
         this.setWrapWidthDelayed = throttle(this.setWrapWidth, 150);
         this.setWrapWidthDebounced = debounce(this.setWrapWidth, 50);
@@ -389,11 +511,23 @@ export default class {
         window.addEventListener("orientationchange", () => this.setWrapWidth());
         wrap.addEventListener("scroll", this.onScroll.bind(this));
         const loadInput = {};
-        const currentPage = this.query.get(this.queryStringShorthands["currentPage"]);
-        const sortField = this.query.get(this.queryStringShorthands["sortField"]);
-        const sortDirection = this.query.get(this.queryStringShorthands["sortDirection"]);
-        const searchText = this.query.get(this.queryStringShorthands["searchText"]);
-        if (currentPage && typeof currentPage === "string" && currentPage.match(/^[0-9]{1,99999}$/)) {
+        const currentPage = this.query.get(
+            this.queryStringShorthands["currentPage"],
+        );
+        const sortField = this.query.get(
+            this.queryStringShorthands["sortField"],
+        );
+        const sortDirection = this.query.get(
+            this.queryStringShorthands["sortDirection"],
+        );
+        const searchText = this.query.get(
+            this.queryStringShorthands["searchText"],
+        );
+        if (
+            currentPage &&
+            typeof currentPage === "string" &&
+            currentPage.match(/^[0-9]{1,99999}$/)
+        ) {
             loadInput.currentPage = parseInt(currentPage, 10);
         }
         if (sortField && typeof sortField === "string") {
@@ -401,25 +535,50 @@ export default class {
                 loadInput.sortField = sortField;
             }
         }
-        if (sortDirection && typeof sortDirection === "string" && sortDirection.match(/^(asc|desc)$/)) {
+        if (
+            sortDirection &&
+            typeof sortDirection === "string" &&
+            sortDirection.match(/^(asc|desc)$/)
+        ) {
             loadInput.sortDirection = sortDirection;
         }
-        if (searchText && typeof searchText === "string" && searchText.length < 64) {
+        if (
+            searchText &&
+            typeof searchText === "string" &&
+            searchText.length < 64
+        ) {
             loadInput.searchText = searchText.replace(/\+/gm, " ");
         }
-        window.addEventListener("click", e => {
-            if (document.getElementById(`hr_hft_data_dropdown_${this.input.id}`) && !document.getElementById(`hr_hft_data_dropdown_${this.input.id}`).contains(e.target)) {
+        window.addEventListener("click", (e) => {
+            if (
+                document.getElementById(
+                    `hr_hft_data_dropdown_${this.input.id}`,
+                ) &&
+                !document
+                    .getElementById(`hr_hft_data_dropdown_${this.input.id}`)
+                    .contains(e.target)
+            ) {
                 this.setState("dataOpen", false);
             }
         });
         await this.utils.waitForViewSettled();
         await this.loadData(loadInput);
-        if ((window.__heretic.initComplete && window.__heretic.initComplete[this.input.id]) || window.__heretic.viewSettled) {
+        if (
+            (window.__heretic.initComplete &&
+                window.__heretic.initComplete[this.input.id]) ||
+            window.__heretic.viewSettled
+        ) {
             setTimeout(() => this.setWrapWidthDebounced());
         } else {
-            const hereticContentWidth = document.getElementById("heretic_content").clientWidth;
+            const hereticContentWidth =
+                document.getElementById("heretic_content").clientWidth;
             const hereticContentInterval = setInterval(async () => {
-                if (document.getElementById("heretic_content").clientWidth !== hereticContentWidth && document.getElementById("heretic_content").clientWidth > hereticContentWidth) {
+                if (
+                    document.getElementById("heretic_content").clientWidth !==
+                        hereticContentWidth &&
+                    document.getElementById("heretic_content").clientWidth >
+                        hereticContentWidth
+                ) {
                     clearInterval(hereticContentInterval);
                     await this.setWrapWidthDebounced();
                 }
@@ -439,9 +598,7 @@ export default class {
         if (!e.target.closest("[data-id]")) {
             return;
         }
-        const {
-            id,
-        } = e.target.closest("[data-id]").dataset;
+        const { id } = e.target.closest("[data-id]").dataset;
         if (!this.state.columnData[id].sortable) {
             return;
         }
@@ -476,37 +633,51 @@ export default class {
         this.emit("action-button-click", {
             buttonId,
             itemId,
-            item: this.state.data.find(i => i._id === itemId),
+            item: this.state.data.find((i) => i._id === itemId),
         });
         if (buttonId === "delete" && this.state.deleteConfig) {
-            await this.utils.waitForComponent(`deleteConfirmation_hf_${this.input.id}`);
-            const deleteConfirmation = this.getComponent(`deleteConfirmation_hf_${this.input.id}`);
-            const deleteItems = [{
-                id: itemId,
-                title: String(this.state.data.find(i => i._id === itemId)[this.state.deleteConfig.titleId] || itemId),
-            }];
+            await this.utils.waitForComponent(
+                `deleteConfirmation_hf_${this.input.id}`,
+            );
+            const deleteConfirmation = this.getComponent(
+                `deleteConfirmation_hf_${this.input.id}`,
+            );
+            const deleteItems = [
+                {
+                    id: itemId,
+                    title: String(
+                        this.state.data.find((i) => i._id === itemId)[
+                            this.state.deleteConfig.titleId
+                        ] || itemId,
+                    ),
+                },
+            ];
             this.setState("deleteItems", deleteItems);
-            deleteConfirmation.setActive(true).setCloseAllowed(true).setLoading(false);
+            deleteConfirmation
+                .setActive(true)
+                .setCloseAllowed(true)
+                .setLoading(false);
         }
     }
 
     onRowClick(e) {
         if (e.target.closest("[data-checkboxid]")) {
-            const {
-                checkboxid,
-            } = e.target.closest("[data-checkboxid]").dataset;
-            const checkbox = document.querySelector(`[data-checkboxid="${checkboxid}"]`);
-            const checkedData = checkbox.checked ? cloneDeep([...this.state.checked, checkboxid]) : cloneDeep(this.state.checked).filter(i => i !== checkboxid);
+            const { checkboxid } =
+                e.target.closest("[data-checkboxid]").dataset;
+            const checkbox = document.querySelector(
+                `[data-checkboxid="${checkboxid}"]`,
+            );
+            const checkedData = checkbox.checked
+                ? cloneDeep([...this.state.checked, checkboxid])
+                : cloneDeep(this.state.checked).filter((i) => i !== checkboxid);
             this.setState("checked", checkedData);
         }
     }
 
     onCheckboxAllChange(e) {
         e.preventDefault(e);
-        const {
-            checked
-        } = e.target;
-        const checkedData = checked ? this.state.data.map(f => f._id) : [];
+        const { checked } = e.target;
+        const checkedData = checked ? this.state.data.map((f) => f._id) : [];
         this.setState("checked", checkedData);
     }
 
@@ -518,23 +689,40 @@ export default class {
         if (this.state.loading) {
             return;
         }
-        const {
-            id
-        } = e.target.closest("[data-id]").dataset;
+        const { id } = e.target.closest("[data-id]").dataset;
         this.emit("top-button-click", id);
-        if (id === "delete" && this.state.deleteConfig && this.state.checked.length) {
-            await this.utils.waitForComponent(`deleteConfirmation_hf_${this.input.id}`);
-            const deleteConfirmation = this.getComponent(`deleteConfirmation_hf_${this.input.id}`);
+        if (
+            id === "delete" &&
+            this.state.deleteConfig &&
+            this.state.checked.length
+        ) {
+            await this.utils.waitForComponent(
+                `deleteConfirmation_hf_${this.input.id}`,
+            );
+            const deleteConfirmation = this.getComponent(
+                `deleteConfirmation_hf_${this.input.id}`,
+            );
             const deleteItems = [];
             for (const itemId of this.state.checked) {
                 deleteItems.push({
                     id: itemId,
-                    title: String(this.state.data.find(i => i._id === itemId)[this.state.deleteConfig.titleId] || itemId),
+                    title: String(
+                        this.state.data.find((i) => i._id === itemId)[
+                            this.state.deleteConfig.titleId
+                        ] || itemId,
+                    ),
                 });
             }
             this.setState("deleteItems", deleteItems);
-            deleteConfirmation.setActive(true).setCloseAllowed(true).setLoading(false);
-        } else if (id === "delete" && this.state.deleteConfig && !this.state.checked.length) {
+            deleteConfirmation
+                .setActive(true)
+                .setCloseAllowed(true)
+                .setLoading(false);
+        } else if (
+            id === "delete" &&
+            this.state.deleteConfig &&
+            !this.state.checked.length
+        ) {
             this.notify("htable_nothingSelected", "is-warning");
         }
     }
@@ -617,8 +805,12 @@ export default class {
             focusOnSearch: true,
         });
         setTimeout(async () => {
-            await this.utils.waitForElement(`hr_hft_table_search_${this.input.id}`);
-            document.getElementById(`hr_hft_table_search_${this.input.id}`).focus();
+            await this.utils.waitForElement(
+                `hr_hft_table_search_${this.input.id}`,
+            );
+            document
+                .getElementById(`hr_hft_table_search_${this.input.id}`)
+                .focus();
         }, 10);
     }
 
@@ -641,30 +833,39 @@ export default class {
 
     async onDeleteConfirmationButtonClick(id) {
         switch (id) {
-        case "delete":
-            await this.utils.waitForComponent(`deleteConfirmation_hf_${this.input.id}`);
-            const deleteConfirmation = this.getComponent(`deleteConfirmation_hf_${this.input.id}`);
-            deleteConfirmation.setCloseAllowed(true).setLoading(true);
-            try {
-                const deleteResult = await axios({
-                    method: "post",
-                    url: this.state.deleteConfig.url,
-                    data: {
-                        ids: this.state.deleteItems.map(i => i.id),
-                    },
-                    headers: this.input.headers || {},
-                });
-                this.setState("checked", []);
-                await this.loadData({
-                    currentPage: 1,
-                });
-                deleteConfirmation.setCloseAllowed(true).setLoading(false).setActive(false);
-                this.notify(`${window.__heretic.t("htable_deleteSuccess")}: ${deleteResult.data.count}`);
-            } catch {
-                this.notify("htable_deleteError", "is-danger");
-                deleteConfirmation.setCloseAllowed(true).setLoading(false);
-            }
-            break;
+            case "delete":
+                await this.utils.waitForComponent(
+                    `deleteConfirmation_hf_${this.input.id}`,
+                );
+                const deleteConfirmation = this.getComponent(
+                    `deleteConfirmation_hf_${this.input.id}`,
+                );
+                deleteConfirmation.setCloseAllowed(true).setLoading(true);
+                try {
+                    const deleteResult = await axios({
+                        method: "post",
+                        url: this.state.deleteConfig.url,
+                        data: {
+                            ids: this.state.deleteItems.map((i) => i.id),
+                        },
+                        headers: this.input.headers || {},
+                    });
+                    this.setState("checked", []);
+                    await this.loadData({
+                        currentPage: 1,
+                    });
+                    deleteConfirmation
+                        .setCloseAllowed(true)
+                        .setLoading(false)
+                        .setActive(false);
+                    this.notify(
+                        `${window.__heretic.t("htable_deleteSuccess")}: ${deleteResult.data.count}`,
+                    );
+                } catch {
+                    this.notify("htable_deleteError", "is-danger");
+                    deleteConfirmation.setCloseAllowed(true).setLoading(false);
+                }
+                break;
         }
     }
 

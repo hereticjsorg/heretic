@@ -12,8 +12,13 @@ export default class {
     }
 
     onMount() {
-        window.addEventListener("click", e => {
-            if (document.getElementById("hr_navbar_language") && !document.getElementById("hr_navbar_language").contains(e.target)) {
+        window.addEventListener("click", (e) => {
+            if (
+                document.getElementById("hr_navbar_language") &&
+                !document
+                    .getElementById("hr_navbar_language")
+                    .contains(e.target)
+            ) {
                 this.setState("langOpen", false);
             }
         });
@@ -31,12 +36,13 @@ export default class {
 
     onLanguageItemClick(e) {
         e.preventDefault();
-        const {
-            lang,
-        } = e.target.closest("[data-lang]").dataset;
+        const { lang } = e.target.closest("[data-lang]").dataset;
         window.__heretic = window.__heretic || {};
         window.__heretic.routingStop = true;
-        window.location.href = (lang === Object.keys(languages)[0] ? this.getCurrentURL() : `/${lang}${this.getCurrentURL()}`);
+        window.location.href =
+            lang === Object.keys(languages)[0]
+                ? this.getCurrentURL()
+                : `/${lang}${this.getCurrentURL()}`;
     }
 
     getCurrentURL() {

@@ -15,7 +15,7 @@ import apiCheckOTP from "./apiCheckOTP";
 import apiDisable2FA from "./apiDisable2FA";
 import apiDisable2FARecovery from "./apiDisable2FARecovery";
 
-export default fastify => {
+export default (fastify) => {
     if (fastify.systemConfig.auth.signIn) {
         fastify.post("/api/signIn", apiSignIn());
     }

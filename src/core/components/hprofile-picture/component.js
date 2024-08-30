@@ -7,9 +7,13 @@ export default class {
             active: false,
         };
         if (input.admin) {
-            await import( /* webpackChunkName: "hprofilePicture-admin" */ "./style-admin.scss");
+            await import(
+                /* webpackChunkName: "hprofilePicture-admin" */ "./style-admin.scss"
+            );
         } else {
-            await import( /* webpackChunkName: "hprofilePicture-frontend" */ "./style-frontend.scss");
+            await import(
+                /* webpackChunkName: "hprofilePicture-frontend" */ "./style-frontend.scss"
+            );
         }
     }
 
@@ -52,23 +56,29 @@ export default class {
         try {
             await this.cropper.loadImageData(data);
         } catch (er) {
-            this.getComponent("profilePictureNotify").show(this.t("profilePictureEditorLoadError"), "is-danger");
+            this.getComponent("profilePictureNotify").show(
+                this.t("profilePictureEditorLoadError"),
+                "is-danger",
+            );
         }
         this.imageSet = true;
     }
 
     onProfilePictureEditorButtonClick(id) {
         switch (id) {
-        case "save":
-            if (!this.imageSet) {
-                this.getComponent("profilePictureNotify").show(this.t("profilePictureEditorNoImage"), "is-warning");
+            case "save":
+                if (!this.imageSet) {
+                    this.getComponent("profilePictureNotify").show(
+                        this.t("profilePictureEditorNoImage"),
+                        "is-warning",
+                    );
+                    break;
+                }
+                const imageData = this.cropper.getCroppedImage();
+                this.emit("image-data", imageData);
                 break;
-            }
-            const imageData = this.cropper.getCroppedImage();
-            this.emit("image-data", imageData);
-            break;
-        case "close":
-            break;
+            case "close":
+                break;
         }
     }
 }

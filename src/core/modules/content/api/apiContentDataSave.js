@@ -1,6 +1,4 @@
-import {
-    createHash,
-} from "crypto";
+import { createHash } from "crypto";
 import FormData from "../data/contentForm";
 import FormValidator from "#lib/formValidatorServer";
 import moduleConfig from "../module.js";
@@ -13,10 +11,19 @@ export default () => ({
         let formValidator;
         try {
             const authData = await req.auth.getData(req.auth.methods.HEADERS);
-            if (!authData || !authData.groupData || !authData.groupData.find(i => i.id === "admin" && i.value === true)) {
-                return rep.error({
-                    message: "Access Denied",
-                }, 403);
+            if (
+                !authData ||
+                !authData.groupData ||
+                !authData.groupData.find(
+                    (i) => i.id === "admin" && i.value === true,
+                )
+            ) {
+                return rep.error(
+                    {
+                        message: "Access Denied",
+                    },
+                    403,
+                );
             }
             let multipartData;
             try {
@@ -28,14 +35,22 @@ export default () => ({
                 });
             }
             const formData = new FormData();
-            formValidator = new FormValidator(formData.getValidationSchema(), formData.getFieldsFlat(), this);
-            const {
-                data,
-            } = formValidator.parseMultipartData(multipartData);
+            formValidator = new FormValidator(
+                formData.getValidationSchema(),
+                formData.getFieldsFlat(),
+                this,
+            );
+            const { data } = formValidator.parseMultipartData(multipartData);
             const validationResult = formValidator.validate();
             let editorContent;
             try {
-                editorContent = multipartData && multipartData.fields && multipartData.fields.editorContent && typeof multipartData.fields.editorContent === "string" ? JSON.parse(multipartData.fields.editorContent) : null;
+                editorContent =
+                    multipartData &&
+                    multipartData.fields &&
+                    multipartData.fields.editorContent &&
+                    typeof multipartData.fields.editorContent === "string"
+                        ? JSON.parse(multipartData.fields.editorContent)
+                        : null;
             } catch {
                 //
             }
@@ -45,7 +60,9 @@ export default () => ({
                     form: validationResult,
                 });
             }
-            const collection = this.mongo.db.collection(moduleConfig.collections.content);
+            const collection = this.mongo.db.collection(
+                moduleConfig.collections.content,
+            );
             const result = {};
             for (const k of Object.keys(languages)) {
                 if (data[k]) {
@@ -62,13 +79,18 @@ export default () => ({
                 }
             }
             data.pagePath = data.pagePath || [];
-            data.pagePathHash = createHash("sha256").update(data.pagePath.join("/")).digest("base64");
+            data.pagePathHash = createHash("sha256")
+                .update(data.pagePath.join("/"))
+                .digest("base64");
             data.pagePathText = `/${data.pagePath.join("/")}`;
             const duplicateRecord = await collection.findOne({
                 pagePathHash: data.pagePathHash,
             });
             if (data._id) {
-                if (duplicateRecord && String(duplicateRecord._id) !== String(data._id)) {
+                if (
+                    duplicateRecord &&
+                    String(duplicateRecord._id) !== String(data._id)
+                ) {
                     return rep.error({
                         duplicate: true,
                         message: "duplicateRecord",
@@ -81,11 +103,14 @@ export default () => ({
                     throw new Error("Not found");
                 }
                 if (!this.systemConfig.demo) {
-                    await collection.updateOne({
-                        _id: data._id,
-                    }, {
-                        $set: data,
-                    });
+                    await collection.updateOne(
+                        {
+                            _id: data._id,
+                        },
+                        {
+                            $set: data,
+                        },
+                    );
                     await formValidator.saveFiles(dataId, String(data._id));
                 }
             } else if (!this.systemConfig.demo) {
@@ -99,7 +124,10 @@ export default () => ({
                     ...data,
                 });
                 result.insertedId = insertResult.insertedId;
-                await formValidator.saveFiles(dataId, String(insertResult.insertedId));
+                await formValidator.saveFiles(
+                    dataId,
+                    String(insertResult.insertedId),
+                );
             }
             return rep.code(200).send(result);
         } catch (e) {
@@ -109,5 +137,5 @@ export default () => ({
             this.log.error(e);
             return Promise.reject(e);
         }
-    }
+    },
 });
