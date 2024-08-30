@@ -5,8 +5,8 @@ module.exports = {
         ecmaVersion: 2018,
         sourceType: "module",
         ecmaFeatures: {
-            jsx: false
-        }
+            jsx: false,
+        },
     },
     plugins: [],
     extends: "airbnb-base",
@@ -14,16 +14,21 @@ module.exports = {
         es6: true,
         browser: true,
         node: true,
-        es2020: true
+        es2020: true,
     },
     rules: {
-        "import/no-unresolved": [2, {
-            ignore: ["^#"]
-        }],
-        quotes: ["error", "double",
+        "import/no-unresolved": [
+            2,
             {
-                allowTemplateLiterals: true
-            }
+                ignore: ["^#"],
+            },
+        ],
+        quotes: [
+            "error",
+            "double",
+            {
+                allowTemplateLiterals: true,
+            },
         ],
         "template-curly-spacing": "off",
         indent: "off",
@@ -57,6 +62,12 @@ module.exports = {
         "space-in-parens": "off",
         "no-trailing-spaces": "off",
         "eol-last": "off",
+        "operator-linebreak": "off",
+        "implicit-arrow-linebreak": "off",
+        "comma-style": "off",
+        "object-curly-newline": "off",
+        "function-paren-newline": "off",
+        "no-useless-escape": "off",
     },
     overrides: [],
 };
