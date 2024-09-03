@@ -85,5 +85,7 @@
     "contactDesc": "You've just received a message from the feedback form on your website.",
     "contactName": "Name",
     "contactEmail": "E-mail",
-    "contactMessage": "Message"
+    "contactMessage": "Message",
+    "searchButton": "Find",
+    "noDocumentsFound": "No documents found."
 }

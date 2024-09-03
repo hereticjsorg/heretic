@@ -50,9 +50,10 @@ export default () => ({
                 .join(" ");
             let result = {};
             try {
+                // result = await this.redis.ft.search(`${this.systemConfig.id}-fulltext`, `@content|title:(${words}) @language:(${language.split(/-/)[0]})`, {
                 result = await this.redis.ft.search(
                     `${this.systemConfig.id}-fulltext`,
-                    `@content|title:(${words}) @language:(${language.split(/-/)[0]})`,
+                    `@content|title:(${words})`,
                     {
                         LANGUAGE: languageFull,
                         SUMMARIZE: {
