@@ -61,6 +61,28 @@ export default class {
         return new Promise(wait);
     }
 
+    waitForElementInViewport(id) {
+        const timeout = 5000;
+        const start = Date.now();
+        const el = document.getElementById(id);
+        const wait = (resolve, reject) => {
+            if (!el) {
+                reject(new Error(`Element not found: ${id}`));
+            }
+            if (!process.browser) {
+                resolve();
+            }
+            if (this.isElementInViewport(el)) {
+                resolve();
+            } else if (timeout && Date.now() - start >= timeout) {
+                reject(new Error(`Element not in viewport: ${id}`));
+            } else {
+                setTimeout(wait.bind(this, resolve, reject), 30);
+            }
+        };
+        return new Promise(wait);
+    }
+
     waitForStyle(id, property, value) {
         const timeout = 5000;
         const start = Date.now();
@@ -215,6 +237,9 @@ export default class {
     }
 
     isElementInViewport(el) {
+        if (el.checkVisibility) {
+            return el.checkVisibility();
+        }
         const rect = el.getBoundingClientRect();
         return (
             rect.top >= 0 &&

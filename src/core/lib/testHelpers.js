@@ -100,22 +100,14 @@ export default class {
         const cmd = commandArr.shift();
         const execObj = spawn(cmd, commandArr, {
             cwd: path.resolve(__dirname, "../../.."),
-            // detached: true,
+            detached: true,
         });
         return execObj;
     }
 
     /* istanbul ignore file */
-    killProcess(childProcess, pid) {
-        if (childProcess) {
-            childProcess.stdout.destroy();
-            childProcess.stderr.destroy();
-            childProcess.kill();
-            // process.kill(-(childProcess.pid));
-        }
-        if (pid) {
-            process.kill(-pid);
-        }
+    killProcess(pid) {
+        process.kill(-pid);
     }
 
     /* istanbul ignore file */

@@ -3,6 +3,9 @@ import languages from "#etc/languages.json"
 <hloading key="loading"/>
 <div style={
     position: state.mounted ? "unset" : "absolute",
+    left: state.mounted ? "unset" : "999999px",
+    height: state.mounted ? "unset" : "1px",
+    display: state.mounted ? "block" : "none",
     clip: state.mounted ? "unset" : "rect(0 0 0 0)",
     opacity: state.mounted ? "1" : "0",
 }>

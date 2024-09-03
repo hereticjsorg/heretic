@@ -1,4 +1,3 @@
-/* eslint-disable no-control-regex */
 const fs = require("fs-extra");
 const path = require("path");
 const crypto = require("crypto");
@@ -930,6 +929,7 @@ module.exports = class {
                 }
                 if (strArr[i + 2]) {
                     data[strArr[i]] = data[strArr[i]] || {};
+                    // eslint-disable-next-line no-control-regex
                     data[strArr[i]].country = strArr[i + 2].replace(
                         /\x00/gm,
                         "",

@@ -20,7 +20,7 @@ export default () => ({
                 _id: 1,
             };
             options.projection[recycleBinConfig.title] = 1;
-            if (recyclßeBinConfig.id) {
+            if (recycleBinConfig.id) {
                 options.projection[recycleBinConfig.id] = 1;
             }
             const query = {

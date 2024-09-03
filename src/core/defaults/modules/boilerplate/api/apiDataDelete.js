@@ -16,7 +16,7 @@ export default () => ({
                 });
             }
             if (!this.systemConfig.demo) {
-                const formDataÍ = new FormData();
+                const formData = new FormData();
                 const query = {
                     $and: [
                         {

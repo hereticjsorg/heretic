@@ -18,9 +18,8 @@ function MatcherStream(patternDesc, matchFn) {
 
     this.pattern = Buffer.isBuffer(p) ? p : Buffer.from(p);
     this.requiredLength = this.pattern.length;
-    if (patternDesc.requiredExtraSize) {
+    if (patternDesc.requiredExtraSize)
         this.requiredLength += patternDesc.requiredExtraSize;
-    }
 
     this.data = Buffer.from("");
     this.bytesSoFar = 0;

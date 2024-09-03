@@ -15,7 +15,7 @@ export default () => ({
                     message: "validation_error",
                 });
             }
-            const formData = newFormData();
+            const formData = new FormData();
             const query = utils.filter(
                 {
                     _id: new ObjectId(req.body.id),

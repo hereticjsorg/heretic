@@ -74,14 +74,14 @@ test("Login", async () => {
         visible: true,
         timeout: 15000,
     });
-    helpers.killProcess(childProcess);
+    helpers.killProcess(childProcess.pid);
     serverPid = serverPid.filter((i) => i !== childProcess.pid);
 });
 
 afterAll(async () => {
     for (const pid of serverPid) {
         try {
-            helpers.killProcess(null, pid);
+            helpers.killProcess(pid);
         } catch {
             // Ignore
         }
