@@ -109,8 +109,9 @@ UnzipStream.prototype.processDataChunk = function (chunk) {
         case states.FILE_DATA_END:
             return 0;
         case states.TRAILING_JUNK:
-            if (this.options.debug)
+            if (this.options.debug) {
                 console.log("found", chunk.length, "bytes of TRAILING_JUNK");
+            }
             return chunk.length;
         default:
             return chunk.length;
@@ -159,8 +160,9 @@ UnzipStream.prototype.processDataChunk = function (chunk) {
                             }
                         }
                         this.skippedBytes += toSkip;
-                        if (this.options.debug)
+                        if (this.options.debug) {
                             console.log("Skipped", this.skippedBytes, "bytes");
+                        }
                         return toSkip;
                     }
                     this.state = states.ERROR;

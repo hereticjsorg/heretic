@@ -931,6 +931,7 @@ module.exports = class {
                     data[strArr[i]] = data[strArr[i]] || {};
                     // eslint-disable-next-line no-control-regex
                     data[strArr[i]].country = strArr[i + 2].replace(
+                        // eslint-disable-next-line no-control-regex
                         /\x00/gm,
                         "",
                     );

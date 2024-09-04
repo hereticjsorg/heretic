@@ -1,7 +1,7 @@
 import SetPasswordForm from "../../data/setPasswordForm.js"
 
 <if(state.error)>
-    <h1 class="title is-3 has-text-weight-light">
+    <h1 class="subtitle is-1 has-text-weight-light">
         <t>activation</t>
     </h1>
     <div class="notification is-warning">
@@ -10,7 +10,7 @@ import SetPasswordForm from "../../data/setPasswordForm.js"
 </if>
 <else>
     <if(state.ready && component.mongoEnabled && component.authOptions.signIn)>
-        <h1 class="title is-3 has-text-weight-light">
+        <h1 class="subtitle is-1 has-text-weight-light">
             <t>activation</t>
         </h1>
         <if(state.activationType === "email")>
