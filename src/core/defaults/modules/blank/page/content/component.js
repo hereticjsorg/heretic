@@ -1,5 +1,5 @@
 import pageConfig from "../page.js";
-import Utils from "#lib/componentUtils";
+import Utils from "#lib/componentUtils.js";
 
 export default class {
     onCreate(input, out) {

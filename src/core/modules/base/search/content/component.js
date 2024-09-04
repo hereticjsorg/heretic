@@ -1,9 +1,9 @@
 import axios from "axios";
 import pageConfig from "../page.js";
-import Utils from "#lib/componentUtils";
-import Cookies from "#lib/cookiesBrowser";
+import Utils from "#lib/componentUtils.js";
+import Cookies from "#lib/cookiesBrowser.js";
 import moduleConfig from "../../module.js";
-import Query from "#lib/queryBrowser";
+import Query from "#lib/queryBrowser.js";
 
 export default class {
     onCreate(input, out) {

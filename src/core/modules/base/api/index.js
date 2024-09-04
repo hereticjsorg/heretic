@@ -1,15 +1,15 @@
 import apiGroups from "./apiGroups";
-import apiSysInfo from "./apiSysInfo";
-import apiDataProviderEvents from "./apiDataProviderEvents";
-import apiDataProviderGroups from "./apiDataProviderGroups";
-import apiCaptcha from "./apiCaptcha";
-import apiRestart from "./apiRestart";
-import apiUpdate from "./apiUpdate";
-import apiRebuild from "./apiRebuild";
-import apiStatus from "./apiStatus";
-import apiContact from "./apiContact";
-import apiUploadImage from "./apiUploadImage";
-import apiSearchEngine from "./apiSearchEngine";
+import apiSysInfo from "./apiSysInfo.js";
+import apiDataProviderEvents from "./apiDataProviderEvents.js";
+import apiDataProviderGroups from "./apiDataProviderGroups.js";
+import apiCaptcha from "./apiCaptcha.js";
+import apiRestart from "./apiRestart.js";
+import apiUpdate from "./apiUpdate.js";
+import apiRebuild from "./apiRebuild.js";
+import apiStatus from "./apiStatus.js";
+import apiContact from "./apiContact.js";
+import apiUploadImage from "./apiUploadImage.js";
+import apiSearchEngine from "./apiSearchEngine.js";
 
 export default (fastify) => {
     fastify.get("/api/captcha", apiCaptcha());

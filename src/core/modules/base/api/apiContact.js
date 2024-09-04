@@ -1,8 +1,8 @@
 import Ajv from "ajv";
 import { convert } from "html-to-text";
 import ContactForm from "#core/components/hcontact/form.js";
-import Captcha from "#lib/captcha";
-import Email from "#lib/email";
+import Captcha from "#lib/captcha.js";
+import Email from "#lib/email.js";
 
 const ajv = new Ajv({
     allErrors: true,

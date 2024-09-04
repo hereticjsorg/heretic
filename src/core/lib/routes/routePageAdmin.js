@@ -1,11 +1,11 @@
 import buildData from "#build/build.json";
+import DynamicLoader from "#build/dynamicLoader.js";
 
 const languages = Object.keys(require("#etc/languages.json"));
 
 export default (m, page, languageData, language) => ({
     async handler(req, rep) {
         const authData = await req.auth.getData(req.auth.methods.COOKIE);
-
         if (page.routePath === "/admin/signIn" && authData) {
             return rep
                 .code(302)
@@ -39,9 +39,8 @@ export default (m, page, languageData, language) => ({
         const translationData = buildData.modules
             .find((i) => i.id === m.id)
             .pages.find((i) => i.id === page.id).metaData;
-        const pageData = (
-            await import(`#src/../${m.path}/${page.id}/server.marko`)
-        ).default;
+        const pageData = (await DynamicLoader.loadPage(`${m.path}/${page.id}`))
+            .default;
         const renderPage = await pageData.render({
             $global: {
                 serializedGlobals: {

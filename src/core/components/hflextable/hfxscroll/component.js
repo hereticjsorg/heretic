@@ -1,5 +1,5 @@
 import debounce from "lodash/debounce";
-import Utils from "#lib/componentUtils";
+import Utils from "#lib/componentUtils.js";
 
 export default class {
     async onCreate(input, out) {

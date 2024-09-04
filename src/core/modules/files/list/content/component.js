@@ -3,8 +3,8 @@ import cloneDeep from "lodash/cloneDeep";
 import debounce from "lodash/debounce";
 import throttle from "lodash/throttle";
 import mime from "mime/lite";
-import Utils from "#lib/componentUtils";
-import Cookies from "#lib/cookiesBrowser";
+import Utils from "#lib/componentUtils.js";
+import Cookies from "#lib/cookiesBrowser.js";
 import pageConfig from "../page.js";
 import moduleConfig from "../../module.js";
 

@@ -1,5 +1,5 @@
 import { ObjectId } from "mongodb";
-import moduleConfig from "../module";
+import moduleConfig from "../module.js";
 
 export default class {
     constructor(fastify) {

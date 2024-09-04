@@ -1,5 +1,5 @@
 import { v4 as uuid } from "uuid";
-import Auth from "#lib/auth";
+import Auth from "#lib/auth.js";
 import indexes from "./indexes.json";
 
 export default class {

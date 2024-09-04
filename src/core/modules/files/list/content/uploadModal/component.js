@@ -1,8 +1,8 @@
 import cloneDeep from "lodash/cloneDeep";
 import axios from "axios";
 import { v4 as uuid } from "uuid";
-import Cookies from "#lib/cookiesBrowser";
-import Utils from "#lib/componentUtils";
+import Cookies from "#lib/cookiesBrowser.js";
+import Utils from "#lib/componentUtils.js";
 
 export default class {
     onCreate(input, out) {

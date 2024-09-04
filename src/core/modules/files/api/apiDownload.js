@@ -1,5 +1,5 @@
 import fs from "fs-extra";
-import Utils from "./utils";
+import Utils from "./utils.js";
 
 const languages = Object.keys(require("#etc/languages.json"));
 

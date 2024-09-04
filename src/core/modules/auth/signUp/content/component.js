@@ -1,6 +1,6 @@
 import axios from "axios";
-import Utils from "#lib/componentUtils";
-import Cookies from "#lib/cookiesBrowser";
+import Utils from "#lib/componentUtils.js";
+import Cookies from "#lib/cookiesBrowser.js";
 import pageConfig from "../page.js";
 import moduleConfig from "../../module.js";
 

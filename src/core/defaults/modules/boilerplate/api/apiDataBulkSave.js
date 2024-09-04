@@ -1,7 +1,7 @@
-import FormValidator from "#lib/formValidatorServer";
-import FormData from "../data/form";
+import FormValidator from "#lib/formValidatorServer.js";
+import FormData from "../data/form.js";
 import moduleConfig from "../module.js";
-import utils from "./utils";
+import utils from "./utils.js";
 
 export default () => ({
     async handler(req, rep) {

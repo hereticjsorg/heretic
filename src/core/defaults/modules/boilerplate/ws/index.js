@@ -1,5 +1,5 @@
 import { ObjectId } from "mongodb";
-import moduleConfig from "../module";
+import moduleConfig from "../module.js";
 import utils from "../api/utils";
 
 export default class {

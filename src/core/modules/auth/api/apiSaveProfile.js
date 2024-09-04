@@ -2,7 +2,7 @@ import Ajv from "ajv";
 import sharp from "sharp";
 import fs from "fs-extra";
 import path from "path";
-import ProfileForm from "../data/profileForm";
+import ProfileForm from "../data/profileForm.js";
 import moduleConfig from "../module.js";
 
 const ajv = new Ajv({

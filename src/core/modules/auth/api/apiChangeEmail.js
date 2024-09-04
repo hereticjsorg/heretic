@@ -1,8 +1,8 @@
 import Ajv from "ajv";
 import { v4 as uuid } from "uuid";
-import EmailForm from "../data/emailForm";
-import Email from "#lib/email";
-import Utils from "#lib/componentUtils";
+import EmailForm from "../data/emailForm.js";
+import Email from "#lib/email.js";
+import Utils from "#lib/componentUtils.js";
 
 const ajv = new Ajv({
     allErrors: true,

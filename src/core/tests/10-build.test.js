@@ -1,5 +1,5 @@
 import { jest, test, expect } from "@jest/globals";
-import Helpers from "#lib/testHelpers";
+import Helpers from "#lib/testHelpers.js";
 
 const helpers = new Helpers();
 jest.setTimeout(500000);

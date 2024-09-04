@@ -1,10 +1,10 @@
 import Ajv from "ajv";
 import { v4 as uuid } from "uuid";
-import Password from "#lib/password";
-import SignUpForm from "../data/signUpForm";
-import Captcha from "#lib/captcha";
-import Email from "#lib/email";
-import Utils from "#lib/componentUtils";
+import Password from "#lib/password.js";
+import SignUpForm from "../data/signUpForm.js";
+import Captcha from "#lib/captcha.js";
+import Email from "#lib/email.js";
+import Utils from "#lib/componentUtils.js";
 import languagesData from "#etc/languages.json";
 
 const ajv = new Ajv({

@@ -8,7 +8,7 @@ import puppeteer from "puppeteer-core";
 import BinUtils from "#lib/binUtils.js";
 
 import languages from "#etc/languages.json";
-import config from "#etc/system";
+import config from "#etc/system.js";
 
 const binUtils = new BinUtils({});
 

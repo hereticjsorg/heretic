@@ -1,11 +1,11 @@
-import apiDownload from "./apiDownload";
-import apiCancel from "./apiCancel";
-import apiListFiles from "./apiListFiles";
-import apiLoad from "./apiLoad";
-import apiProcess from "./apiProcess";
-import apiSave from "./apiSave";
+import apiDownload from "./apiDownload.js";
+import apiCancel from "./apiCancel.js";
+import apiListFiles from "./apiListFiles.js";
+import apiLoad from "./apiLoad.js";
+import apiProcess from "./apiProcess.js";
+import apiSave from "./apiSave.js";
 import apiStatus from "./apiStatus";
-import apiUpload from "./apiUpload";
+import apiUpload from "./apiUpload.js";
 
 export default (fastify) => {
     if (fastify.systemConfig.auth.admin) {

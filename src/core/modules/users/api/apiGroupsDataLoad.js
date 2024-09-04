@@ -1,5 +1,5 @@
 import { ObjectId } from "mongodb";
-import FormData from "../data/groupsForm";
+import FormData from "../data/groupsForm.js";
 import moduleConfig from "../module.js";
 
 export default () => ({

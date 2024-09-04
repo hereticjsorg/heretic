@@ -1,8 +1,8 @@
 import fs from "fs-extra";
-import FormData from "../data/saveFile";
-import FormValidator from "#lib/formValidatorServer";
+import FormData from "../data/saveFile.js";
+import FormValidator from "#lib/formValidatorServer.js";
 import moduleConfig from "../module.js";
-import Utils from "./utils";
+import Utils from "./utils.js";
 
 export default () => ({
     async handler(req, rep) {

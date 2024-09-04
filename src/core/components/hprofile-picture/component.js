@@ -1,5 +1,5 @@
-import Cropper from "#core/lib/3rdparty/js-cropper/main";
-import Utils from "#lib/componentUtils";
+import Cropper from "#core/lib/3rdparty/js-cropper/main/index.js";
+import Utils from "#lib/componentUtils.js";
 
 export default class {
     async onCreate(input) {

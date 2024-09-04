@@ -1,6 +1,6 @@
 import path from "path";
 import fs from "fs-extra";
-import Utils from "./utils";
+import Utils from "./utils.js";
 
 export default () => ({
     async handler(req, rep) {

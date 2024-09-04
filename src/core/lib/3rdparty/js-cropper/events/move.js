@@ -1,5 +1,5 @@
-import Element from "../components/element";
-import Point from "../objects/point";
+import Element from "../components/element.js";
+import Point from "../objects/point.js";
 
 /**
  * Class representing a MoveEventListener

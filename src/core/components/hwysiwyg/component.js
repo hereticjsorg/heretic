@@ -1,4 +1,4 @@
-import Utils from "#lib/componentUtils";
+import Utils from "#lib/componentUtils.js";
 import icons from "./icons.json";
 
 export default class {

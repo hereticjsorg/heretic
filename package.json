@@ -4,7 +4,6 @@
     "description": "Heretic",
     "main": "dist/server.js",
     "imports": {
-        "#root/*": "./*",
         "#core/*": "./src/core/*",
         "#components/*": "./src/core/components/*",
         "#build/*": "./.build/*",
@@ -12,7 +11,8 @@
         "#bin/*": "./src/bin/*",
         "#site/*": "./site/*",
         "#etc/*": "./site/etc/*",
-        "#src/*": "./src/*"
+        "#src/*": "./src/*",
+        "#root/*": "./*"
     },
     "scripts": {
         "install-modules": "npm install && npm i --include=optional sharp",
@@ -137,7 +137,7 @@
         "uri-js": "^4.4.1",
         "utf-8-validate": "^6.0.4",
         "uuid": "^10.0.0",
-        "webpack": "^5.93.0",
+        "webpack": "^5.94.0",
         "webpack-cli": "^5.1.4",
         "ws": "^8.18.0",
         "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.2/xlsx-0.20.2.tgz"

@@ -1,5 +1,5 @@
-import FormData from "../data/groupsForm";
-import FormValidator from "#lib/formValidatorServer";
+import FormData from "../data/groupsForm.js";
+import FormValidator from "#lib/formValidatorServer.js";
 import moduleConfig from "../module.js";
 
 const dataId = "groups";

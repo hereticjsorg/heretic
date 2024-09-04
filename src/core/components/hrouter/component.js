@@ -1,4 +1,4 @@
-import Router from "#lib/router";
+import Router from "#lib/router.js";
 import languages from "#etc/languages.json";
 import navigation from "#etc/navigation.json";
 import buildData from "#build/build.json";

@@ -1,5 +1,5 @@
-import Element from "./element";
-import Context from "../objects/context";
+import Element from "./element.js";
+import Context from "../objects/context.js";
 
 /**
  * Class representing a Generator

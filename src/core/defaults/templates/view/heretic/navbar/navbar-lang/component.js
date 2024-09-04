@@ -1,4 +1,4 @@
-import Utils from "#lib/componentUtils";
+import Utils from "#lib/componentUtils.js";
 import languages from "#etc/languages.json";
 
 export default class {

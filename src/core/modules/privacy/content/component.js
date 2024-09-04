@@ -1,5 +1,5 @@
 import axios from "axios";
-import Utils from "#lib/componentUtils";
+import Utils from "#lib/componentUtils.js";
 import pageConfig from "../site/page.js";
 import moduleConfig from "../module.js";
 

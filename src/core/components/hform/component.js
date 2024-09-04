@@ -1,10 +1,10 @@
 import cloneDeep from "lodash/cloneDeep";
 import { v4 as uuidv4 } from "uuid";
 import serializableTypes from "./serializableTypes.json";
-import FormValidator from "#lib/formValidatorBrowser";
-import formValidatorUtils from "#lib/formValidatorUtils";
-import Query from "#lib/queryBrowser";
-import Utils from "#lib/componentUtils";
+import FormValidator from "#lib/formValidatorBrowser.js";
+import formValidatorUtils from "#lib/formValidatorUtils.js";
+import Query from "#lib/queryBrowser.js";
+import Utils from "#lib/componentUtils.js";
 
 export default class {
     initValidation(input = this.input) {

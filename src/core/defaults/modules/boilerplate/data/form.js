@@ -4,8 +4,8 @@ import {
     mdiAccountPlusOutline,
 } from "@mdi/js";
 import { format } from "date-fns";
-import moduleConfig from "../module";
-import utils from "#lib/formValidatorUtils";
+import moduleConfig from "../module.js";
+import utils from "#lib/formValidatorUtils.js";
 
 export default class {
     constructor(t) {

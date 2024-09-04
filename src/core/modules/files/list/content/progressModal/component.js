@@ -1,6 +1,6 @@
 import axios from "axios";
-import Utils from "#lib/componentUtils";
-import Cookies from "#lib/cookiesBrowser";
+import Utils from "#lib/componentUtils.js";
+import Cookies from "#lib/cookiesBrowser.js";
 
 export default class {
     onCreate(input, out) {

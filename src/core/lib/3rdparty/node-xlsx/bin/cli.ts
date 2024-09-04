@@ -1,6 +1,6 @@
 #! /usr/bin/env node
 import { writeFile } from "fs/promises";
-import { build } from "./..";
+import { build } from "./../index";
 
 const [action = "build", ...args] = process.argv.slice(2);
 

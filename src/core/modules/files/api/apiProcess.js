@@ -5,11 +5,11 @@ import throttle from "lodash/throttle";
 import zlib from "node:zlib";
 import * as tar from "tar";
 import stream from "stream";
-import unzip from "#lib/3rdparty/unzip-stream/unzip";
-import FormData from "../data/process";
-import FormValidator from "#lib/formValidatorServer";
+import unzip from "#lib/3rdparty/unzip-stream/unzip.js";
+import FormData from "../data/process.js";
+import FormValidator from "#lib/formValidatorServer.js";
 import moduleConfig from "../module.js";
-import Utils from "./utils";
+import Utils from "./utils.js";
 
 export default () => ({
     async handler(req, rep) {

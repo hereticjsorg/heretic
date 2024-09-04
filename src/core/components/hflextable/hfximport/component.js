@@ -2,7 +2,7 @@ import xlsx from "xlsx";
 import { parse, isValid } from "date-fns";
 import axios from "axios";
 import cloneDeep from "lodash/cloneDeep";
-import Utils from "#lib/componentUtils";
+import Utils from "#lib/componentUtils.js";
 
 export default class {
     async onCreate(input, out) {

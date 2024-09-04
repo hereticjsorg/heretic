@@ -1,7 +1,7 @@
 import { jest, test, expect } from "@jest/globals";
 import fs from "fs-extra";
 import path from "path";
-import Helpers from "#lib/testHelpers";
+import Helpers from "#lib/testHelpers.js";
 
 const routeId = "test3wEGNDiB";
 const helpers = new Helpers();

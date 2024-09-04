@@ -1,7 +1,7 @@
 import axios from "axios";
-import Utils from "#lib/componentUtils";
-import Cookies from "#lib/cookiesBrowser";
-import i18nLoader from "#build/loaders/i18n-loader-auth";
+import Utils from "#lib/componentUtils.js";
+import Cookies from "#lib/cookiesBrowser.js";
+import i18nLoader from "#build/loaders/i18n-loader-auth.js";
 import moduleConfig from "../../module.js";
 import pageConfig from "../page.js";
 

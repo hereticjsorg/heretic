@@ -165,6 +165,15 @@ module.exports = class {
             .filter(
                 (p) => !p.match(/^\./) && siteModules["site"].indexOf(p) === -1,
             );
+        const dynamicLoaderData = {
+            api: [],
+            ws: [],
+            provider: [],
+            setup: [],
+            search: [],
+            pages: [],
+            translations: [],
+        };
         for (const mk of Object.keys(buildConfig.moduleDirectories)) {
             const modulePath = buildConfig.moduleDirectories[mk];
             for (const module of siteModules[mk]) {
@@ -292,6 +301,11 @@ module.exports = class {
                             "data/provider.js",
                         ),
                     );
+                    if (moduleData.provider) {
+                        dynamicLoaderData.provider.push(
+                            `${modulePath}/${module}/data`,
+                        );
+                    }
                     moduleData.api = fs.existsSync(
                         path.resolve(__dirname, modulePath, module, "api"),
                     );
@@ -359,6 +373,16 @@ module.exports = class {
                                             ),
                                         ),
                                     };
+                                    if (moduleDataItem.ws) {
+                                        dynamicLoaderData.ws.push(
+                                            `${modulePath}/${module}/${k}`,
+                                        );
+                                    }
+                                    if (moduleDataItem.provider) {
+                                        dynamicLoaderData.provider.push(
+                                            `${modulePath}/${module}/${k}`,
+                                        );
+                                    }
                                     buildData.routes[routeType].push({
                                         id: `${moduleConfig.id}_${k}`,
                                         path: moduleDataItem.routePath,
@@ -422,6 +446,9 @@ module.exports = class {
                                         }
                                     }
                                     moduleData.pages.push(moduleDataItem);
+                                    dynamicLoaderData.pages.push(
+                                        `${modulePath}/${module}/${k}`,
+                                    );
                                     this.pages.push({
                                         ...moduleDataItem,
                                         moduleId: moduleConfig.id,
@@ -431,6 +458,21 @@ module.exports = class {
                             }
                         }
                     }
+                    // Generate dynamicLoader data
+                    if (moduleData.api) {
+                        dynamicLoaderData.api.push(`${modulePath}/${module}`);
+                    }
+                    if (moduleData.search) {
+                        dynamicLoaderData.search.push(
+                            `${modulePath}/${module}`,
+                        );
+                    }
+                    if (moduleData.translations) {
+                        dynamicLoaderData.translations.push(
+                            `${modulePath}/${module}`,
+                        );
+                    }
+                    //
                     buildData.modules.push(moduleData);
                 } catch {
                     // Ignore
@@ -446,6 +488,72 @@ module.exports = class {
             {
                 spaces: "    ",
             },
+        );
+        let dynamicLoaderFile = `export default class {\n`;
+        if (dynamicLoaderData.api.length) {
+            dynamicLoaderFile += `    static async loadAPI(mpath) {
+        switch (mpath) {\n`;
+            for (const i of dynamicLoaderData.api) {
+                dynamicLoaderFile += `            case "${i}":
+                return import("#${i}/api/index.js");\n`;
+            }
+            dynamicLoaderFile += `        }\n    }\n`;
+        }
+        if (dynamicLoaderData.ws.length) {
+            dynamicLoaderFile += `\n    static async loadWS(mpath) {
+        switch (mpath) {\n`;
+            for (const i of dynamicLoaderData.ws) {
+                dynamicLoaderFile += `            case "${i}":
+                return import("#${i}/ws.js");\n`;
+            }
+            dynamicLoaderFile += `        }\n    }\n`;
+        }
+        if (dynamicLoaderData.provider.length) {
+            dynamicLoaderFile += `\n    static async loadProvider(mpath) {
+        switch (mpath) {\n`;
+            for (const i of dynamicLoaderData.provider) {
+                dynamicLoaderFile += `            case "${i}":
+                return import("#${i}/provider.js");\n`;
+            }
+            dynamicLoaderFile += `        }\n    }\n`;
+        }
+        if (dynamicLoaderData.search.length) {
+            dynamicLoaderFile += `\n    static async loadSearch(mpath) {
+        switch (mpath) {\n`;
+            for (const i of dynamicLoaderData.search) {
+                dynamicLoaderFile += `            case "${i}":
+                return import("#${i}/search.js");\n`;
+            }
+            dynamicLoaderFile += `        }\n    }\n`;
+        }
+        if (dynamicLoaderData.search.length) {
+            dynamicLoaderFile += `\n    static async loadPage(mpath) {
+        switch (mpath) {\n`;
+            for (const i of dynamicLoaderData.pages) {
+                dynamicLoaderFile += `            case "${i}":
+                return import("#${i}/server.marko");\n`;
+            }
+            dynamicLoaderFile += `        }\n    }\n`;
+        }
+        if (dynamicLoaderData.translations.length) {
+            dynamicLoaderFile += `\n    static async loadTranslation(mpath, lang) {\n`;
+            for (const lang of Object.keys(languages)) {
+                dynamicLoaderFile += `        if (lang === "en-us") {
+            switch (mpath) {\n`;
+                for (const i of dynamicLoaderData.translations) {
+                    dynamicLoaderFile += `                case "${i}":
+                    return import(\`#${i}/translations/${lang}.json\`);\n`;
+                }
+                dynamicLoaderFile += `            }\n        }\n`;
+            }
+            dynamicLoaderFile += `    }\n`;
+        }
+        //
+        dynamicLoaderFile += `}\n`;
+        //
+        fs.writeFileSync(
+            path.resolve(__dirname, ".build", "dynamicLoader.js"),
+            dynamicLoaderFile,
         );
         this.buildData = buildData;
         fs.writeJSONSync(

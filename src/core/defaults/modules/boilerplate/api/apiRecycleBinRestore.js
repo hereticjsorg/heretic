@@ -1,6 +1,6 @@
 import { ObjectId } from "mongodb";
 import moduleConfig from "../module.js";
-import utils from "./utils";
+import utils from "./utils.js";
 
 export default () => ({
     async handler(req, rep) {

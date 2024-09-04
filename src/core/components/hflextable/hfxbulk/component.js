@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import cloneDeep from "lodash/cloneDeep";
-import Utils from "#lib/componentUtils";
+import Utils from "#lib/componentUtils.js";
 
 export default class {
     async onCreate(input, out) {

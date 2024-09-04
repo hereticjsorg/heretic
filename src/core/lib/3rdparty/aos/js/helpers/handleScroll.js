@@ -1,4 +1,4 @@
-import detect from "./detector";
+import detect from "./detector.js";
 
 /**
  * Adds multiple classes on node

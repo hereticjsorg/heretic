@@ -1,6 +1,6 @@
 import { format } from "date-fns";
 import { mdiTextBoxSearchOutline } from "@mdi/js";
-import utils from "#lib/formValidatorUtils";
+import utils from "#lib/formValidatorUtils.js";
 import moduleConfig from "../module.js";
 
 export default class {

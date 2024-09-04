@@ -1,8 +1,8 @@
 import axios from "axios";
 import config from "../page.js";
-import Utils from "#lib/componentUtils";
-import Cookies from "#lib/cookiesBrowser";
-import Query from "#lib/queryBrowser";
+import Utils from "#lib/componentUtils.js";
+import Cookies from "#lib/cookiesBrowser.js";
+import Query from "#lib/queryBrowser.js";
 import moduleConfig from "../../module.js";
 
 export default class {

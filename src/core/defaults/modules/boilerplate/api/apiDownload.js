@@ -2,7 +2,7 @@ import path from "path";
 import fs from "fs-extra";
 import { ObjectId } from "mongodb";
 import moduleConfig from "../module.js";
-import utils from "./utils";
+import utils from "./utils.js";
 
 const languages = Object.keys(require("#etc/languages.json"));
 

@@ -1,6 +1,6 @@
 import Promise from "es6-promise";
-import Element from "./element";
-import Size from "../objects/size";
+import Element from "./element.js";
+import Size from "../objects/size.js";
 
 /**
  * Class representing an Image element

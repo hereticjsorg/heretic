@@ -1,6 +1,6 @@
-import FormData from "../data/form";
+import FormData from "../data/form.js";
 import moduleConfig from "../module.js";
-import utils from "./utils";
+import utils from "./utils.js";
 
 export default () => ({
     async handler(req, rep) {

@@ -1,19 +1,19 @@
-import moduleConfig from "../module";
-import apiSignIn from "./apiSignIn";
-import apiSignUp from "./apiSignUp";
-import apiSignOut from "./apiSignOut";
-import apiGetData from "./apiGetData";
-import apiSaveProfile from "./apiSaveProfile";
-import apiChangePassword from "./apiChangePassword";
-import apiChangeEmail from "./apiChangeEmail";
-import apiRestorePassword from "./apiRestorePassword";
-import apiSetPassword from "./apiSetPassword";
-import apiActivate from "./apiActivate";
-import apiGetData2FA from "./apiGetData2FA";
-import apiSetData2FA from "./apiSetData2FA";
-import apiCheckOTP from "./apiCheckOTP";
-import apiDisable2FA from "./apiDisable2FA";
-import apiDisable2FARecovery from "./apiDisable2FARecovery";
+import moduleConfig from "../module.js";
+import apiSignIn from "./apiSignIn.js";
+import apiSignUp from "./apiSignUp.js";
+import apiSignOut from "./apiSignOut.js";
+import apiGetData from "./apiGetData.js";
+import apiSaveProfile from "./apiSaveProfile.js";
+import apiChangePassword from "./apiChangePassword.js";
+import apiChangeEmail from "./apiChangeEmail.js";
+import apiRestorePassword from "./apiRestorePassword.js";
+import apiSetPassword from "./apiSetPassword.js";
+import apiActivate from "./apiActivate.js";
+import apiGetData2FA from "./apiGetData2FA.js";
+import apiSetData2FA from "./apiSetData2FA.js";
+import apiCheckOTP from "./apiCheckOTP.js";
+import apiDisable2FA from "./apiDisable2FA.js";
+import apiDisable2FARecovery from "./apiDisable2FARecovery.js";
 
 export default (fastify) => {
     if (fastify.systemConfig.auth.signIn) {

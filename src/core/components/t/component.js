@@ -1,5 +1,5 @@
 import template from "lodash/template";
-import Utils from "#lib/componentUtils";
+import Utils from "#lib/componentUtils.js";
 import buildConfig from "#build/build.json";
 
 export default class {
@@ -10,17 +10,17 @@ export default class {
         this.language = out.global.language;
         this.languageData = {};
         if (!process.browser) {
+            const DynamicLoader = (await import("#build/dynamicLoader.js")).default;
             this.languages = require("#etc/languages.json");
             this.languageData = {
                 ...require(`#src/translations/${this.language}.json`),
                 ...require(`#site/translations/${this.language}.json`),
             };
             for (const m of buildConfig.modules.filter((i) => i.translations)) {
+                const translationLoaded = await DynamicLoader.loadTranslation(m.path, this.language);
                 this.languageData = {
                     ...this.languageData,
-                    ...require(
-                        `#src/../${m.path}/translations/${this.language}.json`,
-                    ),
+                    ...(translationLoaded ? translationLoaded.default : {}),
                 };
             }
             Object.keys(this.languageData).map(

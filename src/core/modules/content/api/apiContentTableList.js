@@ -1,4 +1,4 @@
-import FormData from "../data/contentForm";
+import FormData from "../data/contentForm.js";
 import moduleConfig from "../module.js";
 import languages from "#etc/languages.json";
 

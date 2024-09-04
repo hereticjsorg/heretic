@@ -1,4 +1,4 @@
-import utils from "#lib/formValidatorUtils";
+import utils from "#lib/formValidatorUtils.js";
 
 export default class {
     constructor(t) {

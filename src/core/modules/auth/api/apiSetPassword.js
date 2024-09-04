@@ -1,8 +1,8 @@
 import Ajv from "ajv";
 import { ObjectId } from "mongodb";
-import Captcha from "#lib/captcha";
-import Password from "#lib/password";
-import SetPasswordForm from "../data/setPasswordForm";
+import Captcha from "#lib/captcha.js";
+import Password from "#lib/password.js";
+import SetPasswordForm from "../data/setPasswordForm.js";
 
 const ajv = new Ajv({
     allErrors: true,

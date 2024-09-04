@@ -1,9 +1,9 @@
 import Ajv from "ajv";
-import FormData from "../data/form";
+import FormData from "../data/form.js";
 import requestData from "../data/request.js";
-import FormValidator from "#lib/formValidatorServer";
+import FormValidator from "#lib/formValidatorServer.js";
 import moduleConfig from "../module.js";
-import utils from "./utils";
+import utils from "./utils.js";
 
 const ajv = new Ajv();
 const requestValidation = ajv.compile(requestData);

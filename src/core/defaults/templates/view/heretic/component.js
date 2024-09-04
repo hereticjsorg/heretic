@@ -3,10 +3,10 @@ import tippy, { hideAll } from "tippy.js";
 import debounce from "lodash/debounce";
 import template from "lodash/template";
 import axios from "axios";
-import Cookies from "#lib/cookiesBrowser";
+import Cookies from "#lib/cookiesBrowser.js";
 import i18nLoader from "#build/loaders/i18n-loader-core";
 import pagesLoader from "#build/loaders/page-loader-userspace";
-import Utils from "#lib/componentUtils";
+import Utils from "#lib/componentUtils.js";
 import routesData from "#build/build.json";
 import contentPage from "#site/contentRender/index.marko";
 

@@ -1,5 +1,5 @@
 import axios from "axios";
-import Utils from "./utils";
+import Utils from "./utils.js";
 
 export default () => ({
     async handler(req, rep) {

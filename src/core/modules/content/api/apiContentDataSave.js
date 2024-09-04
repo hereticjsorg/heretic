@@ -1,6 +1,6 @@
 import { createHash } from "crypto";
-import FormData from "../data/contentForm";
-import FormValidator from "#lib/formValidatorServer";
+import FormData from "../data/contentForm.js";
+import FormValidator from "#lib/formValidatorServer.js";
 import moduleConfig from "../module.js";
 import languages from "#etc/languages.json";
 

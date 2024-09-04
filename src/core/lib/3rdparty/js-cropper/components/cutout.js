@@ -1,5 +1,5 @@
-import { styles } from "../config/default";
-import Context from "../objects/context";
+import { styles } from "../config/default.js";
+import Context from "../objects/context.js";
 
 /**
  * Class representing a cutout over canvas

@@ -1,10 +1,10 @@
 import axios from "axios";
 import store from "store2";
 import template from "lodash/template";
-import i18nLoader from "#build/loaders/i18n-loader-core";
-import Utils from "#lib/componentUtils";
-import Cookies from "#lib/cookiesBrowser";
-import Query from "#lib/queryBrowser";
+import i18nLoader from "#build/loaders/i18n-loader-core.js";
+import Utils from "#lib/componentUtils.js";
+import Cookies from "#lib/cookiesBrowser.js";
+import Query from "#lib/queryBrowser.js";
 import moduleConfig from "../../module.js";
 
 export default class {

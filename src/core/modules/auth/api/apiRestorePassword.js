@@ -1,9 +1,9 @@
 import Ajv from "ajv";
 import { v4 as uuid } from "uuid";
-import RestorePasswordForm from "../data/restorePasswordForm";
-import Captcha from "#lib/captcha";
-import Email from "#lib/email";
-import Utils from "#lib/componentUtils";
+import RestorePasswordForm from "../data/restorePasswordForm.js";
+import Captcha from "#lib/captcha.js";
+import Email from "#lib/email.js";
+import Utils from "#lib/componentUtils.js";
 import languagesData from "#etc/languages.json";
 
 const ajv = new Ajv({

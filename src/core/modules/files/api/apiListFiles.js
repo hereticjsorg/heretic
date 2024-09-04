@@ -1,10 +1,10 @@
 import fs from "fs-extra";
 import path from "path";
 import mime from "mime-types";
-import FormData from "../data/form";
+import FormData from "../data/form.js";
 import moduleConfig from "../module.js";
-import Utils from "./utils";
-import FormValidator from "#lib/formValidatorServer";
+import Utils from "./utils.js";
+import FormValidator from "#lib/formValidatorServer.js";
 
 export default () => ({
     async handler(req, rep) {

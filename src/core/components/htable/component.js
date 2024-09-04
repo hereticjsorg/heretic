@@ -5,8 +5,8 @@ import debounce from "lodash/debounce";
 import { v4 as uuidv4 } from "uuid";
 import { parse, isValid } from "date-fns";
 import xlsx from "xlsx";
-import Utils from "#lib/componentUtils";
-import Query from "#lib/queryBrowser";
+import Utils from "#lib/componentUtils.js";
+import Query from "#lib/queryBrowser.js";
 
 export default class {
     async onCreate(input, out) {

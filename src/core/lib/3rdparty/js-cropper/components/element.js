@@ -1,4 +1,4 @@
-import Size from "../objects/size";
+import Size from "../objects/size.js";
 
 /**
  * Class representing a base element

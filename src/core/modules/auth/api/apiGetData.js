@@ -1,6 +1,6 @@
 import fs from "fs-extra";
 import path from "path";
-import moduleConfig from "../module";
+import moduleConfig from "../module.js";
 
 export default () => ({
     async handler(req, rep) {

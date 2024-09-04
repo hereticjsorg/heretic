@@ -9,8 +9,8 @@
  * @return {Integer} [Final offset that will be used to trigger animation in good position]
  */
 
-import getOffset from "../libs/offset";
-import getInlineOption from "./getInlineOption";
+import getOffset from "../libs/offset.js";
+import getInlineOption from "./getInlineOption.js";
 
 export const getPositionIn = (el, defaultOffset, defaultAnchorPlacement) => {
     const windowHeight = window.innerHeight;

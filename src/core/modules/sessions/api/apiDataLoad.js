@@ -1,5 +1,5 @@
 import Ajv from "ajv";
-import FormData from "../data/form";
+import FormData from "../data/form.js";
 import moduleConfig from "../module.js";
 import loadValidationSchema from "../data/loadValidationSchema.json";
 

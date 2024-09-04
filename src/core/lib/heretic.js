@@ -28,6 +28,7 @@ import languages from "#etc/languages.json";
 import navigation from "#etc/navigation.json";
 import packageJson from "#root/package.json";
 import routePageAdmin from "./routes/routePageAdmin.js";
+import DynamicLoader from "#build/dynamicLoader.js";
 
 delete packageJson.dependencies;
 delete packageJson.devDependencies;
@@ -409,9 +410,9 @@ export default class {
      */
     async registerRouteAPI() {
         for (const m of buildData.modules.filter((i) => i.api)) {
-            const api = await import(`#site/../${m.path}/api/index.js`);
+            const api = (await DynamicLoader.loadAPI(m.path)).default;
             this.fastify.register(async () => {
-                api.default(this.fastify);
+                api(this.fastify);
             });
         }
     }
@@ -427,15 +428,14 @@ export default class {
             return;
         }
         for (const m of buildData.modules) {
-            if (m.ws) {
-                const Ws = (await import(`#site/../${m.path}/ws/index.js`))
-                    .default;
-                this.wsHandlers.push(new Ws(this.fastify));
-            }
+            // if (m.ws) {
+            //     const Ws = await DynamicLoader.loadWS(m.path);
+            //     this.wsHandlers.push(new Ws(this.fastify));
+            // }
             for (const p of m.pages) {
                 if (p.ws) {
                     const Wsp = (
-                        await import(`#site/../${m.path}/${p.id}/ws.js`)
+                        await DynamicLoader.loadWS(`${m.path}/${p.id}`)
                     ).default;
                     this.wsHandlers.push(new Wsp(this.fastify));
                 }
@@ -598,22 +598,23 @@ export default class {
         for (const m of buildData.modules) {
             try {
                 if (m.provider) {
-                    const Provider = (
-                        await import(`#site/../${m.path}/data/provider`)
-                    ).default;
+                    const Provider = (await DynamicLoader.loadProvider(`${m.path}/data`))
+                        .default;
                     const provider = new Provider();
                     dataProviders[m.id] = provider;
                 }
                 for (const p of m.pages) {
                     if (p.provider) {
-                        const ProviderPage = (
-                            await import(`#site/../${m.path}/${p.id}/provider`)
-                        ).default;
+                        const ProviderPage = (await DynamicLoader.loadProvider(
+                            `${m.path}/${p.id}`,
+                        )).default;
                         const providerPage = new ProviderPage();
                         dataProviders[`${m.id}_${p.id}`] = providerPage;
                     }
                 }
-            } catch {
+            } catch (e) {
+                // eslint-disable-next-line no-console
+                console.error(e);
                 // Ignore
             }
         }
@@ -698,7 +699,7 @@ export default class {
             if (!installedVersions[m.id] || options.setup) {
                 let Setup;
                 try {
-                    Setup = (await import(`#site/../${m.path}/setup.js`))
+                    Setup = (await import(`./#site/../${m.path}/setup.js`))
                         .default;
                 } catch {
                     // Ignore
@@ -746,7 +747,9 @@ export default class {
         for (const m of buildData.modules.filter((i) => i.search)) {
             let Index;
             try {
-                Index = (await import(`#site/../${m.path}/search.js`)).default;
+                // Index = (await import(`./#site/../${m.path}/search.js`))
+                //     .default;
+                Index = (await DynamicLoader.loadSearch(m.path)).default;
             } catch {
                 // Ignore
             }

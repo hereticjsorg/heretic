@@ -4,7 +4,7 @@ import path from "path";
 import { v4 as uuid } from "uuid";
 import { add, formatISO } from "date-fns";
 import xlsx from "#lib/3rdparty/node-xlsx/index.ts";
-import FormData from "../data/groupsForm";
+import FormData from "../data/groupsForm.js";
 import languages from "#etc/languages.json";
 import moduleConfig from "../module.js";
 

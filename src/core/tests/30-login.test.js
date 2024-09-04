@@ -3,10 +3,10 @@ import os from "os";
 import crypto from "crypto";
 import axios from "axios";
 import axiosRetry from "axios-retry";
-import Helpers from "#lib/testHelpers";
-import Auth from "#lib/auth";
+import Helpers from "#lib/testHelpers.js";
+import Auth from "#lib/auth.js";
 import systemConfig from "#etc/system.js";
-import websiteConfig from "#etc/website";
+import websiteConfig from "#etc/website.js";
 
 axiosRetry(axios, {
     retryDelay: axiosRetry.exponentialDelay,

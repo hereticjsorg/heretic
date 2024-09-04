@@ -4,10 +4,10 @@ import path from "path";
 import { v4 as uuid } from "uuid";
 import { add, formatISO } from "date-fns";
 import xlsx from "#lib/3rdparty/node-xlsx/index.ts";
-import FormData from "../data/form";
+import FormData from "../data/form.js";
 import languages from "#etc/languages.json";
 import moduleConfig from "../module.js";
-import utils from "./utils";
+import utils from "./utils.js";
 
 const translation = {};
 for (const language of Object.keys(languages)) {

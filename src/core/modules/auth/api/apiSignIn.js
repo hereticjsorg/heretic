@@ -1,6 +1,6 @@
 import { Totp } from "time2fa";
-import SignInForm from "../data/signInFormAdmin";
-import FormValidator from "#lib/formValidatorServer";
+import SignInForm from "../data/signInFormAdmin.js";
+import FormValidator from "#lib/formValidatorServer.js";
 
 export default () => ({
     async handler(req, rep) {

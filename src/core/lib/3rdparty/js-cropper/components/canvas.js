@@ -1,12 +1,12 @@
-import Element from "./element";
-import Image from "./image";
-import Pattern from "./pattern";
-import Frame from "../objects/frame";
-import Point from "../objects/point";
-import Cutout from "./cutout";
-import Generator from "./generator";
-import MoveEventListener from "../events/move";
-import Context from "../objects/context";
+import Element from "./element.js";
+import Image from "./image.js";
+import Pattern from "./pattern.js";
+import Frame from "../objects/frame.js";
+import Point from "../objects/point.js";
+import Cutout from "./cutout.js";
+import Generator from "./generator.js";
+import MoveEventListener from "../events/move.js";
+import Context from "../objects/context.js";
 
 /**
  * Class representing a canvas element

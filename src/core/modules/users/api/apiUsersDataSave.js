@@ -1,5 +1,5 @@
-import FormData from "../data/usersForm";
-import FormValidator from "#lib/formValidatorServer";
+import FormData from "../data/usersForm.js";
+import FormValidator from "#lib/formValidatorServer.js";
 import moduleConfig from "../module.js";
 import languages from "#etc/languages.json";
 

@@ -1,8 +1,8 @@
 import axios from "axios";
 import { format } from "date-fns";
-import Utils from "#lib/componentUtils";
-import Query from "#lib/queryBrowser";
-import Cookies from "#lib/cookiesBrowser";
+import Utils from "#lib/componentUtils.js";
+import Query from "#lib/queryBrowser.js";
+import Cookies from "#lib/cookiesBrowser.js";
 import moduleConfig from "../../module.js";
 import pageConfig from "../page.js";
 

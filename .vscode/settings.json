@@ -90,6 +90,7 @@
         "Mobi",
         "mongodump",
         "mongorestore",
+        "mpath",
         "nginx",
         "noconflict",
         "noof",

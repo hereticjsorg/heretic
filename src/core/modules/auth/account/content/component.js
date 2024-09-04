@@ -1,8 +1,8 @@
 import qrcode from "qrcode";
 import axios from "axios";
-import Utils from "#lib/componentUtils";
-import Cookies from "#lib/cookiesBrowser";
-import Query from "#lib/queryBrowser";
+import Utils from "#lib/componentUtils.js";
+import Cookies from "#lib/cookiesBrowser.js";
+import Query from "#lib/queryBrowser.js";
 import pageConfig from "../page.js";
 import moduleConfig from "../../module.js";
 

@@ -2,7 +2,7 @@ import { jest, test, expect, afterAll } from "@jest/globals";
 import os from "os";
 import axios from "axios";
 import axiosRetry from "axios-retry";
-import Helpers from "#lib/testHelpers";
+import Helpers from "#lib/testHelpers.js";
 import systemConfig from "#etc/system.js";
 
 axiosRetry(axios, {

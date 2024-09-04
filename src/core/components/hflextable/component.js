@@ -3,8 +3,8 @@ import debounce from "lodash/debounce";
 import store from "store2";
 import axios from "axios";
 import cloneDeep from "lodash/cloneDeep";
-import Utils from "#lib/componentUtils";
-import Query from "#lib/queryBrowser";
+import Utils from "#lib/componentUtils.js";
+import Query from "#lib/queryBrowser.js";
 
 export default class {
     async onCreate(input, out) {

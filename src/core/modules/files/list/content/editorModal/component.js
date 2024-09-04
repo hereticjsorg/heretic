@@ -1,5 +1,5 @@
-import ace from "#lib/aceEditor";
-import Utils from "#lib/componentUtils";
+import ace from "#lib/aceEditor.js";
+import Utils from "#lib/componentUtils.js";
 
 export default class {
     onCreate(input, out) {

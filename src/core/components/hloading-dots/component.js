@@ -1,5 +1,5 @@
 import { v4 as uuid } from "uuid";
-import Utils from "#lib/componentUtils";
+import Utils from "#lib/componentUtils.js";
 
 export default class {
     async onCreate(input) {

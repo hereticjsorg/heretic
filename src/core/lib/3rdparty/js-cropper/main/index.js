@@ -1,13 +1,13 @@
-import validateNode from "../validators/node";
-import validateConfig from "../validators/config";
-import validateDimension from "../validators/dimension";
-import validateCallback from "../validators/callback";
-import { defaultDimensions } from "../config/default";
-import Canvas from "../components/canvas";
-import Image from "../components/image";
-import Slider from "../components/slider";
-import Element from "../components/element";
-import Icon from "../components/icon";
+import validateNode from "../validators/node.js";
+import validateConfig from "../validators/config.js";
+import validateDimension from "../validators/dimension.js";
+import validateCallback from "../validators/callback.js";
+import { defaultDimensions } from "../config/default.js";
+import Canvas from "../components/canvas.js";
+import Image from "../components/image.js";
+import Slider from "../components/slider.js";
+import Element from "../components/element.js";
+import Icon from "../components/icon.js";
 
 /**
  * Class representing Image Crop

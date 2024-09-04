@@ -1,5 +1,5 @@
-import Cookies from "#lib/cookiesBrowser";
-import Utils from "#lib/componentUtils";
+import Cookies from "#lib/cookiesBrowser.js";
+import Utils from "#lib/componentUtils.js";
 
 export default class {
     async onCreate(input, out) {

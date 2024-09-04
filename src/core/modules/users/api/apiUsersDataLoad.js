@@ -1,5 +1,5 @@
 import { ObjectId } from "mongodb";
-import FormData from "../data/usersForm";
+import FormData from "../data/usersForm.js";
 import moduleConfig from "../module.js";
 
 export default () => ({

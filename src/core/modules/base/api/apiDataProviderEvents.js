@@ -1,5 +1,5 @@
 import Ajv from "ajv";
-import dataProvidersSchema from "../data/dataProvidersSchema";
+import dataProvidersSchema from "../data/dataProvidersSchema.js";
 
 const ajv = new Ajv({
     allErrors: true,

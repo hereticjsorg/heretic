@@ -1,4 +1,5 @@
 import buildData from "#build/build.json";
+import DynamicLoader from "#build/dynamicLoader.js";
 
 export default (m, page, languageData, language) => ({
     async handler(req, rep) {
@@ -6,9 +7,8 @@ export default (m, page, languageData, language) => ({
         const translationData = buildData.modules
             .find((i) => i.id === m.id)
             .pages.find((i) => i.id === page.id).metaData;
-        const pageData = (
-            await import(`#src/../${m.path}/${page.id}/server.marko`)
-        ).default;
+        const pageData =
+            (await DynamicLoader.loadPage(`${m.path}/${page.id}`)).default;
         const renderPage = await pageData.render({
             $global: {
                 serializedGlobals: {

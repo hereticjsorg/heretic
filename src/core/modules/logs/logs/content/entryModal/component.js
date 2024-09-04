@@ -1,5 +1,5 @@
 import { format } from "date-fns";
-import Utils from "#lib/componentUtils";
+import Utils from "#lib/componentUtils.js";
 
 export default class {
     onCreate(input, out) {

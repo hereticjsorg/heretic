@@ -4,7 +4,7 @@ import {
     mdiAccountPlusOutline,
 } from "@mdi/js";
 
-import utils from "#lib/formValidatorUtils";
+import utils from "#lib/formValidatorUtils.js";
 import languages from "#etc/languages.json";
 
 const formId = "content";

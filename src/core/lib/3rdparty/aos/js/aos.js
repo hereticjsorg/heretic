@@ -11,12 +11,12 @@
 import throttle from "lodash/throttle";
 import debounce from "lodash/debounce";
 
-import observer from "./libs/observer";
+import observer from "./libs/observer.js";
 
-import detect from "./helpers/detector";
-import handleScroll from "./helpers/handleScroll";
-import prepare from "./helpers/prepare";
-import elements from "./helpers/elements";
+import detect from "./helpers/detector.js";
+import handleScroll from "./helpers/handleScroll.js";
+import prepare from "./helpers/prepare.js";
+import elements from "./helpers/elements.js";
 
 /**
  * Private variables

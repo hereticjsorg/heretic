@@ -2,10 +2,10 @@ import store from "store2";
 import tippy, { hideAll } from "tippy.js";
 import debounce from "lodash/debounce";
 import template from "lodash/template";
-import Cookies from "#lib/cookiesBrowser";
-import Utils from "#lib/componentUtils";
-import i18nLoader from "#build/loaders/i18n-loader-core";
-import pagesLoader from "#build/loaders/page-loader-admin";
+import Cookies from "#lib/cookiesBrowser.js";
+import Utils from "#lib/componentUtils.js";
+import i18nLoader from "#build/loaders/i18n-loader-core.js";
+import pagesLoader from "#build/loaders/page-loader-admin.js";
 import routesData from "#build/build.json";
 
 export default class {

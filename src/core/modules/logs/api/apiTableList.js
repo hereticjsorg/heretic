@@ -2,7 +2,7 @@ import path from "path";
 import { v4 as uuid } from "uuid";
 import { sortBy } from "lodash";
 import { destr } from "destr";
-import FormData from "../data/form";
+import FormData from "../data/form.js";
 import ServerUtils from "#lib/serverUtils";
 
 // eslint-disable-next-line no-eval

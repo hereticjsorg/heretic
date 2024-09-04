@@ -4,8 +4,8 @@ import axios from "axios";
 import debounce from "lodash/debounce";
 import cloneDeep from "lodash/cloneDeep";
 import { format, parse, isValid } from "date-fns";
-import Utils from "#lib/componentUtils";
-import Password from "#lib/password";
+import Utils from "#lib/componentUtils.js";
+import Password from "#lib/password.js";
 
 export default class {
     onCreate(input, out) {

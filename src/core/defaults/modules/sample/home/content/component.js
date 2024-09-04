@@ -1,4 +1,4 @@
-import Utils from "#lib/componentUtils";
+import Utils from "#lib/componentUtils.js";
 import pageConfig from "../page.js";
 
 export default class {
