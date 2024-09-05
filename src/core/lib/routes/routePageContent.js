@@ -32,9 +32,7 @@ export default async (fastify, req) => {
                     ? await req.auth.getData(req.auth.methods.COOKIE)
                     : null;
                 const pageData = (
-                    await import(
-                        /* webpackIgnore: true */ `#site/contentRender/server.marko`
-                    )
+                    await import("#site/contentRender/server.marko")
                 ).default;
                 const renderPage = await pageData.render({
                     $global: {
