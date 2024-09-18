@@ -232,5 +232,6 @@
     "contactCaptcha": "Verifizierungscode",
     "contactMessageSent": "Ihre Nachricht wurde erfolgreich gesendet.",
     "privacyPolicy": "Datenschutz",
-    "cookiesPolicy": "Cookies"
+    "cookiesPolicy": "Cookies",
+    "rootDir": "(haupt)"
 }

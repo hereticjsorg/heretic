@@ -1,0 +1,76 @@
+import iconFolder from "../folder.svg";
+
+<if(input.drag)>
+    <div
+        id=`hr_htr_${input.id}_${input.data.id}_before`
+        class="hr-htr-drop-area"
+        style={ marginLeft: `${input.level * 30}px` }
+    />
+</if>
+<div class="hr-htr-item">
+    <for|i, index| of=Array(input.level).fill(0)>
+        <if(index > 0)>
+            <div style={ width: "30px" }/>
+        </if>
+    </for>
+    <if(input.level > 0)>
+        <if(input.childrenCount > 0)>
+            <div style={ width: `${11 * input.level}px` }/>
+        </if>
+        <div
+            class="hr-htr-item-shift-line-0"
+            style={
+                marginTop:
+                    input.childrenCount - 1 === input.childIndex
+                        ? "-19px"
+                        : input.childIndex && input.childIndex > 0
+                          ? "-4px"
+                          : "unset",
+                height:
+                    input.childrenCount - 1 === input.childIndex
+                        ? "19px"
+                        : "30px",
+            }
+        />
+        <div class="hr-htr-item-shift">
+            <div class="hr-htr-item-shift-line"/>
+        </div>
+    </if>
+    <if(input.level === 0)>
+        <div class="hr-htr-item-line-0"/>
+    </if>
+    <div
+        class=`hr-htr-item-wrap${input.selected === input.data.id ? " hr-htr-item-wrap-selected" : ""}`
+        on-dragstart("onItemDragStart")
+        on-dragend("onItemDragEnd")
+        on-click("onItemClick")
+        draggable="true"
+    >
+        <img src=iconFolder class="hr-htr-item-img" draggable="false">
+        ${input.data.label}
+    </div>
+</div>
+<if(input.drag && (input.childIndex > 0 || input.childrenCount === 1 || input.last))>
+    <div
+        id=`hr_htr_${input.id}_${input.data.id}_after`
+        class="hr-htr-drop-area"
+        style={ marginLeft: `${input.level * 30}px` }
+    />
+</if>
+<if(input.data.children)>
+    <for|i, index| of=(input.data.children)>
+        <hTreeItem
+            data=i
+            level=input.level + 1
+            selected=input.selected
+            on-item-click("onSubItemClick")
+            on-drag-start("onChildDragStart")
+            on-drag-end("onChildDragEnd")
+            on-click("onSubItemClick")
+            childIndex=index
+            childrenCount=(input.data.children.length)
+            drag=input.drag
+            id=input.id
+        />
+    </for>
+</if>

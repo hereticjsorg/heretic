@@ -232,5 +232,6 @@
     "contactCaptcha": "Код проверки",
     "contactMessageSent": "Ваше сообщение было успешно отправлено.",
     "privacyPolicy": "Политика конфиденциальности",
-    "cookiesPolicy": "Политика в отношении Cookies"
+    "cookiesPolicy": "Политика в отношении Cookies",
+    "rootDir": "(корень)"
 }
