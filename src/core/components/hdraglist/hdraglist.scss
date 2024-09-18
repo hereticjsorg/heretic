@@ -1,3 +1,5 @@
+@use "sass:color";
+
 .hr-hdg-drop-area {
     height: 20px;
     border: 1px dashed $grey-lighter;
@@ -6,7 +8,7 @@
 
 html.theme-dark .hr-hdg-drop-area {
     background: $theme-dark-grey-dark;
-    border: 1px dashed darken($theme-dark-grey-dark, 20%);
+    border: 1px dashed color.adjust($theme-dark-grey-dark, $lightness: -20%);
 }
 
 .hr-hdg-drop-area-over {
@@ -39,7 +41,7 @@ html.theme-dark .hr-hdg-drop-area {
 }
 
 html.theme-dark .hr-hdg-columns-row:hover {
-    background: lighten($theme-dark-grey-dark, 18%);
+    background: color.adjust($theme-dark-grey-dark, $lightness: 18%);
     border-radius: $radius;
 }
 

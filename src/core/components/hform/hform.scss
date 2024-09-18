@@ -1,3 +1,5 @@
+@use "sass:color";
+
 .hr-hf-wrap {
     position: relative;
     padding: 1px;
@@ -48,7 +50,7 @@ html.theme-dark .hr-hf-tab {
 }
 
 html.theme-dark .hr-hf-tab-active {
-    background-color: lighten($theme-dark-grey-darker, 15%);
+    background-color: color.adjust($theme-dark-grey-darker, $lightness: 15%);
 }
 
 .hr-hf-f-area-label-wrap {
@@ -159,8 +161,8 @@ html.theme-dark .hr-hf-f-area-label {
 }
 
 html.theme-dark .hr-hf-history-tag {
-    background-color: lighten($theme-dark-grey-darker, 5%);
-    border: 1px solid darken($theme-dark-grey, 5%);
+    background-color: color.adjust($theme-dark-grey-darker, $lightness: 5%);
+    border: 1px solid color.adjust($theme-dark-grey, $lightness: -5%);
 }
 
 .hr-hf-history-tag-null {
@@ -181,8 +183,8 @@ html.theme-dark .hr-hf-history-tag {
 
 html.theme-dark .hr-hf-history-wysiwyg,
 html.theme-dark .hr-hf-history-files {
-    background-color: lighten($theme-dark-grey-darker, 5%);
-    border: 1px solid darken($theme-dark-grey, 5%);
+    background-color: color.adjust($theme-dark-grey-darker, $lightness: -5%);
+    border: 1px solid color.adjust($theme-dark-grey, $lightness: -5%);
 }
 
 .hr-hf-history-to-right {
@@ -223,7 +225,7 @@ html.theme-dark .hr-hf-history-changes-wrap {
 
 html.theme-dark .hr-hf-tags-filter-wrap {
     background: $theme-dark-grey-darker;
-    border-bottom: 1px solid darken($theme-dark-grey-darker, 11%);
+    border-bottom: 1px solid color.adjust($theme-dark-grey-darker, $lightness: -11%);
 }
 
 .hr-hf-tagAddModal {
@@ -292,7 +294,7 @@ html.theme-dark .hr-hf-tags-filter-wrap {
 }
 
 html.theme-dark .hr-hf-view-input {
-    background: lighten($theme-dark-grey-dark, 6%);
+    background: color.adjust($theme-dark-grey-dark, $lightness: 6%);
     color: $theme-dark-text-color;
 }
 

@@ -76,7 +76,7 @@
             @if $ratio > 5 {
                 $found-decent-color: true;
             } @else {
-                $on-scheme-color: lighten($on-scheme-color, 5%);
+                $on-scheme-color: color.adjust($on-scheme-color, $lightness: 5%);
                 $fg-lum: fn.bulmaColorLuminance($on-scheme-color);
             }
         }
@@ -87,7 +87,7 @@
             @if $ratio > 5 {
                 $found-decent-color: true;
             } @else {
-                $on-scheme-color: darken($on-scheme-color, 5%);
+                $on-scheme-color: color.adjust($on-scheme-color, $lightness: -5%);
                 $fg-lum: fn.bulmaColorLuminance($on-scheme-color);
             }
         }
@@ -110,12 +110,12 @@
     @if ($scheme-main-brightness == "bright") {
         @while (fn.bulmaEnoughContrast($on-scheme-color, #fff) == false) {
             // We're on a light background, so we'll darken the test color step by step.
-            $on-scheme-color: darken($on-scheme-color, 5%);
+            $on-scheme-color: color.adjust($on-scheme-color, $lightness: -5%);
         }
     } @else {
         @while (fn.bulmaEnoughContrast($on-scheme-color, #000) == false) {
             // We're on a dark background, so we'll lighten the test color step by step.
-            $on-scheme-color: lighten($on-scheme-color, 5%);
+            $on-scheme-color: color.adjust($on-scheme-color, $lightness: 5%);
         }
     }
 

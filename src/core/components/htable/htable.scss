@@ -1,3 +1,5 @@
+@use "sass:color";
+
 .hr-ht-table {
     opacity: 0;
 }
@@ -175,7 +177,7 @@ html.theme-dark .hr-ht-action-button {
 }
 
 .hr-ht-search-close-icon svg > path {
-    fill: darken($grey, 5%) !important;
+    fill: color.adjust($grey, $lightness: -5%) !important;
 }
 
 .hr-ht-drag-icon {
@@ -251,7 +253,7 @@ html.theme-dark .hr-ht-action-button {
 }
 
 html.theme-dark .hr-ht-action-cell-control {
-    border-bottom: 1px solid lighten($theme-dark-grey-dark, 10%);
+    border-bottom: 1px solid color.adjust($theme-dark-grey-dark, $lightness: 10%);
 }
 
 .hr-ht-loading-wrap {
@@ -301,7 +303,7 @@ html.theme-dark .hr-ht-settings-columns-row:hover,
 html.theme-dark .hr-ht-settings-filters-row:hover,
 html.theme-dark .hr-ht-settings-bulk-row:hover,
 html.theme-dark .hr-ht-export-columns-row:hover {
-    background: lighten($theme-dark-grey-dark, 18%);
+    background: color.adjust($theme-dark-grey-dark, $lightness: 18%);
     border-radius: $radius;
 }
 
@@ -324,7 +326,7 @@ html.theme-dark .hr-ht-export-columns-row:hover {
 html.theme-dark .hr-ht-settings-columns-drop-area,
 html.theme-dark .hr-ht-export-columns-drop-area {
     background: $theme-dark-grey-dark;
-    border: 1px dashed darken($theme-dark-grey-dark, 20%);
+    border: 1px dashed color.adjust($theme-dark-grey-dark, $lightness: -0%);
 }
 
 .hr-ht-settings-columns-drop-area-over,
@@ -402,7 +404,7 @@ html.theme-dark .hr-hm-tabs-wrap {
 }
 
 html.theme-dark .hr-ht-export-form-wrap {
-    background: lighten($theme-dark-grey-dark, 3%) !important;
+    background: color.adjust($theme-dark-grey-dark, $lightness: 3%) !important;
     box-shadow: unset !important;
     border-bottom: 1px solid $theme-dark-grey-dark;
 }
@@ -471,7 +473,7 @@ html.theme-dark
     background: linear-gradient(
         90deg,
         transparent,
-        darken($theme-dark-grey-darker, 5%)
+        color.adjust($theme-dark-grey-darker, $lightness: -5%)
     );
 }
 
@@ -484,7 +486,7 @@ html.theme-dark
     background: linear-gradient(
         90deg,
         transparent,
-        darken($theme-dark-grey-darker, 1%)
+        color.adjust($theme-dark-grey-darker, $lightness: -1%)
     );
 }
 
@@ -497,7 +499,7 @@ html.theme-dark
     background: linear-gradient(
         90deg,
         transparent,
-        lighten($theme-dark-grey-darker, 5%)
+        color.adjust($theme-dark-grey-darker, $lightness: 5%)
     );
 }
 
@@ -510,12 +512,12 @@ html.theme-dark
     background: linear-gradient(
         90deg,
         transparent,
-        lighten($theme-dark-grey-darker, 5%)
+        color.adjust($theme-dark-grey-darker, $lightness: 5%)
     );
 }
 
 html.theme-dark .hr-ht-action-cell-odd {
-    background: darken($theme-dark-grey-darker, 5%);
+    background: color.adjust($theme-dark-grey-darker, $lightness: -5%);
 }
 
 html.theme-dark .hr-ht-action-cell-even {
@@ -523,13 +525,13 @@ html.theme-dark .hr-ht-action-cell-even {
 }
 
 html.theme-dark .hr-ht-action-cell {
-    border-left: 1px solid lighten($theme-dark-grey-dark, 10%);
-    border-right: 1px solid lighten($theme-dark-grey-dark, 10%);
+    border-left: 1px solid color.adjust($theme-dark-grey-dark, $lightness: 10%);
+    border-right: 1px solid color.adjust($theme-dark-grey-dark, $lightness: 10%);
 }
 
 html.theme-dark .hr-ht-action-cell-control {
-    border-left: 1px solid lighten($theme-dark-grey-dark, 10%);
-    border-right: 1px solid lighten($theme-dark-grey-dark, 10%);
+    border-left: 1px solid color.adjust($theme-dark-grey-dark, $lightness: 10%);
+    border-right: 1px solid color.adjust($theme-dark-grey-dark, $lightness: 10%);
     background: $theme-dark-grey-dark;
     color: $theme-dark-text-color-light !important;
 }
@@ -566,14 +568,14 @@ html.theme-dark .hr-ht-loading-wrap {
 
 html.theme-dark .hr-ht-search-button,
 html.theme-dark .hr-ht-search-button:hover {
-    border-top: 1px solid lighten($theme-dark-grey-darker, 8%) !important;
-    border-right: 1px solid lighten($theme-dark-grey-darker, 8%) !important;
-    border-bottom: 1px solid lighten($theme-dark-grey-darker, 8%) !important;
+    border-top: 1px solid color.adjust($theme-dark-grey-darker, $lightness: 8%) !important;
+    border-right: 1px solid color.adjust($theme-dark-grey-darker, $lightness: 8%) !important;
+    border-bottom: 1px solid color.adjust($theme-dark-grey-darker, $lightness: 8%) !important;
     border-left: unset;
 }
 
 html.theme-dark .hr-ht-search-button:hover {
-    background: lighten($theme-dark-grey-darker, 5%) !important;
+    background: color.adjust($theme-dark-grey-darker, $lightness: 5%) !important;
 }
 
 @media (max-width: 1023px) {

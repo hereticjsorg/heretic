@@ -463,7 +463,6 @@ $no-palette: ("white", "black", "light", "dark");
 
         &:active,
         &.#{iv.$class-prefix}is-active {
-            // background-color: bulmaDarken($button-text-hover-background-color, 5%);
             color: cv.getVar("button-text-hover-color");
         }
 

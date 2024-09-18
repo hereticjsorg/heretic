@@ -1,5 +1,6 @@
 @use "sass:list";
 @use "sass:math";
+@use "sass:color";
 
 @function mergeColorMaps($bulma-colors, $custom-colors) {
     // We return at least Bulma's hard-coded colors
@@ -176,7 +177,7 @@
         @return $color;
     }
 
-    @return darken($color, $amount);
+    @return color.adjust($color, $lightness: -$amount);
 }
 
 @function bulmaLighten($color, $amount) {
@@ -184,7 +185,7 @@
         @return $color;
     }
 
-    @return lighten($color, $amount);
+    @return color.adjust($color, $lightness: $amount);
 }
 
 @function bulmaColorBrightness($n) {

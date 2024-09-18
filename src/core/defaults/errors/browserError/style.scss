@@ -1,3 +1,4 @@
+@use "sass:color";
 @import "~styles/variables.scss";
 
 /* arabic */
@@ -116,7 +117,7 @@
         $blue 0%,
         $blue 25%,
         $blue 51%,
-        darken($blue, 30%) 100%
+        color.adjust($blue, $lightness: -30%) 100%
     );
     animation: hr-animate-bg 20s ease infinite;
     overflow: hidden;
@@ -140,7 +141,7 @@
 }
 
 html.theme-dark .hr-browserError-overlay {
-    background: darken($blue, 40%);
+    background: color.adjust($blue, $lightness: -40%);
 }
 
 .hr-browserError-message {

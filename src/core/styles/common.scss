@@ -1,3 +1,4 @@
+@use "sass:color";
 @use "./variables.scss" as hv;
 
 .modal-card-foot {
@@ -5,7 +6,7 @@
 }
 
 html.theme-dark .modal-card-foot {
-    border-top: 1px solid darken($grey, 10%);
+    border-top: 1px solid color.adjust($grey, $lightness: -10%);
 }
 
 @media screen and (min-width: 1024px) {

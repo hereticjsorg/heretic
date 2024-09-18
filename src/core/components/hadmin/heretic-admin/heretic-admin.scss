@@ -1,3 +1,5 @@
+@use "sass:color";
+
 // Import variables and fonts
 
 @import "~styles/variables.scss";
@@ -51,7 +53,7 @@ html.theme-dark .hr-menu-wrap {
 
 html.theme-dark .hr-footer {
     background: $theme-dark-black-bis !important;
-    border-top: 1px solid darken($theme-dark-grey-darker, 2%);
+    border-top: 1px solid color.adjust($theme-dark-grey-darker, $lightness: -2%);
 }
 
 .hr-content-area-wrap {

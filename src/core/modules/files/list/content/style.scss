@@ -1,3 +1,4 @@
+@use "sass:color";
 @import "~styles/variables.scss";
 
 $folder: #f2dcb3;
@@ -17,7 +18,7 @@ html.theme-dark .hr-fs-head {
 }
 
 .hr-fs-dir {
-    background-color: darken($folder, 5%);
+    background-color: color.adjust($folder, $lightness: -5%);
 }
 
 .hr-fs-dir-odd {
@@ -26,11 +27,11 @@ html.theme-dark .hr-fs-head {
 
 .hr-fs-dir:hover,
 .hr-fs-dir-odd:hover {
-    background-color: darken($folder, 15%);
+    background-color: color.adjust($folder, $lightness: -15%);
 }
 
 html.theme-dark .hr-fs-dir {
-    background-color: darken($folder-dark, 5%);
+    background-color: color.adjust($folder-dark, $lightness: -5%);
 }
 
 html.theme-dark .hr-fs-dir-odd {
@@ -39,7 +40,7 @@ html.theme-dark .hr-fs-dir-odd {
 
 html.theme-dark .hr-fs-dir:hover,
 html.theme-dark .hr-fs-dir-odd:hover {
-    background-color: lighten($folder-dark, 10%);
+    background-color: color.adjust($folder-dark, $lightness: 10%);
 }
 
 html.theme-dark .hr-fs-dir > .column {
@@ -60,7 +61,7 @@ html.theme-dark .hr-fs-dir > .column {
 
 .hr-fs-file:hover,
 .hr-fs-file-odd:hover {
-    background-color: darken($grey-lighter, 10%);
+    background-color: color.adjust($grey-lighter, $lightness: -10%);
 }
 
 html.theme-dark .hr-fs-file {
@@ -73,7 +74,7 @@ html.theme-dark .hr-fs-file-odd {
 
 html.theme-dark .hr-fs-file:hover,
 html.theme-dark .hr-fs-file-odd:hover {
-    background-color: lighten($grey-dark, 20%);
+    background-color: color.adjust($grey-dark, $lightness: 20%);
 }
 
 .hr-fs-bottomItem {
@@ -209,7 +210,7 @@ html.theme-dark .hr-fs-panel {
 }
 
 .hr-fs-dir-breadcrumb a > span {
-    border-bottom: 1px dashed lighten($grey, 5%);
+    border-bottom: 1px dashed color.adjust($grey, $lightness: 5%);
 }
 
 html.theme-dark .hr-fs-dir-breadcrumb a > span {

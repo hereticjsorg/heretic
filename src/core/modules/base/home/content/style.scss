@@ -1,3 +1,4 @@
+@use "sass:color";
 @import "~styles/variables.scss";
 
 .hr-ah-blink {
@@ -12,7 +13,7 @@
 }
 
 html.theme-dark .hr-ah-systemInfo-table {
-    border: 1px solid lighten($grey-dark, 10%);
+    border: 1px solid color.adjust($grey-dark, $lightness: 10%);
 }
 
 .hr-ah-systemInfo-table > tbody > tr:hover {
@@ -65,15 +66,15 @@ html.theme-dark .hr-ah-tab-icon > path {
 }
 
 html.theme-dark .hr-ah-data-wrap {
-    border-color: darken($grey, 10%);
+    border-color: color.adjust($grey, $lightness: -10%);
 }
 
 html.theme-dark .hr-ah-tabs > ul {
-    border-bottom-color: darken($grey, 10%) !important;
+    border-bottom-color: color.adjust($grey, $lightness: -10%) !important;
 }
 
 html.theme-dark .hr-ah-tab.is-active > a {
-    border-color: darken($grey, 10%) !important;
+    border-color: color.adjust($grey, $lightness: -10%) !important;
     background-color: $black-bis !important;
 }
 
@@ -93,7 +94,7 @@ html.theme-dark .hr-ah-tab:not(.is-active) {
 
 html.theme-dark .hr-ah-tab:not(.is-active) > a:hover {
     background: $grey-dark !important;
-    border-bottom: 1px solid darken($grey, 10%);
+    border-bottom: 1px solid color.adjust($grey, $lightness: -10%);
 }
 
 .hr-ah-tag-par {

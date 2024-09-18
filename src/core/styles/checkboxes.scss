@@ -1,7 +1,9 @@
+@use "sass:color";
+
 @supports (-webkit-appearance: none) or (-moz-appearance: none) {
     input[type="checkbox"],
     input[type="radio"] {
-        --active: #{lighten($primary, 20%)};
+        --active: #{color.adjust($primary, $lightness: 20%)};
         --active-inner: #{$white};
         --focus: 1px #{$grey};
         --border: #{$grey-lighter};
@@ -165,12 +167,12 @@
 @supports (-webkit-appearance: none) or (-moz-appearance: none) {
     html.theme-dark input[type="checkbox"],
     html.theme-dark input[type="radio"] {
-        --active: #{lighten($primary, 10%)};
+        --active: #{color.adjust($primary, $lightness: 10%)};
         --active-inner: #{$grey-darker};
         --focus: 1px #{$grey};
         --border: #{$grey-dark};
         --border-hover: #{$grey-darker};
-        --background: #{lighten($black-bis, 10%)};
+        --background: #{color.adjust($black-bis, $lightness: 10%)};
         --disabled: #{$grey};
         --disabled-inner: #{$grey-light};
         -webkit-appearance: none;

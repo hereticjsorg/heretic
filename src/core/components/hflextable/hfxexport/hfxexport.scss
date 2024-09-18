@@ -1,3 +1,5 @@
+@use "sass:color";
+
 .hr-he-modal-notification {
     border-radius: 0 !important;
     padding: 10px;
@@ -11,7 +13,7 @@
 }
 
 html.theme-dark .hr-he-export-form-wrap {
-    background: lighten($theme-dark-grey-dark, 3%) !important;
+    background: color.adjust($theme-dark-grey-dark, $lightness: 3%) !important;
     box-shadow: unset !important;
     border-bottom: 1px solid $theme-dark-grey-dark;
 }
@@ -26,7 +28,7 @@ html.theme-dark .hr-he-export-form-wrap {
 }
 
 html.theme-dark .hr-he-modal-notification {
-    background-color: darken($blue, 20%);
+    background-color: color.adjust($blue, $lightness: -20%);
     color: $grey-light;
 }
 

@@ -1,3 +1,5 @@
+@use "sass:color";
+
 .hr-hm-modal-card {
     position: relative;
     padding: 3px;
@@ -50,9 +52,9 @@ html.theme-dark .hr-hm-tabs-wrap {
 }
 
 html.theme-dark .hr-hm-tabs > ul > li.is-active > a {
-    background: lighten($theme-dark-grey-dark, 6%) !important;
+    background: color.adjust($theme-dark-grey-dark, $lightness: 6%) !important;
     color: $theme-dark-text-color !important;
-    border-color: darken($theme-dark-grey-dark, 20%) !important;
+    border-color: color.adjust($theme-dark-grey-dark, $lightness: -20%) !important;
 }
 
 html.theme-dark .hr-hm-tabs > ul > li > a {

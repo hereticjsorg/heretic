@@ -1,10 +1,12 @@
+@use "sass:color";
+
 .hr-hfb-modal-notification {
     border-radius: 0 !important;
     padding: 10px;
 }
 
 html.theme-dark .hr-hfb-modal-notification {
-    background-color: darken($blue, 20%);
+    background-color: color.adjust($blue, $lightness: -20%);
     color: $grey-light;
 }
 
@@ -66,7 +68,7 @@ html.theme-dark .hr-hfb-action-button {
 }
 
 html.theme-dark .hr-hfb-settings-bulk-row:hover {
-    background: lighten($theme-dark-grey-dark, 18%);
+    background: color.adjust($theme-dark-grey-dark, $lightness: 18%);
     border-radius: $radius;
 }
 
