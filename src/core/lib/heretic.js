@@ -129,7 +129,7 @@ export default class {
             special: true,
         };
         this.fastify = Fastify({
-            logger: new Logger(this.systemConfig).getPino(),
+            loggerInstance: new Logger(this.systemConfig).getPino(),
             trustProxy: true,
             ignoreTrailingSlash: this.systemConfig.server.ignoreTrailingSlash,
         });

@@ -65,7 +65,7 @@ async function fastifyMongo(fastify, options) {
 }
 
 module.exports = fp(fastifyMongo, {
-    fastify: "4.x",
+    fastify: ">=4.x",
     name: "hereticMongo",
 });
 
