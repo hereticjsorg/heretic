@@ -1,28 +1,33 @@
 import iconFolder from "./folder.svg";
 
-<div
-    class=`hr-htr-item-wrap${!state.selected ? " hr-htr-item-wrap-selected" : ""}`
-    style={ display: "inline-flex" }
-    on-click("onRootItemClick")
->
-    <img src=iconFolder class="hr-htr-item-img">
-    <t>rootDir</t>
-</div>
-<div class="hr-htr-items-wrap">
-    <div class="hr-htr-items-line"/>
-    <div style={ flex: "1" }>
-        <for|i, index| of=input.data>
-            <hTreeItem
-                data=i
-                level=0
-                selected=state.selected
-                id=input.id
-                on-item-click("onItemClick")
-                on-drag-start("onDragStart")
-                on-drag-end("onDragEnd")
-                drag=state.drag
-                last=(index + 1 === input.data.length)
-            />
-        </for>
+<div id=`hr_htr_${input.id}`>
+    <div
+        class=`hr-htr-item-wrap${!state.selected ? " hr-htr-item-wrap-selected" : ""}`
+        style={ display: "inline-flex" }
+        on-click("onRootItemClick")
+    >
+        <img src=iconFolder class="hr-htr-item-img">
+        <t>rootDir</t>
+    </div>
+    <div class="hr-htr-items-wrap">
+        <div class="hr-htr-items-line"/>
+        <div style={ flex: "1" }>
+            <for|i, index| of=state.data>
+                <hTreeItem
+                    data=i
+                    level=0
+                    selected=state.selected
+                    id=input.id
+                    on-item-click("onItemClick")
+                    on-drag-start("onDragStart")
+                    on-drag-end("onDragEnd")
+                    on-drag("onDrag")
+                    on-itemdrop("onDrop")
+                    scroll=input.scroll
+                    drag=state.drag
+                    last=(index + 1 === input.data.length)
+                />
+            </for>
+        </div>
     </div>
 </div>

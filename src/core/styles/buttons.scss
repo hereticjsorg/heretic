@@ -1,13 +1,13 @@
 @use "sass:color";
 
 .button.is-light {
-    border-top: 1px solid color.adjust($white-ter, $lightness: 3%);
-    border-left: 1px solid color.adjust($white-ter, $lightness: 8%);
-    border-right: 1px solid color.adjust($white-ter, $lightness: 8%);
+    border-top: 1px solid color.adjust($white-ter, $lightness: -3%);
+    border-left: 1px solid color.adjust($white-ter, $lightness: -8%);
+    border-right: 1px solid color.adjust($white-ter, $lightness: -8%);
     border-bottom: unset;
     box-shadow:
-        0 2px 0 0 color.adjust($white-ter, $lightness: 20%),
-        1px 6px 16px -16px color.adjust($black, $lightness: 15%);
+        0 2px 0 0 color.adjust($white-ter, $lightness: -20%),
+        1px 6px 16px -16px color.adjust($black, $lightness: -15%);
     color: $grey-darker;
 }
 
@@ -18,7 +18,7 @@
     border-bottom: unset;
     box-shadow:
         0 2px 0 0 color.adjust($white-ter, $lightness: -23%),
-        1px 10px 16px -16px color.adjust($black, $lightness: 25%),
+        1px 10px 16px -16px color.adjust($black, $lightness: -25%),
         rgba(50, 50, 93, 0.15) 0px 6px 12px -2px,
         rgba(0, 0, 0, 0.1) 0px 3px 7px -3px !important;
 }

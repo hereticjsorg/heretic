@@ -3,8 +3,13 @@ import iconFolder from "../folder.svg";
 <if(input.drag)>
     <div
         id=`hr_htr_${input.id}_${input.data.id}_before`
-        class="hr-htr-drop-area"
+        class=`hr-htr-drop-area${state.overGap === "top" ? " hr-htr-drop-area-over" : ""}`
         style={ marginLeft: `${input.level * 30}px` }
+        on-dragover("onGapDragOver")
+        on-dragenter("onGapDragEnter")
+        on-dragleave("onGapDragLeave")
+        on-drop("onGapDrop")
+        data-id="top"
     />
 </if>
 <div class="hr-htr-item">
@@ -40,21 +45,36 @@ import iconFolder from "../folder.svg";
         <div class="hr-htr-item-line-0"/>
     </if>
     <div
+        id=`hr_htr_${input.id}_${input.data.id}_item`
         class=`hr-htr-item-wrap${input.selected === input.data.id ? " hr-htr-item-wrap-selected" : ""}`
         on-dragstart("onItemDragStart")
         on-dragend("onItemDragEnd")
+        on-drag("onDrag")
         on-click("onItemClick")
+        on-dragover("onGapDragOver")
+        on-dragenter("onGapDragEnter")
+        on-dragleave("onGapDragLeave")
+        on-drop("onGapDrop")
         draggable="true"
+        data-id=(input.data.id)
     >
         <img src=iconFolder class="hr-htr-item-img" draggable="false">
         ${input.data.label}
     </div>
 </div>
-<if(input.drag && (input.childIndex > 0 || input.childrenCount === 1 || input.last))>
+<if(
+    input.drag &&
+    (input.childIndex > 0 || input.childrenCount === 1 || input.last)
+)>
     <div
         id=`hr_htr_${input.id}_${input.data.id}_after`
-        class="hr-htr-drop-area"
+        class=`hr-htr-drop-area${state.overGap === "bottom" ? " hr-htr-drop-area-over" : ""}`
         style={ marginLeft: `${input.level * 30}px` }
+        data-id="bottom"
+        on-dragover("onGapDragOver")
+        on-dragenter("onGapDragEnter")
+        on-dragleave("onGapDragLeave")
+        on-drop("onGapDrop")
     />
 </if>
 <if(input.data.children)>
@@ -63,14 +83,16 @@ import iconFolder from "../folder.svg";
             data=i
             level=input.level + 1
             selected=input.selected
-            on-item-click("onSubItemClick")
-            on-drag-start("onChildDragStart")
-            on-drag-end("onChildDragEnd")
-            on-click("onSubItemClick")
             childIndex=index
             childrenCount=(input.data.children.length)
             drag=input.drag
             id=input.id
+            on-item-click("onSubItemClick")
+            on-drag-start("onChildDragStart")
+            on-drag-end("onChildDragEnd")
+            on-click("onSubItemClick")
+            on-itemdrop("onSubItemDrop")
+            scroll=input.scroll
         />
     </for>
 </if>

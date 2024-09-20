@@ -1,6 +1,8 @@
 module.exports = class {
     async onCreate() {
-        this.state = {};
+        this.state = {
+            overGap: null,
+        };
     }
 
     onItemClick(e) {
@@ -12,16 +14,17 @@ module.exports = class {
         this.emit("item-click", data);
     }
 
+    onSubItemDrop(data) {
+        this.emit("itemdrop", data);
+    }
+
     onItemDragStart(e) {
-        // eslint-disable-next-line no-console
-        console.log("onItemDragStart");
-        e.dataTransfer.setData("text/plain", `__htr__${this.input.id}_${this.input.data.id}`);
+        const { id } = e.target.closest("[data-id]").dataset;
+        e.dataTransfer.setData("text/plain", `__htr__${this.input.id}_${id}`);
         this.emit("drag-start");
     }
 
     onItemDragEnd() {
-        // eslint-disable-next-line no-console
-        console.log("onItemDragEnd");
         this.emit("drag-end");
     }
 
@@ -31,5 +34,61 @@ module.exports = class {
 
     onChildDragEnd() {
         this.emit("drag-end");
+    }
+
+    onGapDragOver(e) {
+        e.preventDefault();
+    }
+
+    onDrag(e) {
+        if (this.input.scroll) {
+            const parent = document.getElementById(
+                `hr_htr_${this.input.id}`,
+            ).parentElement;
+            const parentRect = parent.getBoundingClientRect();
+            const y = e.clientY;
+            if (y < parentRect.y && parent.scrollTop > 0) {
+                parent.scrollTop -= 5;
+            } else if (y > parentRect.y + parentRect.height) {
+                parent.scrollTop += 5;
+            }
+        }
+    }
+
+    onGapDragEnter(e) {
+        e.preventDefault();
+        const { id } = e.target.closest("[data-id]").dataset;
+        this.setState("overGap", id);
+    }
+
+    onGapDragLeave(e) {
+        e.preventDefault();
+        this.setState("overGap", null);
+    }
+
+    onGapDrop(e) {
+        if (
+            !e.dataTransfer.getData("text/plain") ||
+            !e.dataTransfer.getData("text/plain").match(/^__htr__/)
+        ) {
+            e.preventDefault();
+            return;
+        }
+        const [, itemId] = e.dataTransfer
+            .getData("text/plain")
+            .replace(/^__htr__/, "")
+            .split(/_/);
+        this.emit("itemdrop", {
+            src: itemId,
+            dest: this.input.data.id,
+            position: this.state.overGap,
+        });
+        // eslint-disable-next-line no-console
+        console.log({
+            src: itemId,
+            dest: this.input.data.id,
+            position: this.state.overGap,
+        });
+        this.setState("overGap", null);
     }
 };
