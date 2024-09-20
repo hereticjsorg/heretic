@@ -129,7 +129,7 @@ const fastifyMultipart = (fastify, options, done) => {
         );
     };
     // Add handlers
-    fastify.addContentTypeParser("multipart", setMultipart);
+    fastify.addContentTypeParser("multipart/form-data", setMultipart);
     fastify.decorateRequest("processMultipart", processMultipartRequest);
     fastify.decorateRequest("removeMultipartTempFiles", removeTemporaryFiles);
     done();
