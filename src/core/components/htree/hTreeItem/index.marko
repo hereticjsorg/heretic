@@ -13,37 +13,35 @@ import iconFolder from "../folder.svg";
     />
 </if>
 <div class="hr-htr-item">
-    <for|i, index| of=Array(input.level).fill(0)>
-        <if(index > 0)>
-            <div style={ width: "30px" }/>
-        </if>
-    </for>
-    <if(input.level > 0)>
-        <if(input.childrenCount > 0)>
-            <div style={ width: `${11 * input.level}px` }/>
-        </if>
+    <for|_, index| of=Array(input.level).keys()>
         <div
-            class="hr-htr-item-shift-line-0"
+            class=(
+                input.parentHasMoreChildren[index + 1] ||
+                input.level === index + 1
+                    ? "hr-htr-item-shift-line-00"
+                    : ""
+            )
             style={
+                width: "20px",
+                height:
+                    input.level - 1 !== index
+                        ? "42px"
+                        : input.childrenCount - 1 === input.childIndex
+                          ? "23px"
+                          : input.childIndex === 0
+                            ? "38px"
+                            : "32px",
                 marginTop:
                     input.childrenCount - 1 === input.childIndex
-                        ? "-19px"
-                        : input.childIndex && input.childIndex > 0
-                          ? "-4px"
-                          : "unset",
-                height:
-                    input.childrenCount - 1 === input.childIndex
-                        ? "19px"
-                        : "30px",
+                        ? "-22px"
+                        : input.childIndex === 0
+                          ? "-6px"
+                          : "0",
+                opacity: input.drag ? "0" : "1",
             }
         />
-        <div class="hr-htr-item-shift">
-            <div class="hr-htr-item-shift-line"/>
-        </div>
-    </if>
-    <if(input.level === 0)>
-        <div class="hr-htr-item-line-0"/>
-    </if>
+    </for>
+    <div class="hr-htr-item-shift-line-t"/>
     <div
         id=`hr_htr_${input.id}_${input.data.id}_item`
         class=`hr-htr-item-wrap${input.selected === input.data.id ? " hr-htr-item-wrap-selected" : ""}`
@@ -93,6 +91,10 @@ import iconFolder from "../folder.svg";
             on-click("onSubItemClick")
             on-itemdrop("onSubItemDrop")
             scroll=input.scroll
+            parentHasMoreChildren=[
+                ...input.parentHasMoreChildren,
+                input.data.children.length !== index + 1,
+            ]
         />
     </for>
 </if>

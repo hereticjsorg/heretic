@@ -10,7 +10,21 @@ import iconFolder from "./folder.svg";
         <t>rootDir</t>
     </div>
     <div class="hr-htr-items-wrap">
-        <div class="hr-htr-items-line"/>
+        <div
+            class="hr-htr-items-line"
+            style={
+                opacity: state.drag ? "0" : "1",
+                height: "26px",
+                marginTop: "-12px",
+                marginBottom: "-16px",
+            }
+        />
+    </div>
+    <div class="hr-htr-items-wrap">
+        <div
+            class="hr-htr-items-line"
+            style={ opacity: state.drag ? "0" : "1" }
+        />
         <div style={ flex: "1" }>
             <for|i, index| of=state.data>
                 <hTreeItem
@@ -25,7 +39,10 @@ import iconFolder from "./folder.svg";
                     on-itemdrop("onDrop")
                     scroll=input.scroll
                     drag=state.drag
-                    last=(index + 1 === input.data.length)
+                    last=(index + 1 === state.data.length)
+                    childrenCount=(state.data.length)
+                    childIndex=index
+                    parentHasMoreChildren=[state.data.length !== index + 1]
                 />
             </for>
         </div>
