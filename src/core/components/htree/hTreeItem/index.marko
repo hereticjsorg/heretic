@@ -1,79 +1,137 @@
 import iconFolder from "../folder.svg";
+import iconPlus from "../plus.svg";
+import iconMinus from "../minus.svg";
 
-<if(input.drag)>
-    <div
-        id=`hr_htr_${input.id}_${input.data.id}_before`
-        class=`hr-htr-drop-area${state.overGap === "top" ? " hr-htr-drop-area-over" : ""}`
-        style={ marginLeft: `${input.level * 30}px` }
-        on-dragover("onGapDragOver")
-        on-dragenter("onGapDragEnter")
-        on-dragleave("onGapDragLeave")
-        on-drop("onGapDrop")
-        data-id="top"
-    />
-</if>
-<div class="hr-htr-item">
-    <for|_, index| of=Array(input.level).keys()>
+<if(
+    (input.visibilityData && input.visibilityData[input.data.id]) || input.drag
+)>
+    <if(input.drag)>
+        <div
+            id=`hr_htr_${input.id}_${input.data.id}_before`
+            class=`hr-htr-drop-area${state.overGap === "top" ? " hr-htr-drop-area-over" : ""}`
+            style={
+                marginLeft: `${input.level * 30}px`,
+            }
+            on-dragover("onGapDragOver")
+            on-dragenter("onGapDragEnter")
+            on-dragleave("onGapDragLeave")
+            on-drop("onGapDrop")
+            data-id="top"
+        />
+    </if>
+    <div class="hr-htr-item">
         <div
             class=(
-                input.parentHasMoreChildren[index + 1] ||
-                input.level === index + 1
-                    ? "hr-htr-item-shift-line-00"
+                input.level === 0 || input.parentHasMoreChildren[0]
+                    ? "hr-htr-item-shift-line-00 hr-htr-item-shift-line-00-ord"
                     : ""
             )
             style={
                 width: "20px",
                 height:
-                    input.level - 1 !== index
-                        ? "42px"
-                        : input.childrenCount - 1 === input.childIndex
-                          ? "23px"
-                          : input.childIndex === 0
-                            ? "38px"
-                            : "32px",
-                marginTop:
-                    input.childrenCount - 1 === input.childIndex
-                        ? "-22px"
-                        : input.childIndex === 0
-                          ? "-6px"
-                          : "0",
+                    input.level === 0 && input.childrenCount === 1
+                        ? "24px"
+                        : "34px",
+                marginTop: input.parentHasMoreChildren[0]
+                    ? "-8px"
+                    : input.level === 0 && input.childrenCount === 1
+                      ? "-23px"
+                      : "-33px",
                 opacity: input.drag ? "0" : "1",
             }
         />
-    </for>
-    <div class="hr-htr-item-shift-line-t"/>
-    <div
-        id=`hr_htr_${input.id}_${input.data.id}_item`
-        class=`hr-htr-item-wrap${input.selected === input.data.id ? " hr-htr-item-wrap-selected" : ""}`
-        on-dragstart("onItemDragStart")
-        on-dragend("onItemDragEnd")
-        on-drag("onDrag")
-        on-click("onItemClick")
-        on-dragover("onGapDragOver")
-        on-dragenter("onGapDragEnter")
-        on-dragleave("onGapDragLeave")
-        on-drop("onGapDrop")
-        draggable="true"
-        data-id=(input.data.id)
-    >
-        <img src=iconFolder class="hr-htr-item-img" draggable="false">
-        ${input.data.label}
+        <for|_, index| of=Array(input.level).keys()>
+            <if(
+                input.level - 1 === index &&
+                input.childIndex === input.childrenCount - 1
+            )>
+                <div style={
+                    display: "flex",
+                    flexDirection: "column",
+                }>
+                    <div
+                        class=(
+                            input.parentHasMoreChildren[index + 1] ||
+                            input.level === index + 1 ||
+                            (input.level === 0 && input.childrenCount === 1)
+                                ? "hr-htr-item-shift-line-00 hr-htr-item-shift-line-00-last"
+                                : ""
+                        )
+                        style={
+                            opacity: input.drag ? "0" : "1",
+                        }
+                    />
+                    <div style={
+                        height: "16px",
+                    }/>
+                </div>
+            </if>
+            <else>
+                <div
+                    data-level=index
+                    class=`hr-htr-item-shift-line-00${input.parentHasMoreChildren[index + 1] || input.level === index + 1 ? " hr-htr-item-shift-line-00-ord" : ""}`
+                    style={
+                        opacity: input.drag ? "0" : "1",
+                    }
+                />
+            </else>
+        </for>
+        <if(!input.drag && input.data.children)>
+            <img
+                src=(input.openData[input.data.id] ? iconMinus : iconPlus)
+                class="hr-htr-item-img-plus"
+                on-click("onTreeToggleClick")
+                data-id=(input.data.id)
+            >
+        </if>
+        <else>
+            <div class="hr-htr-item-no-img"/>
+        </else>
+        <div
+            class="hr-htr-item-shift-line-t"
+            style={
+                opacity: input.drag ? "0" : "1",
+            }
+        />
+        <div
+            id=`hr_htr_${input.id}_${input.data.id}_item`
+            class=`hr-htr-item-wrap${input.selected === input.data.id ? " hr-htr-item-wrap-selected" : ""}`
+            on-dragstart("onItemDragStart")
+            on-dragend("onItemDragEnd")
+            on-drag("onDrag")
+            on-click("onItemClick")
+            on-dragover("onGapDragOver")
+            on-dragenter("onGapDragEnter")
+            on-dragleave("onGapDragLeave")
+            on-drop("onGapDrop")
+            draggable="true"
+            data-id=(input.data.id)
+        >
+            <img
+                src=iconFolder
+                class="hr-htr-item-img-folder"
+                draggable="false"
+            >
+            ${input.data.label}
+        </div>
     </div>
-</div>
-<if(
-    input.drag &&
-    (input.childIndex > 0 || input.childrenCount === 1 || input.last)
-)>
-    <div
-        id=`hr_htr_${input.id}_${input.data.id}_after`
-        class=`hr-htr-drop-area${state.overGap === "bottom" ? " hr-htr-drop-area-over" : ""}`
-        style={ marginLeft: `${input.level * 30}px` }
-        data-id="bottom"
-        on-dragover("onGapDragOver")
-        on-dragenter("onGapDragEnter")
-        on-dragleave("onGapDragLeave")
-        on-drop("onGapDrop")
-    />
+    <if(
+        input.drag &&
+        (input.childIndex > 0 || input.childrenCount === 1 || input.last)
+    )>
+        <div
+            id=`hr_htr_${input.id}_${input.data.id}_after`
+            class=`hr-htr-drop-area${state.overGap === "bottom" ? " hr-htr-drop-area-over" : ""}`
+            style={
+                marginLeft: `${input.level * 30}px`,
+            }
+            data-id="bottom"
+            on-dragover("onGapDragOver")
+            on-dragenter("onGapDragEnter")
+            on-dragleave("onGapDragLeave")
+            on-drop("onGapDrop")
+        />
+    </if>
 </if>
 <if(input.data.children)>
     <for|i, index| of=(input.data.children)>
@@ -90,11 +148,12 @@ import iconFolder from "../folder.svg";
             on-drag-end("onChildDragEnd")
             on-click("onSubItemClick")
             on-itemdrop("onSubItemDrop")
+            on-treetoggle("onTreeToggleClick")
             scroll=input.scroll
-            parentHasMoreChildren=[
-                ...input.parentHasMoreChildren,
-                input.data.children.length !== index + 1,
-            ]
+            treeData=input.treeData
+            parentHasMoreChildren=(input.treeData[i.id])
+            visibilityData=input.visibilityData
+            openData=input.openData
         />
     </for>
 </if>

@@ -83,12 +83,15 @@ module.exports = class {
             dest: this.input.data.id,
             position: this.state.overGap,
         });
-        // eslint-disable-next-line no-console
-        console.log({
-            src: itemId,
-            dest: this.input.data.id,
-            position: this.state.overGap,
-        });
         this.setState("overGap", null);
+    }
+
+    onTreeToggleClick(e) {
+        if (e && e.target) {
+            const { id } = e.target.closest("[data-id]").dataset;
+            this.emit("treetoggle", id);
+        } else if (typeof e === "string") {
+            this.emit("treetoggle", e);
+        }
     }
 };

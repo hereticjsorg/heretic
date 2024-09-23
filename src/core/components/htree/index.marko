@@ -6,25 +6,10 @@ import iconFolder from "./folder.svg";
         style={ display: "inline-flex" }
         on-click("onRootItemClick")
     >
-        <img src=iconFolder class="hr-htr-item-img">
+        <img src=iconFolder class="hr-htr-item-img-folder">
         <t>rootDir</t>
     </div>
     <div class="hr-htr-items-wrap">
-        <div
-            class="hr-htr-items-line"
-            style={
-                opacity: state.drag ? "0" : "1",
-                height: "26px",
-                marginTop: "-12px",
-                marginBottom: "-16px",
-            }
-        />
-    </div>
-    <div class="hr-htr-items-wrap">
-        <div
-            class="hr-htr-items-line"
-            style={ opacity: state.drag ? "0" : "1" }
-        />
         <div style={ flex: "1" }>
             <for|i, index| of=state.data>
                 <hTreeItem
@@ -37,12 +22,16 @@ import iconFolder from "./folder.svg";
                     on-drag-end("onDragEnd")
                     on-drag("onDrag")
                     on-itemdrop("onDrop")
+                    on-treetoggle("onTreeToggle")
                     scroll=input.scroll
                     drag=state.drag
                     last=(index + 1 === state.data.length)
                     childrenCount=(state.data.length)
                     childIndex=index
-                    parentHasMoreChildren=[state.data.length !== index + 1]
+                    treeData=state.treeData
+                    parentHasMoreChildren=(state.treeData[i.id])
+                    visibilityData=state.visibilityData
+                    openData=state.openData
                 />
             </for>
         </div>
