@@ -14,6 +14,7 @@ export default class {
         this.state.treeData = this.getTreeState();
         this.state.visibilityData = this.generateVisibilityState();
         this.state.openData = this.updateOpenData(this.state.visibilityData);
+
         if (input.admin) {
             await import(
                 /* webpackChunkName: "hselect-admin" */ "./style-admin.scss"
@@ -117,13 +118,13 @@ export default class {
         if (!nodeUpdated) {
             tree.unshift(data);
         }
+        this.setState("data", tree);
         this.setState("visibilityData", this.generateVisibilityState(tree));
         this.setState("treeData", this.getTreeState(tree));
         this.setState(
             "openData",
             this.updateOpenData(this.state.visibilityData),
         );
-        this.setState("data", tree);
     }
 
     removeNodeById(id, data = this.state.data) {
@@ -382,7 +383,47 @@ export default class {
         this.setState("data", tree);
     }
 
+    removeNode(id) {
+        const treeData = this.removeNodeById(id);
+        this.setState("data", this.cleanUpNodes(treeData));
+        const visibilityData = this.generateVisibilityState();
+        this.setState("visibilityData", visibilityData);
+        this.setState("openData", this.updateOpenData(visibilityData));
+        this.setState("treeData", this.getTreeState(treeData));
+        this.setSelected(null);
+    }
+
     setSelected(id) {
         this.setState("selected", id);
+    }
+
+    getData(data = this.state.data) {
+        return data.map((i) => {
+            delete i.label;
+            if (i && i.children && i.children.length) {
+                i.children = this.getData(i.children);
+            }
+            return i;
+        });
+    }
+
+    getTreeWithLabels(data, language) {
+        return data.map((i) => {
+            i.label = i[language];
+            if (i && i.children && i.children.length) {
+                i.children = this.getTreeWithLabels(i.children, language);
+            }
+            return i;
+        });
+    }
+
+    setData(data, language) {
+        const tree = this.getTreeWithLabels(data, language);
+        this.setState("data", tree);
+        this.setState("treeData", this.getTreeState(tree));
+        const visibilityData = this.generateVisibilityState();
+        this.setState("visibilityData", visibilityData);
+        this.setState("openData", this.updateOpenData(visibilityData));
+        this.setSelected(null);
     }
 }

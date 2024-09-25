@@ -5,6 +5,7 @@ export default class {
         this.state = {
             active: input.active,
             message: input.message || "",
+            messageUnsafe: input.messageUnsafe || "",
         };
         if (input.admin) {
             await import(
@@ -62,7 +63,10 @@ export default class {
         this.emit("confirm");
     }
 
-    setMessage(message) {
+    setMessage(message, messageUnsafe) {
         this.setState("message", message);
+        if (messageUnsafe) {
+            this.setState("messageUnsafe", messageUnsafe);
+        }
     }
 }
