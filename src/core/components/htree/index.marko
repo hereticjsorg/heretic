@@ -1,6 +1,6 @@
 import iconFolder from "./folder.svg";
 
-<div id=`hr_htr_${input.id}`>
+<div id=`hr_htr_${input.id}` class="hr-htree">
     <div
         class=`hr-htr-item-wrap${!state.selected ? " hr-htr-item-wrap-selected" : ""}`
         style={ display: "inline-flex" }
@@ -32,6 +32,7 @@ import iconFolder from "./folder.svg";
                     parentHasMoreChildren=(state.treeData[i.id])
                     visibilityData=state.visibilityData
                     openData=state.openData
+                    dragAllowed=!!input.dragAllowed
                 />
             </for>
         </div>

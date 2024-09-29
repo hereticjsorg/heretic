@@ -79,6 +79,8 @@ import iconMinus from "../minus.svg";
         <if(!input.drag && input.data.children)>
             <img
                 src=(input.openData[input.data.id] ? iconMinus : iconPlus)
+                width=15
+                height=15
                 class="hr-htr-item-img-plus"
                 on-click("onTreeToggleClick")
                 data-id=(input.data.id)
@@ -104,7 +106,7 @@ import iconMinus from "../minus.svg";
             on-dragenter("onGapDragEnter")
             on-dragleave("onGapDragLeave")
             on-drop("onGapDrop")
-            draggable="true"
+            draggable=(input.dragAllowed ? "true" : "false")
             data-id=(input.data.id)
         >
             <img
@@ -154,6 +156,7 @@ import iconMinus from "../minus.svg";
             parentHasMoreChildren=(input.treeData[i.id])
             visibilityData=input.visibilityData
             openData=input.openData
+            dragAllowed=input.dragAllowed
         />
     </for>
 </if>

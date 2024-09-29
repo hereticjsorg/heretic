@@ -699,10 +699,11 @@ export default class {
             if (!installedVersions[m.id] || options.setup) {
                 let Setup;
                 try {
-                    Setup = (await import(`./#site/../${m.path}/setup.js`))
-                        .default;
-                } catch {
-                    // Ignore
+                    Setup = (await DynamicLoader.loadSetup(m.path)).default;
+                } catch (e) {
+                    this.fastify.log.error(
+                        `Setup error: ${e.message}...`,
+                    );
                 }
                 if (Setup) {
                     this.fastify.log.info(

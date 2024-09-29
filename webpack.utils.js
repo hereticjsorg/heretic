@@ -462,6 +462,9 @@ module.exports = class {
                     if (moduleData.api) {
                         dynamicLoaderData.api.push(`${modulePath}/${module}`);
                     }
+                    if (moduleData.setup) {
+                        dynamicLoaderData.setup.push(`${modulePath}/${module}`);
+                    }
                     if (moduleData.search) {
                         dynamicLoaderData.search.push(
                             `${modulePath}/${module}`,
@@ -499,6 +502,15 @@ module.exports = class {
             }
             dynamicLoaderFile += `        }\n    }\n`;
         }
+        if (dynamicLoaderData.setup.length) {
+            dynamicLoaderFile += `\n    static async loadSetup(mpath) {
+        switch (mpath) {\n`;
+            for (const i of dynamicLoaderData.setup) {
+                dynamicLoaderFile += `            case "${i}":
+                return import("#${i}/setup.js");\n`;
+            }
+            dynamicLoaderFile += `        }\n    }\n`;
+        }
         if (dynamicLoaderData.ws.length) {
             dynamicLoaderFile += `\n    static async loadWS(mpath) {
         switch (mpath) {\n`;
@@ -526,7 +538,7 @@ module.exports = class {
             }
             dynamicLoaderFile += `        }\n    }\n`;
         }
-        if (dynamicLoaderData.search.length) {
+        if (dynamicLoaderData.pages.length) {
             dynamicLoaderFile += `\n    static async loadPage(mpath) {
         switch (mpath) {\n`;
             for (const i of dynamicLoaderData.pages) {

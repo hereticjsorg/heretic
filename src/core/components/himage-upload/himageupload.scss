@@ -1,0 +1,49 @@
+.hr-iu-wrap {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.hr-iu-image-add {
+    width: 90px;
+    height: 90px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px dashed $grey-light;
+    border-radius: $radius-large;
+    cursor: pointer;
+}
+
+.hr-iu-image-add-icon {
+    width: 32px;
+    height: 32px;
+}
+
+.hr-iu-image {
+    object-fit: cover;
+    width: 90px;
+    height: 90px;
+    border-radius: $radius-large;
+}
+
+.hr-iu-image-wrap {
+    position: relative;
+}
+
+.hr-iu-image-delete {
+    position: absolute;
+    right: 7px;
+    top: 2px;
+}
+
+.hr-iu-image-drop-area {
+    width: 20px;
+    height: 90px;
+    border: 1px dashed $grey-light;
+    margin-right: 4px;
+    border-radius: $radius-large;
+}
+
+.hr-iu-image-drop-area-over {
+    background-color: $yellow;
+}
