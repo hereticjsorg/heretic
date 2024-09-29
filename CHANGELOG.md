@@ -1,3 +1,12 @@
+## v1.3.1
+
+**Version 1.3** (2024-09-29)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-09-29 | Version 1.3 |
+
+
 ## v1.2.81
 
 **Minor updates and fixes** (2024-07-24)
