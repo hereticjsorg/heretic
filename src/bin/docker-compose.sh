@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-HERETIC_VERSION="1.2.81"
+HERETIC_VERSION="1.3.0"
 DOCKER_COMPOSE_XML_BASE="https://raw.githubusercontent.com/hereticjsorg/heretic/master/src/bin/data"
 APP_CONTROLS_SCRIPT="https://raw.githubusercontent.com/hereticjsorg/heretic/master/src/bin/app-controls.sh"
 
