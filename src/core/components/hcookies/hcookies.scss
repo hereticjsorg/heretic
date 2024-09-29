@@ -1,22 +1,24 @@
+@use "sass:color";
+
 .hr-cs-wrap {
     position: fixed;
     bottom: 0;
     padding: 20px;
     background-color: $white-ter;
     width: 100%;
-    opacity: .98;
-    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+    opacity: 0.98;
+    box-shadow:
+        rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
+        rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
 }
 
 html.theme-dark .hr-cs-wrap {
-    background: lighten($theme-dark-grey-dark, 12%);
+    background: color.adjust($theme-dark-grey-dark, $lightness: 12%);
     color: $theme-dark-text-color-light;
 }
 
 @media (max-width: 768px) {
-
     .hr-cs-buttons-wrap {
         margin-top: 12px !important;
     }
-
 }

@@ -1,18 +1,20 @@
-import detect from "./detector";
+import detect from "./detector.js";
 
 /**
  * Adds multiple classes on node
  * @param {DOMNode} node
  * @param {array}  classes
  */
-const addClasses = (node, classes) => classes && classes.forEach(className => node.classList.add(className));
+const addClasses = (node, classes) =>
+    classes && classes.forEach((className) => node.classList.add(className));
 
 /**
  * Removes multiple classes from node
  * @param {DOMNode} node
  * @param {array}  classes
  */
-const removeClasses = (node, classes) => classes && classes.forEach(className => node.classList.remove(className));
+const removeClasses = (node, classes) =>
+    classes && classes.forEach((className) => node.classList.remove(className));
 
 const fireEvent = (eventName, data) => {
     let customEvent;
@@ -20,11 +22,11 @@ const fireEvent = (eventName, data) => {
     if (detect.ie11()) {
         customEvent = document.createEvent("CustomEvent");
         customEvent.initCustomEvent(eventName, true, true, {
-            detail: data
+            detail: data,
         });
     } else {
         customEvent = new CustomEvent(eventName, {
-            detail: data
+            detail: data,
         });
     }
 
@@ -37,11 +39,7 @@ const fireEvent = (eventName, data) => {
  * @param {int}  top        scrolled distance
  */
 const applyClasses = (el, top) => {
-    const {
-        options,
-        position,
-        node
-    } = el;
+    const { options, position, node } = el;
 
     const hide = () => {
         if (!el.animated) return;
@@ -84,6 +82,7 @@ const applyClasses = (el, top) => {
  * @param  {array} $elements         array of elements nodes
  * @return {void}
  */
-const handleScroll = $elements => $elements.forEach((el) => applyClasses(el, window.pageYOffset));
+const handleScroll = ($elements) =>
+    $elements.forEach((el) => applyClasses(el, window.pageYOffset));
 
 export default handleScroll;

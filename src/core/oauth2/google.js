@@ -1,5 +1,5 @@
 import axios from "axios";
-import Utils from "./utils";
+import Utils from "./utils.js";
 
 export default () => ({
     async handler(req, rep) {
@@ -7,7 +7,10 @@ export default () => ({
             const utils = new Utils(this, req);
             let flowData;
             try {
-                flowData = await this.oa2google.getAccessTokenFromAuthorizationCodeFlow(req);
+                flowData =
+                    await this.oa2google.getAccessTokenFromAuthorizationCodeFlow(
+                        req,
+                    );
             } catch {
                 // Ignore
             }
@@ -30,20 +33,26 @@ export default () => ({
             if (!data || !data.email || !data.verified_email) {
                 return await utils.renderPage(rep);
             }
-            let userDb = (await this.mongo.db.collection(this.systemConfig.collections.users).findOne({
-                email: data.email,
-            }));
+            let userDb = await this.mongo.db
+                .collection(this.systemConfig.collections.users)
+                .findOne({
+                    email: data.email,
+                });
             if (!userDb) {
                 await utils.signUp(data.email, data.name || null);
-                userDb = (await this.mongo.db.collection(this.systemConfig.collections.users).findOne({
-                    email: data.email,
-                }));
+                userDb = await this.mongo.db
+                    .collection(this.systemConfig.collections.users)
+                    .findOne({
+                        email: data.email,
+                    });
             }
-            const token = userDb.tfaConfig ? await utils.signIn2FA(data.email) : await utils.signIn(data.email);
+            const token = userDb.tfaConfig
+                ? await utils.signIn2FA(data.email)
+                : await utils.signIn(data.email);
             return await utils.renderPage(rep, token, userDb.tfaConfig);
         } catch (e) {
             this.log.error(e);
             return Promise.reject(e);
         }
-    }
+    },
 });

@@ -1,4 +1,4 @@
-import Utils from "#lib/componentUtils";
+import Utils from "#lib/componentUtils.js";
 
 export default class {
     async onCreate(input, out) {
@@ -11,8 +11,11 @@ export default class {
     }
 
     onMount() {
-        window.addEventListener("click", e => {
-            if (document.getElementById("hr_navbar_auth") && !document.getElementById("hr_navbar_auth").contains(e.target)) {
+        window.addEventListener("click", (e) => {
+            if (
+                document.getElementById("hr_navbar_auth") &&
+                !document.getElementById("hr_navbar_auth").contains(e.target)
+            ) {
                 this.setState("authOpen", false);
             }
         });

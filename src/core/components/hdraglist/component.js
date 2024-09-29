@@ -1,5 +1,5 @@
 import cloneDeep from "lodash/cloneDeep";
-import Utils from "#lib/componentUtils";
+import Utils from "#lib/componentUtils.js";
 
 export default class {
     async onCreate(input, out) {
@@ -8,9 +8,13 @@ export default class {
             columns: input.columns,
         };
         if (input.admin) {
-            await import( /* webpackChunkName: "hdraglist-admin" */ "./style-admin.scss");
+            await import(
+                /* webpackChunkName: "hdraglist-admin" */ "./style-admin.scss"
+            );
         } else {
-            await import( /* webpackChunkName: "hdraglist-frontend" */ "./style-frontend.scss");
+            await import(
+                /* webpackChunkName: "hdraglist-frontend" */ "./style-frontend.scss"
+            );
         }
         this.language = out.global.language;
         this.siteTitle = out.global.siteTitle;
@@ -21,14 +25,24 @@ export default class {
         this.mongoEnabled = out.global.mongoEnabled;
         if (process.browser) {
             window.__heretic = window.__heretic || {};
-            window.__heretic.outGlobal = window.__heretic.outGlobal || out.global || {};
-            this.authOptions = this.authOptions || window.__heretic.outGlobal.authOptions;
-            this.mongoEnabled = this.mongoEnabled || window.__heretic.outGlobal.mongoEnabled;
-            this.language = this.language || window.__heretic.outGlobal.language;
-            this.siteTitle = out.global.siteTitle || window.__heretic.outGlobal.siteTitle;
-            this.siteId = out.global.siteId || window.__heretic.outGlobal.siteId;
-            this.cookieOptions = out.global.cookieOptions || window.__heretic.outGlobal.cookieOptions;
-            this.systemRoutes = out.global.systemRoutes || window.__heretic.outGlobal.systemRoutes;
+            window.__heretic.outGlobal =
+                window.__heretic.outGlobal || out.global || {};
+            this.authOptions =
+                this.authOptions || window.__heretic.outGlobal.authOptions;
+            this.mongoEnabled =
+                this.mongoEnabled || window.__heretic.outGlobal.mongoEnabled;
+            this.language =
+                this.language || window.__heretic.outGlobal.language;
+            this.siteTitle =
+                out.global.siteTitle || window.__heretic.outGlobal.siteTitle;
+            this.siteId =
+                out.global.siteId || window.__heretic.outGlobal.siteId;
+            this.cookieOptions =
+                out.global.cookieOptions ||
+                window.__heretic.outGlobal.cookieOptions;
+            this.systemRoutes =
+                out.global.systemRoutes ||
+                window.__heretic.outGlobal.systemRoutes;
         }
     }
 
@@ -42,9 +56,7 @@ export default class {
     }
 
     onDragStart(e) {
-        const {
-            id
-        } = e.target.closest("[data-id]").dataset;
+        const { id } = e.target.closest("[data-id]").dataset;
         this.setState("columnDrag", id);
         e.dataTransfer.setData("text", this.input.id);
         return true;
@@ -70,12 +82,12 @@ export default class {
         e.target.classList.remove("hr-hdg-drop-area-over");
         if (String(dataTransfer) === this.input.id) {
             e.preventDefault();
-            const {
-                id
-            } = e.target.closest("[data-id]").dataset;
+            const { id } = e.target.closest("[data-id]").dataset;
             const columns = {};
-            const columnsArr = Object.keys(this.state.columns).filter(i => i !== this.state.columnDrag);
-            const newIndex = columnsArr.findIndex(i => i === id);
+            const columnsArr = Object.keys(this.state.columns).filter(
+                (i) => i !== this.state.columnDrag,
+            );
+            const newIndex = columnsArr.findIndex((i) => i === id);
             columnsArr.splice(newIndex, 0, this.state.columnDrag);
             for (const c of columnsArr) {
                 columns[c] = this.state.columns[c];
@@ -87,12 +99,8 @@ export default class {
 
     onCheckboxClick(e) {
         e.preventDefault();
-        const {
-            checked
-        } = e.target;
-        const {
-            id
-        } = e.target.dataset;
+        const { checked } = e.target;
+        const { id } = e.target.dataset;
         const columns = cloneDeep(this.state.columns);
         columns[id] = checked;
         this.setState("columns", columns);

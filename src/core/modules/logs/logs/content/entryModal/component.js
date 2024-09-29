@@ -1,7 +1,5 @@
-import {
-    format,
-} from "date-fns";
-import Utils from "#lib/componentUtils";
+import { format } from "date-fns";
+import Utils from "#lib/componentUtils.js";
 
 export default class {
     onCreate(input, out) {
@@ -15,10 +13,14 @@ export default class {
         this.siteId = out.global.siteId;
         if (process.browser) {
             window.__heretic = window.__heretic || {};
-            window.__heretic.outGlobal = window.__heretic.outGlobal || out.global || {};
-            this.language = this.language || window.__heretic.outGlobal.language;
-            this.siteTitle = out.global.siteTitle || window.__heretic.outGlobal.siteTitle;
-            this.siteId = out.global.siteId || window.__heretic.outGlobal.siteId;
+            window.__heretic.outGlobal =
+                window.__heretic.outGlobal || out.global || {};
+            this.language =
+                this.language || window.__heretic.outGlobal.language;
+            this.siteTitle =
+                out.global.siteTitle || window.__heretic.outGlobal.siteTitle;
+            this.siteId =
+                out.global.siteId || window.__heretic.outGlobal.siteId;
         }
         this.utils = new Utils(this, this.language);
     }
@@ -54,14 +56,21 @@ export default class {
 
     processEntry(type, value) {
         switch (type) {
-        case "date":
-            return value ? format(new Date(value * 1000), `${window.__heretic.t("global.dateFormatShort")} ${window.__heretic.t("global.timeFormatShort")}`) : "—";
-        case "type":
-            return window.__heretic.t(value);
-        case "url":
-            return value ? `<a href="${value}" target="_blank">${value}</a>` : "—";
-        default:
-            return value || "—";
+            case "date":
+                return value
+                    ? format(
+                          new Date(value * 1000),
+                          `${window.__heretic.t("global.dateFormatShort")} ${window.__heretic.t("global.timeFormatShort")}`,
+                      )
+                    : "—";
+            case "type":
+                return window.__heretic.t(value);
+            case "url":
+                return value
+                    ? `<a href="${value}" target="_blank">${value}</a>`
+                    : "—";
+            default:
+                return value || "—";
         }
     }
 }

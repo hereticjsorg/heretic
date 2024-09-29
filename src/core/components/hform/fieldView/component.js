@@ -1,4 +1,4 @@
-import Utils from "#lib/componentUtils";
+import Utils from "#lib/componentUtils.js";
 
 export default class {
     onCreate(input) {
@@ -25,38 +25,55 @@ export default class {
     getValue() {
         let value = null;
         switch (this.input.type) {
-        case "text":
-            value = typeof this.state.value === "string" && this.state.value.length > 0 ? this.state.value : null;
-            break;
-        case "select":
-            value = typeof this.state.value === "string" || typeof this.state.value === "number" ? String(this.state.value) : null;
-            break;
-        case "captcha":
-            value = typeof this.state.value === "string" && this.state.value.length > 0 ? `${this.state.value}_${this.state.imageSecret}` : null;
-            break;
-        default:
-            value = this.state.value;
+            case "text":
+                value =
+                    typeof this.state.value === "string" &&
+                    this.state.value.length > 0
+                        ? this.state.value
+                        : null;
+                break;
+            case "select":
+                value =
+                    typeof this.state.value === "string" ||
+                    typeof this.state.value === "number"
+                        ? String(this.state.value)
+                        : null;
+                break;
+            case "captcha":
+                value =
+                    typeof this.state.value === "string" &&
+                    this.state.value.length > 0
+                        ? `${this.state.value}_${this.state.imageSecret}`
+                        : null;
+                break;
+            default:
+                value = this.state.value;
         }
         switch (this.input.convert) {
-        case "integer":
-            value = parseInt(value, 10) || null;
+            case "integer":
+                value = parseInt(value, 10) || null;
         }
         return value;
     }
 
     setValue(value) {
         switch (this.input.type) {
-        case "text":
-            this.setState("value", String(value === null ? "" : value));
-            break;
-        case "select":
-            this.setState("value", String(value === null ? this.input.options[0].value : value));
-            break;
-        case "date":
-            this.setState("value", value || null);
-            break;
-        default:
-            this.setState("value", value);
+            case "text":
+                this.setState("value", String(value === null ? "" : value));
+                break;
+            case "select":
+                this.setState(
+                    "value",
+                    String(
+                        value === null ? this.input.options[0].value : value,
+                    ),
+                );
+                break;
+            case "date":
+                this.setState("value", value || null);
+                break;
+            default:
+                this.setState("value", value);
         }
     }
 }

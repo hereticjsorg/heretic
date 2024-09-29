@@ -13,7 +13,7 @@ module.exports = {
             groups: {
                 path: "/groups",
             },
-        }
+        },
     },
     collections: {
         users: siteConfig.collections.users,

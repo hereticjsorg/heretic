@@ -1,4 +1,4 @@
-import Utils from "#lib/componentUtils";
+import Utils from "#lib/componentUtils.js";
 
 export default class {
     onCreate(input, out) {
@@ -8,8 +8,10 @@ export default class {
         this.language = out.global.language;
         if (process.browser) {
             window.__heretic = window.__heretic || {};
-            window.__heretic.outGlobal = window.__heretic.outGlobal || out.global;
-            this.language = this.language || window.__heretic.outGlobal.language;
+            window.__heretic.outGlobal =
+                window.__heretic.outGlobal || out.global;
+            this.language =
+                this.language || window.__heretic.outGlobal.language;
         }
         this.utils = new Utils(this, this.language);
     }

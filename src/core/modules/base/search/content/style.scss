@@ -16,7 +16,13 @@
 }
 
 .hr-sr-query-wrap:focus-within {
-    box-shadow: 0 0 0em 2px hsla(var(--bulma-scheme-h), var(--bulma-scheme-s), var(--bulma-scheme-invert-l), .05);
+    box-shadow: 0 0 0em 2px
+        hsla(
+            var(--bulma-scheme-h),
+            var(--bulma-scheme-s),
+            var(--bulma-scheme-invert-l),
+            0.05
+        );
     border-radius: $radius;
 }
 

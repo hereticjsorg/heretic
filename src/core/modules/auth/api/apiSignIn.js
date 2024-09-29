@@ -1,14 +1,16 @@
-import {
-    Totp,
-} from "time2fa";
-import SignInForm from "../data/signInFormAdmin";
-import FormValidator from "#lib/formValidatorServer";
+import { Totp } from "time2fa";
+import SignInForm from "../data/signInFormAdmin.js";
+import FormValidator from "#lib/formValidatorServer.js";
 
 export default () => ({
     async handler(req, rep) {
         try {
             const signInForm = new SignInForm();
-            const formValidator = new FormValidator(signInForm.getValidationSchema(), signInForm.getFieldsFlat(), this);
+            const formValidator = new FormValidator(
+                signInForm.getValidationSchema(),
+                signInForm.getFieldsFlat(),
+                this,
+            );
             let multipartData;
             try {
                 multipartData = await req.processMultipart();
@@ -18,9 +20,7 @@ export default () => ({
                     message: e.message,
                 });
             }
-            const {
-                data
-            } = formValidator.parseMultipartData(multipartData);
+            const { data } = formValidator.parseMultipartData(multipartData);
             const validationResult = formValidator.validate();
             if (validationResult) {
                 return rep.error({
@@ -33,22 +33,35 @@ export default () => ({
                 try {
                     tokenData = this.jwt.verify(data._default.token);
                 } catch (e) {
-                    return rep.error({
-                        message: "error_invalid_token"
-                    }, 403);
+                    return rep.error(
+                        {
+                            message: "error_invalid_token",
+                        },
+                        403,
+                    );
                 }
                 userDb = await req.auth.authorize(null, null, tokenData.uid);
             } else {
-                userDb = await req.auth.authorize(data._default.username, data._default.password);
+                userDb = await req.auth.authorize(
+                    data._default.username,
+                    data._default.password,
+                );
             }
             if (!userDb) {
-                await req.addEvent("loginFail", {}, {
-                    username: data._default.username,
-                    password: data._default.password,
-                });
-                return rep.error({
-                    message: "error_invalid_credentials"
-                }, 403);
+                await req.addEvent(
+                    "loginFail",
+                    {},
+                    {
+                        username: data._default.username,
+                        password: data._default.password,
+                    },
+                );
+                return rep.error(
+                    {
+                        message: "error_invalid_credentials",
+                    },
+                    403,
+                );
             }
             if (userDb.tfaConfig) {
                 if (!data._default.code) {
@@ -57,16 +70,21 @@ export default () => ({
                         needCode: true,
                     });
                 }
-                if (!Totp.validate({
+                if (
+                    !Totp.validate({
                         passcode: data._default.code,
                         secret: userDb.tfaConfig.secret,
-                    })) {
+                    })
+                ) {
                     return rep.error({
                         reason: 2,
                     });
                 }
             }
-            const token = req.auth.generateToken(String(userDb._id), userDb.sid);
+            const token = req.auth.generateToken(
+                String(userDb._id),
+                userDb.sid,
+            );
             await req.addEvent("loginSuccess", userDb);
             return rep.success({
                 token,
@@ -75,5 +93,5 @@ export default () => ({
             this.log.error(e);
             return Promise.reject(e);
         }
-    }
+    },
 });

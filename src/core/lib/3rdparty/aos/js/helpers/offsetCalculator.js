@@ -9,15 +9,19 @@
  * @return {Integer} [Final offset that will be used to trigger animation in good position]
  */
 
-import getOffset from "../libs/offset";
-import getInlineOption from "./getInlineOption";
+import getOffset from "../libs/offset.js";
+import getInlineOption from "./getInlineOption.js";
 
 export const getPositionIn = (el, defaultOffset, defaultAnchorPlacement) => {
     const windowHeight = window.innerHeight;
     const anchor = getInlineOption(el, "anchor");
     const inlineAnchorPlacement = getInlineOption(el, "anchor-placement");
     const additionalOffset = Number(
-        getInlineOption(el, "offset", inlineAnchorPlacement ? 0 : defaultOffset)
+        getInlineOption(
+            el,
+            "offset",
+            inlineAnchorPlacement ? 0 : defaultOffset,
+        ),
     );
     const anchorPlacement = inlineAnchorPlacement || defaultAnchorPlacement;
     let finalEl = el;
@@ -29,33 +33,33 @@ export const getPositionIn = (el, defaultOffset, defaultAnchorPlacement) => {
     let triggerPoint = getOffset(finalEl).top - windowHeight;
 
     switch (anchorPlacement) {
-    case "top-bottom":
-        // Default offset
-        break;
-    case "center-bottom":
-        triggerPoint += finalEl.offsetHeight / 2;
-        break;
-    case "bottom-bottom":
-        triggerPoint += finalEl.offsetHeight;
-        break;
-    case "top-center":
-        triggerPoint += windowHeight / 2;
-        break;
-    case "center-center":
-        triggerPoint += windowHeight / 2 + finalEl.offsetHeight / 2;
-        break;
-    case "bottom-center":
-        triggerPoint += windowHeight / 2 + finalEl.offsetHeight;
-        break;
-    case "top-top":
-        triggerPoint += windowHeight;
-        break;
-    case "bottom-top":
-        triggerPoint += windowHeight + finalEl.offsetHeight;
-        break;
-    case "center-top":
-        triggerPoint += windowHeight + finalEl.offsetHeight / 2;
-        break;
+        case "top-bottom":
+            // Default offset
+            break;
+        case "center-bottom":
+            triggerPoint += finalEl.offsetHeight / 2;
+            break;
+        case "bottom-bottom":
+            triggerPoint += finalEl.offsetHeight;
+            break;
+        case "top-center":
+            triggerPoint += windowHeight / 2;
+            break;
+        case "center-center":
+            triggerPoint += windowHeight / 2 + finalEl.offsetHeight / 2;
+            break;
+        case "bottom-center":
+            triggerPoint += windowHeight / 2 + finalEl.offsetHeight;
+            break;
+        case "top-top":
+            triggerPoint += windowHeight;
+            break;
+        case "bottom-top":
+            triggerPoint += windowHeight + finalEl.offsetHeight;
+            break;
+        case "center-top":
+            triggerPoint += windowHeight + finalEl.offsetHeight / 2;
+            break;
     }
 
     return triggerPoint + additionalOffset;

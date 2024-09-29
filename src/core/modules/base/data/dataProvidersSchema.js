@@ -6,7 +6,7 @@ module.exports = {
         language: {
             type: "string",
             enum: languages,
-        }
+        },
     },
-    required: ["language"]
+    required: ["language"],
 };

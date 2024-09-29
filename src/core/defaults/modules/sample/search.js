@@ -1,6 +1,4 @@
-import {
-    compile,
-} from "html-to-text";
+import { compile } from "html-to-text";
 import moduleConfig from "./module.js";
 
 export default class {
@@ -13,7 +11,7 @@ export default class {
             preserveNewlines: true,
             formatters: {
                 uppercase: false,
-            }
+            },
         });
     }
 
@@ -21,9 +19,14 @@ export default class {
         // This is an example on how to extract the text from the Marko pages directly
         // It is suitable for static pages based on <lang-switch/> technique
         const data = [];
-        const dirs = [...Object.keys(moduleConfig.routes.userspace), ...Object.keys(moduleConfig.routes.admin)];
+        const dirs = [
+            ...Object.keys(moduleConfig.routes.userspace),
+            ...Object.keys(moduleConfig.routes.admin),
+        ];
         for (const dir of dirs) {
-            const urlData = moduleConfig.routes.userspace[dir] || moduleConfig.routes.admin[dir];
+            const urlData =
+                moduleConfig.routes.userspace[dir] ||
+                moduleConfig.routes.admin[dir];
             for (const lang of Object.keys(this.fastify.languages)) {
                 try {
                     const item = {
@@ -31,10 +34,19 @@ export default class {
                         url: urlData.path || "/",
                         id: `${moduleConfig.id}-${dir}-${lang}`,
                     };
-                    item.url = lang === Object.keys(this.fastify.languages)[0] ? item.url : `/${lang}${item.url}`;
+                    item.url =
+                        lang === Object.keys(this.fastify.languages)[0]
+                            ? item.url
+                            : `/${lang}${item.url}`;
                     const pageMeta = await import(`./${dir}/meta.json`);
-                    const pageContent = (await import(`./${dir}/content/lang-${lang}/index.marko`)).default;
-                    const text = this.convert(pageContent.render().getOutput()).replace(/\n/gm, " ").replace(/\s\s+/g, " ");
+                    const pageContent = (
+                        await import(
+                            `./${dir}/content/lang-${lang}/index.marko`
+                        )
+                    ).default;
+                    const text = this.convert(pageContent.render().getOutput())
+                        .replace(/\n/gm, " ")
+                        .replace(/\s\s+/g, " ");
                     item.title = pageMeta.title[lang];
                     item.content = text;
                     item.language = lang;

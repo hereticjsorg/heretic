@@ -5,7 +5,9 @@ export default class {
     constructor(fastify) {
         this.fastify = fastify;
         if (fastify.systemConfig.email && fastify.systemConfig.email.enabled) {
-            this.transporter = nodemailer.createTransport(fastify.systemConfig.email.config);
+            this.transporter = nodemailer.createTransport(
+                fastify.systemConfig.email.config,
+            );
         }
     }
 
@@ -19,11 +21,13 @@ export default class {
             subject,
             html,
             text,
-            attachments: [{
-                filename: "logo.png",
-                path: path.resolve(__dirname, "data/email-logo.png"),
-                cid: "logo@heretic",
-            }]
+            attachments: [
+                {
+                    filename: "logo.png",
+                    path: path.resolve(__dirname, "data/email-logo.png"),
+                    cid: "logo@heretic",
+                },
+            ],
         });
     }
 }

@@ -2,9 +2,7 @@
 import path from "path";
 import fs from "fs-extra";
 import moduleConfig from "../module.js";
-import {
-    isBinaryFile,
-} from "#core/lib/3rdparty/isBinaryFile.ts";
+import { isBinaryFile } from "#core/lib/3rdparty/isBinaryFile.ts";
 
 const extensionsText = [
     "Makefile",
@@ -315,15 +313,15 @@ export default class {
         if (bytes === 0) {
             return {
                 size: 0,
-                unit: sizes[0]
+                unit: sizes[0],
             };
         }
         const k = 1024;
         const dm = decimals < 0 ? 0 : decimals;
         const i = Math.floor(Math.log(bytes) / Math.log(k));
         return {
-            size: parseFloat((bytes / (k ** i)).toFixed(dm)),
-            unit: sizes[i]
+            size: parseFloat((bytes / k ** i).toFixed(dm)),
+            unit: sizes[i],
         };
     }
 
@@ -362,9 +360,19 @@ export default class {
 
     getPath(d) {
         const parDir = d.replace(/\.\./gm, "").replace(/~/gm, "");
-        const root = path.resolve(`${__dirname}/../${moduleConfig.root}`).replace(/\\/gm, "/");
-        const dir = parDir ? path.resolve(`${__dirname}/../${moduleConfig.root}/${parDir}`).replace(/\\/gm, "/") : root;
-        if (this.fastify && this.fastify.systemConfig.demo && dir.match(/\/conf\.d/)) {
+        const root = path
+            .resolve(`${__dirname}/../${moduleConfig.root}`)
+            .replace(/\\/gm, "/");
+        const dir = parDir
+            ? path
+                  .resolve(`${__dirname}/../${moduleConfig.root}/${parDir}`)
+                  .replace(/\\/gm, "/")
+            : root;
+        if (
+            this.fastify &&
+            this.fastify.systemConfig.demo &&
+            dir.match(/\/conf\.d/)
+        ) {
             return false;
         }
         return dir.indexOf(root) !== 0 ? false : dir;

@@ -13,7 +13,7 @@ module.exports = {
             edit: {
                 path: "/content/edit",
             },
-        }
+        },
     },
     collections: {
         content: siteConfig.collections.content,

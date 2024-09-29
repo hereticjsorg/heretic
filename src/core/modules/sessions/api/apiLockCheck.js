@@ -1,6 +1,4 @@
-import {
-    ObjectId,
-} from "mongodb";
+import { ObjectId } from "mongodb";
 import moduleConfig from "../module.js";
 
 export default () => ({
@@ -16,16 +14,23 @@ export default () => ({
                 });
             }
             if (this.redis) {
-                const userId = await this.redis.get(`${this.systemConfig.id}_lock_${moduleConfig.id}_${req.body.id}`);
+                const userId = await this.redis.get(
+                    `${this.systemConfig.id}_lock_${moduleConfig.id}_${req.body.id}`,
+                );
                 if (userId) {
-                    const userDb = await this.mongo.db.collection(this.systemConfig.collections.users).findOne({
-                        _id: new ObjectId(userId),
-                    }, {
-                        projection: {
-                            _id: 1,
-                            username: 1,
-                        }
-                    });
+                    const userDb = await this.mongo.db
+                        .collection(this.systemConfig.collections.users)
+                        .findOne(
+                            {
+                                _id: new ObjectId(userId),
+                            },
+                            {
+                                projection: {
+                                    _id: 1,
+                                    username: 1,
+                                },
+                            },
+                        );
                     return rep.code(200).send({
                         lock: {
                             username: userDb.username,
@@ -38,5 +43,5 @@ export default () => ({
             this.log.error(e);
             return Promise.reject(e);
         }
-    }
+    },
 });

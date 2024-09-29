@@ -8,7 +8,7 @@
  */
 
 export default (el, key, fallback) => {
-    const attr = el.getAttribute(`data-aos-${ key}`);
+    const attr = el.getAttribute(`data-aos-${key}`);
 
     if (typeof attr !== "undefined") {
         if (attr === "true") {

@@ -1,17 +1,12 @@
-import {
-    jest,
-    test,
-    expect,
-    afterAll,
-} from "@jest/globals";
+import { jest, test, expect, afterAll } from "@jest/globals";
 import os from "os";
 import crypto from "crypto";
 import axios from "axios";
 import axiosRetry from "axios-retry";
-import Helpers from "#lib/testHelpers";
-import Auth from "#lib/auth";
+import Helpers from "#lib/testHelpers.js";
+import Auth from "#lib/auth.js";
 import systemConfig from "#etc/system.js";
-import websiteConfig from "#etc/website";
+import websiteConfig from "#etc/website.js";
 
 axiosRetry(axios, {
     retryDelay: axiosRetry.exponentialDelay,
@@ -27,12 +22,12 @@ test("Login", async () => {
         return;
     }
     if (!(await helpers.doesServerFileExists())) {
-        const {
-            buildSuccess
-        } = await helpers.build("dev");
+        const { buildSuccess } = await helpers.build("dev");
         expect(buildSuccess).toBe(true);
     }
-    const childProcess = helpers.runCommand(`npm${os.platform() === "win32" ? ".cmd" : ""} run server`);
+    const childProcess = helpers.runCommand(
+        `npm${os.platform() === "win32" ? ".cmd" : ""} run server`,
+    );
     expect(childProcess.pid).toBeGreaterThan(0);
     serverPid.push(childProcess.pid);
     let response;
@@ -55,7 +50,7 @@ test("Login", async () => {
         password,
         groups: ["admin"],
         test: true,
-        active: true
+        active: true,
     });
     await helpers.initBrowser();
     const browser = helpers.getBrowser();
@@ -65,20 +60,22 @@ test("Login", async () => {
         value: "true",
         domain: "127.0.0.1",
     });
-    await authPage.goto(`${websiteConfig.url}${systemConfig.routes.signIn}?r=/_status`);
+    await authPage.goto(
+        `${websiteConfig.url}${systemConfig.routes.signIn}?r=/_status`,
+    );
     await authPage.waitForSelector("#hr_hf_el_signInForm_username", {
         visible: true,
-        timeout: 15000
+        timeout: 15000,
     });
     await authPage.type("#hr_hf_el_signInForm_username", username);
     await authPage.type("#hr_hf_el_signInForm_password", "password");
     await authPage.click("#hr_hf_el_signInForm_buttons_btnSubmit");
     await authPage.waitForSelector("#heretic_status", {
         visible: true,
-        timeout: 15000
+        timeout: 15000,
     });
     helpers.killProcess(childProcess.pid);
-    serverPid = serverPid.filter(i => i !== childProcess.pid);
+    serverPid = serverPid.filter((i) => i !== childProcess.pid);
 });
 
 afterAll(async () => {
@@ -91,9 +88,11 @@ afterAll(async () => {
     }
     if (systemConfig.mongo.enabled) {
         if (helpers.db) {
-            await helpers.db.collection(systemConfig.collections.users).deleteMany({
-                test: true,
-            });
+            await helpers.db
+                .collection(systemConfig.collections.users)
+                .deleteMany({
+                    test: true,
+                });
         }
         helpers.disconnectDatabase();
     }

@@ -1,4 +1,4 @@
-import Heretic from "./core/lib/heretic";
+import Heretic from "./core/lib/heretic.js";
 
 (async () => {
     const heretic = new Heretic();
@@ -32,7 +32,7 @@ import Heretic from "./core/lib/heretic";
         await heretic.registerOauth2();
         heretic.listen();
     } catch (e) {
-        heretic.getFastifyInstance().log.error(e.message);
+        heretic.getFastifyInstance().log.error(e);
         process.exit(1);
     }
 })();

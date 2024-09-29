@@ -1,7 +1,5 @@
-import {
-    v4 as uuid,
-} from "uuid";
-import Captcha from "#lib/captcha";
+import { v4 as uuid } from "uuid";
+import Captcha from "#lib/captcha.js";
 
 const captcha = new Captcha();
 
@@ -11,19 +9,29 @@ export default () => ({
             const code = Math.random().toString().substring(2, 6);
             const imageSecret = uuid();
             const imageData = captcha.createCaptcha(code);
-            if (!this.systemConfig.redis.enabled && this.systemConfig.mongo.enabled) {
+            if (
+                !this.systemConfig.redis.enabled &&
+                this.systemConfig.mongo.enabled
+            ) {
                 return rep.error({
                     message: "No MongoDB or Redis enabled",
                 });
             }
             if (this.redis) {
-                await this.redis.set(`${this.systemConfig.id}_captcha_${imageSecret}}`, code, "ex", 300);
-            } else {
-                await this.mongo.db.collection(this.systemConfig.collections.captcha).insertOne({
-                    _id: imageSecret,
+                await this.redis.set(
+                    `${this.systemConfig.id}_captcha_${imageSecret}}`,
                     code,
-                    createdAt: new Date(),
-                });
+                    "ex",
+                    300,
+                );
+            } else {
+                await this.mongo.db
+                    .collection(this.systemConfig.collections.captcha)
+                    .insertOne({
+                        _id: imageSecret,
+                        code,
+                        createdAt: new Date(),
+                    });
             }
             // Send response
             return rep.code(200).send({
@@ -34,5 +42,5 @@ export default () => ({
             this.log.error(e);
             return Promise.reject(e);
         }
-    }
+    },
 });

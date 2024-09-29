@@ -1,12 +1,10 @@
 import cloneDeep from "lodash/cloneDeep";
-import {
-    v4 as uuidv4,
-} from "uuid";
+import { v4 as uuidv4 } from "uuid";
 
 export default class {
     async onCreate(input) {
         const state = {
-            notificationQueue: []
+            notificationQueue: [],
         };
         this.state = state;
         this.queueProcessInterval = 100;
@@ -15,9 +13,13 @@ export default class {
             clean: this.clean.bind(this),
         };
         if (input.admin) {
-            await import( /* webpackChunkName: "hnotify-admin" */ "./style-admin.scss");
+            await import(
+                /* webpackChunkName: "hnotify-admin" */ "./style-admin.scss"
+            );
         } else {
-            await import( /* webpackChunkName: "hnotify-frontend" */ "./style-frontend.scss");
+            await import(
+                /* webpackChunkName: "hnotify-frontend" */ "./style-frontend.scss"
+            );
         }
     }
 
@@ -25,7 +27,7 @@ export default class {
         this.state.notificationQueue.map((q, i) => {
             const item = document.getElementById(q.id);
             if (item) {
-                item.style.top = `${12 + (i * 70)}px`;
+                item.style.top = `${12 + i * 70}px`;
             }
         });
     }
@@ -35,7 +37,7 @@ export default class {
             return;
         }
         this._processingQueue = true;
-        this.state.notificationQueue.map(q => {
+        this.state.notificationQueue.map((q) => {
             if (!q.visible) {
                 const div = document.createElement("div");
                 div.innerHTML = q.message;
@@ -55,9 +57,11 @@ export default class {
             q.delay -= this.queueProcessInterval;
         });
         let notificationQueue = cloneDeep(this.state.notificationQueue);
-        const removeFromQueue = this.state.notificationQueue.filter(i => i.delay <= 0);
-        removeFromQueue.map(i => {
-            notificationQueue = notificationQueue.filter(f => f.id !== i.id);
+        const removeFromQueue = this.state.notificationQueue.filter(
+            (i) => i.delay <= 0,
+        );
+        removeFromQueue.map((i) => {
+            notificationQueue = notificationQueue.filter((f) => f.id !== i.id);
             const item = document.getElementById(i.id);
             if (item) {
                 item.remove();
@@ -69,7 +73,10 @@ export default class {
     }
 
     initNotificationQueueProcessor() {
-        this.notificationQueueProcessor = setInterval(() => this.processNotificationQueue(), this.queueProcessInterval);
+        this.notificationQueueProcessor = setInterval(
+            () => this.processNotificationQueue(),
+            this.queueProcessInterval,
+        );
     }
 
     onMount() {
@@ -78,7 +85,7 @@ export default class {
 
     clean() {
         this._processingQueue = true;
-        this.state.notificationQueue.map(q => {
+        this.state.notificationQueue.map((q) => {
             if (q.visible) {
                 q.visible = false;
                 const item = document.getElementById(q.id);

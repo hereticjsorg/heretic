@@ -7,7 +7,16 @@ module.exports = class {
     }
 
     setRoute(name) {
-        this.setState("route", name || (window && window.__heretic && window.__heretic.router && window.__heretic.router.getRoute ? window.__heretic.router.getRoute().id : null));
+        this.setState(
+            "route",
+            name ||
+                (window &&
+                window.__heretic &&
+                window.__heretic.router &&
+                window.__heretic.router.getRoute
+                    ? window.__heretic.router.getRoute().id
+                    : null),
+        );
     }
 
     async onMount() {

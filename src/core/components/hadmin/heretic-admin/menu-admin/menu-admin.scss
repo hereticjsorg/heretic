@@ -19,15 +19,15 @@
     user-select: none;
 }
 
-html.theme-dark .hr-icon-admin-wrap>svg>path {
+html.theme-dark .hr-icon-admin-wrap > svg > path {
     fill: $theme-dark-text-color-light;
 }
 
-.hr-menu-wrap>aside {
+.hr-menu-wrap > aside {
     width: 100%;
 }
 
-.hr-menu-icon>svg>path {
+.hr-menu-icon > svg > path {
     fill: $grey-darker;
 }
 
@@ -40,7 +40,7 @@ html.theme-dark .hr-icon-admin-wrap>svg>path {
     background: $primary !important;
 }
 
-.hr-menu-item.is-active>.hr-menu-icon>svg>path,
-html.theme-dark .hr-menu-item>.hr-menu-icon>svg>path {
+.hr-menu-item.is-active > .hr-menu-icon > svg > path,
+html.theme-dark .hr-menu-item > .hr-menu-icon > svg > path {
     fill: $white-ter;
 }

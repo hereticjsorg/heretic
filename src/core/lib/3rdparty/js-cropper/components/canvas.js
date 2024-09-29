@@ -1,12 +1,12 @@
-import Element from "./element";
-import Image from "./image";
-import Pattern from "./pattern";
-import Frame from "../objects/frame";
-import Point from "../objects/point";
-import Cutout from "./cutout";
-import Generator from "./generator";
-import MoveEventListener from "../events/move";
-import Context from "../objects/context";
+import Element from "./element.js";
+import Image from "./image.js";
+import Pattern from "./pattern.js";
+import Frame from "../objects/frame.js";
+import Point from "../objects/point.js";
+import Cutout from "./cutout.js";
+import Generator from "./generator.js";
+import MoveEventListener from "../events/move.js";
+import Context from "../objects/context.js";
 
 /**
  * Class representing a canvas element
@@ -116,7 +116,12 @@ export default class Canvas extends Element {
      * @return {Canvas} A Canvas object.
      */
     clear() {
-        this._context.clearRect(0, 0, this.getNode().width, this.getNode().height);
+        this._context.clearRect(
+            0,
+            0,
+            this.getNode().width,
+            this.getNode().height,
+        );
         return this;
     }
 
@@ -141,8 +146,10 @@ export default class Canvas extends Element {
         const lastImageSize = this._image.getSize();
         this._image.setZoom(zoom);
         const imageSize = this._image.getSize();
-        const x = this._lastPoint.x - ((imageSize.width - lastImageSize.width) / 2);
-        const y = this._lastPoint.y - ((imageSize.height - lastImageSize.height) / 2);
+        const x =
+            this._lastPoint.x - (imageSize.width - lastImageSize.width) / 2;
+        const y =
+            this._lastPoint.y - (imageSize.height - lastImageSize.height) / 2;
         this._drawImage(new Point(x, y));
         return this;
     }
@@ -162,10 +169,16 @@ export default class Canvas extends Element {
      * @returns {{origin: {x: Number, y: Number}, size: {width: Number, height: Number}}}
      */
     getData() {
-        const originX = (this._frame.getMinX() - this._basePoint.x) / this._image.getScale();
-        const originY = (this._frame.getMinY() - this._basePoint.y) / this._image.getScale();
-        const frameWidth = this._frame.getRect().size.width / this._image.getScale();
-        const frameHeight = this._frame.getRect().size.width / this._image.getScale();
+        const originX =
+            (this._frame.getMinX() - this._basePoint.x) /
+            this._image.getScale();
+        const originY =
+            (this._frame.getMinY() - this._basePoint.y) /
+            this._image.getScale();
+        const frameWidth =
+            this._frame.getRect().size.width / this._image.getScale();
+        const frameHeight =
+            this._frame.getRect().size.width / this._image.getScale();
         return {
             origin: {
                 x: originX,
@@ -185,12 +198,17 @@ export default class Canvas extends Element {
      * @returns {Object} - A frame origin point and zoom value.
      */
     setData(data) {
-        const expectedScale = this._frame.getRect().size.width / data.size.width;
-        const zoom = (expectedScale - this._image.getOriginScale()) / this._image.getOriginScale();
+        const expectedScale =
+            this._frame.getRect().size.width / data.size.width;
+        const zoom =
+            (expectedScale - this._image.getOriginScale()) /
+            this._image.getOriginScale();
         this.setZoom(zoom);
 
-        const x = this._frame.getMinX() - (data.origin.x * this._image.getScale());
-        const y = this._frame.getMinY() - (data.origin.y * this._image.getScale());
+        const x =
+            this._frame.getMinX() - data.origin.x * this._image.getScale();
+        const y =
+            this._frame.getMinY() - data.origin.y * this._image.getScale();
         const point = new Point(x, y);
         this._resetPoints();
         this._drawImage(point);
@@ -218,9 +236,9 @@ export default class Canvas extends Element {
      * @return {Point} A Point.
      */
     _centerImagePoint() {
-       const x = this._frame.getMidX() - (this._image.getSize().width / 2);
-       const y = this._frame.getMidY() - (this._image.getSize().height / 2);
-       return new Point(x, y);
+        const x = this._frame.getMidX() - this._image.getSize().width / 2;
+        const y = this._frame.getMidY() - this._image.getSize().height / 2;
+        return new Point(x, y);
     }
 
     /**
@@ -236,7 +254,10 @@ export default class Canvas extends Element {
             validPoint.x = this._centerImagePoint().x;
         } else if (point.x > this._frame.getMinX()) {
             validPoint.x = this._frame.getMinX();
-        } else if (point.x + this._image.getSize().width < this._frame.getMaxX()) {
+        } else if (
+            point.x + this._image.getSize().width <
+            this._frame.getMaxX()
+        ) {
             validPoint.x = this._frame.getMaxX() - this._image.getSize().width;
         } else {
             validPoint.x = point.x;
@@ -246,7 +267,10 @@ export default class Canvas extends Element {
             validPoint.y = this._centerImagePoint().y;
         } else if (point.y > this._frame.getMinY()) {
             validPoint.y = this._frame.getMinY();
-        } else if (point.y + this._image.getSize().height < this._frame.getMaxY()) {
+        } else if (
+            point.y + this._image.getSize().height <
+            this._frame.getMaxY()
+        ) {
             validPoint.y = this._frame.getMaxY() - this._image.getSize().height;
         } else {
             validPoint.y = point.y;
@@ -289,7 +313,10 @@ export default class Canvas extends Element {
      * @return {Canvas} A Canvas object.
      */
     _drawBackground() {
-        const pattern = this._context.createPattern(this._pattern.getNode(), "repeat");
+        const pattern = this._context.createPattern(
+            this._pattern.getNode(),
+            "repeat",
+        );
         this._context.rect(0, 0, this.getNode().width, this.getNode().height);
         this._context.fillStyle(pattern);
         this._context.fill();

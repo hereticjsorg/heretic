@@ -1,13 +1,13 @@
 import moduleConfig from "../module.js";
-import apiTableList from "./apiTableList";
-import apiDataLoad from "./apiDataLoad";
-import apiDataDelete from "./apiDataDelete";
-import apiDownload from "./apiDownload";
-import apiDataExport from "./apiDataExport";
+import apiTableList from "./apiTableList.js";
+import apiDataLoad from "./apiDataLoad.js";
+import apiDataDelete from "./apiDataDelete.js";
+import apiDownload from "./apiDownload.js";
+import apiDataExport from "./apiDataExport.js";
 import apiLockCheck from "./apiLockCheck.js";
 import apiLockList from "./apiLockList.js";
 
-export default fastify => {
+export default (fastify) => {
     if (fastify.systemConfig.auth.admin) {
         fastify.post(`/api/${moduleConfig.id}/list`, apiTableList());
         fastify.post(`/api/${moduleConfig.id}/load`, apiDataLoad());

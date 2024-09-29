@@ -1,6 +1,6 @@
 import Promise from "es6-promise";
-import Element from "./element";
-import Size from "../objects/size";
+import Element from "./element.js";
+import Size from "../objects/size.js";
 
 /**
  * Class representing an Image element
@@ -37,12 +37,13 @@ export default class Image extends Element {
         });
     }
 
-    toBase64 = file => new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = reject;
-    });
+    toBase64 = (file) =>
+        new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = reject;
+        });
 
     /**
      * Load an image by data and set 'src' attribute (base64).
@@ -114,7 +115,8 @@ export default class Image extends Element {
     scaleToFit(frame) {
         const widthScale = frame.getRect().size.width / this.getNode().width;
         const heightScale = frame.getRect().size.height / this.getNode().height;
-        const largestScale = (widthScale > heightScale) ? widthScale : heightScale;
+        const largestScale =
+            widthScale > heightScale ? widthScale : heightScale;
         // eslint-disable-next-line no-multi-assign
         this._scale = this._originScale = largestScale;
         return this._scale;
@@ -139,7 +141,7 @@ export default class Image extends Element {
      */
     setZoom(zoom) {
         this._zoom = zoom;
-        this._scale = this._originScale + (this._originScale * zoom);
+        this._scale = this._originScale + this._originScale * zoom;
         return this;
     }
 

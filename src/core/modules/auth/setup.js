@@ -1,7 +1,7 @@
 import fs from "fs-extra";
 import path from "path";
-import moduleConfig from "./module";
-import Auth from "#lib/auth";
+import moduleConfig from "./module.js";
+import Auth from "#lib/auth.js";
 
 export default class {
     constructor(id, fastify, func, installedVersions) {
@@ -13,6 +13,12 @@ export default class {
     }
 
     async process() {
-        await fs.ensureDir(path.resolve(__dirname, "public", moduleConfig.profilePicture.directory));
+        await fs.ensureDir(
+            path.resolve(
+                __dirname,
+                "public",
+                moduleConfig.profilePicture.directory,
+            ),
+        );
     }
 }

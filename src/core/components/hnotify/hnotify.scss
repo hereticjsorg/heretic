@@ -9,7 +9,7 @@
 .hr-notification {
     position: fixed !important;
     z-index: 9999;
-    transition: .45s ease;
+    transition: 0.45s ease;
     overflow: hidden;
     left: 50%;
     transform: translateX(-50%);
@@ -18,11 +18,9 @@
 }
 
 @media (max-width: 768px) {
-
     .hr-notification {
         left: 12px;
         right: 12px;
         transform: unset;
     }
-
 }

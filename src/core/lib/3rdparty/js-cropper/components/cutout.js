@@ -1,5 +1,5 @@
-import { styles } from "../config/default";
-import Context from "../objects/context";
+import { styles } from "../config/default.js";
+import Context from "../objects/context.js";
 
 /**
  * Class representing a cutout over canvas
@@ -25,7 +25,12 @@ export default class Cutout {
     draw() {
         this._context.fillStyle(styles.cutout.fill);
         this._context.beginPath();
-        this._context.rect(0, 0, this._canvas.getNode().width, this._canvas.getNode().height);
+        this._context.rect(
+            0,
+            0,
+            this._canvas.getNode().width,
+            this._canvas.getNode().height,
+        );
         this._context.moveTo(this._frame.getMinX(), this._frame.getMinY());
         this._context.lineTo(this._frame.getMinX(), this._frame.getMaxY());
         this._context.lineTo(this._frame.getMaxX(), this._frame.getMaxY());

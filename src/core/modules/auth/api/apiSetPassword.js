@@ -1,10 +1,8 @@
 import Ajv from "ajv";
-import {
-    ObjectId
-} from "mongodb";
-import Captcha from "#lib/captcha";
-import Password from "#lib/password";
-import SetPasswordForm from "../data/setPasswordForm";
+import { ObjectId } from "mongodb";
+import Captcha from "#lib/captcha.js";
+import Password from "#lib/password.js";
+import SetPasswordForm from "../data/setPasswordForm.js";
 
 const ajv = new Ajv({
     allErrors: true,
@@ -23,10 +21,14 @@ export default () => ({
                     form: setPasswordFormValidation.errors,
                 });
             }
-            const {
-                id,
-            } = req.body;
-            if (!id || typeof id !== "string" || !id.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/)) {
+            const { id } = req.body;
+            if (
+                !id ||
+                typeof id !== "string" ||
+                !id.match(
+                    /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/,
+                )
+            ) {
                 return rep.error({
                     message: "invalidId",
                 });
@@ -34,19 +36,26 @@ export default () => ({
             const formData = req.body.formTabs._default;
             const captcha = new Captcha(this);
             const [code, imageSecret] = formData.captcha.split(/_/);
-            const captchaValidationResult = await captcha.verifyCaptcha(imageSecret, code);
+            const captchaValidationResult = await captcha.verifyCaptcha(
+                imageSecret,
+                code,
+            );
             if (!captchaValidationResult) {
                 return rep.error({
-                    form: [{
-                        instancePath: "captcha",
-                        keyword: "invalidCaptcha",
-                        tab: "_default",
-                    }],
+                    form: [
+                        {
+                            instancePath: "captcha",
+                            keyword: "invalidCaptcha",
+                            tab: "_default",
+                        },
+                    ],
                 });
             }
-            const activationDb = await this.mongo.db.collection(this.systemConfig.collections.activation).findOne({
-                _id: id,
-            });
+            const activationDb = await this.mongo.db
+                .collection(this.systemConfig.collections.activation)
+                .findOne({
+                    _id: id,
+                });
             if (!activationDb) {
                 return rep.error({
                     message: "Invalid ID",
@@ -56,31 +65,42 @@ export default () => ({
             const check = password.checkPolicy(formData.password);
             if (check.errors.length) {
                 return rep.error({
-                    form: [{
-                        instancePath: "password",
-                        keyword: "invalidPassword",
-                        tab: "_default",
-                    }],
+                    form: [
+                        {
+                            instancePath: "password",
+                            keyword: "invalidPassword",
+                            tab: "_default",
+                        },
+                    ],
                     policyErrors: check.errors,
                 });
             }
             if (!this.systemConfig.demo) {
-                const newPasswordHash = await req.auth.createHash(`${formData.password}${this.systemConfig.secret}`);
-                await this.mongo.db.collection(this.systemConfig.collections.users).updateOne({
-                    _id: new ObjectId(activationDb.userId),
-                }, {
-                    $set: {
-                        password: newPasswordHash,
-                    },
-                });
-                await this.mongo.db.collection(this.systemConfig.collections.activation).deleteOne({
-                    _id: id,
-                });
+                const newPasswordHash = await req.auth.createHash(
+                    `${formData.password}${this.systemConfig.secret}`,
+                );
+                await this.mongo.db
+                    .collection(this.systemConfig.collections.users)
+                    .updateOne(
+                        {
+                            _id: new ObjectId(activationDb.userId),
+                        },
+                        {
+                            $set: {
+                                password: newPasswordHash,
+                            },
+                        },
+                    );
+                await this.mongo.db
+                    .collection(this.systemConfig.collections.activation)
+                    .deleteOne({
+                        _id: id,
+                    });
             }
             return rep.success({});
         } catch (e) {
             this.log.error(e);
             return Promise.reject(e);
         }
-    }
+    },
 });

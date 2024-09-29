@@ -3,15 +3,7 @@
     "global.timeFormatShort": "HH:mm",
     "global.langCode": "ru-ru",
     "global.weekStart": "1",
-    "global.weekDays": [
-        "Пн",
-        "Вт",
-        "Ср",
-        "Чт",
-        "Пт",
-        "Сб",
-        "Вс"
-    ],
+    "global.weekDays": ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"],
     "global.monthsFull": [
         "Январь",
         "Февраль",
@@ -240,5 +232,6 @@
     "contactCaptcha": "Код проверки",
     "contactMessageSent": "Ваше сообщение было успешно отправлено.",
     "privacyPolicy": "Политика конфиденциальности",
-    "cookiesPolicy": "Политика в отношении Cookies"
+    "cookiesPolicy": "Политика в отношении Cookies",
+    "rootDir": "(корень)"
 }

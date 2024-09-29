@@ -1,12 +1,12 @@
-import apiContentTableList from "./apiContentTableList";
-import apiContentDataSave from "./apiContentDataSave";
-import apiContentLockList from "./apiContentLockList";
-import apiContentLockCheck from "./apiContentLockCheck";
-import apiContentDataLoad from "./apiContentDataLoad";
-import apiContentDataDelete from "./apiContentDataDelete";
-import apiContent from "./apiContent";
+import apiContentTableList from "./apiContentTableList.js";
+import apiContentDataSave from "./apiContentDataSave.js";
+import apiContentLockList from "./apiContentLockList.js";
+import apiContentLockCheck from "./apiContentLockCheck.js";
+import apiContentDataLoad from "./apiContentDataLoad.js";
+import apiContentDataDelete from "./apiContentDataDelete.js";
+import apiContent from "./apiContent.js";
 
-export default fastify => {
+export default (fastify) => {
     if (fastify.systemConfig.auth.admin) {
         fastify.post(`/api/content/list`, apiContentTableList());
         fastify.post(`/api/content/save`, apiContentDataSave());

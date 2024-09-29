@@ -1,15 +1,20 @@
-import Utils from "#lib/componentUtils";
+import Utils from "#lib/componentUtils.js";
 
 export default class {
     async onCreate(input) {
         this.state = {
             active: input.active,
             message: input.message || "",
+            messageUnsafe: input.messageUnsafe || "",
         };
         if (input.admin) {
-            await import( /* webpackChunkName: "hmodal-admin" */ "./style-admin.scss");
+            await import(
+                /* webpackChunkName: "hmodal-admin" */ "./style-admin.scss"
+            );
         } else {
-            await import( /* webpackChunkName: "hmodal-frontend" */ "./style-frontend.scss");
+            await import(
+                /* webpackChunkName: "hmodal-frontend" */ "./style-frontend.scss"
+            );
         }
     }
 
@@ -58,7 +63,10 @@ export default class {
         this.emit("confirm");
     }
 
-    setMessage(message) {
+    setMessage(message, messageUnsafe) {
         this.setState("message", message);
+        if (messageUnsafe) {
+            this.setState("messageUnsafe", messageUnsafe);
+        }
     }
 }

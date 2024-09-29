@@ -5,13 +5,13 @@ export default async (err, rep, languageData, language, siteConfig) => {
     let message;
     err.code = err.code || err.statusCode || 500;
     switch (err.code) {
-    case 429:
-        title = languageData[language].rateLimitErrorTitle();
-        message = languageData[language].rateLimitErrorMessage();
-        break;
-    default:
-        title = languageData[language].internalServerErrorTitle();
-        message = languageData[language].internalServerErrorMessage();
+        case 429:
+            title = languageData[language].rateLimitErrorTitle();
+            message = languageData[language].rateLimitErrorMessage();
+            break;
+        default:
+            title = languageData[language].internalServerErrorTitle();
+            message = languageData[language].internalServerErrorMessage();
     }
     const renderPage = await error500.render({
         siteTitle: siteConfig.title[language],

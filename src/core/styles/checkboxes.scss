@@ -1,8 +1,9 @@
-@supports(-webkit-appearance: none) or (-moz-appearance: none) {
+@use "sass:color";
 
-    input[type='checkbox'],
-    input[type='radio'] {
-        --active: #{lighten($primary, 20%)};
+@supports (-webkit-appearance: none) or (-moz-appearance: none) {
+    input[type="checkbox"],
+    input[type="radio"] {
+        --active: #{color.adjust($primary, $lightness: 20%)};
         --active-inner: #{$white};
         --focus: 1px #{$grey};
         --border: #{$grey-lighter};
@@ -21,36 +22,41 @@
         cursor: pointer;
         border: 1px solid var(--bc, var(--border));
         background: var(--b, var(--background));
-        transition: background .1s, border-color .1s, box-shadow .1s;
+        transition:
+            background 0.1s,
+            border-color 0.1s,
+            box-shadow 0.1s;
 
         &:after {
-            content: '';
+            content: "";
             display: block;
             left: 0;
             top: 0;
             position: absolute;
-            transition: transform var(--d-t, .1s) var(--d-t-e, ease), opacity var(--d-o, .1s);
+            transition:
+                transform var(--d-t, 0.1s) var(--d-t-e, ease),
+                opacity var(--d-o, 0.1s);
         }
 
         &:checked {
             --b: var(--active);
             --bc: var(--active);
-            --d-o: .3s;
-            --d-t: .6s;
-            --d-t-e: cubic-bezier(.2, .85, .32, 1.2);
+            --d-o: 0.3s;
+            --d-t: 0.6s;
+            --d-t-e: cubic-bezier(0.2, 0.85, 0.32, 1.2);
         }
 
         &:disabled {
             --b: var(--disabled);
             cursor: not-allowed;
-            opacity: .9;
+            opacity: 0.9;
 
             &:checked {
                 --b: var(--disabled-inner);
                 --bc: var(--border);
             }
 
-            &+label {
+            & + label {
                 cursor: not-allowed;
             }
         }
@@ -79,7 +85,7 @@
             }
         }
 
-        &+label {
+        & + label {
             font-size: 14px;
             line-height: 19px;
             display: inline-block;
@@ -89,7 +95,7 @@
         }
     }
 
-    input[type='checkbox'] {
+    input[type="checkbox"] {
         &:not(.switch) {
             border-radius: 7px;
 
@@ -131,14 +137,14 @@
             &:disabled {
                 &:not(:checked) {
                     &:after {
-                        opacity: .6;
+                        opacity: 0.6;
                     }
                 }
             }
         }
     }
 
-    input[type='radio'] {
+    input[type="radio"] {
         border-radius: 50%;
 
         &:after {
@@ -149,26 +155,24 @@
             opacity: 0;
             left: -1px;
             top: -1px;
-            transform: scale(var(--s, .7));
+            transform: scale(var(--s, 0.7));
         }
 
         &:checked {
-            --s: .5;
+            --s: 0.5;
         }
     }
 }
 
-@supports(-webkit-appearance: none) or (-moz-appearance: none) {
-
-    html.theme-dark input[type='checkbox'],
-    html.theme-dark input[type='radio'] {
-        --active: #{lighten($primary, 10%)};
+@supports (-webkit-appearance: none) or (-moz-appearance: none) {
+    html.theme-dark input[type="checkbox"],
+    html.theme-dark input[type="radio"] {
+        --active: #{color.adjust($primary, $lightness: 10%)};
         --active-inner: #{$grey-darker};
         --focus: 1px #{$grey};
         --border: #{$grey-dark};
         --border-hover: #{$grey-darker};
-        ;
-        --background: #{lighten($black-bis, 10%)};
+        --background: #{color.adjust($black-bis, $lightness: 10%)};
         --disabled: #{$grey};
         --disabled-inner: #{$grey-light};
         -webkit-appearance: none;
@@ -182,36 +186,41 @@
         cursor: pointer;
         border: 1px solid var(--bc, var(--border));
         background: var(--b, var(--background));
-        transition: background .1s, border-color .1s, box-shadow .1s;
+        transition:
+            background 0.1s,
+            border-color 0.1s,
+            box-shadow 0.1s;
 
         &:after {
-            content: '';
+            content: "";
             display: block;
             left: 0;
             top: 0;
             position: absolute;
-            transition: transform var(--d-t, .3s) var(--d-t-e, ease), opacity var(--d-o, .2s);
+            transition:
+                transform var(--d-t, 0.3s) var(--d-t-e, ease),
+                opacity var(--d-o, 0.2s);
         }
 
         &:checked {
             --b: var(--active);
             --bc: var(--active);
-            --d-o: .3s;
-            --d-t: .6s;
-            --d-t-e: cubic-bezier(.2, .85, .32, 1.2);
+            --d-o: 0.3s;
+            --d-t: 0.6s;
+            --d-t-e: cubic-bezier(0.2, 0.85, 0.32, 1.2);
         }
 
         &:disabled {
             --b: var(--disabled);
             cursor: not-allowed;
-            opacity: .9;
+            opacity: 0.9;
 
             &:checked {
                 --b: var(--disabled-inner);
                 --bc: var(--border);
             }
 
-            &+label {
+            & + label {
                 cursor: not-allowed;
             }
         }
@@ -240,7 +249,7 @@
             }
         }
 
-        &+label {
+        & + label {
             font-size: 14px;
             line-height: 19px;
             display: inline-block;
@@ -250,7 +259,7 @@
         }
     }
 
-    html.theme-dark input[type='checkbox'] {
+    html.theme-dark input[type="checkbox"] {
         &:not(.switch) {
             border-radius: 7px;
 
@@ -292,14 +301,14 @@
             &:disabled {
                 &:not(:checked) {
                     &:after {
-                        opacity: .6;
+                        opacity: 0.6;
                     }
                 }
             }
         }
     }
 
-    html.theme-dark input[type='radio'] {
+    html.theme-dark input[type="radio"] {
         border-radius: 50%;
 
         &:after {
@@ -310,11 +319,11 @@
             opacity: 0;
             left: -1px;
             top: -1px;
-            transform: scale(var(--s, .7));
+            transform: scale(var(--s, 0.7));
         }
 
         &:checked {
-            --s: .5;
+            --s: 0.5;
         }
     }
 }

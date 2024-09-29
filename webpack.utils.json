@@ -1,8 +1,5 @@
 {
-    "removeDirectories": [
-        ".build",
-        "dist.new"
-    ],
+    "removeDirectories": [".build", "dist.new"],
     "ensureDirectories": [
         "dist/public/heretic",
         ".build",

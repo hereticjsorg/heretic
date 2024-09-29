@@ -1,4 +1,4 @@
-import Utils from "#lib/componentUtils";
+import Utils from "#lib/componentUtils.js";
 
 export default class {
     async onCreate(input, out) {
@@ -15,11 +15,22 @@ export default class {
     }
 
     onMount() {
-        window.addEventListener("click", e => {
-            if (document.getElementById("hr_navbar_burger") && !document.getElementById("hr_navbar_burger").contains(e.target)) {
+        window.addEventListener("click", (e) => {
+            if (
+                document.getElementById("hr_navbar_burger") &&
+                !document.getElementById("hr_navbar_burger").contains(e.target)
+            ) {
                 this.setState("navOpen", false);
             }
-            if (this.state.navItemOpen && document.getElementById(`hr_navbar_item_${this.state.navItemOpen}`) && !document.getElementById(`hr_navbar_item_${this.state.navItemOpen}`).contains(e.target)) {
+            if (
+                this.state.navItemOpen &&
+                document.getElementById(
+                    `hr_navbar_item_${this.state.navItemOpen}`,
+                ) &&
+                !document
+                    .getElementById(`hr_navbar_item_${this.state.navItemOpen}`)
+                    .contains(e.target)
+            ) {
                 this.setState("navItemOpen", "");
             }
         });
@@ -31,7 +42,16 @@ export default class {
     }
 
     setRoute(name) {
-        this.setState("route", name || (window && window.__heretic && window.__heretic.router && window.__heretic.router.getRoute ? window.__heretic.router.getRoute().id : null));
+        this.setState(
+            "route",
+            name ||
+                (window &&
+                window.__heretic &&
+                window.__heretic.router &&
+                window.__heretic.router.getRoute
+                    ? window.__heretic.router.getRoute().id
+                    : null),
+        );
     }
 
     onBurgerClick(e) {

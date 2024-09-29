@@ -1,22 +1,22 @@
-import apiUsersTableList from "./apiUsersTableList";
-import apiUsersDataLoad from "./apiUsersDataLoad";
-import apiUsersDataSave from "./apiUsersDataSave";
-import apiUsersDataDelete from "./apiUsersDataDelete";
-import apiUsersDownload from "./apiUsersDownload";
-import apiUsersDataExport from "./apiUsersDataExport";
+import apiUsersTableList from "./apiUsersTableList.js";
+import apiUsersDataLoad from "./apiUsersDataLoad.js";
+import apiUsersDataSave from "./apiUsersDataSave.js";
+import apiUsersDataDelete from "./apiUsersDataDelete.js";
+import apiUsersDownload from "./apiUsersDownload.js";
+import apiUsersDataExport from "./apiUsersDataExport.js";
 import apiUsersLockCheck from "./apiUsersLockCheck.js";
 import apiUsersLockList from "./apiUsersLockList.js";
-import apiUsersDisable2FA from "./apiUsersDisable2FA";
-import apiGroupsTableList from "./apiGroupsTableList";
-import apiGroupsDataLoad from "./apiGroupsDataLoad";
-import apiGroupsDataSave from "./apiGroupsDataSave";
-import apiGroupsDataDelete from "./apiGroupsDataDelete";
-import apiGroupsDownload from "./apiGroupsDownload";
-import apiGroupsDataExport from "./apiGroupsDataExport";
+import apiUsersDisable2FA from "./apiUsersDisable2FA.js";
+import apiGroupsTableList from "./apiGroupsTableList.js";
+import apiGroupsDataLoad from "./apiGroupsDataLoad.js";
+import apiGroupsDataSave from "./apiGroupsDataSave.js";
+import apiGroupsDataDelete from "./apiGroupsDataDelete.js";
+import apiGroupsDownload from "./apiGroupsDownload.js";
+import apiGroupsDataExport from "./apiGroupsDataExport.js";
 import apiGroupsLockCheck from "./apiGroupsLockCheck.js";
 import apiGroupsLockList from "./apiGroupsLockList.js";
 
-export default fastify => {
+export default (fastify) => {
     if (fastify.systemConfig.auth.admin) {
         fastify.post(`/api/users/list`, apiUsersTableList());
         fastify.post(`/api/users/load`, apiUsersDataLoad());

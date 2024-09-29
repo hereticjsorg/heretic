@@ -1,40 +1,54 @@
-[{
-    "from": "../../core/defaults/modules/sample",
-    "to": "../../../site/modules/sample"
-}, {
-    "from": "../../core/defaults/templates/email",
-    "to": "../../../site/email"
-}, {
-    "from": "../../core/defaults/modules/boilerplate",
-    "to": "../../../site/modules/boilerplate"
-}, {
-    "from": "../../core/defaults/templates/view",
-    "to": "../../../site/view"
-}, {
-    "from": "../../core/defaults/static",
-    "to": "../../../site/static"
-}, {
-    "from": "../../core/defaults/errors",
-    "to": "../../../site/errors"
-}, {
-    "from": "../../core/defaults/config/meta.src.json",
-    "to": "../../../site/etc/meta.json"
-}, {
-    "from": "../../core/defaults/config/website.js",
-    "to": "../../../site/etc/website.js"
-}, {
-    "from": "../../core/defaults/config/system.js",
-    "to": "../../../site/etc/system.js"
-}, {
-    "from": "../../core/defaults/config/oauth2.js",
-    "to": "../../../site/etc/oauth2.js"
-}, {
-    "from": "../../core/defaults/config/_utils.js",
-    "to": "../../../site/etc/_utils.js"
-}, {
-    "from": "../../core/defaults/config/languages.json",
-    "to": "../../../site/etc/languages.json"
-}, {
-    "from": "../../core/defaults/contentRender",
-    "to": "../../../site/contentRender"
-}]
+[
+    {
+        "from": "../../core/defaults/modules/sample",
+        "to": "../../../site/modules/sample"
+    },
+    {
+        "from": "../../core/defaults/templates/email",
+        "to": "../../../site/email"
+    },
+    {
+        "from": "../../core/defaults/modules/boilerplate",
+        "to": "../../../site/modules/boilerplate"
+    },
+    {
+        "from": "../../core/defaults/templates/view",
+        "to": "../../../site/view"
+    },
+    {
+        "from": "../../core/defaults/static",
+        "to": "../../../site/static"
+    },
+    {
+        "from": "../../core/defaults/errors",
+        "to": "../../../site/errors"
+    },
+    {
+        "from": "../../core/defaults/config/meta.src.json",
+        "to": "../../../site/etc/meta.json"
+    },
+    {
+        "from": "../../core/defaults/config/website.js",
+        "to": "../../../site/etc/website.js"
+    },
+    {
+        "from": "../../core/defaults/config/system.js",
+        "to": "../../../site/etc/system.js"
+    },
+    {
+        "from": "../../core/defaults/config/oauth2.js",
+        "to": "../../../site/etc/oauth2.js"
+    },
+    {
+        "from": "../../core/defaults/config/_utils.js",
+        "to": "../../../site/etc/_utils.js"
+    },
+    {
+        "from": "../../core/defaults/config/languages.json",
+        "to": "../../../site/etc/languages.json"
+    },
+    {
+        "from": "../../core/defaults/contentRender",
+        "to": "../../../site/contentRender"
+    }
+]

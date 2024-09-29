@@ -1,8 +1,6 @@
-import {
-    ObjectId
-} from "mongodb";
+import { ObjectId } from "mongodb";
 import moduleConfig from "../module.js";
-// import utils from "./utils";
+// import utils from "./utils.js";
 
 export default () => ({
     async handler(req, rep) {
@@ -14,7 +12,7 @@ export default () => ({
             // Just allow one item to be restored at once
             if (!req.validateDataDelete() || req.body.ids.length > 1) {
                 return rep.error({
-                    message: "validation_error"
+                    message: "validation_error",
                 });
             }
             const query = {
@@ -23,11 +21,16 @@ export default () => ({
                     $exists: true,
                 },
             };
-            const dbItem = await this.mongo.db.collection(moduleConfig.collections.main).findOne(query);
+            const dbItem = await this.mongo.db
+                .collection(moduleConfig.collections.main)
+                .findOne(query);
             if (!dbItem) {
-                return rep.error({
-                    message: "notFound"
-                }, 404);
+                return rep.error(
+                    {
+                        message: "notFound",
+                    },
+                    404,
+                );
             }
             // if (!utils.isSaveAllowed(authData, dbItem)) {
             //     return rep.error({
@@ -35,7 +38,9 @@ export default () => ({
             //     }, 400);
             // }
             if (!this.systemConfig.demo) {
-                const deleteResult = await this.mongo.db.collection(moduleConfig.collections.main).deleteOne(query);
+                const deleteResult = await this.mongo.db
+                    .collection(moduleConfig.collections.main)
+                    .deleteOne(query);
                 return rep.code(200).send({
                     count: deleteResult.deletedCount,
                 });
@@ -47,5 +52,5 @@ export default () => ({
             this.log.error(e);
             return Promise.reject(e);
         }
-    }
+    },
 });

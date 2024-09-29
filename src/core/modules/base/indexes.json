@@ -1,18 +1,18 @@
 {
     "users": {
         "asc": ["username", "email", "status"],
-        "desc":  ["username", "email", "status"]
+        "desc": ["username", "email", "status"]
     },
     "history": {
         "asc": ["recordId", "userId", "updated", "module"],
-        "desc":  ["recordId", "userId", "updated", "module"],
+        "desc": ["recordId", "userId", "updated", "module"],
         "expire": {
             "field": "updated"
         }
     },
     "captcha": {
         "asc": [],
-        "desc":  [],
+        "desc": [],
         "expire": {
             "field": "createdAt",
             "seconds": 300
@@ -20,7 +20,7 @@
     },
     "jobs": {
         "asc": ["userId", "module", "status"],
-        "desc":  [],
+        "desc": [],
         "expire": {
             "field": "updatedAt",
             "seconds": 60

@@ -12,11 +12,13 @@ export default () => ({
                     $exists: true,
                 },
             };
-            await this.mongo.db.collection(moduleConfig.collections.main).deleteMany(query);
+            await this.mongo.db
+                .collection(moduleConfig.collections.main)
+                .deleteMany(query);
             return rep.code(200).send({});
         } catch (e) {
             this.log.error(e);
             return Promise.reject(e);
         }
-    }
+    },
 });

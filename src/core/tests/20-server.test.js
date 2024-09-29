@@ -1,13 +1,8 @@
-import {
-    jest,
-    test,
-    expect,
-    afterAll,
-} from "@jest/globals";
+import { jest, test, expect, afterAll } from "@jest/globals";
 import os from "os";
 import axios from "axios";
 import axiosRetry from "axios-retry";
-import Helpers from "#lib/testHelpers";
+import Helpers from "#lib/testHelpers.js";
 import systemConfig from "#etc/system.js";
 
 axiosRetry(axios, {
@@ -22,12 +17,12 @@ let serverPid = [];
 
 test("Server availability (200)", async () => {
     if (!(await helpers.doesServerFileExists())) {
-        const {
-            buildSuccess
-        } = await helpers.build("dev");
+        const { buildSuccess } = await helpers.build("dev");
         expect(buildSuccess).toBe(true);
     }
-    const childProcess = helpers.runCommand(`npm${os.platform() === "win32" ? ".cmd" : ""} run server`);
+    const childProcess = helpers.runCommand(
+        `npm${os.platform() === "win32" ? ".cmd" : ""} run server`,
+    );
     expect(childProcess.pid).toBeGreaterThan(0);
     serverPid.push(childProcess.pid);
     let response;
@@ -42,17 +37,17 @@ test("Server availability (200)", async () => {
     }
     helpers.killProcess(childProcess.pid);
     expect(response ? response.status : 0).toBe(200);
-    serverPid = serverPid.filter(i => i !== childProcess.pid);
+    serverPid = serverPid.filter((i) => i !== childProcess.pid);
 });
 
 test("Server availability (404)", async () => {
     if (!(await helpers.doesServerFileExists())) {
-        const {
-            buildSuccess
-        } = await helpers.build("dev");
+        const { buildSuccess } = await helpers.build("dev");
         expect(buildSuccess).toBe(true);
     }
-    const childProcess = helpers.runCommand(`npm${os.platform() === "win32" ? ".cmd" : ""} run server`);
+    const childProcess = helpers.runCommand(
+        `npm${os.platform() === "win32" ? ".cmd" : ""} run server`,
+    );
     expect(childProcess.pid).toBeGreaterThan(0);
     serverPid.push(childProcess.pid);
     try {
@@ -65,11 +60,13 @@ test("Server availability (404)", async () => {
         expect(e && e.response ? e.response.status : 0).toBe(404);
     }
     helpers.killProcess(childProcess.pid);
-    serverPid = serverPid.filter(i => i !== childProcess.pid);
+    serverPid = serverPid.filter((i) => i !== childProcess.pid);
 });
 
 test("Test Page", async () => {
-    const childProcess = helpers.runCommand(`npm${os.platform() === "win32" ? ".cmd" : ""} run server`);
+    const childProcess = helpers.runCommand(
+        `npm${os.platform() === "win32" ? ".cmd" : ""} run server`,
+    );
     expect(childProcess.pid).toBeGreaterThan(0);
     serverPid.push(childProcess.pid);
     for (const language of helpers.getLanguagesList()) {
@@ -89,7 +86,7 @@ test("Test Page", async () => {
         expect(response.data).toMatch(`site-content-${language}`);
     }
     helpers.killProcess(childProcess.pid);
-    serverPid = serverPid.filter(i => i !== childProcess.pid);
+    serverPid = serverPid.filter((i) => i !== childProcess.pid);
 });
 
 afterAll(async () => {

@@ -1,10 +1,7 @@
-// import cloneDeep from "lodash/cloneDeep";
 import axios from "axios";
-// import throttle from "lodash/throttle";
-// import debounce from "lodash/debounce";
-import Utils from "#lib/componentUtils";
-import Query from "#lib/queryBrowser";
-import Cookies from "#lib/cookiesBrowser";
+import Utils from "#lib/componentUtils.js";
+import Query from "#lib/queryBrowser.js";
+import Cookies from "#lib/cookiesBrowser.js";
 import moduleConfig from "../../module.js";
 import pageConfig from "../page.js";
 
@@ -32,14 +29,24 @@ export default class {
         this.mongoEnabled = out.global.mongoEnabled;
         if (process.browser) {
             window.__heretic = window.__heretic || {};
-            window.__heretic.outGlobal = window.__heretic.outGlobal || out.global || {};
-            this.authOptions = this.authOptions || window.__heretic.outGlobal.authOptions;
-            this.mongoEnabled = this.mongoEnabled || window.__heretic.outGlobal.mongoEnabled;
-            this.language = this.language || window.__heretic.outGlobal.language;
-            this.siteTitle = out.global.siteTitle || window.__heretic.outGlobal.siteTitle;
-            this.siteId = out.global.siteId || window.__heretic.outGlobal.siteId;
-            this.cookieOptions = out.global.cookieOptions || window.__heretic.outGlobal.cookieOptions;
-            this.systemRoutes = out.global.systemRoutes || window.__heretic.outGlobal.systemRoutes;
+            window.__heretic.outGlobal =
+                window.__heretic.outGlobal || out.global || {};
+            this.authOptions =
+                this.authOptions || window.__heretic.outGlobal.authOptions;
+            this.mongoEnabled =
+                this.mongoEnabled || window.__heretic.outGlobal.mongoEnabled;
+            this.language =
+                this.language || window.__heretic.outGlobal.language;
+            this.siteTitle =
+                out.global.siteTitle || window.__heretic.outGlobal.siteTitle;
+            this.siteId =
+                out.global.siteId || window.__heretic.outGlobal.siteId;
+            this.cookieOptions =
+                out.global.cookieOptions ||
+                window.__heretic.outGlobal.cookieOptions;
+            this.systemRoutes =
+                out.global.systemRoutes ||
+                window.__heretic.outGlobal.systemRoutes;
             document.title = `${pageConfig.title[this.language]} – ${this.siteTitle}`;
         }
         this.utils = new Utils(this, this.language);
@@ -48,7 +55,10 @@ export default class {
     async setLogWrapWidth() {
         await this.utils.waitForElement("hr_lg_entries_wrap");
         if (!this.setLogWrapWidthRun) {
-            if (document.getElementById("heretic_dummy").getBoundingClientRect().width !== document.body.getBoundingClientRect().width) {
+            if (
+                document.getElementById("heretic_dummy").getBoundingClientRect()
+                    .width !== document.body.getBoundingClientRect().width
+            ) {
                 setTimeout(() => this.setLogWrapWidthDelayed());
                 return;
             }
@@ -58,9 +68,7 @@ export default class {
         filesWrap.style.display = "none";
         await this.utils.waitForElement("hr_lg_dummy");
         const dummy = document.getElementById("hr_lg_dummy");
-        const {
-            width,
-        } = dummy.getBoundingClientRect();
+        const { width } = dummy.getBoundingClientRect();
         filesWrap.style.width = `${width}px`;
         filesWrap.style.display = "block";
     }
@@ -71,8 +79,16 @@ export default class {
     }
 
     generatePagination() {
-        const center = [this.state.page - 2, this.state.page - 1, this.state.page, this.state.page + 1, this.state.page + 2];
-        const filteredCenter = center.filter((p) => p > 1 && p < this.state.totalPages);
+        const center = [
+            this.state.page - 2,
+            this.state.page - 1,
+            this.state.page,
+            this.state.page + 1,
+            this.state.page + 2,
+        ];
+        const filteredCenter = center.filter(
+            (p) => p > 1 && p < this.state.totalPages,
+        );
         // includeThreeLeft
         if (this.state.page === 5) {
             filteredCenter.unshift(2);
@@ -98,7 +114,11 @@ export default class {
         this.setState("pagination", pagination);
     }
 
-    async loadData(sort = this.state.sort, sortDir = this.state.sortDir, page = this.state.page) {
+    async loadData(
+        sort = this.state.sort,
+        sortDir = this.state.sortDir,
+        page = this.state.page,
+    ) {
         if (this.state.loading) {
             return;
         }
@@ -123,7 +143,12 @@ export default class {
             this.setState("sort", sort);
             this.setState("sortDir", sortDir);
             this.setState("page", parseInt(page, 10));
-            this.setState("totalPages", res.data.total < this.state.itemsPerPage ? 1 : Math.ceil(res.data.total / this.state.itemsPerPage));
+            this.setState(
+                "totalPages",
+                res.data.total < this.state.itemsPerPage
+                    ? 1
+                    : Math.ceil(res.data.total / this.state.itemsPerPage),
+            );
             this.generatePagination();
             await this.utils.waitForElement("hr_lg_dummy");
             this.setLogWrapWidthDelayed();
@@ -140,24 +165,36 @@ export default class {
         if (!this.mongoEnabled) {
             return;
         }
-        await import( /* webpackChunkName: "logs" */ "./logs.scss");
+        await import(/* webpackChunkName: "logs" */ "./logs.scss");
         this.t = window.__heretic.t;
         this.query = new Query();
         this.cookies = new Cookies(this.cookieOptions, this.siteId);
         const currentToken = this.cookies.get(`${this.siteId}.authToken`);
         if (!currentToken) {
-            setTimeout(() => window.location.href = this.utils.getLocalizedURL(this.systemRoutes.signInAdmin), 100);
+            setTimeout(
+                () =>
+                    (window.location.href = this.utils.getLocalizedURL(
+                        this.systemRoutes.signInAdmin,
+                    )),
+                100,
+            );
             return;
         }
         this.setState("headers", {
-            Authorization: `Bearer ${currentToken}`
+            Authorization: `Bearer ${currentToken}`,
         });
         this.setState("ready", true);
     }
 
     onUnauthorized() {
         this.setState("ready", false);
-        setTimeout(() => window.location.href = this.utils.getLocalizedURL(this.systemRoutes.signInAdmin), 100);
+        setTimeout(
+            () =>
+                (window.location.href = this.utils.getLocalizedURL(
+                    this.systemRoutes.signInAdmin,
+                )),
+            100,
+        );
     }
 
     async onEntryClick(e) {
@@ -173,10 +210,10 @@ export default class {
 
     async onActionButtonClick(data) {
         switch (data.buttonId) {
-        case "view":
-            await this.utils.waitForComponent("entryModal");
-            this.getComponent("entryModal").show(data.item);
-            break;
+            case "view":
+                await this.utils.waitForComponent("entryModal");
+                this.getComponent("entryModal").show(data.item);
+                break;
         }
     }
 }

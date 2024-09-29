@@ -11,12 +11,12 @@
 import throttle from "lodash/throttle";
 import debounce from "lodash/debounce";
 
-import observer from "./libs/observer";
+import observer from "./libs/observer.js";
 
-import detect from "./helpers/detector";
-import handleScroll from "./helpers/handleScroll";
-import prepare from "./helpers/prepare";
-import elements from "./helpers/elements";
+import detect from "./helpers/detector.js";
+import handleScroll from "./helpers/handleScroll.js";
+import prepare from "./helpers/prepare.js";
+import elements from "./helpers/elements.js";
 
 /**
  * Private variables
@@ -42,7 +42,7 @@ let options = {
     useClassNames: false,
     disableMutationObserver: false,
     throttleDelay: 99,
-    debounceDelay: 50
+    debounceDelay: 50,
 };
 
 // Detect not supported browsers (<=IE9)
@@ -62,7 +62,7 @@ const initializeScroll = function initializeScroll() {
         "scroll",
         throttle(() => {
             handleScroll($aosElements, options.once);
-        }, options.throttleDelay)
+        }, options.throttleDelay),
     );
 
     return $aosElements;
@@ -117,7 +117,11 @@ const disable = function () {
  */
 const isDisabled = function (optionDisable) {
     return (
-        optionDisable === true || (optionDisable === "mobile" && detect.mobile()) || (optionDisable === "phone" && detect.phone()) || (optionDisable === "tablet" && detect.tablet()) || (typeof optionDisable === "function" && optionDisable() === true)
+        optionDisable === true ||
+        (optionDisable === "mobile" && detect.mobile()) ||
+        (optionDisable === "phone" && detect.phone()) ||
+        (optionDisable === "tablet" && detect.tablet()) ||
+        (typeof optionDisable === "function" && optionDisable() === true)
     );
 };
 
@@ -178,7 +182,9 @@ const init = function init(settings) {
         .querySelector("body")
         .setAttribute("data-aos-duration", options.duration);
 
-    document.querySelector("body").setAttribute("data-aos-delay", options.delay);
+    document
+        .querySelector("body")
+        .setAttribute("data-aos-delay", options.delay);
 
     /**
      * Handle initializing
@@ -195,7 +201,8 @@ const init = function init(settings) {
     }
 
     if (
-        options.startEvent === "DOMContentLoaded" && ["complete", "interactive"].indexOf(document.readyState) > -1
+        options.startEvent === "DOMContentLoaded" &&
+        ["complete", "interactive"].indexOf(document.readyState) > -1
     ) {
         // Initialize AOS if default startEvent was already fired
         refresh(true);
@@ -206,12 +213,12 @@ const init = function init(settings) {
      */
     window.addEventListener(
         "resize",
-        debounce(refresh, options.debounceDelay, true)
+        debounce(refresh, options.debounceDelay, true),
     );
 
     window.addEventListener(
         "orientationchange",
-        debounce(refresh, options.debounceDelay, true)
+        debounce(refresh, options.debounceDelay, true),
     );
 
     return $aosElements;
@@ -224,5 +231,5 @@ const init = function init(settings) {
 export default {
     init,
     refresh,
-    refreshHard
+    refreshHard,
 };

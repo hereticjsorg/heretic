@@ -4,73 +4,81 @@ import {
     mdiAccountPlusOutline,
 } from "@mdi/js";
 
-import utils from "#lib/formValidatorUtils";
+import utils from "#lib/formValidatorUtils.js";
 import languages from "#etc/languages.json";
 
 const formId = "content";
 
 export default class {
     constructor(t) {
-        this.t = t || (id => id);
+        this.t = t || ((id) => id);
         this.data = {
-            form: [{
-                fields: [[{
-                    id: "title",
-                    type: "text",
-                    label: this.t("pageTitle"),
-                    mandatory: true,
-                    validation: {
-                        type: ["string"],
-                        minLength: 1,
-                        maxLength: 128,
-                    },
-                    sortable: true,
-                    searchable: true,
-                    css: "hr-hf-field-xxlarge",
-                    column: true,
-                    helpText: this.t("pageTitleHelpText"),
-                    createIndex: true,
-                    autoFocus: true,
-                    width: 250,
-                }, {
-                    id: "pagePath",
-                    type: "tags",
-                    label: this.t("pagePath"),
-                    helpText: this.t("pagePathHelpText"),
-                    mandatory: false,
-                    shared: true,
-                    css: "hr-hf-field-xlarge",
-                    validation: {
-                        type: ["array", "null"],
-                        items: {
-                            type: "string",
-                            minLength: 2,
-                            maxLength: 32,
-                        },
-                        minItems: 0,
-                        uniqueItems: false,
-                    },
-                    sortable: false,
-                    searchable: false,
-                    column: true,
-                    createIndex: false,
-                    enumValues: [],
-                    enumUnique: false,
-                    enumOnly: false,
-                    enumButton: false,
-                    enumDropdown: false,
-                }, {
-                    id: "pagePathText",
-                    type: "column",
-                    label: this.t("pagePath"),
-                    sortable: true,
-                    searchable: true,
-                    column: true,
-                    createIndex: true,
-                    width: "auto",
-                    minWidth: 200,
-                }]],
-            }],
+            form: [
+                {
+                    fields: [
+                        [
+                            {
+                                id: "title",
+                                type: "text",
+                                label: this.t("pageTitle"),
+                                mandatory: true,
+                                validation: {
+                                    type: ["string"],
+                                    minLength: 1,
+                                    maxLength: 128,
+                                },
+                                sortable: true,
+                                searchable: true,
+                                css: "hr-hf-field-xxlarge",
+                                column: true,
+                                helpText: this.t("pageTitleHelpText"),
+                                createIndex: true,
+                                autoFocus: true,
+                                width: 250,
+                            },
+                            {
+                                id: "pagePath",
+                                type: "tags",
+                                label: this.t("pagePath"),
+                                helpText: this.t("pagePathHelpText"),
+                                mandatory: false,
+                                shared: true,
+                                css: "hr-hf-field-xlarge",
+                                validation: {
+                                    type: ["array", "null"],
+                                    items: {
+                                        type: "string",
+                                        minLength: 2,
+                                        maxLength: 32,
+                                    },
+                                    minItems: 0,
+                                    uniqueItems: false,
+                                },
+                                sortable: false,
+                                searchable: false,
+                                column: true,
+                                createIndex: false,
+                                enumValues: [],
+                                enumUnique: false,
+                                enumOnly: false,
+                                enumButton: false,
+                                enumDropdown: false,
+                            },
+                            {
+                                id: "pagePathText",
+                                type: "column",
+                                label: this.t("pagePath"),
+                                sortable: true,
+                                searchable: true,
+                                column: true,
+                                createIndex: true,
+                                width: "auto",
+                                minWidth: 200,
+                            },
+                        ],
+                    ],
+                },
+            ],
         };
         this.validationRequired = ["title"];
         this.validationData = utils.getValidationData(this.data.form);
@@ -114,7 +122,11 @@ export default class {
     }
 
     getTableColumns() {
-        return Object.fromEntries(Object.entries(this.validationData.fieldsFlat).filter(([, value]) => this.columnTypes.indexOf(value.type) > -1));
+        return Object.fromEntries(
+            Object.entries(this.validationData.fieldsFlat).filter(
+                ([, value]) => this.columnTypes.indexOf(value.type) > -1,
+            ),
+        );
     }
 
     getTableDefaultSortColumn() {
@@ -133,29 +145,35 @@ export default class {
     }
 
     getActions() {
-        return [{
-            id: "edit",
-            label: this.t("edit"),
-            icon: mdiPencilOutline,
-        }, {
-            id: "delete",
-            label: this.t("delete"),
-            icon: mdiTrashCanOutline,
-            danger: true,
-        }];
+        return [
+            {
+                id: "edit",
+                label: this.t("edit"),
+                icon: mdiPencilOutline,
+            },
+            {
+                id: "delete",
+                label: this.t("delete"),
+                icon: mdiTrashCanOutline,
+                danger: true,
+            },
+        ];
     }
 
     getTopButtons() {
-        return [{
-            id: "newItem",
-            label: this.t("newItem"),
-            icon: mdiAccountPlusOutline,
-        }, {
-            id: "delete",
-            label: this.t("deleteSelected"),
-            icon: mdiTrashCanOutline,
-            danger: true,
-        }];
+        return [
+            {
+                id: "newItem",
+                label: this.t("newItem"),
+                icon: mdiAccountPlusOutline,
+            },
+            {
+                id: "delete",
+                label: this.t("deleteSelected"),
+                icon: mdiTrashCanOutline,
+                danger: true,
+            },
+        ];
     }
 
     getTableLoadConfig() {
@@ -180,10 +198,10 @@ export default class {
 
     processTableCell(id, row) {
         switch (id) {
-        case "active":
-            return row[id] ? this.t("isActive") : "";
-        default:
-            return row[id];
+            case "active":
+                return row[id] ? this.t("isActive") : "";
+            default:
+                return row[id];
         }
     }
 
@@ -192,7 +210,7 @@ export default class {
     }
 
     getTabs() {
-        return Object.keys(languages).map(k => ({
+        return Object.keys(languages).map((k) => ({
             id: k,
             label: languages[k],
         }));

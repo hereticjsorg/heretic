@@ -1,11 +1,11 @@
 {
     "users": {
         "asc": ["username", "email"],
-        "desc":  ["username", "email"]
+        "desc": ["username", "email"]
     },
     "activation": {
         "asc": [],
-        "desc":  [],
+        "desc": [],
         "expire": {
             "field": "signUpAt",
             "seconds": 86400

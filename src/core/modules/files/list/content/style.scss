@@ -1,7 +1,8 @@
+@use "sass:color";
 @import "~styles/variables.scss";
 
-$folder: #F2DCB3;
-$folder-dark: #594D36;
+$folder: #f2dcb3;
+$folder-dark: #594d36;
 
 .hr-fs-head {
     background-color: $grey-lighter;
@@ -17,7 +18,7 @@ html.theme-dark .hr-fs-head {
 }
 
 .hr-fs-dir {
-    background-color: darken($folder, 5%);
+    background-color: color.adjust($folder, $lightness: -5%);
 }
 
 .hr-fs-dir-odd {
@@ -26,11 +27,11 @@ html.theme-dark .hr-fs-head {
 
 .hr-fs-dir:hover,
 .hr-fs-dir-odd:hover {
-    background-color: darken($folder, 15%);
+    background-color: color.adjust($folder, $lightness: -15%);
 }
 
 html.theme-dark .hr-fs-dir {
-    background-color: darken($folder-dark, 5%);
+    background-color: color.adjust($folder-dark, $lightness: -5%);
 }
 
 html.theme-dark .hr-fs-dir-odd {
@@ -39,14 +40,14 @@ html.theme-dark .hr-fs-dir-odd {
 
 html.theme-dark .hr-fs-dir:hover,
 html.theme-dark .hr-fs-dir-odd:hover {
-    background-color: lighten($folder-dark, 10%);
+    background-color: color.adjust($folder-dark, $lightness: 10%);
 }
 
-html.theme-dark .hr-fs-dir>.column {
+html.theme-dark .hr-fs-dir > .column {
     color: $grey-lightest;
 }
 
-.hr-fs-dir>.column {
+.hr-fs-dir > .column {
     color: $black-ter;
 }
 
@@ -60,7 +61,7 @@ html.theme-dark .hr-fs-dir>.column {
 
 .hr-fs-file:hover,
 .hr-fs-file-odd:hover {
-    background-color: darken($grey-lighter, 10%);
+    background-color: color.adjust($grey-lighter, $lightness: -10%);
 }
 
 html.theme-dark .hr-fs-file {
@@ -73,7 +74,7 @@ html.theme-dark .hr-fs-file-odd {
 
 html.theme-dark .hr-fs-file:hover,
 html.theme-dark .hr-fs-file-odd:hover {
-    background-color: lighten($grey-dark, 20%);
+    background-color: color.adjust($grey-dark, $lightness: 20%);
 }
 
 .hr-fs-bottomItem {
@@ -81,7 +82,7 @@ html.theme-dark .hr-fs-file-odd:hover {
     border-bottom-left-radius: $radius;
 }
 
-html.theme-dark .hr-fs-file-icon>svg>path {
+html.theme-dark .hr-fs-file-icon > svg > path {
     fill: $white-ter;
 }
 
@@ -122,7 +123,7 @@ html.theme-dark .hr-fs-files-loading {
     position: relative;
 }
 
-.hr-fs-top-button-icon svg>path {
+.hr-fs-top-button-icon svg > path {
     fill: $grey-darker !important;
 }
 
@@ -152,7 +153,6 @@ html.theme-dark .hr-fs-files-loading {
     -webkit-box-pack: center !important;
     -ms-flex-pack: center !important;
     justify-content: center !important;
-
 }
 
 .hr-fs-col-filename {
@@ -164,8 +164,8 @@ html.theme-dark .hr-fs-files-loading {
     margin-right: 2px;
 }
 
-.hr-fs-action-danger svg>path,
-.hr-fs-button-danger svg>path {
+.hr-fs-action-danger svg > path,
+.hr-fs-button-danger svg > path {
     fill: $white !important;
 }
 
@@ -209,11 +209,11 @@ html.theme-dark .hr-fs-panel {
     padding: 0 5px !important;
 }
 
-.hr-fs-dir-breadcrumb a>span {
-    border-bottom: 1px dashed lighten($grey, 5%);
+.hr-fs-dir-breadcrumb a > span {
+    border-bottom: 1px dashed color.adjust($grey, $lightness: 5%);
 }
 
-html.theme-dark .hr-fs-dir-breadcrumb a>span {
+html.theme-dark .hr-fs-dir-breadcrumb a > span {
     border-bottom: 1px dashed $grey;
 }
 
@@ -227,7 +227,6 @@ html.theme-dark .hr-fs-tag {
 }
 
 @media (min-width: 769px) {
-
     .hr-fs-head-cell-controls {
         margin-top: 2px;
     }
@@ -235,11 +234,9 @@ html.theme-dark .hr-fs-tag {
     .hr-fs-head-checkbox {
         margin-top: 4px;
     }
-
 }
 
 @media (max-width: 768px) {
-
     .hr-fs-col-ext,
     .hr-fs-col-size,
     .hr-fs-col-permissions,

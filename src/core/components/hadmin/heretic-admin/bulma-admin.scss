@@ -8,5 +8,11 @@ input:focus,
 input:focus-visible {
     outline: none !important;
     border-color: var(--bulma-link) !important;
-    box-shadow: var(--bulma-input-focus-shadow-size) hsla(var(--bulma-input-focus-h), var(--bulma-input-focus-s), var(--bulma-input-focus-l), var(--bulma-input-focus-shadow-alpha));
+    box-shadow: var(--bulma-input-focus-shadow-size)
+        hsla(
+            var(--bulma-input-focus-h),
+            var(--bulma-input-focus-s),
+            var(--bulma-input-focus-l),
+            var(--bulma-input-focus-shadow-alpha)
+        );
 }

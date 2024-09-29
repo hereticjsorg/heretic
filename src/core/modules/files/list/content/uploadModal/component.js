@@ -1,10 +1,8 @@
 import cloneDeep from "lodash/cloneDeep";
 import axios from "axios";
-import {
-    v4 as uuid,
-} from "uuid";
-import Cookies from "#lib/cookiesBrowser";
-import Utils from "#lib/componentUtils";
+import { v4 as uuid } from "uuid";
+import Cookies from "#lib/cookiesBrowser.js";
+import Utils from "#lib/componentUtils.js";
 
 export default class {
     onCreate(input, out) {
@@ -23,11 +21,17 @@ export default class {
         this.cookieOptions = out.global.cookieOptions;
         if (process.browser) {
             window.__heretic = window.__heretic || {};
-            window.__heretic.outGlobal = window.__heretic.outGlobal || out.global || {};
-            this.language = this.language || window.__heretic.outGlobal.language;
-            this.siteTitle = out.global.siteTitle || window.__heretic.outGlobal.siteTitle;
-            this.siteId = out.global.siteId || window.__heretic.outGlobal.siteId;
-            this.cookieOptions = out.global.cookieOptions || window.__heretic.outGlobal.cookieOptions;
+            window.__heretic.outGlobal =
+                window.__heretic.outGlobal || out.global || {};
+            this.language =
+                this.language || window.__heretic.outGlobal.language;
+            this.siteTitle =
+                out.global.siteTitle || window.__heretic.outGlobal.siteTitle;
+            this.siteId =
+                out.global.siteId || window.__heretic.outGlobal.siteId;
+            this.cookieOptions =
+                out.global.cookieOptions ||
+                window.__heretic.outGlobal.cookieOptions;
         }
         this.utils = new Utils(this, this.language);
     }
@@ -71,8 +75,11 @@ export default class {
         const value = cloneDeep(this.state.value);
         const files = Array.from(e.target.files);
         for (let i = 0; i < files.length; i += 1) {
-            if (value.find(f => f.name === files[i].name)) {
-                await this.showNotification(`${window.__heretic.t("duplicateFilename")} (${files[i].name})`, "is-warning");
+            if (value.find((f) => f.name === files[i].name)) {
+                await this.showNotification(
+                    `${window.__heretic.t("duplicateFilename")} (${files[i].name})`,
+                    "is-warning",
+                );
                 continue;
             }
             value.push({
@@ -86,10 +93,8 @@ export default class {
 
     onFileInputDeleteClick(e) {
         e.preventDefault();
-        const {
-            uid
-        } = e.target.closest("[data-uid]").dataset;
-        const value = cloneDeep(this.state.value).filter(f => f.uid !== uid);
+        const { uid } = e.target.closest("[data-uid]").dataset;
+        const value = cloneDeep(this.state.value).filter((f) => f.uid !== uid);
         this.setState("value", value);
     }
 
@@ -110,14 +115,11 @@ export default class {
                 headers: {
                     Authorization: `Bearer ${this.currentToken}`,
                 },
-                onUploadProgress: progressEvent => {
-                    const {
-                        loaded,
-                        total
-                    } = progressEvent;
+                onUploadProgress: (progressEvent) => {
+                    const { loaded, total } = progressEvent;
                     const percentage = Math.floor((loaded * 100) / total);
                     this.setState("uploadProgress", percentage);
-                }
+                },
             });
             await this.showNotification("uploadSuccess", "is-success");
         } catch {

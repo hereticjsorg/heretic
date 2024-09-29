@@ -1,5 +1,5 @@
-import Point from "./point";
-import Size from "./size";
+import Point from "./point.js";
+import Size from "./size.js";
 
 const frameProportion = 0.85;
 
@@ -25,7 +25,10 @@ export default class Frame {
      * @return {Pattern} A Pattern object.
      */
     update(parent) {
-        this._size = (parent.width > parent.height) ? parent.height * frameProportion : parent.width * frameProportion;
+        this._size =
+            parent.width > parent.height
+                ? parent.height * frameProportion
+                : parent.width * frameProportion;
         this._origin = {
             x: (parent.width - this._size) / 2,
             y: (parent.height - this._size) / 2,
@@ -71,7 +74,7 @@ export default class Frame {
      * @returns {Number} - The x-coordinate that establishes the center of a rectangle.
      */
     getMidX() {
-        return this._origin.x + (this._size / 2);
+        return this._origin.x + this._size / 2;
     }
 
     /**
@@ -98,6 +101,6 @@ export default class Frame {
      * @returns {Number} - The y-coordinate that establishes the center of a rectangle.
      */
     getMidY() {
-        return this._origin.y + (this._size / 2);
+        return this._origin.y + this._size / 2;
     }
 }

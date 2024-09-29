@@ -1,0 +1,40 @@
+import iconFolder from "./folder.svg";
+
+<div id=`hr_htr_${input.id}` class="hr-htree">
+    <div
+        class=`hr-htr-item-wrap${!state.selected ? " hr-htr-item-wrap-selected" : ""}`
+        style={ display: "inline-flex" }
+        on-click("onRootItemClick")
+    >
+        <img src=iconFolder class="hr-htr-item-img-folder">
+        <t>rootDir</t>
+    </div>
+    <div class="hr-htr-items-wrap">
+        <div style={ flex: "1" }>
+            <for|i, index| of=state.data>
+                <hTreeItem
+                    data=i
+                    level=0
+                    selected=state.selected
+                    id=input.id
+                    on-item-click("onItemClick")
+                    on-drag-start("onDragStart")
+                    on-drag-end("onDragEnd")
+                    on-drag("onDrag")
+                    on-itemdrop("onDrop")
+                    on-treetoggle("onTreeToggle")
+                    scroll=input.scroll
+                    drag=state.drag
+                    last=(index + 1 === state.data.length)
+                    childrenCount=(state.data.length)
+                    childIndex=index
+                    treeData=state.treeData
+                    parentHasMoreChildren=(state.treeData[i.id])
+                    visibilityData=state.visibilityData
+                    openData=state.openData
+                    dragAllowed=!!input.dragAllowed
+                />
+            </for>
+        </div>
+    </div>
+</div>

@@ -1,6 +1,6 @@
 import axios from "axios";
-import Utils from "#lib/componentUtils";
-import Cookies from "#lib/cookiesBrowser";
+import Utils from "#lib/componentUtils.js";
+import Cookies from "#lib/cookiesBrowser.js";
 import moduleConfig from "../module.js";
 
 export default class {
@@ -20,14 +20,24 @@ export default class {
         this.systemRoutes = out.global.systemRoutes;
         if (process.browser) {
             window.__heretic = window.__heretic || {};
-            window.__heretic.outGlobal = window.__heretic.outGlobal || out.global;
-            this.authOptions = this.authOptions || window.__heretic.outGlobal.authOptions;
-            this.mongoEnabled = this.mongoEnabled || window.__heretic.outGlobal.mongoEnabled;
-            this.language = this.language || window.__heretic.outGlobal.language;
-            this.siteTitle = out.global.siteTitle || window.__heretic.outGlobal.siteTitle;
-            this.siteId = out.global.siteId || window.__heretic.outGlobal.siteId;
-            this.cookieOptions = out.global.cookieOptions || window.__heretic.outGlobal.cookieOptions;
-            this.systemRoutes = out.global.systemRoutes || window.__heretic.outGlobal.systemRoutes;
+            window.__heretic.outGlobal =
+                window.__heretic.outGlobal || out.global;
+            this.authOptions =
+                this.authOptions || window.__heretic.outGlobal.authOptions;
+            this.mongoEnabled =
+                this.mongoEnabled || window.__heretic.outGlobal.mongoEnabled;
+            this.language =
+                this.language || window.__heretic.outGlobal.language;
+            this.siteTitle =
+                out.global.siteTitle || window.__heretic.outGlobal.siteTitle;
+            this.siteId =
+                out.global.siteId || window.__heretic.outGlobal.siteId;
+            this.cookieOptions =
+                out.global.cookieOptions ||
+                window.__heretic.outGlobal.cookieOptions;
+            this.systemRoutes =
+                out.global.systemRoutes ||
+                window.__heretic.outGlobal.systemRoutes;
         }
         this.utils = new Utils(this, this.language);
     }
@@ -74,12 +84,12 @@ export default class {
         const recoveryForm = this.getComponent("tfaRecoveryForm");
         const validationResult = recoveryForm.validate(recoveryForm.saveView());
         if (validationResult) {
-            return recoveryForm.setErrors(recoveryForm.getErrorData(validationResult));
+            return recoveryForm.setErrors(
+                recoveryForm.getErrorData(validationResult),
+            );
         }
         const formData = recoveryForm.serializeData();
-        const {
-            recoveryCode,
-        } = formData.formTabs._default;
+        const { recoveryCode } = formData.formTabs._default;
         this.getComponent("tfaModal").setCloseAllowed(false).setLoading(true);
         try {
             await axios({
@@ -105,23 +115,32 @@ export default class {
             }
         } catch (err) {
             let errorMessage = "setup2faError";
-            if (err && err.response && err.response.data && err.response.data.reason) {
+            if (
+                err &&
+                err.response &&
+                err.response.data &&
+                err.response.data.reason
+            ) {
                 switch (err.response.data.reason) {
-                case 1:
-                    errorMessage = "setup2faErrorUnset";
-                    break;
-                case 2:
-                    recoveryForm.setErrors([{
-                        id: "recoveryCode",
-                        tab: "_default",
-                    }]);
-                    setTimeout(() => recoveryForm.clearValues());
-                    errorMessage = "remove2faInvalidRecoveryCode";
-                    break;
+                    case 1:
+                        errorMessage = "setup2faErrorUnset";
+                        break;
+                    case 2:
+                        recoveryForm.setErrors([
+                            {
+                                id: "recoveryCode",
+                                tab: "_default",
+                            },
+                        ]);
+                        setTimeout(() => recoveryForm.clearValues());
+                        errorMessage = "remove2faInvalidRecoveryCode";
+                        break;
                 }
             }
             this.getComponent("notify").show(this.t(errorMessage), "is-danger");
-            this.getComponent("tfaModal").setCloseAllowed(true).setLoading(false);
+            this.getComponent("tfaModal")
+                .setCloseAllowed(true)
+                .setLoading(false);
         }
     }
 
@@ -142,9 +161,7 @@ export default class {
             return otpForm.setErrors(otpForm.getErrorData(validationResult));
         }
         const formData = otpForm.serializeData();
-        const {
-            code,
-        } = formData.formTabs._default;
+        const { code } = formData.formTabs._default;
         this.getComponent("tfaModal").setCloseAllowed(false).setLoading(true);
         try {
             await axios({
@@ -170,35 +187,44 @@ export default class {
             }
         } catch (err) {
             let errorMessage = "setup2faError";
-            if (err && err.response && err.response.data && err.response.data.reason) {
+            if (
+                err &&
+                err.response &&
+                err.response.data &&
+                err.response.data.reason
+            ) {
                 switch (err.response.data.reason) {
-                case 1:
-                    errorMessage = "setup2faErrorUnset";
-                    break;
-                case 2:
-                    otpForm.setErrors([{
-                        id: "code",
-                        tab: "_default",
-                    }]);
-                    setTimeout(() => otpForm.clearValues());
-                    errorMessage = "setup2faErrorInvalidCode";
-                    break;
+                    case 1:
+                        errorMessage = "setup2faErrorUnset";
+                        break;
+                    case 2:
+                        otpForm.setErrors([
+                            {
+                                id: "code",
+                                tab: "_default",
+                            },
+                        ]);
+                        setTimeout(() => otpForm.clearValues());
+                        errorMessage = "setup2faErrorInvalidCode";
+                        break;
                 }
             }
             this.getComponent("notify").show(this.t(errorMessage), "is-danger");
-            this.getComponent("tfaModal").setCloseAllowed(true).setLoading(false);
+            this.getComponent("tfaModal")
+                .setCloseAllowed(true)
+                .setLoading(false);
         }
     }
 
     onTfaButtonClick(id) {
         switch (id) {
-        case "save":
-            if (this.state.view === "2fa") {
-                this.onOtpFormSubmit();
-            } else {
-                this.onRecoveryFormSubmit();
-            }
-            break;
+            case "save":
+                if (this.state.view === "2fa") {
+                    this.onOtpFormSubmit();
+                } else {
+                    this.onRecoveryFormSubmit();
+                }
+                break;
         }
     }
 }

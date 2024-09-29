@@ -1,6 +1,4 @@
-import {
-    ObjectId,
-} from "mongodb";
+import { ObjectId } from "mongodb";
 // import moduleConfig from "../module.js";
 
 const lockId = "groups";
@@ -17,9 +15,14 @@ export default () => ({
                     $or: [],
                 };
                 const lockData = {};
-                const lockRecords = await this.redis.keys(`${this.systemConfig.id}_lock_${lockId}_*`);
-                const lockRecordRex = new RegExp(`^${this.systemConfig.id}_lock_${lockId}_`, "i");
-                for (const record of (lockRecords || [])) {
+                const lockRecords = await this.redis.keys(
+                    `${this.systemConfig.id}_lock_${lockId}_*`,
+                );
+                const lockRecordRex = new RegExp(
+                    `^${this.systemConfig.id}_lock_${lockId}_`,
+                    "i",
+                );
+                for (const record of lockRecords || []) {
                     const userId = await this.redis.get(record);
                     if (userId) {
                         const recordId = record.replace(lockRecordRex, "");
@@ -30,12 +33,15 @@ export default () => ({
                     }
                 }
                 if (query.$or.length) {
-                    const usersDb = await this.mongo.db.collection(this.systemConfig.collections.users).find(query, {
-                        projection: {
-                            _id: 1,
-                            username: 1,
-                        }
-                    }).toArray();
+                    const usersDb = await this.mongo.db
+                        .collection(this.systemConfig.collections.users)
+                        .find(query, {
+                            projection: {
+                                _id: 1,
+                                username: 1,
+                            },
+                        })
+                        .toArray();
                     for (const user of usersDb) {
                         for (const k of Object.keys(lockData)) {
                             if (lockData[k] === user._id.toString()) {
@@ -53,5 +59,5 @@ export default () => ({
             this.log.error(e);
             return Promise.reject(e);
         }
-    }
+    },
 });

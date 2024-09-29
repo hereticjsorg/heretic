@@ -3,8 +3,7 @@ let callback = () => {};
 function containsAOSNode(nodes) {
     let i;
     let currentNode;
-    let
-        result;
+    let result;
 
     for (i = 0; i < nodes.length; i += 1) {
         currentNode = nodes[i];
@@ -26,7 +25,7 @@ function containsAOSNode(nodes) {
 function check(mutations) {
     if (!mutations) return;
 
-    mutations.forEach(mutation => {
+    mutations.forEach((mutation) => {
         const addedNodes = Array.prototype.slice.call(mutation.addedNodes);
         const removedNodes = Array.prototype.slice.call(mutation.removedNodes);
         const allNodes = addedNodes.concat(removedNodes);
@@ -39,7 +38,9 @@ function check(mutations) {
 
 function getMutationObserver() {
     return (
-        window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver
+        window.MutationObserver ||
+        window.WebKitMutationObserver ||
+        window.MozMutationObserver
     );
 }
 
@@ -57,11 +58,11 @@ function ready(selector, fn) {
     observer.observe(doc.documentElement, {
         childList: true,
         subtree: true,
-        removedNodes: true
+        removedNodes: true,
     });
 }
 
 export default {
     isSupported,
-    ready
+    ready,
 };

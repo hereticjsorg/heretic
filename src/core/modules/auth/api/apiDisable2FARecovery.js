@@ -1,7 +1,5 @@
 import Ajv from "ajv";
-import {
-    ObjectId,
-} from "mongodb";
+import { ObjectId } from "mongodb";
 import RecoveryForm from "../data/recoveryForm.js";
 
 const ajv = new Ajv({
@@ -27,48 +25,78 @@ export default () => ({
             try {
                 tokenData = this.jwt.verify(req.body.token);
             } catch (e) {
-                return rep.error({
-                    message: "error_invalid_token"
-                }, 403);
+                return rep.error(
+                    {
+                        message: "error_invalid_token",
+                    },
+                    403,
+                );
             }
-            userDb = await this.mongo.db.collection(this.systemConfig.collections.users).findOne({
-                _id: new ObjectId(tokenData.uid),
-            });
-        } else if (!authData) {
-            userDb = req.body.username && req.body.password ? await req.auth.authorize(req.body.username, req.body.password) : null;
-            if (!userDb) {
-                await req.addEvent("loginFail", {}, {
-                    username: req.body.username,
-                    password: req.body.password,
+            userDb = await this.mongo.db
+                .collection(this.systemConfig.collections.users)
+                .findOne({
+                    _id: new ObjectId(tokenData.uid),
                 });
-                return rep.error({
-                    message: "error_invalid_credentials"
-                }, 403);
+        } else if (!authData) {
+            userDb =
+                req.body.username && req.body.password
+                    ? await req.auth.authorize(
+                          req.body.username,
+                          req.body.password,
+                      )
+                    : null;
+            if (!userDb) {
+                await req.addEvent(
+                    "loginFail",
+                    {},
+                    {
+                        username: req.body.username,
+                        password: req.body.password,
+                    },
+                );
+                return rep.error(
+                    {
+                        message: "error_invalid_credentials",
+                    },
+                    403,
+                );
             }
         } else {
-            userDb = await this.mongo.db.collection(this.systemConfig.collections.users).findOne({
-                _id: authData._id,
-            });
+            userDb = await this.mongo.db
+                .collection(this.systemConfig.collections.users)
+                .findOne({
+                    _id: authData._id,
+                });
         }
         if (!userDb.tfaConfig) {
             return rep.error({
                 reason: 1,
             });
         }
-        if (!await req.auth.verifyHash(req.body.recoveryCode.toUpperCase(), userDb.tfaConfig.recoveryCode)) {
+        if (
+            !(await req.auth.verifyHash(
+                req.body.recoveryCode.toUpperCase(),
+                userDb.tfaConfig.recoveryCode,
+            ))
+        ) {
             return rep.error({
                 reason: 2,
             });
         }
         if (!this.systemConfig.demo) {
-            await this.mongo.db.collection(this.systemConfig.collections.users).updateOne({
-                _id: userDb._id,
-            }, {
-                $unset: {
-                    tfaConfig: null,
-                },
-            });
+            await this.mongo.db
+                .collection(this.systemConfig.collections.users)
+                .updateOne(
+                    {
+                        _id: userDb._id,
+                    },
+                    {
+                        $unset: {
+                            tfaConfig: null,
+                        },
+                    },
+                );
         }
         return rep.success({});
-    }
+    },
 });

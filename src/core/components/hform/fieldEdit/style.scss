@@ -1,3 +1,4 @@
+@use "sass:color";
 @import "~styles/variables.scss";
 
 .hr-hf-label {
@@ -104,7 +105,7 @@ html.theme-dark .hr-hf-captcha-image {
 
 html.theme-dark .hr-hf-calendar-wrap {
     border: 1px solid $theme-dark-grey;
-    background: lighten($theme-dark-grey-dark, 6%);
+    background: color.adjust($theme-dark-grey-dark, $lightness: 6%);
 }
 
 .hr-hf-date-input {
@@ -142,11 +143,11 @@ html.theme-dark .hr-hf-settings-icon svg {
     width: 30px !important;
 }
 
-.hr-hf-action-icon svg>path {
+.hr-hf-action-icon svg > path {
     fill: $grey-darker !important;
 }
 
-.hr-hf-action-icon-danger svg>path {
+.hr-hf-action-icon-danger svg > path {
     fill: $white !important;
 }
 
@@ -161,7 +162,7 @@ html.theme-dark .hr-hf-settings-icon svg {
 }
 
 html.theme-dark .hr-hf-keyValue-row:hover {
-    background: darken($theme-dark-grey, 20%);
+    background: color.adjust($theme-dark-grey, $lightness: -20%);
 }
 
 html:not(.theme-dark) .hr-hf-tags-wrap {
@@ -182,7 +183,7 @@ html.theme-dark .hr-hf-tag-delete {
 }
 
 html.theme-dark .hr-hf-tag-delete:hover {
-    background: lighten($theme-dark-grey, 3%) !important;
+    background: color.adjust($theme-dark-grey, $lightness: 3%) !important;
     color: $theme-dark-black-bis !important;
 }
 
@@ -194,7 +195,7 @@ html:not(.theme-dark) .hr-hf-tags-wrap-focus {
 
 html.theme-dark .hr-hf-tags-wrap {
     box-shadow: inset 0 0.0625em 0.125em $theme-dark-black !important;
-    border: 1px solid lighten($theme-dark-grey-darker, 8%);
+    border: 1px solid color.adjust($theme-dark-grey-darker, $lightness: 8%);
     color: $theme-dark-text-color-light !important;
     outline: 0 !important;
     margin-left: 0 !important;
@@ -202,7 +203,7 @@ html.theme-dark .hr-hf-tags-wrap {
 }
 
 html.theme-dark .hr-hf-tags-wrap-focus {
-    border: 1px solid lighten($grey-darker, 22%) !important;
+    border: 1px solid color.adjust($grey-darker, $lightness: 22%) !important;
 }
 
 .hr-hf-tags-wrap-focus.is-danger {
@@ -269,7 +270,7 @@ html.theme-dark .hr-hf-tags-wrap-focus {
     background-color: $white-ter !important;
 }
 
-.hr-hf-log-values-table>tbody>tr>td {
+.hr-hf-log-values-table > tbody > tr > td {
     vertical-align: middle;
 }
 
@@ -317,7 +318,7 @@ html.theme-dark .hr-hf-tags-wrap-focus {
 
 .hr-hf-error-bounce {
     animation-name: hr-hf-error-bounce;
-    animation-duration: .5s;
+    animation-duration: 0.5s;
     // animation-delay: 0.25s;
 }
 

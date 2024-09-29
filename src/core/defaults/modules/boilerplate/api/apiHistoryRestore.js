@@ -1,6 +1,4 @@
-import {
-    ObjectId
-} from "mongodb";
+import { ObjectId } from "mongodb";
 import moduleConfig from "../module.js";
 
 export default () => ({
@@ -19,25 +17,36 @@ export default () => ({
                 _id: new ObjectId(req.body.id),
                 module: moduleConfig.id,
             };
-            const item = await this.mongo.db.collection(this.systemConfig.collections.history).findOne(query);
+            const item = await this.mongo.db
+                .collection(this.systemConfig.collections.history)
+                .findOne(query);
             if (!item) {
-                return rep.error({
-                    message: "not_found",
-                }, 404);
+                return rep.error(
+                    {
+                        message: "not_found",
+                    },
+                    404,
+                );
             }
             if (!this.systemConfig.demo) {
-                await this.mongo.db.collection(moduleConfig.collections.main).updateOne({
-                    _id: new ObjectId(item.recordId),
-                }, {
-                    $set: item.data,
-                }, {
-                    upsert: false,
-                });
+                await this.mongo.db
+                    .collection(moduleConfig.collections.main)
+                    .updateOne(
+                        {
+                            _id: new ObjectId(item.recordId),
+                        },
+                        {
+                            $set: item.data,
+                        },
+                        {
+                            upsert: false,
+                        },
+                    );
             }
             return rep.code(200).send({});
         } catch (e) {
             this.log.error(e);
             return Promise.reject(e);
         }
-    }
+    },
 });

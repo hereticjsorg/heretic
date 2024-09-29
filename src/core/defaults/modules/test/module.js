@@ -8,6 +8,6 @@ module.exports = {
                 path: `/${id}`,
             },
         },
-        admin: {}
+        admin: {},
     },
 };

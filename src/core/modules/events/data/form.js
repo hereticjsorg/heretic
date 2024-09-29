@@ -1,87 +1,90 @@
-import {
-    mdiTrashCanOutline,
-    mdiTextBoxSearchOutline,
-} from "@mdi/js";
-import {
-    format,
-} from "date-fns";
+import { mdiTrashCanOutline, mdiTextBoxSearchOutline } from "@mdi/js";
+import { format } from "date-fns";
 
 import moduleConfig from "../module.js";
-import utils from "#lib/formValidatorUtils";
+import utils from "#lib/formValidatorUtils.js";
 
 export default class {
     constructor(t) {
-        this.t = t || (id => id);
+        this.t = t || ((id) => id);
         this.data = {
-            form: [{
-                fields: [{
-                    id: "event",
-                    type: "select",
-                    label: this.t("event"),
-                    validation: {
-                        type: "string",
-                        enum: []
-                    },
-                    options: [],
-                    defaultValue: "",
-                    sortable: true,
-                    searchable: true,
-                    column: true,
-                    createIndex: true,
-                    width: "auto",
-                    minWidth: 250,
-                }, {
-                    id: "date",
-                    type: "date",
-                    label: this.t("eventDate"),
-                    validation: {
-                        type: ["integer", "null"]
-                    },
-                    convert: "integer",
-                    sortable: true,
-                    searchable: false,
-                    column: true,
-                    createIndex: true,
-                    width: 160,
-                }, {
-                    id: "ip",
-                    type: "text",
-                    label: this.t("eventIP"),
-                    validation: {
-                        type: ["string", "null"]
-                    },
-                    sortable: true,
-                    searchable: true,
-                    column: true,
-                    createIndex: true,
-                    width: 130,
-                }, {
-                    id: "location",
-                    type: "text",
-                    label: this.t("eventLocation"),
-                    validation: {
-                        type: ["string", "null"]
-                    },
-                    sortable: false,
-                    searchable: false,
-                    column: true,
-                    createIndex: false,
-                    noFilter: true,
-                    width: 200,
-                }, {
-                    id: "username",
-                    type: "text",
-                    label: this.t("eventUsername"),
-                    validation: {
-                        type: ["string", "null"]
-                    },
-                    sortable: true,
-                    searchable: true,
-                    column: true,
-                    createIndex: true,
-                    width: 150,
-                }],
-            }],
+            form: [
+                {
+                    fields: [
+                        {
+                            id: "event",
+                            type: "select",
+                            label: this.t("event"),
+                            validation: {
+                                type: "string",
+                                enum: [],
+                            },
+                            options: [],
+                            defaultValue: "",
+                            sortable: true,
+                            searchable: true,
+                            column: true,
+                            createIndex: true,
+                            width: "auto",
+                            minWidth: 250,
+                        },
+                        {
+                            id: "date",
+                            type: "date",
+                            label: this.t("eventDate"),
+                            validation: {
+                                type: ["integer", "null"],
+                            },
+                            convert: "integer",
+                            sortable: true,
+                            searchable: false,
+                            column: true,
+                            createIndex: true,
+                            width: 160,
+                        },
+                        {
+                            id: "ip",
+                            type: "text",
+                            label: this.t("eventIP"),
+                            validation: {
+                                type: ["string", "null"],
+                            },
+                            sortable: true,
+                            searchable: true,
+                            column: true,
+                            createIndex: true,
+                            width: 130,
+                        },
+                        {
+                            id: "location",
+                            type: "text",
+                            label: this.t("eventLocation"),
+                            validation: {
+                                type: ["string", "null"],
+                            },
+                            sortable: false,
+                            searchable: false,
+                            column: true,
+                            createIndex: false,
+                            noFilter: true,
+                            width: 200,
+                        },
+                        {
+                            id: "username",
+                            type: "text",
+                            label: this.t("eventUsername"),
+                            validation: {
+                                type: ["string", "null"],
+                            },
+                            sortable: true,
+                            searchable: true,
+                            column: true,
+                            createIndex: true,
+                            width: 150,
+                        },
+                    ],
+                },
+            ],
         };
         this.validationData = utils.getValidationData(this.data.form);
         this.validationRequired = [];
@@ -113,8 +116,10 @@ export default class {
 
     setProviderDataEvents(data) {
         this.providerDataEvents = data;
-        const eventField = this.data.form[0].fields.find(i => i.id === "event");
-        eventField.options = Object.keys(data).map(k => ({
+        const eventField = this.data.form[0].fields.find(
+            (i) => i.id === "event",
+        );
+        eventField.options = Object.keys(data).map((k) => ({
             value: k,
             label: data[k].title,
         }));
@@ -138,7 +143,11 @@ export default class {
     }
 
     getTableColumns() {
-        return Object.fromEntries(Object.entries(this.validationData.fieldsFlat).filter(([, value]) => this.columnTypes.indexOf(value.type) > -1));
+        return Object.fromEntries(
+            Object.entries(this.validationData.fieldsFlat).filter(
+                ([, value]) => this.columnTypes.indexOf(value.type) > -1,
+            ),
+        );
         // return Object.fromEntries(Object.entries(this.validationData.fieldsFlat).filter(([, value]) => this.columnIds.indexOf(value.id) > -1));
     }
 
@@ -158,25 +167,30 @@ export default class {
     }
 
     getActions() {
-        return [{
-            id: "view",
-            label: this.t("view"),
-            icon: mdiTextBoxSearchOutline,
-        }, {
-            id: "delete",
-            label: this.t("delete"),
-            icon: mdiTrashCanOutline,
-            danger: true,
-        }];
+        return [
+            {
+                id: "view",
+                label: this.t("view"),
+                icon: mdiTextBoxSearchOutline,
+            },
+            {
+                id: "delete",
+                label: this.t("delete"),
+                icon: mdiTrashCanOutline,
+                danger: true,
+            },
+        ];
     }
 
     getTopButtons() {
-        return [{
-            id: "delete",
-            label: this.t("deleteSelected"),
-            icon: mdiTrashCanOutline,
-            danger: true,
-        }];
+        return [
+            {
+                id: "delete",
+                label: this.t("deleteSelected"),
+                icon: mdiTrashCanOutline,
+                danger: true,
+            },
+        ];
     }
 
     getTableLoadConfig() {
@@ -201,37 +215,50 @@ export default class {
 
     processTableCell(id, row) {
         switch (id) {
-        case "event":
-            if (!this.providerDataEvents) {
-                return;
-            }
-            return this.providerDataEvents[row[id]] && this.providerDataEvents[row[id]].title ? this.providerDataEvents[row[id]].title : row[id];
-        case "date":
-            try {
-                return row[id] ? format(new Date(row[id] * 1000), `${this.t("global.dateFormatShort")} ${this.t("global.timeFormatShort")}`) : "";
-            } catch {
+            case "event":
+                if (!this.providerDataEvents) {
+                    return;
+                }
+                return this.providerDataEvents[row[id]] &&
+                    this.providerDataEvents[row[id]].title
+                    ? this.providerDataEvents[row[id]].title
+                    : row[id];
+            case "date":
+                try {
+                    return row[id]
+                        ? format(
+                              new Date(row[id] * 1000),
+                              `${this.t("global.dateFormatShort")} ${this.t("global.timeFormatShort")}`,
+                          )
+                        : "";
+                } catch {
+                    return row[id];
+                }
+                // eslint-disable-next-line no-unreachable
+                break;
+            case "location":
+                return row[id] || "—";
+            case "username":
+                return row[id] || "—";
+            default:
                 return row[id];
-            }
-            // eslint-disable-next-line no-unreachable
-            break;
-        case "location":
-            return row[id] || "—";
-        case "username":
-            return row[id] || "—";
-        default:
-            return row[id];
         }
     }
 
     processTableRow(row) {
-        if (this.providerDataEvents && row.event && this.providerDataEvents[row.event] && this.providerDataEvents[row.event].level) {
+        if (
+            this.providerDataEvents &&
+            row.event &&
+            this.providerDataEvents[row.event] &&
+            this.providerDataEvents[row.event].level
+        ) {
             switch (this.providerDataEvents[row.event].level) {
-            case "error":
-                return "hr-ht-row-error";
-            case "warning":
-                return "hr-ht-row-warning";
-            default:
-                return "";
+                case "error":
+                    return "hr-ht-row-error";
+                case "warning":
+                    return "hr-ht-row-warning";
+                default:
+                    return "";
             }
         }
     }
@@ -241,10 +268,12 @@ export default class {
     }
 
     getTabs() {
-        return [{
-            id: "_default",
-            label: "",
-        }];
+        return [
+            {
+                id: "_default",
+                label: "",
+            },
+        ];
     }
 
     getTabsStart() {

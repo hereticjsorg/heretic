@@ -29,7 +29,8 @@ $red: hsl(0, 77.99%, 59.02%) !default;
 // Spacing
 
 $block-spacing: 1.5rem !default;
-$aspect-ratios: ((1, 1),
+$aspect-ratios: (
+    (1, 1),
     (5, 4),
     (4, 3),
     (3, 2),
@@ -43,7 +44,8 @@ $aspect-ratios: ((1, 1),
     (3, 5),
     (9, 16),
     (1, 2),
-    (1, 3)) !default;
+    (1, 3)
+) !default;
 
 // Responsiveness
 
@@ -58,30 +60,42 @@ $widescreen-enabled: true !default;
 
 $fullhd: 1344px+2 * $gap !default; // 1344px container + 4rem
 $fullhd-enabled: true !default;
-$breakpoints: ("mobile": ("until": $tablet,
+$breakpoints: (
+    "mobile": (
+        "until": $tablet,
     ),
-    "tablet": ("from": $tablet,
+    "tablet": (
+        "from": $tablet,
     ),
-    "tablet-only": ("from": $tablet,
+    "tablet-only": (
+        "from": $tablet,
         "until": $desktop,
     ),
-    "touch": ("from": $desktop,
+    "touch": (
+        "from": $desktop,
     ),
-    "desktop": ("from": $desktop,
+    "desktop": (
+        "from": $desktop,
     ),
-    "desktop-only": ("from": $desktop,
+    "desktop-only": (
+        "from": $desktop,
         "until": $widescreen,
     ),
-    "until-widescreen": ("until": $widescreen,
+    "until-widescreen": (
+        "until": $widescreen,
     ),
-    "widescreen": ("from": $widescreen,
+    "widescreen": (
+        "from": $widescreen,
     ),
-    "widescreen-only": ("from": $widescreen,
+    "widescreen-only": (
+        "from": $widescreen,
         "until": $fullhd,
     ),
-    "until-fullhd": ("until": $fullhd,
+    "until-fullhd": (
+        "until": $fullhd,
     ),
-    "fullhd": ("from": $fullhd,
+    "fullhd": (
+        "from": $fullhd,
     ),
 ) !default;
 
@@ -186,16 +200,22 @@ $shadow-color: $black !default;
 $custom-colors: null !default;
 $custom-shades: null !default;
 
-$colors: fn.mergeColorMaps(("white": ($white,
+$colors: fn.mergeColorMaps(
+    (
+        "white": (
+            $white,
             $black,
         ),
-        "black": ($black,
+        "black": (
+            $black,
             $white,
         ),
-        "light": ($light,
+        "light": (
+            $light,
             $dark,
         ),
-        "dark": ($dark,
+        "dark": (
+            $dark,
             $light,
         ),
         "text": $text,
@@ -206,9 +226,12 @@ $colors: fn.mergeColorMaps(("white": ($white,
         "warning": $warning,
         "danger": $danger,
     ),
-    $custom-colors) !default;
+    $custom-colors
+) !default;
 
-$shades: fn.mergeColorMaps(("black-bis": $black-bis,
+$shades: fn.mergeColorMaps(
+    (
+        "black-bis": $black-bis,
         "black-ter": $black-ter,
         "grey-darker": $grey-darker,
         "grey-dark": $grey-dark,
@@ -218,7 +241,8 @@ $shades: fn.mergeColorMaps(("black-bis": $black-bis,
         "white-ter": $white-ter,
         "white-bis": $white-bis,
     ),
-    $custom-shades) !default;
+    $custom-shades
+) !default;
 
 $sizes: $size-1 $size-2 $size-3 $size-4 $size-5 $size-6 $size-7 !default;
 
@@ -244,9 +268,11 @@ $navbar-tab-active-border-bottom-width: 0.1875em !default;
 $navbar-dropdown-background-color: var(--bulma-scheme-main) !default;
 $navbar-dropdown-background-color: var(--bulma-border-l) !default;
 $navbar-dropdown-border-l: var(--bulma-border-l) !default;
-$navbar-dropdown-border-color: hsl(var(--bulma-navbar-h),
+$navbar-dropdown-border-color: hsl(
+    var(--bulma-navbar-h),
     var(--bulma-navbar-s),
-    var(--bulma-navbar-dropdown-border-l)) !default;
+    var(--bulma-navbar-dropdown-border-l)
+) !default;
 $navbar-dropdown-border-style: solid !default;
 $navbar-dropdown-border-width: 0.125em !default;
 $navbar-dropdown-offset: -0.25em !default;
@@ -254,14 +280,21 @@ $navbar-dropdown-arrow: var(--bulma-link) !default;
 $navbar-dropdown-radius: var(--bulma-radius-large) !default;
 $navbar-dropdown-z: 20 !default;
 $navbar-dropdown-boxed-radius: var(--bulma-radius-large) !default;
-$navbar-dropdown-boxed-shadow: 0 0.5em 0.5em hsla(var(--bulma-scheme-h),
-    var(--bulma-scheme-s),
-    var(--bulma-scheme-invert-l),
-    0.1),
-0 0 0 1px hsla(var(--bulma-scheme-h),
-    var(--bulma-scheme-s),
-    var(--bulma-scheme-invert-l),
-    0.1) !default;
+$navbar-dropdown-boxed-shadow:
+    0 0.5em 0.5em
+        hsla(
+            var(--bulma-scheme-h),
+            var(--bulma-scheme-s),
+            var(--bulma-scheme-invert-l),
+            0.1
+        ),
+    0 0 0 1px
+        hsla(
+            var(--bulma-scheme-h),
+            var(--bulma-scheme-s),
+            var(--bulma-scheme-invert-l),
+            0.1
+        ) !default;
 $navbar-divider-background-l: var(--bulma-navbar-item-color) !default;
 $navbar-divider-height: 0.125em !default;
 $navbar-bottom-box-shadow-size: 0 -0.125em 0 0 !default;
@@ -273,10 +306,12 @@ $box-color: var(--bulma-text) !default;
 $box-radius: var(--bulma-radius-large) !default;
 $box-shadow: var(--bulma-shadow) !default;
 $box-padding: 1.25rem !default;
-$box-link-hover-shadow: 0 0.5em 1em -0.125em hsla(var(--bulma-scheme-h), var(--bulma-scheme-s), var(--bulma-scheme-invert-l), 0.1),
-0 0 0 1px var(--bulma-link) !default;
-$box-link-active-shadow: 0 0.5em 1em -0.125em hsla(var(--bulma-scheme-h), var(--bulma-scheme-s), var(--bulma-scheme-invert-l), 0.1),
-0 0 0 1px var(--bulma-link) !default;
+$box-link-hover-shadow:
+    0 0.5em 1em -0.125em hsla(var(--bulma-scheme-h), var(--bulma-scheme-s), var(--bulma-scheme-invert-l), 0.1),
+    0 0 0 1px var(--bulma-link) !default;
+$box-link-active-shadow:
+    0 0.5em 1em -0.125em hsla(var(--bulma-scheme-h), var(--bulma-scheme-s), var(--bulma-scheme-invert-l), 0.1),
+    0 0 0 1px var(--bulma-link) !default;
 
 // Button
 
@@ -289,10 +324,12 @@ $button-padding-vertical: 0.5em !default;
 $button-padding-horizontal: 1em !default;
 $button-focus-border-color: var(--bulma-link-focus-border) !default;
 $button-focus-box-shadow-size: 0 0 0 0.125em !default;
-$button-focus-box-shadow-color: hsla(var(--bulma-link-h),
+$button-focus-box-shadow-color: hsla(
+    var(--bulma-link-h),
     var(--bulma-link-s),
     var(--bulma-link-on-scheme-l),
-    0.25) !default;
+    0.25
+) !default;
 $button-active-color: var(--bulma-link-active) !default;
 $button-active-border-color: var(--bulma-link-active-border) !default;
 $button-text-color: var(--bulma-text) !default;
@@ -312,12 +349,15 @@ $button-disabled-opacity: 0.5 !default;
 $button-static-color: var(--bulma-text-weak) !default;
 $button-static-background-color: var(--bulma-scheme-main-ter) !default;
 $button-static-border-color: var(--bulma-border) !default;
-$button-responsive-sizes: ("mobile": ("small": calc(var(--bulma-size-small) * 0.75),
+$button-responsive-sizes: (
+    "mobile": (
+        "small": calc(var(--bulma-size-small) * 0.75),
         "normal": calc(var(--bulma-size-small) * 0.875),
         "medium": var(--bulma-size-small),
         "large": var(--bulma-size-normal),
     ),
-    "tablet-only": ("small": calc(var(--bulma-size-small) * 0.875),
+    "tablet-only": (
+        "small": calc(var(--bulma-size-small) * 0.875),
         "normal": var(--bulma-size-small),
         "medium": var(--bulma-size-normal),
         "large": var(--bulma-size-medium),
@@ -343,7 +383,7 @@ $content-table-head-cell-border-width: 0 0 2px !default;
 $content-table-head-cell-color: var(--bulma-text-strong) !default;
 $content-table-body-last-row-cell-border-bottom-width: 0 !default;
 $content-table-foot-cell-border-width: 2px 0 0 !default;
-$content-table-foot-cell-color:var(--bulma-text-strong) !default;
+$content-table-foot-cell-color: var(--bulma-text-strong) !default;
 
 // Notification
 
@@ -379,7 +419,9 @@ $table-row-hover-background-color: var(--bulma-scheme-main-bis) !default;
 $table-row-active-background-color: var(--bulma-primary) !default;
 $table-row-active-color: var(--bulma-primary-invert) !default;
 $table-striped-row-even-background-color: var(--bulma-scheme-main-bis) !default;
-$table-striped-row-even-hover-background-color: var(--bulma-scheme-main-ter) !default;
+$table-striped-row-even-hover-background-color: var(
+    --bulma-scheme-main-ter
+) !default;
 
 // Tag
 
@@ -423,10 +465,13 @@ $card-radius: 0.75rem !default;
 $card-header-background-color: transparent !default;
 $card-header-color: var(--bulma-text-strong) !default;
 $card-header-padding: 0.75rem 1rem !default;
-$card-header-shadow: 0 0.125em 0.25em hsla(var(--bulma-scheme-h),
-    var(--bulma-scheme-s),
-    var(--bulma-scheme-invert-l),
-    0.1) !default;
+$card-header-shadow: 0 0.125em 0.25em
+    hsla(
+        var(--bulma-scheme-h),
+        var(--bulma-scheme-s),
+        var(--bulma-scheme-invert-l),
+        0.1
+    ) !default;
 $card-header-weight: var(--bulma-weight-bold) !default;
 $card-content-background-color: transparent !default;
 $card-content-padding: 1.5rem !default;
@@ -463,10 +508,12 @@ $menu-label-spacing: 1em !default;
 // Modal
 
 $modal-z: 40 !default;
-$modal-background-background-color: hsla(var(--bulma-scheme-h),
+$modal-background-background-color: hsla(
+    var(--bulma-scheme-h),
     var(--bulma-scheme-s),
     var(--bulma-scheme-invert-l),
-    0.86) !default;
+    0.86
+) !default;
 $modal-content-width: 40rem !default;
 $modal-content-margin-mobile: 1.25rem !default;
 $modal-content-spacing-mobile: 10rem !default;
@@ -506,10 +553,13 @@ $pagination-current-color: var(--bulma-link-invert) !default;
 $pagination-current-background-color: var(--bulma-link) !default;
 $pagination-current-border-color: var(--bulma-link) !default;
 $pagination-ellipsis-color: var(--bulma-text-weak) !default;
-$pagination-shadow-inset: inset 0 0.0625em 0.125em hsla(var(--bulma-scheme-h),
-    var(--bulma-scheme-s),
-    var(--bulma-scheme-invert-l),
-    0.2) !default;
+$pagination-shadow-inset: inset 0 0.0625em 0.125em
+    hsla(
+        var(--bulma-scheme-h),
+        var(--bulma-scheme-s),
+        var(--bulma-scheme-invert-l),
+        0.2
+    ) !default;
 
 // Message
 

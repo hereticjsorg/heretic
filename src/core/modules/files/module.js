@@ -8,7 +8,7 @@ module.exports = {
             list: {
                 path: "/files",
             },
-        }
+        },
     },
     root: "",
     maxFileEditSizeBytes: 1048576, // 1 MB

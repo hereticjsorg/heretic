@@ -21,10 +21,20 @@ export default class {
                 if (!indexData[direction]) {
                     continue;
                 }
-                await this.func.createIndex(this.id, collection, indexData[direction], direction);
+                await this.func.createIndex(
+                    this.id,
+                    collection,
+                    indexData[direction],
+                    direction,
+                );
             }
             if (indexData.expire) {
-                await this.func.createExpireIndex(this.id, collection, indexData.expire.field, indexData.expire.seconds);
+                await this.func.createExpireIndex(
+                    this.id,
+                    collection,
+                    indexData.expire.field,
+                    indexData.expire.seconds,
+                );
             }
         }
     }

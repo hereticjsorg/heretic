@@ -1,3 +1,836 @@
+## v1.2.81
+
+**Minor updates and fixes** (2024-07-24)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-24 | Added spinner to default template |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-24 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-24 | Search engine work-in-progress |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-24 | NPM Modules update |
+
+
+## v1.2.80
+
+**NPM Modules update** (2024-07-23)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-23 | NPM Modules update |
+
+
+## v1.2.79
+
+**NPM Modules update** (2024-07-23)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-23 | NPM Modules update |
+
+
+## v1.2.78
+
+**NPM Modules update** (2024-07-22)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-19 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-19 | Using redis-stack-server |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-19 | Minor UI fixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-22 | Updated FROM in Dockerfile |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-22 | Updated package versions |
+
+
+## v1.2.77
+
+**NPM Modules update** (2024-07-18)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-18 | NPM Modules update |
+
+
+## v1.2.76
+
+**NPM Modules update** (2024-07-17)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-17 | NPM Modules update |
+
+
+## v1.2.75
+
+**Improved page rendering & minor bugfixes** (2024-07-17)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-17 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-17 | Improved page rendering |
+
+
+## v1.2.74
+
+**Loading spinner fixes** (2024-07-16)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-16 | Loading spinner fixes |
+
+
+## v1.2.73
+
+**NPM Modules update** (2024-07-16)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-16 | NPM Modules update |
+
+
+## v1.2.72
+
+**Minor Updates & Bugfixes** (2024-07-15)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-05 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-15 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-15 | Added quietDeps: true for sass-loader |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-15 | Dynamic content related fixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-15 | Loading spinner fixes |
+
+
+## v1.2.71
+
+**Safari Cookie fixes** (2024-07-04)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-04 | Safari-related Cookie fixes |
+
+
+## v1.2.70
+
+**Minor updates & Bugfixes** (2024-07-04)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-02 | Updated Bulma to 1.0.1 |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-02 | Update mixins.scss |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-02 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-04 | UI-related fixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-04 | NPM Modules update |
+
+
+## v1.2.69
+
+**NPM Modules update** (2024-07-01)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-07-01 | NPM Modules update |
+
+
+## v1.2.68
+
+**NPM Modules update** (2024-06-30)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-30 | NPM Modules update |
+
+
+## v1.2.67
+
+**Minor updates and Bugfixes** (2024-06-26)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-26 | Redis-related fixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-26 | Incorrect system ID source fixed |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-26 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-26 | Local version of Rate Limiting stores |
+
+
+## v1.2.66
+
+**Some new features + bugfixes** (2024-06-24)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-06-16 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-24 | Getting back to JavaScript<br/>Well, I will be back to TypeScript later :) |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-24 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-24 | Typos fixed |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-24 | Added Redis-Stack options<br/>And replaced host + port by URL |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-24 | Added fastifyMongo as standalone library |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-24 | Better Multipart Data handling |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-24 | Implementing full text search using Redis Stack |
+
+
+## v1.2.65
+
+**bug fix regarding empty object in defaultModuleLanguageData** (2024-06-24)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| IuliiaStrakhova<br/>yuliastrahova@yandex.ru | 2024-06-24 | bug fix regarding empty object in defaultModuleLanguageData |
+| IuliiaStrakhova<br/>yuliastrahova@yandex.ru | 2024-06-24 | corrected - fs.existsSync changed to fs.writeJsonSync again |
+
+
+## v1.2.64
+
+**Method for killing child processes for Windows was corrected** (2024-06-17)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| IuliiaStrakhova<br/>yuliastrahova@yandex.ru | 2023-07-30 | Method for killing child processes for Windows was corrected<br/>Destroy methods were added for output and error of childProcesses to TestHelpers, detached option was commented in execObj in TestHelpers;<br/>According to this changes were corrected tests in 30-login.test and 20-server.test |
+
+
+## v1.2.63
+
+**Minor Updates & Bugfixes** (2024-06-14)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-14 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-14 | NPM Modules update |
+
+
+## v1.2.62
+
+**Bugfixes & Minor Updates** (2024-06-12)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-11 | Processing missing/unused translation files |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-11 | Processing junk files on every build |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-11 | Error message if there is no "site" dir |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-11 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-12 | Fixed directory path |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-12 | NPM Module updates |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-12 | Don't panic if there is no "captcha.ttf" file |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-12 | Don't panic if contentRender is missing |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-12 | Adding webpackIgnore flag for e-mails |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-12 | Remove commented code |
+
+
+## v1.2.61
+
+**Bugfixes** (2024-06-10)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-10 | Less restrictive lint rules |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-10 | Cookie-related fixes |
+
+
+## v1.2.60
+
+**Update component.js** (2024-06-10)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-10 | Update component.js |
+
+
+## v1.2.59
+
+**Fixed problem with cookie options** (2024-06-10)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-10 | Fixed problem with cookie options |
+
+
+## v1.2.58
+
+**Minor updates** (2024-06-10)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-06-09 | Updates |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-10 | Docs are now a part of the official website ;-) |
+
+
+## v1.2.57
+
+**NPM Module updates** (2024-06-05)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-05 | NPM Module updates |
+
+
+## v1.2.56
+
+**Bugfixes** (2024-06-04)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-04 | Bugfixes<br/>This reverts commit c96ace7e77d2fef3f375fba9723d8dcdbb8729ad. |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-06-04 | Added version number to docker-compose scripts |
+
+
+## v1.2.55
+
+**Minor Updates & Bugfixes** (2024-06-04)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-04 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-04 | Updating bin scripts during build |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-04 | Added Heretic version |
+
+
+## v1.2.54
+
+**Listening to hrrouternavigate event in router** (2024-06-04)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-06-03 | Call router by emitting the custom event |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-06-03 | Update settings.json |
+
+
+## v1.2.53
+
+**Minor Fixes & Updates** (2024-06-03)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-02 | Update Dockerfile |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-03 | NPM Module updates |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-03 | Catch "hrpanicmode" global window event |
+
+
+## v1.2.52
+
+**Applying dynamic code patches for modules** (2024-06-02)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-02 | Applying dynamic code patches for modules |
+
+
+## v1.2.51
+
+**Minor Updates & Bugfixes** (2024-06-01)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-05-29 | NPM Module updates |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-01 | Added global queryString to page routes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-06-01 | NPM Module updates |
+
+
+## v1.2.50
+
+**NPM Module updates** (2024-05-25)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-05-25 | NPM Module updates |
+
+
+## v1.2.49
+
+**Minor bugfixes and updates** (2024-05-24)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-05-23 | Updates |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-05-24 | NPM Module updates |
+
+
+## v1.2.48
+
+**Minor updates and bugfixes** (2024-05-22)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-05-22 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-05-22 | Added "nginx" word |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-05-22 | Added bash and nginx to Prism languages |
+
+
+## v1.2.47
+
+**Bugfixes & hfrom improvements** (2024-05-20)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-05-20 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-05-20 | Added noLabel option for hform |
+
+
+## v1.2.46
+
+**Bugfixes** (2024-05-17)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-05-16 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-05-17 | Updates |
+
+
+## v1.2.45
+
+**Bugfixes** (2024-05-14)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-05-13 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-05-14 | Bugfixes |
+
+
+## v1.2.44
+
+**Update webpack.utils.js** (2024-05-08)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-05-08 | Update webpack.utils.js |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-05-08 | Update webpack.utils.js |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-05-08 | Update server-prerequisite.test.js |
+
+
+## v1.2.43
+
+**Bugfixes** (2024-05-08)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-05-08 | Bugfixes |
+
+
+## v1.2.42
+
+**Bugfixes and typos** (2024-05-07)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-05-07 | Bugfixes and typos |
+
+
+## v1.2.41
+
+**Bugfixes** (2024-05-07)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-05-07 | Bugfixes |
+
+
+## v1.2.40
+
+**Bugfixes** (2024-05-07)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-05-07 | Bugfixes |
+
+
+## v1.2.39
+
+**Update app-controls.sh** (2024-05-06)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-05-06 | Update app-controls.sh |
+
+
+## v1.2.38
+
+**Update app-controls.sh** (2024-05-06)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-05-06 | Update app-controls.sh |
+
+
+## v1.2.37
+
+**Update app-controls.sh** (2024-05-06)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-05-06 | Update app-controls.sh |
+
+
+## v1.2.36
+
+**Docker-related updates** (2024-05-06)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-05-06 | Docker-related updates |
+
+
+## v1.2.35
+
+**Update docker-compose.sh** (2024-05-06)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-05-06 | Update docker-compose.sh |
+
+
+## v1.2.34
+
+**Bugfixes** (2024-05-06)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-05-06 | Bugfixes |
+
+
+## v1.2.33
+
+**Bugfixes** (2024-05-06)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-05-06 | Bugfixes |
+
+
+## v1.2.32
+
+**Bugfixes** (2024-05-05)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-05-05 | Update docker-compose.sh |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-05-05 | Update docker-compose.sh |
+
+
+## v1.2.31
+
+**Bugfixes** (2024-05-05)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-05-05 | Update Dockerfile |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-05-05 | Bugfixes |
+
+
+## v1.2.30
+
+**Bugfixes** (2024-05-05)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-05-05 | Bugfixes |
+
+
+## v1.2.29
+
+**Update startup.sh** (2024-05-05)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-05-05 | Update startup.sh |
+
+
+## v1.2.28
+
+**Bugfixes** (2024-05-05)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-05-05 | Bugfixes |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-05-05 | Library added: swipe-listener |
+
+
+## v1.2.27
+
+**Bugfixes & AOS Library** (2024-05-02)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-25 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-25 | Update package-lock.json |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-25 | Update package.json |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-26 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-05-02 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-05-02 | AOS library refactored & added |
+
+
+## v1.2.26
+
+**Small fixes** (2024-04-23)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-23 | Small fixes |
+
+
+## v1.2.25
+
+**Update hflextable.scss** (2024-04-20)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-20 | Update hflextable.scss |
+
+
+## v1.2.24
+
+**Minor fixes** (2024-04-20)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-20 | NPM Modules update |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-20 | Minor style fixes |
+
+
+## v1.2.23
+
+**Bugfixes** (2024-04-19)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-19 | Bugfixes |
+
+
+## v1.2.22
+
+**Code cleanup** (2024-04-18)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-18 | Code cleanup |
+
+
+## v1.2.21
+
+**Fixed problems with sharp package** (2024-04-18)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-18 | Fixed problems with sharp package |
+
+
+## v1.2.20
+
+**Bugfixes** (2024-04-18)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-18 | Delete compose.sh |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-18 | Replaced lodash.* by lodash from NPM |
+
+
+## v1.2.19
+
+**Internationalization fixed** (2024-04-18)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-18 | Internationalization fixed |
+
+
+## v1.2.18
+
+**Bugfixes** (2024-04-17)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-17 | Bugfixes |
+
+
+## v1.2.17
+
+**Update Dockerfile** (2024-04-17)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-17 | Update Dockerfile |
+
+
+## v1.2.16
+
+**Bugfixes** (2024-04-17)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-17 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-17 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-17 | Update 30-login.test.js |
+
+
+## v1.2.15
+
+**Bugfixes** (2024-04-16)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-16 | Bugfixes |
+
+
+## v1.2.14
+
+**Bugfixes** (2024-04-16)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-16 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-16 | Update _utils.js |
+
+
+## v1.2.13
+
+**Docker-related bugfixes** (2024-04-15)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-15 | Docker-related bugfixes |
+
+
+## v1.2.12
+
+**Docker-related changes & Bugfixes** (2024-04-15)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-15 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-15 | Docker-related changes |
+
+
+## v1.2.11
+
+**Bugfixes** (2024-04-15)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-15 | Bugfixes |
+
+
+## v1.2.10
+
+**Bugfixes** (2024-04-12)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-12 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-12 | Update bulma-admin.scss |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-12 | Added Bulma as a part of library |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-12 | Bugfixes |
+
+
+## v1.2.9
+
+**Bugfixes** (2024-04-11)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-10 | Update style.scss |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-10 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-11 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-11 | Changed demo notice positioning |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-11 | Config file syntax updates |
+
+
+## v1.2.8
+
+**Bugfixes & Content module updates** (2024-04-09)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-09 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-09 | Content editor updates |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-09 | Content module updates |
+
+
+## v1.2.7
+
+**Bugfixes** (2024-04-08)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-08 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-08 | Content module work-in-progress |
+
+
+## v1.2.6
+
+**Downgrade to Marko version 5.33.13** (2024-04-06)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-06 | Downgrade to Marko version 5.33.13 |
+
+
+## v1.2.5
+
+**Bugfixes** (2024-04-06)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-06 | Bugfixes |
+
+
+## v1.2.4
+
+**Bugfixes** (2024-04-03)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-03-30 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-03-30 | Bugfixes |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-03-31 | Bugfixes |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-03-31 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-03-31 | Merge branch 'dev1' of https://github.com/hereticjsorg/heretic into dev1 |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-01 | Content module work in progress |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-02 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-04-03 | Bugfixes |
+
+
+## v1.2.3
+
+**Bugfixes** (2024-03-30)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-03-30 | Bugfixes |
+
+
+## v1.2.2
+
+**Bugfixes** (2024-03-25)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-03-25 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-03-25 | Merge branch 'dev1' of https://github.com/hereticjsorg/heretic into dev1 |
+
+
+## v1.2.1
+
+**Version 1.2** (2024-03-25)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-03-07 | Content module WIP |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-03-12 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-03-12 | Content module work-in-progress |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-03-13 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-03-14 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-03-14 | Router-related changes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-03-18 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-03-18 | Content module WIP |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-03-19 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-03-19 | Content Module WIP |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-03-20 | Bugfixes |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-03-21 | Bugfixes + PrismJS added |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-03-21 | PrismJS Plugin added |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-03-21 | Content blocks WIP |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-03-21 | Content module WIP |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-03-21 | Moving "content" module to the site area |
+| hereticjsorg<br/>xtreme@rh1.ru | 2024-03-25 | Version 1.2 |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-03-25 | Merge branch 'master' into dev1 |
+
+
 ## v1.1.157
 
 **Bugfixes** (2024-03-04)

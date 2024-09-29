@@ -1,10 +1,4 @@
-import {
-    addDays,
-    startOfWeek,
-    format,
-    getDay,
-    isBefore,
-} from "date-fns";
+import { addDays, startOfWeek, format, getDay, isBefore } from "date-fns";
 
 export default class {
     async onCreate(input) {
@@ -19,29 +13,58 @@ export default class {
             visible: typeof input.visible === "boolean" ? input.visible : true,
         };
         if (input.admin) {
-            await import( /* webpackChunkName: "hcalendar-admin" */ "./style-admin.scss");
+            await import(
+                /* webpackChunkName: "hcalendar-admin" */ "./style-admin.scss"
+            );
         } else {
-            await import( /* webpackChunkName: "hcalendar-frontend" */ "./style-frontend.scss");
+            await import(
+                /* webpackChunkName: "hcalendar-frontend" */ "./style-frontend.scss"
+            );
         }
     }
 
     setCalendarData() {
-        const startDate = startOfWeek(new Date(this.state.year, this.state.month, 1), {
-            weekStartsOn: parseInt(this.t("global.weekStart"), 10)
-        });
+        const startDate = startOfWeek(
+            new Date(this.state.year, this.state.month, 1),
+            {
+                weekStartsOn: parseInt(this.t("global.weekStart"), 10),
+            },
+        );
         const rows = 6;
         const cols = 7;
         const length = rows * cols;
         const data = Array.from({
-                length
-            })
+            length,
+        })
             .map((_, index) => ({
                 d: addDays(startDate, index).getDate(),
                 m: addDays(startDate, index).getMonth(),
                 y: addDays(startDate, index).getFullYear(),
-                enabled: (this.state.whitelist.length ? this.state.whitelist.indexOf(format(addDays(startDate, index), "yyyyMMdd")) > -1 : true) && (this.state.disabledDaysOfWeek.length ? this.state.disabledDaysOfWeek.indexOf(getDay(addDays(startDate, index))) === -1 : true) && (!this.state.firstDate || (this.state.firstDate && !isBefore(addDays(startDate, index), this.state.firstDate)))
+                enabled:
+                    (this.state.whitelist.length
+                        ? this.state.whitelist.indexOf(
+                              format(addDays(startDate, index), "yyyyMMdd"),
+                          ) > -1
+                        : true) &&
+                    (this.state.disabledDaysOfWeek.length
+                        ? this.state.disabledDaysOfWeek.indexOf(
+                              getDay(addDays(startDate, index)),
+                          ) === -1
+                        : true) &&
+                    (!this.state.firstDate ||
+                        (this.state.firstDate &&
+                            !isBefore(
+                                addDays(startDate, index),
+                                this.state.firstDate,
+                            ))),
             }))
-            .reduce((matrix, current, index, days) => !(index % cols !== 0) ? [...matrix, days.slice(index, index + cols)] : matrix, []);
+            .reduce(
+                (matrix, current, index, days) =>
+                    !(index % cols !== 0)
+                        ? [...matrix, days.slice(index, index + cols)]
+                        : matrix,
+                [],
+            );
         if (data[5][0].d < 10) {
             data.splice(5, 1);
         }
@@ -61,15 +84,27 @@ export default class {
 
     onCalendarMonthLeft(e) {
         e.preventDefault();
-        this.setState("year", this.state.month > 0 ? this.state.year : this.state.year - 1);
-        this.setState("month", this.state.month > 0 ? this.state.month - 1 : 11);
+        this.setState(
+            "year",
+            this.state.month > 0 ? this.state.year : this.state.year - 1,
+        );
+        this.setState(
+            "month",
+            this.state.month > 0 ? this.state.month - 1 : 11,
+        );
         this.setCalendarData();
     }
 
     onCalendarMonthRight(e) {
         e.preventDefault();
-        this.setState("year", this.state.month < 11 ? this.state.year : this.state.year + 1);
-        this.setState("month", this.state.month < 11 ? this.state.month + 1 : 0);
+        this.setState(
+            "year",
+            this.state.month < 11 ? this.state.year : this.state.year + 1,
+        );
+        this.setState(
+            "month",
+            this.state.month < 11 ? this.state.month + 1 : 0,
+        );
         this.setCalendarData();
     }
 
@@ -80,11 +115,7 @@ export default class {
     }
 
     getTimestamp() {
-        const {
-            d,
-            m,
-            y
-        } = this.state.selected;
+        const { d, m, y } = this.state.selected;
         return d ? new Date(y, m, d).getTime() / 1000 : null;
     }
 
@@ -94,11 +125,9 @@ export default class {
 
     onCalendarCellClick(e) {
         e.preventDefault();
-        const {
-            d,
-            m,
-            y,
-        } = e.target.closest("[data-d]") ? e.target.closest("[data-d]").dataset : {};
+        const { d, m, y } = e.target.closest("[data-d]")
+            ? e.target.closest("[data-d]").dataset
+            : {};
         if (d) {
             this.setState("selected", {
                 d: parseInt(d, 10),

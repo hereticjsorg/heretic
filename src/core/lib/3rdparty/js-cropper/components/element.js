@@ -1,4 +1,4 @@
-import Size from "../objects/size";
+import Size from "../objects/size.js";
 
 /**
  * Class representing a base element
@@ -13,7 +13,10 @@ export default class Element {
         this._node = node;
         if (!node || typeof node === "string") {
             if (node === "svg" || node === "use") {
-                this._node = document.createElementNS("http://www.w3.org/2000/svg", node);
+                this._node = document.createElementNS(
+                    "http://www.w3.org/2000/svg",
+                    node,
+                );
                 return;
             }
             this._node = document.createElement(node || "div");
@@ -100,7 +103,8 @@ export default class Element {
      * @return {Element} - An Element object.
      */
     addClass(newClass) {
-        this._node.className += this._node.className.length > 1 ? ` ${newClass}` : newClass;
+        this._node.className +=
+            this._node.className.length > 1 ? ` ${newClass}` : newClass;
         return this;
     }
 

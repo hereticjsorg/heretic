@@ -37,12 +37,17 @@ const SwipeListener = function (element, options) {
                     detail: undefined,
                 };
                 const evt = document.createEvent("CustomEvent");
-                evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
+                evt.initCustomEvent(
+                    event,
+                    params.bubbles,
+                    params.cancelable,
+                    params.detail,
+                );
                 return evt;
             }
             CustomEvent.prototype = window.Event.prototype;
             window.CustomEvent = CustomEvent;
-        }());
+        })();
     }
 
     const defaultOpts = {
@@ -62,7 +67,7 @@ const SwipeListener = function (element, options) {
     }
     options = {
         ...defaultOpts,
-        ...options
+        ...options,
     };
 
     // Store the touches
@@ -85,10 +90,12 @@ const SwipeListener = function (element, options) {
     // When mouse is moved while being clicked, imitate a `touchmove`.
     const _mousemove = function (e) {
         if (dragging) {
-            e.changedTouches = [{
-                clientX: e.clientX,
-                clientY: e.clientY
-            }];
+            e.changedTouches = [
+                {
+                    clientX: e.clientX,
+                    clientY: e.clientY,
+                },
+            ];
             _touchmove(e);
         }
     };
@@ -103,7 +110,8 @@ const SwipeListener = function (element, options) {
     const _touchend = function (e) {
         if (!touches.length) return;
 
-        const touch = typeof TouchEvent === "function" && e instanceof TouchEvent;
+        const touch =
+            typeof TouchEvent === "function" && e instanceof TouchEvent;
 
         const x = [];
         const y = [];
@@ -112,7 +120,7 @@ const SwipeListener = function (element, options) {
             top: false,
             right: false,
             bottom: false,
-            left: false
+            left: false,
         };
 
         for (let i = 0; i < touches.length; i += 1) {
@@ -127,7 +135,7 @@ const SwipeListener = function (element, options) {
 
         const eventCoords = {
             x: [xs, xe],
-            y: [ys, ye]
+            y: [ys, ye],
         };
 
         if (touches.length > 1) {
@@ -135,11 +143,14 @@ const SwipeListener = function (element, options) {
                 detail: {
                     touch,
                     target: e.target,
-                    ...eventCoords
+                    ...eventCoords,
                 },
             };
 
-            const swipeReleaseEvent = new CustomEvent("swiperelease", swipeReleaseEventData);
+            const swipeReleaseEvent = new CustomEvent(
+                "swiperelease",
+                swipeReleaseEventData,
+            );
             element.dispatchEvent(swipeReleaseEvent);
         }
 
@@ -159,18 +170,18 @@ const SwipeListener = function (element, options) {
         // If minimum horizontal distance was travelled
         if (Math.abs(diff) >= options.minHorizontal) {
             switch (swipe) {
-            case "left":
-                _diff = Math.abs(min - x[x.length - 1]);
-                if (_diff <= options.deltaHorizontal) {
-                    directions.left = true;
-                }
-                break;
-            case "right":
-                _diff = Math.abs(max - x[x.length - 1]);
-                if (_diff <= options.deltaHorizontal) {
-                    directions.right = true;
-                }
-                break;
+                case "left":
+                    _diff = Math.abs(min - x[x.length - 1]);
+                    if (_diff <= options.deltaHorizontal) {
+                        directions.left = true;
+                    }
+                    break;
+                case "right":
+                    _diff = Math.abs(max - x[x.length - 1]);
+                    if (_diff <= options.deltaHorizontal) {
+                        directions.right = true;
+                    }
+                    break;
             }
         }
 
@@ -189,18 +200,18 @@ const SwipeListener = function (element, options) {
         // If minimum vertical distance was travelled
         if (Math.abs(diff) >= options.minVertical) {
             switch (swipe) {
-            case "top":
-                _diff = Math.abs(min - y[y.length - 1]);
-                if (_diff <= options.deltaVertical) {
-                    directions.top = true;
-                }
-                break;
-            case "bottom":
-                _diff = Math.abs(max - y[y.length - 1]);
-                if (_diff <= options.deltaVertical) {
-                    directions.bottom = true;
-                }
-                break;
+                case "top":
+                    _diff = Math.abs(min - y[y.length - 1]);
+                    if (_diff <= options.deltaVertical) {
+                        directions.top = true;
+                    }
+                    break;
+                case "bottom":
+                    _diff = Math.abs(max - y[y.length - 1]);
+                    if (_diff <= options.deltaVertical) {
+                        directions.bottom = true;
+                    }
+                    break;
             }
         }
 
@@ -208,7 +219,12 @@ const SwipeListener = function (element, options) {
         touches = [];
 
         // If there is a swipe direction, emit an event.
-        if (directions.top || directions.right || directions.bottom || directions.left) {
+        if (
+            directions.top ||
+            directions.right ||
+            directions.bottom ||
+            directions.left
+        ) {
             /**
              * If lockAxis is true, determine which axis to select.
              * The axis with the most travel is selected.
@@ -216,9 +232,15 @@ const SwipeListener = function (element, options) {
              * and use it as a weight to determine the travel along an axis.
              */
             if (options.lockAxis) {
-                if ((directions.left || directions.right) && Math.abs(xs - xe) > Math.abs(ys - ye)) {
+                if (
+                    (directions.left || directions.right) &&
+                    Math.abs(xs - xe) > Math.abs(ys - ye)
+                ) {
                     directions.top = directions.bottom = false;
-                } else if ((directions.top || directions.bottom) && Math.abs(xs - xe) < Math.abs(ys - ye)) {
+                } else if (
+                    (directions.top || directions.bottom) &&
+                    Math.abs(xs - xe) < Math.abs(ys - ye)
+                ) {
                     directions.left = directions.right = false;
                 }
             }
@@ -228,7 +250,7 @@ const SwipeListener = function (element, options) {
                     directions,
                     touch,
                     target: e.target,
-                    ...eventCoords
+                    ...eventCoords,
                 },
             };
 
@@ -240,7 +262,7 @@ const SwipeListener = function (element, options) {
                     touch,
                     target: e.target,
                     ...eventCoords,
-                }
+                },
             });
             element.dispatchEvent(cancelEvent);
         }
@@ -251,7 +273,7 @@ const SwipeListener = function (element, options) {
         const touch = e.changedTouches[0];
         touches.push({
             x: touch.clientX,
-            y: touch.clientY
+            y: touch.clientY,
         });
 
         // Emit a `swiping` event if there are more than one touch-points.
@@ -264,13 +286,18 @@ const SwipeListener = function (element, options) {
                 detail: {
                     x: [xs, xe],
                     y: [ys, ye],
-                    touch: typeof TouchEvent === "function" && e instanceof TouchEvent,
-                    target: e.target
+                    touch:
+                        typeof TouchEvent === "function" &&
+                        e instanceof TouchEvent,
+                    target: e.target,
                 },
             };
             const event = new CustomEvent("swiping", eventData);
 
-            const shouldPrevent = options.preventScroll === true || (typeof options.preventScroll === "function" && options.preventScroll(event));
+            const shouldPrevent =
+                options.preventScroll === true ||
+                (typeof options.preventScroll === "function" &&
+                    options.preventScroll(event));
 
             if (shouldPrevent) {
                 e.preventDefault();
@@ -286,9 +313,9 @@ const SwipeListener = function (element, options) {
         const testOptions = Object.defineProperty({}, "passive", {
             get() {
                 passiveOptions = {
-                    passive: !options.preventScroll
+                    passive: !options.preventScroll,
                 };
-            }
+            },
         });
         window.addEventListener("testPassive", null, testOptions);
         window.removeEventListener("testPassive", null, testOptions);
@@ -303,12 +330,16 @@ const SwipeListener = function (element, options) {
 
     return {
         off() {
-            element.removeEventListener("touchmove", _touchmove, passiveOptions);
+            element.removeEventListener(
+                "touchmove",
+                _touchmove,
+                passiveOptions,
+            );
             element.removeEventListener("touchend", _touchend);
             element.removeEventListener("mousedown", _mousedown);
             element.removeEventListener("mouseup", _mouseup);
             element.removeEventListener("mousemove", _mousemove);
-        }
+        },
     };
 };
 

@@ -1,4 +1,4 @@
-import Utils from "#lib/componentUtils";
+import Utils from "#lib/componentUtils.js";
 import pageConfig from "../page.js";
 
 export default class {
@@ -10,9 +10,12 @@ export default class {
         this.siteTitle = out.global.siteTitle;
         if (process.browser) {
             window.__heretic = window.__heretic || {};
-            window.__heretic.outGlobal = window.__heretic.outGlobal || out.global;
-            this.language = this.language || window.__heretic.outGlobal.language;
-            this.siteTitle = out.global.siteTitle || window.__heretic.outGlobal.siteTitle;
+            window.__heretic.outGlobal =
+                window.__heretic.outGlobal || out.global;
+            this.language =
+                this.language || window.__heretic.outGlobal.language;
+            this.siteTitle =
+                out.global.siteTitle || window.__heretic.outGlobal.siteTitle;
             document.title = `${pageConfig.title[this.language]} – ${this.siteTitle}`;
         }
         this.utils = new Utils(this, this.language);

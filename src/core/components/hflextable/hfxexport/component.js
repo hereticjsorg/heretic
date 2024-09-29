@@ -1,6 +1,6 @@
 import cloneDeep from "lodash/cloneDeep";
 import axios from "axios";
-import Utils from "#lib/componentUtils";
+import Utils from "#lib/componentUtils.js";
 
 export default class {
     async onCreate(input, out) {
@@ -9,9 +9,13 @@ export default class {
             dataExportColumns: input.columns,
         };
         if (input.admin) {
-            await import( /* webpackChunkName: "hfxexport-admin" */ "./style-admin.scss");
+            await import(
+                /* webpackChunkName: "hfxexport-admin" */ "./style-admin.scss"
+            );
         } else {
-            await import( /* webpackChunkName: "hfxexport-frontend" */ "./style-frontend.scss");
+            await import(
+                /* webpackChunkName: "hfxexport-frontend" */ "./style-frontend.scss"
+            );
         }
         this.language = out.global.language;
         this.siteTitle = out.global.siteTitle;
@@ -22,14 +26,24 @@ export default class {
         this.mongoEnabled = out.global.mongoEnabled;
         if (process.browser) {
             window.__heretic = window.__heretic || {};
-            window.__heretic.outGlobal = window.__heretic.outGlobal || out.global || {};
-            this.authOptions = this.authOptions || window.__heretic.outGlobal.authOptions;
-            this.mongoEnabled = this.mongoEnabled || window.__heretic.outGlobal.mongoEnabled;
-            this.language = this.language || window.__heretic.outGlobal.language;
-            this.siteTitle = out.global.siteTitle || window.__heretic.outGlobal.siteTitle;
-            this.siteId = out.global.siteId || window.__heretic.outGlobal.siteId;
-            this.cookieOptions = out.global.cookieOptions || window.__heretic.outGlobal.cookieOptions;
-            this.systemRoutes = out.global.systemRoutes || window.__heretic.outGlobal.systemRoutes;
+            window.__heretic.outGlobal =
+                window.__heretic.outGlobal || out.global || {};
+            this.authOptions =
+                this.authOptions || window.__heretic.outGlobal.authOptions;
+            this.mongoEnabled =
+                this.mongoEnabled || window.__heretic.outGlobal.mongoEnabled;
+            this.language =
+                this.language || window.__heretic.outGlobal.language;
+            this.siteTitle =
+                out.global.siteTitle || window.__heretic.outGlobal.siteTitle;
+            this.siteId =
+                out.global.siteId || window.__heretic.outGlobal.siteId;
+            this.cookieOptions =
+                out.global.cookieOptions ||
+                window.__heretic.outGlobal.cookieOptions;
+            this.systemRoutes =
+                out.global.systemRoutes ||
+                window.__heretic.outGlobal.systemRoutes;
         }
     }
 
@@ -39,10 +53,16 @@ export default class {
 
     async show() {
         await this.utils.waitForComponent(`exportModal_hf_${this.input.id}`);
-        const exportModal = this.getComponent(`exportModal_hf_${this.input.id}`);
+        const exportModal = this.getComponent(
+            `exportModal_hf_${this.input.id}`,
+        );
         this.setState("dataExportUID", null);
         this.setState("dataExportColumns", cloneDeep(this.input.columns));
-        exportModal.setActive(true).setCloseAllowed(true).setBackgroundCloseAllowed(true).setLoading(false);
+        exportModal
+            .setActive(true)
+            .setCloseAllowed(true)
+            .setBackgroundCloseAllowed(true)
+            .setLoading(false);
     }
 
     async notify(message, css = "is-success") {
@@ -54,39 +74,52 @@ export default class {
 
     async onExportButtonClick(button) {
         switch (button) {
-        case "save":
-            const {
-                value
-            } = document.getElementById(`export_hf_${this.input.id}_format`);
-            const exportModal = this.getComponent(`exportModal_hf_${this.input.id}`);
-            await this.utils.waitForComponent("exportColumns");
-            const columnsDragList = this.getComponent("exportColumns").getColumns();
-            exportModal.setCloseAllowed(false).setLoading(true);
-            try {
-                const response = await axios({
-                    method: "post",
-                    url: this.input.exportConfig.url,
-                    data: {
-                        format: value,
-                        selected: this.input.checked,
-                        columns: Object.keys(columnsDragList).filter(i => columnsDragList[i]),
-                        language: this.language,
-                    },
-                    headers: this.input.headers || {},
-                });
-                this.setState("dataExportUID", response.data.uid);
-                exportModal.setActive(false);
-                await this.utils.waitForComponent(`exportDownloadModal_hf_${this.input.id}`);
-                const exportDownloadModal = this.getComponent(`exportDownloadModal_hf_${this.input.id}`);
-                exportDownloadModal.setActive(true).setCloseAllowed(true).setBackgroundCloseAllowed(true).setLoading(false);
-            } catch (e) {
-                exportModal.setCloseAllowed(true).setLoading(false);
-                if (e && e.response && e.response.status === 403) {
-                    this.emit("unauthorized");
+            case "save":
+                const { value } = document.getElementById(
+                    `export_hf_${this.input.id}_format`,
+                );
+                const exportModal = this.getComponent(
+                    `exportModal_hf_${this.input.id}`,
+                );
+                await this.utils.waitForComponent("exportColumns");
+                const columnsDragList =
+                    this.getComponent("exportColumns").getColumns();
+                exportModal.setCloseAllowed(false).setLoading(true);
+                try {
+                    const response = await axios({
+                        method: "post",
+                        url: this.input.exportConfig.url,
+                        data: {
+                            format: value,
+                            selected: this.input.checked,
+                            columns: Object.keys(columnsDragList).filter(
+                                (i) => columnsDragList[i],
+                            ),
+                            language: this.language,
+                        },
+                        headers: this.input.headers || {},
+                    });
+                    this.setState("dataExportUID", response.data.uid);
+                    exportModal.setActive(false);
+                    await this.utils.waitForComponent(
+                        `exportDownloadModal_hf_${this.input.id}`,
+                    );
+                    const exportDownloadModal = this.getComponent(
+                        `exportDownloadModal_hf_${this.input.id}`,
+                    );
+                    exportDownloadModal
+                        .setActive(true)
+                        .setCloseAllowed(true)
+                        .setBackgroundCloseAllowed(true)
+                        .setLoading(false);
+                } catch (e) {
+                    exportModal.setCloseAllowed(true).setLoading(false);
+                    if (e && e.response && e.response.status === 403) {
+                        this.emit("unauthorized");
+                    }
+                    await this.notify("htable_exportError", "is-danger");
                 }
-                await this.notify("htable_exportError", "is-danger");
-            }
-            break;
+                break;
         }
     }
 

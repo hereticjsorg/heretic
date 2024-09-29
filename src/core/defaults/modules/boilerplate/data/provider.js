@@ -1,5 +1,5 @@
 export default class {
-    constructor(t = id => id, data = {}) {
+    constructor(t = (id) => id, data = {}) {
         this.data = data;
         this.t = t;
     }
@@ -8,16 +8,18 @@ export default class {
         this.data = data;
     }
 
-    setTranslations(t = id => id) {
+    setTranslations(t = (id) => id) {
         this.t = t;
     }
 
     getGroupsData() {
-        return [{
-            id: "personalInfoAreaPermission",
-            title: this.t("personalInfoAreaPermission"),
-            type: "boolean",
-            unique: true,
-        }];
+        return [
+            {
+                id: "personalInfoAreaPermission",
+                title: this.t("personalInfoAreaPermission"),
+                type: "boolean",
+                unique: true,
+            },
+        ];
     }
 }

@@ -1,7 +1,7 @@
 import axios from "axios";
-import Utils from "#lib/componentUtils";
-import Query from "#lib/queryBrowser";
-import Cookies from "#lib/cookiesBrowser";
+import Utils from "#lib/componentUtils.js";
+import Query from "#lib/queryBrowser.js";
+import Cookies from "#lib/cookiesBrowser.js";
 import pageConfig from "../page.js";
 import moduleConfig from "../../module.js";
 import languages from "#etc/languages.json";
@@ -26,12 +26,20 @@ export default class {
         this.systemRoutes = out.global.systemRoutes;
         if (process.browser) {
             window.__heretic = window.__heretic || {};
-            window.__heretic.outGlobal = window.__heretic.outGlobal || out.global;
-            this.language = this.language || window.__heretic.outGlobal.language;
-            this.siteTitle = out.global.siteTitle || window.__heretic.outGlobal.siteTitle;
-            this.siteId = out.global.siteId || window.__heretic.outGlobal.siteId;
-            this.cookieOptions = out.global.cookieOptions || window.__heretic.outGlobal.cookieOptions;
-            this.systemRoutes = out.global.systemRoutes || window.__heretic.outGlobal.systemRoutes;
+            window.__heretic.outGlobal =
+                window.__heretic.outGlobal || out.global;
+            this.language =
+                this.language || window.__heretic.outGlobal.language;
+            this.siteTitle =
+                out.global.siteTitle || window.__heretic.outGlobal.siteTitle;
+            this.siteId =
+                out.global.siteId || window.__heretic.outGlobal.siteId;
+            this.cookieOptions =
+                out.global.cookieOptions ||
+                window.__heretic.outGlobal.cookieOptions;
+            this.systemRoutes =
+                out.global.systemRoutes ||
+                window.__heretic.outGlobal.systemRoutes;
             document.title = `${pageConfig.title[this.language]} – ${this.siteTitle}`;
         }
         this.utils = new Utils(this, this.language);
@@ -52,7 +60,10 @@ export default class {
                     },
                 });
                 if (response.data.lock) {
-                    this.setState("loadingError", `${this.t("lockedBy")}: ${response.data.lock.username}`);
+                    this.setState(
+                        "loadingError",
+                        `${this.t("lockedBy")}: ${response.data.lock.username}`,
+                    );
                     return;
                 }
             } catch {
@@ -105,7 +116,11 @@ export default class {
         const id = this.query.get("id");
         this.currentToken = this.cookies.get(`${this.siteId}.authToken`);
         if (!this.currentToken) {
-            setTimeout(() => window.location.href = `${this.getLocalizedURL(this.systemRoutes.signIn)}?r=${this.getLocalizedURL(moduleConfig.routes.userspace.edit.path)}%3Fid%3D${id}`, 500);
+            setTimeout(
+                () =>
+                    (window.location.href = `${this.getLocalizedURL(this.systemRoutes.signIn)}?r=${this.getLocalizedURL(moduleConfig.routes.userspace.edit.path)}%3Fid%3D${id}`),
+                500,
+            );
             return;
         }
         await this.loadFormData(id);
@@ -121,7 +136,8 @@ export default class {
         const Table = (await import("@editorjs/table")).default;
         const Delimiter = (await import("@editorjs/delimiter")).default;
         const CodeTool = (await import("@rxpm/editor-js-code")).default;
-        const Splitter = (await import("./editorjs/splitter/splitter.js")).default;
+        const Splitter = (await import("./editorjs/splitter/splitter.js"))
+            .default;
         await this.utils.waitForElement("editorjs");
         this.editor = new EditorJS({
             holder: "editorjs",
@@ -153,7 +169,7 @@ export default class {
                             json: "JSON",
                             java: "Java",
                         },
-                    }
+                    },
                 },
                 image: {
                     class: ImageTool,
@@ -165,7 +181,7 @@ export default class {
                         additionalRequestHeaders: {
                             Authorization: `Bearer ${this.currentToken}`,
                         },
-                    }
+                    },
                 },
                 splitter: Splitter,
             },
@@ -173,8 +189,14 @@ export default class {
                 await this.utils.waitForComponent(`${moduleConfig.id}Form`);
                 setTimeout(() => new DragDrop(this.editor));
                 if (id) {
-                    const editForm = this.getComponent(`${moduleConfig.id}Form`);
-                    setTimeout(() => this.editor.render(this.state.editorContent[editForm.getActiveTab()]));
+                    const editForm = this.getComponent(
+                        `${moduleConfig.id}Form`,
+                    );
+                    setTimeout(() =>
+                        this.editor.render(
+                            this.state.editorContent[editForm.getActiveTab()],
+                        ),
+                    );
                 }
             },
             i18n: {
@@ -183,13 +205,13 @@ export default class {
                         blockTunes: {
                             toggler: {
                                 "Click to tune": this.t("ejsClickToTune"),
-                                "or drag to move": this.t("ejsDragToMove")
+                                "or drag to move": this.t("ejsDragToMove"),
                             },
                         },
                         inlineToolbar: {
                             converter: {
-                                "Convert to": this.t("ejsConvertTo")
-                            }
+                                "Convert to": this.t("ejsConvertTo"),
+                            },
                         },
                         toolbar: {
                             toolbox: {
@@ -247,7 +269,9 @@ export default class {
                             "Add a link": this.t("ejsLinkInsert"),
                         },
                         stub: {
-                            "The block can not be displayed correctly.": this.t("ejsStubIncorrectBlock"),
+                            "The block can not be displayed correctly.": this.t(
+                                "ejsStubIncorrectBlock",
+                            ),
                         },
                         image: {
                             Caption: this.t("ejsImageCaption"),
@@ -261,9 +285,12 @@ export default class {
                         },
                         linkTool: {
                             Link: this.t("ejsLink"),
-                            "Couldn't fetch the link data": this.t("ejsLinkFetchError"),
-                            "Couldn't get this link data, try the other one": this.t("ejsLinkFetchDataError"),
-                            "Wrong response format from the server": this.t("ejsLinkServerError"),
+                            "Couldn't fetch the link data":
+                                this.t("ejsLinkFetchError"),
+                            "Couldn't get this link data, try the other one":
+                                this.t("ejsLinkFetchDataError"),
+                            "Wrong response format from the server":
+                                this.t("ejsLinkServerError"),
                         },
                         paragraph: {
                             "Enter something": this.t("ejsParagraph"),
@@ -288,7 +315,7 @@ export default class {
                         },
                         moveDown: {
                             "Move down": this.t("ejsMoveDown"),
-                        }
+                        },
                     },
                 },
             },
@@ -318,8 +345,15 @@ export default class {
     }
 
     startLockMessaging() {
-        if (window.__heretic.webSocket && this.currentId && !this.socketInterval) {
-            this.socketInterval = setInterval(() => this.sendLockAction("lock"), 20000);
+        if (
+            window.__heretic.webSocket &&
+            this.currentId &&
+            !this.socketInterval
+        ) {
+            this.socketInterval = setInterval(
+                () => this.sendLockAction("lock"),
+                20000,
+            );
         }
     }
 
@@ -337,9 +371,7 @@ export default class {
         if (!serializedData) {
             return;
         }
-        const {
-            editorContent,
-        } = this.state;
+        const { editorContent } = this.state;
         editorContent[editForm.getActiveTab()] = await this.editor.save();
         this.setState("editorContent", editorContent);
         const data = new FormData();
@@ -365,15 +397,13 @@ export default class {
                 headers: {
                     Authorization: `Bearer ${this.currentToken}`,
                 },
-                onUploadProgress: () => {}
+                onUploadProgress: () => {},
             });
             const result = {};
             if (submitResult.data.insertedId) {
                 result.insertedId = submitResult.data.insertedId;
             }
-            const {
-                title,
-            } = submitResult.data;
+            const { title } = submitResult.data;
             editForm.setTitle(`${this.t("editPage")}: ${title}`);
             this.startLockMessaging();
             return result;
@@ -381,7 +411,9 @@ export default class {
             let message;
             if (e && e.response && e.response.data) {
                 if (e.response.data.form) {
-                    editForm.setErrors(editForm.getErrorData(e.response.data.form));
+                    editForm.setErrors(
+                        editForm.getErrorData(e.response.data.form),
+                    );
                     return;
                 }
                 if (e.response.data.message) {
@@ -399,9 +431,14 @@ export default class {
     closeForm(success = false) {
         const queryStore = this.query.getStore();
         delete queryStore.id;
-        window.__heretic.router.navigate(`${moduleConfig.id}_list`, this.language, queryStore, {
-            success,
-        });
+        window.__heretic.router.navigate(
+            `${moduleConfig.id}_list`,
+            this.language,
+            queryStore,
+            {
+                success,
+            },
+        );
     }
 
     onButtonClick(btn) {
@@ -409,9 +446,9 @@ export default class {
             return;
         }
         switch (btn.id) {
-        case "close":
-            this.closeForm();
-            break;
+            case "close":
+                this.closeForm();
+                break;
         }
     }
 
@@ -424,7 +461,10 @@ export default class {
             return;
         }
         await this.utils.waitForComponent(`notify_${pageConfig.id}`);
-        this.getComponent(`notify_${pageConfig.id}`).show(this.t("saveSuccess"), "is-success");
+        this.getComponent(`notify_${pageConfig.id}`).show(
+            this.t("saveSuccess"),
+            "is-success",
+        );
         if (submitResult.insertedId) {
             this.currentId = submitResult.insertedId;
             this.query.set("id", submitResult.insertedId);
@@ -439,7 +479,12 @@ export default class {
         }
         const queryStore = this.query.getStore();
         delete queryStore.id;
-        window.__heretic.router.navigate(`${moduleConfig.id}_list`, this.language, queryStore, {});
+        window.__heretic.router.navigate(
+            `${moduleConfig.id}_list`,
+            this.language,
+            queryStore,
+            {},
+        );
     }
 
     onDestroy() {
@@ -454,11 +499,13 @@ export default class {
         if (this.state.loading) {
             return;
         }
-        const {
-            editorContent,
-        } = this.state;
+        const { editorContent } = this.state;
         editorContent[tabData.old] = await this.editor.save();
-        if (editorContent[tabData.current] && editorContent[tabData.current].blocks && editorContent[tabData.current].blocks.length) {
+        if (
+            editorContent[tabData.current] &&
+            editorContent[tabData.current].blocks &&
+            editorContent[tabData.current].blocks.length
+        ) {
             await this.editor.render(editorContent[tabData.current]);
         } else {
             await this.editor.clear();

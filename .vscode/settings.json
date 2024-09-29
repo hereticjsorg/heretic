@@ -26,6 +26,9 @@
         "dgte",
         "dlte",
         "dragdroptouch",
+        "dragenter",
+        "dragleave",
+        "dragover",
         "dword",
         "editorjs",
         "existy",
@@ -90,6 +93,7 @@
         "Mobi",
         "mongodump",
         "mongorestore",
+        "mpath",
         "nginx",
         "noconflict",
         "noof",
@@ -142,8 +146,5 @@
         "Каптча"
     ],
     "git.ignoreLimitWarning": true,
-    "cSpell.enableFiletypes": [
-        "html",
-        "marko"
-    ]
+    "cSpell.enableFiletypes": ["html", "marko"]
 }

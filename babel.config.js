@@ -1,4 +1,4 @@
-module.exports = api => {
+module.exports = (api) => {
     if (api) {
         api.cache(true);
     }
@@ -9,15 +9,40 @@ module.exports = api => {
             "@babel/plugin-transform-object-rest-spread",
             "@babel/plugin-transform-async-to-generator",
             "@babel/plugin-syntax-import-assertions",
-            ["@babel/transform-runtime", {
-                regenerator: true,
-                useESModules: true,
-            }],
-            ["prismjs", {
-                languages: ["javascript", "css", "c", "cpp", "csharp", "markup", "html", "dart", "typescript", "perl", "php", "sql", "json", "java", "bash", "nginx", "xml", "haml"],
-                plugins: ["line-numbers"],
-                css: false,
-            }],
+            [
+                "@babel/transform-runtime",
+                {
+                    regenerator: true,
+                    useESModules: true,
+                },
+            ],
+            [
+                "prismjs",
+                {
+                    languages: [
+                        "javascript",
+                        "css",
+                        "c",
+                        "cpp",
+                        "csharp",
+                        "markup",
+                        "html",
+                        "dart",
+                        "typescript",
+                        "perl",
+                        "php",
+                        "sql",
+                        "json",
+                        "java",
+                        "bash",
+                        "nginx",
+                        "xml",
+                        "haml",
+                    ],
+                    plugins: ["line-numbers"],
+                    css: false,
+                },
+            ],
         ],
         presets: [
             [
@@ -25,9 +50,9 @@ module.exports = api => {
                 {
                     targets: {
                         chrome: "58",
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         ],
     };
 };

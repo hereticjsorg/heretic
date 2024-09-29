@@ -33,28 +33,46 @@
                     },
                     "mode": {
                         "type": "string",
-                        "enum": ["eq", "is", "neq", "rex", "nrex", "oof", "nof", "deq", "dgt", "dgte", "dlt", "dlte"]
+                        "enum": [
+                            "eq",
+                            "is",
+                            "neq",
+                            "rex",
+                            "nrex",
+                            "oof",
+                            "nof",
+                            "deq",
+                            "dgt",
+                            "dgte",
+                            "dlt",
+                            "dlte"
+                        ]
                     },
                     "value": {
-                        "oneOf": [{
-                            "type": "string",
-                            "minLength": 1,
-                            "maxLength": 512
-                        }, {
-                            "type": "integer",
-                            "minimum": 1
-                        }, {
-                            "type": "null"
-                        }, {
-                            "type": "array",
-                            "items": {
+                        "oneOf": [
+                            {
                                 "type": "string",
                                 "minLength": 1,
-                                "maxLength": 64
+                                "maxLength": 512
                             },
-                            "minItems": 1,
-                            "uniqueItems": true
-                        }]
+                            {
+                                "type": "integer",
+                                "minimum": 1
+                            },
+                            {
+                                "type": "null"
+                            },
+                            {
+                                "type": "array",
+                                "items": {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 64
+                                },
+                                "minItems": 1,
+                                "uniqueItems": true
+                            }
+                        ]
                     }
                 },
                 "required": ["enabled", "id", "mode"]
@@ -74,25 +92,30 @@
                         "pattern": "^[a-zA-Z0-9-_]+$"
                     },
                     "value": {
-                        "oneOf": [{
-                            "type": "string",
-                            "minLength": 1,
-                            "maxLength": 512
-                        }, {
-                            "type": "integer",
-                            "minimum": 1
-                        }, {
-                            "type": "null"
-                        }, {
-                            "type": "array",
-                            "items": {
+                        "oneOf": [
+                            {
                                 "type": "string",
                                 "minLength": 1,
-                                "maxLength": 64
+                                "maxLength": 512
                             },
-                            "minItems": 1,
-                            "uniqueItems": true
-                        }]
+                            {
+                                "type": "integer",
+                                "minimum": 1
+                            },
+                            {
+                                "type": "null"
+                            },
+                            {
+                                "type": "array",
+                                "items": {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 64
+                                },
+                                "minItems": 1,
+                                "uniqueItems": true
+                            }
+                        ]
                     },
                     "tabs": {
                         "type": "array",

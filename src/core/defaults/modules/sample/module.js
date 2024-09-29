@@ -5,12 +5,12 @@ module.exports = {
     routes: {
         userspace: {
             home: {
-                path: ""
+                path: "",
             },
             license: {
-                path: "/license"
+                path: "/license",
             },
         },
-        admin: {}
+        admin: {},
     },
 };

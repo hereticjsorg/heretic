@@ -1,4 +1,4 @@
-import Router from "#lib/router";
+import Router from "#lib/router.js";
 import languages from "#etc/languages.json";
 import navigation from "#etc/navigation.json";
 import buildData from "#build/build.json";
@@ -13,7 +13,11 @@ export default class {
     }
 
     onMount() {
-        const router = new Router(buildData.routes.userspace, Object.keys(languages), navigation.home);
+        const router = new Router(
+            buildData.routes.userspace,
+            Object.keys(languages),
+            navigation.home,
+        );
         router.setOnRouteChangeHandler(this.onRouteChangeHandler.bind(this));
         this.emit("route-change", router);
         window.__heretic = window.__heretic || {};

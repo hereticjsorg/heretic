@@ -1,7 +1,7 @@
 import axios from "axios";
 import axiosRetry from "axios-retry";
-import Utils from "#lib/componentUtils";
-import Cookies from "#lib/cookiesBrowser";
+import Utils from "#lib/componentUtils.js";
+import Cookies from "#lib/cookiesBrowser.js";
 import pageConfig from "../page.js";
 import moduleConfig from "../../module.js";
 
@@ -28,16 +28,27 @@ export default class {
         this.mongoEnabled = out.global.mongoEnabled;
         if (process.browser) {
             window.__heretic = window.__heretic || {};
-            window.__heretic.outGlobal = window.__heretic.outGlobal || out.global || {};
-            this.authOptions = this.authOptions || window.__heretic.outGlobal.authOptions;
-            this.mongoEnabled = this.mongoEnabled || window.__heretic.outGlobal.mongoEnabled;
-            this.language = this.language || window.__heretic.outGlobal.language;
-            this.siteTitle = out.global.siteTitle || window.__heretic.outGlobal.siteTitle;
+            window.__heretic.outGlobal =
+                window.__heretic.outGlobal || out.global || {};
+            this.authOptions =
+                this.authOptions || window.__heretic.outGlobal.authOptions;
+            this.mongoEnabled =
+                this.mongoEnabled || window.__heretic.outGlobal.mongoEnabled;
+            this.language =
+                this.language || window.__heretic.outGlobal.language;
+            this.siteTitle =
+                out.global.siteTitle || window.__heretic.outGlobal.siteTitle;
             document.title = `${pageConfig.title[this.language]} – ${this.siteTitle}`;
-            this.siteId = out.global.siteId || window.__heretic.outGlobal.siteId;
-            this.cookieOptions = out.global.cookieOptions || window.__heretic.outGlobal.cookieOptions;
-            this.systemRoutes = out.global.systemRoutes || window.__heretic.outGlobal.systemRoutes;
-            this.webSockets = out.global.webSockets || window.__heretic.outGlobal.webSockets;
+            this.siteId =
+                out.global.siteId || window.__heretic.outGlobal.siteId;
+            this.cookieOptions =
+                out.global.cookieOptions ||
+                window.__heretic.outGlobal.cookieOptions;
+            this.systemRoutes =
+                out.global.systemRoutes ||
+                window.__heretic.outGlobal.systemRoutes;
+            this.webSockets =
+                out.global.webSockets || window.__heretic.outGlobal.webSockets;
         }
         this.utils = new Utils(this, this.language);
     }
@@ -48,7 +59,11 @@ export default class {
         this.cookies = new Cookies(this.cookieOptions, this.siteId);
         this.currentToken = this.cookies.get(`${this.siteId}.authToken`);
         if (!this.currentToken) {
-            setTimeout(() => window.location.href = `${this.utils.getLocalizedURL(this.systemRoutes.signInAdmin)}`, 100);
+            setTimeout(
+                () =>
+                    (window.location.href = `${this.utils.getLocalizedURL(this.systemRoutes.signInAdmin)}`),
+                100,
+            );
             return;
         }
         this.setState("ready", true);
@@ -60,15 +75,21 @@ export default class {
                 headers: {
                     Authorization: `Bearer ${this.currentToken}`,
                 },
-                onUploadProgress: () => {}
+                onUploadProgress: () => {},
             });
             this.setState("info", response.data);
             if (response.data.existingJob) {
                 await this.utils.waitForComponent("progress");
                 const progressModal = this.getComponent("progress");
-                this.setState("updateId", String(response.data.existingJob._id));
+                this.setState(
+                    "updateId",
+                    String(response.data.existingJob._id),
+                );
                 progressModal.show({
-                    message: window.__heretic.t(`progress_${response.data.existingJob.status}` || "progressUpdating"),
+                    message: window.__heretic.t(
+                        `progress_${response.data.existingJob.status}` ||
+                            "progressUpdating",
+                    ),
                 });
                 await this.getData();
             }
@@ -79,9 +100,7 @@ export default class {
     }
 
     onTabClick(e) {
-        const {
-            id,
-        } = e.target.closest("[data-id]").dataset;
+        const { id } = e.target.closest("[data-id]").dataset;
         this.setState("tab", id);
     }
 
@@ -114,9 +133,7 @@ export default class {
         try {
             const formData = new FormData();
             formData.append("id", this.state.updateId);
-            const {
-                data,
-            } = await axios({
+            const { data } = await axios({
                 method: "post",
                 url: `/api/admin/status`,
                 data: formData,
@@ -125,10 +142,15 @@ export default class {
                 },
             });
             progressModal.setData({
-                message: window.__heretic.t(`progress_${data.status}` || "progressUpdating"),
+                message: window.__heretic.t(
+                    `progress_${data.status}` || "progressUpdating",
+                ),
             });
             if (data.status === "cancelled" || data.status === "error") {
-                this.showNotification(data.message || "couldNotGetOperationStatus", "is-danger");
+                this.showNotification(
+                    data.message || "couldNotGetOperationStatus",
+                    "is-danger",
+                );
                 progressModal.setCloseAllowed(true);
                 progressModal.hide();
             } else if (data.status === "complete") {
@@ -153,86 +175,86 @@ export default class {
         await this.utils.waitForComponent("progress");
         const progressModal = this.getComponent("progress");
         switch (action) {
-        case "restart":
-            progressModal.setCloseAllowed(false);
-            progressModal.show({
-                message: window.__heretic.t("progressRestarting"),
-            });
-            try {
-                await axios({
-                    method: "get",
-                    url: "/api/admin/restart",
-                    data: {},
-                    headers: {
-                        Authorization: `Bearer ${this.currentToken}`,
-                    },
+            case "restart":
+                progressModal.setCloseAllowed(false);
+                progressModal.show({
+                    message: window.__heretic.t("progressRestarting"),
                 });
-                setTimeout(async () => {
+                try {
+                    await axios({
+                        method: "get",
+                        url: "/api/admin/restart",
+                        data: {},
+                        headers: {
+                            Authorization: `Bearer ${this.currentToken}`,
+                        },
+                    });
+                    setTimeout(async () => {
+                        progressModal.setCloseAllowed(true);
+                        progressModal.hide();
+                        this.getComponent("loading").setActive(true);
+                        await this.showNotification("restartSuccess");
+                        setTimeout(() => window.location.reload(), 1500);
+                    }, 15000);
+                } catch {
                     progressModal.setCloseAllowed(true);
                     progressModal.hide();
-                    this.getComponent("loading").setActive(true);
-                    await this.showNotification("restartSuccess");
-                    setTimeout(() => window.location.reload(), 1500);
-                }, 15000);
-            } catch {
-                progressModal.setCloseAllowed(true);
-                progressModal.hide();
-                this.showNotification("restartError", "is-danger");
-            }
-            break;
-        case "update":
-            progressModal.setCloseAllowed(false);
-            progressModal.show({
-                message: window.__heretic.t("progressUpdating"),
-            });
-            try {
-                const {
-                    data: updateData,
-                } = await axios({
-                    method: "get",
-                    url: "/api/admin/update",
-                    data: {},
-                    headers: {
-                        Authorization: `Bearer ${this.currentToken}`,
-                    },
+                    this.showNotification("restartError", "is-danger");
+                }
+                break;
+            case "update":
+                progressModal.setCloseAllowed(false);
+                progressModal.show({
+                    message: window.__heretic.t("progressUpdating"),
                 });
-                this.setState("updateId", updateData.id);
-                this.getData();
-            } catch {
-                progressModal.setCloseAllowed(true);
-                progressModal.hide({});
-                this.showNotification("updateError", "is-danger");
-            }
-            break;
-        case "rebuild":
-            progressModal.setCloseAllowed(false);
-            progressModal.show({
-                message: window.__heretic.t("progressRebuilding"),
-            });
-            try {
-                const {
-                    data: rebuildData,
-                } = await axios({
-                    method: "get",
-                    url: "/api/admin/rebuild",
-                    data: {},
-                    headers: {
-                        Authorization: `Bearer ${this.currentToken}`,
-                    },
+                try {
+                    const { data: updateData } = await axios({
+                        method: "get",
+                        url: "/api/admin/update",
+                        data: {},
+                        headers: {
+                            Authorization: `Bearer ${this.currentToken}`,
+                        },
+                    });
+                    this.setState("updateId", updateData.id);
+                    this.getData();
+                } catch {
+                    progressModal.setCloseAllowed(true);
+                    progressModal.hide({});
+                    this.showNotification("updateError", "is-danger");
+                }
+                break;
+            case "rebuild":
+                progressModal.setCloseAllowed(false);
+                progressModal.show({
+                    message: window.__heretic.t("progressRebuilding"),
                 });
-                this.setState("updateId", rebuildData.id);
-                this.getData();
-            } catch {
-                progressModal.setCloseAllowed(true);
-                progressModal.hide({});
-                this.showNotification("updateError", "is-danger");
-            }
-            break;
+                try {
+                    const { data: rebuildData } = await axios({
+                        method: "get",
+                        url: "/api/admin/rebuild",
+                        data: {},
+                        headers: {
+                            Authorization: `Bearer ${this.currentToken}`,
+                        },
+                    });
+                    this.setState("updateId", rebuildData.id);
+                    this.getData();
+                } catch {
+                    progressModal.setCloseAllowed(true);
+                    progressModal.hide({});
+                    this.showNotification("updateError", "is-danger");
+                }
+                break;
         }
     }
 
     async onUpdateButtonClick(e) {
-        if (!this.state.info.masterPackageJson.version || this.state.info.hereticVersion === this.state.info.masterPackageJson.version) {
+        if (
+            !this.state.info.masterPackageJson.version ||
+            this.state.info.hereticVersion ===
+                this.state.info.masterPackageJson.version
+        ) {
             this.showNotification("nothingToDo", "is-warning");
             return;
         }

@@ -1,3 +1,5 @@
+@use "sass:color";
+
 .hr-wy-wrap {
     width: 100%;
     border: 1px solid $grey-lighter;
@@ -8,7 +10,7 @@
 }
 
 html.theme-dark .hr-wy-wrap {
-    border: 1px solid darken($theme-dark-grey, 20%);
+    border: 1px solid color.adjust($theme-dark-grey, $lightness: -20%);
 }
 
 .hr-wy-controls {
@@ -18,8 +20,8 @@ html.theme-dark .hr-wy-wrap {
 }
 
 html.theme-dark .hr-wy-controls {
-    border-bottom: 1px solid darken($theme-dark-grey, 20%);
-    background: darken($theme-dark-grey-dark, 20%);
+    border-bottom: 1px solid color.adjust($theme-dark-grey, $lightness: -20%);
+    background: color.adjust($theme-dark-grey-dark, $lightness: -20%);
 }
 
 .hr-wy-editor {
@@ -53,7 +55,7 @@ html.theme-dark .hr-wy-editor {
 }
 
 html.theme-dark .hr-wy-control-button {
-    background: lighten($theme-dark-grey, 20%);
+    background: color.adjust($theme-dark-grey, $lightness: 20%);
 }
 
 .hr-wy-control-button:hover {
@@ -61,13 +63,13 @@ html.theme-dark .hr-wy-control-button {
 }
 
 html.theme-dark .hr-wy-control-button:hover {
-    background: lighten($theme-dark-grey, 25%);
+    background: color.adjust($theme-dark-grey, $lightness: 25%);
 }
 
 .hr-wy-control-button-selected {
     background: $blue !important;
 }
 
-.hr-wy-control-button-selected>svg>path {
+.hr-wy-control-button-selected > svg > path {
     fill: $white;
 }

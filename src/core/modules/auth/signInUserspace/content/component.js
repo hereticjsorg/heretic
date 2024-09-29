@@ -1,8 +1,8 @@
 import axios from "axios";
 import config from "../page.js";
-import Utils from "#lib/componentUtils";
-import Cookies from "#lib/cookiesBrowser";
-import Query from "#lib/queryBrowser";
+import Utils from "#lib/componentUtils.js";
+import Cookies from "#lib/cookiesBrowser.js";
+import Query from "#lib/queryBrowser.js";
 import moduleConfig from "../../module.js";
 
 export default class {
@@ -29,22 +29,39 @@ export default class {
         this.demo = out.global.demo;
         if (process.browser) {
             window.__heretic = window.__heretic || {};
-            window.__heretic.outGlobal = window.__heretic.outGlobal || out.global;
-            this.authOptions = this.authOptions || window.__heretic.outGlobal.authOptions;
-            this.mongoEnabled = this.mongoEnabled || window.__heretic.outGlobal.mongoEnabled;
-            this.language = this.language || window.__heretic.outGlobal.language;
-            this.siteTitle = out.global.siteTitle || window.__heretic.outGlobal.siteTitle;
-            this.siteId = out.global.siteId || window.__heretic.outGlobal.siteId;
-            this.cookiesUserCheck = out.global.cookiesUserCheck || window.__heretic.outGlobal.cookiesUserCheck;
-            this.cookieOptions = out.global.cookieOptions || window.__heretic.outGlobal.cookieOptions;
-            this.systemRoutes = out.global.systemRoutes || window.__heretic.outGlobal.systemRoutes;
+            window.__heretic.outGlobal =
+                window.__heretic.outGlobal || out.global;
+            this.authOptions =
+                this.authOptions || window.__heretic.outGlobal.authOptions;
+            this.mongoEnabled =
+                this.mongoEnabled || window.__heretic.outGlobal.mongoEnabled;
+            this.language =
+                this.language || window.__heretic.outGlobal.language;
+            this.siteTitle =
+                out.global.siteTitle || window.__heretic.outGlobal.siteTitle;
+            this.siteId =
+                out.global.siteId || window.__heretic.outGlobal.siteId;
+            this.cookiesUserCheck =
+                out.global.cookiesUserCheck ||
+                window.__heretic.outGlobal.cookiesUserCheck;
+            this.cookieOptions =
+                out.global.cookieOptions ||
+                window.__heretic.outGlobal.cookieOptions;
+            this.systemRoutes =
+                out.global.systemRoutes ||
+                window.__heretic.outGlobal.systemRoutes;
             this.demo = out.global.demo || window.__heretic.outGlobal.demo;
             document.title = `${config.title[this.language]} – ${this.siteTitle}`;
-            const expires = new Date(new Date().setFullYear(new Date().getFullYear() + 1));
-            this.cookiesCheck = new Cookies({
-                ...this.cookieOptions,
-                expires,
-            }, this.siteId);
+            const expires = new Date(
+                new Date().setFullYear(new Date().getFullYear() + 1),
+            );
+            this.cookiesCheck = new Cookies(
+                {
+                    ...this.cookieOptions,
+                    expires,
+                },
+                this.siteId,
+            );
             state.allowed = this.checkIfCookiesAreAllowed();
         }
         this.utils = new Utils(this, this.language);
@@ -62,16 +79,18 @@ export default class {
         if (event && event.data && event.data.token) {
             if (event.data.tfa) {
                 await this.utils.waitForComponent("tfaModal");
-                const tfaModal = await this.getComponent("tfaModal").getModalInstance();
-                tfaModal.setCloseAllowed(true).setLoading(false).setActive(true);
+                const tfaModal =
+                    await this.getComponent("tfaModal").getModalInstance();
+                tfaModal
+                    .setCloseAllowed(true)
+                    .setLoading(false)
+                    .setActive(true);
                 this.getComponent("tfaModal").setToken(event.data.token);
                 this.getComponent("tfaModal").onTfaGotAppClick();
             } else {
                 await this.utils.waitForComponent("loadingAuth");
                 this.getComponent("loadingAuth").setActive(true);
-                const {
-                    token,
-                } = event.data;
+                const { token } = event.data;
                 this.cookies.set(`${this.siteId}.authToken`, token);
                 window.location.href = this.utils.getLocalizedURL("/");
             }
@@ -89,10 +108,18 @@ export default class {
         this.query = new Query();
         const currentToken = this.cookies.get(`${this.siteId}.authToken`);
         if (currentToken) {
-            setTimeout(() => window.location.href = `${this.utils.getLocalizedURL("/").url || "/"}`, 100);
+            setTimeout(
+                () =>
+                    (window.location.href = `${this.utils.getLocalizedURL("/").url || "/"}`),
+                100,
+            );
             return;
         }
-        window.addEventListener("message", this.receiveMessage.bind(this), false);
+        window.addEventListener(
+            "message",
+            this.receiveMessage.bind(this),
+            false,
+        );
         this.setState("ready", true);
         if (window.__heretic && window.__heretic.setTippy) {
             window.__heretic.setTippy();
@@ -104,15 +131,23 @@ export default class {
             signInForm.setValue("password", "password");
         }
         if (!this.state.allowed) {
-            await this.utils.waitForElement("hr_hf_el_signInForm_buttons_btnSubmit");
-            document.getElementById("hr_hf_el_signInForm_buttons_btnSubmit").disabled = true;
+            await this.utils.waitForElement(
+                "hr_hf_el_signInForm_buttons_btnSubmit",
+            );
+            document.getElementById(
+                "hr_hf_el_signInForm_buttons_btnSubmit",
+            ).disabled = true;
         }
         window.addEventListener("click", async () => {
             if (!this.state.allowed && this.checkIfCookiesAreAllowed()) {
                 this.setState("allowed", true);
                 try {
-                    await this.utils.waitForElement("hr_hf_el_signInForm_buttons_btnSubmit");
-                    document.getElementById("hr_hf_el_signInForm_buttons_btnSubmit").disabled = false;
+                    await this.utils.waitForElement(
+                        "hr_hf_el_signInForm_buttons_btnSubmit",
+                    );
+                    document.getElementById(
+                        "hr_hf_el_signInForm_buttons_btnSubmit",
+                    ).disabled = false;
                 } catch {
                     //
                 }
@@ -123,7 +158,9 @@ export default class {
     async authErrorHandler(signInForm, e) {
         if (e && e.response && e.response.data) {
             if (e.response.data.form) {
-                signInForm.setErrors(signInForm.getErrorData(e.response.data.form));
+                signInForm.setErrors(
+                    signInForm.getErrorData(e.response.data.form),
+                );
             }
             if (e.response.data.message) {
                 signInForm.setErrorMessage(this.t(e.response.data.message));
@@ -145,7 +182,9 @@ export default class {
         signInForm.setErrors(false);
         const validationResult = signInForm.validate(signInForm.saveView());
         if (validationResult) {
-            return signInForm.setErrors(signInForm.getErrorData(validationResult));
+            return signInForm.setErrors(
+                signInForm.getErrorData(validationResult),
+            );
         }
         const serializedData = signInForm.serializeData();
         const data = signInForm.getFormDataObject(serializedData);
@@ -159,19 +198,23 @@ export default class {
                 data,
                 headers: {},
             });
-            const {
-                token,
-                needCode,
-            } = res.data;
+            const { token, needCode } = res.data;
             if (needCode) {
                 signInForm.setLoading(false);
                 await this.utils.waitForComponent("loadingAuth");
                 this.getComponent("loadingAuth").setActive(false);
                 await this.utils.waitForComponent("tfaModal");
-                const tfaModal = await this.getComponent("tfaModal").getModalInstance();
-                tfaModal.setCloseAllowed(true).setLoading(false).setActive(true);
+                const tfaModal =
+                    await this.getComponent("tfaModal").getModalInstance();
+                tfaModal
+                    .setCloseAllowed(true)
+                    .setLoading(false)
+                    .setActive(true);
                 this.getComponent("tfaModal").setToken(null);
-                this.getComponent("tfaModal").setCredentials(serializedData.formTabs._default.username, serializedData.formTabs._default.password);
+                this.getComponent("tfaModal").setCredentials(
+                    serializedData.formTabs._default.username,
+                    serializedData.formTabs._default.password,
+                );
                 this.getComponent("tfaModal").onTfaGotAppClick();
             } else {
                 this.cookies.set(`${this.siteId}.authToken`, token);
@@ -184,17 +227,18 @@ export default class {
 
     onFormButtonClick(btn) {
         switch (btn.id) {
-        case "btnForgotPassword":
-            setTimeout(() => window.location.href = `${this.utils.getLocalizedURL(this.systemRoutes.restorePassword)}`);
-            break;
+            case "btnForgotPassword":
+                setTimeout(
+                    () =>
+                        (window.location.href = `${this.utils.getLocalizedURL(this.systemRoutes.restorePassword)}`),
+                );
+                break;
         }
     }
 
     onOAuthButtonClick(e) {
         e.preventDefault();
-        const {
-            path,
-        } = e.target.closest("[data-path]").dataset;
+        const { path } = e.target.closest("[data-path]").dataset;
         this.utils.showOAuthPopup(path);
     }
 
@@ -213,16 +257,15 @@ export default class {
                 data,
                 headers: {},
             });
-            const {
-                token,
-            } = res.data;
+            const { token } = res.data;
             this.cookies.set(`${this.siteId}.authToken`, token);
             window.location.href = `${this.query.get("r") || this.utils.getLocalizedURL("/") || "/"}`;
         } catch (e) {
             this.authErrorHandler(signInForm, e);
             this.getComponent("loadingAuth").setActive(false);
         } finally {
-            const tfaModal = await this.getComponent("tfaModal").getModalInstance();
+            const tfaModal =
+                await this.getComponent("tfaModal").getModalInstance();
             tfaModal.setCloseAllowed(true).setLoading(false).setActive(false);
         }
     }
@@ -231,7 +274,10 @@ export default class {
         this.utils.waitForComponent("signInForm");
         const signInForm = this.getComponent("signInForm");
         const data = new FormData();
-        data.append("formTabs", `{"_default":{"username":"username","password":"password","code":"${tfaData.code}","token":"${tfaData.token}"}}`);
+        data.append(
+            "formTabs",
+            `{"_default":{"username":"username","password":"password","code":"${tfaData.code}","token":"${tfaData.token}"}}`,
+        );
         data.append("formShared", "{}");
         data.append("tabs", `["_default"]`);
         await this.utils.waitForComponent("loadingAuth");
@@ -243,17 +289,17 @@ export default class {
                 data,
                 headers: {},
             });
-            const {
-                token,
-            } = res.data;
+            const { token } = res.data;
             await this.utils.waitForComponent("tfaModal");
-            const tfaModal = await this.getComponent("tfaModal").getModalInstance();
+            const tfaModal =
+                await this.getComponent("tfaModal").getModalInstance();
             tfaModal.setCloseAllowed(true).setLoading(false).setActive(false);
             this.cookies.set(`${this.siteId}.authToken`, token);
             window.location.href = `${this.query.get("r") || this.utils.getLocalizedURL("/") || "/"}`;
         } catch (e) {
             await this.utils.waitForComponent("tfaModal");
-            const tfaModal = await this.getComponent("tfaModal").getModalInstance();
+            const tfaModal =
+                await this.getComponent("tfaModal").getModalInstance();
             tfaModal.setCloseAllowed(true).setLoading(false).setActive(false);
             this.getComponent("loadingAuth").setActive(false);
             this.authErrorHandler(signInForm, e);
@@ -274,7 +320,10 @@ export default class {
         const tfaModal = await this.getComponent("tfaModal").getModalInstance();
         tfaModal.setCloseAllowed(true).setLoading(false).setActive(false);
         const data = new FormData();
-        data.append("formTabs", `{"_default":{"username":"username","password":"password","code":null,"token":"${tfaData.token}"}}`);
+        data.append(
+            "formTabs",
+            `{"_default":{"username":"username","password":"password","code":null,"token":"${tfaData.token}"}}`,
+        );
         data.append("formShared", "{}");
         data.append("tabs", `["_default"]`);
         await this.utils.waitForComponent("loadingAuth");
@@ -286,9 +335,7 @@ export default class {
                 data,
                 headers: {},
             });
-            const {
-                token,
-            } = res.data;
+            const { token } = res.data;
             tfaModal.setCloseAllowed(true).setLoading(false).setActive(false);
             this.cookies.set(`${this.siteId}.authToken`, token);
             window.location.href = `${this.query.get("r") || this.utils.getLocalizedURL("/") || "/"}`;

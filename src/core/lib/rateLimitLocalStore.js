@@ -1,9 +1,7 @@
 /* eslint-disable func-names */
 /* eslint-disable default-param-last */
 
-const {
-    LruMap: Lru,
-} = require("toad-cache");
+const { LruMap: Lru } = require("toad-cache");
 
 function LocalStore(cache = 5000, timeWindow, continueExceeding) {
     this.lru = new Lru(cache);
@@ -20,7 +18,7 @@ LocalStore.prototype.incr = function (ip, cb, max, ban) {
             current: 1,
             ttl: this.timeWindow,
             ban: false,
-            iterationStartMs: nowInMs
+            iterationStartMs: nowInMs,
         };
     } else if (current.iterationStartMs + this.timeWindow <= nowInMs) {
         // Item has expired
@@ -36,7 +34,8 @@ LocalStore.prototype.incr = function (ip, cb, max, ban) {
             current.ttl = this.timeWindow;
             current.iterationStartMs = nowInMs;
         } else {
-            current.ttl = this.timeWindow - (nowInMs - current.iterationStartMs);
+            current.ttl =
+                this.timeWindow - (nowInMs - current.iterationStartMs);
         }
     }
     if (ban !== -1 && !current.ban && current.current - max > ban) {
@@ -47,7 +46,11 @@ LocalStore.prototype.incr = function (ip, cb, max, ban) {
 };
 
 LocalStore.prototype.child = function (routeOptions) {
-    return new LocalStore(routeOptions.cache, routeOptions.timeWindow, routeOptions.continueExceeding);
+    return new LocalStore(
+        routeOptions.cache,
+        routeOptions.timeWindow,
+        routeOptions.continueExceeding,
+    );
 };
 
 module.exports = LocalStore;

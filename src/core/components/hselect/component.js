@@ -5,9 +5,13 @@ module.exports = class {
             selected: [],
         };
         if (input.admin) {
-            await import(/* webpackChunkName: "hselect-admin" */ "./style-admin.scss");
+            await import(
+                /* webpackChunkName: "hselect-admin" */ "./style-admin.scss"
+            );
         } else {
-            await import(/* webpackChunkName: "hselect-frontend" */ "./style-frontend.scss");
+            await import(
+                /* webpackChunkName: "hselect-frontend" */ "./style-frontend.scss"
+            );
         }
     }
 
@@ -27,16 +31,14 @@ module.exports = class {
     onCheckboxChange(e) {
         e.preventDefault();
         const { checked } = e.target;
-        const {
-            id
-        } = e.target.closest("[data-id]").dataset;
+        const { id } = e.target.closest("[data-id]").dataset;
         let { selected } = this.state;
         if (checked) {
             if (selected.indexOf(id) === -1) {
                 selected.push(id);
             }
         } else {
-            selected = selected.filter(i => i !== id);
+            selected = selected.filter((i) => i !== id);
         }
         this.setState("selected", selected);
     }

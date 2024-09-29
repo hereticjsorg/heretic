@@ -1,14 +1,15 @@
-import {
-    Totp,
-} from "time2fa";
+import { Totp } from "time2fa";
 
 export default () => ({
     async handler(req, rep) {
         const authData = await req.auth.getData(req.auth.methods.COOKIE);
         if (!authData) {
-            return rep.error({
-                message: "Access Denied",
-            }, 403);
+            return rep.error(
+                {
+                    message: "Access Denied",
+                },
+                403,
+            );
         }
         const key = Totp.generateKey({
             issuer: "Heretic",
@@ -18,5 +19,5 @@ export default () => ({
             url: key.url,
             secret: key.secret,
         });
-    }
+    },
 });

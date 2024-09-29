@@ -1,6 +1,4 @@
-const {
-    parse,
-} = require("@lukeed/ms");
+const { parse } = require("@lukeed/ms");
 const secure = require("./secure.json");
 const oauth2 = require("./oauth2.js");
 
@@ -45,15 +43,14 @@ if (!process.browser) {
 
 const sessionTTL = parseInt(parse("7 days") / 1000, 10);
 
-const processConfig = config => {
-    for (const k of Object.keys(conf).filter(i => i !== "system")) {
-        config[k] = Array.isArray(config[k]) ? [
-            ...config[k],
-            ...conf[k],
-        ] : {
-            ...config[k],
-            ...conf[k],
-        };
+const processConfig = (config) => {
+    for (const k of Object.keys(conf).filter((i) => i !== "system")) {
+        config[k] = Array.isArray(config[k])
+            ? [...config[k], ...conf[k]]
+            : {
+                  ...config[k],
+                  ...conf[k],
+              };
     }
     config = {
         ...config,

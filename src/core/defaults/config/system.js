@@ -428,7 +428,8 @@ const config = {
         /*
             Path to the main repository package.json file
         */
-        packageJson: "https://raw.githubusercontent.com/hereticjsorg/heretic/master/package.json",
+        packageJson:
+            "https://raw.githubusercontent.com/hereticjsorg/heretic/master/package.json",
         /*
             Enable or disable dark mode on the global level
         */

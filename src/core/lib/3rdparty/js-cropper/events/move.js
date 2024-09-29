@@ -1,5 +1,5 @@
-import Element from "../components/element";
-import Point from "../objects/point";
+import Element from "../components/element.js";
+import Point from "../objects/point.js";
 
 /**
  * Class representing a MoveEventListener
@@ -55,10 +55,18 @@ export default class MoveEventListener {
      * Initialize event listeners
      */
     init() {
-        this._element.getNode().addEventListener("mousedown", this._onPressHandler, false);
-        this._element.getNode().addEventListener("touchstart", this._onPressHandler, false);
-        this._parent.getNode().addEventListener("mouseup", this._onReleaseHandler, false);
-        this._parent.getNode().addEventListener("touchend", this._onReleaseHandler, false);
+        this._element
+            .getNode()
+            .addEventListener("mousedown", this._onPressHandler, false);
+        this._element
+            .getNode()
+            .addEventListener("touchstart", this._onPressHandler, false);
+        this._parent
+            .getNode()
+            .addEventListener("mouseup", this._onReleaseHandler, false);
+        this._parent
+            .getNode()
+            .addEventListener("touchend", this._onReleaseHandler, false);
     }
 
     /**
@@ -76,8 +84,12 @@ export default class MoveEventListener {
      * @param {Object} event - Event object.
      */
     onPressHandler(event) {
-        this._parent.getNode().addEventListener("mousemove", this._onMoveHandler, false);
-        this._parent.getNode().addEventListener("touchmove", this._onMoveHandler, false);
+        this._parent
+            .getNode()
+            .addEventListener("mousemove", this._onMoveHandler, false);
+        this._parent
+            .getNode()
+            .addEventListener("touchmove", this._onMoveHandler, false);
         this._onPressCallback(this._getEventPoint(event));
     }
 
@@ -85,8 +97,12 @@ export default class MoveEventListener {
      * Handler for (touch/mouse) release action.
      */
     onReleaseHandler(event) {
-        this._parent.getNode().removeEventListener("mousemove", this._onMoveHandler, false);
-        this._parent.getNode().removeEventListener("touchmove", this._onMoveHandler, false);
+        this._parent
+            .getNode()
+            .removeEventListener("mousemove", this._onMoveHandler, false);
+        this._parent
+            .getNode()
+            .removeEventListener("touchmove", this._onMoveHandler, false);
         this._onReleaseCallback(this._getEventPoint(event));
     }
 
@@ -98,8 +114,10 @@ export default class MoveEventListener {
      */
     _convertCoordinates(point) {
         const box = this._element.getNode().getBoundingClientRect();
-        const x = point.x - box.left * (this._element.getNode().width / box.width);
-        const y = point.y - box.top * (this._element.getNode().height / box.height);
+        const x =
+            point.x - box.left * (this._element.getNode().width / box.width);
+        const y =
+            point.y - box.top * (this._element.getNode().height / box.height);
         return new Point(x, y);
     }
 
@@ -112,11 +130,23 @@ export default class MoveEventListener {
     }
 
     destroy() {
-        this._parent.getNode().removeEventListener("mousemove", this._onMoveHandler, false);
-        this._parent.getNode().removeEventListener("touchmove", this._onMoveHandler, false);
-        this._element.getNode().removeEventListener("mousedown", this._onPressHandler, false);
-        this._element.getNode().removeEventListener("touchstart", this._onPressHandler, false);
-        this._parent.getNode().removeEventListener("mouseup", this._onReleaseHandler, false);
-        this._parent.getNode().removeEventListener("touchend", this._onReleaseHandler, false);
+        this._parent
+            .getNode()
+            .removeEventListener("mousemove", this._onMoveHandler, false);
+        this._parent
+            .getNode()
+            .removeEventListener("touchmove", this._onMoveHandler, false);
+        this._element
+            .getNode()
+            .removeEventListener("mousedown", this._onPressHandler, false);
+        this._element
+            .getNode()
+            .removeEventListener("touchstart", this._onPressHandler, false);
+        this._parent
+            .getNode()
+            .removeEventListener("mouseup", this._onReleaseHandler, false);
+        this._parent
+            .getNode()
+            .removeEventListener("touchend", this._onReleaseHandler, false);
     }
 }

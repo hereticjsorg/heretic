@@ -1,7 +1,7 @@
 import axios from "axios";
-import Utils from "#lib/componentUtils";
-import Query from "#lib/queryBrowser";
-import Cookies from "#lib/cookiesBrowser";
+import Utils from "#lib/componentUtils.js";
+import Query from "#lib/queryBrowser.js";
+import Cookies from "#lib/cookiesBrowser.js";
 import pageConfig from "../page.js";
 import moduleConfig from "../../module.js";
 
@@ -18,12 +18,20 @@ export default class {
         this.systemRoutes = out.global.systemRoutes;
         if (process.browser) {
             window.__heretic = window.__heretic || {};
-            window.__heretic.outGlobal = window.__heretic.outGlobal || out.global;
-            this.language = this.language || window.__heretic.outGlobal.language;
-            this.siteTitle = out.global.siteTitle || window.__heretic.outGlobal.siteTitle;
-            this.siteId = out.global.siteId || window.__heretic.outGlobal.siteId;
-            this.cookieOptions = out.global.cookieOptions || window.__heretic.outGlobal.cookieOptions;
-            this.systemRoutes = out.global.systemRoutes || window.__heretic.outGlobal.systemRoutes;
+            window.__heretic.outGlobal =
+                window.__heretic.outGlobal || out.global;
+            this.language =
+                this.language || window.__heretic.outGlobal.language;
+            this.siteTitle =
+                out.global.siteTitle || window.__heretic.outGlobal.siteTitle;
+            this.siteId =
+                out.global.siteId || window.__heretic.outGlobal.siteId;
+            this.cookieOptions =
+                out.global.cookieOptions ||
+                window.__heretic.outGlobal.cookieOptions;
+            this.systemRoutes =
+                out.global.systemRoutes ||
+                window.__heretic.outGlobal.systemRoutes;
             document.title = `${pageConfig.title[this.language]} – ${this.siteTitle}`;
         }
         this.utils = new Utils(this, this.language);
@@ -46,7 +54,10 @@ export default class {
                     },
                 });
                 if (response.data.lock) {
-                    this.setState("loadingError", `${window.__heretic.t("lockedBy")}: ${response.data.lock.username}`);
+                    this.setState(
+                        "loadingError",
+                        `${window.__heretic.t("lockedBy")}: ${response.data.lock.username}`,
+                    );
                     return;
                 }
             } catch {
@@ -90,7 +101,9 @@ export default class {
             editForm.setAreasData(areas);
         }
         if (id) {
-            editForm.setTitle(`${window.__heretic.t("editRecord")}: ${formData._default.id}`);
+            editForm.setTitle(
+                `${window.__heretic.t("editRecord")}: ${formData._default.id}`,
+            );
         } else {
             editForm.setTitle(window.__heretic.t("newRecord"));
         }
@@ -105,7 +118,11 @@ export default class {
         const id = this.query.get("id");
         this.currentToken = this.cookies.get(`${this.siteId}.authToken`);
         if (!this.currentToken) {
-            setTimeout(() => window.location.href = `${this.getLocalizedURL(this.systemRoutes.signIn)}?r=${this.getLocalizedURL(moduleConfig.routes.userspace.edit.path)}%3Fid%3D${id}`, 500);
+            setTimeout(
+                () =>
+                    (window.location.href = `${this.getLocalizedURL(this.systemRoutes.signIn)}?r=${this.getLocalizedURL(moduleConfig.routes.userspace.edit.path)}%3Fid%3D${id}`),
+                500,
+            );
             return;
         }
         await this.loadFormData(id);
@@ -133,8 +150,15 @@ export default class {
     }
 
     startLockMessaging() {
-        if (window.__heretic.webSocket && this.currentId && !this.socketInterval) {
-            this.socketInterval = setInterval(() => this.sendLockAction("lock"), 20000);
+        if (
+            window.__heretic.webSocket &&
+            this.currentId &&
+            !this.socketInterval
+        ) {
+            this.socketInterval = setInterval(
+                () => this.sendLockAction("lock"),
+                20000,
+            );
         }
     }
 
@@ -180,15 +204,13 @@ export default class {
                 headers: {
                     Authorization: `Bearer ${this.currentToken}`,
                 },
-                onUploadProgress: () => {}
+                onUploadProgress: () => {},
             });
             const result = {};
             if (submitResult.data.insertedId) {
                 result.insertedId = submitResult.data.insertedId;
             }
-            const {
-                id,
-            } = submitResult.data;
+            const { id } = submitResult.data;
             editForm.setTitle(`${window.__heretic.t("editRecord")}: ${id}`);
             this.startLockMessaging();
             return result;
@@ -196,7 +218,9 @@ export default class {
             let message;
             if (e && e.response && e.response.data) {
                 if (e.response.data.form) {
-                    editForm.setErrors(editForm.getErrorData(e.response.data.form));
+                    editForm.setErrors(
+                        editForm.getErrorData(e.response.data.form),
+                    );
                     return;
                 }
                 if (e.response.data.message) {
@@ -212,13 +236,17 @@ export default class {
 
     onButtonClick(btn) {
         switch (btn.id) {
-        case "close":
-            const queryStore = this.query.getStore();
-            delete queryStore.id;
-            window.__heretic.router.navigate(`${moduleConfig.id}_list`, this.language, queryStore);
-            break;
-        default:
-            this.saveClose = btn.id === "saveClose";
+            case "close":
+                const queryStore = this.query.getStore();
+                delete queryStore.id;
+                window.__heretic.router.navigate(
+                    `${moduleConfig.id}_list`,
+                    this.language,
+                    queryStore,
+                );
+                break;
+            default:
+                this.saveClose = btn.id === "saveClose";
         }
     }
 
@@ -230,12 +258,20 @@ export default class {
         if (this.saveClose) {
             const queryStore = this.query.getStore();
             delete queryStore.id;
-            window.__heretic.router.navigate(`${moduleConfig.id}_list`, this.language, queryStore, {
-                success: true
-            });
+            window.__heretic.router.navigate(
+                `${moduleConfig.id}_list`,
+                this.language,
+                queryStore,
+                {
+                    success: true,
+                },
+            );
         } else {
             await this.utils.waitForComponent(`notify_${moduleConfig.id}Edit`);
-            this.getComponent(`notify_${moduleConfig.id}Edit`).show(window.__heretic.t("saveSuccess"), "is-success");
+            this.getComponent(`notify_${moduleConfig.id}Edit`).show(
+                window.__heretic.t("saveSuccess"),
+                "is-success",
+            );
             if (submitResult.insertedId) {
                 this.currentId = submitResult.insertedId;
                 this.query.set("id", submitResult.insertedId);
@@ -256,7 +292,7 @@ export default class {
             headers: {
                 Authorization: `Bearer ${this.currentToken}`,
             },
-            onUploadProgress: () => {}
+            onUploadProgress: () => {},
         });
         editForm.setHistoryData({
             items: result.data.items,
@@ -277,7 +313,10 @@ export default class {
             await this.loadHistory(editForm, data);
         } catch (e) {
             await this.utils.waitForComponent(`notify_${moduleConfig.id}Edit`);
-            this.getComponent(`notify_${moduleConfig.id}Edit`).show(this.t("hform_error_history"), "is-danger");
+            this.getComponent(`notify_${moduleConfig.id}Edit`).show(
+                this.t("hform_error_history"),
+                "is-danger",
+            );
         } finally {
             editForm.setLoading(false);
             editForm.setHistoryModalLoading(false);
@@ -288,7 +327,9 @@ export default class {
         await this.utils.waitForComponent(`${moduleConfig.id}Form`);
         await this.utils.waitForComponent(`notify_${moduleConfig.id}Edit`);
         const editForm = this.getComponent(`${moduleConfig.id}Form`);
-        const notificationComponent = this.getComponent(`notify_${moduleConfig.id}Edit`);
+        const notificationComponent = this.getComponent(
+            `notify_${moduleConfig.id}Edit`,
+        );
         await editForm.setHistoryModalLoading(true);
         try {
             await axios({
@@ -300,13 +341,19 @@ export default class {
                 headers: {
                     Authorization: `Bearer ${this.currentToken}`,
                 },
-                onUploadProgress: () => {}
+                onUploadProgress: () => {},
             });
-            notificationComponent.show(window.__heretic.t("hform_historyRestoreSuccess"), "is-success");
+            notificationComponent.show(
+                window.__heretic.t("hform_historyRestoreSuccess"),
+                "is-success",
+            );
             await editForm.setHistoryModalActive(false);
             await this.loadFormData(this.currentId);
         } catch {
-            notificationComponent.show(window.__heretic.t("hform_historyRestoreError"), "is-danger");
+            notificationComponent.show(
+                window.__heretic.t("hform_historyRestoreError"),
+                "is-danger",
+            );
         } finally {
             await editForm.setHistoryModalLoading(false);
         }
@@ -316,7 +363,9 @@ export default class {
         await this.utils.waitForComponent(`${moduleConfig.id}Form`);
         await this.utils.waitForComponent(`notify_${moduleConfig.id}Edit`);
         const editForm = this.getComponent(`${moduleConfig.id}Form`);
-        const notificationComponent = this.getComponent(`notify_${moduleConfig.id}Edit`);
+        const notificationComponent = this.getComponent(
+            `notify_${moduleConfig.id}Edit`,
+        );
         await editForm.setHistoryModalLoading(true);
         try {
             await axios({
@@ -328,14 +377,20 @@ export default class {
                 headers: {
                     Authorization: `Bearer ${this.currentToken}`,
                 },
-                onUploadProgress: () => {}
+                onUploadProgress: () => {},
             });
-            notificationComponent.show(window.__heretic.t("hform_historyDeleteSuccess"), "is-success");
+            notificationComponent.show(
+                window.__heretic.t("hform_historyDeleteSuccess"),
+                "is-success",
+            );
             await this.loadHistory(editForm, {
                 page: 1,
             });
         } catch {
-            notificationComponent.show(window.__heretic.t("hform_historyDeleteError"), "is-danger");
+            notificationComponent.show(
+                window.__heretic.t("hform_historyDeleteError"),
+                "is-danger",
+            );
         } finally {
             await editForm.setHistoryModalLoading(false);
         }

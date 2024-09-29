@@ -16,9 +16,7 @@ xxHash64 implementation in pure Javascript
 Copyright (C) 2016, Pierre Curto
 MIT license
 */
-const {
-    UINT64
-} = require("cuint");
+const { UINT64 } = require("cuint");
 
 /*
  * Constants
@@ -40,15 +38,12 @@ function toUTF8Array(str) {
         let charcode = str.charCodeAt(i);
         if (charcode < 0x80) utf8.push(charcode);
         else if (charcode < 0x800) {
-            utf8.push(
-                0xc0 | (charcode >> 6),
-                0x80 | (charcode & 0x3f)
-            );
+            utf8.push(0xc0 | (charcode >> 6), 0x80 | (charcode & 0x3f));
         } else if (charcode < 0xd800 || charcode >= 0xe000) {
             utf8.push(
                 0xe0 | (charcode >> 12),
                 0x80 | ((charcode >> 6) & 0x3f),
-                0x80 | (charcode & 0x3f)
+                0x80 | (charcode & 0x3f),
             );
         }
         // surrogate pair
@@ -57,13 +52,14 @@ function toUTF8Array(str) {
             // UTF-16 encodes 0x10000-0x10FFFF by
             // subtracting 0x10000 and splitting the
             // 20 bits of 0x0-0xFFFFF into two halves
-            charcode = 0x10000 + (((charcode & 0x3ff) << 10)
-                | (str.charCodeAt(i) & 0x3ff));
+            charcode =
+                0x10000 +
+                (((charcode & 0x3ff) << 10) | (str.charCodeAt(i) & 0x3ff));
             utf8.push(
                 0xf0 | (charcode >> 18),
                 0x80 | ((charcode >> 12) & 0x3f),
                 0x80 | ((charcode >> 6) & 0x3f),
-                0x80 | (charcode & 0x3f)
+                0x80 | (charcode & 0x3f),
             );
         }
     }
@@ -153,8 +149,8 @@ XXH64.prototype.update = function (input) {
         }
     }
 
-    if (this.memsize + len < 32) // fill in tmp buffer
-    {
+    if (this.memsize + len < 32) {
+        // fill in tmp buffer
         // XXH64_memcpy(this.memory + this.memsize, input, len)
         if (isString) {
             this.memory += input;
@@ -168,8 +164,8 @@ XXH64.prototype.update = function (input) {
         return this;
     }
 
-    if (this.memsize > 0) // some data left from previous update
-    {
+    if (this.memsize > 0) {
+        // some data left from previous update
         // XXH64_memcpy(this.memory + this.memsize, input, 16-this.memsize);
         if (isString) {
             this.memory += input.slice(0, 32 - this.memsize);
@@ -183,34 +179,50 @@ XXH64.prototype.update = function (input) {
         if (isString) {
             var other;
             other = UINT64(
-                (this.memory.charCodeAt(p64 + 1) << 8) | this.memory.charCodeAt(p64),
-                (this.memory.charCodeAt(p64 + 3) << 8) | this.memory.charCodeAt(p64 + 2),
-                (this.memory.charCodeAt(p64 + 5) << 8) | this.memory.charCodeAt(p64 + 4),
-                (this.memory.charCodeAt(p64 + 7) << 8) | this.memory.charCodeAt(p64 + 6)
+                (this.memory.charCodeAt(p64 + 1) << 8) |
+                    this.memory.charCodeAt(p64),
+                (this.memory.charCodeAt(p64 + 3) << 8) |
+                    this.memory.charCodeAt(p64 + 2),
+                (this.memory.charCodeAt(p64 + 5) << 8) |
+                    this.memory.charCodeAt(p64 + 4),
+                (this.memory.charCodeAt(p64 + 7) << 8) |
+                    this.memory.charCodeAt(p64 + 6),
             );
             this.v1.add(other.multiply(PRIME64_2)).rotl(31).multiply(PRIME64_1);
             p64 += 8;
             other = UINT64(
-                (this.memory.charCodeAt(p64 + 1) << 8) | this.memory.charCodeAt(p64),
-                (this.memory.charCodeAt(p64 + 3) << 8) | this.memory.charCodeAt(p64 + 2),
-                (this.memory.charCodeAt(p64 + 5) << 8) | this.memory.charCodeAt(p64 + 4),
-                (this.memory.charCodeAt(p64 + 7) << 8) | this.memory.charCodeAt(p64 + 6)
+                (this.memory.charCodeAt(p64 + 1) << 8) |
+                    this.memory.charCodeAt(p64),
+                (this.memory.charCodeAt(p64 + 3) << 8) |
+                    this.memory.charCodeAt(p64 + 2),
+                (this.memory.charCodeAt(p64 + 5) << 8) |
+                    this.memory.charCodeAt(p64 + 4),
+                (this.memory.charCodeAt(p64 + 7) << 8) |
+                    this.memory.charCodeAt(p64 + 6),
             );
             this.v2.add(other.multiply(PRIME64_2)).rotl(31).multiply(PRIME64_1);
             p64 += 8;
             other = UINT64(
-                (this.memory.charCodeAt(p64 + 1) << 8) | this.memory.charCodeAt(p64),
-                (this.memory.charCodeAt(p64 + 3) << 8) | this.memory.charCodeAt(p64 + 2),
-                (this.memory.charCodeAt(p64 + 5) << 8) | this.memory.charCodeAt(p64 + 4),
-                (this.memory.charCodeAt(p64 + 7) << 8) | this.memory.charCodeAt(p64 + 6)
+                (this.memory.charCodeAt(p64 + 1) << 8) |
+                    this.memory.charCodeAt(p64),
+                (this.memory.charCodeAt(p64 + 3) << 8) |
+                    this.memory.charCodeAt(p64 + 2),
+                (this.memory.charCodeAt(p64 + 5) << 8) |
+                    this.memory.charCodeAt(p64 + 4),
+                (this.memory.charCodeAt(p64 + 7) << 8) |
+                    this.memory.charCodeAt(p64 + 6),
             );
             this.v3.add(other.multiply(PRIME64_2)).rotl(31).multiply(PRIME64_1);
             p64 += 8;
             other = UINT64(
-                (this.memory.charCodeAt(p64 + 1) << 8) | this.memory.charCodeAt(p64),
-                (this.memory.charCodeAt(p64 + 3) << 8) | this.memory.charCodeAt(p64 + 2),
-                (this.memory.charCodeAt(p64 + 5) << 8) | this.memory.charCodeAt(p64 + 4),
-                (this.memory.charCodeAt(p64 + 7) << 8) | this.memory.charCodeAt(p64 + 6)
+                (this.memory.charCodeAt(p64 + 1) << 8) |
+                    this.memory.charCodeAt(p64),
+                (this.memory.charCodeAt(p64 + 3) << 8) |
+                    this.memory.charCodeAt(p64 + 2),
+                (this.memory.charCodeAt(p64 + 5) << 8) |
+                    this.memory.charCodeAt(p64 + 4),
+                (this.memory.charCodeAt(p64 + 7) << 8) |
+                    this.memory.charCodeAt(p64 + 6),
             );
             this.v4.add(other.multiply(PRIME64_2)).rotl(31).multiply(PRIME64_1);
         } else {
@@ -219,7 +231,7 @@ XXH64.prototype.update = function (input) {
                 (this.memory[p64 + 1] << 8) | this.memory[p64],
                 (this.memory[p64 + 3] << 8) | this.memory[p64 + 2],
                 (this.memory[p64 + 5] << 8) | this.memory[p64 + 4],
-                (this.memory[p64 + 7] << 8) | this.memory[p64 + 6]
+                (this.memory[p64 + 7] << 8) | this.memory[p64 + 6],
             );
             this.v1.add(other.multiply(PRIME64_2)).rotl(31).multiply(PRIME64_1);
             p64 += 8;
@@ -227,7 +239,7 @@ XXH64.prototype.update = function (input) {
                 (this.memory[p64 + 1] << 8) | this.memory[p64],
                 (this.memory[p64 + 3] << 8) | this.memory[p64 + 2],
                 (this.memory[p64 + 5] << 8) | this.memory[p64 + 4],
-                (this.memory[p64 + 7] << 8) | this.memory[p64 + 6]
+                (this.memory[p64 + 7] << 8) | this.memory[p64 + 6],
             );
             this.v2.add(other.multiply(PRIME64_2)).rotl(31).multiply(PRIME64_1);
             p64 += 8;
@@ -235,7 +247,7 @@ XXH64.prototype.update = function (input) {
                 (this.memory[p64 + 1] << 8) | this.memory[p64],
                 (this.memory[p64 + 3] << 8) | this.memory[p64 + 2],
                 (this.memory[p64 + 5] << 8) | this.memory[p64 + 4],
-                (this.memory[p64 + 7] << 8) | this.memory[p64 + 6]
+                (this.memory[p64 + 7] << 8) | this.memory[p64 + 6],
             );
             this.v3.add(other.multiply(PRIME64_2)).rotl(31).multiply(PRIME64_1);
             p64 += 8;
@@ -243,7 +255,7 @@ XXH64.prototype.update = function (input) {
                 (this.memory[p64 + 1] << 8) | this.memory[p64],
                 (this.memory[p64 + 3] << 8) | this.memory[p64 + 2],
                 (this.memory[p64 + 5] << 8) | this.memory[p64 + 4],
-                (this.memory[p64 + 7] << 8) | this.memory[p64 + 6]
+                (this.memory[p64 + 7] << 8) | this.memory[p64 + 6],
             );
             this.v4.add(other.multiply(PRIME64_2)).rotl(31).multiply(PRIME64_1);
         }
@@ -263,66 +275,90 @@ XXH64.prototype.update = function (input) {
                     (input.charCodeAt(p + 1) << 8) | input.charCodeAt(p),
                     (input.charCodeAt(p + 3) << 8) | input.charCodeAt(p + 2),
                     (input.charCodeAt(p + 5) << 8) | input.charCodeAt(p + 4),
-                    (input.charCodeAt(p + 7) << 8) | input.charCodeAt(p + 6)
+                    (input.charCodeAt(p + 7) << 8) | input.charCodeAt(p + 6),
                 );
-                this.v1.add(other.multiply(PRIME64_2)).rotl(31).multiply(PRIME64_1);
+                this.v1
+                    .add(other.multiply(PRIME64_2))
+                    .rotl(31)
+                    .multiply(PRIME64_1);
                 p += 8;
                 other = UINT64(
                     (input.charCodeAt(p + 1) << 8) | input.charCodeAt(p),
                     (input.charCodeAt(p + 3) << 8) | input.charCodeAt(p + 2),
                     (input.charCodeAt(p + 5) << 8) | input.charCodeAt(p + 4),
-                    (input.charCodeAt(p + 7) << 8) | input.charCodeAt(p + 6)
+                    (input.charCodeAt(p + 7) << 8) | input.charCodeAt(p + 6),
                 );
-                this.v2.add(other.multiply(PRIME64_2)).rotl(31).multiply(PRIME64_1);
+                this.v2
+                    .add(other.multiply(PRIME64_2))
+                    .rotl(31)
+                    .multiply(PRIME64_1);
                 p += 8;
                 other = UINT64(
                     (input.charCodeAt(p + 1) << 8) | input.charCodeAt(p),
                     (input.charCodeAt(p + 3) << 8) | input.charCodeAt(p + 2),
                     (input.charCodeAt(p + 5) << 8) | input.charCodeAt(p + 4),
-                    (input.charCodeAt(p + 7) << 8) | input.charCodeAt(p + 6)
+                    (input.charCodeAt(p + 7) << 8) | input.charCodeAt(p + 6),
                 );
-                this.v3.add(other.multiply(PRIME64_2)).rotl(31).multiply(PRIME64_1);
+                this.v3
+                    .add(other.multiply(PRIME64_2))
+                    .rotl(31)
+                    .multiply(PRIME64_1);
                 p += 8;
                 other = UINT64(
                     (input.charCodeAt(p + 1) << 8) | input.charCodeAt(p),
                     (input.charCodeAt(p + 3) << 8) | input.charCodeAt(p + 2),
                     (input.charCodeAt(p + 5) << 8) | input.charCodeAt(p + 4),
-                    (input.charCodeAt(p + 7) << 8) | input.charCodeAt(p + 6)
+                    (input.charCodeAt(p + 7) << 8) | input.charCodeAt(p + 6),
                 );
-                this.v4.add(other.multiply(PRIME64_2)).rotl(31).multiply(PRIME64_1);
+                this.v4
+                    .add(other.multiply(PRIME64_2))
+                    .rotl(31)
+                    .multiply(PRIME64_1);
             } else {
                 var other;
                 other = UINT64(
                     (input[p + 1] << 8) | input[p],
                     (input[p + 3] << 8) | input[p + 2],
                     (input[p + 5] << 8) | input[p + 4],
-                    (input[p + 7] << 8) | input[p + 6]
+                    (input[p + 7] << 8) | input[p + 6],
                 );
-                this.v1.add(other.multiply(PRIME64_2)).rotl(31).multiply(PRIME64_1);
+                this.v1
+                    .add(other.multiply(PRIME64_2))
+                    .rotl(31)
+                    .multiply(PRIME64_1);
                 p += 8;
                 other = UINT64(
                     (input[p + 1] << 8) | input[p],
                     (input[p + 3] << 8) | input[p + 2],
                     (input[p + 5] << 8) | input[p + 4],
-                    (input[p + 7] << 8) | input[p + 6]
+                    (input[p + 7] << 8) | input[p + 6],
                 );
-                this.v2.add(other.multiply(PRIME64_2)).rotl(31).multiply(PRIME64_1);
+                this.v2
+                    .add(other.multiply(PRIME64_2))
+                    .rotl(31)
+                    .multiply(PRIME64_1);
                 p += 8;
                 other = UINT64(
                     (input[p + 1] << 8) | input[p],
                     (input[p + 3] << 8) | input[p + 2],
                     (input[p + 5] << 8) | input[p + 4],
-                    (input[p + 7] << 8) | input[p + 6]
+                    (input[p + 7] << 8) | input[p + 6],
                 );
-                this.v3.add(other.multiply(PRIME64_2)).rotl(31).multiply(PRIME64_1);
+                this.v3
+                    .add(other.multiply(PRIME64_2))
+                    .rotl(31)
+                    .multiply(PRIME64_1);
                 p += 8;
                 other = UINT64(
                     (input[p + 1] << 8) | input[p],
                     (input[p + 3] << 8) | input[p + 2],
                     (input[p + 5] << 8) | input[p + 4],
-                    (input[p + 7] << 8) | input[p + 6]
+                    (input[p + 7] << 8) | input[p + 6],
                 );
-                this.v4.add(other.multiply(PRIME64_2)).rotl(31).multiply(PRIME64_1);
+                this.v4
+                    .add(other.multiply(PRIME64_2))
+                    .rotl(31)
+                    .multiply(PRIME64_1);
             }
             p += 8;
         } while (p <= limit);
@@ -355,8 +391,7 @@ XXH64.prototype.digest = function () {
     let p = 0;
     const bEnd = this.memsize;
     let h64;
-    let
-        h;
+    let h;
     const u = new UINT64();
 
     if (this.total_len >= 32) {
@@ -388,22 +423,18 @@ XXH64.prototype.digest = function () {
                 (input.charCodeAt(p + 1) << 8) | input.charCodeAt(p),
                 (input.charCodeAt(p + 3) << 8) | input.charCodeAt(p + 2),
                 (input.charCodeAt(p + 5) << 8) | input.charCodeAt(p + 4),
-                (input.charCodeAt(p + 7) << 8) | input.charCodeAt(p + 6)
+                (input.charCodeAt(p + 7) << 8) | input.charCodeAt(p + 6),
             );
         } else {
             u.fromBits(
                 (input[p + 1] << 8) | input[p],
                 (input[p + 3] << 8) | input[p + 2],
                 (input[p + 5] << 8) | input[p + 4],
-                (input[p + 7] << 8) | input[p + 6]
+                (input[p + 7] << 8) | input[p + 6],
             );
         }
         u.multiply(PRIME64_2).rotl(31).multiply(PRIME64_1);
-        h64
-            .xor(u)
-            .rotl(27)
-            .multiply(PRIME64_1)
-            .add(PRIME64_4);
+        h64.xor(u).rotl(27).multiply(PRIME64_1).add(PRIME64_4);
         p += 8;
     }
 
@@ -413,18 +444,17 @@ XXH64.prototype.digest = function () {
                 (input.charCodeAt(p + 1) << 8) | input.charCodeAt(p),
                 (input.charCodeAt(p + 3) << 8) | input.charCodeAt(p + 2),
                 0,
-                0
+                0,
             );
         } else {
             u.fromBits(
                 (input[p + 1] << 8) | input[p],
                 (input[p + 3] << 8) | input[p + 2],
                 0,
-                0
+                0,
             );
         }
-        h64
-            .xor(u.multiply(PRIME64_1))
+        h64.xor(u.multiply(PRIME64_1))
             .rotl(23)
             .multiply(PRIME64_2)
             .add(PRIME64_3);
@@ -433,10 +463,7 @@ XXH64.prototype.digest = function () {
 
     while (p < bEnd) {
         u.fromBits(isString ? input.charCodeAt(p++) : input[p++], 0, 0, 0);
-        h64
-            .xor(u.multiply(PRIME64_5))
-            .rotl(11)
-            .multiply(PRIME64_1);
+        h64.xor(u.multiply(PRIME64_5)).rotl(11).multiply(PRIME64_1);
     }
 
     h = h64.clone().shiftRight(33);

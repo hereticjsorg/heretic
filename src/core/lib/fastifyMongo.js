@@ -1,29 +1,21 @@
 const fp = require("fastify-plugin");
-const {
-    MongoClient,
-    ObjectId,
-} = require("mongodb");
+const { MongoClient, ObjectId } = require("mongodb");
 
 function decorateFastifyInstance(fastify, client, options) {
-    const {
-        forceClose,
-        database,
-        name,
-        newClient
-    } = options;
+    const { forceClose, database, name, newClient } = options;
     if (newClient) {
         fastify.addHook("onClose", () => client.close(forceClose));
     }
     const mongo = {
         client,
-        ObjectId
+        ObjectId,
     };
     if (name) {
         if (!fastify.mongo) {
             fastify.decorate("mongo", mongo);
         }
         if (fastify.mongo[name]) {
-            throw Error(`Connection name already registered: ${ name}`);
+            throw Error(`Connection name already registered: ${name}`);
         }
 
         fastify.mongo[name] = mongo;
@@ -42,16 +34,9 @@ function decorateFastifyInstance(fastify, client, options) {
 async function fastifyMongo(fastify, options) {
     options = {
         serverSelectionTimeoutMS: 7500,
-        ...options
+        ...options,
     };
-    const {
-        forceClose,
-        name,
-        database,
-        url,
-        client,
-        ...opts
-    } = options;
+    const { forceClose, name, database, url, client, ...opts } = options;
     if (client) {
         decorateFastifyInstance(fastify, client, {
             newClient: false,
@@ -61,7 +46,9 @@ async function fastifyMongo(fastify, options) {
         });
     } else {
         if (!url) {
-            throw Error("`url` parameter is mandatory if no client is provided");
+            throw Error(
+                "`url` parameter is mandatory if no client is provided",
+            );
         }
         const urlTokens = /\w\/([^?]*)/g.exec(url);
         const parsedDbName = urlTokens && urlTokens[1];
@@ -78,7 +65,7 @@ async function fastifyMongo(fastify, options) {
 }
 
 module.exports = fp(fastifyMongo, {
-    fastify: "4.x",
+    fastify: ">=4.x",
     name: "hereticMongo",
 });
 

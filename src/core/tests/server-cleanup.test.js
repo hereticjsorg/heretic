@@ -1,11 +1,7 @@
-import {
-    jest,
-    test,
-    expect,
-} from "@jest/globals";
+import { jest, test, expect } from "@jest/globals";
 import fs from "fs-extra";
 import path from "path";
-import Helpers from "#lib/testHelpers";
+import Helpers from "#lib/testHelpers.js";
 
 const routeId = "test3wEGNDiB";
 const helpers = new Helpers();
@@ -13,8 +9,14 @@ jest.setTimeout(120000);
 
 test("Restore site backup", () => {
     const backupPath = path.resolve(__dirname, "../../../dist.backup");
-    const publicBackupPath = path.resolve(__dirname, "../../../dist.backup/public/heretic");
-    const serverBackupPath = path.resolve(__dirname, "../../../dist.backup/server.js");
+    const publicBackupPath = path.resolve(
+        __dirname,
+        "../../../dist.backup/public/heretic",
+    );
+    const serverBackupPath = path.resolve(
+        __dirname,
+        "../../../dist.backup/server.js",
+    );
     const publicPath = path.resolve(__dirname, "../../../dist/public/heretic");
     const serverPath = path.resolve(__dirname, "../../../dist/server.js");
     try {

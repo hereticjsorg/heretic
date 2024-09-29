@@ -1,5 +1,5 @@
 import Ajv from "ajv";
-import dataProvidersSchema from "../data/dataProvidersSchema";
+import dataProvidersSchema from "../data/dataProvidersSchema.js";
 
 const ajv = new Ajv({
     allErrors: true,
@@ -9,10 +9,19 @@ const ajv = new Ajv({
 export default () => ({
     async handler(req, rep) {
         const authData = await req.auth.getData(req.auth.methods.HEADERS);
-        if (!authData || !authData.groupData || !authData.groupData.find(i => i.id === "admin" && i.value === true)) {
-            return rep.error({
-                message: "Access Denied",
-            }, 403);
+        if (
+            !authData ||
+            !authData.groupData ||
+            !authData.groupData.find(
+                (i) => i.id === "admin" && i.value === true,
+            )
+        ) {
+            return rep.error(
+                {
+                    message: "Access Denied",
+                },
+                403,
+            );
         }
         const dataProvidersValidator = ajv.compile(dataProvidersSchema);
         try {
@@ -27,7 +36,12 @@ export default () => ({
             for (const p of Object.keys(this.dataProviders)) {
                 const dataProvider = this.dataProviders[p];
                 if (dataProvider.getEvents) {
-                    dataProvider.setTranslations((id, d = {}) => typeof this.languageData[req.query.language][id] === "function" ? this.languageData[req.query.language][id](d) : this.languageData[req.query.language][id] || id);
+                    dataProvider.setTranslations((id, d = {}) =>
+                        typeof this.languageData[req.query.language][id] ===
+                        "function"
+                            ? this.languageData[req.query.language][id](d)
+                            : this.languageData[req.query.language][id] || id,
+                    );
                     const eventsData = dataProvider.getEvents();
                     if (eventsData) {
                         for (const event of eventsData) {
@@ -46,5 +60,5 @@ export default () => ({
             this.log.error(e);
             return Promise.reject(e);
         }
-    }
+    },
 });

@@ -5,9 +5,7 @@ module.exports = class {
 
     navigate(e) {
         e.preventDefault();
-        const {
-            language
-        } = window.__heretic.router.getLocationData();
+        const { language } = window.__heretic.router.getLocationData();
         window.__heretic.router.navigate(this.input.route, language);
     }
 };

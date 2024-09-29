@@ -1,10 +1,14 @@
 import buildData from "#build/build.json";
+import DynamicLoader from "#build/dynamicLoader.js";
 
 export default (m, page, languageData, language) => ({
     async handler(req, rep) {
         const authData = await req.auth.getData(req.auth.methods.COOKIE);
-        const translationData = buildData.modules.find(i => i.id === m.id).pages.find(i => i.id === page.id).metaData;
-        const pageData = (await import(`#src/../${m.path}/${page.id}/server.marko`)).default;
+        const translationData = buildData.modules
+            .find((i) => i.id === m.id)
+            .pages.find((i) => i.id === page.id).metaData;
+        const pageData =
+            (await DynamicLoader.loadPage(`${m.path}/${page.id}`)).default;
         const renderPage = await pageData.render({
             $global: {
                 serializedGlobals: {
@@ -31,16 +35,23 @@ export default (m, page, languageData, language) => ({
                     packageJson: true,
                     queryString: true,
                 },
-                oa2: this.systemConfig.oauth2 && Array.isArray(this.systemConfig.oauth2) ? this.systemConfig.oauth2.map(i => ({
-                    name: i.name,
-                    icon: i.icon,
-                    path: i.startRedirectPath,
-                    enabled: i.enabled,
-                })) : [],
+                oa2:
+                    this.systemConfig.oauth2 &&
+                    Array.isArray(this.systemConfig.oauth2)
+                        ? this.systemConfig.oauth2.map((i) => ({
+                              name: i.name,
+                              icon: i.icon,
+                              path: i.startRedirectPath,
+                              enabled: i.enabled,
+                          }))
+                        : [],
                 passwordPolicy: this.systemConfig.passwordPolicy,
                 authOptions: this.systemConfig.auth,
-                darkModeEnabled: this.systemConfig.darkModeEnabled || this.systemConfig.heretic.darkModeEnabled,
-                cookiesUserCheck: this.systemConfig.cookieOptions.userCheck || false,
+                darkModeEnabled:
+                    this.systemConfig.darkModeEnabled ||
+                    this.systemConfig.heretic.darkModeEnabled,
+                cookiesUserCheck:
+                    this.systemConfig.cookieOptions.userCheck || false,
                 mongoEnabled: this.systemConfig.mongo.enabled,
                 language,
                 route: `${m.id}_${page.id}`,
@@ -48,13 +59,27 @@ export default (m, page, languageData, language) => ({
                 siteTitle: this.siteConfig.title[language],
                 siteUrl: this.siteConfig.url,
                 i18nNavigation: this.i18nNavigation[language],
-                description: translationData.description && translationData.description[language] ? translationData.description[language] : null,
-                t: id => languageData[language] && languageData[language][id] ? typeof languageData[language][id] === "function" ? languageData[language][id]() : `${languageData[language][id]}` : id,
+                description:
+                    translationData.description &&
+                    translationData.description[language]
+                        ? translationData.description[language]
+                        : null,
+                t: (id) =>
+                    languageData[language] && languageData[language][id]
+                        ? typeof languageData[language][id] === "function"
+                            ? languageData[language][id]()
+                            : `${languageData[language][id]}`
+                        : id,
                 systemRoutes: this.systemConfig.routes,
                 siteId: this.systemConfig.id,
                 cookieOptions: this.systemConfig.cookieOptions,
                 username: authData ? authData.username : null,
-                isAdmin: authData && authData.groupData && authData.groupData.find(i => i.id === "admin" && i.value === true),
+                isAdmin:
+                    authData &&
+                    authData.groupData &&
+                    authData.groupData.find(
+                        (i) => i.id === "admin" && i.value === true,
+                    ),
                 webSockets: this.systemConfig.webSockets || {},
                 demo: this.systemConfig.demo,
                 packageJson: this.packageJson,
@@ -63,5 +88,5 @@ export default (m, page, languageData, language) => ({
         });
         rep.type("text/html");
         rep.send(renderPage.getOutput());
-    }
+    },
 });

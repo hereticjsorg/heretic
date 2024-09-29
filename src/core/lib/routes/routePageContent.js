@@ -1,13 +1,11 @@
-import {
-    createHash,
-} from "crypto";
+import { createHash } from "crypto";
 import languages from "#etc/languages.json";
 
 export default async (fastify, req) => {
     if (req && req.url && fastify.systemConfig.mongo.enabled) {
         try {
             const languagesList = Object.keys(languages);
-            const urlParts = req.url.split(/\//).filter(p => p);
+            const urlParts = req.url.split(/\//).filter((p) => p);
             let language = languagesList[0];
             for (const lang of languagesList) {
                 if (urlParts[0] === languagesList[0]) {
@@ -20,14 +18,22 @@ export default async (fastify, req) => {
                 }
             }
             const url = urlParts.join("/");
-            const pagePathHash = createHash("sha256").update(url).digest("base64");
-            const collection = fastify.mongo.db.collection(fastify.systemConfig.collections.content);
+            const pagePathHash = createHash("sha256")
+                .update(url)
+                .digest("base64");
+            const collection = fastify.mongo.db.collection(
+                fastify.systemConfig.collections.content,
+            );
             const page = await collection.findOne({
                 pagePathHash,
             });
             if (page && page[language]) {
-                const authData = req.auth ? await req.auth.getData(req.auth.methods.COOKIE) : null;
-                const pageData = (await import(`#site/contentRender/server.marko`)).default;
+                const authData = req.auth
+                    ? await req.auth.getData(req.auth.methods.COOKIE)
+                    : null;
+                const pageData = (
+                    await import("#site/contentRender/server.marko")
+                ).default;
                 const renderPage = await pageData.render({
                     $global: {
                         serializedGlobals: {
@@ -55,16 +61,24 @@ export default async (fastify, req) => {
                             contentData: true,
                             queryString: true,
                         },
-                        oa2: fastify.systemConfig.oauth2 && Array.isArray(fastify.systemConfig.oauth2) ? fastify.systemConfig.oauth2.map(i => ({
-                            name: i.name,
-                            icon: i.icon,
-                            path: i.startRedirectPath,
-                            enabled: i.enabled,
-                        })) : [],
+                        oa2:
+                            fastify.systemConfig.oauth2 &&
+                            Array.isArray(fastify.systemConfig.oauth2)
+                                ? fastify.systemConfig.oauth2.map((i) => ({
+                                      name: i.name,
+                                      icon: i.icon,
+                                      path: i.startRedirectPath,
+                                      enabled: i.enabled,
+                                  }))
+                                : [],
                         passwordPolicy: fastify.systemConfig.passwordPolicy,
                         authOptions: fastify.systemConfig.auth,
-                        darkModeEnabled: fastify.systemConfig.darkModeEnabled || fastify.systemConfig.heretic.darkModeEnabled,
-                        cookiesUserCheck: fastify.systemConfig.cookieOptions.userCheck || false,
+                        darkModeEnabled:
+                            fastify.systemConfig.darkModeEnabled ||
+                            fastify.systemConfig.heretic.darkModeEnabled,
+                        cookiesUserCheck:
+                            fastify.systemConfig.cookieOptions.userCheck ||
+                            false,
                         mongoEnabled: fastify.systemConfig.mongo.enabled,
                         language,
                         route: `/${url}`,
@@ -73,12 +87,17 @@ export default async (fastify, req) => {
                         siteUrl: fastify.siteConfig.url,
                         i18nNavigation: fastify.i18nNavigation[language],
                         description: "",
-                        t: id => id,
+                        t: (id) => id,
                         systemRoutes: fastify.systemConfig.routes,
                         siteId: fastify.systemConfig.id,
                         cookieOptions: fastify.systemConfig.cookieOptions,
                         username: authData ? authData.username : null,
-                        isAdmin: authData && authData.groupData && authData.groupData.find(i => i.id === "admin" && i.value === true),
+                        isAdmin:
+                            authData &&
+                            authData.groupData &&
+                            authData.groupData.find(
+                                (i) => i.id === "admin" && i.value === true,
+                            ),
                         webSockets: fastify.systemConfig.webSockets || {},
                         demo: fastify.systemConfig.demo,
                         packageJson: fastify.packageJson,

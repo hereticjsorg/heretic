@@ -10,7 +10,7 @@ module.exports = {
             events: {
                 path: "/events",
             },
-        }
+        },
     },
     collections: {
         events: siteConfig.collections.events,

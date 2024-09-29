@@ -5,17 +5,17 @@ module.exports = {
     routes: {
         userspace: {
             status: {
-                path: "/_status"
+                path: "/_status",
             },
             search: {
-                path: "/search"
+                path: "/search",
             },
         },
         admin: {
             home: {
                 path: "",
             },
-        }
+        },
     },
     maxUploadImageSize: 10 * 1024 * 1024, // 10 MB
 };

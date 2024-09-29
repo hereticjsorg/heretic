@@ -1,6 +1,4 @@
-const {
-    id,
-} = require("./module.json");
+const { id } = require("./module.json");
 
 module.exports = {
     id,
@@ -10,6 +8,6 @@ module.exports = {
                 path: `/${id}`,
             },
         },
-        admin: {}
+        admin: {},
     },
 };

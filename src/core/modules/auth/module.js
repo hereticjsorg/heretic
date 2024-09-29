@@ -11,10 +11,10 @@ module.exports = {
                 path: "/signOut",
             },
             signUp: {
-                path: "/signUp"
+                path: "/signUp",
             },
             restorePassword: {
-                path: "/restorePassword"
+                path: "/restorePassword",
             },
             activate: {
                 path: "/activate",
@@ -30,7 +30,7 @@ module.exports = {
             signOutAdmin: {
                 path: "/signOut",
             },
-        }
+        },
     },
     api: {
         signUp: "/api/signUp",

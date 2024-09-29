@@ -1,5 +1,5 @@
-import Element from "./element";
-import Context from "../objects/context";
+import Element from "./element.js";
+import Context from "../objects/context.js";
 
 /**
  * Class representing a Generator
@@ -32,9 +32,9 @@ export default class Generator extends Element {
             this._frame.getRect().size.height,
             0,
 
-0,
+            0,
             this._frame.getRect().size.width,
-            this._frame.getRect().size.height
+            this._frame.getRect().size.height,
         );
         return this.getNode().toDataURL();
     }
