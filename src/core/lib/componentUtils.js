@@ -74,6 +74,7 @@ export default class {
             }
             if (this.isElementInViewport(el)) {
                 resolve();
+            } else if (timeout && (Date.now() - start) >= timeout) {
             } else if (timeout && Date.now() - start >= timeout) {
                 reject(new Error(`Element not in viewport: ${id}`));
             } else {

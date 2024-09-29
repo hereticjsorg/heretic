@@ -54,7 +54,9 @@ export default class {
             formData.append("language", this.language);
             formData.append("limit", this.state.itemsPerPage);
             formData.append("offset", (page - 1) * this.state.itemsPerPage);
-            const { data } = await axios({
+            const {
+                data,
+            } = await axios({
                 method: "post",
                 url: "/api/search",
                 data: formData,

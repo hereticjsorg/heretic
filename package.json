@@ -141,7 +141,8 @@
         "webpack": "^5.95.0",
         "webpack-cli": "^5.1.4",
         "ws": "^8.18.0",
-        "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.2/xlsx-0.20.2.tgz"
+        "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.2/xlsx-0.20.2.tgz",
+        "xlsx-template": "^1.4.4"
     },
     "dependencies": {
         "@redis/search": "^1.2.0",
