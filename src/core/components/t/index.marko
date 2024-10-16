@@ -3,6 +3,41 @@ $ delete attrs.renderBody;
 $ delete attrs.activeClass;
 $ delete attrs.parentElement;
 $ delete attrs.data;
-<span ...attrs>
-    <if(state.ready && input.renderBody)>${component.translate()}</if>
-</span>
+$ const waitForLanguageData = () => {
+    const timeout = 20000;
+    const start = Date.now();
+    const wait = (resolve, reject) => {
+        if (!process.browser) {
+            resolve();
+        }
+        if (window.__heretic && window.__heretic.t) {
+            resolve();
+        } else if (timeout && Date.now() - start >= timeout) {
+            reject(new Error("Language data not loaded"));
+        } else {
+            setTimeout(wait.bind(this, resolve, reject), 30);
+        }
+    };
+    return new Promise(wait);
+};
+<if(input.renderBody)>
+    <if(!process.browser)>
+        <await(waitForLanguageData())>
+            <@then>
+                <if(input.renderBody)>
+                    <span ...attrs>
+                        ${component.translate()}
+                    </span>
+                </if>
+            </@then>
+            <@catch|err|/>
+        </await>
+    </if>
+    <if(process.browser)>
+        <if(state.ready && input.renderBody)>
+            <span ...attrs>
+                ${component.translate()}
+            </span>
+        </if>
+    </if>
+</if>
