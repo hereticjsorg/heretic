@@ -1,4 +1,4 @@
-@import "~styles/variables.scss";
+@use "~styles/variables.scss" as *;
 
 .sessionsModal-card-body {
     user-select: text;

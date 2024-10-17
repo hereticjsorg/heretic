@@ -1,2 +1,37 @@
-@import "~styles/variables.scss";
-@import "./hicon.scss";
+@use "~styles/variables.scss" as *;
+
+.hr-hicon-white > svg > path {
+    fill: $white-ter !important;
+}
+
+.hr-hicon-black > svg > path {
+    fill: $black-ter !important;
+}
+
+.hr-hicon > svg {
+    margin-right: 5px;
+}
+
+.hr-hicon > svg > path {
+    fill: $black-ter;
+}
+
+html.theme-dark .hr-hicon:not(.hr-hicon-black) > svg > path {
+    fill: $white-ter !important;
+}
+
+.hr-hicon {
+    align-self: center;
+    display: flex;
+}
+
+.hr-icon-wrap,
+.hr-icon-text {
+    flex-direction: row;
+    display: inline-flex;
+    align-items: center;
+}
+
+html.theme-dark .hr-icon-text {
+    color: $white-ter !important;
+}

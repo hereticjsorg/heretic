@@ -1,4 +1,4 @@
-@import "~view/variables.scss";
+@use "~view/variables.scss" as *;
 
 html.theme-dark .hr-navbar-icon svg > path {
     fill: $theme-dark-text-color !important;

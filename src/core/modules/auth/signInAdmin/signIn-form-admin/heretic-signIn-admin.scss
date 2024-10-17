@@ -1,9 +1,9 @@
 // Import variables and fonts
 
-@import "~view/variables.scss";
-@import "~view/buttons.scss";
-@import "~view/fonts.scss";
-@import "~styles/dark.scss";
+@use "~view/variables.scss" as *;
+@use "~view/buttons.scss" as *;
+@use "~view/fonts.scss" as *;
+@use "~styles/dark.scss" as *;
 
 // Template-related styles
 

@@ -1,4 +1,4 @@
-@import "~styles/variables.scss";
+@use "~styles/variables.scss" as *;
 
 html.theme-dark .hr-fs-sort-icon > svg > path {
     fill: $white-ter;

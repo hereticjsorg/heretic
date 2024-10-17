@@ -40,10 +40,20 @@ module.exports = class {
 
     getLocationData() {
         const { data, path } = this.getCurrentPath();
-        const route = this.routes.find((r) => r.path === path);
-        if (route) {
-            data.id = route.id;
-        }
+        this.routes.find((r) => {
+            if (r.path && r.path.match(/\/\*$/)) {
+                const pr = r.path.replace(/\/\*$/, "");
+                if (path.startsWith(pr)) {
+                    data.par = path.replace(pr, "");
+                    data.id = r.id;
+                    return true;
+                }
+            }
+            if (r.path === path) {
+                data.id = r.id;
+            }
+            return r.path === path;
+        });
         return {
             ...data,
             path,

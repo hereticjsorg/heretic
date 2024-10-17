@@ -1,2 +1,51 @@
-@import "~view/variables.scss";
-@import "./hdraglist.scss";
+@use "~view/variables.scss" as *;
+
+@use "sass:color";
+
+.hr-hdg-drop-area {
+    height: 20px;
+    border: 1px dashed $grey-lighter;
+    background: $grey-lightest;
+}
+
+html.theme-dark .hr-hdg-drop-area {
+    background: $theme-dark-grey-dark;
+    border: 1px dashed color.adjust($theme-dark-grey-dark, $lightness: -20%);
+}
+
+.hr-hdg-drop-area-over {
+    background: $yellow;
+}
+
+.hr-hdg-drag-icon {
+    display: inline-flex;
+    align-self: center;
+}
+
+.hr-hdg-drag-icon svg {
+    height: 18px;
+    width: 18px;
+    top: 2px;
+    position: relative;
+}
+
+.hr-hdg-drag-icon svg > path {
+    fill: $grey !important;
+}
+
+.hr-hdg-switch {
+    margin-top: 3px !important;
+}
+
+.hr-hdg-columns-row:hover {
+    background: $white-ter;
+    border-radius: $radius;
+}
+
+html.theme-dark .hr-hdg-columns-row:hover {
+    background: color.adjust($theme-dark-grey-dark, $lightness: 18%);
+    border-radius: $radius;
+}
+
+@media (max-width: 768px) {
+}

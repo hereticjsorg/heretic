@@ -1,2 +1,12 @@
-@import "~view/variables.scss";
-@import "./hfximport.scss";
+@use "~view/variables.scss" as *;
+
+.hr-hfi-file-cta {
+    margin-bottom: 3px;
+}
+
+html.theme-dark .hr-hfi-import-checkbox {
+    color: $grey-light;
+}
+
+@media (max-width: 768px) {
+}

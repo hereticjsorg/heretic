@@ -1,2 +1,8 @@
-@import "~view/variables.scss";
-@import "./hcontact.scss";
+@use "~view/variables.scss" as *;
+
+.hr-cn-message {
+    height: 200px;
+}
+
+@media (max-width: 768px) {
+}

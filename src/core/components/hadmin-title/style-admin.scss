@@ -1,2 +1,26 @@
-@import "~styles/variables.scss";
-@import "./hadmin-title.scss";
+@use "~styles/variables.scss" as *;
+
+@use "sass:color";
+
+.hr-hat-wrap {
+    margin-top: -20px;
+    margin-left: -10px;
+    margin-right: -10px;
+    margin-bottom: 20px !important;
+    border-radius: 0 !important;
+    border-left: 0 !important;
+    border-right: 0 !important;
+    color: $grey !important;
+    padding-left: 15px !important;
+    box-shadow:
+        0 0.2em 1em -0.05em rgba($grey-darker, 0.1),
+        0 0 0 1px rgba($grey-darker, 0.02) !important;
+}
+
+html.theme-dark .hr-hat-wrap {
+    color: $theme-dark-text-color-light !important;
+    background: color.adjust($theme-dark-grey-darker, $lightness: -6%) !important;
+    box-shadow:
+        0 0.2em 1em -0.05em rgba($theme-dark-black-bis, 0.7),
+        0 0 0 1px rgba($theme-dark-black-bis, 0.8) !important;
+}

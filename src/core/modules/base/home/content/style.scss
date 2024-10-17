@@ -1,5 +1,5 @@
 @use "sass:color";
-@import "~styles/variables.scss";
+@use "~styles/variables.scss" as *;
 
 .hr-ah-blink {
     animation: hr-ah-blink-animation 1s steps(5, start) infinite;

@@ -2,12 +2,12 @@
 
 // Import variables and fonts
 
-@import "~styles/variables.scss";
-@import "~styles/buttons.scss";
-@import "~styles/tippy.scss";
-@import "~styles/checkboxes.scss";
-@import "~styles/dark.scss";
-@import "~styles/common.scss";
+@use "~styles/variables.scss" as *;
+@use "~styles/buttons.scss" as *;
+@use "~styles/tippy.scss" as *;
+@use "~styles/checkboxes.scss" as *;
+@use "~styles/dark.scss" as *;
+@use "~styles/common.scss" as *;
 
 // Template-related styles
 

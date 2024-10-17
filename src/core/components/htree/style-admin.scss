@@ -1,2 +1,87 @@
-@import "~styles/variables.scss";
-@import "./htree.scss";
+@use "~styles/variables.scss" as *;
+
+.hr-htree {
+    user-select: none;
+}
+
+.hr-htr-item,
+.hr-htr-item-wrap {
+    display: flex;
+    align-items: center;
+}
+
+.hr-htr-item-wrap {
+    padding-left: 4px;
+    padding-right: 4px;
+    border: 1px solid transparent;
+    margin-left: 2px;
+    z-index: 15;
+}
+
+.hr-htr-item-wrap-selected {
+    border: 1px dotted $grey-light;
+    border-radius: 3px;
+    background-color: $white-ter;
+}
+
+.hr-htr-item-img-folder {
+    width: 30px;
+    height: 30px;
+    margin-right: 3px;
+}
+
+.hr-htr-item-img-plus {
+    width: 15px;
+    height: 15px;
+    margin-left: -8px;
+    z-index: 10;
+}
+
+.hr-htr-items-wrap {
+    display: flex;
+    margin-top: -1px;
+}
+
+.hr-htr-items-line {
+    border-right: 1px solid $grey-light;
+    width: 20px;
+    margin-bottom: 16px;
+}
+
+.hr-htr-drop-area {
+    border: 1px dashed $grey-light;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    height: 15px;
+}
+
+.hr-htr-drop-area-over {
+    background-color: $yellow;
+}
+
+.hr-htr-item-shift-line-00 {
+    border-right: 1px solid $grey-light;
+    z-index: 5;
+    width: 28px;
+}
+
+.hr-htr-item-shift-line-00-ord {
+    height: 32px;
+}
+
+.hr-htr-item-shift-line-00-last {
+    height: 16px;
+}
+
+.hr-htr-item-shift-line-t {
+    height: 1px;
+    width: 7px;
+    border-top: 1px solid $grey-light;
+    margin-right: -8px;
+}
+
+.hr-htr-item-no-img {
+    width: 6px;
+    height: 1px;
+    border-top: 1px solid $grey-light;
+}

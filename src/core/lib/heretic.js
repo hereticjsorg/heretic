@@ -1,6 +1,7 @@
 import Fastify from "fastify";
 import path from "path";
 import crypto from "crypto";
+// import cloneDeep from "lodash/cloneDeep";
 import { MongoClient } from "mongodb";
 import { createClient, SchemaFieldTypes } from "redis";
 import { v4 as uuid } from "uuid";
@@ -283,6 +284,19 @@ export default class {
                             ),
                         );
                     });
+                    if (p.routePath.match(/\/\*$/)) {
+                        this.fastify.register(async () => {
+                            this.fastify.get(
+                                p.routePath.replace(/\/\*$/, ""),
+                                routePageUserspace(
+                                    m,
+                                    p,
+                                    this.languageData,
+                                    this.defaultLanguage,
+                                ),
+                            );
+                        });
+                    }
                     for (const lang of Object.keys(languages)) {
                         if (lang !== this.defaultLanguage) {
                             this.fastify.register(async () => {
@@ -296,6 +310,22 @@ export default class {
                                     ),
                                 );
                             });
+                            if (p.routePath.match(/\/\*$/)) {
+                                this.fastify.register(async () => {
+                                    this.fastify.get(
+                                        `/${lang}${p.routePath}`.replace(
+                                            /\/\*$/,
+                                            "",
+                                        ),
+                                        routePageUserspace(
+                                            m,
+                                            p,
+                                            this.languageData,
+                                            this.defaultLanguage,
+                                        ),
+                                    );
+                                });
+                            }
                         }
                     }
                 }
@@ -598,16 +628,19 @@ export default class {
         for (const m of buildData.modules) {
             try {
                 if (m.provider) {
-                    const Provider = (await DynamicLoader.loadProvider(`${m.path}/data`))
-                        .default;
+                    const Provider = (
+                        await DynamicLoader.loadProvider(`${m.path}/data`)
+                    ).default;
                     const provider = new Provider();
                     dataProviders[m.id] = provider;
                 }
                 for (const p of m.pages) {
                     if (p.provider) {
-                        const ProviderPage = (await DynamicLoader.loadProvider(
-                            `${m.path}/${p.id}`,
-                        )).default;
+                        const ProviderPage = (
+                            await DynamicLoader.loadProvider(
+                                `${m.path}/${p.id}`,
+                            )
+                        ).default;
                         const providerPage = new ProviderPage();
                         dataProviders[`${m.id}_${p.id}`] = providerPage;
                     }
@@ -701,9 +734,7 @@ export default class {
                 try {
                     Setup = (await DynamicLoader.loadSetup(m.path)).default;
                 } catch (e) {
-                    this.fastify.log.error(
-                        `Setup error: ${e.message}...`,
-                    );
+                    this.fastify.log.error(`Setup error: ${e.message}...`);
                 }
                 if (Setup) {
                     this.fastify.log.info(

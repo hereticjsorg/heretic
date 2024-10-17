@@ -1,2 +1,28 @@
-@import "~styles/variables.scss";
-@import "./hnotify.scss";
+@use "~styles/variables.scss" as *;
+
+.hr-notification-active {
+    opacity: 1;
+}
+
+.hr-notification-inactive {
+    opacity: 0;
+}
+
+.hr-notification {
+    position: fixed !important;
+    z-index: 9999;
+    transition: 0.45s ease;
+    overflow: hidden;
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.32);
+    padding: 20px !important;
+}
+
+@media (max-width: 768px) {
+    .hr-notification {
+        left: 12px;
+        right: 12px;
+        transform: unset;
+    }
+}

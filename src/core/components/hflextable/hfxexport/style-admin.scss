@@ -1,2 +1,38 @@
-@import "~styles/variables.scss";
-@import "./hfxexport.scss";
+@use "~styles/variables.scss" as *;
+
+@use "sass:color";
+
+.hr-he-modal-notification {
+    border-radius: 0 !important;
+    padding: 10px;
+}
+
+.hr-he-export-form-wrap {
+    background: $white-ter;
+    box-shadow:
+        20px 20px 60px #bebebe,
+        -20px -20px 60px #ffffff;
+}
+
+html.theme-dark .hr-he-export-form-wrap {
+    background: color.adjust($theme-dark-grey-dark, $lightness: 3%) !important;
+    box-shadow: unset !important;
+    border-bottom: 1px solid $theme-dark-grey-dark;
+}
+
+.hr-he-settings-body {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.hr-he-settings-body > .tabs > ul > li.is-active {
+    background: $white-bis;
+}
+
+html.theme-dark .hr-he-modal-notification {
+    background-color: color.adjust($blue, $lightness: -20%);
+    color: $grey-light;
+}
+
+@media (max-width: 768px) {
+}

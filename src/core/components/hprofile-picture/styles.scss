@@ -1,4 +1,4 @@
-@import "./cropper.scss";
+@use "./cropper.scss" as *;
 
 .hr-profilePicture-modal-body {
     padding: 0 !important;

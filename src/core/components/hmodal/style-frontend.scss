@@ -1,2 +1,64 @@
-@import "~view/variables.scss";
-@import "./hmodal.scss";
+@use "~view/variables.scss" as *;
+
+@use "sass:color";
+
+.hr-hm-modal-card {
+    position: relative;
+    padding: 3px;
+}
+
+.hr-hm-loader-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba($white, 0.6);
+    z-index: 40;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: $radius;
+}
+
+.hr-hm-modal-card-head {
+    order: 1;
+}
+
+html.theme-dark .hr-hm-modal-card-head {
+    box-shadow:
+        0 0.5em 1em -0.125em hsla(0, 0%, 0%, 0.1),
+        0 0px 0 1px hsla(0, 0%, 0%, 0.02) !important;
+    border-bottom: 1px solid #111;
+}
+
+.hr-hm-modal-card-foot {
+    position: relative;
+    order: 100;
+}
+
+.hr-hmodal {
+    user-select: none;
+}
+
+.hr-hm-background-40 {
+    background-color: rgba(10, 10, 10, 0.4) !important;
+}
+
+.hr-hm-background-60 {
+    background-color: rgba(10, 10, 10, 0.6) !important;
+}
+
+html.theme-dark .hr-hm-tabs-wrap {
+    background: $theme-dark-grey-dark !important;
+}
+
+html.theme-dark .hr-hm-tabs > ul > li.is-active > a {
+    background: color.adjust($theme-dark-grey-dark, $lightness: 6%) !important;
+    color: $theme-dark-text-color !important;
+    border-color: color.adjust($theme-dark-grey-dark, $lightness: -20%) !important;
+}
+
+html.theme-dark .hr-hm-tabs > ul > li > a {
+    color: $theme-dark-text-color !important;
+}
