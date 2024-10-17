@@ -1,4 +1,5 @@
 @use "sass:color";
+@use "./variables.scss" as *;
 
 @supports (-webkit-appearance: none) or (-moz-appearance: none) {
     input[type="checkbox"],

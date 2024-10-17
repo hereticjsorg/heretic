@@ -125,7 +125,7 @@
         "prismjs": "^1.29.0",
         "puppeteer-core": "^23.6.0",
         "qrcode": "^1.5.4",
-        "sass": "^1.79.5",
+        "sass": "^1.80.1",
         "sass-loader": "^16.0.2",
         "store2": "^2.14.3",
         "style-loader": "^4.0.0",

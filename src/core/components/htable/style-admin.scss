@@ -1,2 +1,604 @@
-@import "~styles/variables.scss";
-@import "./htable.scss";
+@use "~styles/variables.scss" as *;
+
+@use "sass:color";
+
+.hr-ht-table {
+    opacity: 0;
+}
+
+.hr-ht-thead-tr {
+    background: $grey-lightest;
+}
+
+.hr-ht-thead-move {
+    width: 6px;
+    height: 100%;
+    background: $grey;
+    margin-left: -3px;
+    opacity: 0;
+}
+
+.hr-ht-thead-move:hover {
+    opacity: 0.9;
+}
+
+.hr-ht-dummy {
+    width: 100% !important;
+    height: 1px !important;
+}
+
+.hr-ht-thead-label {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: clip;
+    font-weight: 600 !important;
+    font-size: 98%;
+}
+
+.hr-ht-thead {
+    user-select: none;
+}
+
+.hr-ht-scroll-wrapper {
+    overflow-x: auto;
+    width: 100%;
+    height: 20px;
+}
+
+.hr-ht-action-button {
+    border-radius: 50% !important;
+    height: 29px !important;
+}
+
+html.theme-dark .hr-ht-action-button {
+    width: 30px !important;
+}
+
+.hr-ht-action-button:disabled {
+    opacity: 0 !important;
+    cursor: unset !important;
+}
+
+.hr-ht-action-icon,
+.hr-ht-lock-icon {
+    display: inline-flex;
+    align-self: center;
+}
+
+.hr-ht-action-icon svg {
+    height: 23px;
+    width: 23px;
+    top: 1px;
+    left: 0;
+    position: relative;
+}
+
+.hr-ht-lock-icon svg {
+    height: 17px;
+    width: 17px;
+    top: 9px;
+    left: 6px;
+    position: relative;
+}
+
+.hr-ht-lock-icon > svg > path {
+    fill: $grey !important;
+}
+
+.hr-ht-settings-icon {
+    display: inline-flex;
+    align-self: center;
+}
+
+.hr-ht-settings-icon svg {
+    height: 23px;
+    width: 23px;
+    top: 1px;
+    left: 0;
+    position: relative;
+}
+
+.hr-ht-action-icon svg > path {
+    fill: $grey-darker;
+}
+
+.hr-ht-action-icon-danger svg > path {
+    fill: $white !important;
+}
+
+.hr-ht-top-button-icon,
+.hr-ht-top-button-submenu-icon {
+    display: inline-flex;
+    align-self: center;
+}
+
+.hr-ht-top-button-icon svg {
+    height: 16px;
+    width: 16px;
+    top: 0px;
+    position: relative;
+}
+
+.hr-ht-top-button-icon svg > path {
+    fill: $grey-darker !important;
+}
+
+.hr-ht-top-button-submenu-icon {
+    margin-right: 10px;
+}
+
+.hr-ht-top-button-submenu-icon svg {
+    height: 16px;
+    width: 16px;
+    top: 3px;
+    position: relative;
+}
+
+.hr-ht-top-button-submenu-icon svg > path {
+    fill: $grey !important;
+}
+
+.hr-ht-top-info-icon {
+    display: inline-flex;
+    align-self: center;
+    margin-left: 1px !important;
+}
+
+.hr-ht-top-info-icon svg {
+    height: 15px;
+    width: 15px;
+    top: 1px;
+    position: relative;
+}
+
+.hr-ht-top-info-icon svg > path {
+    fill: $primary !important;
+    margin-left: 10px;
+}
+
+.hr-ht-top-button-icon-danger svg > path {
+    fill: $white !important;
+}
+
+.hr-ht-form-icon,
+.hr-ht-search-close-icon {
+    display: inline-flex;
+    align-self: center;
+}
+
+.hr-ht-form-icon svg,
+.hr-ht-search-close-icon svg {
+    height: 17px;
+    width: 17px;
+    top: 0px;
+    position: relative;
+}
+
+.hr-ht-form-icon svg > path {
+    fill: $grey-light !important;
+}
+
+.hr-ht-search-close-icon svg > path {
+    fill: color.adjust($grey, $lightness: -5%) !important;
+}
+
+.hr-ht-drag-icon {
+    display: inline-flex;
+    align-self: center;
+}
+
+.hr-ht-drag-icon svg {
+    height: 18px;
+    width: 18px;
+    top: 2px;
+    position: relative;
+}
+
+.hr-ht-drag-icon svg > path {
+    fill: $grey !important;
+}
+
+.hr-ht-td {
+    vertical-align: top !important;
+}
+
+.hr-ht-table-controls {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 55;
+}
+
+.hr-ht-wrap {
+    position: relative;
+    z-index: 5;
+}
+
+.hr-ht-action-cell {
+    position: absolute;
+    display: flex !important;
+    flex-direction: row;
+    justify-content: center;
+    border-left: 1px solid $grey-lighter;
+    border-right: 1px solid $grey-lighter;
+}
+
+.hr-ht-action-cell-buttons {
+    position: absolute;
+    top: 5px;
+}
+
+.hr-ht-action-cell-even {
+    background: $white;
+    // background: yellow;
+}
+
+.hr-ht-action-cell-odd {
+    background: $white-bis;
+    // background: green;
+}
+
+.hr-ht-action-cell-control {
+    position: absolute;
+    top: 1px;
+    left: 0;
+    background: $grey-lightest;
+    display: flex !important;
+    flex-direction: row;
+    justify-content: center;
+    border-left: 1px solid $grey-lighter;
+    border-right: 1px solid $grey-lighter;
+    border-bottom: 1px solid $grey-lighter;
+    border-top-right-radius: $radius;
+    // border-right: 1px solid $grey-lighter;
+    // border-left: 1px solid $grey-lighter;
+}
+
+html.theme-dark .hr-ht-action-cell-control {
+    border-bottom: 1px solid color.adjust($theme-dark-grey-dark, $lightness: 10%);
+}
+
+.hr-ht-loading-wrap {
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: rgba($theme-light-loading-background, 0.7);
+    backdrop-filter: grayscale(200%);
+    z-index: 60;
+}
+
+.hr-ht-checkbox-top {
+    position: absolute;
+    top: 3px;
+}
+
+.hr-ht-loading {
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+}
+
+.hr-ht-settings-body {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.hr-ht-settings-body > .tabs > ul > li.is-active {
+    background: $white-bis;
+}
+
+.hr-ht-settings-switch,
+.hr-ht-export-switch {
+    margin-top: 3px !important;
+}
+
+.hr-ht-settings-columns-row:hover,
+.hr-ht-settings-filters-row:hover,
+.hr-ht-settings-bulk-row:hover,
+.hr-ht-export-columns-row:hover {
+    background: $white-ter;
+    border-radius: $radius;
+}
+
+html.theme-dark .hr-ht-settings-columns-row:hover,
+html.theme-dark .hr-ht-settings-filters-row:hover,
+html.theme-dark .hr-ht-settings-bulk-row:hover,
+html.theme-dark .hr-ht-export-columns-row:hover {
+    background: color.adjust($theme-dark-grey-dark, $lightness: 18%);
+    border-radius: $radius;
+}
+
+.hr-hm-tabs-wrap {
+    border-radius: 0 !important;
+    background: $white-bis !important;
+}
+
+.hr-ht-checkbox-wrap {
+    padding: 11px 8px 0 8px;
+}
+
+.hr-ht-settings-columns-drop-area,
+.hr-ht-export-columns-drop-area {
+    height: 5px;
+    border: 1px dashed $grey-lighter;
+    background: $grey-lightest;
+}
+
+html.theme-dark .hr-ht-settings-columns-drop-area,
+html.theme-dark .hr-ht-export-columns-drop-area {
+    background: $theme-dark-grey-dark;
+    border: 1px dashed color.adjust($theme-dark-grey-dark, $lightness: -0%);
+}
+
+.hr-ht-settings-columns-drop-area-over,
+.hr-ht-export-columns-drop-area-over {
+    background: $yellow;
+}
+
+.hr-hm-tabs {
+    margin: 5px 5px 0 5px !important;
+    height: 40px;
+}
+
+html.theme-dark .hr-hm-tabs-wrap {
+    background-color: $theme-dark-grey-dark !important;
+}
+
+.hr-hm-tabs > ul {
+    position: absolute;
+    top: 5px;
+}
+
+.hr-hm-tabs > ul > li:not(.is-active) > a:hover {
+    background: unset !important;
+}
+
+.hr-hm-tabs a,
+.hr-hm-tabs ul {
+    border-bottom-style: none !important;
+}
+
+.hr-ht-table-cell {
+    min-height: 40px;
+    width: 100%;
+    z-index: 50 !important;
+}
+
+.hr-ht-table-cell-value-wrap {
+    position: relative;
+    max-width: 100%;
+    padding: 0 !important;
+    display: flex;
+    vertical-align: text-bottom !important;
+}
+
+.hr-ht-table-cell-value {
+    position: absolute;
+    white-space: nowrap;
+    overflow: hidden;
+    // text-overflow: ellipsis;
+    max-width: 100%;
+    min-width: 0;
+    width: 100%;
+    top: 0;
+    left: 0;
+}
+
+.hr-ht-table-cell-value-wrap:after,
+.hr-ht-table-cell-value:after {
+    content: "-";
+    display: inline;
+    visibility: hidden;
+    width: 0;
+}
+
+.hr-ht-modal-notification {
+    border-radius: 0 !important;
+    padding: 10px;
+}
+
+.hr-ht-export-form-wrap {
+    background: $white-ter;
+    box-shadow:
+        20px 20px 60px #bebebe,
+        -20px -20px 60px #ffffff;
+}
+
+html.theme-dark .hr-ht-export-form-wrap {
+    background: color.adjust($theme-dark-grey-dark, $lightness: 3%) !important;
+    box-shadow: unset !important;
+    border-bottom: 1px solid $theme-dark-grey-dark;
+}
+
+.hr-ht-recycleBin-pagination-wrap {
+    border-top: 1px solid $grey-lighter;
+    background: $white;
+}
+
+html.theme-dark .hr-ht-recycleBin-pagination-wrap {
+    background: $theme-dark-grey-dark;
+}
+
+.hr-ht-recycleBin-pagination-wrap > nav {
+    margin-top: 0 !important;
+}
+
+.hr-ht-recycleBin-cell {
+    padding-top: 3px;
+}
+
+.hr-ht-table-cell-wrap {
+    display: flex;
+    flex-direction: row;
+}
+
+.hr-ht-tbody
+    > .hr-ht-tr:nth-child(even)
+    > .hr-ht-td
+    > .hr-ht-table-cell-wrap
+    > .hr-ht-table-cell-fade {
+    background: linear-gradient(90deg, transparent, $white-bis);
+}
+
+.hr-ht-tbody
+    > .hr-ht-tr:nth-child(even):hover
+    > .hr-ht-td
+    > .hr-ht-table-cell-wrap
+    > .hr-ht-table-cell-fade {
+    background: linear-gradient(90deg, transparent, $white-ter);
+}
+
+.hr-ht-tbody
+    > .hr-ht-tr:nth-child(odd):hover
+    > .hr-ht-td
+    > .hr-ht-table-cell-wrap
+    > .hr-ht-table-cell-fade {
+    background: linear-gradient(90deg, transparent, $white-bis);
+}
+
+.hr-ht-table-cell-fade {
+    margin-left: -28px;
+    // background: rgba(255,0,0,0.5);
+    background: linear-gradient(90deg, transparent, $white);
+    // background: red;
+    z-index: 50 !important;
+    width: 20px;
+}
+
+html.theme-dark
+    .hr-ht-tbody
+    > .hr-ht-tr:nth-child(even)
+    > .hr-ht-td
+    > .hr-ht-table-cell-wrap
+    > .hr-ht-table-cell-fade {
+    background: linear-gradient(
+        90deg,
+        transparent,
+        color.adjust($theme-dark-grey-darker, $lightness: -5%)
+    );
+}
+
+html.theme-dark
+    .hr-ht-tbody
+    > .hr-ht-tr:nth-child(odd)
+    > .hr-ht-td
+    > .hr-ht-table-cell-wrap
+    > .hr-ht-table-cell-fade {
+    background: linear-gradient(
+        90deg,
+        transparent,
+        color.adjust($theme-dark-grey-darker, $lightness: -1%)
+    );
+}
+
+html.theme-dark
+    .hr-ht-tbody
+    > .hr-ht-tr:nth-child(even):hover
+    > .hr-ht-td
+    > .hr-ht-table-cell-wrap
+    > .hr-ht-table-cell-fade {
+    background: linear-gradient(
+        90deg,
+        transparent,
+        color.adjust($theme-dark-grey-darker, $lightness: 5%)
+    );
+}
+
+html.theme-dark
+    .hr-ht-tbody
+    > .hr-ht-tr:nth-child(odd):hover
+    > .hr-ht-td
+    > .hr-ht-table-cell-wrap
+    > .hr-ht-table-cell-fade {
+    background: linear-gradient(
+        90deg,
+        transparent,
+        color.adjust($theme-dark-grey-darker, $lightness: 5%)
+    );
+}
+
+html.theme-dark .hr-ht-action-cell-odd {
+    background: color.adjust($theme-dark-grey-darker, $lightness: -5%);
+}
+
+html.theme-dark .hr-ht-action-cell-even {
+    background: $grey-darker;
+}
+
+html.theme-dark .hr-ht-action-cell {
+    border-left: 1px solid color.adjust($theme-dark-grey-dark, $lightness: 10%);
+    border-right: 1px solid color.adjust($theme-dark-grey-dark, $lightness: 10%);
+}
+
+html.theme-dark .hr-ht-action-cell-control {
+    border-left: 1px solid color.adjust($theme-dark-grey-dark, $lightness: 10%);
+    border-right: 1px solid color.adjust($theme-dark-grey-dark, $lightness: 10%);
+    background: $theme-dark-grey-dark;
+    color: $theme-dark-text-color-light !important;
+}
+
+html.theme-dark .hr-ht-loading-wrap {
+    background: rgba($theme-dark-loading-background, 0.7);
+}
+
+.hr-ht-row-warning {
+    border-top: 2px solid $yellow;
+    border-bottom: 2px solid $yellow;
+}
+
+.hr-ht-row-error {
+    border-top: 2px solid $red;
+    border-bottom: 2px solid $red;
+}
+
+.hr-ht-action-cell-last {
+    border-bottom-right-radius: $radius;
+}
+
+.hr-ht-search-button,
+.hr-ht-search-button:hover {
+    border-top: 1px solid $grey-lighter;
+    border-right: 1px solid $grey-lighter;
+    border-bottom: 1px solid $grey-lighter;
+    border-left: unset;
+}
+
+.hr-ht-search-button:hover {
+    background: $white-ter;
+}
+
+html.theme-dark .hr-ht-search-button,
+html.theme-dark .hr-ht-search-button:hover {
+    border-top: 1px solid color.adjust($theme-dark-grey-darker, $lightness: 8%) !important;
+    border-right: 1px solid color.adjust($theme-dark-grey-darker, $lightness: 8%) !important;
+    border-bottom: 1px solid color.adjust($theme-dark-grey-darker, $lightness: 8%) !important;
+    border-left: unset;
+}
+
+html.theme-dark .hr-ht-search-button:hover {
+    background: color.adjust($theme-dark-grey-darker, $lightness: 5%) !important;
+}
+
+@media (max-width: 1023px) {
+    .hr-ht-hidden-touch {
+        display: none;
+        position: absolute;
+        left: -9999px;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .hr-ht-search-field {
+        margin-bottom: 10px;
+    }
+
+    .hr-hm-tabs > ul {
+        position: relative;
+        top: 0;
+    }
+
+    .hr-ht-search-control {
+        width: 100%;
+    }
+}

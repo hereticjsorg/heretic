@@ -1,2 +1,18 @@
-@import "~styles/variables.scss";
-@import "./hprofile-picture.scss";
+@use "~styles/variables.scss" as *;
+
+@use "./cropper.scss" as *;
+
+.hr-profilePicture-modal-body {
+    padding: 0 !important;
+}
+
+.profilePictureCropper {
+    display: flex;
+    justify-content: center;
+}
+
+@media screen and (min-width: 769px) {
+    .hr-profilePicture-modal-card {
+        width: 400px;
+    }
+}

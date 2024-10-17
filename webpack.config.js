@@ -26,6 +26,7 @@ module.exports = async (env, argv) => {
     webpackUtils.generateLangSwitchComponents();
     await webpackUtils.processMarkoJson();
     await webpackUtils.processJunkFiles();
+    await webpackUtils.processStyles();
     return [
         {
             context: path.resolve(`${__dirname}`),

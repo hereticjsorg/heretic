@@ -1,5 +1,5 @@
 @use "sass:color";
-@import "~styles/variables.scss";
+@use "~styles/variables.scss" as *;
 
 .hr-hf-label {
     font-weight: normal !important;

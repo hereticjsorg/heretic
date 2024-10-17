@@ -1,2 +1,77 @@
-@import "~view/variables.scss";
-@import "./hwysiwyg.scss";
+@use "~view/variables.scss" as *;
+
+@use "sass:color";
+
+.hr-wy-wrap {
+    width: 100%;
+    border: 1px solid $grey-lighter;
+    border-radius: $radius;
+    height: 180px;
+    display: flex;
+    flex-direction: column;
+}
+
+html.theme-dark .hr-wy-wrap {
+    border: 1px solid color.adjust($theme-dark-grey, $lightness: -20%);
+}
+
+.hr-wy-controls {
+    width: 100%;
+    background: $white;
+    border-bottom: 1px solid $grey-lighter;
+}
+
+html.theme-dark .hr-wy-controls {
+    border-bottom: 1px solid color.adjust($theme-dark-grey, $lightness: -20%);
+    background: color.adjust($theme-dark-grey-dark, $lightness: -20%);
+}
+
+.hr-wy-editor {
+    width: 100%;
+    flex: auto;
+    background: $white;
+    border-radius: $radius;
+    outline: 0 !important;
+    padding: 10px;
+    overflow: auto;
+}
+
+html.theme-dark .hr-wy-editor {
+    background: $theme-dark-grey-dark;
+}
+
+.hr-wy-control-button {
+    width: 29px;
+    height: 29px;
+    padding: 0;
+    background: $white-ter;
+    border: 0;
+    border-radius: $radius;
+    margin-left: 1px;
+    margin-right: 1px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin-top: 1px;
+}
+
+html.theme-dark .hr-wy-control-button {
+    background: color.adjust($theme-dark-grey, $lightness: 20%);
+}
+
+.hr-wy-control-button:hover {
+    background: $grey-lightest;
+}
+
+html.theme-dark .hr-wy-control-button:hover {
+    background: color.adjust($theme-dark-grey, $lightness: 25%);
+}
+
+.hr-wy-control-button-selected {
+    background: $blue !important;
+}
+
+.hr-wy-control-button-selected > svg > path {
+    fill: $white;
+}

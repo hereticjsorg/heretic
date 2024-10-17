@@ -1,4 +1,4 @@
-@import "~view/variables.scss";
+@use "~view/variables.scss" as *;
 
 .hr-sin-oa2-icon {
     display: inline-flex;

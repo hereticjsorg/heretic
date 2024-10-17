@@ -1,2 +1,35 @@
-@import "~view/variables.scss";
-@import "./hfxscroll.scss";
+@use "~view/variables.scss" as *;
+
+.hr-hfs-scroll-wrap {
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.hr-hfs-scroll-wrap::-webkit-scrollbar {
+    display: none;
+}
+
+.hr-hfs-scroll-inner {
+    height: 1px;
+}
+
+.hr-hfs-vscroll-wrap {
+    position: relative;
+}
+
+.hr-hfs-vscroll-inner {
+    background-color: $grey-light;
+    height: 10px;
+    border-radius: 10px;
+    position: absolute;
+    opacity: 0.5;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.hr-hfs-vscroll-inner:hover {
+    opacity: 1;
+}
+
+html.theme-dark .hr-hfs-vscroll-inner {
+    background-color: $grey;
+}

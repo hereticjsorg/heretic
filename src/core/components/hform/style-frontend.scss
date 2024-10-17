@@ -1,2 +1,350 @@
-@import "~view/variables.scss";
-@import "./hform.scss";
+@use "~view/variables.scss" as *;
+
+@use "sass:color";
+@use "~view/variables.scss" as *;
+
+.hr-hf-wrap {
+    position: relative;
+    padding: 1px;
+}
+
+.hr-hf-tab-control {
+    background: $yellow;
+    color: $grey-darker;
+    font-weight: bold;
+    padding: 6px;
+    border: 1px solid transparent;
+    border-radius: $radius;
+    width: 30px;
+    cursor: pointer;
+}
+
+.hr-hf-area {
+    border: 1px solid $grey-lighter;
+    border-radius: $radius;
+    padding: 15px 15px 5px 15px;
+    margin-bottom: 20px;
+    box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
+}
+
+html.theme-dark .hr-hf-area {
+    border: 1px solid $theme-dark-grey;
+}
+
+.hr-hf-tab {
+    border: 1px solid $grey-lighter;
+    border-radius: $radius;
+    padding: 6px;
+    background: $white;
+    margin-right: 2px;
+    cursor: pointer;
+}
+
+.hr-hf-tab-active {
+    background-color: $grey-lighter;
+    color: $black-ter;
+    border: 1px solid transparent;
+}
+
+html.theme-dark .hr-hf-tab {
+    border-width: 0px;
+    background: $theme-dark-grey-darker;
+    color: $white;
+}
+
+html.theme-dark .hr-hf-tab-active {
+    background-color: color.adjust($theme-dark-grey-darker, $lightness: 15%);
+}
+
+.hr-hf-f-area-label-wrap {
+    margin-top: -24px;
+    display: flex;
+    align-items: center;
+}
+
+.hr-hf-f-area-label-dummy {
+    height: 10px;
+}
+
+.hr-hf-f-area-label {
+    display: inline-block;
+    padding-left: 5px;
+    padding-right: 5px;
+    background: $background !important;
+    font-size: 0.75em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: $grey;
+    // border-bottom: 1px solid $grey-lighter;
+    // border-radius: $radius-large;
+}
+
+html.theme-dark .hr-hf-f-area-label {
+    background: $theme-dark-black-bis;
+    color: $theme-dark-text-color;
+}
+
+.hr-hf-loader-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    // background: rgba($theme-light-loading-background, 0.8);
+    backdrop-filter: grayscale(200%);
+    z-index: 40;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+// html.theme-dark .hr-hf-loader-overlay {
+//     background: rgba($theme-dark-loading-background, 0.8);
+// }
+
+.hr-hf-form {
+    user-select: none;
+}
+
+.hr-hf-top-button-icon {
+    display: inline-flex;
+    align-self: center;
+}
+
+.hr-hf-history-button {
+    height: 24px !important;
+}
+
+.hr-hf-top-button-icon svg {
+    height: 16px;
+    width: 16px;
+    margin-right: 5px;
+    top: 0px;
+    position: relative;
+}
+
+.hr-hf-top-button-icon svg > path {
+    fill: $grey-darker !important;
+}
+
+.hr-hf-history-button-icon svg {
+    height: 20px;
+    width: 20px;
+    top: 3px;
+    position: relative;
+}
+
+.hr-hf-history-button-icon svg > path {
+    fill: $grey-darker !important;
+}
+
+.hr-hf-top-button-active-icon svg > path {
+    fill: $white !important;
+}
+
+.hr-hf-history-pagination-wrap {
+    border-top: 1px solid $grey-lighter;
+    background: $white;
+}
+
+.hr-hf-history-pagination-wrap > nav {
+    margin-top: 0 !important;
+}
+
+.hr-hf-history-tag {
+    background-color: $white;
+    border: 1px solid $grey-lighter;
+    padding: 2px 5px;
+    border-radius: $radius;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    font-size: 0.75rem;
+    user-select: text;
+    box-decoration-break: slice;
+}
+
+html.theme-dark .hr-hf-history-tag {
+    background-color: color.adjust($theme-dark-grey-darker, $lightness: 5%);
+    border: 1px solid color.adjust($theme-dark-grey, $lightness: -5%);
+}
+
+.hr-hf-history-tag-null {
+    background: $primary;
+    border: 1px solid $primary;
+    color: $white;
+}
+
+.hr-hf-history-wysiwyg,
+.hr-hf-history-files {
+    background-color: $white;
+    border: 1px solid $grey-lighter;
+    padding: 5px;
+    border-radius: $radius;
+    display: block;
+    user-select: auto;
+}
+
+html.theme-dark .hr-hf-history-wysiwyg,
+html.theme-dark .hr-hf-history-files {
+    background-color: color.adjust($theme-dark-grey-darker, $lightness: -5%);
+    border: 1px solid color.adjust($theme-dark-grey, $lightness: -5%);
+}
+
+.hr-hf-history-to-right {
+    display: inline-block;
+    margin: 3px;
+    width: 24px;
+    text-align: center;
+    user-select: none;
+}
+
+.hr-hf-history-to-down {
+    display: block;
+    text-align: center;
+    margin: 3px;
+    height: 24px;
+    text-align: center;
+    user-select: none;
+}
+
+.hr-hf-history-changes-wrap {
+    padding: 10px;
+    border: 1px solid $grey-lighter;
+    border-radius: $radius;
+    background: $white-bis;
+    box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
+}
+
+html.theme-dark .hr-hf-history-changes-wrap {
+    border: 1px solid $theme-dark-grey;
+    background: $theme-dark-grey-darker;
+}
+
+.hr-hf-tags-filter-wrap {
+    padding: 10px;
+    background: $white;
+    border-bottom: 1px solid $grey-lightest;
+}
+
+html.theme-dark .hr-hf-tags-filter-wrap {
+    background: $theme-dark-grey-darker;
+    border-bottom: 1px solid color.adjust($theme-dark-grey-darker, $lightness: -11%);
+}
+
+.hr-hf-tagAddModal {
+    height: 60vh;
+}
+
+// Field Styles
+
+.hr-hf-label {
+    font-weight: normal !important;
+}
+
+.hr-hf-field-xxlarge {
+    width: 450px;
+    min-width: 450px;
+    max-width: 450px;
+}
+
+.hr-hf-field-xlarge {
+    width: 350px;
+    min-width: 350px;
+    max-width: 350px;
+}
+
+.hr-hf-field-large {
+    width: 250px;
+    min-width: 250px;
+    max-width: 250px;
+}
+
+.hr-hf-field-medium {
+    width: 180px;
+    min-width: 180px;
+    max-width: 180px;
+}
+
+.hr-hf-field-small {
+    width: 130px;
+    min-width: 130px;
+    max-width: 130px;
+}
+
+.hr-hf-field-date {
+    width: 120px !important;
+    min-width: 120px !important;
+    max-width: 120px !important;
+}
+
+.hr-hf-label-mandatory {
+    color: $red;
+}
+
+.hr-hf-text-input {
+    min-width: 100px !important;
+}
+
+.hr-hf-view-input {
+    padding: 7px 11px;
+    height: 40px;
+    border-radius: $radius;
+    background: $white-ter;
+    user-select: text;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+html.theme-dark .hr-hf-view-input {
+    background: color.adjust($theme-dark-grey-dark, $lightness: 6%);
+    color: $theme-dark-text-color;
+}
+
+.hr-hf-date-input {
+    text-align: center;
+}
+
+.hr-hf-file-cta {
+    margin-bottom: 3px;
+}
+
+.hr-hf-view-wysiwyg {
+    border: 1px solid $grey-lighter;
+    padding: 10px;
+    border-radius: $radius;
+}
+
+.hr-hf-log-values-table-view {
+    max-width: 500px;
+    font-size: 90%;
+    background-color: $white-ter !important;
+    border-radius: $radius;
+    user-select: text;
+}
+
+.hr-hf-log-values-table-view > tbody > tr > td {
+    vertical-align: middle;
+}
+
+.hr-hf-form-checkbox {
+    margin-right: 6px !important;
+}
+
+@media (max-width: 769px) {
+    .hr-hf-field-xxlarge,
+    .hr-hf-field-xlarge,
+    .hr-hf-field-large,
+    .hr-hf-field-medium,
+    .hr-hf-field-small {
+        width: 100% !important;
+        min-width: unset !important;
+        max-width: unset !important;
+    }
+
+    .hr-hf-field-xxlarge {
+        width: unset !important;
+        min-width: unset !important;
+        max-width: unset !important;
+    }
+}

@@ -1,2 +1,10 @@
-@import "~view/variables.scss";
-@import "./hselect.scss";
+@use "~view/variables.scss" as *;
+
+.hr-hs-wrap {
+    padding: 10px;
+    border: 1px solid $grey-lighter;
+    border-radius: $radius;
+    overflow-y: auto;
+    max-height: 100px;
+    height: 100px;
+}

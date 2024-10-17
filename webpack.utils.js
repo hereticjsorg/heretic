@@ -950,4 +950,26 @@ ${Object.keys(this.languages)
             dockerComposeSrc,
         );
     }
+
+    processStyleFiles(p) {
+        const filename = path.basename(p);
+        const dirname = path.dirname(p);
+        if (
+            filename === "style-admin.scss" &&
+            fs.existsSync(`${dirname}/style-frontend.scss`) &&
+            fs.existsSync(`${dirname}/styles.scss`)
+        ) {
+            const stylesData = fs.readFileSync(`${dirname}/styles.scss`, "utf8");
+            fs.writeFileSync(`${dirname}/style-admin.scss`, `@use "~styles/variables.scss" as *;\n\n${stylesData}`);
+            fs.writeFileSync(`${dirname}/style-frontend.scss`, `@use "~view/variables.scss" as *;\n\n${stylesData}`);
+        }
+    }
+
+    async processStyles() {
+        for await (const p of this.binUtils.walkDir(
+            path.join(__dirname, "src"),
+        )) {
+            this.processStyleFiles(p);
+        }
+    }
 };

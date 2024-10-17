@@ -1,2 +1,81 @@
-@import "~view/variables.scss";
-@import "./himages.scss";
+@use "~view/variables.scss" as *;
+
+.rh1-hi-dots-wrap {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.rh1-hi-dot {
+    background-color: $grey-lighter;
+    border-radius: 50%;
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin: 2px;
+    cursor: pointer;
+}
+
+html.theme-dark .rh1-hi-dot {
+    background-color: $grey;
+}
+
+.rh1-hi-dot:not(.rh1-hi-dot-active):hover {
+    background-color: $grey-light;
+}
+
+html.theme-dark .rh1-hi-dot:not(.rh1-hi-dot-active):hover {
+    background-color: $grey-light;
+}
+
+html.theme-dark .rh1-hi-dot-active {
+    background-color: $grey-lighter;
+}
+
+.rh1-hi-dot-active {
+    background-color: $grey;
+}
+
+.rh1-hi-images-wrap {
+    position: relative;
+}
+
+.rh1-hi-arrow {
+    position: absolute;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    background-color: rgba($black, 70%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
+    opacity: 0.7;
+    top: calc(50% - 25px);
+    user-select: none;
+    cursor: pointer;
+    color: $white;
+    font-weight: 100;
+    padding-bottom: 5px;
+    padding-left: 3px;
+    border-bottom: 1px solid $grey-light;
+    box-shadow:
+        rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
+        rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+}
+
+html.theme-dark .rh1-hi-arrow {
+    color: $white !important;
+}
+
+.rh1-hi-arrow:hover {
+    background-color: rgba($black, 50%);
+}
+
+.rh1-hi-arrow-left {
+    left: 5px;
+}
+
+.rh1-hi-arrow-right {
+    right: 5px;
+}
