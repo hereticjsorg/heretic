@@ -11,47 +11,7 @@
         <if(out.global.description)>
             <meta name="description" content=out.global.description/>
         </if>
-        
-        <style type="text/css">
-            body, html {
-                height: 100%;
-            }
-            body {
-                margin: 0;
-            }
-            .hr-view-loading-wrap {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                height: 100%;
-            }
-            .hr-view-loading {
-                width: 50px;
-                aspect-ratio: 1;
-                border-radius: 50%;
-                border: 2px solid #999;
-                animation:
-                    hr-view-loading-frames-1 0.8s infinite linear alternate,
-                    hr-view-loading-frames-2 1.6s infinite linear;
-            }
-            @keyframes hr-view-loading-frames-1{
-                0%    {clip-path: polygon(50% 50%,0       0,  50%   0%,  50%    0%, 50%    0%, 50%    0%, 50%    0% )}
-                12.5% {clip-path: polygon(50% 50%,0       0,  50%   0%,  100%   0%, 100%   0%, 100%   0%, 100%   0% )}
-                25%   {clip-path: polygon(50% 50%,0       0,  50%   0%,  100%   0%, 100% 100%, 100% 100%, 100% 100% )}
-                50%   {clip-path: polygon(50% 50%,0       0,  50%   0%,  100%   0%, 100% 100%, 50%  100%, 0%   100% )}
-                62.5% {clip-path: polygon(50% 50%,100%    0, 100%   0%,  100%   0%, 100% 100%, 50%  100%, 0%   100% )}
-                75%   {clip-path: polygon(50% 50%,100% 100%, 100% 100%,  100% 100%, 100% 100%, 50%  100%, 0%   100% )}
-                100%  {clip-path: polygon(50% 50%,50%  100%,  50% 100%,   50% 100%,  50% 100%, 50%  100%, 0%   100% )}
-            }
-            @keyframes hr-view-loading-frames-2{ 
-                0%    {transform:scaleY(1)  rotate(0deg)}
-                49.99%{transform:scaleY(1)  rotate(135deg)}
-                50%   {transform:scaleY(-1) rotate(0deg)}
-                100%  {transform:scaleY(-1) rotate(-135deg)}
-            }
-        </style>
-       
-        <!-- <style type="text/css">body,html{height:100%}body{margin:0}.hr-view-loading-wrap{display:flex;justify-content:center;align-items:center;height:100%}.hr-view-loading{width:50px;aspect-ratio:1;border-radius:50%;border:2px solid #999;animation:hr-view-loading-frames-1 .8s infinite linear alternate,hr-view-loading-frames-2 1.6s infinite linear}@keyframes hr-view-loading-frames-1{0%{clip-path:polygon(50% 50%,0 0,50% 0%,50% 0%,50% 0%,50% 0%,50% 0%)}12.5%{clip-path:polygon(50% 50%,0 0,50% 0%,100% 0%,100% 0%,100% 0%,100% 0%)}25%{clip-path:polygon(50% 50%,0 0,50% 0%,100% 0%,100% 100%,100% 100%,100% 100%)}50%{clip-path:polygon(50% 50%,0 0,50% 0%,100% 0%,100% 100%,50% 100%,0% 100%)}62.5%{clip-path:polygon(50% 50%,100% 0,100% 0%,100% 0%,100% 100%,50% 100%,0% 100%)}75%{clip-path:polygon(50% 50%,100% 100%,100% 100%,100% 100%,100% 100%,50% 100%,0% 100%)}100%{clip-path:polygon(50% 50%,50% 100%,50% 100%,50% 100%,50% 100%,50% 100%,0% 100%)}}@keyframes hr-view-loading-frames-2{0%{transform:scaleY(1) rotate(0deg)}49.99%{transform:scaleY(1) rotate(135deg)}50%{transform:scaleY(-1) rotate(0deg)}100%{transform:scaleY(-1) rotate(-135deg)}}</style> -->
+        <style type="text/css">body,html{height:100%}body{margin:0}.hr-view-loading-wrap{display:flex;justify-content:center;align-items:center;height:100%}.hr-view-loading{width:50px;aspect-ratio:1;border-radius:50%;border:2px solid #999;animation:.8s linear infinite alternate hr-view-loading-frames-1,1.6s linear infinite hr-view-loading-frames-2}@keyframes hr-view-loading-frames-1{0%{clip-path:polygon(50% 50%,0 0,50% 0%,50% 0%,50% 0%,50% 0%,50% 0%)}12.5%{clip-path:polygon(50% 50%,0 0,50% 0%,100% 0%,100% 0%,100% 0%,100% 0%)}25%{clip-path:polygon(50% 50%,0 0,50% 0%,100% 0%,100% 100%,100% 100%,100% 100%)}50%{clip-path:polygon(50% 50%,0 0,50% 0%,100% 0%,100% 100%,50% 100%,0% 100%)}62.5%{clip-path:polygon(50% 50%,100% 0,100% 0%,100% 0%,100% 100%,50% 100%,0% 100%)}75%{clip-path:polygon(50% 50%,100% 100%,100% 100%,100% 100%,100% 100%,50% 100%,0% 100%)}100%{clip-path:polygon(50% 50%,50% 100%,50% 100%,50% 100%,50% 100%,50% 100%,0% 100%)}}@keyframes hr-view-loading-frames-2{0%{transform:scaleY(1) rotate(0)}49.99%{transform:scaleY(1) rotate(135deg)}50%{transform:scaleY(-1) rotate(0)}100%{transform:scaleY(-1) rotate(-135deg)}}</style>
     </head>
     <body>
         <div class="hr-view-loading-wrap" id="hr_view_loading_wrap">
