@@ -1,3 +1,15 @@
+## v1.3.2
+
+**Bugfixes** (2024-10-17)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-09-29 | Update docker-compose.sh |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-10-16 | Bugfixes |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-10-17 | SASS-relates fixes |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-10-17 | SCSS-related fixes |
+
+
 ## v1.3.1
 
 **Version 1.3** (2024-09-29)
