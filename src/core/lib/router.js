@@ -191,6 +191,7 @@ module.exports = class {
         params = {},
         extra = {},
         doPushState = true,
+        link = null,
     ) {
         if (this.route && this.route.id === routeId) {
             return;
@@ -213,7 +214,7 @@ module.exports = class {
             routeItem.path = routeItem.path.replace(re, "");
         }
         const lang = language === this.languages[0] ? "" : language;
-        const url = `/${[lang, ...routeItem.path.split(/\//)].filter((i) => i).join("/")}`;
+        const url = link || `/${[lang, ...routeItem.path.split(/\//)].filter((i) => i).join("/")}`;
         let queryString = "";
         if (params && Object.keys(params).length) {
             const queryArr = [];
