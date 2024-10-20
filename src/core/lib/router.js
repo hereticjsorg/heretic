@@ -193,7 +193,7 @@ module.exports = class {
         doPushState = true,
         link = null,
     ) {
-        if (this.route && this.route.id === routeId) {
+        if (!routeId || (this.route && this.route.id === routeId)) {
             return;
         }
         let routeItem = {};
