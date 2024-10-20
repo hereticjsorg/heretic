@@ -1,3 +1,12 @@
+## v1.3.4
+
+**Update router.js** (2024-10-20)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-10-20 | Update router.js |
+
+
 ## v1.3.3
 
 **Bugfixes** (2024-10-19)
