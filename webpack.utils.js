@@ -622,9 +622,8 @@ module.exports = class {
                 fs.existsSync(
                     path.resolve(
                         __dirname,
-                        "src",
+                        "site",
                         "translations",
-                        "user",
                         `${l}.json`,
                     ),
                 )
