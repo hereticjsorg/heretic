@@ -34,6 +34,7 @@ export default (m, page, languageData, language) => ({
                     oa2: true,
                     packageJson: true,
                     queryString: true,
+                    url: true,
                 },
                 oa2:
                     this.systemConfig.oauth2 &&
@@ -84,6 +85,7 @@ export default (m, page, languageData, language) => ({
                 demo: this.systemConfig.demo,
                 packageJson: this.packageJson,
                 queryString: req.query,
+                url: req.url,
             },
         });
         rep.type("text/html");

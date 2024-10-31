@@ -14,7 +14,7 @@ export default class {
             if (!process.browser) {
                 resolve();
             }
-            if (window.__heretic && window.__heretic.t) {
+            if (window.__heretic && window.__heretic.t && window.__heretic.languageData) {
                 resolve();
             } else if (timeout && Date.now() - start >= timeout) {
                 reject(new Error("Language data not loaded"));
@@ -152,9 +152,10 @@ export default class {
             // && !window.__heretic.translationsLoaded[page]
             const i18nLoader = require(`#build/loaders/i18n-loader-${page}`);
             window.__heretic.translationsLoaded[page] = true;
+            const languageFile = await i18nLoader.loadLanguageFile(this.language);
             const languageData = {
                 ...window.__heretic.languageData,
-                ...(await i18nLoader.loadLanguageFile(this.language)),
+                ...languageFile,
             };
             Object.keys(languageData).map(
                 (i) =>

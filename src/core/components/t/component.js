@@ -33,7 +33,11 @@ export default class {
         }
         this.pluralRules = new Intl.PluralRules(this.language);
         this.utils = new Utils();
-        this.utils.waitForLanguageData().then(() => (this.state.ready = true));
+        this.utils.waitForLanguageData().then(() =>
+            setTimeout(() => {
+                this.state.ready = true;
+            }),
+        );
     }
 
     translate() {
