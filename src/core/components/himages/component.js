@@ -2,6 +2,9 @@ export default class {
     async onCreate(input, out) {
         this.state = {
             imageIndex: 0,
+            modalActive: false,
+            imageFull:
+                "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==",
         };
         this.siteId = out.global.siteId;
         if (process.browser) {
@@ -43,6 +46,10 @@ export default class {
                 ? this.input.images.length - 1
                 : this.state.imageIndex - 1,
         );
+        this.setState(
+            "imageFull",
+            this.input.imagesFull[this.state.imageIndex],
+        );
     }
 
     onRightArrowClick(e) {
@@ -53,5 +60,28 @@ export default class {
                 ? 0
                 : this.state.imageIndex + 1,
         );
+        this.setState(
+            "imageFull",
+            this.input.imagesFull[this.state.imageIndex],
+        );
+    }
+
+    onImageClick(e) {
+        e.preventDefault();
+        if (
+            this.input.imagesFull &&
+            this.input.imagesFull.length - 1 >= this.state.imageIndex
+        ) {
+            this.setState(
+                "imageFull",
+                this.input.imagesFull[this.state.imageIndex],
+            );
+            this.setState("modalActive", true);
+        }
+    }
+
+    onModalClose(e) {
+        e.preventDefault();
+        this.setState("modalActive", false);
     }
 }

@@ -40,6 +40,10 @@ html.theme-dark .rh1-hi-dot-active {
     position: relative;
 }
 
+.rh1-hi-images-wrap>img {
+    min-width: 100%;
+}
+
 .rh1-hi-arrow {
     position: absolute;
     height: 50px;
@@ -56,7 +60,7 @@ html.theme-dark .rh1-hi-dot-active {
     cursor: pointer;
     color: $white;
     font-weight: 100;
-    padding-bottom: 5px;
+    padding-bottom: -1px;
     padding-left: 3px;
     border-bottom: 1px solid $grey-light;
     box-shadow:
