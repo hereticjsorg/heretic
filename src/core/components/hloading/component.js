@@ -38,7 +38,6 @@ export default class {
         if (this.utils) {
             this.utils.setDarkTheme(darkMode);
         }
-        document.documentElement.style.transition = "all 0.6s ease";
     }
 
     setActive(flag) {
