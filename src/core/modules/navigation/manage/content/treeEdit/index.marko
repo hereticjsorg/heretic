@@ -1,0 +1,390 @@
+import FormData from "../../../data/formNavItem.js";
+
+<div class="columns is-gapless mb-4">
+    <div class="column">
+        <div class="buttons">
+            <button
+                class="button is-light is-small"
+                on-click("onNavItemAddBtnClick")
+            >
+                <t>navItemAddBtn</t>
+            </button>
+            <button
+                class="button is-danger is-small"
+                on-click("onNavDeleteClick")
+                disabled=!state.anyCheckboxesSelected
+            >
+                <t>navDeleteBtn</t>
+            </button>
+        </div>
+    </div>
+    <div class="column is-narrow">
+        <div class="hr-nv-te-title">
+            ${process.browser ? window.__heretic.t(input.title) : ""}
+        </div>
+    </div>
+</div>
+<div class="card">
+    <aside class="menu card-content">
+        <ul class="menu-list hr-nv-menu-list">
+            <for|item, index| of=state.navigationRoutes>
+                $ if (typeof item !== "string") {
+                    item.label = item.label || {};
+                    item.label[component.language] =
+                        item.label[component.language] || "";
+                }
+                <if(item.routes)>
+                    <if(state.navItemDragging)>
+                        <div
+                            id=`hr_hnv_${item.uid}_top`
+                            class=`hr-nv-drop-area${state.overNavGap === `${item.uid}_top` ? " hr-nv-drop-area-over" : ""}`
+                            data-uid=item.uid
+                            data-dir="top"
+                            on-dragover("onNavItemGapDragOver")
+                            on-dragenter("onNavItemGapDragEnter")
+                            on-dragleave("onNavItemGapDragLeave")
+                            on-drop("onNavItemGapDrop")
+                        />
+                    </if>
+                    <li
+                        draggable="true"
+                        on-dragstart("onNavItemDragStart")
+                        on-dragend("onNavItemDragEnd")
+                        on-drag("onNavItemDrag")
+                        data-uid=item.uid
+                    >
+                        <a
+                            class=(
+                                state.overNavGap === item.uid
+                                    ? "hr-nv-drop-area-over"
+                                    : ""
+                            )
+                            on-dragover("onNavItemDragOver")
+                            on-dragenter("onNavItemDragEnter")
+                            on-dragleave("onNavItemDragLeave")
+                            on-drop("onNavItemDrop")
+                            data-iid="a"
+                        >
+                            <div
+                                class="columns is-mobile is-gapless"
+                                data-iid="d"
+                            >
+                                <div class="column is-narrow mr-3" data-iid="d">
+                                    <label
+                                        class="checkbox hr-nv-item-checkbox"
+                                        data-iid="d"
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            on-click("onNavItemCheckboxClick")
+                                            on-change("onNavItemCheckboxChange")
+                                            data-iid="d"
+                                            data-checkbox=item.uid
+                                        >
+                                    </label>
+                                </div>
+                                <div
+                                    class="column"
+                                    on-click("navItemClick")
+                                    data-iid="d"
+                                >
+                                    <div data-iid="d">
+                                        ${(item.label &&
+                                        item.label[component.language]
+                                            ? item.label[component.language]
+                                            : false) ||
+                                        component.i18nNavigation[item.id] ||
+                                        component.i18nNavigation[item] ||
+                                        item.id ||
+                                        item ||
+                                        "-"}
+                                    </div>
+                                    <div class="hr-nv-path" data-iid="d">
+                                        ${item.id || item.url || item || "-"}
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <ul>
+                            <for|subItem, subIndex| of=item.routes>
+                                <if(state.navItemDragging)>
+                                    <div
+                                        id=`hr_hnv_${subItem.uid}_top`
+                                        class=`hr-nv-drop-area${state.overNavGap === `${subItem.uid}_top` ? " hr-nv-drop-area-over" : ""}`
+                                        data-uid=subItem.uid
+                                        data-dir="top"
+                                        on-dragover("onNavItemGapDragOver")
+                                        on-dragenter("onNavItemGapDragEnter")
+                                        on-dragleave("onNavItemGapDragLeave")
+                                        on-drop("onNavItemGapDrop")
+                                    />
+                                </if>
+                                <li
+                                    draggable="true"
+                                    on-dragstart("onNavItemDragStart")
+                                    on-dragend("onNavItemDragEnd")
+                                    on-drag("onNavItemDrag")
+                                    data-uid=subItem.uid
+                                >
+                                    <a>
+                                        <div
+                                            class="columns is-mobile is-gapless"
+                                            data-iid="d"
+                                        >
+                                            <div
+                                                class="column is-narrow mr-3"
+                                                data-iid="d"
+                                            >
+                                                <label
+                                                    class="checkbox hr-nv-item-checkbox"
+                                                    data-iid="d"
+                                                >
+                                                    <input
+                                                        type="checkbox"
+                                                        on-click(
+                                                            "onNavItemCheckboxClick",
+                                                        )
+                                                        on-change(
+                                                            "onNavItemCheckboxChange",
+                                                        )
+                                                        data-iid="d"
+                                                        data-checkbox=subItem.uid
+                                                    >
+                                                </label>
+                                            </div>
+                                            <div
+                                                class="column"
+                                                on-click("navItemClick")
+                                                data-iid="d"
+                                            >
+                                                <div data-iid="d">
+                                                    ${(subItem.label &&
+                                                    subItem.label[
+                                                        component.language
+                                                    ]
+                                                        ? subItem.label[
+                                                              component.language
+                                                          ]
+                                                        : false) ||
+                                                    component.i18nNavigation[
+                                                        subItem.id
+                                                    ] ||
+                                                    component.i18nNavigation[
+                                                        subItem
+                                                    ] ||
+                                                    subItem.id ||
+                                                    subItem ||
+                                                    "-"}
+                                                </div>
+                                                <div
+                                                    class="hr-nv-path"
+                                                    data-iid="d"
+                                                >
+                                                    ${subItem.id ||
+                                                    subItem.url ||
+                                                    subItem ||
+                                                    "-"}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <if(
+                                    state.navItemDragging &&
+                                    item.routes.length - 1 == subIndex
+                                )>
+                                    <div
+                                        id=`hr_hnv_${subItem.uid}`
+                                        class=`hr-nv-drop-area${state.overNavGap === `${subItem.uid}_bottom` ? " hr-nv-drop-area-over" : ""}`
+                                        data-uid=subItem.uid
+                                        data-dir="bottom"
+                                        on-dragover("onNavItemGapDragOver")
+                                        on-dragenter("onNavItemGapDragEnter")
+                                        on-dragleave("onNavItemGapDragLeave")
+                                        on-drop("onNavItemGapDrop")
+                                    />
+                                </if>
+                            </for>
+                        </ul>
+                    </li>
+                    <if(
+                        state.navItemDragging &&
+                        state.navigationRoutes.length - 1 === index
+                    )>
+                        <div
+                            id=`hr_hnv_${item.uid}`
+                            class=`hr-nv-drop-area${state.overNavGap === `${item.uid}_bottom` ? " hr-nv-drop-area-over" : ""}`
+                            data-uid=item.uid
+                            data-dir="bottom"
+                            on-dragover("onNavItemGapDragOver")
+                            on-dragenter("onNavItemGapDragEnter")
+                            on-dragleave("onNavItemGapDragLeave")
+                            on-drop("onNavItemGapDrop")
+                        />
+                    </if>
+                </if>
+                <else>
+                    <if(state.navItemDragging)>
+                        <div
+                            id=`hr_hnv_${item.uid}_top`
+                            class=`hr-nv-drop-area${state.overNavGap === `${item.uid}_top` ? " hr-nv-drop-area-over" : ""}`
+                            data-uid=item.uid
+                            data-dir="top"
+                            on-dragover("onNavItemGapDragOver")
+                            on-dragenter("onNavItemGapDragEnter")
+                            on-dragleave("onNavItemGapDragLeave")
+                            on-drop("onNavItemGapDrop")
+                        />
+                    </if>
+                    <li
+                        draggable="true"
+                        on-dragstart("onNavItemDragStart")
+                        on-dragend("onNavItemDragEnd")
+                        on-drag("onNavItemDrag")
+                        data-uid=item.uid
+                    >
+                        <a
+                            class=(
+                                state.overNavGap === item.uid
+                                    ? "hr-nv-drop-area-over"
+                                    : ""
+                            )
+                            on-dragover("onNavItemDragOver")
+                            on-dragenter("onNavItemDragEnter")
+                            on-dragleave("onNavItemDragLeave")
+                            on-drop("onNavItemDrop")
+                            data-iid="a"
+                        >
+                            <div
+                                class="columns is-mobile is-gapless"
+                                data-iid="d"
+                            >
+                                <div class="column is-narrow mr-3" data-iid="d">
+                                    <label
+                                        class="checkbox hr-nv-item-checkbox"
+                                        data-iid="d"
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            on-click("onNavItemCheckboxClick")
+                                            on-change("onNavItemCheckboxChange")
+                                            data-iid="d"
+                                            data-checkbox=item.uid
+                                        >
+                                    </label>
+                                </div>
+                                <div
+                                    class="column"
+                                    on-click("navItemClick")
+                                    data-iid="d"
+                                >
+                                    <div data-iid="d">
+                                        ${(item.label &&
+                                        item.label[component.language]
+                                            ? item.label[component.language]
+                                            : false) ||
+                                        component.i18nNavigation[item.id] ||
+                                        component.i18nNavigation[item] ||
+                                        item.id ||
+                                        item ||
+                                        "-"}
+                                    </div>
+                                    <div class="hr-nv-path" data-iid="d">
+                                        ${item.id || item.url || item || "-"}
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <if(
+                        state.navItemDragging &&
+                        state.navigationRoutes.length - 1 === index
+                    )>
+                        <div
+                            id=`hr_hnv_${item.uid}`
+                            data-uid=item.uid
+                            class=`hr-nv-drop-area${state.overNavGap === `${item.uid}_bottom` ? " hr-nv-drop-area-over" : ""}`
+                            data-uid=item.uid
+                            data-dir="bottom"
+                            on-dragover("onNavItemGapDragOver")
+                            on-dragenter("onNavItemGapDragEnter")
+                            on-dragleave("onNavItemGapDragLeave")
+                            on-drop("onNavItemGapDrop")
+                        />
+                    </if>
+                </else>
+            </for>
+        </ul>
+    </aside>
+</div>
+<hmodal
+    admin
+    key="navItemModal"
+    id="navItemModal"
+    on-button-click("onNavItemModalButtonClick")
+    close
+    title="navItemModal"
+    actions=[
+        {
+            id: "save",
+            label: "save",
+            class: "button is-primary",
+        },
+        {
+            id: "cancel",
+            label: "cancel",
+            class: "button is-light",
+            close: true,
+        },
+    ]
+>
+    <section
+        class="modal-card-body p-3"
+        style={
+            order: "2",
+        }
+    >
+        <hform
+            key="navItemForm"
+            id="navItemForm"
+            data=new FormData(
+                process.browser && window.__heretic
+                    ? window.__heretic.t
+                    : out.global.t,
+            )
+            on-form-submit("onNavItemFormSubmit")
+        />
+    </section>
+</hmodal>
+<hmodal
+    admin=input.admin
+    key="deleteConfirmation"
+    id="deleteConfirmation"
+    on-button-click("onDeleteConfirmationButtonClick")
+    close
+    title="deleteConfirmationTitle"
+    actions=[
+        {
+            id: "confirm",
+            label: "confirm",
+            class: "button is-danger",
+        },
+        {
+            id: "cancel",
+            label: "cancel",
+            class: "button is-light",
+            close: true,
+        },
+    ]
+>
+    <section
+        class="modal-card-body p-3"
+        style={
+            order: "2",
+        }
+    >
+        <p>
+            <t>deleteConfirmationMessage</t>
+        </p>
+    </section>
+</hmodal>

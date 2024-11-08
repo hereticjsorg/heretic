@@ -1,7 +1,6 @@
 import Fastify from "fastify";
 import path from "path";
 import crypto from "crypto";
-// import cloneDeep from "lodash/cloneDeep";
 import { MongoClient } from "mongodb";
 import { createClient, SchemaFieldTypes } from "redis";
 import { v4 as uuid } from "uuid";
@@ -26,10 +25,10 @@ import fastifyURLData from "./urlData.js";
 import fastifyMultipart from "./multipart.js";
 import i18nCore from "#build/loaders/i18n-loader-core.js";
 import languages from "#etc/languages.json";
-import navigation from "#etc/navigation.json";
 import packageJson from "#root/package.json";
 import routePageAdmin from "./routes/routePageAdmin.js";
 import DynamicLoader from "#build/dynamicLoader.js";
+import ConfigLoader from "#lib/configLoader.js";
 
 delete packageJson.dependencies;
 delete packageJson.devDependencies;
@@ -92,6 +91,7 @@ export default class {
 
     constructor() {
         this.utils = new Utils(Object.keys(languages));
+        this.configLoader = new ConfigLoader();
         // Read configuration files
         try {
             // eslint-disable-next-line no-undef
@@ -156,7 +156,7 @@ export default class {
         this.fastify.decorate("siteConfig", this.siteConfig);
         this.fastify.decorate("systemConfig", this.systemConfig);
         this.fastify.decorate("languages", languages);
-        this.fastify.decorate("navigation", navigation);
+        this.fastify.decorate("configLoader", this.configLoader);
         this.fastify.decorate("packageJson", packageJson);
         const fastifyDecoratorsList = fastifyDecorators.list();
         for (const decorateItem of fastifyDecoratorsList) {
@@ -413,6 +413,7 @@ export default class {
                           this.siteConfig,
                           this.systemConfig,
                           buildData.i18nNavigation,
+                          this.configLoader,
                       );
                 rep.code(404);
                 rep.send(output);

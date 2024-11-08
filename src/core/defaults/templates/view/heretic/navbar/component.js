@@ -10,6 +10,7 @@ export default class {
         };
         this.siteId = out.global.siteId;
         this.language = out.global.language;
+        this.navigation = out.global.navigation;
         this.utils = new Utils(this, this.language);
         await import(/* webpackChunkName: "navbar" */ "./navbar.scss");
     }

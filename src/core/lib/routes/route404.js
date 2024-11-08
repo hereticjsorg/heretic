@@ -1,5 +1,4 @@
 import error404 from "#site/errors/404/server.marko";
-import packageJson from "#root/package.json";
 
 export default async (
     req,
@@ -9,7 +8,9 @@ export default async (
     siteConfig,
     systemConfig,
     i18nNavigation,
+    configLoader,
 ) => {
+    const navigation = await configLoader.loadNavigationConfig();
     const authData = await req.auth.getData(req.auth.methods.COOKIE);
     const renderPage = await error404.render({
         $global: {
@@ -34,6 +35,8 @@ export default async (
                 passwordPolicy: true,
                 packageJson: true,
                 queryString: true,
+                url: true,
+                navigation: true,
             },
             passwordPolicy: systemConfig.passwordPolicy,
             darkModeEnabled:
@@ -60,8 +63,10 @@ export default async (
             cookieOptions: systemConfig.cookieOptions,
             webSockets: systemConfig.webSockets || {},
             demo: systemConfig.demo,
-            packageJson,
+            packageJson: configLoader.getPackageJson(),
             queryString: req.query,
+            url: req.url,
+            navigation: navigation.userspace,
         },
     });
     rep.type("text/html");

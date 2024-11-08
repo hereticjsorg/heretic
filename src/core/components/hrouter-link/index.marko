@@ -1,5 +1,4 @@
 import languagesData from "#etc/languages.json"
-import navigation from "#etc/navigation.json"
 import buildConfig from "#build/build.json"
 
 $ {
@@ -9,7 +8,7 @@ $ {
     delete attrs.parentElement;
     const languages = Object.keys(languagesData);
     const lang = out.global.language === languages[0] ? "" : out.global.language;
-    const route = input.route === navigation.home ? "" : input.route;
+    const route = input.route === component.navigation.home ? "" : input.route;
     if (route && buildConfig.routes.userspace.find(i => i.id === route)) {
         attrs.href = `/${[lang, ...buildConfig.routes.userspace.find(i => i.id === route).path.split(/\//)].filter(i => i).join("/")}`;
     }

@@ -1,0 +1,11 @@
+@use "~styles/variables.scss" as *;
+
+.hr-nv-te-title {
+    margin-top: 7px;
+}
+
+@media (max-width: 767px) {
+    .hr-nv-te-title {
+        margin-bottom: 10px;
+    }
+}

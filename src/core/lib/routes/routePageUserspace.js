@@ -3,12 +3,13 @@ import DynamicLoader from "#build/dynamicLoader.js";
 
 export default (m, page, languageData, language) => ({
     async handler(req, rep) {
+        const navigation = await this.configLoader.loadNavigationConfig();
         const authData = await req.auth.getData(req.auth.methods.COOKIE);
         const translationData = buildData.modules
             .find((i) => i.id === m.id)
             .pages.find((i) => i.id === page.id).metaData;
-        const pageData =
-            (await DynamicLoader.loadPage(`${m.path}/${page.id}`)).default;
+        const pageData = (await DynamicLoader.loadPage(`${m.path}/${page.id}`))
+            .default;
         const renderPage = await pageData.render({
             $global: {
                 serializedGlobals: {
@@ -35,6 +36,7 @@ export default (m, page, languageData, language) => ({
                     packageJson: true,
                     queryString: true,
                     url: true,
+                    navigation: true,
                 },
                 oa2:
                     this.systemConfig.oauth2 &&
@@ -86,6 +88,7 @@ export default (m, page, languageData, language) => ({
                 packageJson: this.packageJson,
                 queryString: req.query,
                 url: req.url,
+                navigation: navigation.userspace,
             },
         });
         rep.type("text/html");

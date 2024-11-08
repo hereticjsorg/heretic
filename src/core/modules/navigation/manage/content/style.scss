@@ -1,0 +1,25 @@
+@use "~styles/variables.scss" as *;
+
+.hr-nv-path {
+    font-size: 0.8rem;
+}
+
+.hr-nv-menu-list {
+    user-select: none;
+}
+
+
+.hr-nv-drop-area {
+    border: 1px dashed $grey-light;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    height: 15px;
+}
+
+.hr-nv-drop-area-over {
+    background-color: $yellow !important;
+}
+
+.hr-nv-item-checkbox {
+    margin-top: 11px;
+}

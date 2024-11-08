@@ -1,6 +1,7 @@
 module.exports = class {
     onCreate(input, out) {
         this.language = out.global.language;
+        this.navigation = out.global.navigation;
     }
 
     navigate(e) {
