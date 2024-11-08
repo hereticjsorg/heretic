@@ -1,3 +1,14 @@
+## v1.3.9
+
+**Navigation module + minor bugfixes** (2024-11-08)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-11-08 | Navigation control module implemented |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-11-08 | Dynamically loading navigation.json file |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-11-08 | Bugfixes |
+
+
 ## v1.3.8
 
 **Bugfixes** (2024-10-31)
