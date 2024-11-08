@@ -5,6 +5,7 @@
     },
     "admin": [
         "base_home",
+        "navigation_manage",
         "users_users",
         "users_groups",
         "content_list",

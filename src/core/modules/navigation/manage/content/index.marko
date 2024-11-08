@@ -1,0 +1,49 @@
+import FormData from "../../data/formMetaData.js";
+
+<if(state.ready && component.mongoEnabled)>
+    <hadmin-title
+        admin
+        title=(
+            process.browser && window.__heretic
+                ? window.__heretic.t("moduleTitleNavigation")
+                : null
+        )
+    />
+    <div class="mb-4 buttons">
+        <button class="button is-primary" on-click("onNavSaveClick")>
+            <t>navSaveBtn</t>
+        </button>
+    </div>
+    <div class="notification mb-4">
+        <t>navManageHint</t>
+    </div>
+    <hform
+        key="navMetaForm"
+        id="navMetaForm"
+        data=new FormData(
+            process.browser && window.__heretic
+                ? window.__heretic.t
+                : out.global.t,
+        )
+        on-form-submit("onNavMetaFormSubmit")
+    />
+    <treeEdit
+        key="navTree"
+        id="navTree"
+        title="mainNavigationTree"
+        navigationRoutes=(component.navigation.routes || [])
+    />
+    <treeEdit
+        key="secondaryTree"
+        id="secondaryTree"
+        title="secondaryNavigationTree"
+        navigationRoutes=(component.navigation.routesSecondary || [])
+    />
+    <hloading admin key="loading"/>
+    <hnotify key="notify"/>
+</if>
+<if(state.failed)>
+    <div class="notification is-danger">
+        <t>couldNotLoadData</t>
+    </div>
+</if>
