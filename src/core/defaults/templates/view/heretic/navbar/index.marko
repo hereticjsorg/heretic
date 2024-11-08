@@ -1,9 +1,7 @@
-import navigation from "#etc/navigation.json"
-
 $ const i18nNavigation = out.global.i18nNavigation;
 <nav class="navbar hr-navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-        <hrouter-link route=navigation.userspace.home class="navbar-item">
+        <hrouter-link route=component.navigation.home class="navbar-item">
             <navbar-logo darkMode=state.darkMode key="hereticLogo"/>
         </hrouter-link>
         <a id="hr_navbar_burger" onClick("onBurgerClick") role="button" class=`navbar-burger${state.navOpen ? " is-active" : ""}` data-target="navbar">
@@ -14,7 +12,7 @@ $ const i18nNavigation = out.global.i18nNavigation;
     </div>
     <div id="navbar" class=`navbar-menu${state.navOpen ? " is-active" : ""}`>
         <div class="navbar-start">
-            <for|item| of=navigation.userspace.routes>
+            <for|item| of=component.navigation.routes>
                 <if(typeof item === "string")>
                     <hrouter-link route=item class=`navbar-item hr-navbar-item${state.route === item || (!state.route && process.browser && item === window.location.pathname) ? " hr-navbar-item-active" : ""}`>${i18nNavigation[item]}</hrouter-link>
                 </if>

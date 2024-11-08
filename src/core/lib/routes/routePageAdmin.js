@@ -5,6 +5,7 @@ const languages = Object.keys(require("#etc/languages.json"));
 
 export default (m, page, languageData, language) => ({
     async handler(req, rep) {
+        const navigation = await this.configLoader.loadNavigationConfig();
         const authData = await req.auth.getData(req.auth.methods.COOKIE);
         if (page.routePath === "/admin/signIn" && authData) {
             return rep
@@ -65,6 +66,8 @@ export default (m, page, languageData, language) => ({
                     oa2: true,
                     packageJson: true,
                     queryString: true,
+                    url: true,
+                    navigation: true,
                 },
                 oa2:
                     this.systemConfig.oauth2 &&
@@ -108,6 +111,8 @@ export default (m, page, languageData, language) => ({
                 route: `${m.id}_${page.id}`,
                 packageJson: this.packageJson,
                 queryString: req.query,
+                url: req.url,
+                navigation: navigation.userspace,
             },
         });
         rep.type("text/html");

@@ -197,7 +197,7 @@ module.exports = class {
             return;
         }
         let routeItem = {};
-        if (routeId.match(/^\//)) {
+        if (typeof routeId === "string" && routeId.match(/^\//)) {
             routeItem.id = null;
             routeItem.path = routeId;
         } else {

@@ -1,14 +1,14 @@
 import Router from "#lib/router.js";
 import languages from "#etc/languages.json";
-import navigation from "#etc/navigation.json";
 import buildData from "#build/build.json";
 
 export default class {
-    onCreate() {
+    onCreate(input, out) {
         const state = {
             route: null,
             language: Object.keys(languages)[0],
         };
+        this.navigation = out.global.navigation;
         this.state = state;
     }
 
@@ -16,7 +16,7 @@ export default class {
         const router = new Router(
             buildData.routes.userspace,
             Object.keys(languages),
-            navigation.home,
+            this.navigation.home,
         );
         router.setOnRouteChangeHandler(this.onRouteChangeHandler.bind(this));
         this.emit("route-change", router);
