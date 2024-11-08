@@ -1,0 +1,90 @@
+{
+    "version": "0.2.0",
+    "compounds": [
+        {
+            "name": "Develop",
+            "stopAll": true,
+            "preLaunchTask": "build",
+            "configurations": [
+                "Launch Client",
+                "Attach to Server",
+                "Attach to TypeScript Plugin"
+            ],
+        },
+        {
+            "name": "Test",
+            "stopAll": true,
+            "preLaunchTask": "build",
+            "configurations": [
+                "Launch Test Client",
+                "Attach to Server",
+                "Attach to TypeScript Plugin"
+            ],
+        }
+    ],
+    "configurations": [
+        {
+            "name": "Launch Client",
+            "type": "extensionHost",
+            "request": "launch",
+            "runtimeExecutable": "${execPath}",
+            "args": [
+                "--disable-extensions",
+                "--extensionDevelopmentPath=${workspaceFolder}/packages/vscode",
+                "${workspaceFolder}/packages/language-server/src/__tests__/fixtures"
+            ],
+            "outFiles": [
+                "${workspaceFolder}/**/dist/*.js",
+                "!**/node_modules/**"
+            ],
+            "env": {
+                "TSS_DEBUG_BRK": "5859"
+            },
+            "presentation": {
+                "hidden": true
+            }
+        },
+        {
+            "name": "Launch Test Client",
+            "type": "extensionHost",
+            "request": "launch",
+            "runtimeExecutable": "${execPath}",
+            "args": [
+                "--disable-extensions",
+                "--extensionDevelopmentPath=${workspaceFolder}/packages/vscode",
+                "--extensionTestsPath=${workspaceFolder}/packages/vscode/dist/__tests__/index.js"
+            ],
+            "outFiles": [
+                "${workspaceFolder}/**/dist/*.js",
+                "!**/node_modules/**"
+            ],
+            "presentation": {
+                "hidden": true
+            }
+        },
+        {
+            "name": "Attach to Server",
+            "type": "node",
+            "request": "attach",
+            "restart": true,
+            "port": 6009,
+            "timeout": 10e5,
+            "continueOnAttach": true,
+            "presentation": {
+                "hidden": true
+            }
+        },
+        {
+            "name": "Attach to TypeScript Plugin",
+            "type": "node",
+            "request": "attach",
+            "restart": true,
+            "port": 5859,
+            "timeout": 10e5,
+            "continueOnAttach": true,
+            "presentation": {
+                "hidden": true
+            }
+        }
+    ]
+}
