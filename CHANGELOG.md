@@ -1,3 +1,14 @@
+## v1.3.10
+
+**Bugfixes & Search Module** (2024-12-23)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-11-28 | Minor updates |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-12-23 | Bugfixes |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-12-23 | Search module implemented |
+
+
 ## v1.3.9
 
 **Navigation module + minor bugfixes** (2024-11-08)
