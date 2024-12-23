@@ -10,6 +10,7 @@
         "bufferutil",
         "bulma",
         "camelcase",
+        "cchars",
         "changefreq",
         "checkboxid",
         "chromedriver",
@@ -146,7 +147,8 @@
         "xxlarge",
         "zhistory",
         "zipball",
-        "Каптча"
+        "Каптча",
+        "сhars"
     ],
     "git.ignoreLimitWarning": true,
     "cSpell.enableFiletypes": ["html", "marko"]

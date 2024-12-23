@@ -61,6 +61,24 @@ export default class {
         return new Promise(wait);
     }
 
+    waitForSelector(selector) {
+        const timeout = 5000;
+        const start = Date.now();
+        const wait = (resolve, reject) => {
+            if (!process.browser) {
+                resolve();
+            }
+            if (document.querySelector(selector)) {
+                resolve();
+            } else if (timeout && Date.now() - start >= timeout) {
+                reject(new Error(`Selector not found: ${selector}`));
+            } else {
+                setTimeout(wait.bind(this, resolve, reject), 30);
+            }
+        };
+        return new Promise(wait);
+    }
+
     waitForHereticProperty(property) {
         const timeout = 10000;
         const start = Date.now();

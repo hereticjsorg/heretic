@@ -20,16 +20,16 @@ import Heretic from "./core/lib/heretic.js";
                 process.exit(1);
             }
         }
-        if (heretic.getOptions().index) {
-            await heretic.index();
-            process.exit(0);
-        }
         await heretic.initDataProviders();
         heretic.registerModules();
         heretic.registerRouteErrors();
         await heretic.registerRouteAPI();
         await heretic.registerRouteWebSockets();
         await heretic.registerOauth2();
+        if (heretic.getOptions().index) {
+            await heretic.index();
+            process.exit(0);
+        }
         heretic.listen();
     } catch (e) {
         heretic.getFastifyInstance().log.error(e);

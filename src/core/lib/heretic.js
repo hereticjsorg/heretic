@@ -574,14 +574,13 @@ export default class {
             });
             await mongoClient.connect();
             this.fastify.decorate("mongoClient", mongoClient);
-            this.fastify.log.info(
-                `Connected to Mongo Server: ${this.systemConfig.mongo.url}/${this.systemConfig.mongo.dbName}`,
-            );
-            // Register MongoDB for Fastify
             this.fastify.register(require("#lib/fastifyMongo.js"), {
                 client: mongoClient,
                 database: this.systemConfig.mongo.dbName,
             });
+            this.fastify.log.info(
+                `Connected to Mongo Server: ${this.systemConfig.mongo.url}/${this.systemConfig.mongo.dbName}`,
+            );
         }
     }
 
@@ -766,6 +765,7 @@ export default class {
         ) {
             return;
         }
+        this.fastify.log.info("Start indexing");
         try {
             await this.fastify.redis.ft.dropIndex(
                 `${this.fastify.systemConfig.id}-fulltext`,
@@ -829,6 +829,7 @@ export default class {
                 i,
             );
         }
+        this.fastify.log.info("End indexing");
     }
 
     async installedDbVersions() {

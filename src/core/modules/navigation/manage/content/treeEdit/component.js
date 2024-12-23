@@ -295,7 +295,7 @@ export default class {
     }
 
     onNavItemModalButtonClick(btn) {
-        switch (btn.id) {
+        switch (btn) {
             case "cancel":
                 this.getComponent("navItemModal").setActive(false);
                 break;
