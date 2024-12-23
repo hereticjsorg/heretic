@@ -60,23 +60,22 @@ export default class {
                 data: formData,
                 headers: {},
             });
-            this.setState("documents", data.documents);
-            this.setState("total", data.total);
-            this.setState("currentPage", parseInt(page, 10));
+            this.setState("documents", data.documents || []);
+            this.setState("total", data.total || 0);
+            this.setState("currentPage", parseInt(page, 10) || 1);
             this.setState(
                 "totalPages",
                 data.total < this.state.itemsPerPage
                     ? 1
-                    : Math.ceil(data.total / this.state.itemsPerPage),
+                    : Math.ceil(data.total / this.state.itemsPerPage) || 0,
             );
             this.generatePagination();
             this.setState("value", value);
             this.query.set(this.queryStringShorthands["query"], value);
             this.query.set(this.queryStringShorthands["currentPage"], page);
             this.setState("firstRun", true);
-        } catch (e) {
-            // eslint-disable-next-line no-console
-            console.log(e);
+        } catch {
+            //
         }
         clearTimeout(timer);
         this.setState("loading", false);
@@ -97,7 +96,6 @@ export default class {
         this.cookies = new Cookies(this.cookieOptions, this.siteId);
         this.currentToken = this.cookies.get(`${this.siteId}.authToken`);
         this.setState("ready", true);
-        // eslint-disable-next-line operator-linebreak
         if (
             currentPage &&
             typeof currentPage === "string" &&

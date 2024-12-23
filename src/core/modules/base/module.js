@@ -7,9 +7,6 @@ module.exports = {
             status: {
                 path: "/_status",
             },
-            search: {
-                path: "/search",
-            },
         },
         admin: {
             home: {

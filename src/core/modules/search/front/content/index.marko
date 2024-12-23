@@ -1,11 +1,17 @@
 <if(state.ready)>
-    <h1 class="subtitle is-1 has-text-weight-light mb-3">Search</h1>
+    <h1 class="subtitle is-1 has-text-weight-light mb-3">
+        <t>searchTitle</t>
+    </h1>
     <div class="hr-sr-wrap">
         <form on-submit("onFormSubmit")>
             <div class="hr-sr-query-wrap">
                 <div class="field has-addons">
                     <div class="control is-expanded">
-                        <input type="text" class="input hr-sr-query" id="hr_sr_query"/>
+                        <input
+                            type="text"
+                            class="input hr-sr-query"
+                            id="hr_sr_query"
+                        >
                     </div>
                     <div class="control">
                         <button type="submit" class="button is-primary">
@@ -15,15 +21,26 @@
                 </div>
             </div>
         </form>
-        <if(state.documents.length)>
+        <if(state.documents && state.documents.length)>
             <for|d| of=state.documents>
                 <div class="mt-4">
-                    <a href=d.value.url target="_blank" class="has-text-weight-semibold is-size-5 has-text-link hr-sr-d-title">$!{d.value.title}</a>
+                    <a
+                        href=(d.value.url)
+                        target="_blank"
+                        class="has-text-weight-semibold is-size-5 has-text-link hr-sr-d-title"
+                    >
+                        $!{d.value.title}
+                    </a>
                     <div>$!{d.value.content}</div>
                 </div>
             </for>
             <div class="mt-5">
-                <hpagination admin=input.admin data=state.pagination currentPage=state.currentPage on-page-click("onPageClick")/>
+                <hpagination
+                    admin=input.admin
+                    data=state.pagination
+                    currentPage=state.currentPage
+                    on-page-click("onPageClick")
+                />
             </div>
         </if>
         <if(state.firstRun && !state.documents.length)>

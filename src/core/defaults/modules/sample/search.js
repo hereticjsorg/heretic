@@ -1,5 +1,6 @@
 import { compile } from "html-to-text";
 import moduleConfig from "./module.js";
+import redisLanguages from "#lib/data/redis-languages.json";
 
 export default class {
     constructor(id, fastify, func) {
@@ -29,6 +30,7 @@ export default class {
                 moduleConfig.routes.admin[dir];
             for (const lang of Object.keys(this.fastify.languages)) {
                 try {
+                    const languageFull = redisLanguages[lang.split(/-/)[0]];
                     const item = {
                         route: `${moduleConfig.id}_${dir}`,
                         url: urlData.path || "/",
@@ -49,7 +51,7 @@ export default class {
                         .replace(/\s\s+/g, " ");
                     item.title = pageMeta.title[lang];
                     item.content = text;
-                    item.language = lang;
+                    item.language = languageFull;
                     data.push(item);
                 } catch {
                     // Ignore
