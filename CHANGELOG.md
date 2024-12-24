@@ -1,3 +1,13 @@
+## v1.3.11
+
+**Dev 1.3** (2024-12-24)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-12-24 | Search module updated |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2024-12-24 | NPM Modules update |
+
+
 ## v1.3.10
 
 **Bugfixes & Search Module** (2024-12-23)
