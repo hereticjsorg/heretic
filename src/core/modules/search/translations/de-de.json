@@ -1,5 +1,6 @@
 {
     "searchButton": "Suchen",
     "noDocumentsFound": "Keine Dokumente gefunden.",
-    "searchTitle": "Suche"
+    "searchTitle": "Suche",
+    "couldNotDisplaySearchResults": "Suchergebnisse konnten nicht angezeigt werden."
 }

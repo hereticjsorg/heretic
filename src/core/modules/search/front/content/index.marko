@@ -1,57 +1,72 @@
+$ const SEARCH_IS_WITHIN_CONTAINER = false;
+
 <if(state.ready)>
-    <h1 class="subtitle is-1 has-text-weight-light mb-3">
-        <t>searchTitle</t>
-    </h1>
-    <div class="hr-sr-wrap">
-        <form on-submit("onFormSubmit")>
-            <div class="hr-sr-query-wrap">
-                <div class="field has-addons">
-                    <div class="control is-expanded">
-                        <input
-                            type="text"
-                            class="input hr-sr-query"
-                            id="hr_sr_query"
-                        >
+    <div class=SEARCH_IS_WITHIN_CONTAINER ? "container" : "">
+        <div class=SEARCH_IS_WITHIN_CONTAINER ? "hr-sr-search-wrap-cont" : "">
+            <h1 class="subtitle is-1 has-text-weight-light">
+                <t>searchTitle</t>
+            </h1>
+            <div class="hr-sr-wrap">
+                <if(state.errorMessage)>
+                    <div class="notification is-danger">
+                        <button
+                            class="delete"
+                            on-click("onErrorMessageDeleteClick")
+                        />
+                        ${state.errorMessage}
                     </div>
-                    <div class="control">
-                        <button type="submit" class="button is-primary">
-                            <t>searchButton</t>
-                        </button>
+                </if>
+                <form on-submit("onFormSubmit")>
+                    <div class="hr-sr-query-wrap">
+                        <div class="field has-addons">
+                            <div class="control is-expanded">
+                                <input
+                                    type="text"
+                                    class="input hr-sr-query"
+                                    id="hr_sr_query"
+                                >
+                            </div>
+                            <div class="control">
+                                <button type="submit" class="button is-primary">
+                                    <t>searchButton</t>
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                </form>
+                <if(state.documents && state.documents.length)>
+                    <for|d| of=state.documents>
+                        <div class="mt-4">
+                            <a
+                                href=(d.value.url)
+                                target="_blank"
+                                class="has-text-weight-semibold is-size-5 has-text-link hr-sr-d-title"
+                            >
+                                $!{d.value.title}
+                            </a>
+                            <div>$!{d.value.content}</div>
+                        </div>
+                    </for>
+                    <div class="mt-5">
+                        <hpagination
+                            admin=input.admin
+                            data=state.pagination
+                            currentPage=state.currentPage
+                            on-page-click("onPageClick")
+                        />
+                    </div>
+                </if>
+                <if(state.firstRun && !state.documents.length)>
+                    <div class="mt-5">
+                        <t>noDocumentsFound</t>
+                    </div>
+                </if>
+                <if(state.loading)>
+                    <div class="hr-sr-loading-wrap">
+                        <hloading-dots/>
+                    </div>
+                </if>
             </div>
-        </form>
-        <if(state.documents && state.documents.length)>
-            <for|d| of=state.documents>
-                <div class="mt-4">
-                    <a
-                        href=(d.value.url)
-                        target="_blank"
-                        class="has-text-weight-semibold is-size-5 has-text-link hr-sr-d-title"
-                    >
-                        $!{d.value.title}
-                    </a>
-                    <div>$!{d.value.content}</div>
-                </div>
-            </for>
-            <div class="mt-5">
-                <hpagination
-                    admin=input.admin
-                    data=state.pagination
-                    currentPage=state.currentPage
-                    on-page-click("onPageClick")
-                />
-            </div>
-        </if>
-        <if(state.firstRun && !state.documents.length)>
-            <div class="mt-5">
-                <t>noDocumentsFound</t>
-            </div>
-        </if>
-        <if(state.loading)>
-            <div class="hr-sr-loading-wrap">
-                <hloading-dots/>
-            </div>
-        </if>
+        </div>
     </div>
 </if>

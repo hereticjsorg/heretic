@@ -48,3 +48,14 @@
 html.theme-dark .hr-sr-loading-wrap {
     background-color: rgba($theme-dark-loading-background, 0.7);
 }
+
+.hr-sr-search-wrap-cont {
+    margin-top: 40px !important;
+}
+
+@media (max-width: 1023px) {
+    .hr-sr-search-wrap-cont {
+        margin-left: 20px !important;
+        margin-right: 20px !important;
+    }
+}
