@@ -1,5 +1,6 @@
 {
     "searchButton": "Найти",
     "noDocumentsFound": "Документы не найдены.",
-    "searchTitle": "Поиск"
+    "searchTitle": "Поиск",
+    "couldNotDisplaySearchResults": "Не удалось отобразить результаты поиска."
 }

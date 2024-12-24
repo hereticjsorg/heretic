@@ -18,6 +18,7 @@ export default class {
             value: "",
             loading: false,
             firstRun: false,
+            errorMessage: null,
         };
         this.language = out.global.language;
         this.siteTitle = out.global.siteTitle;
@@ -75,6 +76,7 @@ export default class {
             this.query.set(this.queryStringShorthands["currentPage"], page);
             this.setState("firstRun", true);
         } catch {
+            this.setState("errorMessage", window.__heretic.t("couldNotDisplaySearchResults"));
             //
         }
         clearTimeout(timer);
@@ -164,5 +166,10 @@ export default class {
 
     onPageClick(page) {
         this.find(this.state.value, page);
+    }
+
+    onErrorMessageDeleteClick(e) {
+        e.preventDefault();
+        this.setState("errorMessage", null);
     }
 }
