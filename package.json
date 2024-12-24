@@ -150,7 +150,7 @@
         "mongodb": "^6.12.0",
         "redis": "^4.7.0",
         "sharp": "^0.33.5",
-        "systeminformation": "^5.23.17",
+        "systeminformation": "^5.23.21",
         "toad-cache": "^3.7.0"
     }
 }
