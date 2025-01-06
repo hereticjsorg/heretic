@@ -43,11 +43,11 @@ export default () => ({
                     : "0";
             const languageFull = redisLanguages[language.split(/-/)[0]];
             const words = query
-                .replace(/[`~!@#$%^&*()|+?;:'",.<>{}[\]\\/]/gi, "")
+                .replace(/[`~!@#*$%^&()|+?;:'|",.<>{}[\]\\/]/gi, "")
                 .replace(/\s\s+/g, " ")
                 .split(/ /)
-                .map((i) => `%${i}%`)
-                .join(" ");
+                .map((i) => `%${i}%|${i}|${i}*`)
+                .join("|");
             let result = {};
             try {
                 // result = await this.redis.ft.search(`${this.systemConfig.id}-fulltext`, `@content|title:(${words}) @language:(${language.split(/-/)[0]})`, {

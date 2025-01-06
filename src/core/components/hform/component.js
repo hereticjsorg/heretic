@@ -345,6 +345,7 @@ export default class {
             if (!tab) {
                 this.setTab(item.tab);
                 tab = item.tab;
+                this.emit("tab-click", tab);
             }
             const fieldComponent = this.getComponent(
                 `hr_hf_f_${item.id}_${this.state.mode}`,
@@ -1196,5 +1197,9 @@ export default class {
 
     onFieldEditValueChange(data) {
         this.emit("value-change", data);
+    }
+
+    getTabs() {
+        return this.state.tabs;
     }
 }
