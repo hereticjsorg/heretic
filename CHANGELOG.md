@@ -1,3 +1,16 @@
+## v1.3.12
+
+**Minor updates** (2025-01-09)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2025-01-06 | NPM Modules Update |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2025-01-06 | Bugfixes |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2025-01-08 | NPM Modules Update |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2025-01-08 | Update component.js |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2025-01-09 | NPM Modules update |
+
+
 ## v1.3.11
 
 **Dev 1.3** (2024-12-24)
