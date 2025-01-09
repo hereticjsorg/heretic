@@ -51,8 +51,8 @@ export default class {
             tabs: input.data.getTabsStart
                 ? input.data.getTabsStart()
                 : input.data.getTabs
-                  ? input.data.getTabs().map((t) => t.id)
-                  : ["_default"],
+                    ? input.data.getTabs().map((t) => t.id)
+                    : ["_default"],
             activeTab: input.data.getTabs
                 ? input.data.getTabs()[0].id
                 : "_default",
@@ -70,8 +70,8 @@ export default class {
             historyConfig: input.data.getHistoryConfig
                 ? input.data.getHistoryConfig()
                 : {
-                      enabled: false,
-                  },
+                    enabled: false,
+                },
             historyData: [],
             historyPage: 1,
             historyTotal: 0,
@@ -343,6 +343,10 @@ export default class {
         let tab = null;
         for (const item of errorData) {
             if (!tab) {
+                this.emit("tab-click", {
+                    old: this.state.activeTab,
+                    current: item.tab,
+                });
                 this.setTab(item.tab);
                 tab = item.tab;
             }
@@ -566,6 +570,10 @@ export default class {
                 this.clearValues();
                 this.setDefaultValues();
             }
+            this.emit("tab-click", {
+                old: prevTab,
+                current: activeTab,
+            });
         }
         delete data[id];
         this.setState("data", data);
@@ -731,7 +739,7 @@ export default class {
         });
     }
 
-    onHistoryModalButtonClick() {}
+    onHistoryModalButtonClick() { }
 
     async setHistoryModalLoading(flag) {
         await this.utils.waitForComponent(`historyModal_hf_${this.input.id}`);
@@ -982,7 +990,7 @@ export default class {
         }
     }
 
-    onTagAddModalButtonClick() {}
+    onTagAddModalButtonClick() { }
 
     async onTagAddRequest(par) {
         par.dataSave = cloneDeep(par.data);
@@ -1019,10 +1027,10 @@ export default class {
             const tagsData = cloneDeep(this.state.tagsData);
             tagsData.data = value
                 ? tagsData.dataSave.filter(
-                      (i) =>
-                          String(i.id).match(new RegExp(value, "i")) ||
-                          String(i.label).match(new RegExp(value, "i")),
-                  )
+                    (i) =>
+                        String(i.id).match(new RegExp(value, "i")) ||
+                        String(i.label).match(new RegExp(value, "i")),
+                )
                 : tagsData.dataSave;
             this.setState("tagsData", tagsData);
             this.setState("tagsFilter", value);
@@ -1196,5 +1204,9 @@ export default class {
 
     onFieldEditValueChange(data) {
         this.emit("value-change", data);
+    }
+
+    getTabs() {
+        return this.state.tabs;
     }
 }
