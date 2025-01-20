@@ -192,8 +192,9 @@ module.exports = class {
         extra = {},
         doPushState = true,
         link = null,
+        ignoreNoRouteId = false,
     ) {
-        if (!routeId || (this.route && this.route.id === routeId)) {
+        if ((!routeId || (this.route && this.route.id === routeId)) && !ignoreNoRouteId) {
             return;
         }
         let routeItem = {};
