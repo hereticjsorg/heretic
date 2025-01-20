@@ -49,8 +49,8 @@ export default class {
             this.i18nNavigation = out.global.i18nNavigation ||
                 window.__heretic.outGlobal.i18nNavigation;
         }
-        this.id = input.id || "__hnv__";
-        this.idRex = new RegExp(`^${this.id}`);
+        this.treeId = input.id || "__hnv__";
+        this.idRex = new RegExp(`^${this.treeId}`);
         this.utils = new Utils(this, this.language);
     }
 
@@ -93,7 +93,7 @@ export default class {
     onNavItemDragStart(e) {
         const { uid } = e.target.closest("[data-uid]").dataset;
         this.setState("navItemDragging", true);
-        e.dataTransfer.setData("text/plain", `__hnv__${uid}`);
+        e.dataTransfer.setData("text/plain", `${this.treeId}${uid}`);
     }
 
     onNavItemDragEnd() {
