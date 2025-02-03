@@ -4,7 +4,7 @@ import languages from "#etc/languages.json";
 export default async (fastify, req) => {
     if (req && req.url && fastify.systemConfig.mongo.enabled) {
         try {
-            const navigation = await this.configLoader.loadNavigationConfig();
+            const navigation = await fastify.configLoader.loadNavigationConfig();
             const languagesList = Object.keys(languages);
             const urlParts = req.url.split(/\//).filter((p) => p);
             let language = languagesList[0];
