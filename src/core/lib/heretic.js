@@ -646,8 +646,6 @@ export default class {
                     }
                 }
             } catch (e) {
-                // eslint-disable-next-line no-console
-                console.error(e);
                 // Ignore
             }
         }
