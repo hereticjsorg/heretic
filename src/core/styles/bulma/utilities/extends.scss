@@ -2,33 +2,33 @@
 @use "mixins";
 
 %arrow {
-    @include mixins.arrow;
+  @include mixins.arrow;
 }
 
 %block {
-    @include mixins.block;
+  @include mixins.block;
 }
 
 %control {
-    @include controls.control;
+  @include controls.control;
 }
 
 %delete {
-    @include mixins.delete;
+  @include mixins.delete;
 }
 
 %loader {
-    @include mixins.loader;
+  @include mixins.loader;
 }
 
 %overlay {
-    @include mixins.overlay;
+  @include mixins.overlay;
 }
 
 %reset {
-    @include mixins.reset;
+  @include mixins.reset;
 }
 
 %unselectable {
-    @include mixins.unselectable;
+  @include mixins.unselectable;
 }
