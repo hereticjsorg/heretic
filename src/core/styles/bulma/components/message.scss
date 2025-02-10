@@ -31,157 +31,153 @@ $message-header-body-border-width: 0 !default;
 $message-colors: dv.$colors !default;
 
 .#{iv.$class-prefix}message {
-    @include cv.register-vars(
-        (
-            "message-border-l-delta": #{$message-border-l-delta},
-            "message-radius": #{$message-radius},
-            "message-header-weight": #{$message-header-weight},
-            "message-header-padding": #{$message-header-padding},
-            "message-header-radius": #{$message-header-radius},
-            "message-body-border-width": #{$message-body-border-width},
-            "message-body-color": #{$message-body-color},
-            "message-body-padding": #{$message-body-padding},
-            "message-body-radius": #{$message-body-radius},
-            "message-body-pre-code-background-color": #{$message-body-pre-code-background-color},
-            "message-header-body-border-width": #{$message-header-body-border-width},
-            "message-h": #{$message-h},
-            "message-s": #{$message-s},
-            "message-background-l": #{$message-background-l},
-            "message-border-l": #{$message-border-l},
-            "message-border-style": #{$message-border-style},
-            "message-border-width": #{$message-border-width},
-            "message-color-l": #{$message-color-l},
-            "message-header-background-l": #{$message-header-background-l},
-            "message-header-color-l": #{$message-header-color-l},
-        )
-    );
+  @include cv.register-vars(
+    (
+      "message-border-l-delta": #{$message-border-l-delta},
+      "message-radius": #{$message-radius},
+      "message-header-weight": #{$message-header-weight},
+      "message-header-padding": #{$message-header-padding},
+      "message-header-radius": #{$message-header-radius},
+      "message-body-border-width": #{$message-body-border-width},
+      "message-body-color": #{$message-body-color},
+      "message-body-padding": #{$message-body-padding},
+      "message-body-radius": #{$message-body-radius},
+      "message-body-pre-code-background-color": #{$message-body-pre-code-background-color},
+      "message-header-body-border-width": #{$message-header-body-border-width},
+      "message-h": #{$message-h},
+      "message-s": #{$message-s},
+      "message-background-l": #{$message-background-l},
+      "message-border-l": #{$message-border-l},
+      "message-border-style": #{$message-border-style},
+      "message-border-width": #{$message-border-width},
+      "message-color-l": #{$message-color-l},
+      "message-header-background-l": #{$message-header-background-l},
+      "message-header-color-l": #{$message-header-color-l},
+    )
+  );
 }
 
 .#{iv.$class-prefix}message {
-    @extend %block;
-    border-radius: cv.getVar("message-radius");
-    color: hsl(
-        #{cv.getVar("message-h")},
-        #{cv.getVar("message-s")},
-        #{cv.getVar("message-color-l")}
-    );
-    font-size: cv.getVar("size-normal");
+  @extend %block;
+  border-radius: cv.getVar("message-radius");
+  color: hsl(
+    #{cv.getVar("message-h")},
+    #{cv.getVar("message-s")},
+    #{cv.getVar("message-color-l")}
+  );
+  font-size: cv.getVar("size-normal");
 
-    strong {
-        color: currentColor;
-    }
+  strong {
+    color: currentColor;
+  }
 
-    a:not(.#{iv.$class-prefix}button):not(.#{iv.$class-prefix}tag):not(
-            .#{iv.$class-prefix}dropdown-item
-        ) {
-        color: currentColor;
-        text-decoration: underline;
-    }
+  a:not(.#{iv.$class-prefix}button):not(.#{iv.$class-prefix}tag):not(
+      .#{iv.$class-prefix}dropdown-item
+    ) {
+    color: currentColor;
+    text-decoration: underline;
+  }
 
-    // Sizes
-    &.#{iv.$class-prefix}is-small {
-        font-size: cv.getVar("size-small");
-    }
+  // Sizes
+  &.#{iv.$class-prefix}is-small {
+    font-size: cv.getVar("size-small");
+  }
 
-    &.#{iv.$class-prefix}is-medium {
-        font-size: cv.getVar("size-medium");
-    }
+  &.#{iv.$class-prefix}is-medium {
+    font-size: cv.getVar("size-medium");
+  }
 
-    &.#{iv.$class-prefix}is-large {
-        font-size: cv.getVar("size-large");
-    }
+  &.#{iv.$class-prefix}is-large {
+    font-size: cv.getVar("size-large");
+  }
 
-    // Colors
-    @each $name, $components in $message-colors {
-        &.#{iv.$class-prefix}is-#{$name} {
-            @include cv.register-vars(
-                (
-                    "message-h": #{cv.getVar($name, "", "-h")},
-                    "message-s": #{cv.getVar($name, "", "-s")},
-                    "message-border-l":
-                        calc(
-                            #{cv.getVar($name, "", "-l")} + #{cv.getVar(
-                                    "message-border-l-delta"
-                                )}
-                        ),
-                    "message-color-l": #{cv.getVar($name, "", "-on-scheme-l")},
-                    "message-header-background-l": #{cv.getVar($name, "", "-l")},
-                    "message-header-color-l": #{cv.getVar(
-                            $name,
-                            "",
-                            "-invert-l"
-                        )},
-                )
-            );
-        }
+  // Colors
+  @each $name, $components in $message-colors {
+    &.#{iv.$class-prefix}is-#{$name} {
+      @include cv.register-vars(
+        (
+          "message-h": #{cv.getVar($name, "", "-h")},
+          "message-s": #{cv.getVar($name, "", "-s")},
+          "message-border-l":
+            calc(
+              #{cv.getVar($name, "", "-l")} + #{cv.getVar(
+                  "message-border-l-delta"
+                )}
+            ),
+          "message-color-l": #{cv.getVar($name, "", "-on-scheme-l")},
+          "message-header-background-l": #{cv.getVar($name, "", "-l")},
+          "message-header-color-l": #{cv.getVar($name, "", "-invert-l")},
+        )
+      );
     }
+  }
 }
 
 .#{iv.$class-prefix}message-header {
-    align-items: center;
-    background-color: hsl(
-        #{cv.getVar("message-h")},
-        #{cv.getVar("message-s")},
-        #{cv.getVar("message-header-background-l")}
-    );
-    border-start-start-radius: cv.getVar("message-header-radius");
-    border-start-end-radius: cv.getVar("message-header-radius");
-    color: hsl(
-        #{cv.getVar("message-h")},
-        #{cv.getVar("message-s")},
-        #{cv.getVar("message-header-color-l")}
-    );
-    display: flex;
-    font-weight: cv.getVar("message-header-weight");
-    justify-content: space-between;
-    line-height: 1.25;
-    padding: cv.getVar("message-header-padding");
-    position: relative;
+  align-items: center;
+  background-color: hsl(
+    #{cv.getVar("message-h")},
+    #{cv.getVar("message-s")},
+    #{cv.getVar("message-header-background-l")}
+  );
+  border-start-start-radius: cv.getVar("message-header-radius");
+  border-start-end-radius: cv.getVar("message-header-radius");
+  color: hsl(
+    #{cv.getVar("message-h")},
+    #{cv.getVar("message-s")},
+    #{cv.getVar("message-header-color-l")}
+  );
+  display: flex;
+  font-weight: cv.getVar("message-header-weight");
+  justify-content: space-between;
+  line-height: 1.25;
+  padding: cv.getVar("message-header-padding");
+  position: relative;
 
-    .#{iv.$class-prefix}delete {
-        flex-grow: 0;
-        flex-shrink: 0;
-        margin-inline-start: 0.75em;
-    }
+  .#{iv.$class-prefix}delete {
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin-inline-start: 0.75em;
+  }
 
-    & + .#{iv.$class-prefix}message-body {
-        border-width: cv.getVar("message-header-body-border-width");
-        border-start-start-radius: 0;
-        border-start-end-radius: 0;
-    }
+  & + .#{iv.$class-prefix}message-body {
+    border-width: cv.getVar("message-header-body-border-width");
+    border-start-start-radius: 0;
+    border-start-end-radius: 0;
+  }
 }
 
 .#{iv.$class-prefix}message-body {
+  background-color: hsl(
+    #{cv.getVar("message-h")},
+    #{cv.getVar("message-s")},
+    #{cv.getVar("message-background-l")}
+  );
+  border-inline-start-color: hsl(
+    #{cv.getVar("message-h")},
+    #{cv.getVar("message-s")},
+    #{cv.getVar("message-border-l")}
+  );
+  border-inline-start-style: #{cv.getVar("message-border-style")};
+  border-inline-start-width: #{cv.getVar("message-border-width")};
+  border-radius: cv.getVar("message-body-radius");
+  padding: cv.getVar("message-body-padding");
+
+  code,
+  pre {
     background-color: hsl(
-        #{cv.getVar("message-h")},
-        #{cv.getVar("message-s")},
-        #{cv.getVar("message-background-l")}
+      #{cv.getVar("message-h")},
+      #{cv.getVar("message-s")},
+      #{cv.getVar("message-header-color-l")}
     );
-    border-inline-start-color: hsl(
-        #{cv.getVar("message-h")},
-        #{cv.getVar("message-s")},
-        #{cv.getVar("message-border-l")}
+    color: hsl(
+      #{cv.getVar("message-h")},
+      #{cv.getVar("message-s")},
+      #{cv.getVar("message-header-background-l")}
     );
-    border-inline-start-style: #{cv.getVar("message-border-style")};
-    border-inline-start-width: #{cv.getVar("message-border-width")};
-    border-radius: cv.getVar("message-body-radius");
-    padding: cv.getVar("message-body-padding");
+  }
 
-    code,
-    pre {
-        background-color: hsl(
-            #{cv.getVar("message-h")},
-            #{cv.getVar("message-s")},
-            #{cv.getVar("message-header-color-l")}
-        );
-        color: hsl(
-            #{cv.getVar("message-h")},
-            #{cv.getVar("message-s")},
-            #{cv.getVar("message-header-background-l")}
-        );
-    }
-
-    pre code {
-        background-color: cv.getVar("message-body-pre-code-background-color");
-    }
+  pre code {
+    background-color: cv.getVar("message-body-pre-code-background-color");
+  }
 }

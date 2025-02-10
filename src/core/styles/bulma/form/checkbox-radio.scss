@@ -2,31 +2,35 @@
 @use "../utilities/initial-variables" as iv;
 
 %checkbox-radio {
+  cursor: pointer;
+  display: inline-block;
+  line-height: 1.25;
+  position: relative;
+
+  input {
     cursor: pointer;
-    display: inline-block;
-    line-height: 1.25;
-    position: relative;
+  }
 
-    input {
-        cursor: pointer;
-    }
-
-    &[disabled],
-    fieldset[disabled] &,
-    input[disabled] {
-        color: shared.$input-disabled-color;
-        cursor: not-allowed;
-    }
+  &[disabled],
+  fieldset[disabled] &,
+  input[disabled] {
+    color: shared.$input-disabled-color;
+    cursor: not-allowed;
+  }
 }
 
 .#{iv.$class-prefix}checkbox {
-    @extend %checkbox-radio;
+  @extend %checkbox-radio;
 }
 
 .#{iv.$class-prefix}radio {
-    @extend %checkbox-radio;
+  @extend %checkbox-radio;
+}
 
-    & + .#{iv.$class-prefix}radio {
-        margin-inline-start: 0.5em;
-    }
+.#{iv.$class-prefix}checkboxes,
+.#{iv.$class-prefix}radios {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 1em;
+  row-gap: 0.5em;
 }

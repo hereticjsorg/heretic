@@ -234,4 +234,64 @@ import { format } from "date-fns"
         </div>
     </if>
     <!-- Checkbox: End -->
+    <!-- Checkboxes: Start -->
+    <if(input.type === "checkboxes")>
+        <div>
+            <if(!input.noLabel)>
+                <label class="label hr-hf-label">
+                    ${input.label || ""}
+                    <span>:</span>
+                    <if(input.mandatory)>
+                        &nbsp;
+                        <span class="hr-hf-label-mandatory">
+                            ✱
+                        </span>
+                    </if>
+                </label>
+            </if>
+            <div class=`fixed-grid ${input.gridClass || (state.screen === "mobile" ? "has-1-cols-mobile" : "has-3-cols-desktop")}`>
+                <div class="grid" id=`hr_hf_el_${input.formId}_${input.id}`>
+                    <for|item| of=input.data>
+                        <div class="cell">
+                            <div class="field">
+                                <if(!input.noLabel)>
+                                    <div class="control">
+                                        <label class="checkbox">
+                                            <input
+                                                id=`hr_hf_el_${input.formId}_${item.id}`
+                                                class="hr-hf-form-checkbox"
+                                                type="checkbox"
+                                                disabled
+                                                no-update
+                                            >
+                                            ${item.label || ""}
+                                            <if(input.mandatory)>
+                                                &nbsp;
+                                                <span class="hr-hf-label-mandatory">
+                                                    ✱
+                                                </span>
+                                            </if>
+                                        </label>
+                                    </div>
+                                </if>
+                                <if(state.error)>
+                                    <div class="hr-hf-error-wrap">
+                                        <p class="tag is-danger hr-hf-error-tag">
+                                            ${state.error}
+                                        </p>
+                                    </div>
+                                </if>
+                                <if(input.helpText)>
+                                    <p class="help">
+                                        ${input.helpText}
+                                    </p>
+                                </if>
+                            </div>
+                        </div>
+                    </for>
+                </div>
+            </div>
+        </div>
+    </if>
+    <!-- Checkboxes: End -->
 </if>

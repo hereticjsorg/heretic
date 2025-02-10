@@ -2,5 +2,5 @@
 @use "../utilities/mixins" as mx;
 
 .#{iv.$class-prefix}delete {
-    @include mx.delete;
+  @include mx.delete;
 }
