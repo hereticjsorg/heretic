@@ -1,3 +1,14 @@
+## v1.3.15
+
+**Bugfixes & Minor Improvements** (2025-02-10)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2025-02-10 | Bulma updated to 1.0.3 |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2025-02-10 | Bugfixes |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2025-02-10 | Added "checkboxes" field |
+
+
 ## v1.3.14
 
 **Bugfixes** (2025-02-03)
