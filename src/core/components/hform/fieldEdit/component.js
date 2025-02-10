@@ -26,6 +26,7 @@ export default class {
             calendarVisible: false,
             enumList: [],
             passwordPolicyData: [],
+            screen: "",
         };
         this.maskedInput = null;
     }
@@ -102,6 +103,12 @@ export default class {
                         this.onCheckboxChangeListener.bind(this),
                     );
                     break;
+                case "checkboxes":
+                    element.addEventListener(
+                        "change",
+                        this.onCheckboxesChangeListener.bind(this),
+                    );
+                    break;
                 case "textarea":
                     element.addEventListener(
                         "change",
@@ -164,11 +171,20 @@ export default class {
                     )
                     .contains(e.target) &&
                 activeElementId !==
-                    `hr_hf_el_${this.input.formId}_${this.input.id}`
+                `hr_hf_el_${this.input.formId}_${this.input.id}`
             ) {
                 this.setState("calendarVisible", false);
             }
         });
+        window.addEventListener(
+            "resize",
+            debounce(
+                () => {
+                    this.setState("screen", window.matchMedia("(max-width: 768px)").matches ? "mobile" : "desktop");
+                },
+                50,
+            ),
+        );
     }
 
     onInputChangeListener() {
@@ -186,6 +202,22 @@ export default class {
             id: this.input.id,
             type: this.input.type,
             value: e.target.checked,
+        });
+    }
+
+    onCheckboxesChangeListener() {
+        const values = [];
+        this.input.data.forEach((item) => {
+            const checkbox = document.getElementById(`hr_hf_el_${this.input.formId}_${item.id}`);
+            if (checkbox && checkbox.checked) {
+                values.push(item.id);
+            }
+        });
+        this.setState("value", values);
+        this.emit("value-change", {
+            id: this.input.id,
+            type: this.input.type,
+            value: values,
         });
     }
 
@@ -265,14 +297,14 @@ export default class {
             case "text":
                 value =
                     typeof this.state.value === "string" &&
-                    this.state.value.length > 0
+                        this.state.value.length > 0
                         ? this.state.value
                         : null;
                 break;
             case "password":
                 const fieldValue =
                     typeof this.state.value === "string" &&
-                    this.state.value.length > 0
+                        this.state.value.length > 0
                         ? this.state.value
                         : null;
                 const passwordRepeatElement = document.getElementById(
@@ -288,14 +320,14 @@ export default class {
             case "select":
                 value =
                     typeof this.state.value === "string" ||
-                    typeof this.state.value === "number"
+                        typeof this.state.value === "number"
                         ? String(this.state.value)
                         : null;
                 break;
             case "captcha":
                 value =
                     typeof this.state.value === "string" &&
-                    this.state.value.length > 0
+                        this.state.value.length > 0
                         ? `${this.state.value}_${this.state.imageSecret}`
                         : null;
                 break;
@@ -333,9 +365,9 @@ export default class {
                 if (this.maskedInput) {
                     this.maskedInput.value = value
                         ? format(
-                              new Date(value * 1000),
-                              window.__heretic.t("global.dateFormatShort"),
-                          )
+                            new Date(value * 1000),
+                            window.__heretic.t("global.dateFormatShort"),
+                        )
                         : "";
                 }
                 this.setState("value", value || null);
@@ -380,6 +412,15 @@ export default class {
                     `hr_hf_el_${this.input.formId}_${this.input.id}`,
                 ).checked = !!value;
                 this.setState("value", !!value);
+                break;
+            case "checkboxes":
+                if (value && value.length) {
+                    await this.utils.waitForElement(`hr_hf_el_${this.input.formId}_${value[0]}`);
+                    for (const cb of value) {
+                        document.getElementById(`hr_hf_el_${this.input.formId}_${cb}`).checked = value.includes(cb);
+                    }
+                }
+                this.setState("value", value);
                 break;
             default:
                 this.setState("value", value);
@@ -446,9 +487,9 @@ export default class {
     onCalendarDateChange(timestamp) {
         this.maskedInput.value = timestamp
             ? format(
-                  new Date(timestamp * 1000),
-                  window.__heretic.t("global.dateFormatShort"),
-              )
+                new Date(timestamp * 1000),
+                window.__heretic.t("global.dateFormatShort"),
+            )
             : "";
         this.setState("value", timestamp || null);
         this.setState("calendarVisible", false);
