@@ -550,7 +550,7 @@ module.exports = class {
         if (dynamicLoaderData.translations.length) {
             dynamicLoaderFile += `\n    static async loadTranslation(mpath, lang) {\n`;
             for (const lang of Object.keys(languages)) {
-                dynamicLoaderFile += `        if (lang === "en-us") {
+                dynamicLoaderFile += `        if (lang === "${lang}") {
             switch (mpath) {\n`;
                 for (const i of dynamicLoaderData.translations) {
                     dynamicLoaderFile += `                case "${i}":

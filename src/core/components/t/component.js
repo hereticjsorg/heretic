@@ -40,6 +40,21 @@ export default class {
         );
     }
 
+    waitForId(id) {
+        const timeout = 10000;
+        const start = Date.now();
+        const wait = (resolve, reject) => {
+            if (this.languageData && this.languageData[id]) {
+                resolve();
+            } else if (timeout && Date.now() - start >= timeout) {
+                reject(new Error(`Translation not found: ${id}`));
+            } else {
+                setTimeout(wait.bind(this, resolve, reject), 30);
+            }
+        };
+        return new Promise(wait);
+    }
+
     translate() {
         let id;
         const data = process.browser
