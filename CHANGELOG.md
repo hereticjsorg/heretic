@@ -1,3 +1,13 @@
+## v1.3.16
+
+**Minor updates & Bugfixes** (2025-02-14)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2025-02-12 | NPM Modules update |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2025-02-14 | Bugfixes |
+
+
 ## v1.3.15
 
 **Bugfixes & Minor Improvements** (2025-02-10)
