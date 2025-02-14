@@ -7,10 +7,7 @@ $ const waitForLanguageData = () => {
     const timeout = 20000;
     const start = Date.now();
     const wait = (resolve, reject) => {
-        if (!process.browser) {
-            resolve();
-        }
-        if (window.__heretic && window.__heretic.t) {
+        if (component.languageData && Object.keys(component.languageData).length) {
             resolve();
         } else if (timeout && Date.now() - start >= timeout) {
             reject(new Error("Language data not loaded"));
