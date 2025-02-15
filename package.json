@@ -127,7 +127,7 @@
         "puppeteer-core": "^24.2.1",
         "qrcode": "^1.5.4",
         "sass": "^1.85.0",
-        "sass-loader": "^16.0.4",
+        "sass-loader": "^16.0.5",
         "store2": "^2.14.4",
         "style-loader": "^4.0.0",
         "supports-color": "^10.0.0",
