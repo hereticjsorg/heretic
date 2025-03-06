@@ -47,7 +47,7 @@ const SwipeListener = function (element, options) {
             }
             CustomEvent.prototype = window.Event.prototype;
             window.CustomEvent = CustomEvent;
-        })();
+        }());
     }
 
     const defaultOpts = {

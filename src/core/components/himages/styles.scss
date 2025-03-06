@@ -60,10 +60,10 @@ html.theme-dark .rh1-hi-dot-active {
     font-weight: 100;
     padding-bottom: -1px;
     padding-left: 3px;
-    border-bottom: 1px solid $grey-light;
-    box-shadow:
-        rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
-        rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+    // border-bottom: 1px solid $grey-light;
+    // box-shadow:
+    //     rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
+    //     rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
 }
 
 html.theme-dark .rh1-hi-arrow {
@@ -80,4 +80,10 @@ html.theme-dark .rh1-hi-arrow {
 
 .rh1-hi-arrow-right {
     right: 5px;
+}
+
+@media (max-width: 768px) {
+    .rh1-hi-arrow {
+        opacity: 0;
+    }
 }
