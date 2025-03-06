@@ -1,3 +1,6 @@
+import debounce from "lodash/debounce";
+import Utils from "#lib/componentUtils.js";
+
 export default class {
     async onCreate(input, out) {
         this.state = {
@@ -7,12 +10,15 @@ export default class {
                 "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==",
         };
         this.siteId = out.global.siteId;
+        this.language = out.global.language;
         if (process.browser) {
             window.__heretic = window.__heretic || {};
             window.__heretic.outGlobal =
                 window.__heretic.outGlobal || out.global;
             this.siteId =
                 out.global.siteId || window.__heretic.outGlobal.siteId;
+            this.language =
+                out.global.language || window.__heretic.outGlobal.language;
         }
         if (input.admin) {
             await import(
@@ -25,8 +31,13 @@ export default class {
         }
     }
 
-    onMount() {
-        //
+    async onMount() {
+        this.utils = new Utils(this, this.language);
+        const swipe = await import("./swipe.js");
+        swipe.default(window, document);
+        await this.utils.waitForElement(`${this.input.id}_himages_wrap`);
+        document.getElementById(`${this.input.id}_himages_wrap`).addEventListener("swiped-left", debounce(this.onLeftArrowClick.bind(this), 50));
+        document.getElementById(`${this.input.id}_himages_wrap`).addEventListener("swiped-right", debounce(this.onRightArrowClick.bind(this), 50));
     }
 
     onDotClick(e) {

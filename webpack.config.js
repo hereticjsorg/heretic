@@ -62,6 +62,15 @@ module.exports = async (env, argv) => {
                         },
                     },
                     {
+                        test: /\.(zip|rar|iso)(\?v=\d+\.\d+\.\d+)?$/,
+                        type: "asset/resource",
+                        generator: {
+                            filename: "[name].[contenthash:8][ext]",
+                            publicPath: "/heretic/downloads/",
+                            outputPath: "public/heretic/downloads/",
+                        },
+                    },
+                    {
                         test: /\.(css|scss|sass)$/,
                         use: [
                             {
@@ -168,28 +177,28 @@ module.exports = async (env, argv) => {
                 minimizer:
                     argv.mode === "production"
                         ? [
-                              new TerserPlugin({
-                                  parallel: true,
-                                  extractComments: false,
-                                  terserOptions: {
-                                      format: {
-                                          comments: false,
-                                      },
-                                  },
-                              }),
-                              new CssMinimizerPlugin({
-                                  minimizerOptions: {
-                                      preset: [
-                                          "default",
-                                          {
-                                              discardComments: {
-                                                  removeAll: true,
-                                              },
-                                          },
-                                      ],
-                                  },
-                              }),
-                          ]
+                            new TerserPlugin({
+                                parallel: true,
+                                extractComments: false,
+                                terserOptions: {
+                                    format: {
+                                        comments: false,
+                                    },
+                                },
+                            }),
+                            new CssMinimizerPlugin({
+                                minimizerOptions: {
+                                    preset: [
+                                        "default",
+                                        {
+                                            discardComments: {
+                                                removeAll: true,
+                                            },
+                                        },
+                                    ],
+                                },
+                            }),
+                        ]
                         : [],
             },
             plugins: [
@@ -199,16 +208,16 @@ module.exports = async (env, argv) => {
                 }),
                 argv.mode === "production"
                     ? new MiniCssExtractPlugin({
-                          filename: "[name].[fullhash:8].css",
-                          experimentalUseImportModule: true,
-                          ignoreOrder: true,
-                      })
-                    : () => {},
+                        filename: "[name].[fullhash:8].css",
+                        experimentalUseImportModule: true,
+                        ignoreOrder: true,
+                    })
+                    : () => { },
                 argv.mode === "production" &&
-                systemConfig.buildOptions &&
-                systemConfig.buildOptions.productionCompress
+                    systemConfig.buildOptions &&
+                    systemConfig.buildOptions.productionCompress
                     ? new CompressionPlugin()
-                    : () => {},
+                    : () => { },
                 new CopyWebpackPlugin({
                     patterns: fs
                         .readdirSync(
@@ -222,6 +231,7 @@ module.exports = async (env, argv) => {
                 new ESLintPlugin({
                     failOnError: true,
                     failOnWarning: true,
+                    configType: "eslintrc",
                 }),
             ],
             resolve: {
@@ -288,6 +298,15 @@ module.exports = async (env, argv) => {
                         },
                     },
                     {
+                        test: /\.(zip|rar|iso)(\?v=\d+\.\d+\.\d+)?$/,
+                        type: "asset/resource",
+                        generator: {
+                            filename: "[name].[contenthash:8][ext]",
+                            publicPath: "/heretic/downloads/",
+                            outputPath: "public/heretic/downloads/",
+                        },
+                    },
+                    {
                         test: /\.(ttf)(\?v=\d+\.\d+\.\d+)?$/,
                         type: "asset/inline",
                     },
@@ -298,19 +317,19 @@ module.exports = async (env, argv) => {
             optimization:
                 argv.mode === "production"
                     ? {
-                          splitChunks: false,
-                          minimizer: [
-                              new TerserPlugin({
-                                  parallel: true,
-                                  extractComments: false,
-                                  terserOptions: {
-                                      format: {
-                                          comments: false,
-                                      },
-                                  },
-                              }),
-                          ],
-                      }
+                        splitChunks: false,
+                        minimizer: [
+                            new TerserPlugin({
+                                parallel: true,
+                                extractComments: false,
+                                terserOptions: {
+                                    format: {
+                                        comments: false,
+                                    },
+                                },
+                            }),
+                        ],
+                    }
                     : {},
             output: {
                 hashFunction: "xxhash64",
@@ -332,6 +351,7 @@ module.exports = async (env, argv) => {
                 new ESLintPlugin({
                     failOnError: true,
                     failOnWarning: true,
+                    configType: "eslintrc",
                 }),
             ],
             node: {
