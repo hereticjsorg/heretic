@@ -72,6 +72,7 @@ export default class {
                         language: SchemaFieldTypes.TEXT,
                         title: SchemaFieldTypes.TEXT,
                         content: SchemaFieldTypes.TEXT,
+                        extra: SchemaFieldTypes.TEXT,
                     },
                     {
                         ON: "HASH",
