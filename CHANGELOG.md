@@ -1,3 +1,13 @@
+## v1.3.22
+
+**Bugfixes & Minor Improvemens** (2025-03-27)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2025-03-27 | Bugfixes |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2025-03-27 | turndown module added |
+
+
 ## v1.3.21
 
 **Bugfixes** (2025-03-27)
