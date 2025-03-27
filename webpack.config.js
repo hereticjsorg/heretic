@@ -67,7 +67,7 @@ module.exports = async (env, argv) => {
                         generator: {
                             filename: "[name].[contenthash:8][ext]",
                             publicPath: "/heretic/downloads/",
-                            outputPath: "public/heretic/downloads/",
+                            outputPath: "downloads/",
                         },
                     },
                     {
@@ -202,6 +202,12 @@ module.exports = async (env, argv) => {
                         : [],
             },
             plugins: [
+                new webpack.ids.HashedModuleIdsPlugin({
+                    context: __dirname,
+                    hashFunction: "sha256",
+                    hashDigest: "hex",
+                    hashDigestLength: 20,
+                }),
                 new webpack.DefinePlugin({
                     "typeof window": "'object'",
                     "process.browser": true,
@@ -303,7 +309,7 @@ module.exports = async (env, argv) => {
                         generator: {
                             filename: "[name].[contenthash:8][ext]",
                             publicPath: "/heretic/downloads/",
-                            outputPath: "public/heretic/downloads/",
+                            outputPath: "downloads/",
                         },
                     },
                     {
@@ -339,6 +345,12 @@ module.exports = async (env, argv) => {
                 publicPath: "/heretic/",
             },
             plugins: [
+                new webpack.ids.HashedModuleIdsPlugin({
+                    context: __dirname,
+                    hashFunction: "sha256",
+                    hashDigest: "hex",
+                    hashDigestLength: 20,
+                }),
                 new webpack.DefinePlugin({
                     "process.browser": undefined,
                     "process.env.BUNDLE": true,
