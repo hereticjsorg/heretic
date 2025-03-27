@@ -138,6 +138,7 @@
         "time2fa": "^1.4.2",
         "tippy.js": "^6.3.7",
         "ts-loader": "^9.5.2",
+        "turndown": "^7.2.0",
         "uri-js": "^4.4.1",
         "utf-8-validate": "^6.0.5",
         "uuid": "^11.1.0",
