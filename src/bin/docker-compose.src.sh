@@ -121,6 +121,16 @@ if [ ! -d "${MONGO_DIR}" ]
 then
     mkdir "${MONGO_DIR}"
 fi
+# Directory: ./redis
+REDIS_DIR="*"
+while [[ ! ($REDIS_DIR == "" || $REDIS_DIR =~ ^[^*]+$) ]]; do
+    read -p "Please define \"redis\" directory path [./redis]: " REDIS_DIR
+done
+REDIS_DIR=$([ "$REDIS_DIR" == "" ] && echo "./redis" || echo "$REDIS_DIR")
+if [ ! -d "${REDIS_DIR}" ]
+then
+    mkdir "${REDIS_DIR}"
+fi
 #
 COMPOSE_TEMPLATE=${COMPOSE_TEMPLATE//\$ID/$ID}
 COMPOSE_TEMPLATE=${COMPOSE_TEMPLATE//\$HERETIC_PORT/$HERETIC_PORT}
@@ -131,6 +141,7 @@ COMPOSE_TEMPLATE=${COMPOSE_TEMPLATE//\$LOGS_DIR/$LOGS_DIR}
 COMPOSE_TEMPLATE=${COMPOSE_TEMPLATE//\$BACKUP_DIR/$BACKUP_DIR}
 COMPOSE_TEMPLATE=${COMPOSE_TEMPLATE//\$SRC_DIR/$SRC_DIR}
 COMPOSE_TEMPLATE=${COMPOSE_TEMPLATE//\$MONGO_DIR/$MONGO_DIR}
+COMPOSE_TEMPLATE=${COMPOSE_TEMPLATE//\$REDIS_DIR/$REDIS_DIR}
 echo "Generating docker-compose.yml..."
 echo "$COMPOSE_TEMPLATE" > "./docker-compose.yml"
 APP_CONTROLS=${APP_CONTROLS//\$ID/$ID}

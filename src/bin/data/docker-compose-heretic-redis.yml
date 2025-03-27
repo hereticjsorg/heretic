@@ -21,6 +21,8 @@ services:
     restart: always
     networks:
       - $ID-network
+    volumes:
+      - $REDIS_DIR:/data      
 
 networks:
   $ID-network:
