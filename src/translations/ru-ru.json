@@ -231,7 +231,7 @@
     "contactMessage": "Сообщение",
     "contactCaptcha": "Код проверки",
     "contactMessageSent": "Ваше сообщение было успешно отправлено.",
-    "privacyPolicy": "Политика конфиденциальности",
-    "cookiesPolicy": "Политика в отношении Cookies",
+    "privacyPolicy": "Конфиденциальность",
+    "cookiesPolicy": "Политика Cookies",
     "rootDir": "(корень)"
 }
