@@ -1,3 +1,13 @@
+## v1.3.23
+
+**Bugfixes** (2025-05-27)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2025-05-17 | Update ru-ru.json |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2025-05-27 | Minor updates |
+
+
 ## v1.3.22
 
 **Bugfixes & Minor Improvemens** (2025-03-27)
