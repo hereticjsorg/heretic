@@ -28,6 +28,15 @@
     border-radius: $radius-large;
 }
 
+.hr-iu-image-meta {
+    width: 90px;
+    height: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.7em;
+}
+
 .hr-iu-image-wrap {
     position: relative;
 }

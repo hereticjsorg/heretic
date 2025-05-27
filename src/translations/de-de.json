@@ -233,5 +233,6 @@
     "contactMessageSent": "Ihre Nachricht wurde erfolgreich gesendet.",
     "privacyPolicy": "Datenschutz",
     "cookiesPolicy": "Cookies",
-    "rootDir": "(haupt)"
+    "rootDir": "(haupt)",
+    "himage_dataModalTitle": "Metadaten"
 }

@@ -233,5 +233,6 @@
     "contactMessageSent": "Your message has been successfully sent.",
     "privacyPolicy": "Privacy Policy",
     "cookiesPolicy": "Cookies Policy",
-    "rootDir": "(root)"
+    "rootDir": "(root)",
+    "himage_dataModalTitle": "Image Metadata"
 }

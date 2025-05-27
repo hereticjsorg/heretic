@@ -233,5 +233,6 @@
     "contactMessageSent": "Ваше сообщение было успешно отправлено.",
     "privacyPolicy": "Конфиденциальность",
     "cookiesPolicy": "Политика Cookies",
-    "rootDir": "(корень)"
+    "rootDir": "(корень)",
+    "himage_dataModalTitle": "Метаданные изображения"
 }
