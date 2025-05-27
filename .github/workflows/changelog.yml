@@ -13,8 +13,8 @@ jobs:
     - uses: actions/checkout@v2
       with:
         token: ${{ secrets.REPO_ACCESS_TOKEN }}  
-    - run: git config --global user.email "you@example.com"
-    - run: git config --global user.name "Your Name"
+    - run: git config --global user.email "xtreme@rh1.ru"
+    - run: git config --global user.name "Mikhail Matveev"
     - run: |
         curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash - &&\
         sudo apt-get install -y nodejs
