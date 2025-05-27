@@ -1,50 +1,101 @@
 import imgAddImage from "./add-image.svg";
+import FormData from "./formData.js";
 
-<div class="hr-iu-wrap">
-    <if(state.drag)>
-        <div
-            class=`hr-iu-image-drop-area${state.overGap === "first" ? " hr-iu-image-drop-area-over" : ""}`
-            on-dragover("onGapDragOver")
-            on-dragenter("onGapDragEnter")
-            on-dragleave("onGapDragLeave")
-            on-drop("onGapDrop")
-            data-id="first"
-        />
-    </if>
-    <for|f| of=state.data>
-        <div
-            class="hr-iu-image-wrap"
-            data-id=f.id
-            on-dragstart("onDragStart")
-            on-dragend("onDragEnd")
-            on-drag("onDrag")
-            draggable="true"
-        >
-            <img src=f.image class="hr-iu-image mr-1">
-            <button
-                class="delete hr-iu-image-delete"
-                on-click("onImageDelete")
-            />
-        </div>
+<if(state.ready)>
+    <div class="hr-iu-wrap">
         <if(state.drag)>
             <div
-                class=`hr-iu-image-drop-area${state.overGap === f.id ? " hr-iu-image-drop-area-over" : ""}`
+                class=`hr-iu-image-drop-area${state.overGap === "first" ? " hr-iu-image-drop-area-over" : ""}`
                 on-dragover("onGapDragOver")
                 on-dragenter("onGapDragEnter")
                 on-dragleave("onGapDragLeave")
                 on-drop("onGapDrop")
-                data-id=f.id
+                data-id="first"
             />
         </if>
-    </for>
-    <div class="hr-iu-image-add" on-click("onImageAddClick")>
-        <img src=imgAddImage class="hr-iu-image-add-icon">
+        <for|f| of=state.data>
+            <div
+                class="hr-iu-image-wrap"
+                data-id=f.id
+                on-dragstart("onDragStart")
+                on-dragend("onDragEnd")
+                on-drag("onDrag")
+                on-click("onImageClick")
+                draggable="true"
+            >
+                <img src=f.image class="hr-iu-image mr-1">
+                <if(input.clickable)>
+                    <div class="hr-iu-image-meta">
+                        <if(f.metadata && f.metadata[component.language])>
+                            ${f.metadata[component.language]}
+                        </if>
+                    </div>
+                </if>
+
+                <button
+                    class="delete hr-iu-image-delete"
+                    on-click("onImageDelete")
+                />
+            </div>
+            <if(state.drag)>
+                <div
+                    class=`hr-iu-image-drop-area${state.overGap === f.id ? " hr-iu-image-drop-area-over" : ""}`
+                    on-dragover("onGapDragOver")
+                    on-dragenter("onGapDragEnter")
+                    on-dragleave("onGapDragLeave")
+                    on-drop("onGapDrop")
+                    data-id=f.id
+                />
+            </if>
+        </for>
+        <div class="hr-iu-image-add" on-click("onImageAddClick")>
+            <img src=imgAddImage class="hr-iu-image-add-icon">
+        </div>
     </div>
-</div>
-<input
-    type="file"
-    multiple
-    id=`hr_ui_${input.id}_upload`
-    style="display:none"
-    on-change("onFileInputChange")
->
+    <input
+        type="file"
+        multiple
+        id=`hr_ui_${input.id}_upload`
+        style="display:none"
+        on-change("onFileInputChange")
+    >
+    <hmodal
+        admin=input.admin
+        key=`hr_ui_${input.id}_imageDataModal`
+        id=`hr_ui_${input.id}_imageDataModal`
+        on-button-click("onImageDataModalButtonClick")
+        close
+        title=(component.t ? component.t("himage_dataModalTitle") : "")
+        actions=[
+            {
+                id: "save",
+                label: "hform_save",
+                class: "button is-primary",
+            },
+            {
+                id: "cancel",
+                label: "hform_close",
+                class: "button is-light",
+                close: true,
+            },
+        ]
+    >
+        <section
+            class="modal-card-body p-3"
+            style={
+                order: "2",
+            }
+        >
+            <hform
+                key=`hr_ui_${input.id}_imageDataForm`
+                id=`hr_ui_${input.id}_imageDataForm`
+                data=new FormData(
+                    process.browser && window.__heretic
+                        ? window.__heretic.t
+                        : out.global.t,
+                )
+                on-form-submit("onImageDataModalSubmit")
+            />
+        </section>
+    </hmodal>
+</if>
