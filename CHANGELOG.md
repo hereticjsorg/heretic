@@ -1,3 +1,12 @@
+## v1.3.24
+
+**Update changelog.yml** (2025-05-27)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2025-05-27 | Update changelog.yml |
+
+
 ## v1.3.23
 
 **Bugfixes** (2025-05-27)
