@@ -79,6 +79,9 @@ export default class {
 
     onImageClick(e) {
         e.preventDefault();
+        if (window.matchMedia && !window.matchMedia("(min-width: 1024px)").matches) {
+            return;
+        }
         if (
             this.input.imagesFull &&
             this.input.imagesFull.length - 1 >= this.state.imageIndex
