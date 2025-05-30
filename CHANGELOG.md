@@ -1,3 +1,12 @@
+## v1.3.25
+
+**Minor updates** (2025-05-30)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2025-05-30 | Minor updates |
+
+
 ## v1.3.24
 
 **Update changelog.yml** (2025-05-27)
