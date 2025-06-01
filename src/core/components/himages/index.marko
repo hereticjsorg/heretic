@@ -24,7 +24,7 @@
         </div>
     </if>
 </div>
-<if(input.images.length > 1)>
+<if(input.images.length > 1 && input.dots !== false)>
     <div class="rh1-hi-dots-wrap" on-click("onDotClick")>
         <for|image, index| of=input.images>
             <div
