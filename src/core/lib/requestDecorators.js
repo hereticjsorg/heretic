@@ -2,7 +2,7 @@ import Ajv from "ajv";
 import { cloneDeep } from "lodash";
 import { startOfDay, endOfDay } from "date-fns";
 import { ObjectId } from "mongodb";
-import { IPv4, IPv6 } from "ip-num/IPNumber";
+import { IPv4, IPv6 } from "ip-num";
 import IpTools from "./iptools";
 import listValidationSchema from "./data/listValidationSchema.json";
 import recycleBinListValidationSchema from "./data/recycleBinListValidationSchema.json";
