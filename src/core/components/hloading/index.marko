@@ -1,5 +1,12 @@
-<if(state.isActive)>
-    <div class="hr-loader-overlay">
-        <hloading-dots admin=input.admin/>
-    </div>
-</if>
+// <if(state.isActive)>
+<div
+    class="hr-loader-overlay"
+    style={
+        clip: state.isActive ? "unset" : "rect(0 0 0 0)",
+        display: state.isActive ? "flex" : "none",
+    }
+>
+    <hloading-dots admin=input.admin/>
+</div>
+// </if>
+
