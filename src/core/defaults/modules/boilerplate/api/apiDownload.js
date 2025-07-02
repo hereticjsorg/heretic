@@ -42,7 +42,7 @@ export default () => ({
             );
             try {
                 await fs.access(filePath, fs.F_OK);
-            } catch (e) {
+            } catch {
                 return redirectNotFound();
             }
             const fileDb = await this.mongo.db
