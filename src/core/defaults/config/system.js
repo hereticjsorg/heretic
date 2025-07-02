@@ -12,7 +12,6 @@ const id = "heretic";
     Default: parseInt(parse("7 days") / 1000, 10)) = 604800
 */
 
-// eslint-disable-next-line prefer-destructuring
 const sessionTTL = u.sessionTTL;
 
 /*
