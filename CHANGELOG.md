@@ -1,3 +1,16 @@
+## v1.3.31
+
+**Updated to ESLint 9** (2025-07-02)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2025-07-02 | Updated to ESLint 9 |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2025-07-02 | Minor updates |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2025-07-02 | NPM-related fixes |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2025-07-02 | Update system.js |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2025-07-02 | Removed unused vars |
+
+
 ## v1.3.30
 
 **Bugfixes** (2025-07-02)
