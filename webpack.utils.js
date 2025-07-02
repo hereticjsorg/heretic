@@ -593,7 +593,7 @@ module.exports = class {
                     __dirname,
                     `.build/loaders/page-loader-${type}.js`,
                 ),
-                `/* eslint-disable import/no-useless-path-segments */\n\nmodule.exports = {
+                `module.exports = {
     loadComponent: async route => {
         switch (route) {\n${this.pages
             .filter((i) => i.type === type)
@@ -610,9 +610,8 @@ module.exports = class {
         }
         fs.writeFileSync(
             path.resolve(__dirname, ".build", "loaders", "i18n-loader-core.js"),
-            `/* eslint-disable import/no-useless-path-segments */\n\nmodule.exports = {\n    loadLanguageFile: async lang => {
+            `module.exports = {\n    loadLanguageFile: async lang => {
         let translationCore;
-        // eslint-disable-next-line prefer-const
         let translationUser = {};
         switch (lang) {
         ${Object.keys(this.languages)
@@ -651,7 +650,7 @@ module.exports = class {
             const pathTranslated = item[id];
             fs.writeFileSync(
                 path.resolve(__dirname, `.build/loaders/i18n-loader-${id}.js`),
-                `/* eslint-disable import/no-useless-path-segments */\n\nmodule.exports = {
+                `module.exports = {
     loadLanguageFile: async lang => {
         let translationPage = {};
         switch (lang) {

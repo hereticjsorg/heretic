@@ -23,7 +23,7 @@ export default class {
     }
 
     rndPathCmd(cmd) {
-        const r = Math.random() * 0.2 - 0.1;
+        const r = (Math.random() * 0.2) - 0.1;
         switch (cmd.type) {
             case "M":
             case "L":
@@ -48,9 +48,9 @@ export default class {
         const fontScale = fontSize / font.unitsPerEm;
         const glyph = font.charToGlyph(char);
         const width = glyph.advanceWidth ? glyph.advanceWidth * fontScale : 0;
-        const left = x - width / 2;
+        const left = x - (width / 2);
         const height = (font.ascender + font.descender) * fontScale;
-        const top = y + height / 2;
+        const top = y + (height / 2);
         const glyphPath = glyph.getPath(left, top, fontSize);
         glyphPath.commands.forEach(this.rndPathCmd);
         return glyphPath.toPathData();
@@ -59,13 +59,13 @@ export default class {
     hue2rgb(p, q, h) {
         h = (h + 1) % 1;
         if (h * 6 < 1) {
-            return p + (q - p) * h * 6;
+            return p + ((q - p) * h * 6);
         }
         if (h * 2 < 1) {
             return q;
         }
         if (h * 3 < 2) {
-            return p + (q - p) * (2 / 3 - h) * 6;
+            return p + ((q - p) * ((2 / 3) - h) * 6);
         }
         return p;
     }
@@ -102,19 +102,19 @@ export default class {
         const baseLightness = bgColor ? this.getLightness(bgColor) : 1.0;
         let lightness;
         if (baseLightness >= 0.5) {
-            lightness = baseLightness - 0.3 - Math.random() * 0.2;
+            lightness = baseLightness - 0.3 - (Math.random() * 0.2);
         } else {
-            lightness = baseLightness + 0.3 + Math.random() * 0.2;
+            lightness = baseLightness + 0.3 + (Math.random() * 0.2);
         }
         const q =
             lightness < 0.5
                 ? lightness * (lightness + saturation)
-                : lightness + saturation - lightness * saturation;
-        const p = 2 * lightness - q;
-        const r = Math.floor(this.hue2rgb(p, q, hue + 1 / 3) * 255);
+                : lightness + saturation - (lightness * saturation);
+        const p = (2 * lightness) - q;
+        const r = Math.floor(this.hue2rgb(p, q, hue + (1 / 3)) * 255);
         const g = Math.floor(this.hue2rgb(p, q, hue) * 255);
-        const b = Math.floor(this.hue2rgb(p, q, hue - 1 / 3) * 255);
-        // eslint-disable-next-line no-mixed-operators, no-bitwise
+        const b = Math.floor(this.hue2rgb(p, q, hue - (1 / 3)) * 255);
+        // eslint-disable-next-line no-bitwise
         const c = (b | (g << 8) | (r << 16) | (1 << 24)).toString(16).slice(1);
         return `#${c}`;
     }
@@ -131,7 +131,7 @@ export default class {
     }
 
     randomInt(min, max) {
-        return Math.round(min + Math.random() * (max - min));
+        return Math.round(min + (Math.random() * (max - min)));
     }
 
     captchaText() {
@@ -153,8 +153,8 @@ export default class {
         while (++i < noise) {
             const start = `${this.randomInt(1, 21)} ${this.randomInt(1, height - 1)}`;
             const end = `${this.randomInt(width - 21, width - 1)} ${this.randomInt(1, height - 1)}`;
-            const mid1 = `${this.randomInt(width / 2 - 21, width / 2 + 21)} ${this.randomInt(1, height - 1)}`;
-            const mid2 = `${this.randomInt(width / 2 - 21, width / 2 + 21)} ${this.randomInt(1, height - 1)}`;
+            const mid1 = `${this.randomInt((width / 2) - 21, (width / 2) + 21)} ${this.randomInt(1, height - 1)}`;
+            const mid2 = `${this.randomInt((width / 2) - 21, (width / 2) + 21)} ${this.randomInt(1, height - 1)}`;
             const color = this.invertColor(background);
             noiseLines.push(
                 `<path d="M${start} C${mid1},${mid2},${end}" stroke="${color}" fill="none"/>`,

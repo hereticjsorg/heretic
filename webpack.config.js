@@ -237,7 +237,6 @@ module.exports = async (env, argv) => {
                 new ESLintPlugin({
                     failOnError: true,
                     failOnWarning: true,
-                    configType: "eslintrc",
                 }),
             ],
             resolve: {
@@ -363,7 +362,7 @@ module.exports = async (env, argv) => {
                 new ESLintPlugin({
                     failOnError: true,
                     failOnWarning: true,
-                    configType: "eslintrc",
+                    configType: "flat",
                 }),
             ],
             node: {

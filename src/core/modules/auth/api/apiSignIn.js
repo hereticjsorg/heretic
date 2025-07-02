@@ -32,7 +32,7 @@ export default () => ({
                 let tokenData;
                 try {
                     tokenData = this.jwt.verify(data._default.token);
-                } catch (e) {
+                } catch {
                     return rep.error(
                         {
                             message: "error_invalid_token",

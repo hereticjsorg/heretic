@@ -55,7 +55,7 @@ export default class {
         const data = e.target.files[0];
         try {
             await this.cropper.loadImageData(data);
-        } catch (er) {
+        } catch {
             this.getComponent("profilePictureNotify").show(
                 this.t("profilePictureEditorLoadError"),
                 "is-danger",

@@ -47,7 +47,6 @@ export default class {
     }
 
     async find(value, page = 1) {
-        // eslint-disable-next-line no-unused-vars
         const timer = this.getAnimationTimer();
         try {
             const formData = new FormData();

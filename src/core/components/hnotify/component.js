@@ -27,7 +27,7 @@ export default class {
         this.state.notificationQueue.map((q, i) => {
             const item = document.getElementById(q.id);
             if (item) {
-                item.style.top = `${12 + i * 70}px`;
+                item.style.top = `${12 + (i * 70)}px`;
             }
         });
     }

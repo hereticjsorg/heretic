@@ -134,7 +134,7 @@ export default class {
             this.setState("disabled", disabled);
             await this.utils.waitForElement("hr_fs_dummy");
             this.setFilesWrapWidthDelayed();
-        } catch (er) {
+        }  catch {
             await this.showNotification("couldNotLoadData", "is-danger");
         } finally {
             this.setState("loading", false);
@@ -314,7 +314,7 @@ export default class {
                             editData.content,
                             fileData.mime,
                         );
-                    } catch (er) {
+                    }  catch {
                         await this.showNotification(
                             "couldNotLoadData",
                             "is-danger",
@@ -358,7 +358,7 @@ export default class {
                         this.getComponent("progressModal").show(
                             processUnzipData.id,
                         );
-                    } catch (er) {
+                    }  catch {
                         await this.showNotification(
                             "couldNotLoadData",
                             "is-danger",
@@ -402,7 +402,7 @@ export default class {
                         this.getComponent("progressModal").show(
                             processUntarData.id,
                         );
-                    } catch (er) {
+                    }  catch {
                         await this.showNotification(
                             "couldNotLoadData",
                             "is-danger",
@@ -446,7 +446,7 @@ export default class {
                         this.getComponent("progressModal").show(
                             processUntgzData.id,
                         );
-                    } catch (er) {
+                    }  catch {
                         await this.showNotification(
                             "couldNotLoadData",
                             "is-danger",
@@ -575,7 +575,7 @@ export default class {
                     this.setState("disabled", disabledPaste);
                     await this.utils.waitForComponent("progressModal");
                     this.getComponent("progressModal").show(processData.id);
-                } catch (er) {
+                }  catch {
                     await this.showNotification(
                         "couldNotLoadData",
                         "is-danger",
@@ -646,7 +646,7 @@ export default class {
                         },
                     });
                     await this.showNotification("processSuccess", "is-success");
-                } catch (er) {
+                }  catch {
                     await this.showNotification(
                         "createDirOrRenameError",
                         "is-danger",
@@ -732,7 +732,7 @@ export default class {
                     });
                     await this.utils.waitForComponent("progressModal");
                     this.getComponent("progressModal").show(processData.id);
-                } catch (er) {
+                }  catch {
                     await this.showNotification(
                         "couldNotLoadData",
                         "is-danger",
@@ -819,7 +819,7 @@ export default class {
             });
             await this.utils.waitForComponent("progressModal");
             this.getComponent("progressModal").show(processData.id);
-        } catch (er) {
+        }  catch {
             await this.showNotification("couldNotLoadData", "is-danger");
         } finally {
             this.setState("loading", false);

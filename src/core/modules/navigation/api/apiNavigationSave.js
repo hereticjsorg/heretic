@@ -52,7 +52,7 @@ export default () => ({
             }
             navigationJsonSite.userspace.routes = tree;
             navigationJsonSite.userspace.routesSecondary = treeSecondary;
-            navigationJsonSite.userspace.home = homeId.replace(/\"/gm, "");
+            navigationJsonSite.userspace.home = homeId.replace(/"/gm, "");
             if (!this.systemConfig.demo) {
                 await fs.writeJson(navigationJsonPath, navigationJsonSite, {
                     spaces: "    ",

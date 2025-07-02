@@ -1,7 +1,3 @@
-/* eslint-disable no-plusplus */
-/* eslint-disable no-mixed-operators */
-/* eslint-disable max-classes-per-file */
-/* eslint-disable no-bitwise */
 // Based on: https://github.com/pbojinov/request-ip
 // The MIT License (MIT), copyright (c) 2022 Petar Bojinov - petarbojinov+github@gmail.com
 

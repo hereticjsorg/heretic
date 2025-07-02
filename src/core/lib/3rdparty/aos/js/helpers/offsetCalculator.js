@@ -1,4 +1,3 @@
-/* eslint-disable prefer-destructuring */
 /**
  * Calculate offset
  * basing on element's settings like:
@@ -46,10 +45,10 @@ export const getPositionIn = (el, defaultOffset, defaultAnchorPlacement) => {
             triggerPoint += windowHeight / 2;
             break;
         case "center-center":
-            triggerPoint += windowHeight / 2 + finalEl.offsetHeight / 2;
+            triggerPoint += (windowHeight / 2) + (finalEl.offsetHeight / 2);
             break;
         case "bottom-center":
-            triggerPoint += windowHeight / 2 + finalEl.offsetHeight;
+            triggerPoint += (windowHeight / 2) + finalEl.offsetHeight;
             break;
         case "top-top":
             triggerPoint += windowHeight;
@@ -58,7 +57,7 @@ export const getPositionIn = (el, defaultOffset, defaultAnchorPlacement) => {
             triggerPoint += windowHeight + finalEl.offsetHeight;
             break;
         case "center-top":
-            triggerPoint += windowHeight + finalEl.offsetHeight / 2;
+            triggerPoint += windowHeight + (finalEl.offsetHeight / 2);
             break;
     }
 

@@ -115,9 +115,9 @@ export default class MoveEventListener {
     _convertCoordinates(point) {
         const box = this._element.getNode().getBoundingClientRect();
         const x =
-            point.x - box.left * (this._element.getNode().width / box.width);
+            point.x - (box.left * (this._element.getNode().width / box.width));
         const y =
-            point.y - box.top * (this._element.getNode().height / box.height);
+            point.y - (box.top * (this._element.getNode().height / box.height));
         return new Point(x, y);
     }
 

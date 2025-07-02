@@ -52,7 +52,7 @@ export default class {
                 },
             });
             this.setState("policy", data.html);
-        } catch (e) {
+        } catch {
             this.setState("error", true);
         }
     }

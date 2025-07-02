@@ -255,12 +255,12 @@ export default class {
                 if (value === "auto") {
                     if (key === "top") {
                         const v = Math.round(
-                            window.innerHeight / 2 - features.height / 2,
+                            (window.innerHeight / 2) - (features.height / 2),
                         );
                         str += `top=${v},`;
                     } else if (key === "left") {
                         const v = Math.round(
-                            window.innerWidth / 2 - features.width / 2,
+                            (window.innerWidth / 2) - (features.width / 2),
                         );
                         str += `left=${v},`;
                     }

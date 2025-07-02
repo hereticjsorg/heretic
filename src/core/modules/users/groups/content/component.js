@@ -140,7 +140,7 @@ export default class {
                 url: `/api/dataProviders/groups?language=${this.language}`,
             });
             this.providerData = data.data;
-        } catch (e) {
+        } catch {
             this.setState("failed", true);
             return;
         }
@@ -300,7 +300,7 @@ export default class {
                     action,
                     id: this.state.currentId,
                 });
-            } catch (e) {
+            } catch {
                 if (this.socketInterval) {
                     clearInterval(this.socketInterval);
                     this.socketInterval = null;
@@ -351,7 +351,7 @@ export default class {
                         table.setLock(k, response.data.lock[k]);
                     }
                 }
-            } catch (e) {
+            } catch {
                 // Ignore
             }
         }

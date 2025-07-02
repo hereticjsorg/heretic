@@ -90,7 +90,7 @@ export default class {
                     url: `/api/dataProviders/events?language=${this.language}`,
                 });
                 this.setState("providerDataEvents", data.data);
-            } catch (e) {
+            } catch {
                 this.setState("failed", true);
                 return;
             }
