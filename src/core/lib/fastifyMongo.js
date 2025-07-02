@@ -30,7 +30,6 @@ function decorateFastifyInstance(fastify, client, options) {
     }
 }
 
-// eslint-disable-next-line no-unused-vars
 async function fastifyMongo(fastify, options) {
     options = {
         serverSelectionTimeoutMS: 7500,

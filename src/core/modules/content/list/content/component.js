@@ -198,7 +198,7 @@ export default class {
                     action,
                     id: this.state.currentId,
                 });
-            } catch (e) {
+            } catch {
                 if (this.socketInterval) {
                     clearInterval(this.socketInterval);
                     this.socketInterval = null;

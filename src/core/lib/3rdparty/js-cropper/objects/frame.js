@@ -74,7 +74,7 @@ export default class Frame {
      * @returns {Number} - The x-coordinate that establishes the center of a rectangle.
      */
     getMidX() {
-        return this._origin.x + this._size / 2;
+        return this._origin.x + (this._size / 2);
     }
 
     /**
@@ -101,6 +101,6 @@ export default class Frame {
      * @returns {Number} - The y-coordinate that establishes the center of a rectangle.
      */
     getMidY() {
-        return this._origin.y + this._size / 2;
+        return this._origin.y + (this._size / 2);
     }
 }

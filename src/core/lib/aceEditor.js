@@ -1,5 +1,3 @@
-/* eslint-disable import/no-webpack-loader-syntax */
-
 import ace from /* webpackChunkName: "heretic-ace" */ "ace-builds/src-noconflict/ace";
 
 ace.config.setModuleUrl(

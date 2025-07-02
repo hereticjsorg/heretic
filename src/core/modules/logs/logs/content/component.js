@@ -152,7 +152,7 @@ export default class {
             this.generatePagination();
             await this.utils.waitForElement("hr_lg_dummy");
             this.setLogWrapWidthDelayed();
-        } catch (er) {
+        } catch {
             await this.showNotification("couldNotLoadData", "is-danger");
         } finally {
             this.setState("loading", false);

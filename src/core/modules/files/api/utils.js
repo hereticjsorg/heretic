@@ -1,4 +1,3 @@
-/* eslint-disable no-void */
 import path from "path";
 import fs from "fs-extra";
 import moduleConfig from "../module.js";
@@ -320,6 +319,7 @@ export default class {
         const dm = decimals < 0 ? 0 : decimals;
         const i = Math.floor(Math.log(bytes) / Math.log(k));
         return {
+            // eslint-disable-next-line no-mixed-operators
             size: parseFloat((bytes / k ** i).toFixed(dm)),
             unit: sizes[i],
         };

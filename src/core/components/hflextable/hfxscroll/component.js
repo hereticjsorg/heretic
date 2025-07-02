@@ -50,7 +50,7 @@ export default class {
                 scrollWrap.style.bottom = "10px";
                 scrollWrap.style.marginBottom = "unset";
             }
-        } catch (e) {
+        } catch {
             //
         }
     }

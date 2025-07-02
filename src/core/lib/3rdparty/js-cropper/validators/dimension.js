@@ -13,7 +13,6 @@ export default function validateDimension(value) {
         throw Error("Invalid dimension.");
     }
 
-    // eslint-disable-next-line no-restricted-globals
     if (!isFinite(value)) {
         throw Error("Invalid dimension.");
     }

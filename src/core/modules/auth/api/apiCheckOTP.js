@@ -25,7 +25,7 @@ export default () => ({
             let tokenData;
             try {
                 tokenData = this.jwt.verify(req.body.token);
-            } catch (e) {
+            } catch {
                 return rep.error(
                     {
                         message: "error_invalid_token",

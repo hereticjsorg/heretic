@@ -58,11 +58,10 @@ export default class {
     onSubmit(e) {
         e.preventDefault();
         const value = this.state.value ? this.state.value.trim() : null;
-        // eslint-disable-next-line no-useless-escape
         if (
             !value ||
             value.match(
-                /^(con|prn|aux|nul|com[0-9]|lpt[0-9])$|([<>:"\/\\|?*])|(\.|\s)$/gi,
+                /^(con|prn|aux|nul|com[0-9]|lpt[0-9])$|([<>:"/\\|?*])|(\.|\s)$/gi,
             )
         ) {
             this.setState("error", true);

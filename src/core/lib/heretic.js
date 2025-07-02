@@ -645,7 +645,7 @@ export default class {
                         dataProviders[`${m.id}_${p.id}`] = providerPage;
                     }
                 }
-            } catch (e) {
+            } catch {
                 // Ignore
             }
         }

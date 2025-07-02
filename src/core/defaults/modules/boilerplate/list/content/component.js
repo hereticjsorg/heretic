@@ -203,7 +203,7 @@ export default class {
                         table.setLock(k, response.data.lock[k]);
                     }
                 }
-            } catch (e) {
+            } catch {
                 // Ignore
             }
         }

@@ -112,7 +112,7 @@ export default async (fastify, req) => {
                 });
                 return renderPage.getOutput();
             }
-        } catch (e) {
+        } catch {
             // Ignore
         }
     }

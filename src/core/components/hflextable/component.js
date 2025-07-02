@@ -199,7 +199,7 @@ export default class {
             const spinner = document.getElementById(
                 `hr_hft_loading_${this.input.id}`,
             );
-            spinner.style.left = `${width / 2 - 20}px`;
+            spinner.style.left = `${(width / 2) - 20}px`;
             spinnerWrap.style.opacity = "1";
         }
     }
@@ -260,8 +260,8 @@ export default class {
                 `[data-hf-head='${this.input.id}']`,
             );
             const actionsWidth =
-                this.state.actions.length * 31 +
-                (this.state.actions.length - 1) * 2 +
+                (this.state.actions.length * 31) +
+                ((this.state.actions.length - 1) * 2) +
                 17;
             // Scrollbar is visible
             if (wrap.scrollWidth > width && window.innerWidth > 768) {

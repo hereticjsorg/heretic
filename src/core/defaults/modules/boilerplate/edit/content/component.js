@@ -311,7 +311,7 @@ export default class {
         editForm.setLoading(true);
         try {
             await this.loadHistory(editForm, data);
-        } catch (e) {
+        } catch {
             await this.utils.waitForComponent(`notify_${moduleConfig.id}Edit`);
             this.getComponent(`notify_${moduleConfig.id}Edit`).show(
                 this.t("hform_error_history"),

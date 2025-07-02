@@ -106,7 +106,7 @@ export default class {
                     ...userDb,
                     sid,
                 };
-            } catch (e) {
+            } catch {
                 return null;
             }
         }
@@ -153,7 +153,7 @@ export default class {
             let tokenData;
             try {
                 tokenData = this.fastify.jwt.verify(token);
-            } catch (e) {
+            } catch {
                 return null;
             }
             // Check IP address

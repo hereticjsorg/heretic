@@ -17,7 +17,7 @@ export default class {
         if (options && typeof options === "object") {
             options.expires =
                 options.expires !== undefined && options.expires !== null
-                    ? new Date(new Date().getTime() + options.expires * 1000)
+                    ? new Date(new Date().getTime() + (options.expires * 1000))
                     : defaults.expires;
             Object.keys(options).map((o) => (this.options[o] = options[o]));
             options.expires = options.expires.toUTCString();
@@ -45,7 +45,7 @@ export default class {
                     typeof optionsData.expires === "string"
                         ? new Date(optionsData.expires)
                         : new Date(
-                              new Date().getTime() + optionsData.expires * 1000,
+                              new Date().getTime() + (optionsData.expires * 1000),
                           );
             } else {
                 optionsData.expires = this.options.expires;
@@ -88,7 +88,7 @@ export default class {
             if (json) {
                 try {
                     return JSON.parse(res);
-                } catch (e) {
+                } catch {
                     // Ignore
                 }
             }

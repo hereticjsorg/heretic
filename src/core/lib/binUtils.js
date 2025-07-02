@@ -56,7 +56,6 @@ module.exports = class {
         this.interactive = flag;
     }
 
-    // eslint-disable-next-line generator-star-spacing
     async *walkDir(dir) {
         for await (const d of await fs.promises.opendir(dir)) {
             const entry = path.join(dir, d.name);
@@ -722,7 +721,7 @@ module.exports = class {
         let globalOffset = 0;
         const mainBufHead = Buffer.alloc(4);
         fs.readSync(fd, mainBufHead, 0, 4, globalOffset);
-        const blockCount = mainBufHead.readUInt32BE() / 2 + 1;
+        const blockCount = (mainBufHead.readUInt32BE() / 2) + 1;
         globalOffset += 4;
         const progressBar = new cliProgress.SingleBar({
             format: `Importing IPv4 Data | {bar} {percentage}%`,
@@ -797,7 +796,7 @@ module.exports = class {
         let globalOffset = 0;
         const mainBufHead = Buffer.alloc(4);
         fs.readSync(fd, mainBufHead, 0, 4, globalOffset);
-        const blockCount = mainBufHead.readUInt32BE() / 2 + 1;
+        const blockCount = (mainBufHead.readUInt32BE() / 2) + 1;
         globalOffset += 4;
         const progressBar = new cliProgress.SingleBar({
             format: `Importing IPv6 Data | {bar} {percentage}%`,
@@ -831,6 +830,7 @@ module.exports = class {
                 const geoNameIdCountry = uncompressedBuf.readUInt32BE(pos + 4);
                 const blockEnd1 = uncompressedBuf.readBigUint64BE(pos + 8);
                 const blockEnd2 = uncompressedBuf.readBigUint64BE(pos + 16);
+                // eslint-disable-next-line no-undef
                 const blockEnd = BigInt(
                     `${blockEnd1.toString()}${blockEnd2.toString()}`,
                 );
@@ -929,7 +929,6 @@ module.exports = class {
                 }
                 if (strArr[i + 2]) {
                     data[strArr[i]] = data[strArr[i]] || {};
-                    // eslint-disable-next-line no-control-regex
                     data[strArr[i]].country = strArr[i + 2].replace(
                         // eslint-disable-next-line no-control-regex
                         /\x00/gm,
@@ -1338,7 +1337,7 @@ module.exports = class {
             if (
                 !oldPackageJson.devDependencies[k] ||
                 oldPackageJson.devDependencies[k] !==
-                    newPackageJson.devDependencies[k]
+                newPackageJson.devDependencies[k]
             ) {
                 oldPackageJson.devDependencies[k] =
                     newPackageJson.devDependencies[k];
@@ -1348,7 +1347,7 @@ module.exports = class {
             if (
                 !oldPackageJson.dependencies[k] ||
                 oldPackageJson.dependencies[k] !==
-                    newPackageJson.dependencies[k]
+                newPackageJson.dependencies[k]
             ) {
                 oldPackageJson.dependencies[k] = newPackageJson.dependencies[k];
             }

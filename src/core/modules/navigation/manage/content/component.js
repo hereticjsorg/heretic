@@ -131,7 +131,7 @@ export default class {
                 },
             });
             await this.showNotification("saveSuccessPleaseRestart");
-        } catch (err) {
+        } catch {
             await this.showNotification("saveFail", "is-danger");
         } finally {
             loading.setActive(false);

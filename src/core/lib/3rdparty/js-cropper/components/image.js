@@ -141,7 +141,7 @@ export default class Image extends Element {
      */
     setZoom(zoom) {
         this._zoom = zoom;
-        this._scale = this._originScale + this._originScale * zoom;
+        this._scale = this._originScale + (this._originScale * zoom);
         return this;
     }
 

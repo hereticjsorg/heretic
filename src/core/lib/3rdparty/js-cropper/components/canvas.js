@@ -147,9 +147,9 @@ export default class Canvas extends Element {
         this._image.setZoom(zoom);
         const imageSize = this._image.getSize();
         const x =
-            this._lastPoint.x - (imageSize.width - lastImageSize.width) / 2;
+            this._lastPoint.x - ((imageSize.width - lastImageSize.width) / 2);
         const y =
-            this._lastPoint.y - (imageSize.height - lastImageSize.height) / 2;
+            this._lastPoint.y - ((imageSize.height - lastImageSize.height) / 2);
         this._drawImage(new Point(x, y));
         return this;
     }
@@ -206,9 +206,9 @@ export default class Canvas extends Element {
         this.setZoom(zoom);
 
         const x =
-            this._frame.getMinX() - data.origin.x * this._image.getScale();
+            this._frame.getMinX() - (data.origin.x * this._image.getScale());
         const y =
-            this._frame.getMinY() - data.origin.y * this._image.getScale();
+            this._frame.getMinY() - (data.origin.y * this._image.getScale());
         const point = new Point(x, y);
         this._resetPoints();
         this._drawImage(point);
@@ -236,8 +236,8 @@ export default class Canvas extends Element {
      * @return {Point} A Point.
      */
     _centerImagePoint() {
-        const x = this._frame.getMidX() - this._image.getSize().width / 2;
-        const y = this._frame.getMidY() - this._image.getSize().height / 2;
+        const x = this._frame.getMidX() - (this._image.getSize().width / 2);
+        const y = this._frame.getMidY() - (this._image.getSize().height / 2);
         return new Point(x, y);
     }
 

@@ -77,7 +77,7 @@ const fastifyMultipart = (fastify, options, done) => {
                     };
                     filesProcessed += 1;
                     await resolveFiles();
-                } catch (e) {
+                } catch {
                     filesCount -= 1;
                     await resolveFiles();
                 }

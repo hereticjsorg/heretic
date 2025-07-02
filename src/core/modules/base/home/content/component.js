@@ -93,7 +93,7 @@ export default class {
                 });
                 await this.getData();
             }
-        } catch (e) {
+        } catch {
             this.setState("ready", false);
             this.setState("failed", true);
         }

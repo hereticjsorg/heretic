@@ -99,7 +99,7 @@ export default class {
             });
             this.profilePicturePath = data.profilePicturePath || null;
             this.setState("tfaConfigured", data.tfaConfigured);
-        } catch (e) {
+        } catch {
             this.setState("error", true);
             return;
         }
@@ -299,7 +299,7 @@ export default class {
 
             this.setState("qrCode", svgData);
             this.setState("secret", data.secret);
-        } catch (err) {
+        } catch {
             this.getComponent("setup2faModal").setActive(false);
             this.getComponent("notify").show(
                 this.t("setup2faError"),
