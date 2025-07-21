@@ -214,7 +214,7 @@ export default class {
             editForm.setTitle(`${window.__heretic.t("editRecord")}: ${id}`);
             this.startLockMessaging();
             return result;
-        } catch {
+        } catch (e) {
             let message;
             if (e && e.response && e.response.data) {
                 if (e.response.data.form) {
