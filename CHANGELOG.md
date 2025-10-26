@@ -1,3 +1,14 @@
+## v1.3.33
+
+**Bugfixes & Updates** (2025-10-26)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2025-10-26 | Minor updates |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2025-10-26 | NPM Modules updated |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2025-10-26 | Jest-related bugfixes |
+
+
 ## v1.3.31
 
 **Updated to ESLint 9** (2025-07-02)
