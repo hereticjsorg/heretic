@@ -1,3 +1,12 @@
+## v1.3.34
+
+**Font import fixes** (2025-10-26)
+
+| Author | Date | Message |
+| -- | -- | -- |
+| Mikhail Matveev<br/>xtreme@rh1.ru | 2025-10-26 | Font import fixes |
+
+
 ## v1.3.33
 
 **Bugfixes & Updates** (2025-10-26)
