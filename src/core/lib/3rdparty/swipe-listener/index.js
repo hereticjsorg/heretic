@@ -1,4 +1,3 @@
-/* eslint-disable getter-return */
 /* eslint-disable no-multi-assign */
 /* eslint-disable no-use-before-define */
 /* eslint-disable func-names */
@@ -319,7 +318,7 @@ const SwipeListener = function (element, options) {
         });
         window.addEventListener("testPassive", null, testOptions);
         window.removeEventListener("testPassive", null, testOptions);
-    } catch (e) {
+    } catch {
         //
     }
 
