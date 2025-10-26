@@ -25,6 +25,8 @@ test("Server availability (200)", async () => {
     );
     expect(childProcess.pid).toBeGreaterThan(0);
     serverPid.push(childProcess.pid);
+    // eslint-disable-next-line no-console
+    console.log(childProcess.pid);
     let response;
     try {
         response = await axios({
