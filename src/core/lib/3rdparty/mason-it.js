@@ -1,11 +1,7 @@
 /* eslint-disable func-names */
-/* eslint-disable no-self-assign */
 /* eslint-disable no-undef */
-/* eslint-disable no-prototype-builtins */
-/* eslint-disable no-restricted-globals */
 /* eslint-disable no-plusplus */
 /* eslint-disable prefer-spread */
-/* eslint-disable prefer-rest-params */
 /**
  * @file Mason-it - CSS Grid to Masonry Layout Converter
  * @author Druhin13
@@ -563,7 +559,6 @@ if (process.browser) {
              * // Disable debug mode
              * MasonIt.debug(false);
              */
-            // eslint-disable-next-line no-unused-vars
             debug(enable) {
                 MasonItDebugMode = !!enable;
                 // eslint-disable-next-line no-console

@@ -132,7 +132,7 @@ export default class {
         this.fastify = Fastify({
             loggerInstance: new Logger(this.systemConfig).getPino(),
             trustProxy: true,
-            ignoreTrailingSlash: this.systemConfig.server.ignoreTrailingSlash,
+            // ignoreTrailingSlash: this.systemConfig.server.ignoreTrailingSlash,
         });
         [this.defaultLanguage] = Object.keys(languages);
         this.languages = Object.keys(languages);
